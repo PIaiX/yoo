@@ -24,7 +24,7 @@ const ProductCardMini = () => {
             : <p className='fw-6'>340 ₽</p>
           }
           
-          <button type='button' className='btn-3'>
+          <button type='button' className='btn-secondary'>
             {
               (isMobileLG)
               ? '340 ₽'

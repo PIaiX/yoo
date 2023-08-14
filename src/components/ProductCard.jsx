@@ -53,14 +53,14 @@ const ProductCard = () => {
         </>
       }
       
-      <div className="d-flex justify-content-between">
+      <div className="d-flex justify-content-between align-items-center">
         <div className='gray d-none d-md-block'>300 г</div>
         <div className='w-xs-100 d-flex justify-content-between align-items-center'>
           <div>
             <div className='fs-12'>650 ₽</div>
             <div className='gray fs-09 text-decoration-line-through'> 650 </div>
           </div>
-          <button type='button' className='btn-7 rounded-pill ms-3'>
+          <button type='button' className='btn-light rounded-pill ms-3'>
             <HiOutlineShoppingBag className='fs-15 d-none d-md-block'/>
             <span className='d-md-none'>Добавить</span>
           </button>

@@ -52,7 +52,7 @@ const Header = () => {
                     />
                   </li>
                   <li className='ms-3'>
-                    <Link to='/menu' className='btn-1 py-2'>Меню</Link>
+                    <Link to='/menu' className='btn-primary py-2'>Меню</Link>
                   </li>
                 </ul>
                 <ul className='text-menu'>
@@ -161,7 +161,7 @@ const Header = () => {
                     <IoCall className='fs-15 me-2'/>
                     <span>Позвонить</span>
                   </button>
-                  <button type='button' className='fs-12 btn-3 w-100 rounded justify-content-start mt-2'>
+                  <button type='button' className='fs-12 btn-secondary w-100 rounded justify-content-start mt-2'>
                     <IoLogoWhatsapp className='fs-15 me-2'/>
                     <span>Написать в WhatsApp</span>
                   </button>

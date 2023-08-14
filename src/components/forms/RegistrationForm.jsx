@@ -21,12 +21,12 @@ const RegistrationForm = () => {
           <input type="email" placeholder='Email'/>
         </Col>
         <Col xs={4}>
-          <button type='button' className='btn-1 w-100 rounded-3'>Подтвердить</button>
+          <button type='button' className='btn-primary w-100 rounded-3'>Подтвердить</button>
         </Col>
       </Row>
 
       <p className="main-color fs-09">Нажимая на кнопку «Зарегистрироваться», вы принимаете условия Пользовательского соглашения и соглашаетесь с Политикой конфиденциальности</p>
-      <button type='submit' disabled className='btn-1 w-md-100 rounded-3 mt-4'>Зарегистрироваться</button>
+      <button type='submit' disabled className='btn-primary w-md-100 rounded-3 mt-4'>Зарегистрироваться</button>
     </form>
   );
 };

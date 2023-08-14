@@ -25,7 +25,7 @@ const Contacts = () => {
                     <span className='fs-11 ms-2'>+7 987 987-78-78</span>
                   </a>
                 </p>
-                <button type='button' className='btn-1'>Заказать звонок</button>
+                <button type='button' className='btn-primary'>Заказать звонок</button>
                 
                 <ul className='list-unstyled mt-4'>
                   <li>

@@ -99,7 +99,7 @@ const Product = () => {
                   <div className='fs-12'>650 ₽</div>
                   <div className='gray fs-09 text-decoration-line-through'> 650 </div>
                 </div>
-                <button type='button' className='btn-3 fs-12 rounded-pill ms-3'>
+                <button type='button' className='btn-secondary fs-12 rounded-pill ms-3'>
                   <span className='fw-4'>В корзину</span>
                   <HiOutlineShoppingBag className='fs-15 ms-2'/>
                 </button>

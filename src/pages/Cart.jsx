@@ -44,7 +44,7 @@ const Cart = () => {
               <div className='fs-11 mb-1'>Промокод</div>
               <fieldset className='promoCode mb-5'>
                 <input type="text" />
-                <button type='button' className='btn-1'>Применить</button>
+                <button type='button' className='btn-primary'>Применить</button>
                 <button type='button' className='clear'>
                   <HiXMark/>
                 </button>
@@ -67,7 +67,7 @@ const Cart = () => {
               <Gifts/>
 
               <div className='btn-6 fw-6 w-100 rounded-3 mt-3'>34 бонуса будут начислены за этот заказ</div>
-              <Link to='/checkout' className='btn-3 mt-3 w-100'>
+              <Link to='/checkout' className='btn-secondary mt-3 w-100'>
                 <span className='fw-4'>Перейти к оформлению</span>
               </Link>
             </Col>

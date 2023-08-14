@@ -77,6 +77,11 @@ $transition: 300ms ease-in;
     max-height: $line * $count;
   }
 }
+@mixin ellipsis {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 @mixin list {
   list-style: none;
   padding-left: 0px;
@@ -124,7 +129,7 @@ $transition: 300ms ease-in;
   &::-webkit-scrollbar-thumb {
     background-color: #DFE2E5;
     border-radius: 5px;
-    transition: 0.2s;
+    transition: background-color 0.2s;
     &:hover, &:active {
       background: rgba($color: $main-color, $alpha: 0.15)
     }
@@ -274,7 +279,7 @@ input, textarea, .input {
   width: 100%;
   outline: none;
   display: block;
-  transition: $transition;
+  transition: border $transition;
   @include placeholder($gray, 400);
   @include lightShadow();
   &:hover, &:focus, &:active {
@@ -332,7 +337,7 @@ input {
     background-color: $white;
     border-radius: 50%;
     box-shadow: none;
-    transition: $transition;
+    transition: background-color $transition;
     position: relative;
     &::before {
       content: '';
@@ -343,7 +348,7 @@ input {
       width: 10px;
       border-radius: 50%;
       background-color: $main-color;
-      transition: $transition;
+      transition: background-color $transition;
       opacity: 0;
     }
     &:checked::before {
@@ -383,7 +388,7 @@ label {
       background-color: transparent;
       border-radius: .25em;
       padding: .7em 1em;
-      transition: $transition;
+      transition: background-color $transition;
       text-align: center;
     }
     input {
@@ -461,6 +466,7 @@ label {
     @include flex();
     @include lightShadow();
     transition: $transition;
+    transition-property: color, background-color, border;
     svg {font-size: .8em;}
     &:hover, &:focus {
       color: $main-color;
@@ -478,7 +484,7 @@ label {
     flex: 1;
     border-radius: $radius*0.5 0px 0px $radius*0.5;
   }
-  .btn-1 {
+  .btn-primary {
     border-radius: 0px $radius*0.5 $radius*0.5 0px;
     padding: 0.75em;
   }
@@ -503,10 +509,11 @@ button {
   padding: .7em 1.2em;
   text-align: center;
   transition: $transition;
+  transition-property: color, background-color, border;
   width: fit-content;
   border-radius: $radius*1.5;
   /* голубая кнопка */
-  &-1 {
+  &-primary {
     @extend .btn;
     color: $white;
     background-color: $main-color;
@@ -539,7 +546,7 @@ button {
     }
   }
   /* черная кнопка */
-  &-3 {
+  &-secondary {
     @extend .btn;
     color: $white;
     background-color: #202020;
@@ -618,7 +625,7 @@ button {
     }
   }
   /* светло-голубая кнопка */
-  &-7 {
+  &-light {
     @extend .btn;
     color: $white;
     background-color: rgba($color: $main-color, $alpha: 0.6);
@@ -638,7 +645,7 @@ button {
     }
     svg {
       color: $main-color;
-      transition: $transition;
+      transition: color $transition;
     }
     &:hover, &:focus, &:active, &.active {
       background-color: $main-color;
@@ -737,7 +744,8 @@ button {
       stroke-width: 1px;
       stroke: $dark-gray;
       fill: transparent;
-      transition: all $transition;
+      transition: $transition;
+      transition-property: stroke, fill;
     }
     &.active {
       svg {
@@ -764,6 +772,7 @@ select {
 }
 .select {
   position: relative;
+  width: 180px;
   &-button {
     width: 100%;
     position: relative;
@@ -776,8 +785,11 @@ select {
     &.borderless {
       border: none;
     }
+    &::after {
+      content: unset;
+    }
     &-value {
-      flex: 1;
+      width: calc(100% - 1.5em);
       @include flex(row, flex-start, center, nowrap);
       img {
         width: 1.5em;
@@ -789,37 +801,32 @@ select {
           filter: drop-shadow(0px 2px 10px rgba(0, 0, 0, 0.1));
         }
       }
+      span {
+        flex: 1;
+        @include ellipsis();
+        text-align: left;
+      }
     }
     &-chevron {
+      font-size: 1em;
       color: $main-color;
       margin-left: .5em;
     }
   }
   &-options {
     @include list();
-    display: block;
-    z-index: 5;
-    position: absolute;
-    left: 0%;
-    width: fit-content;
     min-width: 200px;
     background-color: $white;
     @include shadow();
     border-radius: $radius*0.5;
+    border: none;
     overflow: hidden;
+    padding: 0px;
     @include safariFix();
-    &[data-observing="false"]{
-      bottom: calc(100% + .5em);
-      top: unset;
-    }
-    &[data-observing="true"]{
-      top: calc(100% + .5em);
-      bottom: unset;
-    }
     @include media-breakpoint-down(lg) {
       min-width: fit-content;
     }
-    &>li {
+    &-item {
       display: block;
       width: 100%;
       padding: 0px !important;
@@ -829,15 +836,23 @@ select {
       }
     }
     label {
+      position: relative;
       width: 100%;
       cursor: pointer;
       background-color: $white;
-      transition: $transition;
+      transition: background-color $transition;
       padding: .5em 1em;
       &.active {
         background-color: rgba($color: $main-color, $alpha: 0.1);
       }
+      input {
+        position: relative;
+        opacity: 0;
+        z-index: -1;
+      }
       img {
+        position: relative;
+        z-index: 2;
         width: 1.5em;
         height: 1.5em;
         object-fit: contain;
@@ -848,6 +863,10 @@ select {
         }
       }
     }
+    &-label {
+      position: relative;
+      z-index: 2;
+    }
   }
 }
 
@@ -856,12 +875,13 @@ select {
   align-items: center;
   position: relative;
   border-radius: $radius;
-  transition: $transition;
+  transition: border-color $transition;
   background-color: $white;
   border: 1px solid $light-gray;
   position: relative;
-  &:hover {
+  &:hover, &:focus {
     cursor: pointer;
+    border: 1px solid $gray;
   }
   input {
     position: absolute;
@@ -910,7 +930,7 @@ select {
       border-radius: .25em;
       margin: 0 .75em !important;
       background-color: rgba($color: $main-color, $alpha: .3);
-      transition: $transition;
+      transition: width $transition;
       &-active {
         width: 1.8em;
       }
@@ -924,7 +944,8 @@ select {
     width: 1em;
     height: 1em;
     @include flex();
-    transition: $transition;
+    transform: scale(100%);
+    transition: transform $transition;
     cursor: pointer;
     color: $white;
     svg {
@@ -1187,7 +1208,7 @@ header {
   .phone {
     @include flex(row, flex-start, center, nowrap);
     color: $black;
-    transition: $transition;
+    transition: color $transition;
     &:hover, &:focus, &:active {
       color: $main-color;
     }
@@ -1204,7 +1225,7 @@ header {
     color: $gray;
     font-size: 2em;
     @include flex();
-    transition: $transition;
+    transition: color $transition;
     &:hover, &:focus, &:active {
       color: $main-color;
     }
@@ -1413,6 +1434,7 @@ main {
         font-size: 2em;
         @include flex();
         transition: $transition;
+        transition-property: color, background-color;
         background-color: transparent;
         border-radius: $radius*0.15;
         @include media-breakpoint-down(md) {
@@ -1462,7 +1484,7 @@ main {
     position: absolute;
     bottom: 0px;
     right: -4.5em;
-    z-index: 1;
+    z-index: -1;
   }
 }
 .category-card {
@@ -1487,7 +1509,7 @@ main {
   figcaption {
     text-align: center;
     a {
-      transition: $transition;
+      transition: color $transition;
       &:hover {
         color: $main-color;
       }
@@ -1623,7 +1645,7 @@ main {
       }
     }
     a {
-      transition: $transition;
+      transition: color $transition;
       &:hover {
         color: $main-color;
       }
@@ -1659,6 +1681,7 @@ main {
   &-wrap {
     position: relative;
     width: 80%;
+    padding: 0px 2.75em;
   }
   &-slider {
     margin: 0px;
@@ -1676,6 +1699,12 @@ main {
       transform: translateY(50%);
       @include media-breakpoint-down(lg) {
         display: none;
+      }
+      &-prev {
+        left: 0px;
+      }
+      &-next {
+        right: 0px;
       }
       svg {
         fill: $white;
@@ -1940,6 +1969,7 @@ main {
         height: calc($radius*2);
         @include flex();
         transition: $transition;
+        transition-property: background-color, color;
         &:first-child {
           padding: 0em 2.5em 0em 1.5em;
         }
@@ -1954,7 +1984,7 @@ main {
           bottom: 0px;
           font-size: $radius;
           color: $dark-gray;
-          transition: $transition;
+          transition: color $transition;
           &-right{
             @extend .corner;
             left: 100%;
@@ -2087,7 +2117,7 @@ main {
     width: 100%;
     position: relative;
     @include shadowF();
-    transition: 200ms linear;
+    transition: transform 200ms linear;
     img {
       position: relative;
       z-index: 1;
@@ -2337,6 +2367,22 @@ main {
       border-radius: $radius*0.25;
       margin-right: 1em;
     }
+    &-ingredients {
+      padding-top: .25em;
+      @include list();
+      font-size: .9em;
+      li {
+        &:not(:last-child){
+          margin-bottom: .25em;
+        }
+        &::before {
+          content: '+';
+          font-weight: 600;
+          color: $green;
+          margin-right: .5em;
+        }
+      }
+    }
   }
   &-box {
     background-color: $light-gray;
@@ -2392,7 +2438,7 @@ footer {
       }
     }
     a {
-      transition: $transition;
+      transition: color $transition;
       &:hover {
         color: lighten($color: $main-color, $amount: 20%);
       }
@@ -2413,7 +2459,8 @@ footer {
           max-width: 2.6em;
           height: 2.6em;
           overflow: hidden;
-          transition: all $transition;
+          transition: $transition;
+          transition-property: background-color, max-width;
           svg {
             // font-size: 1.6em;
             width: 1.6em !important;
@@ -2532,6 +2579,7 @@ ACCOUNT
           padding: .75em 1em;
           border-radius: $radius;
           transition: $transition;
+          transition-property: color, background-color;
           svg {font-size: 1.5em;}
           div {
             font-size: 1.1em;
@@ -3154,7 +3202,7 @@ ACCOUNT
           border: 2px solid $white;
           background-color: $gray;
           box-sizing: content-box;
-          transition: $transition;
+          transition: background-color $transition;
           &.active {
             background-color: $main-color;
           }
@@ -3192,7 +3240,7 @@ ACCOUNT
             border: 2px solid $white;
             background-color: $gray;
             box-sizing: content-box;
-            transition: $transition;
+            transition: background-color $transition;
             &.active {
               background-color: $main-color;
             }
@@ -3320,7 +3368,30 @@ ACCOUNT
     padding: 2em 0px;
   }
 }
-
 /***********
 ACCOUNT END
 ***********/
+
+
+.modal {
+  &-content {
+    border: none;
+    border-radius: 1em;
+    filter: drop-shadow(0px 4px 20px rgba(0, 0, 0, 0.25));
+  }
+  &-body {
+    position: relative;
+    .close {
+      position: absolute;
+      top: .25em;
+      right: .25em;
+      font-size: 1.5em;
+      @include flex();
+      opacity: .6;
+      transition: opacity $transition;
+      &:hover, &:focus, &:active {
+        opacity: 1;
+      }
+    }
+  }
+}

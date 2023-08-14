@@ -31,7 +31,7 @@ const OfferProduct = () => {
           <div>650 ₽</div>
           <div className='gray fs-08 text-decoration-line-through'> 650 </div>
         </div>
-        <button type='button' className={(isMobileMD) ? 'btn-7 ms-3 ms-xl-4' : 'btn-3 ms-3 ms-xl-4'}>
+        <button type='button' className={(isMobileMD) ? 'btn-light ms-3 ms-xl-4' : 'btn-secondary ms-3 ms-xl-4'}>
           {
             (isMobileMD)
             ? <span className='fw-4 me-2'>Добавить</span>

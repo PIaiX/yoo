@@ -31,7 +31,7 @@ const Support = () => {
         </div>
         <div className="support-form">
           <input type="text" placeholder='Новое сообщение...'/>
-          <button type='submit' className='btn-1 py-2 mx-3'>Отправить</button>
+          <button type='submit' className='btn-primary py-2 mx-3'>Отправить</button>
           <InputFile className="p-2"/>
         </div>
         <div className="support-choose">

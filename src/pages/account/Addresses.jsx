@@ -20,7 +20,7 @@ const Addresses = () => {
           <LiAddress/>
           <LiAddress/>
         </ul>
-        <Link to='add' className='w-xs-100 btn-1 mt-3 mt-lg-0 mb-0 mb-lg-3'>+ Добавить адрес</Link>
+        <Link to='add' className='w-xs-100 btn-primary mt-3 mt-lg-0 mb-0 mb-lg-3'>+ Добавить адрес</Link>
       </div>
     </section>
   );

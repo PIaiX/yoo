@@ -86,17 +86,17 @@ const Profile = () => {
               <Col>
                
                 <p className='rose'>Только верифицированные пользовтаели могут публиковать объявления на бирже Game.</p>
-                <Link to="phone" className='btn-3 mt-4'>Пройти верификацию</Link>
+                <Link to="phone" className='btn-secondary mt-4'>Пройти верификацию</Link>
               </Col>
             </Row>
-            <Link to="email" className='btn-1 mt-4'>Сохранить изменения</Link>
+            <Link to="email" className='btn-primary mt-4'>Сохранить изменения</Link>
           </form>
         </Col>
         <Col xs={12} xxl={10}>
           <h3 className='mb-4 mb-sm-5'>Изменить пароль</h3>
           <form action="">
 
-            <button type='submit' className='btn-1 mt-4'>Изменить</button>
+            <button type='submit' className='btn-primary mt-4'>Изменить</button>
           </form>
         </Col>
       </Row>

@@ -9,8 +9,8 @@ const LoginForm = () => {
 
       <p className='fs-11 mb-1'>Email</p>
       <input type="email" placeholder='Email'/>
-      {/* <button type='submit' className='btn-1 rounded-3 mt-4 mx-auto'>Войти</button> */}
-      <Link to='/account' className='btn-1 w-md-100 rounded-3 mt-4 mx-auto'>Войти</Link>
+      {/* <button type='submit' className='btn-primary rounded-3 mt-4 mx-auto'>Войти</button> */}
+      <Link to='/account' className='btn-primary w-md-100 rounded-3 mt-4 mx-auto'>Войти</Link>
     </form>
   );
 };
