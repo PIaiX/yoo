@@ -102,6 +102,9 @@ $transition: 300ms ease-in;
 @mixin shadow {
   box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.06);
 }
+@mixin shadowF {
+  filter: drop-shadow(0px 4px 20px rgba(0, 0, 0, 0.06));
+}
 @mixin lightShadow {
   box-shadow: 0px 2px 20px rgba(0, 0, 0, 0.04);
 }
@@ -1653,10 +1656,13 @@ main {
       max-width: 100%;
     }
   }
+  &-wrap {
+    position: relative;
+    width: 80%;
+  }
   &-slider {
     margin: 0px;
-    width: 80%;
-    position: relative;
+    position: unset;
     padding: .75em;
     @include media-breakpoint-down(lg) {
       width: 100%;
@@ -2062,7 +2068,6 @@ main {
 
 .sec-6 {
   --offer-w: 415px;
-  overflow: hidden;
   @include media-breakpoint-down(xxl) {
     --offer-w: 355px;
   }
@@ -2081,7 +2086,7 @@ main {
   .offer {
     width: 100%;
     position: relative;
-    @include shadow();
+    @include shadowF();
     transition: 200ms linear;
     img {
       position: relative;
@@ -2120,12 +2125,7 @@ main {
     }
   }
   .sw-offers {
-    @include media-breakpoint-up(lg) {
-      padding: 1em;
-    }
-    @include media-breakpoint-down(lg) {
-      overflow: visible;
-    }
+    overflow: visible;
     &:hover {
       .offer {
         transform: rotate(0deg) !important;
@@ -3262,6 +3262,7 @@ ACCOUNT
 .login {
   position: relative;
   min-height: calc(100vh - var(--h-height) - var(--f-height));
+  height: 700px;
   &-forms {
     position: relative;
     z-index: 1;

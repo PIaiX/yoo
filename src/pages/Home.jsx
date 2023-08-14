@@ -169,7 +169,7 @@ const Home = () => {
               },
               992: {
                 slidesPerView: 3,
-                spaceBetween: 0,
+                spaceBetween: 10,
               },
             }}
           >

@@ -8477,10 +8477,13 @@ main {
     max-width: 100%;
   }
 }
+.categories-wrap {
+  position: relative;
+  width: 80%;
+}
 .categories-slider {
   margin: 0px;
-  width: 80%;
-  position: relative;
+  position: unset;
   padding: 0.75em;
 }
 @media (max-width: 991.98px) {
@@ -9014,7 +9017,6 @@ main {
 
 .sec-6 {
   --offer-w: 415px;
-  overflow: hidden;
 }
 @media (max-width: 1399.98px) {
   .sec-6 {
@@ -9044,7 +9046,7 @@ main {
 .sec-6 .offer {
   width: 100%;
   position: relative;
-  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.06);
+  filter: drop-shadow(0px 4px 20px rgba(0, 0, 0, 0.06));
   transition: 200ms linear;
 }
 .sec-6 .offer img {
@@ -9096,15 +9098,8 @@ main {
     display: none;
   }
 }
-@media (min-width: 992px) {
-  .sec-6 .sw-offers {
-    padding: 1em;
-  }
-}
-@media (max-width: 991.98px) {
-  .sec-6 .sw-offers {
-    overflow: visible;
-  }
+.sec-6 .sw-offers {
+  overflow: visible;
 }
 .sec-6 .sw-offers:hover .offer {
   transform: rotate(0deg) !important;
@@ -10580,6 +10575,7 @@ ACCOUNT
 .login {
   position: relative;
   min-height: calc(100vh - var(--h-height) - var(--f-height));
+  height: 700px;
 }
 .login-forms {
   position: relative;

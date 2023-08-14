@@ -24,109 +24,111 @@ const Categories = (props) => {
   
   return (
     <div className={"categories "+props.className}>
-      <Swiper
-        className={(isFull) ? "categories-slider categories-slider-disabled" : "categories-slider"}
-        modules={[Navigation, FreeMode]}
-        speed={750}
-        spaceBetween={20}
-        slidesPerView={'auto'}
-        freeMode={true}
-        observer={true}
-        observeSlideChildren={true}
-        watchSlidesProgress={true}
-        navigation={{
-          nextEl: '.swiper-button-next',
-          prevEl: '.swiper-button-prev',
-        }}
-        onSwiper={setSwiper}
-        breakpoints={{
-          576: {
-            spaceBetween: 30,
-          },
-          1200: {
-            spaceBetween: 30,
-          },
-        }}
-      >
-        <SwiperSlide>
-          <button type='button' className='btn-8'>
-            <FoodRolls className="fs-15"/>
-            <span className='ms-2'>Роллы</span>
-          </button>
-        </SwiperSlide>
-        <SwiperSlide>
-          <button type='button' className='btn-8'>
-            <FoodSets className="fs-15"/>
-            <span className='ms-2'>Сеты</span>
-          </button>
-        </SwiperSlide>
-        <SwiperSlide>
-          <button type='button' className='btn-8'>
-            <FoodPizza/>
-            <span className='ms-2'>Пицца</span>
-          </button>
-        </SwiperSlide>
-        <SwiperSlide>
-          <button type='button' className='btn-8'>
-            <FoodCombo/>
-            <span className='ms-2'>Комбо</span>
-          </button>
-        </SwiperSlide>
-        <SwiperSlide>
-          <button type='button' className='btn-8'>
-            <FoodDesserts/>
-            <span className='ms-2'>Десерты</span>
-          </button>
-        </SwiperSlide>
-        <SwiperSlide>
-          <button type='button' className='btn-8'>
-            <FoodPoke/>
-            <span className='ms-2'>Поке</span>
-          </button>
-        </SwiperSlide>
-        <SwiperSlide>
-          <button type='button' className='btn-8'>
-            <FoodRolls className="fs-15"/>
-            <span className='ms-2'>Роллы</span>
-          </button>
-        </SwiperSlide>
-        <SwiperSlide>
-          <button type='button' className='btn-8'>
-            <FoodSets className="fs-15"/>
-            <span className='ms-2'>Сеты</span>
-          </button>
-        </SwiperSlide>
-        <SwiperSlide>
-          <button type='button' className='btn-8'>
-            <FoodPizza/>
-            <span className='ms-2'>Пицца</span>
-          </button>
-        </SwiperSlide>
-        <SwiperSlide>
-          <button type='button' className='btn-8'>
-            <FoodCombo/>
-            <span className='ms-2'>Комбо</span>
-          </button>
-        </SwiperSlide>
-        <SwiperSlide>
-          <button type='button' className='btn-8'>
-            <FoodDesserts/>
-            <span className='ms-2'>Десерты</span>
-          </button>
-        </SwiperSlide>
-        <SwiperSlide>
-          <button type='button' className='btn-8'>
-            <FoodPoke/>
-            <span className='ms-2'>Поке</span>
-          </button>
-        </SwiperSlide>
-        <div className="swiper-button-prev">
-          <HiOutlineArrowLeftCircle/>
-        </div>
-        <div className="swiper-button-next">
-          <HiOutlineArrowRightCircle/>
-        </div>
-      </Swiper>
+      <div className="categories-wrap">
+        <Swiper
+          className={(isFull) ? "categories-slider categories-slider-disabled" : "categories-slider"}
+          modules={[Navigation, FreeMode]}
+          speed={750}
+          spaceBetween={20}
+          slidesPerView={'auto'}
+          freeMode={true}
+          observer={true}
+          observeSlideChildren={true}
+          watchSlidesProgress={true}
+          navigation={{
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+          }}
+          onSwiper={setSwiper}
+          breakpoints={{
+            576: {
+              spaceBetween: 30,
+            },
+            1200: {
+              spaceBetween: 30,
+            },
+          }}
+        >
+          <SwiperSlide>
+            <button type='button' className='btn-8'>
+              <FoodRolls className="fs-15"/>
+              <span className='ms-2'>Роллы</span>
+            </button>
+          </SwiperSlide>
+          <SwiperSlide>
+            <button type='button' className='btn-8'>
+              <FoodSets className="fs-15"/>
+              <span className='ms-2'>Сеты</span>
+            </button>
+          </SwiperSlide>
+          <SwiperSlide>
+            <button type='button' className='btn-8'>
+              <FoodPizza/>
+              <span className='ms-2'>Пицца</span>
+            </button>
+          </SwiperSlide>
+          <SwiperSlide>
+            <button type='button' className='btn-8'>
+              <FoodCombo/>
+              <span className='ms-2'>Комбо</span>
+            </button>
+          </SwiperSlide>
+          <SwiperSlide>
+            <button type='button' className='btn-8'>
+              <FoodDesserts/>
+              <span className='ms-2'>Десерты</span>
+            </button>
+          </SwiperSlide>
+          <SwiperSlide>
+            <button type='button' className='btn-8'>
+              <FoodPoke/>
+              <span className='ms-2'>Поке</span>
+            </button>
+          </SwiperSlide>
+          <SwiperSlide>
+            <button type='button' className='btn-8'>
+              <FoodRolls className="fs-15"/>
+              <span className='ms-2'>Роллы</span>
+            </button>
+          </SwiperSlide>
+          <SwiperSlide>
+            <button type='button' className='btn-8'>
+              <FoodSets className="fs-15"/>
+              <span className='ms-2'>Сеты</span>
+            </button>
+          </SwiperSlide>
+          <SwiperSlide>
+            <button type='button' className='btn-8'>
+              <FoodPizza/>
+              <span className='ms-2'>Пицца</span>
+            </button>
+          </SwiperSlide>
+          <SwiperSlide>
+            <button type='button' className='btn-8'>
+              <FoodCombo/>
+              <span className='ms-2'>Комбо</span>
+            </button>
+          </SwiperSlide>
+          <SwiperSlide>
+            <button type='button' className='btn-8'>
+              <FoodDesserts/>
+              <span className='ms-2'>Десерты</span>
+            </button>
+          </SwiperSlide>
+          <SwiperSlide>
+            <button type='button' className='btn-8'>
+              <FoodPoke/>
+              <span className='ms-2'>Поке</span>
+            </button>
+          </SwiperSlide>
+          <div className="swiper-button-prev">
+            <HiOutlineArrowLeftCircle/>
+          </div>
+          <div className="swiper-button-next">
+            <HiOutlineArrowRightCircle/>
+          </div>
+        </Swiper>
+      </div>
       {
         (isFull)
         ? <button type='button' onClick={handleСollapse} className='categories-btn'>
