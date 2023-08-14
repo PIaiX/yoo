@@ -1,29 +1,29 @@
 {
   "files": {
-    "main.css": "/yoo/static/css/main.7ebc6da9.css",
-    "main.js": "/yoo/static/js/main.490c1e58.js",
+    "main.css": "/yoo/static/css/main.8af06508.css",
+    "main.js": "/yoo/static/js/main.7f4ade08.js",
     "static/media/phone.png": "/yoo/static/media/phone.0f7d949432416fe48257.png",
     "static/media/fruits.png": "/yoo/static/media/fruits.32187fcba67dcd1049fd.png",
     "static/media/entrance.jpg": "/yoo/static/media/entrance.866b90dccd9043afa27e.jpg",
-    "static/media/choose.svg": "/yoo/static/media/choose.c9c1df8457eb9387a030f1df6468d844.svg",
-    "static/media/googleplay-black.svg": "/yoo/static/media/googleplay-black.50ebd3e11344254b42d480729666b4ac.svg",
-    "static/media/googleplay.svg": "/yoo/static/media/googleplay.966bf49453851d08a6a45832abef9e55.svg",
-    "static/media/appstore-black.svg": "/yoo/static/media/appstore-black.358d1c1b8dafdbcc709919a69fa27867.svg",
-    "static/media/appstore.svg": "/yoo/static/media/appstore.dfc0490030793bf37feaa1c14c99fe32.svg",
-    "static/media/logo.svg": "/yoo/static/media/logo.e368f80bb5da581ae9396a9f78a1c080.svg",
-    "static/media/logo-white.svg": "/yoo/static/media/logo-white.e9812a7434ea0f81fff49b435678d955.svg",
-    "static/media/delivery_icon.svg": "/yoo/static/media/delivery_icon.6107a49b0042e1512dad9f3ea3da0c05.svg",
-    "static/media/logo-text-white.svg": "/yoo/static/media/logo-text-white.b33a28519762c81f49928deb5ab056b5.svg",
+    "static/media/choose.svg": "/yoo/static/media/choose.e50d63a45c1ff6ab21c2fa4a6813b81b.svg",
+    "static/media/googleplay-black.svg": "/yoo/static/media/googleplay-black.1562140f35c2a82a33abcca025ea38d6.svg",
+    "static/media/googleplay.svg": "/yoo/static/media/googleplay.9d02b654486f7a886f4f7bc21aaad02f.svg",
+    "static/media/appstore-black.svg": "/yoo/static/media/appstore-black.d16b34bc69e83619f2134e096007f69b.svg",
+    "static/media/appstore.svg": "/yoo/static/media/appstore.2fe2721728accbc8c27968fe3b763f37.svg",
+    "static/media/logo.svg": "/yoo/static/media/logo.7ce0c22e27e4b42fd34b3a6885e3035e.svg",
+    "static/media/logo-white.svg": "/yoo/static/media/logo-white.932be997eac25b21c5ca3337c10ec8d2.svg",
+    "static/media/delivery_icon.svg": "/yoo/static/media/delivery_icon.cf8333d876112ea581f23302f43bd638.svg",
+    "static/media/logo-text-white.svg": "/yoo/static/media/logo-text-white.f7ade7822013fe2e56cd44a786cb3d4f.svg",
     "index.html": "/yoo/index.html",
-    "static/media/curve.svg": "/yoo/static/media/curve.7dcc5f42b7d9ef4dbb44.svg",
-    "static/media/chevron.svg": "/yoo/static/media/chevron.c5c580271e442a1ba696.svg",
-    "static/media/trapezoid.svg": "/yoo/static/media/trapezoid.cad6f25a61f117eb0de8.svg",
+    "static/media/curve.svg": "/yoo/static/media/curve.db6be95d1a534a6a8113.svg",
+    "static/media/chevron.svg": "/yoo/static/media/chevron.3255d708488f93125350.svg",
+    "static/media/trapezoid.svg": "/yoo/static/media/trapezoid.10e0306a71a40aa8adbc.svg",
     "static/media/mark.svg": "/yoo/static/media/mark.0b3031d05d6780bc0ac3.svg",
-    "main.7ebc6da9.css.map": "/yoo/static/css/main.7ebc6da9.css.map",
-    "main.490c1e58.js.map": "/yoo/static/js/main.490c1e58.js.map"
+    "main.8af06508.css.map": "/yoo/static/css/main.8af06508.css.map",
+    "main.7f4ade08.js.map": "/yoo/static/js/main.7f4ade08.js.map"
   },
   "entrypoints": [
-    "static/css/main.7ebc6da9.css",
-    "static/js/main.490c1e58.js"
+    "static/css/main.8af06508.css",
+    "static/js/main.7f4ade08.js"
   ]
 }
