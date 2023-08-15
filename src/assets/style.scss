@@ -2106,7 +2106,7 @@ main {
 
 .filterGrid {
   display: grid;
-  grid-template-columns: 800px auto 100px 200px;
+  grid-template-columns: 800px auto 50px 180px;
   grid-template-rows: 1fr;
   grid-template-areas: "search . filter sort";
   gap: 1em;
