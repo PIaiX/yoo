@@ -96,7 +96,7 @@ const Checkout = () => {
                 <span className='fw-6'>1 880 ₽</span>
               </div>
 
-              <div className='btn-6 fw-6 w-100 rounded-3 mt-3'>34 бонуса будут начислены за этот заказ</div>
+              <div className='bg-main-01 main-color p-2 fw-6 text-center w-100 rounded-3 mt-3'>34 бонуса будут начислены за этот заказ</div>
               <button type='submit' className='btn-secondary mt-3 w-100'>
                 <span className='fw-4'>Заказать</span>
               </button>

@@ -1,17 +1,16 @@
-@import 'bootstrapCustom';
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&display=swap');
 
 :root {
   --h-height: 70px;
   --f-height: 112px;
-  @include media-breakpoint-down(lg) {
+  @media (max-width: 991.98px) {
     --f-height: 70px;
   }
-  @include media-breakpoint-down(md) {
+  @media (max-width: 767.98px) {
     --h-height: 50px;
     --f-height: 60px;
   }
-  @include media-breakpoint-down(sm) {
+  @media (max-width: 575.98px) {
     --h-height: 45px;
     --f-height: 50px;
   }
@@ -31,8 +30,14 @@ $dark: #373737;
 $dark-gray: #637381;
 $gray: #C2C2C2;
 $light-gray: #F4F6F8;
-$white: $white;
+$white: #fff;
 $transition: 300ms ease-in;
+
+$bp-sm: 575.98px;
+$bp-md: 767.98px;
+$bp-lg: 991.98px;
+$bp-xl: 1199.98px;
+$bp-xxl: 1399.98px;
 
 /* mixins */
 @mixin flex($dir: row, $x: center, $y: center, $wrap: nowrap) {
@@ -159,12 +164,12 @@ h1, h2, h3, h4, h5, h6, p, label, span, a, button, form, fieldset, legend, selec
 .flex-1 {flex: 1;}
 .w {
   &-xs-100 {
-    @include media-breakpoint-down(sm) {
+    @media (max-width: $bp-sm) {
       width: 100% !important;
     }
   }
   &-md-100 {
-    @include media-breakpoint-down(lg) {
+    @media (max-width: $bp-lg) {
       width: 100% !important;
     }
   }
@@ -190,7 +195,7 @@ h1, h2 {
   font-size: 1.75em;
   font-weight: 600;
   margin-bottom: 1em;
-  @include media-breakpoint-down(sm) {
+  @media (max-width: $bp-sm) {
     font-size: 1.35em;
   }
 }
@@ -198,7 +203,7 @@ h3 {
   font-size: 2.25em;
   font-weight: 400;
   margin-bottom: .5em;
-  @include media-breakpoint-down(sm) {
+  @media (max-width: $bp-sm) {
     font-size: 2em;
   }
 }
@@ -206,10 +211,10 @@ h4 {
   font-size: 1.875em;
   font-weight: 400;
   margin-bottom: .5em;
-  @include media-breakpoint-down(md) {
+  @media (max-width: $bp-md) {
     font-size: 1.7em;
   }
-  @include media-breakpoint-down(sm) {
+  @media (max-width: $bp-sm) {
     font-size: 1.5em;
   }
 }
@@ -217,7 +222,7 @@ h5 {
   font-size: 1.5em;
   font-weight: 400;
   margin-bottom: .5em;
-  @include media-breakpoint-down(sm) {
+  @media (max-width: $bp-sm) {
     font-size: 1.25em;
   }
 }
@@ -225,7 +230,7 @@ h6 {
   font-size: 1.125em;
   font-weight: 600;
   margin-bottom: .5em;
-  @include media-breakpoint-down(md) {
+  @media (max-width: $bp-md) {
     font-size: 1em;
   }
 }
@@ -269,6 +274,10 @@ h6 {
 .main-color-60 {
   color: rgba($color: $main-color, $alpha: 0.6);
 }
+.bg-main-01 {
+  background-color: rgba($color: $main-color, $alpha: 0.1);
+}
+
 
 /* Form elements */
 input, textarea, .input {
@@ -377,7 +386,7 @@ label {
   background-color: $light-gray;
   padding: .5em;
   border-radius: .75em;
-  @include media-breakpoint-down(md) {
+  @media (max-width: $bp-md) {
     width: 100%;
   }
   label {
@@ -400,7 +409,7 @@ label {
   }
   li {
     position: relative;
-    @include media-breakpoint-down(md) {
+    @media (max-width: $bp-md) {
       flex-grow: 1;
     }
     &:not(:first-child){
@@ -437,7 +446,7 @@ label {
 .countInput {
   width: fit-content;
   @include flex();
-  @include media-breakpoint-down(xl) {
+  @media (max-width: $bp-xl) {
     font-size: 1.15em;
   }
   &.disabled {
@@ -451,7 +460,7 @@ label {
     border-radius: $radius;
     @include lightShadow();
     margin: 0px $radius*0.25;
-    @include media-breakpoint-down(md) {
+    @media (max-width: $bp-md) {
       width: 100px;
     }
   }
@@ -640,7 +649,7 @@ button {
     background-color: $white;
     @include lightShadow();
     color: $black;
-    @include media-breakpoint-down(lg) {
+    @media (max-width: $bp-lg) {
       background-color: $light-gray;
     }
     svg {
@@ -733,10 +742,10 @@ button {
   &-fav {
     font-size: 1.75em;
     @include flex();
-    @include media-breakpoint-down(xl) {
+    @media (max-width: $bp-xl) {
       right: 0.5em;
     }
-    @include media-breakpoint-down(md) {
+    @media (max-width: $bp-md) {
       bottom: 0em;
       right: 0em;
     }
@@ -823,7 +832,7 @@ select {
     overflow: hidden;
     padding: 0px;
     @include safariFix();
-    @include media-breakpoint-down(lg) {
+    @media (max-width: $bp-lg) {
       min-width: fit-content;
     }
     &-item {
@@ -987,7 +996,7 @@ select {
   margin-top: 0.5em;
   margin-bottom: 2em;
   padding-right: 8em;
-  @include media-breakpoint-down(sm) {
+  @media (max-width: $bp-sm) {
     margin-bottom: 1em;
     padding: 1.25em;
     padding-right: 4em;
@@ -1002,7 +1011,7 @@ select {
     right: 0.5em;
     height: calc(100% + 1em);
     width: 6em;
-    @include media-breakpoint-down(sm) {
+    @media (max-width: $bp-sm) {
       right: -0.5em;
       width: 5em;
     }
@@ -1014,10 +1023,10 @@ select {
   color: rgba($color: $main-color, $alpha: 0.6);
   @include flex(row, flex-start, center, wrap);
   font-size: 1.125em;
-  @include media-breakpoint-down(lg) {
+  @media (max-width: $bp-lg) {
     margin-top: 1.5em;
   }
-  @include media-breakpoint-down(sm) {
+  @media (max-width: $bp-sm) {
     margin-top: 1em;
     margin-bottom: 1.5em;
   }
@@ -1133,7 +1142,7 @@ body {
   font-weight: 400;
   color: $black;
   overflow-x: hidden;
-  @include media-breakpoint-down(xl) {
+  @media (max-width: $bp-xl) {
     font-size: 14px;
   }
 }
@@ -1141,7 +1150,7 @@ body {
 
 header {
   height: var(--h-height);
-  @include media-breakpoint-down(lg) {
+  @media (max-width: $bp-lg) {
     background-color: $white;
     position: fixed;
     top: 0px;
@@ -1164,10 +1173,10 @@ header {
     width: calc(100% + var(--pad)*2);
     margin-left: calc(var(--pad) * -1);
     @include flex(row, space-between, center, nowrap);
-    @include media-breakpoint-down(xl) {
+    @media (max-width: $bp-xl) {
       --pad: 30px;
     }
-    @include media-breakpoint-down(lg) {
+    @media (max-width: $bp-lg) {
       --pad: 0px;
       box-shadow: none;
       border-radius: 0px;
@@ -1182,7 +1191,7 @@ header {
         li {
           &:not(:first-child){
             margin-left: 2.5em;
-            @include media-breakpoint-down(xxl) {
+            @media (max-width: $bp-xxl) {
               margin-left: 1.5em;
             }
           }
@@ -1255,17 +1264,17 @@ header {
             @include flex(row, flex-start, center, nowrap);
             font-size: 1.5em;
             padding: 1em;
-            @include media-breakpoint-down(md) {
+            @media (max-width: $bp-md) {
               font-size: 1.25em;
             }
-            @include media-breakpoint-down(sm) {
+            @media (max-width: $bp-sm) {
               font-size: 1.1em;
             }
             svg {
               font-size: 1.6em;
               color: $main-color;
               margin-right: .5em;
-              @include media-breakpoint-down(sm) {
+              @media (max-width: $bp-sm) {
                 margin-right: .25em;
               }
             }
@@ -1286,7 +1295,7 @@ header {
 main {
   min-height: calc(100vh - var(--h-height) - var(--f-height));
   padding: 3em 0px;
-  @include media-breakpoint-down(lg) {
+  @media (max-width: $bp-lg) {
     min-height: 100vh;
     padding: var(--h-height) 0px var(--f-height);
   }
@@ -1303,10 +1312,10 @@ main {
       height: 400px;
       object-fit: cover;
       border-radius: $radius;
-      @include media-breakpoint-down(lg) {
+      @media (max-width: $bp-lg) {
         height: 330px;
       }
-      @include media-breakpoint-down(md) {
+      @media (max-width: $bp-md) {
         border-radius: 0px;
         height: auto;
       }
@@ -1317,10 +1326,10 @@ main {
 
 .sec-2 {
   --w: 150px;
-  @include media-breakpoint-down(md) {
+  @media (max-width: $bp-md) {
     position: relative;
   }
-  @include media-breakpoint-down(sm) {
+  @media (max-width: $bp-sm) {
     --w: 90px;
   }
   .swiper-stories {
@@ -1343,7 +1352,7 @@ main {
     background-color: $white;
     padding: 2px;
     border: 3px solid rgba($color: $main-color, $alpha: 0.3);
-    @include media-breakpoint-down(md) {
+    @media (max-width: $bp-md) {
       padding: 1px;
       border: 2px solid rgba($color: $main-color, $alpha: 0.3);
     }
@@ -1351,7 +1360,7 @@ main {
   figcaption {
     font-size: .9em;
     text-align: center;
-    @include media-breakpoint-down(sm) {
+    @media (max-width: $bp-sm) {
       font-size: .75em;
     }
   }
@@ -1362,7 +1371,7 @@ main {
       height: 800px;
       object-fit: cover;
       border-radius: $radius*0.5;
-      @include media-breakpoint-down(sm) {
+      @media (max-width: $bp-sm) {
         width: 100%;
         height: calc(100vh - 4em);
         border-radius: 0px;
@@ -1374,7 +1383,7 @@ main {
   .modal {
     &-dialog {
       max-width: 450px;
-      @include media-breakpoint-down(sm) {
+      @media (max-width: $bp-sm) {
         max-width: 100%;
         margin: 2em 1em;
       }
@@ -1390,14 +1399,14 @@ main {
       .swiper-stories-modal {
         position: unset;
         width: 450px;
-        @include media-breakpoint-down(sm) {
+        @media (max-width: $bp-sm) {
           width: 100%;
         }
         .swiper-button {
           bottom: 50%;
           transform: translateY(50%);
           font-size: 2em;
-          @include media-breakpoint-down(md) {
+          @media (max-width: $bp-md) {
             display: none;
           }
           svg {
@@ -1437,7 +1446,7 @@ main {
         transition-property: color, background-color;
         background-color: transparent;
         border-radius: $radius*0.15;
-        @include media-breakpoint-down(md) {
+        @media (max-width: $bp-md) {
           left: unset;
           right: 0.5em;
           top: 1em;
@@ -1453,7 +1462,7 @@ main {
 
 
 .sec-3 {
-  @include media-breakpoint-up(md) {
+  @media (min-width: 767.98px) {
     margin-top: 8em;
   }
   .box {
@@ -1461,7 +1470,7 @@ main {
     @include shadow();
     padding: $radius;
     border-radius: $radius;
-    @include media-breakpoint-down(md) {
+    @media (max-width: $bp-md) {
       padding: 0px 1em;
       border-radius: 0px;
       box-shadow: none;
@@ -1473,7 +1482,7 @@ main {
   color: $gray;
   font-size: 1.5em;
   @include flex();
-  @include media-breakpoint-down(lg) {
+  @media (max-width: $bp-lg) {
     display: none;
   }
   svg {
@@ -1495,13 +1504,13 @@ main {
     object-fit: cover;
     border-radius: $radius;
     margin-bottom: $radius*0.5;
-    @include media-breakpoint-down(xxl) {
+    @media (max-width: $bp-xxl) {
       height: 180px;
     }
-    @include media-breakpoint-down(lg) {
+    @media (max-width: $bp-lg) {
       height: 150px;
     }
-    @include media-breakpoint-down(sm) {
+    @media (max-width: $bp-sm) {
       height: 30vw;
       border-radius: $radius*0.5;
     }
@@ -1524,27 +1533,27 @@ main {
   background-size: 62% auto, 100% calc(100% - 10em);
   padding: 15em 4em 3em;
   position: relative;
-  @include media-breakpoint-down(xxl) {
+  @media (max-width: $bp-xxl) {
     padding: 10em 3em 2em;
     background-position: 12% 25%,center bottom;
     background-size: 62% auto,100% calc(100% - 5em);
   }
-  @include media-breakpoint-down(xl) {
+  @media (max-width: $bp-xl) {
     padding: 6em 3em 2em;
     background-position: 12% 0%, center bottom;
     background-size: 62% auto, 100% calc(100% - 1em);
   }
-  @include media-breakpoint-down(lg) {
+  @media (max-width: $bp-lg) {
     padding: 5em 2em 1.5em;
     background-position: 0% 0%, center bottom;
     background-size: 80% auto, 100% calc(100% - 1em);
     .fs-16 {font-size: 1.3em}
   }
-  @include media-breakpoint-down(md) {
+  @media (max-width: $bp-md) {
     padding: 4em 1.5em 1em;
     .fs-20 {font-size: 1.5em}
   }
-  @include media-breakpoint-down(sm) {
+  @media (max-width: $bp-sm) {
     padding: 3em 1em 1em;
     font-size: 10px;
     .fs-16 {font-size: 1.2em}
@@ -1555,26 +1564,26 @@ main {
     li {
       &:not(:first-child){
         margin-left: 3em;
-        @include media-breakpoint-down(lg) {
+        @media (max-width: $bp-lg) {
           margin-left: 2em;
         }
-        @include media-breakpoint-down(md) {
+        @media (max-width: $bp-md) {
           margin-left: 1em;
         }
       }
     }
     img {
       height: 60px;
-      @include media-breakpoint-down(xl) {
+      @media (max-width: $bp-xl) {
         height: 55px;
       }
-      @include media-breakpoint-down(lg) {
+      @media (max-width: $bp-lg) {
         height: 50px;
       }
-      @include media-breakpoint-down(md) {
+      @media (max-width: $bp-md) {
         height: 40px;
       }
-      @include media-breakpoint-down(sm) {
+      @media (max-width: $bp-sm) {
         height: 30px;
       }
     }
@@ -1584,15 +1593,15 @@ main {
     bottom: -7%;
     right: -5%;
     width: 50%;
-    @include media-breakpoint-down(xl) {
+    @media (max-width: $bp-xl) {
       bottom: -5%;
       width: 45%;
     }
-    @include media-breakpoint-down(lg) {
+    @media (max-width: $bp-lg) {
       width: 55%;
       right: -10%;
     }
-    @include media-breakpoint-down(md) {
+    @media (max-width: $bp-md) {
       width: 60%;
       right: -20%;
       bottom: 5%;
@@ -1617,22 +1626,22 @@ main {
   @include shadow();
   border-radius: $radius;
   @include flex(row, flex-start, stretch, nowrap);
-  @include media-breakpoint-down(lg) {
+  @media (max-width: $bp-lg) {
     flex-direction: column;
     width: calc(200px + 2em);
   }
-  @include media-breakpoint-down(sm) {
+  @media (max-width: $bp-sm) {
     width: calc(145px + 2em);
   }
   img {
     --card-mini-w: 130px;
     @include roundedImg(var(--card-mini-w), $radius, scale-down);
     margin-right: $radius;
-    @include media-breakpoint-down(lg) {
+    @media (max-width: $bp-lg) {
       --card-mini-w: 200px;
       margin-right: 0px;
     }
-    @include media-breakpoint-down(sm) {
+    @media (max-width: $bp-sm) {
       --card-mini-w: 145px;
     }
   }
@@ -1640,7 +1649,7 @@ main {
     flex: 1;
     @include flex(column, space-between, stretch, nowrap);
     h6 {
-      @include media-breakpoint-down(sm) {
+      @media (max-width: $bp-sm) {
         font-weight: 400;
       }
     }
@@ -1663,7 +1672,7 @@ main {
   background-color: $white;
   border-radius: $radius;
   @include flex(row, space-between, center, nowrap);
-  @include media-breakpoint-down(lg) {
+  @media (max-width: $bp-lg) {
     padding: 0em;
     box-shadow: none;
   }
@@ -1674,7 +1683,7 @@ main {
   flex: 1;
   &.w-90 {
     max-width: 90%;
-    @include media-breakpoint-down(lg) {
+    @media (max-width: $bp-lg) {
       max-width: 100%;
     }
   }
@@ -1687,7 +1696,7 @@ main {
     margin: 0px;
     position: unset;
     padding: .75em;
-    @include media-breakpoint-down(lg) {
+    @media (max-width: $bp-lg) {
       width: 100%;
     }
     .swiper-slide {
@@ -1697,7 +1706,7 @@ main {
       color: $main-color;
       bottom: 50%;
       transform: translateY(50%);
-      @include media-breakpoint-down(lg) {
+      @media (max-width: $bp-lg) {
         display: none;
       }
       &-prev {
@@ -1725,7 +1734,7 @@ main {
     font-size: 1em;
     svg {
       font-size: 1.5em;
-      @include media-breakpoint-down(sm) {
+      @media (max-width: $bp-sm) {
         font-size: 1.75em;
       }
     }
@@ -1735,7 +1744,7 @@ main {
     @include flex();
     padding: 1.3em 0px;
     margin-left: 2em;
-    @include media-breakpoint-down(lg) {
+    @media (max-width: $bp-lg) {
       display: none;
     }
   }
@@ -1750,24 +1759,24 @@ main {
 .filter-line {
   @include flex(row, space-between, center, nowrap);
   margin-bottom: 3em;
-  @include media-breakpoint-down(lg) {
+  @media (max-width: $bp-lg) {
     align-items: stretch;
   }
-  @include media-breakpoint-down(sm) {
+  @media (max-width: $bp-sm) {
     align-items: center;
     margin-bottom: 1.5em;
   }
   .title {
     margin-bottom: 0px;
     margin-right: 1.5em;
-    @include media-breakpoint-down(xl) {
+    @media (max-width: $bp-xl) {
       display: none;
     }
   }
   .subcategories-list {
     @include list();
     @include flex(row, flex-start, center, wrap);
-    @include media-breakpoint-down(lg) {
+    @media (max-width: $bp-lg) {
       display: none;
     }
     li {
@@ -1781,18 +1790,18 @@ main {
     &:hover, &:active {
       color: $white;
     }
-    @include media-breakpoint-down(lg) {
+    @media (max-width: $bp-lg) {
       order: 2;
       margin-right: 1.5em;
       margin-left: auto;
     }
-    @include media-breakpoint-down(sm) {
+    @media (max-width: $bp-sm) {
       margin-right: 1em;
       padding: .35em;
     }
     svg {
       font-size: 1.5em;
-      @include media-breakpoint-down(lg) {
+      @media (max-width: $bp-lg) {
         font-size: 1.75em;
       }
     }
@@ -1801,40 +1810,40 @@ main {
     margin-left: auto;
     margin-right: 1.5em;
     padding: .55em;
-    @include media-breakpoint-down(lg) {
+    @media (max-width: $bp-lg) {
       order: 3;
       margin-left: unset;
     }
-    @include media-breakpoint-down(sm) {
+    @media (max-width: $bp-sm) {
       margin-right: 1em;
       padding: .35em;
     }
     svg {
       font-size: 1.5em;
-      @include media-breakpoint-down(lg) {
+      @media (max-width: $bp-lg) {
         font-size: 1.75em;
       }
     }
   }
   .select {
-    @include media-breakpoint-down(lg) {
+    @media (max-width: $bp-lg) {
       order: 1;
     }
   }
   .btn-subcategories {
     padding: .55em;
-    @include media-breakpoint-up(lg) {
+    @media (min-width: 991.98px) {
       display: none;
     }
-    @include media-breakpoint-down(lg) {
+    @media (max-width: $bp-lg) {
       order: 4;
     }
-    @include media-breakpoint-down(sm) {
+    @media (max-width: $bp-sm) {
       padding: .35em;
     }
     svg {
       font-size: 1.5em;
-      @include media-breakpoint-down(lg) {
+      @media (max-width: $bp-lg) {
         font-size: 1.75em;
       }
     }
@@ -1851,16 +1860,16 @@ main {
       object-fit: scale-down;
       object-position: center;
       border-radius: $radius;
-      @include media-breakpoint-down(xxl) {
+      @media (max-width: $bp-xxl) {
         height: 230px;
       }
-      @include media-breakpoint-down(xl) {
+      @media (max-width: $bp-xl) {
         height: 210px;
       }
-      @include media-breakpoint-down(md) {
+      @media (max-width: $bp-md) {
         height: 155px;
       }
-      @include media-breakpoint-down(sm) {
+      @media (max-width: $bp-sm) {
         height: 43vw;
       }
     }
@@ -1871,7 +1880,7 @@ main {
     left: 1em;
     @include list();
     @include flex(row, flex-start, center, wrap);
-    @include media-breakpoint-down(xl) {
+    @media (max-width: $bp-xl) {
       left: 0px;
     }
     li {
@@ -1881,7 +1890,7 @@ main {
       img {
         width: 2.5em;
         height: 2.5em;
-        @include media-breakpoint-down(md) {
+        @media (max-width: $bp-md) {
           width: 2em;
           height: 2em;
         }
@@ -1894,7 +1903,7 @@ main {
     right: 1em;
     @include list();
     @include flex(column, flex-start, flex-end, wrap);
-    @include media-breakpoint-down(xl) {
+    @media (max-width: $bp-xl) {
       right: 0px;
     }
     li {
@@ -1909,7 +1918,7 @@ main {
         background-color: rgba($color: $white, $alpha: 0.75);
         border-radius: $radius;
         transform: rotate(-3.5deg);
-        @include media-breakpoint-down(md) {
+        @media (max-width: $bp-md) {
           font-size: .75em;
         }
         &.new {
@@ -1935,7 +1944,7 @@ main {
   }
 }
 .productPage {
-  @include media-breakpoint-down(md) {
+  @media (max-width: $bp-md) {
     h1 {flex:1;}
   }
   &-img {
@@ -1943,17 +1952,17 @@ main {
     height: 290px;
     object-fit: scale-down;
     border-radius: $radius;
-    @include media-breakpoint-down(xxl) {
+    @media (max-width: $bp-xxl) {
       height: 260px;
     }
-    @include media-breakpoint-down(xl) {
+    @media (max-width: $bp-xl) {
       height: 215px;
     }
-    @include media-breakpoint-down(lg) {
+    @media (max-width: $bp-lg) {
       height: 500px;
       margin-bottom: 1em;
     }
-    @include media-breakpoint-down(sm) {
+    @media (max-width: $bp-sm) {
       height: 85vw;
     }
   }
@@ -2017,10 +2026,10 @@ main {
         overflow: auto;
         @include scrollCustomized();
         padding-right: var(--mt);
-        @include media-breakpoint-down(xxl) {
+        @media (max-width: $bp-xxl) {
           --h: 54px;
         }
-        @include media-breakpoint-down(xl) {
+        @media (max-width: $bp-xl) {
           --h: 47.25px;
         }
         li {
@@ -2033,7 +2042,7 @@ main {
   }
   &-price {
     @include flex(row, flex-start, center, nowrap);
-    @include media-breakpoint-down(md) {
+    @media (max-width: $bp-md) {
       position: fixed;
       bottom: calc(var(--f-height) - 2px);
       left: 0px;
@@ -2046,7 +2055,7 @@ main {
         width: 270px;
       }
     }
-    @include media-breakpoint-down(sm) {
+    @media (max-width: $bp-sm) {
       padding: 0px 1.5em;
       button {
         width: 100%;
@@ -2067,7 +2076,7 @@ main {
   @include shadow();
   border-radius: $radius*0.5;
   padding: $radius*0.5;
-  @include media-breakpoint-down(xxl) {
+  @media (max-width: $bp-xxl) {
     font-size: .9em;
   }
   &-img {
@@ -2085,7 +2094,7 @@ main {
     font-weight: 600;
     margin-left: $radius;
     text-align: right;
-    @include media-breakpoint-down(xxl) {
+    @media (max-width: $bp-xxl) {
       margin-left: $radius*0.5;
     }
   }
@@ -2095,22 +2104,102 @@ main {
   }
 }
 
+.filterGrid {
+  display: grid;
+  grid-template-columns: 800px auto 100px 200px;
+  grid-template-rows: 1fr;
+  grid-template-areas: "search . filter sort";
+  gap: 1em;
+  &-search {
+    @include flex(row, space-between, stretch, nowrap);
+    grid-area: search;
+    position: relative;
+  }
+  &-filter {
+    @include flex(row, center, center, nowrap);
+    grid-area: filter;
+  }
+  &-sort {
+    @include flex(row, flex-end, stretch, nowrap);
+    grid-area: sort;
+  }
+
+  .subcategories-list {
+    @include list();
+    @include flex(row, flex-start, center, wrap);
+    @media (max-width: $bp-lg) {
+      display: none;
+    }
+    li {
+      
+      &:not(:last-child){margin-right: 1em;}
+    }
+  }
+  .btn-filter {
+    width: 3em;
+    height: 3em;
+    padding: 0px;
+  }
+}
+.searchForm {
+  position: relative;
+  input {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    z-index: 10;
+    max-width: 3em;
+    width: 850px;
+    height: 3em;
+    border-radius: 1.5em;
+    border: 1px solid $gray;
+    box-shadow: none !important;
+    transition: max-width $transition;
+  }
+  button {
+    position: relative;
+    z-index: 10;
+    width: 3em;
+    height: 3em;
+    border: none;
+    border-radius: 1.5em;
+    padding: 0px;
+    background-color: transparent;
+    color: $gray;
+    transition: color $transition;
+    svg {
+      font-size: 1.5em;
+      color: inherit;
+    }
+    &:hover, &:focus, &:active {
+      color: $main-color;
+    }
+  }
+  &.opened {
+    input {
+      max-width: 800px;
+    }
+  }
+}
+
+
+
 
 .sec-6 {
   --offer-w: 415px;
-  @include media-breakpoint-down(xxl) {
+  @media (max-width: $bp-xxl) {
     --offer-w: 355px;
   }
-  @include media-breakpoint-down(xl) {
+  @media (max-width: $bp-xl) {
     --offer-w: 300px;
   }
-  @include media-breakpoint-down(lg) {
+  @media (max-width: $bp-lg) {
     --offer-w: 310px;
   }
-  @include media-breakpoint-down(md) {
+  @media (max-width: $bp-md) {
     --offer-w: 450px;
   }
-  @include media-breakpoint-down(sm) {
+  @media (max-width: $bp-sm) {
     --offer-w: 82vw;
   }
   .offer {
@@ -2131,24 +2220,24 @@ main {
       color: $white;
       padding: 2em;
       @include flex(column, space-between, stretch, nowrap);
-      @include media-breakpoint-down(xl) {
+      @media (max-width: $bp-xl) {
         padding: 1em;
       }
     }
     &:not(.full) {
-      @include media-breakpoint-down(md) {
+      @media (max-width: $bp-md) {
         --offer-w: 240px;
       }
-      @include media-breakpoint-down(sm) {
+      @media (max-width: $bp-sm) {
         --offer-w: 41vw;
       }
       figcaption {
-        @include media-breakpoint-down(sm) {
+        @media (max-width: $bp-sm) {
           font-size: 10px;
         }
       }
       h6 {
-        @include media-breakpoint-down(md) {
+        @media (max-width: $bp-md) {
           display: none;
         }
       }
@@ -2163,7 +2252,7 @@ main {
     }
     .swiper-slide {
       width: var(--offer-w);
-      @include media-breakpoint-up(lg) {
+      @media (min-width: 991.98px) {
         &:nth-child(odd){
           .offer {transform: rotate(3deg);}
         }
@@ -2183,10 +2272,10 @@ main {
     padding: 2em;
     border-radius: $radius;
     font-size: 1.2em;
-    @include media-breakpoint-down(xl) {
+    @media (max-width: $bp-xl) {
       font-size: 1.1em;
     }
-    @include media-breakpoint-down(md) {
+    @media (max-width: $bp-md) {
       padding: 1em;
     }
     p {
@@ -2203,13 +2292,13 @@ main {
     grid-template-rows: auto;
     gap: 1em;
     grid-template-areas: "img about price";
-    @include media-breakpoint-down(xxl) {
+    @media (max-width: $bp-xxl) {
       grid-template-columns: 100px auto 250px;
     }
-    @include media-breakpoint-down(xl) {
+    @media (max-width: $bp-xl) {
       grid-template-columns: 100px auto 210px;
     }
-    @include media-breakpoint-down(md) {
+    @media (max-width: $bp-md) {
       grid-template-columns: 120px auto;
       grid-template-rows: auto;
       grid-template-areas: "img about" "img price";
@@ -2225,7 +2314,7 @@ main {
       p {
         color: $dark-gray;
         margin-bottom: .5em;
-        @include media-breakpoint-down(sm) {
+        @media (max-width: $bp-sm) {
           font-size: .9em;
         }
       }
@@ -2234,13 +2323,13 @@ main {
       grid-area: price;
       @include flex(row, flex-end, flex-start, nowrap);
       font-size: 1.2em;
-      @include media-breakpoint-down(xxl) {
+      @media (max-width: $bp-xxl) {
         font-size: 1.1em;
       }
-      @include media-breakpoint-down(md) {
+      @media (max-width: $bp-md) {
         justify-content: space-between;
       }
-      @include media-breakpoint-down(sm) {
+      @media (max-width: $bp-sm) {
         font-size: 1em;
       }
     }
@@ -2297,19 +2386,19 @@ main {
     @include flex(row, space-between, flex-start, nowrap);
     padding: 1.5em 1em;
     border-bottom: 1px solid $light-gray;
-    @include media-breakpoint-down(md) {
+    @media (max-width: $bp-md) {
       flex-wrap: wrap;
     }
-    @include media-breakpoint-down(sm) {
+    @media (max-width: $bp-sm) {
       padding: 1em 0em;
     }
     .left {
       @include flex(row, flex-start, flex-start, nowrap);
       width: 60%;
-      @include media-breakpoint-down(xxl) {
+      @media (max-width: $bp-xxl) {
         width: 65%;
       }
-      @include media-breakpoint-down(md) {
+      @media (max-width: $bp-md) {
         width: 100%;
         align-items: center;
       }
@@ -2326,7 +2415,7 @@ main {
             padding: 0.3em 0.6em;
             transform: rotate(-3.5deg);
             margin-left: 1em;
-            @include media-breakpoint-down(sm) {
+            @media (max-width: $bp-sm) {
               position: absolute;
               top: 1em;
               left: $radius*1.5;
@@ -2338,7 +2427,7 @@ main {
           margin-bottom: .5em;
           &.consist {
             @include clamp(2, 1.2em, true);
-            @include media-breakpoint-down(sm) {
+            @media (max-width: $bp-sm) {
               display: none;
             }
           }
@@ -2348,12 +2437,12 @@ main {
     .right {
       @include flex(row, space-between, flex-start, nowrap);
       width: 35%;
-      @include media-breakpoint-down(md) {
+      @media (max-width: $bp-md) {
         width: 100%;
         margin-top: 1em;
         align-items: center;
       }
-      @include media-breakpoint-down(sm) {
+      @media (max-width: $bp-sm) {
         margin-top: .5em;
       }
       .btn-fav {
@@ -2418,7 +2507,7 @@ footer {
   height: var(--f-height);
   background-color: $black;
   color: $white;
-  @include media-breakpoint-down(lg) {
+  @media (max-width: $bp-lg) {
     background-color: $white;
     @include shadow();
     position: fixed;
@@ -2433,7 +2522,7 @@ footer {
     @include flex(row, space-between, center, nowrap);
     .logo {
       width: 140px;
-      @include media-breakpoint-down(xl) {
+      @media (max-width: $bp-xl) {
         width: 100px;
       }
     }
@@ -2506,14 +2595,14 @@ ACCOUNT
     @include roundedImg(var(--w));
     margin-right: 1em;
     @include flex();
-    @include media-breakpoint-down(xxl) {
+    @media (max-width: $bp-xxl) {
       --w: 80px;
       margin-right: .75em;
     }
-    @include media-breakpoint-down(xl) {
+    @media (max-width: $bp-xl) {
       --w: 70px;
     }
-    @include media-breakpoint-down(lg) {
+    @media (max-width: $bp-lg) {
       --w: 60px;
     }
     span {
@@ -2558,7 +2647,7 @@ ACCOUNT
       @include shadow();
       border-radius: $radius;
       padding: 1em;
-      @include media-breakpoint-down(xxl) {
+      @media (max-width: $bp-xxl) {
         padding: .75em;
       }
     }
@@ -2569,7 +2658,7 @@ ACCOUNT
       li {
         &:not(:first-child){
           margin-top: 1em;
-          @include media-breakpoint-down(lg) {
+          @media (max-width: $bp-lg) {
             margin-top: .5em;
           }
         }
@@ -2651,7 +2740,7 @@ ACCOUNT
     @include shadow();
     background-color: $white;
     border-radius: $radius;
-    @include media-breakpoint-down(lg) {
+    @media (max-width: $bp-lg) {
       background-color: transparent;
       box-shadow: unset;
     }
@@ -2660,10 +2749,10 @@ ACCOUNT
       li {
         padding: 1em;
         border-bottom: 1px solid $light-gray;
-        @include media-breakpoint-down(xl) {
+        @media (max-width: $bp-xl) {
           padding: .75em;
         }
-        @include media-breakpoint-down(lg) {
+        @media (max-width: $bp-lg) {
           border-bottom: unset;
           padding-right: calc(var(--bs-gutter-x)*.5);
           padding-left: calc(var(--bs-gutter-x)*.5);
@@ -2682,14 +2771,14 @@ ACCOUNT
     "num time status address price btn";
     gap: 0em 1em;
     font-size: .9em;
-    @include media-breakpoint-down(xxl) {
+    @media (max-width: $bp-xxl) {
       grid-template-columns: 50px 140px 110px auto 70px 140px;
     }
-    @include media-breakpoint-down(xl) {
+    @media (max-width: $bp-xl) {
       grid-template-columns: 40px 115px 100px auto 60px 120px;
       gap: 0em .5em;
     }
-    @include media-breakpoint-down(lg) {
+    @media (max-width: $bp-lg) {
       grid-template-columns: 1fr 1fr;
       grid-template-rows: auto;
       gap: 0em;
@@ -2704,10 +2793,10 @@ ACCOUNT
       font-size: 1.1em;
       padding: .5em 0;
     }
-    @include media-breakpoint-down(md) {
+    @media (max-width: $bp-md) {
       font-size: .9em;
     }
-    @include media-breakpoint-down(sm) {
+    @media (max-width: $bp-sm) {
       font-size: 1em;
     }
     &.top {
@@ -2722,14 +2811,14 @@ ACCOUNT
     &-num {
       grid-area: num;
       @include flex(row, flex-start, center, nowrap);
-      @include media-breakpoint-down(lg) {
+      @media (max-width: $bp-lg) {
         padding: .5em 0em .5em 1em;
       }
     }
     &-time {
       grid-area: time;
       @include flex(row, flex-start, center, nowrap);
-      @include media-breakpoint-down(lg) {
+      @media (max-width: $bp-lg) {
         color: $dark-gray;
         justify-content: flex-end;
         padding: .5em 1em .5em 0;
@@ -2738,7 +2827,7 @@ ACCOUNT
     &-status {
       grid-area: status;
       @include flex(row, flex-start, center, nowrap);
-      @include media-breakpoint-down(lg) {
+      @media (max-width: $bp-lg) {
         padding: .25em 1em;
         justify-content: flex-end;
       }
@@ -2746,7 +2835,7 @@ ACCOUNT
     &-delivery {
       grid-area: delivery;
       @include flex(row, flex-start, center, nowrap);
-      @include media-breakpoint-down(lg) {
+      @media (max-width: $bp-lg) {
         color: $dark-gray;
         padding: .25em 1em;
       }
@@ -2754,7 +2843,7 @@ ACCOUNT
     address {
       grid-area: address;
       @include flex(row, flex-start, center, nowrap);
-      @include media-breakpoint-down(lg) {
+      @media (max-width: $bp-lg) {
         padding: .5em 1em .75em;
         border-bottom: 1px solid $light-gray;
       }
@@ -2762,7 +2851,7 @@ ACCOUNT
     &-price {
       grid-area: price;
       @include flex(row, flex-start, center, nowrap);
-      @include media-breakpoint-down(lg) {
+      @media (max-width: $bp-lg) {
         padding: .5em 1em;
         font-weight: 600;
         @include flex(column, flex-start, stretch, nowrap);
@@ -2771,7 +2860,7 @@ ACCOUNT
     &-btn {
       grid-area: btn;
       @include flex(row, flex-end, center, nowrap);
-      @include media-breakpoint-down(lg) {
+      @media (max-width: $bp-lg) {
         padding: .5em 1em;
         border-top: 1px solid $light-gray;
       }
@@ -2817,20 +2906,20 @@ ACCOUNT
     "img show . ."
     ". extra . .";
     gap: 0.5em 1em;
-    @include media-breakpoint-down(xxl) {
+    @media (max-width: $bp-xxl) {
       grid-template-columns: var(--w) auto 50px 50px;
       gap: 0.5em 0.75em;
     }
-    @include media-breakpoint-down(xl) {
+    @media (max-width: $bp-xl) {
       --w: 80px;
     }
-    @include media-breakpoint-down(lg) {
+    @media (max-width: $bp-lg) {
       gap: 1em 1.5em;
     }
-    @include media-breakpoint-down(md) {
+    @media (max-width: $bp-md) {
       gap: .5em 1em;
     }
-    @include media-breakpoint-down(sm) {
+    @media (max-width: $bp-sm) {
       --w: 60px;
       gap: 0.25em 0.5em;
       grid-template-areas: 
@@ -2848,7 +2937,7 @@ ACCOUNT
       .consist {
         color: $dark-gray;
         @include clamp(2, 1.2em, true);
-        @include media-breakpoint-down(md) {
+        @media (max-width: $bp-md) {
           display: none;
         }
       }
@@ -2866,7 +2955,7 @@ ACCOUNT
     }
     .show {
       grid-area: show;
-      @include media-breakpoint-down(md) {
+      @media (max-width: $bp-md) {
         color: $main-color;
         font-weight: 300;
       }
@@ -2882,7 +2971,7 @@ ACCOUNT
       grid-area: price;
       font-size: 1.2em;
       font-weight: 600;
-      @include media-breakpoint-down(sm) {
+      @media (max-width: $bp-sm) {
         @include flex();
         font-size: 1em;
         font-weight: 400;
@@ -2898,7 +2987,7 @@ ACCOUNT
       li {
         padding: 1em 1.25em;
         @include flex(row, space-between, center, nowrap);
-        @include media-breakpoint-down(sm) {
+        @media (max-width: $bp-sm) {
           flex-direction: column;
           align-items: stretch;
           padding: .5em 1em;
@@ -2910,7 +2999,7 @@ ACCOUNT
     }
   }
   .bonus-program {
-    @include media-breakpoint-up(lg) {
+    @media (min-width: 991.98px) {
       .link-return {
         display: none;
       }
@@ -2926,23 +3015,23 @@ ACCOUNT
         grid-template-rows: auto;
         grid-template-areas: 'title date bonuses';
         gap: 1em;
-        @include media-breakpoint-down(xxl) {
+        @media (max-width: $bp-xxl) {
           grid-template-columns: 40fr 20fr 40fr;
         }
-        @include media-breakpoint-down(md) {
+        @media (max-width: $bp-md) {
           grid-template-columns: 1fr 2fr;
           grid-template-areas: 
           'bonuses title'
           'bonuses date';
           gap: .5em;
         }
-        @include media-breakpoint-down(sm) {
+        @media (max-width: $bp-sm) {
           grid-template-columns: 1fr 1fr;
         }
         .title {
           grid-area: title;
           @include flex(row, flex-start, center, nowrap);
-          @include media-breakpoint-down(sm) {
+          @media (max-width: $bp-sm) {
             text-align: right;
             justify-content: flex-end;
           }
@@ -2951,7 +3040,7 @@ ACCOUNT
           grid-area: date;
           color: $dark-gray;
           @include flex(row, flex-start, center, nowrap);
-          @include media-breakpoint-down(sm) {
+          @media (max-width: $bp-sm) {
             text-align: right;
             justify-content: flex-end;
           }
@@ -2963,7 +3052,7 @@ ACCOUNT
           grid-template-rows: auto;
           gap: 1em;
           grid-template-areas: 'income spending';
-          @include media-breakpoint-down(md) {
+          @media (max-width: $bp-md) {
             display: flex;
             flex-direction: row;
             gap: .5em;
@@ -2979,7 +3068,7 @@ ACCOUNT
           font-weight: 600;
           padding: .7em;
           border-radius: $radius*0.5;
-          @include media-breakpoint-down(md) {
+          @media (max-width: $bp-md) {
             width: 3.6em;
             height: 3.6em;
             border-radius: 50%;
@@ -2995,7 +3084,7 @@ ACCOUNT
           font-weight: 600;
           padding: .7em;
           border-radius: $radius*0.5;
-          @include media-breakpoint-down(md) {
+          @media (max-width: $bp-md) {
             width: 3.6em;
             height: 3.6em;
             border-radius: 50%;
@@ -3006,7 +3095,7 @@ ACCOUNT
   }
   .notifications {
     .link-return {
-      @include media-breakpoint-up(lg) {
+      @media (min-width: 991.98px) {
         display: none;
       }
     }
@@ -3018,7 +3107,7 @@ ACCOUNT
       @include safariFix();
       border-radius: $radius;
       padding: 0.5em 0em;
-      @include media-breakpoint-down(md) {
+      @media (max-width: $bp-md) {
         padding: 0em;
       }
       li {
@@ -3030,17 +3119,17 @@ ACCOUNT
         gap: 1em;
         grid-template-areas: "icon info links date";
         padding: 1em 2em;
-        @include media-breakpoint-down(xl) {
+        @media (max-width: $bp-xl) {
           --w: 115px;
           padding: 1em;
         }
-        @include media-breakpoint-down(md) {
+        @media (max-width: $bp-md) {
           grid-template-columns: var(--icon) 2fr 3fr;
           grid-template-areas: 
           "icon info info"
           ". links date";
         }
-        @include media-breakpoint-down(sm) {
+        @media (max-width: $bp-sm) {
           --icon: 50px;
         }
         &:not(:last-child){
@@ -3065,7 +3154,7 @@ ACCOUNT
             border-radius: 1.25em;
             padding: 0.3em 1em;
             margin-left: 1em;
-            @include media-breakpoint-down(md) {
+            @media (max-width: $bp-md) {
               float: unset;
               font-size: 1.75em;
               position: absolute;
@@ -3077,7 +3166,7 @@ ACCOUNT
           }
           p {
             color: $dark-gray;
-            @include media-breakpoint-down(sm) {
+            @media (max-width: $bp-sm) {
               font-size: .9em;
             }
           }
@@ -3085,7 +3174,7 @@ ACCOUNT
         .links {
           grid-area: links;
           @include flex();
-          @include media-breakpoint-down(md) {
+          @media (max-width: $bp-md) {
             justify-content: flex-start;
           }
         }
@@ -3094,7 +3183,7 @@ ACCOUNT
           color: $dark-gray;
           text-align: right;
           @include flex(row, flex-end, center, nowrap);
-          @include media-breakpoint-down(sm) {
+          @media (max-width: $bp-sm) {
             font-size: .9em;
           }
         }
@@ -3108,13 +3197,13 @@ ACCOUNT
     padding: $radius*0.5 $radius*0.75;
     height: 150px;
     @include flex(column, space-between, stretch, nowrap);
-    @include media-breakpoint-down(xxl) {
+    @media (max-width: $bp-xxl) {
       height: 175px;
     }
-    @include media-breakpoint-down(xl) {
+    @media (max-width: $bp-xl) {
       height: 150px;
     }
-    @include media-breakpoint-down(sm) {
+    @media (max-width: $bp-sm) {
       height: 33vw;
     }
     &-logo {
@@ -3122,11 +3211,11 @@ ACCOUNT
       max-width: 9em;
       object-fit: scale-down;
       object-position: left center;
-      @include media-breakpoint-down(xxl) {
+      @media (max-width: $bp-xxl) {
         max-height: 4em;
         max-width: 10em;
       }
-      @include media-breakpoint-down(sm) {
+      @media (max-width: $bp-sm) {
         max-width: 75%;
       }
     }
@@ -3135,23 +3224,23 @@ ACCOUNT
       height: 1.4em;
       object-fit: scale-down;
       object-position: left center;
-      @include media-breakpoint-down(xxl) {
+      @media (max-width: $bp-xxl) {
         width: 3em;
         height: 1.5em;
       }
-      @include media-breakpoint-down(sm) {
+      @media (max-width: $bp-sm) {
         width: 2.75em;
       }
     }
     &-num {
       font-size: .95em;
-      @include media-breakpoint-down(xxl) {
+      @media (max-width: $bp-xxl) {
         font-size: 1em;
       }
-      @include media-breakpoint-down(lg) {
+      @media (max-width: $bp-lg) {
         font-size: 1.1em;
       }
-      @include media-breakpoint-down(sm) {
+      @media (max-width: $bp-sm) {
         font-size: 1em;
       }
     }
@@ -3171,7 +3260,7 @@ ACCOUNT
     background-color: $white;
     border-radius: $radius;
     @include shadow();
-    @include media-breakpoint-down(lg) {
+    @media (max-width: $bp-lg) {
       grid-template-columns: 1fr;
       grid-template-rows: auto;
       grid-template-areas: "choose" "chat";
@@ -3181,7 +3270,7 @@ ACCOUNT
       padding: 1em 1.5em;
       border-bottom: 1px solid $light-gray;
       @include flex(row, flex-start, center, nowrap);
-      @include media-breakpoint-down(lg) {
+      @media (max-width: $bp-lg) {
         display: none;
       }
       &-icon {
@@ -3253,7 +3342,7 @@ ACCOUNT
       border-top: 1px solid $light-gray;
       padding: .5em 1em;
       @include flex(row, flex-start, center, nowrap);
-      @include media-breakpoint-down(lg) {
+      @media (max-width: $bp-lg) {
         position: fixed;
         bottom: var(--f-height);
         left: 0px;
@@ -3316,7 +3405,7 @@ ACCOUNT
     z-index: 1;
     width: 62%;
     padding: 4em;
-    @include media-breakpoint-down(xl) {
+    @media (max-width: $bp-xl) {
       padding: 2em;
     }
     form {
