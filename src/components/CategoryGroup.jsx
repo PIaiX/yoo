@@ -1,5 +1,5 @@
 import React from 'react';
-import { HiOutlineAdjustmentsHorizontal, HiOutlineMagnifyingGlass, HiOutlineBars3 } from "react-icons/hi2";
+import { HiOutlineAdjustmentsHorizontal, HiOutlineBars3 } from "react-icons/hi2";
 import SelectImitation from './utils/SelectImitation';
 import ProductCard from './ProductCard';
 import SearchForm from './forms/SearchForm';
