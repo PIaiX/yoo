@@ -29,7 +29,7 @@ const Categories = (props) => {
           className={(isFull) ? "categories-slider categories-slider-disabled" : "categories-slider"}
           modules={[Navigation, FreeMode]}
           speed={750}
-          spaceBetween={20}
+          spaceBetween={10}
           slidesPerView={'auto'}
           freeMode={true}
           observer={true}
@@ -42,7 +42,7 @@ const Categories = (props) => {
           onSwiper={setSwiper}
           breakpoints={{
             576: {
-              spaceBetween: 30,
+              spaceBetween: 15,
             },
             1200: {
               spaceBetween: 30,

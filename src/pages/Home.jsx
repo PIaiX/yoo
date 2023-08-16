@@ -42,22 +42,22 @@ const Home = () => {
                 }}
               >
                 <SwiperSlide>
-                  <Link to='/'>
+                  <Link to='/promo/1'>
                     <img src="imgs/slider-main/slide-1.jpg" alt="Большие пиццы" className='img-fluid' loading="lazy"/>
                   </Link>
                 </SwiperSlide>
                 <SwiperSlide>
-                  <Link to='/'>
+                  <Link to='/promo/2'>
                     <img src="imgs/slider-main/slide-2.jpg" alt="Фестиваль уличной еды" className='img-fluid' loading="lazy"/>
                   </Link>
                 </SwiperSlide>
                 <SwiperSlide>
-                  <Link to='/'>
+                  <Link to='/promo/3'>
                     <img src="imgs/slider-main/slide-3.jpg" alt="Счастливые часы" className='img-fluid' loading="lazy"/>
                   </Link>
                 </SwiperSlide>
                 <SwiperSlide>
-                  <Link to='/'>
+                  <Link to='/promo/2'>
                     <img src="imgs/slider-main/slide-2.jpg" alt="Фестиваль уличной еды" className='img-fluid' loading="lazy"/>
                   </Link>
                 </SwiperSlide>

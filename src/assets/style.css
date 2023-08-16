@@ -827,7 +827,7 @@ select {
   flex-wrap: nowrap;
   border: 1px solid #0077FF;
   border-radius: 1.5em;
-  padding: 0.45em 1em;
+  padding: 0.45em 0.75em;
   height: 100%;
 }
 .select-button.borderless {
@@ -865,7 +865,7 @@ select {
 .select-button-chevron {
   font-size: 1em;
   color: #0077FF;
-  margin-left: 0.5em;
+  margin-left: 0.25em;
 }
 .select-options {
   list-style: none;
@@ -1252,6 +1252,9 @@ header {
     width: 100%;
     z-index: 1050;
     box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.06);
+  }
+  header .select {
+    width: 6em;
   }
   header .select-button-value span {
     display: none;
@@ -1934,6 +1937,12 @@ main {
   width: 80%;
   padding: 0px 2.75em;
 }
+@media (max-width: 991.98px) {
+  .categories-wrap {
+    width: 100%;
+    padding: 0px 0px;
+  }
+}
 .categories-slider {
   margin: 0px;
   position: unset;
@@ -1942,6 +1951,7 @@ main {
 @media (max-width: 991.98px) {
   .categories-slider {
     width: 100%;
+    padding: 0em;
   }
 }
 .categories-slider .swiper-slide {
@@ -2476,11 +2486,30 @@ main {
 }
 
 .filterGrid {
+  position: relative;
+  --size: 2.75em;
   display: grid;
   grid-template-columns: 800px auto 50px 180px;
   grid-template-rows: 1fr;
   grid-template-areas: "search . filter sort";
   gap: 1em;
+}
+@media (max-width: 1199.98px) {
+  .filterGrid {
+    grid-template-columns: 600px auto 50px 180px;
+  }
+}
+@media (max-width: 991.98px) {
+  .filterGrid {
+    grid-template-areas: "sort search filter";
+    grid-template-columns: 180px auto 100px;
+  }
+}
+@media (max-width: 575.98px) {
+  .filterGrid {
+    grid-template-columns: 180px auto auto;
+    gap: 0.5em;
+  }
 }
 .filterGrid-search {
   display: flex;
@@ -2490,6 +2519,16 @@ main {
   flex-wrap: nowrap;
   grid-area: search;
   position: relative;
+}
+@media (max-width: 991.98px) {
+  .filterGrid-search {
+    justify-content: flex-end;
+  }
+}
+@media (max-width: 767.98px) {
+  .filterGrid-search {
+    position: static;
+  }
 }
 .filterGrid-filter {
   display: flex;
@@ -2524,39 +2563,60 @@ main {
 .filterGrid .subcategories-list li:not(:last-child) {
   margin-right: 1em;
 }
-.filterGrid .btn-filter {
-  width: 3em;
-  height: 3em;
+.filterGrid .subcategories-list li button {
+  height: var(--size);
+}
+.filterGrid .btn-10 {
+  width: var(--size);
+  height: var(--size);
   padding: 0px;
 }
 
 .searchForm {
+  --size: 2.75em;
   position: relative;
+}
+@media (max-width: 767.98px) {
+  .searchForm {
+    position: static;
+  }
 }
 .searchForm input {
   position: absolute;
   top: 0px;
   right: 0px;
   z-index: 10;
-  max-width: 3em;
-  width: 850px;
-  height: 3em;
+  max-width: var(--size);
+  width: 800px;
+  height: var(--size);
   border-radius: 1.5em;
   border: 1px solid #C2C2C2;
   box-shadow: none !important;
-  transition: max-width 300ms ease-in;
+  background-color: #fff;
+  transition: max-width 300ms ease-in, border 300ms ease-in;
+}
+@media (max-width: 767.98px) {
+  .searchForm input {
+    opacity: 0;
+    z-index: -1;
+  }
 }
 .searchForm button {
   position: relative;
   z-index: 10;
-  width: 3em;
-  height: 3em;
+  width: var(--size);
+  height: var(--size);
   border: none;
   border-radius: 1.5em;
   padding: 0px;
   background-color: transparent;
   color: #C2C2C2;
   transition: color 300ms ease-in;
+}
+@media (max-width: 767.98px) {
+  .searchForm button {
+    border: 1px solid #C2C2C2;
+  }
 }
 .searchForm button svg {
   font-size: 1.5em;
@@ -2567,6 +2627,24 @@ main {
 }
 .searchForm.opened input {
   max-width: 800px;
+  border: 1px solid #0077FF;
+}
+@media (max-width: 1199.98px) {
+  .searchForm.opened input {
+    max-width: 600px;
+  }
+}
+@media (max-width: 991.98px) {
+  .searchForm.opened input {
+    max-width: 370px;
+  }
+}
+@media (max-width: 767.98px) {
+  .searchForm.opened input {
+    max-width: 100%;
+    opacity: 1;
+    z-index: 100;
+  }
 }
 
 .sec-6 {

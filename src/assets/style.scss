@@ -789,7 +789,7 @@ select {
     @include flex();
     border: 1px solid $main-color;
     border-radius: 1.5em;
-    padding: .45em 1em;
+    padding: .45em .75em;
     height: 100%;
     &.borderless {
       border: none;
@@ -819,7 +819,7 @@ select {
     &-chevron {
       font-size: 1em;
       color: $main-color;
-      margin-left: .5em;
+      margin-left: .25em;
     }
   }
   &-options {
@@ -1159,6 +1159,7 @@ header {
     z-index: 1050;
     @include shadow();
     .select {
+      width: 6em;
       &-button-value {
         span {display: none;}
       }
@@ -1691,6 +1692,10 @@ main {
     position: relative;
     width: 80%;
     padding: 0px 2.75em;
+    @media (max-width: $bp-lg) {
+      width: 100%;
+      padding: 0px 0px;
+    }
   }
   &-slider {
     margin: 0px;
@@ -1698,6 +1703,7 @@ main {
     padding: .75em;
     @media (max-width: $bp-lg) {
       width: 100%;
+      padding: 0em;
     }
     .swiper-slide {
       width: fit-content;
@@ -2105,15 +2111,34 @@ main {
 }
 
 .filterGrid {
+  position: relative;
+  --size: 2.75em;
   display: grid;
   grid-template-columns: 800px auto 50px 180px;
   grid-template-rows: 1fr;
   grid-template-areas: "search . filter sort";
   gap: 1em;
+  @media (max-width: $bp-xl) {
+    grid-template-columns: 600px auto 50px 180px;
+  }
+  @media (max-width: $bp-lg) {
+    grid-template-areas: "sort search filter";
+    grid-template-columns: 180px auto 100px;
+  }
+  @media (max-width: $bp-sm) {
+    grid-template-columns: 180px auto auto;
+    gap: .5em;
+  }
   &-search {
     @include flex(row, space-between, stretch, nowrap);
     grid-area: search;
     position: relative;
+    @media (max-width: $bp-lg) {
+      justify-content: flex-end;
+    }
+    @media (max-width: $bp-md) {
+      position: static;
+    }
   }
   &-filter {
     @include flex(row, center, center, nowrap);
@@ -2131,42 +2156,56 @@ main {
       display: none;
     }
     li {
-      
       &:not(:last-child){margin-right: 1em;}
+      button {
+        height: var(--size);
+      }
     }
   }
-  .btn-filter {
-    width: 3em;
-    height: 3em;
+  .btn-10 {
+    width: var(--size);
+    height: var(--size);
     padding: 0px;
   }
 }
 .searchForm {
+  --size: 2.75em;
   position: relative;
+  @media (max-width: $bp-md) {
+    position: static;
+  }
   input {
     position: absolute;
     top: 0px;
     right: 0px;
     z-index: 10;
-    max-width: 3em;
-    width: 850px;
-    height: 3em;
+    max-width: var(--size);
+    width: 800px;
+    height: var(--size);
     border-radius: 1.5em;
     border: 1px solid $gray;
     box-shadow: none !important;
-    transition: max-width $transition;
+    background-color: $white;
+    transition: max-width $transition, border $transition;
+    @media (max-width: $bp-md) {
+      opacity: 0;
+      z-index: -1;
+    }
   }
   button {
     position: relative;
     z-index: 10;
-    width: 3em;
-    height: 3em;
+    width: var(--size);
+    height: var(--size);
     border: none;
     border-radius: 1.5em;
     padding: 0px;
     background-color: transparent;
     color: $gray;
     transition: color $transition;
+    @media (max-width: $bp-md) {
+      border: 1px solid $gray;
+    }
     svg {
       font-size: 1.5em;
       color: inherit;
@@ -2178,11 +2217,21 @@ main {
   &.opened {
     input {
       max-width: 800px;
+      border: 1px solid $main-color;
+      @media (max-width: $bp-xl) {
+        max-width: 600px;
+      }
+      @media (max-width: $bp-lg) {
+        max-width: 370px;
+      }
+      @media (max-width: $bp-md) {
+        max-width: 100%;
+        opacity: 1;
+        z-index: 100;
+      }
     }
   }
 }
-
-
 
 
 .sec-6 {
