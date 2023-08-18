@@ -371,6 +371,31 @@ input {
     }
   }
 }
+.password {
+  position: relative;
+  input {
+    font-size: inherit;
+    font-weight: inherit;
+    position: relative;
+    z-index: 1;
+  }
+  button {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    z-index: 5;
+    color: $gray;
+    height: 100%;
+    width: 2em;
+    font-size: 1.6em;
+    @include flex();
+    svg {
+      path {
+        stroke-width: 1.25px;
+      }
+    }
+  }
+}
 label {
   display: flex;
   justify-content: flex-start;
