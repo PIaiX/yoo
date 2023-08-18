@@ -7,9 +7,10 @@ import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import Input from "../../components/utils/Input";
-import { login } from "../../services/auth";
+import { authRegister, login } from "../../services/auth";
 import Meta from "../../components/Meta";
 import { Button } from "react-bootstrap";
+import { NotificationManager } from "react-notifications";
 
 const Registration = () => {
   const auth = useSelector((state) => state?.auth);
@@ -283,6 +284,7 @@ const Registration = () => {
 
   return (
     <main className="py-lg-0">
+      <Meta title={loginView ? "Регистрация" : "Вход"} />
       <Container>
         {isMobileLG ? (
           <section className="login-mobile">
@@ -342,35 +344,36 @@ const Registration = () => {
                       }}
                     />
                   </div>
-                  <Input
-                    className="mb-3"
-                    label="Пароль"
-                    type="password"
-                    name="password"
-                    errors={errors}
-                    placeholder="Введите пароль"
-                    register={register}
-                    validation={{
-                      required: "Введите пароль",
-                      minLength: {
-                        value: 4,
-                        message:
-                          "Минимальный пароль должен состоять из 4-ех символов",
-                      },
-                    }}
-                  />
+                  <div className="mb-3">
+                    <Input
+                      label="Пароль"
+                      type="password"
+                      name="password"
+                      errors={errors}
+                      placeholder="Введите пароль"
+                      register={register}
+                      validation={{
+                        required: "Введите пароль",
+                        minLength: {
+                          value: 4,
+                          message:
+                            "Минимальный пароль должен состоять из 4-ех символов",
+                        },
+                      }}
+                    />
+                  </div>
                   <Button
                     type="submit"
                     variant="primary"
                     disabled={!isValid}
-                    className="w-md-100 rounded-3"
+                    className="w-100 rounded-3"
                   >
                     Войти
                   </Button>
                 </form>
               ) : (
                 <form
-                  className="registration-form"
+                  className="login-form"
                   onSubmit={handleSubmitReg(onSubmitReg)}
                 >
                   <h4 class="main-color text-center fw-6">Привет, друг!</h4>
@@ -467,12 +470,11 @@ const Registration = () => {
                       Принять условия Пользовательского соглашения
                     </span>
                   </label>
-
                   <Button
                     type="submit"
                     variant="primary"
                     disabled={!isValidReg}
-                    className="w-md-100 rounded-3"
+                    className="w-100 rounded-3"
                   >
                     Зарегистрироваться
                   </Button>
