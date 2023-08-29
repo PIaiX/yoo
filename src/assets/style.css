@@ -55,6 +55,7 @@ h1, h2, h3, h4, h5, h6, p, label, span, a, button, form, fieldset, legend, selec
   }
 }
 .w-fit {
+  width: -webkit-fit-content;
   width: -moz-fit-content;
   width: fit-content;
 }
@@ -266,6 +267,10 @@ input::-moz-placeholder, textarea::-moz-placeholder, .input::-moz-placeholder {
   color: #C2C2C2;
   font-weight: 400;
 }
+input:-ms-input-placeholder, textarea:-ms-input-placeholder, .input:-ms-input-placeholder {
+  color: #C2C2C2;
+  font-weight: 400;
+}
 input::placeholder, textarea::placeholder, .input::placeholder {
   color: #C2C2C2;
   font-weight: 400;
@@ -415,6 +420,7 @@ label span {
   justify-content: flex-start;
   align-items: center;
   flex-wrap: nowrap;
+  width: -webkit-fit-content;
   width: -moz-fit-content;
   width: fit-content;
   background-color: #F4F6F8;
@@ -475,6 +481,7 @@ label span {
 }
 
 .countInput {
+  width: -webkit-fit-content;
   width: -moz-fit-content;
   width: fit-content;
   display: flex;
@@ -575,6 +582,7 @@ button {
   text-align: center;
   transition: 300ms ease-in;
   transition-property: color, background-color, border;
+  width: -webkit-fit-content;
   width: -moz-fit-content;
   width: fit-content;
   border-radius: 1.875em;
@@ -912,6 +920,7 @@ select {
 }
 @media (max-width: 991.98px) {
   .select-options {
+    min-width: -webkit-fit-content;
     min-width: -moz-fit-content;
     min-width: fit-content;
   }
@@ -1854,6 +1863,7 @@ main {
   padding: 1em 0px;
 }
 .sec-5 .product-slider .swiper-slide {
+  width: -webkit-fit-content;
   width: -moz-fit-content;
   width: fit-content;
 }
@@ -1921,6 +1931,7 @@ main {
 }
 
 .sticky-box {
+  position: -webkit-sticky;
   position: sticky;
   z-index: 100;
   top: 0px;
@@ -1983,6 +1994,7 @@ main {
   }
 }
 .categories-slider .swiper-slide {
+  width: -webkit-fit-content;
   width: -moz-fit-content;
   width: fit-content;
 }
@@ -2931,6 +2943,19 @@ main {
      object-fit: cover;
 }
 
+.loader {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  z-index: 99;
+  text-align: center;
+  justify-content: center;
+  display: flex;
+  align-items: center;
+}
+
 .cart {
   margin-bottom: 3em;
 }
@@ -2989,6 +3014,7 @@ main {
   flex: 1;
 }
 .cart-item .left .text h6 {
+  width: -webkit-fit-content;
   width: -moz-fit-content;
   width: fit-content;
 }
@@ -3191,6 +3217,7 @@ footer .mobile ul li a.active svg {
 }
 footer .mobile ul li a.active .text {
   display: block;
+  max-width: -webkit-fit-content;
   max-width: -moz-fit-content;
   max-width: fit-content;
 }
@@ -3589,6 +3616,7 @@ ACCOUNT
   width: 100%;
 }
 .account .order-card-slider .swiper-slide {
+  width: -webkit-fit-content;
   width: -moz-fit-content;
   width: fit-content;
 }
@@ -3930,6 +3958,7 @@ ACCOUNT
   grid-area: info;
 }
 .account .notifications-list li .info h6 {
+  width: -webkit-fit-content;
   width: -moz-fit-content;
   width: fit-content;
 }

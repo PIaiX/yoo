@@ -14,6 +14,7 @@ const authSlice = createSlice({
   initialState,
   reducers: {
     setUser: (state, action) => {
+      console.log(action.payload)
       state.user = action.payload;
     },
     setAuth: (state, action) => {
@@ -32,6 +33,7 @@ const authSlice = createSlice({
       state.loginError = null;
     },
     [login.fulfilled]: (state, action) => {
+      console.log(action?.payload?.user)
       if (action?.payload?.token) {
         localStorage.setItem("token", action.payload.token);
       }
@@ -69,8 +71,8 @@ const authSlice = createSlice({
     },
 
     [refreshAuth.fulfilled]: (state, action) => {
-      if (action?.payload?.token) {
-        localStorage.setItem("token", action.payload.token);
+      if (action?.payload?.accessToken) {
+        localStorage.setItem("token", action.payload.accessToken);
       }
       state.isAuth = true;
       state.user = action?.payload?.user;

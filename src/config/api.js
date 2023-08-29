@@ -1,180 +1,98 @@
-const BASE_URL = process.env.REACT_APP_BASE_URL;
-const FILE_URL = process.env.REACT_APP_BASE_URL + "/file";
+const API_TOKEN = 'gdsgao3883oxropsda09923tgllaje3i19185'
+const SITE_URL = 'https://yooapp.ru'
+const BASE_URL = 'https://api.yooapp.ru'
+const ADMIN_URL = 'https://admin.yooapp.ru'
+const DADATA_URL_STREET = 'https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/address'
+const DADATA_URL_ADDRESS = 'https://suggestions.dadata.ru/suggestions/api/4_1/rs/findById/address'
+const DADATA_TOKEN = '6487a33dcdff42183e8f0c4aa3ad43acdc5a7b62'
+const SERVICE_ACCOUNT = '/auth'
+const SERVICE_USER = '/user'
+const SERVICE_CATALOG = '/catalog'
+const SERVICE_FAVORITE = '/favorite'
+const SERVICE_ADDRESS = '/address'
+const SERVICE_CART = '/cart'
+const SERVICE_DOCUMENT = '/document'
+const SERVICE_ORDER = '/order'
+const FILE_URL = BASE_URL + '/file'
 
 const apiRoutes = {
-  // Auth
-  AUTH_REGISTRATION: BASE_URL + "/auth/registration",
-  AUTH_ACTIVATE: BASE_URL + "/auth/activate",
-  AUTH_ACTIVATE_EMAIL: BASE_URL + "/auth/activateEmail",
-  AUTH_EDIT_PASSWORD: BASE_URL + "/user/editPassword",
-  AUTH_NEW_KEY_ACTIVATE: BASE_URL + "/auth/newActivate",
-  AUTH_RECOVERY: BASE_URL + "/auth/recovery",
-  AUTH_EDIT_EMAIL: BASE_URL + "/user/editEmail",
-  AUTH_EDIT_PHONE: BASE_URL + "/user/editPhone",
-  AUTH_LOGIN: BASE_URL + "/auth/login",
-  AUTH_CHECK: BASE_URL + "/auth/check",
-  AUTH_REFRESH: BASE_URL + "/auth/refresh",
-  AUTH_LOGOUT: BASE_URL + "/auth/logout",
+  GET_PROMO: '/promo/one',
 
-  SESSIONS_GET: BASE_URL + "/user/sessions",
+  // auth
+  AUTH_REGISTRATION: SERVICE_ACCOUNT + '/registration',
+  AUTH_ACTIVATE: SERVICE_ACCOUNT + '/activate',
+  AUTH_NEW_KEY_ACTIVATE: SERVICE_ACCOUNT + '/newKeyActivate',
+  AUTH_LOGIN: SERVICE_ACCOUNT + '/login',
+  AUTH_CHECK: SERVICE_ACCOUNT + '/check',
+  AUTH_REFRESH: SERVICE_ACCOUNT + '/refresh',
+  AUTH_LOGOUT: SERVICE_ACCOUNT + '/logout',
+  AUTH_RECOVERY: SERVICE_ACCOUNT + '/recovery',
+  AUTH_EDIT_EMAIL: SERVICE_ACCOUNT + '/editEmail',
 
-  // Account
-  ACCOUNT_EDIT: BASE_URL + "/user/edit",
-  ACCOUNT_EDIT_AVATAR: BASE_URL + "/user/editAvatar",
+  // account
+  ACCOUNT_EDIT: SERVICE_USER + '/edit',
+  ACCOUNT_SAVE_PUSHTOKEN: SERVICE_ACCOUNT + '/pushToken',
+  ACCOUNT_ADDRESSES_GET: SERVICE_ADDRESS + '/all',
+  ACCOUNT_ADDRESS_GET: SERVICE_ADDRESS + '/one/',
+  ACCOUNT_ADDRESS_CREATE: SERVICE_ADDRESS + '/create',
+  ACCOUNT_ADDRESS_EDIT: SERVICE_ADDRESS + '/',
+  ACCOUNT_ADDRESS_MAIN: SERVICE_ADDRESS + '/main',
+  ACCOUNT_ADDRESS_DELETE: SERVICE_ADDRESS + '/',
 
-  // Order
-  ORDERS_GET: BASE_URL + "/order",
-  ORDER_GET: BASE_URL + "/order/one",
-  ORDER_CREATE: BASE_URL + "/order/create",
-  ORDER_EDIT: BASE_URL + "/order/edit",
-  ORDER_NOTE_CREATE: BASE_URL + "/order/createNote",
-  ORDER_NOTES_GET: BASE_URL + "/order/notes",
-  ORDER_EDIT_STATUS: BASE_URL + "/order/editStatus",
-  ORDER_DELETE: BASE_URL + "/order/delete",
+  ACCOUNT_ORDERS_GET: SERVICE_ORDER + '/',
+  ACCOUNT_ORDER_GET: SERVICE_ORDER + '/one',
 
-  // Category
-  CATEGORIES: BASE_URL + "/category",
-  CATEGORY: BASE_URL + "/category/one",
-  CATEGORY_CREATE: BASE_URL + "/category/create",
+  ACCOUNT_NOTIFICATIONS_GET: '/notification/all',
+  ACCOUNT_NOTIFICATION_DELETE: '/notification/delete',
 
-  // Member
-  MEMBERS_GET: BASE_URL + "/member",
-  MEMBER_GET: BASE_URL + "/member/one",
-  MEMBER_CREATE: BASE_URL + "/member/create",
-
-  // Invoice
-  INVOICES: BASE_URL + "/invoice",
-  INVOICE: BASE_URL + "/invoice/one",
-
-  // Product
-  PRODUCTS: BASE_URL + "/product",
-  PRODUCT: BASE_URL + "/product/one",
-  PRODUCT_CREATE: BASE_URL + "/product/create",
-
-  // Sale
-  SALES: BASE_URL + "/sale",
-  SALE: BASE_URL + "/sale/one",
-  SALE_CREATE: BASE_URL + "/sale/create",
-
-  // Addition
-  ADDITIONS: BASE_URL + "/addition",
-  ADDITION: BASE_URL + "/addition/one",
-  ADDITION_CREATE: BASE_URL + "/addition/create",
-
-  // Zones
-  ZONES: BASE_URL + "/zone",
-  ZONE: BASE_URL + "/zone/one",
-
-  // Modules
-  MODULES: BASE_URL + "/module",
-  MODULE: BASE_URL + "/module/one",
-  PAYMENT: BASE_URL + "/module/payment",
-
-  // Storage
-  STORAGES: BASE_URL + "/storage",
-  STORAGE: BASE_URL + "/storage/one",
-  STORAGE_CREATE: BASE_URL + "/storage/create",
-
-  // Ingredient
-  INGREDIENTS: BASE_URL + "/ingredient",
-  INGREDIENT: BASE_URL + "/ingredient/one",
-  INGREDIENT_CREATE: BASE_URL + "/ingredient/create",
-
-  // Modifier
-  MODIFIERS: BASE_URL + "/modifier",
-  MODIFIER: BASE_URL + "/modifier/one",
-  MODIFIER_CREATE: BASE_URL + "/modifier/create",
-
-  // Affiliate
-  AFFILIATE: BASE_URL + "/affiliate",
-  AFFILIATE_ONE: BASE_URL + "/affiliate/one",
-  AFFILIATE_CREATE: BASE_URL + "/affiliate/create",
-  AFFILIATE_MAIN: BASE_URL + "/affiliate/main",
-
-  // Brand
-  BRANDS: BASE_URL + "/brand",
-  BRAND: BASE_URL + "/brand/one",
-  BRAND_CREATE: BASE_URL + "/brand/create",
-  BRAND_MAIN: BASE_URL + "/brand/main",
-
-  // Document
-  DOCUMENTS: BASE_URL + "/document",
-  DOCUMENT: BASE_URL + "/document/one",
-  DOCUMENT_CREATE: BASE_URL + "/document/create",
-
-  // Statistic
-  STATISTIC: BASE_URL + "/statistic",
-
-  // User
-  USER: BASE_URL + "/user",
-  USER_ONE: BASE_URL + "/user/one",
-  USER_CREATE: BASE_URL + "/user/create",
-  USER_DELETE_SESSION:  BASE_URL + "/user/deleteSession",
+  ACCOUNT_DELETE: '/user/deleteAccount',
 
   // Options
-  OPTIONS: BASE_URL + "/option/",
+  OPTIONS: SERVICE_CATALOG + '/options',
 
-  // Sync
-  EPR_CATEGORY: BASE_URL + "/sync/category",
-  EPR_PRODUCT: BASE_URL + "/sync/product",
-  EPR_MODIFIER: BASE_URL + "/sync/modifier",
-  EPR_ORGANIZATION: BASE_URL + "/sync/organization",
-  EPR_TEPES_DELIVERY: BASE_URL + "/sync/delivery",
-  EPR_TYPES_PAYMENT: BASE_URL + "/sync/payment",
-  EPR_TERMINAL: BASE_URL + "/sync/terminal",
-};
+  // category
+  CATEGORY_ALL: SERVICE_CATALOG + '/categories',
+  CATEGORY_ONE: SERVICE_CATALOG + '/category',
 
-const apiResponseMessages = {
-  // Admin
-  ADMIN_CATEGORY_CREATE: "Категория успешно создана",
-  ADMIN_CATEGORY_EDIT: "Категория успешно изменена",
-  ADMIN_CATEGORY_DELETE: "Категория успешно удалена",
-  ADMIN_OPTIONS_EDIT: "Настройки успешно сохранены",
-  ADMIN_PRODUCT_CREATE: "Товар успешно создана",
-  ADMIN_PRODUCT_EDIT: "Товар успешно изменен",
-  ADMIN_PRODUCT_DELETE: "Товар успешно удалена",
+  // product
+  PRODUCT_ONE: '/product/one',
+  PRODUCT_RECOMMENDATIONS: '/product/recommendations',
+  PRODUCT_GIFTS: '/product/gifts',
+  PRODUCT_FREE: '/product/free',
 
-  ADMIN_ORDER_EDIT: "Заказ успешно изменен",
-  ADMIN_ORDER_DELETE: "Заказ успешно удален",
+  // cart
+  CART: SERVICE_CART,
 
-  ADMIN_SALE_CREATE: "Акция успешно создана",
-  ADMIN_SALE_EDIT: "Акция успешно изменена",
-  ADMIN_SALE_DELETE: "Акция успешно удалена",
+  // Checkout, Order
+  ORDER_CREATE: SERVICE_ORDER + '/create',
+  ORDER_DELIVERY: SERVICE_ORDER + '/delivery',
 
-  ADMIN_MARK_CREATE: "Метка успешно создана",
-  ADMIN_MARK_EDIT: "Метка успешно изменена",
-  ADMIN_MARK_DELETE: "Метка успешно удалена",
+  // Search
+  SEARCH_GET: '/search',
 
-  ADMIN_USER_EDIT: "Клиент успешно изменен",
-  ADMIN_USER_DELETE: "Клиент успешно удален",
+  // Sale
+  SALES_GET: '/sale',
+  SALES_GET_PRODUCTS: '/sale/products',
+  SALE_GET: '/sale/one',
+  GIFTS_GET: '/sale/gifts',
 
-  ADMIN_NOTIFICATION_CREATE: "Уведомление успешно отправлено",
-  ADMIN_NOTIFICATION_DELETE: "Уведомление успешно удалено",
-};
+  // Favorite
+  FAVORITES: SERVICE_FAVORITE,
+  FAVORITES_LIST: SERVICE_FAVORITE + '/list',
 
-const apiRejectMessages = {
-  DEFAULT: "Что-то пошло не так, повторите попытку позже",
-  INVALID_KEY: "Неверный ключ подтверждения",
-  USER_EXISTS: "Пользователь с таким номером уже существует",
-  USER_NOT_FOUND: "Такого пользователя не существует",
-  USER_NOT_EXIST: "Такого пользователя не существует",
-  CART_NOT_VALID_COUNT: "Значение не может быть меньше 1",
-  PAGE_ERROR:
-    "Не удалось загрузить страницу, вернитесь назад или перезагрузите страницу",
-};
-
-const apiErrors = {
-  INVALID_KEY: "INVALID_KEY",
-  USER_EXISTS: "USER_EXISTS",
-  USER_NOT_FOUND: "USER_NOT_FOUND",
-  USER_NOT_EXIST: "USER_NOT_EXIST",
-};
+  // Document
+  DOCUMENTS: SERVICE_DOCUMENT,
+  DOCUMENT: SERVICE_DOCUMENT + '/one',
+}
 
 export {
+  ADMIN_URL,
   BASE_URL,
+  SITE_URL,
   FILE_URL,
+  API_TOKEN,
+  DADATA_URL_STREET,
+  DADATA_URL_ADDRESS,
+  DADATA_TOKEN,
   apiRoutes,
-  apiResponseMessages,
-  apiRejectMessages,
-  apiErrors,
-};
+}

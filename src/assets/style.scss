@@ -2442,6 +2442,18 @@ main {
   }
 }
 
+.loader {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  z-index: 99;
+  text-align: center;
+  justify-content: center;
+  display: flex;
+  align-items: center;
+}
 
 .cart {
   margin-bottom: 3em;

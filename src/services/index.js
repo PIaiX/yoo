@@ -1,5 +1,5 @@
 import axios from "axios";
-import { BASE_URL } from "../config/api";
+import { BASE_URL, API_TOKEN } from "../config/api";
 import store from "../store";
 import { refreshAuth } from "./auth";
 import { ClientJS } from "clientjs";
@@ -22,7 +22,8 @@ const DEVICE = JSON.stringify({
 
 $api.interceptors.request.use(
   async (config) => {
-    // config.headers["Content-Type"] = "application/json";
+    config.headers["Content-Type"] = "application/json";
+    config.headers.token = `API ${API_TOKEN}`
     config.headers.device = DEVICE;
     return config;
   },
@@ -36,10 +37,11 @@ const $authApi = axios.create({
 
 $authApi.interceptors.request.use(
   async (config) => {
-    // config.headers["Content-Type"] = "application/json";
+    config.headers["Content-Type"] = "application/json";
+    config.headers.token = `API ${API_TOKEN}`
     const token = localStorage.getItem("token");
     if (token) {
-      config.headers.authorization = `Bearer ${token}`;
+      config.headers.authorization = `Access ${token}`;
     }
     config.headers.device = DEVICE;
     return config;
@@ -52,22 +54,16 @@ $authApi.interceptors.response.use(
     return config;
   },
   async (error) => {
-    const originalRequest = error.config;
+    const {
+      config,
+      response: { status },
+    } = error
+    const originalRequest = config
     if (
-      error.response.status === 401 &&
-      originalRequest &&
-      !originalRequest._isRetry
+      status === 401 && originalRequest && !originalRequest._isRetry
     ) {
       originalRequest._isRetry = true;
-      if (
-        error?.response?.data?.message?.type == "REFRESH_TOKEN_EXPIRED" ||
-        error?.response?.data?.message?.type == "ACCESS_TOKEN_EXPIRED"
-      ) {
-        localStorage.removeItem("token");
-      }
-      return store
-        .dispatch(refreshAuth())
-        .then(() => $authApi(originalRequest));
+      return store.dispatch(refreshAuth()).then(() => $authApi(originalRequest))
     }
     return Promise.reject(error);
   }

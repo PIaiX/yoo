@@ -27,7 +27,7 @@ const rootReducer = combineReducers({
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: ["checkout", "cart", "favorite", "settings"],
+  whitelist: ["checkout", "cart", 'auth', "favorite", "settings"],
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

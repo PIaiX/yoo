@@ -19,14 +19,22 @@ const customPrice = (value, currency = true) => {
 };
 
 const getImageURL = ({ path = "", size = "mini", type = "product" }) => {
-  if (path && path.length > 0) {
+  if (path && Array.isArray(path) && path?.length > 0) {
     if (size == "mini") {
       return FILE_URL + "/" + type + "/mini/" + path[0].media;
     } else {
       return FILE_URL + "/" + type + "/" + path[0].media;
     }
-  } else {
-    return "/imgs/user2.jpg";
+  } else if (path && path?.length > 0) {
+    if (size == "mini") {
+      return FILE_URL + "/" + type + "/mini/" + path;
+    } else {
+      return FILE_URL + "/" + type + "/" + path;
+    }
+  } else if (!type || type == "product" || type == "sale") {
+    return "/images/empty-product-image.png";
+  } else if (type == "user") {
+    return "/images/avatar-full.png";
   }
 };
 
