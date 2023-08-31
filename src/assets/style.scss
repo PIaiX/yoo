@@ -1721,12 +1721,12 @@ main {
     }
   }
   &-slider {
-    margin: 0px;
-    position: unset;
-    padding: .75em;
+    margin: 0px !important;
+    position: unset !important;
+    padding: .75em !important;
     @media (max-width: $bp-lg) {
       width: 100%;
-      padding: 0em;
+      padding: 0em !important;
     }
     .swiper-slide {
       width: fit-content;
@@ -1965,6 +1965,9 @@ main {
     right: 1em;
     z-index: 1;
   }
+  p {
+    @include clamp(2, 1.2em, true);
+  }
   hr {
     background-color: $light-gray;
     height: 1px;
@@ -2168,13 +2171,19 @@ main {
     grid-area: filter;
   }
   &-sort {
-    @include flex(row, flex-end, stretch, nowrap);
+    @include flex(row, flex-end, center, nowrap);
     grid-area: sort;
+    .select {
+      height: var(--size)
+    }
   }
 
   .subcategories-list {
+    flex: 1;
     @include list();
-    @include flex(row, flex-start, center, wrap);
+    @include flex(row, flex-start, center, nowrap);
+    overflow: hidden;
+    margin: 0 1em;
     @media (max-width: $bp-lg) {
       display: none;
     }
