@@ -1,16 +1,22 @@
-import React, {useState} from 'react';
-import { Navigation, FreeMode } from 'swiper';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import 'swiper/css';
-import FoodRolls from '../components/svgs/FoodRolls';
-import FoodSets from '../components/svgs/FoodSets';
-import FoodPizza from '../components/svgs/FoodPizza';
-import FoodCombo from '../components/svgs/FoodCombo';
-import FoodPoke from '../components/svgs/FoodPoke';
-import FoodDesserts from '../components/svgs/FoodDesserts';
-import { HiOutlineArrowRightCircle, HiOutlineArrowLeftCircle,HiOutlineArrowUturnDown, HiArrowUturnUp } from "react-icons/hi2";
+import React, { useState } from "react";
+import { Navigation, FreeMode } from "swiper";
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
+import FoodRolls from "../components/svgs/FoodRolls";
+import FoodSets from "../components/svgs/FoodSets";
+import FoodPizza from "../components/svgs/FoodPizza";
+import FoodCombo from "../components/svgs/FoodCombo";
+import FoodPoke from "../components/svgs/FoodPoke";
+import FoodDesserts from "../components/svgs/FoodDesserts";
+import {
+  HiOutlineArrowRightCircle,
+  HiOutlineArrowLeftCircle,
+  HiOutlineArrowUturnDown,
+  HiArrowUturnUp,
+} from "react-icons/hi2";
+import { memo } from "react";
 
-const Categories = (props) => {
+const Categories = memo(({ className, data }) => {
   const [isFull, setIsFull] = useState(false);
   const [swiper, setSwiper] = useState(null);
   const handleExpand = () => {
@@ -21,23 +27,27 @@ const Categories = (props) => {
     swiper.enable();
     setIsFull(false);
   };
-  
-  return (
-    <div className={"categories "+props.className}>
+
+  return data.length > 0 ? (
+    <div className={"categories " + className}>
       <div className="categories-wrap">
         <Swiper
-          className={(isFull) ? "categories-slider categories-slider-disabled" : "categories-slider"}
+          className={
+            isFull
+              ? "categories-slider categories-slider-disabled"
+              : "categories-slider"
+          }
           modules={[Navigation, FreeMode]}
           speed={750}
           spaceBetween={10}
-          slidesPerView={'auto'}
+          slidesPerView={"auto"}
           freeMode={true}
           observer={true}
           observeSlideChildren={true}
           watchSlidesProgress={true}
           navigation={{
-            nextEl: '.swiper-button-next',
-            prevEl: '.swiper-button-prev',
+            nextEl: ".swiper-button-next",
+            prevEl: ".swiper-button-prev",
           }}
           onSwiper={setSwiper}
           breakpoints={{
@@ -49,99 +59,105 @@ const Categories = (props) => {
             },
           }}
         >
-          <SwiperSlide>
-            <button type='button' className='btn-8'>
-              <FoodRolls className="fs-15"/>
-              <span className='ms-2'>Роллы</span>
+          {data.map((e) => (
+            <SwiperSlide>
+              <button type="button" className="btn-8">
+                <FoodRolls className="fs-15" />
+                <span className="ms-2">{e.title}</span>
+              </button>
+            </SwiperSlide>
+          ))}
+          {/* <SwiperSlide>
+            <button type="button" className="btn-8">
+              <FoodSets className="fs-15" />
+              <span className="ms-2">Сеты</span>
             </button>
           </SwiperSlide>
           <SwiperSlide>
-            <button type='button' className='btn-8'>
-              <FoodSets className="fs-15"/>
-              <span className='ms-2'>Сеты</span>
+            <button type="button" className="btn-8">
+              <FoodPizza />
+              <span className="ms-2">Пицца</span>
             </button>
           </SwiperSlide>
           <SwiperSlide>
-            <button type='button' className='btn-8'>
-              <FoodPizza/>
-              <span className='ms-2'>Пицца</span>
+            <button type="button" className="btn-8">
+              <FoodCombo />
+              <span className="ms-2">Комбо</span>
             </button>
           </SwiperSlide>
           <SwiperSlide>
-            <button type='button' className='btn-8'>
-              <FoodCombo/>
-              <span className='ms-2'>Комбо</span>
+            <button type="button" className="btn-8">
+              <FoodDesserts />
+              <span className="ms-2">Десерты</span>
             </button>
           </SwiperSlide>
           <SwiperSlide>
-            <button type='button' className='btn-8'>
-              <FoodDesserts/>
-              <span className='ms-2'>Десерты</span>
+            <button type="button" className="btn-8">
+              <FoodPoke />
+              <span className="ms-2">Поке</span>
             </button>
           </SwiperSlide>
           <SwiperSlide>
-            <button type='button' className='btn-8'>
-              <FoodPoke/>
-              <span className='ms-2'>Поке</span>
+            <button type="button" className="btn-8">
+              <FoodRolls className="fs-15" />
+              <span className="ms-2">Роллы</span>
             </button>
           </SwiperSlide>
           <SwiperSlide>
-            <button type='button' className='btn-8'>
-              <FoodRolls className="fs-15"/>
-              <span className='ms-2'>Роллы</span>
+            <button type="button" className="btn-8">
+              <FoodSets className="fs-15" />
+              <span className="ms-2">Сеты</span>
             </button>
           </SwiperSlide>
           <SwiperSlide>
-            <button type='button' className='btn-8'>
-              <FoodSets className="fs-15"/>
-              <span className='ms-2'>Сеты</span>
+            <button type="button" className="btn-8">
+              <FoodPizza />
+              <span className="ms-2">Пицца</span>
             </button>
           </SwiperSlide>
           <SwiperSlide>
-            <button type='button' className='btn-8'>
-              <FoodPizza/>
-              <span className='ms-2'>Пицца</span>
+            <button type="button" className="btn-8">
+              <FoodCombo />
+              <span className="ms-2">Комбо</span>
             </button>
           </SwiperSlide>
           <SwiperSlide>
-            <button type='button' className='btn-8'>
-              <FoodCombo/>
-              <span className='ms-2'>Комбо</span>
+            <button type="button" className="btn-8">
+              <FoodDesserts />
+              <span className="ms-2">Десерты</span>
             </button>
           </SwiperSlide>
           <SwiperSlide>
-            <button type='button' className='btn-8'>
-              <FoodDesserts/>
-              <span className='ms-2'>Десерты</span>
+            <button type="button" className="btn-8">
+              <FoodPoke />
+              <span className="ms-2">Поке</span>
             </button>
-          </SwiperSlide>
-          <SwiperSlide>
-            <button type='button' className='btn-8'>
-              <FoodPoke/>
-              <span className='ms-2'>Поке</span>
-            </button>
-          </SwiperSlide>
+          </SwiperSlide> */}
           <div className="swiper-button-prev">
-            <HiOutlineArrowLeftCircle/>
+            <HiOutlineArrowLeftCircle />
           </div>
           <div className="swiper-button-next">
-            <HiOutlineArrowRightCircle/>
+            <HiOutlineArrowRightCircle />
           </div>
         </Swiper>
       </div>
-      {
-        (isFull)
-        ? <button type='button' onClick={handleСollapse} className='categories-btn'>
+      {isFull ? (
+        <button
+          type="button"
+          onClick={handleСollapse}
+          className="categories-btn"
+        >
           <span>свернуть</span>
-          <HiArrowUturnUp className='fs-15 ms-3 main-color'/>
+          <HiArrowUturnUp className="fs-15 ms-3 main-color" />
         </button>
-        : <button type='button' onClick={handleExpand} className='categories-btn'>
+      ) : (
+        <button type="button" onClick={handleExpand} className="categories-btn">
           <span>показать все</span>
-          <HiOutlineArrowUturnDown className='fs-15 ms-3 main-color rotateY-180'/>
+          <HiOutlineArrowUturnDown className="fs-15 ms-3 main-color rotateY-180" />
         </button>
-      }
+      )}
     </div>
-  );
-};
+  ) : null;
+});
 
 export default Categories;
