@@ -13,7 +13,7 @@ const CategoryGroup = memo(({ data }) => {
       <div className="filterGrid mb-5">
         <div className="filterGrid-search">
           <h4 className="d-none d-xl-block title mb-0">{data.title}</h4>
-          <ul className="subcategories-list">
+          {/* <ul className="subcategories-list">
             <li>
               <button type="button" className="btn-90 rounded-pill">
                 Фирменные
@@ -34,7 +34,7 @@ const CategoryGroup = memo(({ data }) => {
                 В темпуре
               </button>
             </li>
-          </ul>
+          </ul> */}
           <SearchForm />
         </div>
         <div className="filterGrid-filter">

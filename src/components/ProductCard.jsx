@@ -9,37 +9,38 @@ import Halal from "../assets/imgs/halal.png";
 // import Vegetarian from '../assets/imgs/vegetarian.png';
 import useIsMobile from "../hooks/isMobile";
 import { customPrice, getImageURL } from "../helpers/all";
+import ButtonCart from "./ButtonCart";
 
 const ProductCard = memo(({ data }) => {
   const [isFav, setIsFav] = useState(false);
   const isMobileMD = useIsMobile("767px");
   const price =
     data?.modifiers?.length > 0 && Array.isArray(data.modifiers)
-      ? data.modifiers.sort((a, b) => a.price - b.price)[0].price
+      ? data.modifiers.sort((a, b) => a.price - b.price)[0]?.price
       : data.price;
 
   return (
     <div className="product">
       <div className="product-img">
-        <Link to="/menu/product">
+        <Link to={"/menu/product/" + data.id}>
           <img src={getImageURL({ path: data.medias })} alt={data.title} />
         </Link>
-        <ul className="product-stickers">
+        {/* <ul className="product-stickers">
           <li>
             <img src={Fish} alt="рыба" />
           </li>
           <li>
             <img src={Halal} alt="халяль" />
           </li>
-        </ul>
-        <ul className="product-tags">
+        </ul> */}
+        {/* <ul className="product-tags">
           <li>
             <div className="hit">Хит!</div>
           </li>
           <li>
             <div className="new">Новинка</div>
           </li>
-        </ul>
+        </ul> */}
         <button
           type="button"
           onClick={() => setIsFav(!isFav)}
@@ -64,7 +65,7 @@ const ProductCard = memo(({ data }) => {
             <div className="fs-12">
               {data?.modifiers?.length > 0
                 ? "от " + customPrice(price)
-                : customPrice(data.price)}
+                : customPrice(price)}
             </div>
             {/* <div className="gray fs-09 text-decoration-line-through">
               {data?.modifiers?.length > 0
@@ -72,10 +73,7 @@ const ProductCard = memo(({ data }) => {
                 : customPrice(data.price)}
             </div> */}
           </div>
-          <button type="button" className="btn-light rounded-pill ms-3">
-            <HiOutlineShoppingBag className="fs-15 d-none d-md-block" />
-            <span className="d-md-none">Добавить</span>
-          </button>
+          <ButtonCart data={data} />
         </div>
       </div>
     </div>

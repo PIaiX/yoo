@@ -26,7 +26,22 @@ import YooApp from "./svgs/YooApp";
 import { useSelector } from "react-redux";
 
 const Header = () => {
-  const { isAuth } = useSelector((state) => state.auth);
+  const state = useSelector(
+    ({
+      auth: { isAuth, user },
+      settings: { options },
+      cart,
+      checkout: { delivery },
+      address,
+    }) => ({
+      isAuth,
+      user,
+      cart,
+      delivery,
+      address,
+      options,
+    })
+  );
   const isMobileLG = useIsMobile("991px");
   const [showMenu, setShowMenu] = useState(false);
   const [isContacts, setIsContacts] = useState(false);
@@ -105,16 +120,18 @@ const Header = () => {
               {!isMobileLG ? (
                 <>
                   <li>
-                    <Link to={isAuth ? "/account" : "/login"}>
+                    <Link to={state.isAuth ? "/account" : "/login"}>
                       <HiOutlineUserCircle />
                     </Link>
                   </li>
                   <li>
                     <Link to="/cart" className="position-relative">
                       <HiOutlineShoppingBag />
-                      <span className="position-absolute top-100 start-100 translate-middle badge rounded-pill">
-                        2
-                      </span>
+                      {state?.cart?.items?.length > 0 && (
+                        <span className="position-absolute top-100 start-100 translate-middle badge rounded-pill">
+                          {state.cart.items.length}
+                        </span>
+                      )}
                     </Link>
                   </li>
                   <li>

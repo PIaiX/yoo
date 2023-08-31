@@ -55,7 +55,7 @@ const apiRoutes = {
   CATEGORY_ONE: SERVICE_CATALOG + '/category',
 
   // product
-  PRODUCT_ONE: '/product/one',
+  PRODUCT: SERVICE_CATALOG + '/product',
   PRODUCT_RECOMMENDATIONS: '/product/recommendations',
   PRODUCT_GIFTS: '/product/gifts',
   PRODUCT_FREE: '/product/free',
