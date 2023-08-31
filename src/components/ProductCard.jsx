@@ -1,23 +1,28 @@
-import React, {useState} from 'react';
-import {Link} from 'react-router-dom';
+import React, { memo, useState } from "react";
+import { Link } from "react-router-dom";
 import { HiOutlineShoppingBag, HiOutlineHeart } from "react-icons/hi2";
-import Fish from '../assets/imgs/fish.png';
-import Halal from '../assets/imgs/halal.png';
+import Fish from "../assets/imgs/fish.png";
+import Halal from "../assets/imgs/halal.png";
 // import Chicken from '../assets/imgs/chicken.png';
 // import Meat from '../assets/imgs/meat.png';
 // import Spicy from '../assets/imgs/pepper.png';
 // import Vegetarian from '../assets/imgs/vegetarian.png';
-import useIsMobile from '../hooks/isMobile';
+import useIsMobile from "../hooks/isMobile";
+import { customPrice, getImageURL } from "../helpers/all";
 
-const ProductCard = () => {
+const ProductCard = memo(({ data }) => {
   const [isFav, setIsFav] = useState(false);
-  const isMobileMD = useIsMobile('767px');
+  const isMobileMD = useIsMobile("767px");
+  const price =
+    data?.modifiers?.length > 0 && Array.isArray(data.modifiers)
+      ? data.modifiers.sort((a, b) => a.price - b.price)[0].price
+      : data.price;
 
   return (
     <div className="product">
       <div className="product-img">
-        <Link to='/menu/product'>
-          <img src="imgs/img3.png" alt="Ролл «Филадельфия»"/>
+        <Link to="/menu/product">
+          <img src={getImageURL({ path: data.medias })} alt={data.title} />
         </Link>
         <ul className="product-stickers">
           <li>
@@ -35,39 +40,46 @@ const ProductCard = () => {
             <div className="new">Новинка</div>
           </li>
         </ul>
-        <button 
-          type='button' 
-          onClick={()=>setIsFav(!isFav)} 
-          className={(isFav) ? 'btn-fav active' : 'btn-fav'}
+        <button
+          type="button"
+          onClick={() => setIsFav(!isFav)}
+          className={isFav ? "btn-fav active" : "btn-fav"}
         >
-          <HiOutlineHeart/>
+          <HiOutlineHeart />
         </button>
       </div>
-      
-      <h6>Ролл «Филадельфия»</h6>
-      {
-        (!isMobileMD) &&
+
+      <h6>{data.title}</h6>
+      {!isMobileMD && (
         <>
-          <p>Лосось, сливочный сыр, огурец, рис, нори</p>
+          <p>{data.description}</p>
           <hr />
         </>
-      }
-      
+      )}
+
       <div className="d-flex justify-content-between align-items-center">
-        <div className='gray d-none d-md-block'>300 г</div>
-        <div className='w-xs-100 d-flex justify-content-between align-items-center'>
+        <div className="gray d-none d-md-block">{data.energy.weight}</div>
+        <div className="w-xs-100 d-flex justify-content-between align-items-center">
           <div>
-            <div className='fs-12'>650 ₽</div>
-            <div className='gray fs-09 text-decoration-line-through'> 650 </div>
+            <div className="fs-12">
+              {data?.modifiers?.length > 0
+                ? "от " + customPrice(price)
+                : customPrice(data.price)}
+            </div>
+            {/* <div className="gray fs-09 text-decoration-line-through">
+              {data?.modifiers?.length > 0
+                ? "от " + customPrice(price)
+                : customPrice(data.price)}
+            </div> */}
           </div>
-          <button type='button' className='btn-light rounded-pill ms-3'>
-            <HiOutlineShoppingBag className='fs-15 d-none d-md-block'/>
-            <span className='d-md-none'>Добавить</span>
+          <button type="button" className="btn-light rounded-pill ms-3">
+            <HiOutlineShoppingBag className="fs-15 d-none d-md-block" />
+            <span className="d-md-none">Добавить</span>
           </button>
         </div>
       </div>
     </div>
   );
-};
+});
 
 export default ProductCard;

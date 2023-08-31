@@ -44,18 +44,18 @@ const Home = () => {
   useLayoutEffect(() => {
     onLoad();
   }, []);
-  console.log(categories);
+
   if (categories.loading || sales.loading) {
     return <Loader full />;
   }
 
   return (
     <main>
-      <section className="sec-1 mb-5">
-        <div className="container-md gx-0 gx-md-4">
-          <div className="row justify-content-center">
-            <div className="col-12 col-lg-11 col-xl-9 col-xxl-8">
-              {sales?.items?.length > 0 && (
+      {sales?.items?.length > 0 && (
+        <section className="sec-1 mb-5">
+          <div className="container-md gx-0 gx-md-4">
+            <div className="row justify-content-center">
+              <div className="col-12 col-lg-11 col-xl-9 col-xxl-8">
                 <Swiper
                   className="main-slider paginated"
                   modules={[Navigation, Pagination]}
@@ -99,11 +99,11 @@ const Home = () => {
                     <HiOutlineArrowRightCircle />
                   </div>
                 </Swiper>
-              )}
+              </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
       {/* <section className="sec-2 mb-5">
         <div className="container-md px-0 px-md-4">
@@ -111,7 +111,7 @@ const Home = () => {
         </div>
       </section> */}
 
-      <Section3 />
+      <Section3 data={categories.items}/>
 
       <Container className="overflow-hidden">
         <section className="sec-4 mb-5">

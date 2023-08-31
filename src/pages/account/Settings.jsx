@@ -45,7 +45,6 @@ const Settings = () => {
           }
         })
         .catch((err) => {
-          console.log(err);
           NotificationManager.error(
             err?.response?.data?.error ?? "Ошибка при сохранении"
           );

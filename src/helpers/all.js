@@ -3,17 +3,13 @@ import { LiaRubleSignSolid } from "react-icons/lia";
 import { FILE_URL } from "../config/api";
 
 const customPrice = (value, currency = true) => {
+
   if (!value) {
     return 0 + "\u00A0₽";
   }
   value = parseInt(value).toLocaleString();
   if (currency) {
-    value = (
-      <>
-        {value}
-        <LiaRubleSignSolid className="ruble ms-2" />
-      </>
-    );
+    return value + "\u00A0₽";
   }
   return value;
 };

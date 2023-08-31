@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { memo, useState } from "react";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
@@ -9,7 +9,7 @@ import { HiOutlineArrowUturnDown } from "react-icons/hi2";
 import CategoryGroup from "./CategoryGroup";
 import Categories from "./Categories";
 
-const Section3 = () => {
+const Section3 = memo(({ data }) => {
   const [viewCategories, setViewCategories] = useState(false);
 
   return (
@@ -24,48 +24,21 @@ const Section3 = () => {
             <img src={Choose} alt="Choose" />
             <GridIcon />
           </button>
-          <Row xs={2} md={3} xl={4} className="g-3 g-sm-4">
-            <Col>
-              <CategoryCard />
-            </Col>
-            <Col>
-              <CategoryCard />
-            </Col>
-            <Col>
-              <CategoryCard />
-            </Col>
-            <Col>
-              <CategoryCard />
-            </Col>
-            <Col>
-              <CategoryCard />
-            </Col>
-            <Col>
-              <CategoryCard />
-            </Col>
-            <Col>
-              <CategoryCard />
-            </Col>
-            <Col>
-              <CategoryCard />
-            </Col>
-            <Col>
-              <CategoryCard />
-            </Col>
-            <Col>
-              <CategoryCard />
-            </Col>
-            <Col>
-              <CategoryCard />
-            </Col>
-            <Col>
-              <CategoryCard />
-            </Col>
-          </Row>
-          <button type="button" className="main-color mx-auto mt-4">
-            <span>показать все</span>
-            <HiOutlineArrowUturnDown className="fs-15 ms-3 main-color rotateY-180" />
-          </button>
+          {data.length > 0 && (
+            <>
+              <Row xs={2} md={3} xl={4} className="g-3 g-sm-4">
+                {data.map((e) => (
+                  <Col>
+                    <CategoryCard data={e} />
+                  </Col>
+                ))}
+              </Row>
+              <button type="button" className="main-color mx-auto mt-4">
+                <span>показать все</span>
+                <HiOutlineArrowUturnDown className="fs-15 ms-3 main-color rotateY-180" />
+              </button>
+            </>
+          )}
         </Container>
       ) : (
         <Container>
@@ -80,15 +53,17 @@ const Section3 = () => {
               <GridIcon />
             </button>
           </div>
-
-          <div className="categories-box">
-            <CategoryGroup />
-            <CategoryGroup />
-          </div>
+          {data.length > 0 && (
+            <div className="categories-box">
+              {data.map((e) => (
+                <CategoryGroup data={e} />
+              ))}
+            </div>
+          )}
         </Container>
       )}
     </section>
   );
-};
+});
 
 export default Section3;
