@@ -77,7 +77,7 @@ const Product = () => {
               <p>{data.item.description}</p>
               {data?.item?.modifiers?.length > 0 && (
                 <>
-                  <h6 className="mt-4">Тесто</h6>
+                  {/* <h6 className="mt-4">Тесто</h6> */}
                   <div className="d-xxl-flex mb-4">
                     <ul className="inputGroup">
                       {data.item.modifiers
@@ -146,6 +146,7 @@ const Product = () => {
                   </div> */}
                 </div>
                 <ButtonCart
+                  full
                   data={data.item}
                   className="btn-secondary fs-12 rounded-pill ms-3"
                 >

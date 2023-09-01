@@ -1,13 +1,13 @@
-import React, { useState } from "react";
+import React, { memo, useState } from "react";
 import Collapse from "react-bootstrap/Collapse";
-import BtnFav from "./utils/BtnFav";
-import { IoCaretDownOutline } from "react-icons/io5";
-import CountInput from "./utils/CountInput";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Tooltip from "react-bootstrap/Tooltip";
+import { IoCaretDownOutline } from "react-icons/io5";
 import { customPrice, getImageURL } from "../helpers/all";
+import ButtonCart from "./ButtonCart";
+import BtnFav from "./utils/BtnFav";
 
-const CartItem = ({ data }) => {
+const CartItem = memo(({ data }) => {
   const [open, setOpen] = useState(false);
   const price = data?.cart?.data?.modifiers?.price ?? data.price;
 
@@ -60,7 +60,7 @@ const CartItem = ({ data }) => {
       <div className="right">
         <div className="order-2 order-md-1">
           <p className="d-none d-md-block text-center mb-2">Количество</p>
-          <CountInput dis={false} defaultValue={data?.cart?.count} />
+          <ButtonCart cart data={data} />
         </div>
 
         <div className="order-1 order-md-2">{customPrice(price)}</div>
@@ -69,6 +69,6 @@ const CartItem = ({ data }) => {
       </div>
     </div>
   );
-};
+});
 
 export default CartItem;

@@ -1,14 +1,14 @@
 import { memo, useCallback } from "react";
 import { useDispatch } from "react-redux";
-// import { isCart } from "../hooks/useCart";
+import { isCart } from "../hooks/useCart";
 import { HiOutlineShoppingBag } from "react-icons/hi2";
 import { useNavigate } from "react-router-dom";
 import { updateCart } from "../services/cart";
-// import InputCount from "./InputCount";
+import CountInput from "./utils/CountInput";
 
 const ButtonCart = memo(
   ({ data, full = false, onAddCart, cart = false, className, children }) => {
-    // const isCartData = isCart(data);
+    const isCartData = isCart(data);
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
@@ -25,25 +25,20 @@ const ButtonCart = memo(
       [data, cart, full]
     );
 
-    // if ((isCartData && data?.modifiers?.length === 0) || cart) {
-    //   return (
-    //     <View>
-    //       <InputCount
-    //         value={data?.cart?.count > 0 ? data.cart.count : 1}
-    //         full={full}
-    //         w100={w100}
-    //         onChange={onPress}
-    //       />
-    //     </View>
-    //   );
-    // }
+    if ((isCartData && data?.modifiers?.length === 0) || cart) {
+      return (
+        <CountInput
+          dis={false}
+          onChange={onPress}
+          value={data?.cart?.count > 0 ? data.cart.count : 1}
+        />
+      );
+    }
 
     return (
       <button
         onClick={() =>
-          data?.cart?.data?.modifiers
-            ? onPress(1)
-            : data?.modifiers?.length > 0
+          data?.modifiers?.length > 0 && !full
             ? navigate("/menu/product/" + data.id, data)
             : onPress(1)
         }
@@ -57,36 +52,6 @@ const ButtonCart = memo(
           </>
         )}
       </button>
-      //   <View>
-      //     <Button
-      //       isLoading={isLoading}
-      //       type="primary"
-      //       size={full ? "large" : "small"}
-      //       isValid={
-      //         !full ||
-      //         (data?.modifiers?.length > 0 && data?.cart?.data?.modifiers) ||
-      //         data?.modifiers?.length === 0
-      //       }
-      //       textWeight="bold"
-      //       onPress={() =>
-      //         data?.cart?.data?.modifiers
-      //           ? onPress(1)
-      //           : data?.modifiers?.length > 0
-      //           ? navigation.navigate("data", data)
-      //           : onPress(1)
-      //       }
-      //     >
-      //       {text
-      //         ? text
-      //         : full
-      //         ? "Добавить в корзину"
-      //         : data?.modifiers?.length > 0
-      //         ? "от " + customPrice(price)
-      //         : isCartData
-      //         ? "В корзине"
-      //         : customPrice(data.price)}
-      //     </Button>
-      //   </View>
     );
   }
 );

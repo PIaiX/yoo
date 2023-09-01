@@ -1,7 +1,7 @@
-import 'bootstrap/dist/css/bootstrap.min.css';
+import "bootstrap/dist/css/bootstrap.min.css";
 import React, { useLayoutEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import './assets/style.min.css';
+import "./assets/style.min.css";
 import Loader from "./components/utils/Loader";
 import AppRouter from "./routes/AppRouter";
 import { checkAuth, logout } from "./services/auth";

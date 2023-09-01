@@ -4,13 +4,14 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import { Link } from "react-router-dom";
 import NavTop from "../components/utils/NavTop";
-import Gifts from "../components/utils/Gifts";
+// import Gifts from "../components/utils/Gifts";
 import { HiOutlineTrash, HiXMark } from "react-icons/hi2";
 import CartItem from "../components/CartItem";
 import { useDispatch, useSelector } from "react-redux";
 import { useTotalCart } from "../hooks/useCart";
 import { useForm } from "react-hook-form";
-import { customPrice } from "../helpers/all";
+import { customPrice, declination, getCount } from "../helpers/all";
+import { deleteCart } from "../services/cart";
 
 const Cart = () => {
   const state = useSelector(
@@ -29,6 +30,8 @@ const Cart = () => {
       options,
     })
   );
+
+  const count = getCount(state.cart.items);
 
   const {
     total = 0,
@@ -104,7 +107,7 @@ const Cart = () => {
     }
   }, [state?.delivery]);
 
-  if (state?.cart?.items?.length === 0) {
+  if (count === 0) {
     return null;
   }
 
@@ -116,7 +119,7 @@ const Cart = () => {
           <Row className="g-4 g-xxl-5">
             <Col xs={12} lg={8}>
               <h1 className="text-center text-lg-start">
-                Вы добавили {state.cart.items.length} товар(-а)
+                Вы добавили {declination(count, ["товар", "товара", "товаров"])}
               </h1>
               <div className="cart-filter">
                 <label>
@@ -135,7 +138,11 @@ const Cart = () => {
                     Удалить выбранные
                   </span>
                 </button>
-                <button type="button" className="btn-9 py-1 ms-4 ms-sm-5">
+                <button
+                  type="button"
+                  className="btn-9 py-1 ms-4 ms-sm-5"
+                  onClick={() => dispatch(deleteCart())}
+                >
                   Очистить
                 </button>
               </div>
@@ -179,11 +186,11 @@ const Cart = () => {
                 <span className="fw-6">{customPrice(total)}</span>
               </div>
 
-              <Gifts />
+              {/* <Gifts /> */}
 
-              <div className="bg-main-01 main-color p-2 fw-6 text-center w-100 rounded-3 mt-3">
+              {/* <div className="bg-main-01 main-color p-2 fw-6 text-center w-100 rounded-3 mt-3">
                 34 бонуса будут начислены за этот заказ
-              </div>
+              </div> */}
               <Link to="/checkout" className="btn-secondary mt-3 w-100">
                 <span className="fw-4">Перейти к оформлению</span>
               </Link>

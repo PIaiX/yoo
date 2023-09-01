@@ -19,13 +19,32 @@ import { memo } from "react";
 const Categories = memo(({ className, data }) => {
   const [isFull, setIsFull] = useState(false);
   const [swiper, setSwiper] = useState(null);
+
   const handleExpand = () => {
     swiper.disable();
     setIsFull(true);
   };
+
   const handleСollapse = () => {
     swiper.enable();
     setIsFull(false);
+  };
+
+  const textArray = ["пицца", "комбо", "поке", "десерты", "сеты", "роллы"];
+  const iconsArray = [
+    <FoodPizza className="fs-15" />,
+    <FoodCombo className="fs-15" />,
+    <FoodPoke className="fs-15" />,
+    <FoodDesserts className="fs-15" />,
+    <FoodSets className="fs-15" />,
+    <FoodRolls className="fs-15" />,
+  ];
+
+  const searchIcon = (text) => {
+    let index = textArray.findIndex((e) => e === text.trim().toLowerCase());
+    if (index != -1) {
+      return iconsArray[index];
+    }
   };
 
   return data.length > 0 ? (
@@ -62,7 +81,7 @@ const Categories = memo(({ className, data }) => {
           {data.map((e) => (
             <SwiperSlide>
               <button type="button" className="btn-8">
-                <FoodRolls className="fs-15" />
+                {searchIcon(e.title)}
                 <span className="ms-2">{e.title}</span>
               </button>
             </SwiperSlide>

@@ -1,5 +1,4 @@
-// value - цена, currency - выводить валюту (true|false))
-import { LiaRubleSignSolid } from "react-icons/lia";
+import { useSelector } from 'react-redux';
 import { FILE_URL } from "../config/api";
 
 const customPrice = (value, currency = true) => {
@@ -34,4 +33,85 @@ const getImageURL = ({ path = "", size = "mini", type = "product" }) => {
   }
 };
 
-export { customPrice, getImageURL };
+const convertColor = (color, opacity) => {
+  var _opacity = Math.round(Math.min(Math.max(opacity || 1, 0), 1) * 255);
+  return color + _opacity.toString(16).toUpperCase();
+};
+
+const convert = (value) => (value ? Math.round(Number(value) * 1000) : 0)
+
+const customWeight = (value) => {
+  if (!value) {
+    return 0
+  }
+
+  value = convert(value)
+
+  let weight = value > 1000 ? (value / 1000).toFixed(1) + 'кг' : value + 'г'
+
+  return weight
+}
+
+const statusData = {
+  processing: {
+    text: 'Обработка',
+    statusBg: 'rgba(0,0,0,0.05)',
+  },
+  reservation: {
+    text: 'Предзаказ',
+    statusBg: 'rgba(0,0,0,0.05)',
+  },
+  new: { text: 'Принят', statusBg: 'rgba(0,0,0,0.05)' },
+  preparing: {
+    text: 'Готовится',
+  },
+  prepared: {
+    text: 'Готов к выдаче',
+  },
+  delivery: {
+    text: 'Доставляется',
+  },
+  done: { text: 'Завершен', statusBg: 'rgba(0,0,0,0.05)' },
+  canceled: { statusBg: 'transparent', text: 'Отменен' },
+}
+
+const deliveryData = {
+  delivery: 'Доставка',
+  pickup: 'Самовывоз',
+}
+
+const paymentData = {
+  card: 'Банковской картой',
+  online: 'Онлайн оплата',
+  cash: 'Наличными',
+}
+
+const getSettings = (name) => {
+  const settings = useSelector((state) => state?.settings?.options)
+  let option = settings ? settings[name] ?? false : false
+  return option
+}
+
+const getCount = (cart) => {
+  if (cart && cart.length > 0) {
+    let value = 0
+    cart.map((item) => item?.cart?.count && (value += Number(item.cart.count)))
+    return value
+  }
+}
+
+const declination = (value, data, view = true) => {
+  value = Math.abs(value) % 100;
+  var num = value % 10;
+  if (value > 10 && value < 20) return data[2];
+  if (num > 1 && num < 5) return data[1];
+  if (num == 1) return data[0];
+  if (view) {
+    return value + ' ' + data[2];
+  } else {
+    return data[2];
+  }
+}
+
+export { customPrice, getImageURL, convertColor, customWeight, statusData, deliveryData, paymentData, getSettings, getCount, declination };
+

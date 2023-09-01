@@ -24,27 +24,15 @@ import { IoCloseOutline, IoCall } from "react-icons/io5";
 import { IoLogoWhatsapp } from "react-icons/io";
 import YooApp from "./svgs/YooApp";
 import { useSelector } from "react-redux";
+import { memo } from "react";
+import { getCount } from "../helpers/all";
 
-const Header = () => {
-  const state = useSelector(
-    ({
-      auth: { isAuth, user },
-      settings: { options },
-      cart,
-      checkout: { delivery },
-      address,
-    }) => ({
-      isAuth,
-      user,
-      cart,
-      delivery,
-      address,
-      options,
-    })
-  );
+const Header = memo(() => {
+  const { cart, auth } = useSelector((state) => state);
   const isMobileLG = useIsMobile("991px");
   const [showMenu, setShowMenu] = useState(false);
   const [isContacts, setIsContacts] = useState(false);
+  const count = getCount(cart.items);
 
   return (
     <>
@@ -120,16 +108,16 @@ const Header = () => {
               {!isMobileLG ? (
                 <>
                   <li>
-                    <Link to={state.isAuth ? "/account" : "/login"}>
+                    <Link to={auth.isAuth ? "/account" : "/login"}>
                       <HiOutlineUserCircle />
                     </Link>
                   </li>
                   <li>
                     <Link to="/cart" className="position-relative">
                       <HiOutlineShoppingBag />
-                      {state?.cart?.items?.length > 0 && (
+                      {count > 0 && (
                         <span className="position-absolute top-100 start-100 translate-middle badge rounded-pill">
-                          {state.cart.items.length}
+                          {count}
                         </span>
                       )}
                     </Link>
@@ -269,6 +257,6 @@ const Header = () => {
       </Offcanvas>
     </>
   );
-};
+});
 
 export default Header;

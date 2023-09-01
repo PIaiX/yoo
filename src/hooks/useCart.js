@@ -1,37 +1,37 @@
-import {useLayoutEffect, useState} from 'react'
-import {useSelector} from 'react-redux'
+import { useLayoutEffect, useState } from 'react'
+import { useSelector } from 'react-redux'
 
 const isCart = (product) => {
     if (!product) {
         return false
     }
 
-    const items = useSelector(({cart: {items}}) => items)
+    const items = useSelector(({ cart: { items } }) => items)
 
     let item = items?.length
         ? items.find((e) => {
-              if (e?.id === product?.id) {
-                  if (e?.cart?.data && product?.cart?.data) {
-                      return JSON.stringify(e.cart.data) === JSON.stringify(product.cart.data)
-                  }
-                  return true
-              }
-          })
+            if (e?.id === product?.id) {
+                if (e?.cart?.data && product?.cart?.data) {
+                    return JSON.stringify(e.cart.data) === JSON.stringify(product.cart.data)
+                }
+                return true
+            }
+        })
         : false
     return item
 }
 
 const useTotalCart = (fullInfo = true) => {
-    const state = useSelector(({checkout: {delivery}, cart: {promo, zone, items}, address}) =>
+    const state = useSelector(({ checkout: { delivery }, cart: { promo, zone, items }, address }) =>
         fullInfo
             ? {
-                  delivery,
-                  address,
-                  items,
-                  promo,
-                  zone,
-              }
-            : {items}
+                delivery,
+                address,
+                items,
+                promo,
+                zone,
+            }
+            : { items }
     )
 
     var cashbackValue = 0
@@ -112,11 +112,11 @@ const useTotalCart = (fullInfo = true) => {
                 cashback: parseInt(cashback),
             })
         } else {
-            setData({...data, price: 0, total: 0, discount: 0, point: 0, cashback: 0, delivery: 0})
+            setData({ ...data, price: 0, total: 0, discount: 0, point: 0, cashback: 0, delivery: 0 })
         }
     }, [state.items, state.promo, state.delivery])
 
     return data
 }
 
-export {isCart, useTotalCart}
+export { isCart, useTotalCart }

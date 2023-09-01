@@ -8,7 +8,7 @@ import Halal from "../assets/imgs/halal.png";
 // import Spicy from '../assets/imgs/pepper.png';
 // import Vegetarian from '../assets/imgs/vegetarian.png';
 import useIsMobile from "../hooks/isMobile";
-import { customPrice, getImageURL } from "../helpers/all";
+import { customPrice, customWeight, getImageURL } from "../helpers/all";
 import ButtonCart from "./ButtonCart";
 
 const ProductCard = memo(({ data }) => {
@@ -59,7 +59,11 @@ const ProductCard = memo(({ data }) => {
       )}
 
       <div className="d-flex justify-content-between align-items-center">
-        <div className="gray d-none d-md-block">{data.energy.weight}</div>
+        {data.energy.weight > 0 && (
+          <div className="gray d-none d-md-block">
+            {customWeight(data.energy.weight)}
+          </div>
+        )}
         <div className="w-xs-100 d-flex justify-content-between align-items-center">
           <div>
             <div className="fs-12">
@@ -73,8 +77,8 @@ const ProductCard = memo(({ data }) => {
                 : customPrice(data.price)}
             </div> */}
           </div>
-          <ButtonCart data={data} />
         </div>
+        <ButtonCart data={data} />
       </div>
     </div>
   );
