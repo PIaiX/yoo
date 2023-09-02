@@ -50,7 +50,7 @@ const Product = () => {
   const price =
     data?.item?.modifiers?.length > 0 && Array.isArray(data.item.modifiers)
       ? data.item.modifiers.sort((a, b) => a.price - b.price)[0].price
-      : data.item.price;
+      : data?.item?.modifiers?.price ?? data?.item?.price ?? 0;
 
   return (
     <main>
@@ -88,8 +88,13 @@ const Product = () => {
                             <label>
                               <input
                                 type="radio"
-                                name="param1"
+                                name="modifiers"
                                 defaultChecked={index === 0}
+                                onChange={() => {
+                                  let newData = { ...data };
+                                  newData.item.cart.data.modifiers = e;
+                                  setData(newData);
+                                }}
                               />
                               <div className="text">{e.title}</div>
                             </label>
@@ -150,13 +155,13 @@ const Product = () => {
                   data={data.item}
                   className="btn-secondary fs-12 rounded-pill ms-3"
                 >
-                  <span className="fw-4">В корзину</span>
+                  <span className="fw-4">В корзину</span>
                   <HiOutlineShoppingBag className="fs-15 ms-2" />
                 </ButtonCart>
               </div>
             </Col>
             <Col xs={12} md={6} lg={4} className="mt-3mt-sm-4 mt-md-0">
-              <h6>Изменить по вкусу</h6>
+              <h6>Изменить по вкусу</h6>
               <div className="productPage-edit mb-3">
                 <div className="top">
                   <button
@@ -213,7 +218,7 @@ const Product = () => {
         </form>
 
         <section className="d-none d-md-block mb-5">
-          <h2>Товары из этой категории</h2>
+          <h2>Товары из этой категории</h2>
           {/* <Swiper
             className=""
             modules={[Navigation]}

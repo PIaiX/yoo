@@ -34,7 +34,7 @@ const Section3 = memo(({ data }) => {
                 ))}
               </Row>
               <button type="button" className="main-color mx-auto mt-4">
-                <span>показать все</span>
+                <span>показать все</span>
                 <HiOutlineArrowUturnDown className="fs-15 ms-3 main-color rotateY-180" />
               </button>
             </>

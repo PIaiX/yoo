@@ -145,7 +145,7 @@ const Home = () => {
               </a>
             </li>
           </ul>
-          <p>Акция действует при заказе на сумму от 1 000 ₽</p>
+          <p>Акция действует при заказе на сумму от 1 000 ₽</p>
           <img src={Phone} alt="Phone" className="phone" />
         </section>
       </Container>
@@ -219,7 +219,7 @@ const Home = () => {
                 blackText={false}
                 img={"imgs/offers/offer1.jpg"}
                 title={"Весна пришла"}
-                subtitle={"А с ней новые вкусы роллов!"}
+                subtitle={"А с ней новые вкусы роллов!"}
               />
             </SwiperSlide>
             <SwiperSlide>
@@ -227,7 +227,7 @@ const Home = () => {
                 blackText={false}
                 img={"imgs/offers/offer2.jpg"}
                 title={"Пицца «Гаваи»"}
-                subtitle={"Улётный микс из курицы и ананаса"}
+                subtitle={"Улётный микс из курицы и ананаса"}
               />
             </SwiperSlide>
             <SwiperSlide>
@@ -236,7 +236,7 @@ const Home = () => {
                 img={"imgs/offers/offer3.jpg"}
                 title={"Свежих ягод много бывает"}
                 subtitle={
-                  "Попробуйте наш фирменный тарт — мы добавили в него ещё больше клубники!"
+                  "Попробуйте наш фирменный тарт — мы добавили в него ещё больше клубники!"
                 }
               />
             </SwiperSlide>

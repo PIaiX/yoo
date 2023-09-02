@@ -26,7 +26,7 @@ const Profile = () => {
                
                 <span className='fs-13 fw-7 ms-2'>5</span>
               </div>
-              <p className='mt-2'>3 года на платформе</p>
+              <p className='mt-2'>3 года на платформе</p>
             </div>
             <ul className="user-info">
               <li>

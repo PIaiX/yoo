@@ -31,8 +31,6 @@ const Cart = () => {
     })
   );
 
-  const count = getCount(state.cart.items);
-
   const {
     total = 0,
     price = 0,
@@ -41,6 +39,8 @@ const Cart = () => {
     delivery,
     cashback,
   } = state?.cart?.items && useTotalCart();
+
+  const count = getCount(state.cart.items);
 
   const [distance, setDistance] = useState({ time: false });
   const [isLoading, setIsLoading] = useState(false);
@@ -119,13 +119,13 @@ const Cart = () => {
           <Row className="g-4 g-xxl-5">
             <Col xs={12} lg={8}>
               <h1 className="text-center text-lg-start">
-                Вы добавили {declination(count, ["товар", "товара", "товаров"])}
+                Вы добавили {declination(count, ["товар", "товара", "товаров"])}
               </h1>
               <div className="cart-filter">
                 <label>
                   <input type="checkbox" />
                   <span className="fs-11 ms-2">
-                    Все <span className="d-none d-sm-inline">товары</span>
+                    Все <span className="d-none d-sm-inline">товары</span>
                   </span>
                 </label>
                 <button
@@ -189,10 +189,10 @@ const Cart = () => {
               {/* <Gifts /> */}
 
               {/* <div className="bg-main-01 main-color p-2 fw-6 text-center w-100 rounded-3 mt-3">
-                34 бонуса будут начислены за этот заказ
+                34 бонуса будут начислены за этот заказ
               </div> */}
               <Link to="/checkout" className="btn-secondary mt-3 w-100">
-                <span className="fw-4">Перейти к оформлению</span>
+                <span className="fw-4">Перейти к оформлению</span>
               </Link>
             </Col>
           </Row>

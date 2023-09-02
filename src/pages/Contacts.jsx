@@ -22,7 +22,7 @@ const Contacts = () => {
                   <a href="tel:+7987987-78-78" className='d-flex'>
                     <HiOutlineDevicePhoneMobile className='fs-15 main-color'/>
                     <span className='fs-11 ms-2 main-color'>Горячая линия</span>
-                    <span className='fs-11 ms-2'>+7 987 987-78-78</span>
+                    <span className='fs-11 ms-2'>+7 987 987-78-78</span>
                   </a>
                 </p>
                 <button type='button' className='btn-primary'>Заказать звонок</button>

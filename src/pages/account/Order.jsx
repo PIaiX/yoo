@@ -13,7 +13,7 @@ const Order = () => {
           <HiOutlineArrowLeftCircle/>
           <span>Назад</span>
         </Link>
-        <h5 className='fw-6 mb-0'>Заказ № 3471</h5>
+        <h5 className='fw-6 mb-0'>Заказ № 3471</h5>
       </div>
 
       <Row>
@@ -33,10 +33,10 @@ const Order = () => {
               </p>
               <div className='btn-green fs-09 rounded-3 mb-3'>Готовится</div>
               <div className='order-card-delivery'>Самовывоз <span className='dark-gray ms-1'>•</span></div>
-              <address className='d-block fs-09 dark-gray'>Филиал — ул. Фучика 89, д 1</address>
+              <address className='d-block fs-09 dark-gray'>Филиал — ул. Фучика 89, д 1</address>
 
               <div className="main-color mt-4 mt-xxl-5 mb-1">Комментарий</div>
-              <textarea disabled className='fs-09' value={'Уберите, пожалуйста, лук'}></textarea>
+              <textarea disabled className='fs-09' value={'Уберите, пожалуйста, лук'}></textarea>
 
               <div className="d-flex justify-content-between align-items-center mt-3">
                 <p>Количество персон</p>
@@ -50,12 +50,12 @@ const Order = () => {
 
               <div className="d-flex justify-content-between fw-6 mt-4">
                 <p className='fs-11'>Итоговая сумма</p>
-                <p>1 880 ₽</p>
+                <p>1 880 ₽</p>
               </div>
             </div>
-            <div className='btn-green rounded-0 w-100 justify-content-start'>Списано 33 бонуса</div>
+            <div className='btn-green rounded-0 w-100 justify-content-start'>Списано 33 бонуса</div>
             <div className="p-2 p-xl-3">
-              <p className="fs-09 main-color">34 бонуса будут начислены за этот заказ</p>
+              <p className="fs-09 main-color">34 бонуса будут начислены за этот заказ</p>
               <button type='submit' disabled className='btn-red w-100 mt-3'>Отменить заказ</button>
             </div>
           </div>

@@ -9,7 +9,9 @@ import BtnFav from "./utils/BtnFav";
 
 const CartItem = memo(({ data }) => {
   const [open, setOpen] = useState(false);
-  const price = data?.cart?.data?.modifiers?.price ?? data.price;
+  const price = data?.cart?.data?.modifiers?.price
+    ? data.cart.data.modifiers.price
+    : data.price;
 
   return (
     <div className="cart-item">
@@ -21,12 +23,14 @@ const CartItem = memo(({ data }) => {
             {data.title}
             {/* <span className="tag">Подарок</span> */}
           </h6>
-          <OverlayTrigger
-            placement="bottom"
-            overlay={<Tooltip>{data.description}</Tooltip>}
-          >
-            <p className="consist">{data.description}</p>
-          </OverlayTrigger>
+          {data?.description && (
+            <OverlayTrigger
+              placement="bottom"
+              overlay={<Tooltip>{data.description}</Tooltip>}
+            >
+              <p className="consist">{data.description}</p>
+            </OverlayTrigger>
+          )}
           {data?.cart?.data?.modifiers && (
             <p>{data.cart.data.modifiers.title}</p>
           )}
@@ -41,7 +45,7 @@ const CartItem = memo(({ data }) => {
                 aria-expanded={open}
                 className="d-flex align-items-center"
               >
-                <span>Показать ещё</span>
+                <span>Показать ещё</span>
                 <IoCaretDownOutline className="fs-08 ms-2" />
               </button>
               <Collapse in={open}>

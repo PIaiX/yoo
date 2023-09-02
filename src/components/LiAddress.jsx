@@ -7,7 +7,7 @@ const LiAddress = () => {
     <li>
       <div className='d-flex align-items-start'>
         <HiOutlineMap className='fs-15 main-color-60 me-2'/>
-        <p>г. Казань, ул. Фучика, д. 89, кв 16</p>
+        <p>г. Казань, ул. Фучика, д. 89, кв 16</p>
       </div>
       <div className='d-flex align-items-center justify-content-end mt-2 mt-sm-0 ms-sm-4'>
         <Link to='edit' className='green fs-09'>Изменить</Link>

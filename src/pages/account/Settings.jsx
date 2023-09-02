@@ -85,7 +85,7 @@ const Settings = () => {
               {!isMobileSM && (
                 <Col xs={12} sm={6} md={3}>
                   <div className="box p-3 w-100 h-100 d-flex flex-column justify-content-between text-center">
-                    <p className="fs-09 fw-6">Вы можете потратить</p>
+                    <p className="fs-09 fw-6">Вы можете потратить</p>
                     <p className="main-color">
                       <span className="fs-18">{user.point}</span>&nbsp;
                       <span className="fw-6 fs-11">бонуса</span>
@@ -103,7 +103,7 @@ const Settings = () => {
                   />
                 </label>
                 <label>
-                  <span className="me-1 me-sm-3">Подписаться на рассылку</span>
+                  <span className="me-1 me-sm-3">Подписаться на рассылку</span>
                   <input
                     type="checkbox"
                     role="switch"

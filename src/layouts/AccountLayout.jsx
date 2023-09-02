@@ -47,7 +47,7 @@ const AccountLayout = ({ isMobile }) => {
               </Col>
               <Col lg={2}>
                 <div className="box w-100 h-100 d-flex flex-column justify-content-between text-center">
-                  <p className="fs-09 fw-6">Вы можете потратить</p>
+                  <p className="fs-09 fw-6">Вы можете потратить</p>
                   <p className="main-color">
                     <span className="fs-18">{user.point}</span>&nbsp;
                     <span className="fw-6 fs-11">бонуса</span>

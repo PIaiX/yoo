@@ -14,22 +14,22 @@ const Promo = () => {
         <Container>
           <Row xs={2} lg={3} className='g-2 g-sm-3 g-md-4 g-lg-3 g-xl-4'>
             <Col>
-              <Offer blackText={false} img={"imgs/offers/offer1.jpg"} title={'Весна пришла'} subtitle={'А с ней новые вкусы роллов!'}/>
+              <Offer blackText={false} img={"imgs/offers/offer1.jpg"} title={'Весна пришла'} subtitle={'А с ней новые вкусы роллов!'}/>
             </Col>
             <Col>
-              <Offer blackText={false} img={"imgs/offers/offer2.jpg"} title={'Пицца «Гаваи»'} subtitle={'Улётный микс из курицы и ананаса'}/>
+              <Offer blackText={false} img={"imgs/offers/offer2.jpg"} title={'Пицца «Гаваи»'} subtitle={'Улётный микс из курицы и ананаса'}/>
             </Col>
             <Col>
-              <Offer blackText={true} img={"imgs/offers/offer3.jpg"} title={'Свежих ягод много бывает'} subtitle={'Попробуйте наш фирменный тарт — мы добавили в него ещё больше клубники!'}/>
+              <Offer blackText={true} img={"imgs/offers/offer3.jpg"} title={'Свежих ягод много бывает'} subtitle={'Попробуйте наш фирменный тарт — мы добавили в него ещё больше клубники!'}/>
             </Col>
             <Col>
-              <Offer blackText={false} img={"imgs/offers/offer4.jpg"} title={'Акция «Счастливые часы»'} subtitle={'Скидка 20% на весь ассортимент японской кухни*'}/>
+              <Offer blackText={false} img={"imgs/offers/offer4.jpg"} title={'Акция «Счастливые часы»'} subtitle={'Скидка 20% на весь ассортимент японской кухни*'}/>
             </Col>
             <Col>
-              <Offer blackText={false} img={"imgs/offers/offer2.jpg"} title={'Пицца «Гаваи»'} subtitle={'Улётный микс из курицы и ананаса'}/>
+              <Offer blackText={false} img={"imgs/offers/offer2.jpg"} title={'Пицца «Гаваи»'} subtitle={'Улётный микс из курицы и ананаса'}/>
             </Col>
             <Col>
-              <Offer blackText={true} img={"imgs/offers/offer3.jpg"} title={'Свежих ягод много бывает'} subtitle={'Попробуйте наш фирменный тарт — мы добавили в него ещё больше клубники!'}/>
+              <Offer blackText={true} img={"imgs/offers/offer3.jpg"} title={'Свежих ягод много бывает'} subtitle={'Попробуйте наш фирменный тарт — мы добавили в него ещё больше клубники!'}/>
             </Col>
           </Row>
         </Container>
@@ -37,7 +37,7 @@ const Promo = () => {
 
       <section className='sec-5 mb-5'>
         <Container>
-          <h2>Вам может понравиться</h2>
+          <h2>Вам может понравиться</h2>
           <Swiper
             className='product-slider'
             spaceBetween={10}

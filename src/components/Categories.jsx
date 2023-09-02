@@ -171,7 +171,7 @@ const Categories = memo(({ className, data }) => {
         </button>
       ) : (
         <button type="button" onClick={handleExpand} className="categories-btn">
-          <span>показать все</span>
+          <span>показать все</span>
           <HiOutlineArrowUturnDown className="fs-15 ms-3 main-color rotateY-180" />
         </button>
       )}

@@ -86,7 +86,7 @@ const Footer = memo(() => {
             </nav>
 
             <div>
-              <p>Заказывать через приложение ещё удобнее</p>
+              <p>Заказывать через приложение ещё удобнее</p>
               <ul className="list-unstyled d-flex mt-2">
                 <li>
                   <a href="/">
@@ -102,7 +102,7 @@ const Footer = memo(() => {
             </div>
 
             <div>
-              <div>Разработано на платформе</div>
+              <div>Разработано на платформе</div>
               <img src={LogoTextWhite} alt="yoo.app" className="d-block mt-2" />
             </div>
           </div>

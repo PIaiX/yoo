@@ -565,7 +565,7 @@ button {
   color: inherit;
 }
 
-.btn, .btn-red, .btn-orange, .btn-99, .btn-90, .btn-9, .btn-8, .btn-light, .btn-6, .btn-deepgreen, .btn-green, .btn-40, .btn-4, .btn-30, .btn-secondary, .btn-2, .btn-10, .btn-primary {
+.btn, .btn-red, .btn-orange, .btn-99, .btn-90, .btn-9, .btn-8, .btn-light, .btn-6, .btn-light-outline, .btn-deepgreen, .btn-green, .btn-40, .btn-4, .btn-30, .btn-secondary, .btn-2, .btn-10, .btn-primary {
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -680,11 +680,11 @@ button {
   background-color: #00783c;
   border: 1px solid #00783c;
 }
-.btn-6 {
+.btn-6, .btn-light-outline {
   color: #0077FF;
   background-color: rgba(0, 119, 255, 0.1);
 }
-.btn-6:hover, .btn-6:focus, .btn-6:active, .btn-6.active {
+.btn-6:hover, .btn-6:focus, .btn-6:active, .btn-6.active, .btn-light-outline:hover, .btn-light-outline:focus, .btn-light-outline:active, .btn-light-outline.active {
   color: #fff;
   background-color: #0077FF;
 }
@@ -777,7 +777,7 @@ button {
   background-color: #E01E00;
   border: 1px solid #E01E00;
 }
-.btn[disabled], [disabled].btn-primary, [disabled].btn-10, [disabled].btn-2, [disabled].btn-secondary, [disabled].btn-30, [disabled].btn-4, [disabled].btn-40, [disabled].btn-green, [disabled].btn-deepgreen, [disabled].btn-6, [disabled].btn-light, [disabled].btn-8, [disabled].btn-9, [disabled].btn-90, [disabled].btn-99, [disabled].btn-orange, [disabled].btn-red {
+.btn[disabled], [disabled].btn-primary, [disabled].btn-10, [disabled].btn-2, [disabled].btn-secondary, [disabled].btn-30, [disabled].btn-4, [disabled].btn-40, [disabled].btn-green, [disabled].btn-deepgreen, [disabled].btn-6, [disabled].btn-light-outline, [disabled].btn-light, [disabled].btn-8, [disabled].btn-9, [disabled].btn-90, [disabled].btn-99, [disabled].btn-orange, [disabled].btn-red {
   background-color: #F4F6F8;
   border: 1px solid #F4F6F8;
   color: #637381;

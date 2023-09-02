@@ -12,7 +12,7 @@ const Offers = () => {
     <section>
       {
         (isMobileLG) && 
-        <AccountTitleReturn link={'/account'} title={'Акции и промокоды'}/>
+        <AccountTitleReturn link={'/account'} title={'Акции и промокоды'}/>
       }
       <h5 className='fw-6'>Персональные акции</h5>
       <div className="box py-4 px-4 px-xxl-5 mb-5">

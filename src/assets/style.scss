@@ -647,7 +647,7 @@ button {
     }
   }
   /* прозрачно-голубая кнопка */
-  &-6 {
+  &-6, &-light-outline {
     @extend .btn;
     color: $main-color;
     background-color: rgba($color: $main-color, $alpha: 0.1);

@@ -31,7 +31,7 @@ const CategoryGroup = memo(({ data }) => {
             </li>
             <li>
               <button type="button" className="btn-90 rounded-pill">
-                В темпуре
+                В темпуре
               </button>
             </li>
           </ul> */}
@@ -52,12 +52,12 @@ const CategoryGroup = memo(({ data }) => {
             optionsArr={[
               {
                 value: 1,
-                label: "По увеличению",
+                label: "По увеличению",
                 defaultChecked: true,
               },
               {
                 value: 2,
-                label: "По уменьшению",
+                label: "По уменьшению",
                 defaultChecked: false,
               },
             ]}

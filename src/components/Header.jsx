@@ -71,15 +71,15 @@ const Header = memo(() => {
                 </ul>
                 <ul className="text-menu">
                   <li>
-                    <Link to="/">Доставка и оплата</Link>
+                    <Link to="/">Доставка и оплата</Link>
                   </li>
                   <li>
-                    <Link to="/">О нас</Link>
+                    <Link to="/">О нас</Link>
                   </li>
                 </ul>
                 <a href="tel:+7987987-78-78" className="phone">
                   <HiOutlineDevicePhoneMobile className="fs-15" />
-                  <span className="fs-11 ms-2">+7 987 987-78-78</span>
+                  <span className="fs-11 ms-2">+7 987 987-78-78</span>
                 </a>
               </>
             )}
@@ -245,7 +245,7 @@ const Header = memo(() => {
                 </nav>
 
                 <p className="gray text-center mt-4 mt-md-5">
-                  Разработано на платформе
+                  Разработано на платформе
                 </p>
                 <p className="text-center mt-2">
                   <YooApp />

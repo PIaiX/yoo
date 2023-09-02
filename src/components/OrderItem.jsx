@@ -26,12 +26,12 @@ const OrderItem = () => {
         </OverlayTrigger>
       </div>
       <ul className="info">
-        <li>36 см</li>
-        <li>36 см</li>
+        <li>36 см</li>
+        <li>36 см</li>
       </ul>
       <div className="show" onClick={()=>setShowExtra(!showExtra)}>
         <button type='button' className='d-flex align-items-center'>
-          <span>Показать ещё</span>
+          <span>Показать ещё</span>
           {
             (showExtra)
             ? <HiOutlineChevronUp className='ms-2'/>

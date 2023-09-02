@@ -13,22 +13,22 @@ const ProductCardMini = () => {
           <h6><Link to='/menu/product'>Ролл «Филадельфия»</Link></h6>
           {
             (!isMobileLG) &&
-            <p className='gray'>240 г</p>
+            <p className='gray'>240 г</p>
           }
           
         </div>
         <div className="d-flex justify-content-between align-items-center">
           {
             (isMobileLG)
-            ? <p className='gray'>240 г</p>
-            : <p className='fw-6'>340 ₽</p>
+            ? <p className='gray'>240 г</p>
+            : <p className='fw-6'>340 ₽</p>
           }
           
           <button type='button' className='btn-secondary'>
             {
               (isMobileLG)
-              ? '340 ₽'
-              : 'В корзину'
+              ? '340 ₽'
+              : 'В корзину'
             }
             </button>
         </div>

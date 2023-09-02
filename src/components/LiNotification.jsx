@@ -18,7 +18,7 @@ const LiNotification = () => {
           }
           Оплата прошла успешно
         </h6>
-        <p>Информацию о заказе вы можете посмотреть во вкладке «Заказы»</p>
+        <p>Информацию о заказе вы можете посмотреть во вкладке «Заказы»</p>
       </div>
       <div className="links">
         {
@@ -27,7 +27,7 @@ const LiNotification = () => {
             <span>Перейти</span>
             <HiChevronRight/>
           </button>
-          : <button type='button' className='btn-primary'>К заказам</button>
+          : <button type='button' className='btn-primary'>К заказам</button>
         }
       </div>
       <div className="date">12:18 23.05.2023</div>

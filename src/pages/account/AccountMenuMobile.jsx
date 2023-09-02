@@ -11,7 +11,7 @@ const AccountMenu = (props) => {
         </div>
         <div className='flex-1'>
           <h6>Алексей</h6>
-          <p><a href="tel:+79198563658">+7 919 856-36-58</a></p>
+          <p><a href="tel:+79198563658">+7 919 856-36-58</a></p>
         </div>
         <Link to='settings' className='btn-settings'>
           <HiOutlineCog8Tooth/>
@@ -49,7 +49,7 @@ const AccountMenu = (props) => {
           <li>
             <NavLink to="offers">
               <HiOutlineBolt/>
-              <div>Акции и промокоды</div>
+              <div>Акции и промокоды</div>
             </NavLink>
           </li>
           <li>
