@@ -8,9 +8,9 @@ const getProduct = async (id) => {
   return response?.data;
 };
 
-const getProductRecommendations = async (payloads = {}) => {
-  const response = await $api.get(apiRoutes.PRODUCT_RECOMMENDATIONS, {
-    params: payloads,
+const getProducts = async (data) => {
+  const response = await $api.get(apiRoutes.PRODUCTS, {
+    params: data,
   });
   return response?.data;
 };
@@ -30,10 +30,4 @@ const getFree = async () => {
   return response?.data;
 };
 
-export {
-  getProduct,
-  getGifts,
-  getFree,
-  getCartProducts,
-  getProductRecommendations,
-};
+export { getProduct, getGifts, getFree, getCartProducts, getProducts };

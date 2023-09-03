@@ -3,7 +3,13 @@ import { HiMinus, HiPlus } from "react-icons/hi";
 import { NotificationManager } from "react-notifications";
 
 const CountInput = memo(
-  ({ dis, className, value, full, w100, onChange, isValid = true }) => {
+  ({
+    dis = false,
+    className = "",
+    value,
+    full,
+    onChange,
+  }) => {
     const onCount = useCallback((e) => {
       if (e > 100) return NotificationManager.error("Максимальное кол-во 100");
       if (e < 0) return;
@@ -13,7 +19,10 @@ const CountInput = memo(
     return (
       <div
         className={
-          dis ? "countInput disabled " + className : "countInput " + className
+          "countInput" +
+          (className ? " " + className : "") +
+          (full ? " full" : "") +
+          (dis ? " disabled" : "")
         }
       >
         <button type="button" onClick={() => onCount(value - 1)}>

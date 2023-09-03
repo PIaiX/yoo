@@ -1,30 +1,27 @@
 import React, { memo } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { HiOutlineArrowLeftCircle } from "react-icons/hi2";
 
-const NavTop = memo(({ toBack, breadcrumbs }) => {
+const NavTop = memo(({ toBack, breadcrumbs = false }) => {
+  const navigate = useNavigate()
   return (
     <nav className="navTop">
       {toBack && (
-        <Link to={toBack} className="navTop-back">
+        <a onClick={() => navigate(-1)} className="navTop-back">
           <HiOutlineArrowLeftCircle />
           <span>Назад</span>
-        </Link>
+        </a>
       )}
-      {breadcrumbs && (
+      {breadcrumbs && breadcrumbs?.length > 0 && (
         <ul className="navTop-breadcrumbs">
           <li>
             <Link to="/">Главная</Link>
           </li>
-          <li>
-            <Link to="/menu">Меню</Link>
-          </li>
-          <li>
-            <Link to="/menu">Пиццы</Link>
-          </li>
-          <li>
-            <Link to="/menu/product">Четыре сыра</Link>
-          </li>
+          {breadcrumbs.map((e) => (
+            <li>
+              <Link to={e.link}>{e.title}</Link>
+            </li>
+          ))}
         </ul>
       )}
     </nav>

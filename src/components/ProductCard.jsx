@@ -1,8 +1,8 @@
 import React, { memo, useState } from "react";
 import { Link } from "react-router-dom";
 import { HiOutlineShoppingBag, HiOutlineHeart } from "react-icons/hi2";
-import Fish from "../assets/imgs/fish.png";
-import Halal from "../assets/imgs/halal.png";
+// import Fish from "../assets/imgs/fish.png";
+// import Halal from "../assets/imgs/halal.png";
 // import Chicken from '../assets/imgs/chicken.png';
 // import Meat from '../assets/imgs/meat.png';
 // import Spicy from '../assets/imgs/pepper.png';
@@ -78,7 +78,7 @@ const ProductCard = memo(({ data }) => {
             </div> */}
           </div>
         </div>
-        <ButtonCart data={data} />
+        <ButtonCart product={data} />
       </div>
     </div>
   );

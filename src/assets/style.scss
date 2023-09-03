@@ -468,6 +468,10 @@ label {
 }
 .countInput {
   width: fit-content;
+  padding: 0.5em 0;
+  &.full{
+    padding: 0.8em 0;
+  }
   @include flex();
   @media (max-width: $bp-xl) {
     font-size: 1.15em;
@@ -2110,6 +2114,9 @@ main {
   padding: $radius*0.5;
   @media (max-width: $bp-xxl) {
     font-size: .9em;
+  }
+  &.active{
+    background-color: $gray;
   }
   &-img {
     width: 2.5em;

@@ -1,4 +1,4 @@
-import React, { useState, useLayoutEffect } from "react";
+import React, { useState, useLayoutEffect, useCallback } from "react";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
@@ -20,67 +20,124 @@ import {
 } from "react-icons/hi2";
 import NavTop from "../components/utils/NavTop";
 import { useParams } from "react-router-dom";
-import { getProduct } from "../services/product";
+import { getProduct, getProducts } from "../services/product";
 import Loader from "../components/utils/Loader";
-import { customPrice, getImageURL } from "../helpers/all";
+import { customPrice, customWeight, getImageURL } from "../helpers/all";
 import ButtonCart from "../components/ButtonCart";
 
 const Product = () => {
   const [isRemove, setIsRemove] = useState(false);
   const { productId } = useParams();
-  const [data, setData] = useState({
+
+  const [product, setProduct] = useState({
     loading: true,
     item: {},
   });
+  const [recommends, setRecommends] = useState({
+    loading: true,
+    data: [],
+  });
 
-  const onLoad = () => {
+  var [data, setData] = useState({
+    cart: {
+      data: {
+        modifiers: {},
+        additions: [],
+        wishes: [],
+      },
+    },
+  });
+
+  const onLoad = useCallback(() => {
     getProduct(productId)
-      .then((res) => setData({ loading: false, item: res }))
-      .catch(() => setData({ ...data, loading: false }));
-  };
+      .then((res) => {
+        setProduct({ loading: false, item: res });
+        data.cart.data.modifiers =
+          res?.modifiers?.length > 0
+            ? res.modifiers.find((e) => e.main)
+            : false;
+        setData(data);
+        getProducts({ productId: res.id, categoryId: res.categoryId })
+          .then((res) => setRecommends({ loading: false, data: res }))
+          .catch(() => setRecommends((data) => ({ ...data, loading: false })));
+      })
+      .catch(() => setProduct((data) => ({ ...data, loading: false })));
+  }, [productId]);
 
   useLayoutEffect(() => {
     onLoad();
-  }, []);
+  }, [productId]);
 
-  if (data?.loading) {
+  if (product?.loading) {
     return <Loader full />;
   }
 
-  const price =
-    data?.item?.modifiers?.length > 0 && Array.isArray(data.item.modifiers)
-      ? data.item.modifiers.sort((a, b) => a.price - b.price)[0].price
-      : data?.item?.modifiers?.price ?? data?.item?.price ?? 0;
+  const price = data?.cart?.data?.modifiers?.price
+    ? data.cart.data.modifiers.price
+    : product?.item?.modifiers?.length > 0 &&
+      Array.isArray(product.item.modifiers)
+    ? product.item.modifiers.sort((a, b) => a.price - b.price)[0].price
+    : product?.item?.modifiers?.price ?? product?.item?.price ?? 0;
+
+  const discount = data?.cart?.data?.modifiers?.discount
+    ? data.cart.data.modifiers.discount
+    : product?.item?.modifiers?.length > 0 &&
+      Array.isArray(product.item.modifiers)
+    ? product.item.modifiers.sort((a, b) => a.price - b.price)[0].discount
+    : product?.item?.modifiers?.discount ?? product?.item?.discount ?? 0;
 
   return (
     <main>
       <Container>
-        <NavTop toBack={true} breadcrumbs={true} />
+        <NavTop
+          toBack={true}
+          breadcrumbs={[
+            { title: "Меню", link: "/menu" },
+            {
+              title: product?.item?.category?.title ?? "Нет категории",
+              link: product?.item?.category?.id
+                ? "/category/" + product.item.category.id
+                : "/menu",
+            },
+            {
+              title: product?.item?.title ?? "Не названия",
+            },
+          ]}
+        />
 
         <form className="productPage mb-5">
           <Row className="gx-4 gx-xxl-5">
             <Col xs={12} lg={3}>
               <img
-                src={getImageURL({ path: data.item.medias, size: "full" })}
-                alt={data.item.title}
+                src={getImageURL({ path: product.item.medias, size: "full" })}
+                alt={product.item.title}
                 className="productPage-img"
               />
             </Col>
             <Col xs={12} md={6} lg={5}>
               <div className="d-flex align-items-center justify-content-between justify-content-md-start mb-4">
-                <h1 className="mb-0">{data.item.title}</h1>
-                <h6 className="gray mb-0 ms-3">{data.item.energy.weight}</h6>
-                <HiOutlineInformationCircle className="dark-gray fs-15 ms-2" />
+                <h1 className="mb-0">{product.item.title}</h1>
+                {product.item.energy.weight > 0 && (
+                  <>
+                    <h6 className="gray mb-0 ms-3">
+                      {customWeight(product.item.energy.weight)}
+                    </h6>
+                    <HiOutlineInformationCircle className="dark-gray fs-15 ms-2" />
+                  </>
+                )}
               </div>
-
-              <p className="mb-2">Состав:</p>
-              <p>{data.item.description}</p>
-              {data?.item?.modifiers?.length > 0 && (
+              {product.item.description && (
+                <div className="mb-4">
+                  <p className="mb-2">Состав:</p>
+                  <p>{product.item.description}</p>
+                </div>
+              )}
+              {product?.item?.modifiers?.length > 0 && (
                 <>
                   {/* <h6 className="mt-4">Тесто</h6> */}
                   <div className="d-xxl-flex mb-4">
                     <ul className="inputGroup">
-                      {data.item.modifiers
+                      {product.item.modifiers
                         .slice()
                         .sort((a, b) => a.price - b.price)
                         .map((e, index) => (
@@ -92,7 +149,9 @@ const Product = () => {
                                 defaultChecked={index === 0}
                                 onChange={() => {
                                   let newData = { ...data };
-                                  newData.item.cart.data.modifiers = e;
+                           
+                                  newData.cart.data.modifiers = e;
+                                  
                                   setData(newData);
                                 }}
                               />
@@ -143,50 +202,54 @@ const Product = () => {
               /> */}
 
               <div className="productPage-price">
-                <div>
+                <div className="me-3">
                   <div className="fs-12">{customPrice(price)}</div>
-                  {/* <div className="gray fs-09 text-decoration-line-through">
-                    {" "}
-                    650{" "}
-                  </div> */}
+                  {discount > 0 && (
+                    <div className="gray fs-09 text-decoration-line-through">
+                      {customPrice(discount)}
+                    </div>
+                  )}
                 </div>
                 <ButtonCart
                   full
-                  data={data.item}
-                  className="btn-secondary fs-12 rounded-pill ms-3"
+                  product={product.item}
+                  data={data}
+                  className="btn-secondary fs-12 rounded-pill"
                 >
                   <span className="fw-4">В корзину</span>
                   <HiOutlineShoppingBag className="fs-15 ms-2" />
                 </ButtonCart>
               </div>
             </Col>
-            <Col xs={12} md={6} lg={4} className="mt-3mt-sm-4 mt-md-0">
-              <h6>Изменить по вкусу</h6>
-              <div className="productPage-edit mb-3">
-                <div className="top">
-                  <button
-                    type="button"
-                    className={isRemove ? "" : "active"}
-                    onClick={() => setIsRemove(false)}
-                  >
-                    <HiPlus />
-                    <span>Добавить</span>
-                    <Corner className="corner-right" />
-                  </button>
-                  <button
-                    type="button"
-                    className={isRemove ? "active" : ""}
-                    onClick={() => setIsRemove(true)}
-                  >
-                    <HiMinus />
-                    <span>Убрать</span>
-                    <Corner className="corner-left" />
-                    <Corner className="corner-right" />
-                  </button>
-                </div>
-                {isRemove ? (
-                  <div className="box">
-                    {/* <ul>
+            <Col xs={12} md={6} lg={4} className="mt-3 mt-sm-4 mt-md-0">
+              {product?.item?.additions?.length > 0 && (
+                <>
+                  <h6>Изменить по вкусу</h6>
+                  <div className="productPage-edit mb-3">
+                    <div className="top">
+                      <button
+                        type="button"
+                        className={isRemove ? "" : "active"}
+                        onClick={() => setIsRemove(false)}
+                      >
+                        <HiPlus />
+                        <span>Добавить</span>
+                        <Corner className="corner-right" />
+                      </button>
+                      <button
+                        type="button"
+                        className={isRemove ? "active" : ""}
+                        onClick={() => setIsRemove(true)}
+                      >
+                        <HiMinus />
+                        <span>Убрать</span>
+                        <Corner className="corner-left" />
+                        <Corner className="corner-right" />
+                      </button>
+                    </div>
+                    {isRemove ? (
+                      <div className="box">
+                        {/* <ul>
                       <li>
                         <Ingredient />
                       </li>
@@ -197,69 +260,85 @@ const Product = () => {
                         <Ingredient />
                       </li>
                     </ul> */}
+                      </div>
+                    ) : (
+                      <div className="box">
+                        <ul>
+                          {product.item.additions.map((e) => {
+                            const isAddition = () =>
+                              !!data?.cart?.data?.additions.find(
+                                (addition) => addition.id === e.addition.id
+                              );
+                            const onPressAddition = () => {
+                              if (isAddition()) {
+                                let newAdditions =
+                                  data.cart.data.additions.filter(
+                                    (e) => e.id != e.addition.id
+                                  );
+                                let newData = { ...data };
+                                newData.cart.data.additions = newAdditions;
+                                setData(newData);
+                              } else {
+                                let newData = { ...data };
+                                newData.cart.data.additions.push(e.addition);
+                                setData(newData);
+                              }
+                            };
+                            return (
+                              <li>
+                                <Ingredient
+                                  data={e}
+                                  active={isAddition()}
+                                  onChange={onPressAddition}
+                                />
+                              </li>
+                            );
+                          })}
+                        </ul>
+                      </div>
+                    )}
                   </div>
-                ) : (
-                  data?.item?.additions?.length > 0 && (
-                    <div className="box">
-                      <ul>
-                        {data.item.additions.map((e) => (
-                          <li>
-                            <Ingredient data={e.addition} />
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  )
-                )}
-              </div>
+                </>
+              )}
               <Notice />
             </Col>
           </Row>
         </form>
-
-        <section className="d-none d-md-block mb-5">
-          <h2>Товары из этой категории</h2>
-          {/* <Swiper
-            className=""
-            modules={[Navigation]}
-            spaceBetween={15}
-            slidesPerView={2}
-            navigation={{
-              nextEl: '.swiper-button-next',
-              prevEl: '.swiper-button-prev',
-            }}
-            breakpoints={{
-              576: {
-                slidesPerView: 3,
-                spaceBetween: 20,
-              },
-              768: {
-                slidesPerView: 3,
-                spaceBetween: 30,
-              },
-              992: {
-                slidesPerView: 4,
-                spaceBetween: 30,
-              },
-            }}
-          >
-            <SwiperSlide>
-              <ProductCard/>
-            </SwiperSlide>
-            <SwiperSlide>
-              <ProductCard/>
-            </SwiperSlide>
-            <SwiperSlide>
-              <ProductCard/>
-            </SwiperSlide>
-            <SwiperSlide>
-              <ProductCard/>
-            </SwiperSlide>
-            <SwiperSlide>
-              <ProductCard/>
-            </SwiperSlide>
-          </Swiper> */}
-        </section>
+        {recommends?.data?.length > 0 && (
+          <section className="d-none d-md-block mb-5">
+            <h2>Товары из этой категории</h2>
+            <Swiper
+              className=""
+              modules={[Navigation]}
+              spaceBetween={15}
+              slidesPerView={2}
+              navigation={{
+                nextEl: ".swiper-button-next",
+                prevEl: ".swiper-button-prev",
+              }}
+              breakpoints={{
+                576: {
+                  slidesPerView: 3,
+                  spaceBetween: 20,
+                },
+                768: {
+                  slidesPerView: 3,
+                  spaceBetween: 30,
+                },
+                992: {
+                  slidesPerView: 4,
+                  spaceBetween: 30,
+                },
+              }}
+            >
+              {recommends.data.map((e) => (
+                <SwiperSlide>
+                  <ProductCard data={e} />
+                </SwiperSlide>
+              ))}
+            </Swiper>
+          </section>
+        )}
       </Container>
     </main>
   );

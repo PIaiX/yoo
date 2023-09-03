@@ -1,25 +1,34 @@
 import React, { memo } from "react";
 import { customPrice, getImageURL } from "../../helpers/all";
 
-const Ingredient = memo(({ data }) => {
+const Ingredient = memo(({ data, active, onChange }) => {
+  const addition = data?.addition;
+
+  if (!addition) {
+    return null;
+  }
+
   return (
-    <div className="ingredient">
-      {data?.media && (
+    <a
+      className={"ingredient" + (active ? " active" : "")}
+      onClick={() => onChange(addition)}
+    >
+      {addition?.media && (
         <img
-          src={getImageURL({ path: data.media })}
-          alt={data?.title}
+          src={getImageURL({ path: addition.media })}
+          alt={addition?.title}
           className="ingredient-img"
         />
       )}
-      <div className="ingredient-title">{data?.title}</div>
-      <button type="button" className="btn-90">
+      <div className="ingredient-title">{addition?.title}</div>
+      {/* <button type="button" className="btn-90">
         x1
       </button>
       <button type="button" className="btn-90">
         x2
-      </button>
-      <div className="ingredient-price">{customPrice(data.price)}</div>
-    </div>
+      </button> */}
+      <div className="ingredient-price">{customPrice(addition.price)}</div>
+    </a>
   );
 });
 

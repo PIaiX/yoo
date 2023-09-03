@@ -8,34 +8,40 @@ import CountInput from "./utils/CountInput";
 import { NotificationManager } from "react-notifications";
 
 const ButtonCart = memo(
-  ({ data, full = false, onAddCart, cart = false, className, children }) => {
-    const isCartData = isCart(data);
+  ({
+    product,
+    data,
+    full = false,
+    onAddCart,
+    cart = false,
+    className,
+    children,
+  }) => {
+    const isCartData = isCart(product);
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
     const onPress = useCallback(
       (newCount) => {
-        let newdata = { ...data };
+        let newdata = { ...product };
         if (data?.cart?.data) {
           newdata.cart = data.cart;
         }
         newdata.cart = { ...newdata.cart, count: newCount ?? 0, full };
         dispatch(updateCart(newdata));
-        if (full && data?.modifiers?.length > 0 && newCount <= 1) {
+        if (full && product?.modifiers?.length > 0 && newCount <= 1) {
           NotificationManager.success("Товар успешно добавлен в корзину");
           navigate(-1);
-        } else {
-          NotificationManager.success("Корзина успешно обновлена");
         }
         onAddCart && onAddCart();
       },
-      [data, cart, full]
+      [data, product, cart, full]
     );
 
-    if ((isCartData && data?.modifiers?.length === 0) || cart) {
+    if ((isCartData && product?.modifiers?.length === 0) || cart) {
       return (
         <CountInput
-          dis={false}
+          full
           onChange={onPress}
           value={isCartData?.cart?.count > 0 ? isCartData.cart.count : 1}
         />
@@ -47,12 +53,14 @@ const ButtonCart = memo(
         onClick={() =>
           data?.cart?.data?.modifiers
             ? onPress(1)
-            : data?.modifiers?.length > 0 && !full
-            ? navigate("/menu/product/" + data.id, data)
+            : product?.modifiers?.length > 0 && !full
+            ? navigate("/menu/product/" + product.id, product)
             : onPress(1)
         }
         type="button"
-        className={`${className} rounded-pill ms-3 ${isCartData ? 'btn-light-outline' : 'btn-light'}`}
+        className={`${className} rounded-pill ${
+          isCartData ? "btn-light-outline" : "btn-light"
+        }`}
       >
         {children ?? (
           <>
