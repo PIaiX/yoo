@@ -41,7 +41,7 @@ const ButtonCart = memo(
     if ((isCartData && product?.modifiers?.length === 0) || cart) {
       return (
         <CountInput
-          full
+          full={full}
           onChange={onPress}
           value={isCartData?.cart?.count > 0 ? isCartData.cart.count : 1}
         />

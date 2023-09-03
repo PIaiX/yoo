@@ -2,8 +2,8 @@ import React, { memo } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { HiOutlineArrowLeftCircle } from "react-icons/hi2";
 
-const NavTop = memo(({ toBack, breadcrumbs = false }) => {
-  const navigate = useNavigate()
+const NavTop = memo(({ toBack = true, breadcrumbs = false }) => {
+  const navigate = useNavigate();
   return (
     <nav className="navTop">
       {toBack && (

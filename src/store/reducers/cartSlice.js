@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit'
+import {createSlice} from '@reduxjs/toolkit'
 
 const initialState = {
     promo: false,
@@ -16,28 +16,63 @@ const cartSlice = createSlice({
             }
         },
         updateCartSync: (state, action) => {
-            let isCart = state.items.findIndex((e) => {
+            const isCart = state.items.findIndex((e) => {
+                var view = false
                 if (e.id === action?.payload?.id) {
-                    if (e?.cart?.data?.modifiers && action?.payload?.cart?.data?.modifiers) {
-                        return (
-                            JSON.stringify(e.cart.data.modifiers) ===
-                            JSON.stringify(action.payload.cart.data.modifiers)
-                        )
+                    if (e?.cart?.data?.modifiers?.id && action?.payload?.cart?.data?.modifiers?.id) {
+                        view = e.cart.data.modifiers.id == action.payload.cart.data.modifiers.id
                     }
-                    return true
+                    if (action?.payload?.cart?.data?.additions?.length > 0) {
+                        if (e?.cart?.data?.additions?.length > 0) {
+                            view =
+                                JSON.stringify(e.cart.data.additions) ==
+                                JSON.stringify(action.payload.cart.data.additions)
+                        } else {
+                            view = false
+                        }
+                    } else if (
+                        action?.payload?.cart?.data?.additions?.length === 0 &&
+                        e?.cart?.data?.additions?.length > 0
+                    ) {
+                        view = false
+                    }
+
+                    if (
+                        !e?.cart?.data?.modifiers?.id &&
+                        !action?.payload?.cart?.data?.modifiers?.id &&
+                        !e?.cart?.data?.additions?.length &&
+                        !action?.payload?.cart?.data?.additions?.length
+                    ) {
+                        view = true
+                    }
                 }
+                return view
             })
 
             if (isCart != -1 && action?.payload?.cart?.count === 0) {
                 state.items.splice(isCart, 1)
-            } else if (isCart != -1) {
+            } else if (isCart != -1 && action?.payload) {
                 state.items[isCart] = {
                     ...action.payload,
-                    count: action.payload.cart.count,
+                    cart: {
+                        ...action.payload.cart,
+                        count:
+                            action?.payload?.cart?.full && state.items[isCart]?.cart?.count
+                                ? state.items[isCart].cart.count + 1
+                                : action.payload.cart.count,
+                    },
                 }
-            } else {
-                state.items.push(action?.payload)
+            } else if (isCart == -1 && action?.payload) {
+                state.items.push({
+                    ...action.payload,
+                    cart: {
+                        ...action.payload.cart,
+                        count: action.payload.cart.count,
+                    },
+                })
             }
+            console.log(state.items)
+            return state
         },
         cartEditOptions: (state, action) => {
             let isCart = state.items[action.payload.index]

@@ -226,7 +226,7 @@ const Product = () => {
                 <>
                   <h6>Изменить по вкусу</h6>
                   <div className="productPage-edit mb-3">
-                    <div className="top">
+                    {/* <div className="top">
                       <button
                         type="button"
                         className={isRemove ? "" : "active"}
@@ -246,7 +246,7 @@ const Product = () => {
                         <Corner className="corner-left" />
                         <Corner className="corner-right" />
                       </button>
-                    </div>
+                    </div> */}
                     {isRemove ? (
                       <div className="box">
                         {/* <ul>
@@ -273,7 +273,7 @@ const Product = () => {
                               if (isAddition()) {
                                 let newAdditions =
                                   data.cart.data.additions.filter(
-                                    (e) => e.id != e.addition.id
+                                    (addition) => addition.id != e.addition.id
                                   );
                                 let newData = { ...data };
                                 newData.cart.data.additions = newAdditions;

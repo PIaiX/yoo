@@ -16,7 +16,7 @@ const CartItem = memo(({ data }) => {
   return (
     <div className="cart-item">
       <div className="left">
-        <input type="checkbox" className="me-1 me-sm-3" />
+        {/* <input type="checkbox" className="me-1 me-sm-3" /> */}
         <img src={getImageURL({ path: data.medias })} alt={data.title} />
         <div className="text">
           <h6>
@@ -64,7 +64,7 @@ const CartItem = memo(({ data }) => {
       <div className="right">
         <div className="order-2 order-md-1">
           <p className="d-none d-md-block text-center mb-2">Количество</p>
-          <ButtonCart cart data={data} />
+          <ButtonCart cart product={data} />
         </div>
 
         <div className="order-1 order-md-2">{customPrice(price)}</div>

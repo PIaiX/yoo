@@ -1,19 +1,24 @@
-import React from 'react';
+import React, { memo } from "react";
+import { customPrice, customWeight, getImageURL } from "../helpers/all";
 
-const CheckoutProduct = () => {
+const CheckoutProduct = memo(({ data }) => {
+  const price = data?.cart?.data?.modifiers?.price
+    ? data.cart.data.modifiers.price
+    : data.price;
+
   return (
-    <div className='checkoutProduct'>
-      <img src="imgs/img3.png" alt="Ролл «Филадельфия»"/>
-      <div className='flex-1'>
-        <h6>Ролл «Филадельфия»</h6>
-        <div className='d-flex align-items-center'>
-          <p>240 г</p>
-          <p className='ms-auto'>1 540 ₽</p>
-          <p className='checkoutProduct-count'>х1</p>
+    <div className="checkoutProduct">
+      <img src={getImageURL({ path: data.medias })} alt={data.title} />
+      <div className="flex-1">
+        <h6>{data.title}</h6>
+        <div className="d-flex align-items-center">
+          {data?.energy?.weight && <p>{customWeight(data.energy.weight)}</p>}
+          <p className="ms-auto">{customPrice(price)}</p>
+          <p className="checkoutProduct-count">x{data?.cart?.count ?? 1}</p>
         </div>
       </div>
     </div>
   );
-};
+});
 
 export default CheckoutProduct;

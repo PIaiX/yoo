@@ -1,17 +1,22 @@
-import React, { useEffect, useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
+import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
-import { Link } from "react-router-dom";
 import NavTop from "../components/utils/NavTop";
 // import Gifts from "../components/utils/Gifts";
+import { useForm, useWatch } from "react-hook-form";
 import { HiOutlineTrash, HiXMark } from "react-icons/hi2";
-import CartItem from "../components/CartItem";
+import { NotificationManager } from "react-notifications";
 import { useDispatch, useSelector } from "react-redux";
-import { useTotalCart } from "../hooks/useCart";
-import { useForm } from "react-hook-form";
+import { Link } from "react-router-dom";
+import CartItem from "../components/CartItem";
 import { customPrice, declination, getCount } from "../helpers/all";
+import { useTotalCart } from "../hooks/useCart";
 import { deleteCart } from "../services/cart";
+import { getDelivery } from "../services/order";
+import { isPromo } from "../services/promo";
+import { cartDeletePromo } from "../store/reducers/cartSlice";
+import Input from "../components/utils/Input";
 
 const Cart = () => {
   const state = useSelector(
@@ -48,9 +53,10 @@ const Cart = () => {
   const {
     control,
     register,
-    formState: { isValid, isSubmitting },
+    formState: { isValid, isSubmitting, errors },
     handleSubmit,
     setValue,
+    reset,
   } = useForm({
     mode: "all",
     reValidateMode: "onSubmit",
@@ -60,6 +66,7 @@ const Cart = () => {
   });
 
   const dispatch = useDispatch();
+  const data = useWatch({ control });
 
   useEffect(() => {
     if (state.delivery == "delivery" && state.isAuth) {
@@ -91,10 +98,9 @@ const Cart = () => {
           .then(({ data }) => data?.promo && dispatch(cartPromo(data.promo)))
           .catch((err) => {
             dispatch(cartDeletePromo());
-            showMessage({
-              message: err.response.data.error ?? "Неизвестная ошибка",
-              type: "danger",
-            });
+            NotificationManager.error(
+              err?.response?.data?.error ?? "Такого промокода не существует"
+            );
           });
     },
     [state?.cart?.promo]
@@ -114,21 +120,19 @@ const Cart = () => {
   return (
     <main>
       <Container>
-        <NavTop toBack={true} breadcrumbs={false} />
-        <form className="cart">
+        <NavTop breadcrumbs={false} />
+        <div className="cart">
           <Row className="g-4 g-xxl-5">
             <Col xs={12} lg={8}>
-              <h1 className="text-center text-lg-start">
-                Вы добавили {declination(count, ["товар", "товара", "товаров"])}
-              </h1>
-              <div className="cart-filter">
-                <label>
+         
+              <div className="cart-filter d-flex justify-content-between align-items-center">
+                {/* <label>
                   <input type="checkbox" />
                   <span className="fs-11 ms-2">
                     Все <span className="d-none d-sm-inline">товары</span>
                   </span>
-                </label>
-                <button
+                </label> */}
+                {/* <button
                   type="button"
                   className="d-flex align-items-center dark-gray ms-auto"
                 >
@@ -137,7 +141,8 @@ const Cart = () => {
                   <span className="d-none d-md-inline fs-11 ms-1">
                     Удалить выбранные
                   </span>
-                </button>
+                </button> */}
+                <h6 className="mb-0">Вы добавили {declination(count, ["товар", "товара", "товаров"])}</h6>
                 <button
                   type="button"
                   className="btn-9 py-1 ms-4 ms-sm-5"
@@ -156,47 +161,79 @@ const Cart = () => {
               </ul>
             </Col>
             <Col xs={12} lg={4}>
-              <div className="main-color fs-11 mb-1">Комментарий</div>
-              <textarea rows="3" className="mb-4"></textarea>
-
               <div className="fs-11 mb-1">Промокод</div>
-              <fieldset className="promoCode mb-5">
-                <input type="text" />
-                <button type="button" className="btn-primary">
+              <div className="mb-3 d-flex">
+                <Input
+                  className="w-100"
+                  type="number"
+                  name="promo"
+                  placeholder="Введите промокод"
+                  errors={errors}
+                  defaultValue={data?.promo}
+                  register={register}
+                />
+                <button type="button" className="btn-10 ms-2 ms-sm-4 rounded-3">
                   Применить
                 </button>
-                <button type="button" className="clear">
-                  <HiXMark />
-                </button>
-              </fieldset>
+              </div>
 
               <div className="d-flex justify-content-between my-2">
                 <span>Стоимость товаров</span>
                 <span>{customPrice(price)}</span>
               </div>
-              <div className="d-flex justify-content-between my-2">
-                <span>Доставка</span>
-                <span className="main-color">
-                  {delivery > 0 ? customPrice(delivery) : "Бесплатно"}
-                </span>
-              </div>
+
+              {discount > 0 && (
+                <div className="d-flex justify-content-between my-2">
+                  <span>Скидка</span>
+                  <span>-{customPrice(discount)}</span>
+                </div>
+              )}
+              {state.delivery == "delivery" && (
+                <div className="d-flex justify-content-between my-2">
+                  <span>Доставка</span>
+                  <span className="main-color">
+                    {delivery > 0 ? "+" + customPrice(delivery) : "Бесплатно"}
+                  </span>
+                </div>
+              )}
+              {point > 0 && (
+                <div className="d-flex justify-content-between my-2">
+                  <span>Списание баллов</span>
+                  <span>{customPoint({ value: point, char: "-" })}</span>
+                </div>
+              )}
+              {cashback > 0 && (
+                <div className="d-flex justify-content-between my-2">
+                  <span>Начислится баллов</span>
+                  <span>{customPoint({ value: cashback, char: "+" })}</span>
+                </div>
+              )}
               <hr className="my-3" />
               <div className="d-flex justify-content-between mb-5">
                 <span className="fw-6 fs-11">Итоговая сумма</span>
                 <span className="fw-6">{customPrice(total)}</span>
               </div>
 
-              {/* <Gifts /> */}
+              {state.options.giftVisible && <Gifts />}
 
-              {/* <div className="bg-main-01 main-color p-2 fw-6 text-center w-100 rounded-3 mt-3">
-                34 бонуса будут начислены за этот заказ
-              </div> */}
-              <Link to="/checkout" className="btn-secondary mt-3 w-100">
-                <span className="fw-4">Перейти к оформлению</span>
+              <Link
+                disabled={
+                  !state?.isAuth ||
+                  (state?.isAuth && state?.address?.items?.length === 0) ||
+                  (state.delivery === "delivery" &&
+                    state?.cart?.zone?.minPrice < price) ||
+                  state.delivery === "pickup"
+                }
+                to={state?.isAuth ? "/checkout" : "/login"}
+                className="btn-secondary w-100"
+              >
+                <span className="fw-4">
+                  {state?.isAuth ? "Далее" : "Войти в профиль"}
+                </span>
               </Link>
             </Col>
           </Row>
-        </form>
+        </div>
       </Container>
     </main>
   );
