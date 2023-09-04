@@ -15,12 +15,16 @@ import cartSlice from "./reducers/cartSlice";
 import checkoutSlice from "./reducers/checkoutSlice";
 import favoriteSlice from "./reducers/favoriteSlice";
 import settingsSlice from "./reducers/settingsSlice";
+import affiliateSlice from "./reducers/affiliateSlice";
+import addressSlice from "./reducers/addressSlice";
 
 const rootReducer = combineReducers({
   settings: settingsSlice,
   auth: authSlice,
   cart: cartSlice,
   favorite: favoriteSlice,
+  address: addressSlice,
+  affiliate: affiliateSlice,
   checkout: checkoutSlice,
 });
 

@@ -1,38 +1,49 @@
-import React, { useState } from "react";
-import Offcanvas from "react-bootstrap/Offcanvas";
+import React, { memo, useState } from "react";
 import Container from "react-bootstrap/Container";
-import { Link } from "react-router-dom";
-import useIsMobile from "../hooks/isMobile";
-import SelectImitation from "./utils/SelectImitation";
+import Offcanvas from "react-bootstrap/Offcanvas";
 import {
-  HiOutlineDevicePhoneMobile,
-  HiOutlineUserCircle,
-  HiOutlineShoppingBag,
-  HiOutlineHeart,
   HiOutlineArrowLeftCircle,
+  HiOutlineDevicePhoneMobile,
+  HiOutlineHeart,
+  HiOutlineShoppingBag,
+  HiOutlineUserCircle,
 } from "react-icons/hi2";
-import Logo from "../assets/imgs/logo.svg";
-import delivery from "../assets/imgs/delivery_icon.svg";
-import ruFlag from "../assets/imgs/flags/rus.jpg";
+import { IoLogoWhatsapp } from "react-icons/io";
+import { IoCall, IoCloseOutline } from "react-icons/io5";
+import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 import engFlag from "../assets/imgs/flags/eng.jpg";
+import ruFlag from "../assets/imgs/flags/rus.jpg";
+import { getCount } from "../helpers/all";
+import useIsMobile from "../hooks/isMobile";
+import { editDeliveryCheckout } from "../store/reducers/checkoutSlice";
+import MenuDelivery from "./svgs/MenuDelivery";
+import MenuDocs from "./svgs/MenuDocs";
 import MenuIcon from "./svgs/MenuIcon";
 import MenuPhone from "./svgs/MenuPhone";
-import MenuDelivery from "./svgs/MenuDelivery";
 import MenuVacancies from "./svgs/MenuVacancies";
-import MenuDocs from "./svgs/MenuDocs";
-import { IoCloseOutline, IoCall } from "react-icons/io5";
-import { IoLogoWhatsapp } from "react-icons/io";
 import YooApp from "./svgs/YooApp";
-import { useSelector } from "react-redux";
-import { memo } from "react";
-import { getCount } from "../helpers/all";
+import Select from "./utils/Select";
+import SelectImitation from "./utils/SelectImitation";
 
 const Header = memo(() => {
-  const { cart, auth } = useSelector((state) => state);
+  const {
+    cart,
+    auth,
+    checkout: { delivery = "delivery" },
+    affiliate,
+    settings: { options = false },
+  } = useSelector((state) => state);
+
+  const dispatch = useDispatch();
+
   const isMobileLG = useIsMobile("991px");
   const [showMenu, setShowMenu] = useState(false);
   const [isContacts, setIsContacts] = useState(false);
   const count = getCount(cart.items);
+
+  const mainAffiliate =
+    affiliate?.items?.length > 0 ? affiliate.items.find((e) => e.main) : false;
 
   return (
     <>
@@ -40,34 +51,35 @@ const Header = memo(() => {
         <Container className="h-100">
           <nav className="h-100">
             <Link to="/">
-              <img src={Logo} alt="yoo.app" className="logo" />
+              <img src="/logo.svg" alt="yooapp" className="logo" />
+              <span className="ms-3 logo-name">
+                {options?.title ?? "YOOAPP"}
+              </span>
             </Link>
             {!isMobileLG && (
               <>
                 <ul className="btns-menu">
-                  <li className="d-none d-xxl-block">
-                    <SelectImitation
-                      optionsArr={[
+                  <li className="d-none d-md-block">
+                    <Select
+                      data={[
                         {
-                          value: 1,
-                          label: "Доставка",
-                          icon: delivery,
-                          defaultChecked: true,
+                          value: "delivery",
+                          title: "Доставка",
                         },
                         {
-                          value: 2,
-                          label: "Самовывоз",
-                          icon: delivery,
-                          defaultChecked: false,
+                          value: "pickup",
+                          title: "Самовывоз",
                         },
                       ]}
+                      value={delivery}
+                      onClick={(e) => dispatch(editDeliveryCheckout(e.value))}
                     />
                   </li>
-                  <li className="ms-3">
+                  {/* <li className="ms-3">
                     <Link to="/menu" className="btn-primary py-2">
                       Меню
                     </Link>
-                  </li>
+                  </li> */}
                 </ul>
                 <ul className="text-menu">
                   <li>
@@ -77,10 +89,12 @@ const Header = memo(() => {
                     <Link to="/">О нас</Link>
                   </li>
                 </ul>
-                <a href="tel:+7987987-78-78" className="phone">
-                  <HiOutlineDevicePhoneMobile className="fs-15" />
-                  <span className="fs-11 ms-2">+7 987 987-78-78</span>
-                </a>
+                {mainAffiliate?.phone[0] && (
+                  <a href={"tel:" + mainAffiliate.phone[0]} className="phone">
+                    <HiOutlineDevicePhoneMobile className="fs-15" />
+                    <span className="fs-11 ms-2">{mainAffiliate.phone[0]}</span>
+                  </a>
+                )}
               </>
             )}
 

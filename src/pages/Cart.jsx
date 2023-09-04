@@ -124,7 +124,6 @@ const Cart = () => {
         <div className="cart">
           <Row className="g-4 g-xxl-5">
             <Col xs={12} lg={8}>
-         
               <div className="cart-filter d-flex justify-content-between align-items-center">
                 {/* <label>
                   <input type="checkbox" />
@@ -142,7 +141,10 @@ const Cart = () => {
                     Удалить выбранные
                   </span>
                 </button> */}
-                <h6 className="mb-0">Вы добавили {declination(count, ["товар", "товара", "товаров"])}</h6>
+                <h6 className="mb-0">
+                  Вы добавили{" "}
+                  {declination(count, ["товар", "товара", "товаров"])}
+                </h6>
                 <button
                   type="button"
                   className="btn-9 py-1 ms-4 ms-sm-5"
@@ -217,6 +219,7 @@ const Cart = () => {
               {state.options.giftVisible && <Gifts />}
 
               <Link
+                to={state?.isAuth ? "/checkout" : "/login"}
                 disabled={
                   !state?.isAuth ||
                   (state?.isAuth && state?.address?.items?.length === 0) ||
@@ -224,8 +227,7 @@ const Cart = () => {
                     state?.cart?.zone?.minPrice < price) ||
                   state.delivery === "pickup"
                 }
-                to={state?.isAuth ? "/checkout" : "/login"}
-                className="btn-secondary w-100"
+                className="btn-primary w-100"
               >
                 <span className="fw-4">
                   {state?.isAuth ? "Далее" : "Войти в профиль"}

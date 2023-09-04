@@ -1,4 +1,5 @@
 const API_TOKEN = "gdsgao3883oxropsda09923tgllaje3i19185";
+const DOMAIN = "totospizza.ru";
 const SITE_URL = "https://yooapp.ru";
 const BASE_URL = "https://api.yooapp.ru";
 const ADMIN_URL = "https://admin.yooapp.ru";
@@ -92,6 +93,7 @@ export {
   BASE_URL,
   SITE_URL,
   FILE_URL,
+  DOMAIN,
   API_TOKEN,
   DADATA_URL_STREET,
   DADATA_URL_ADDRESS,

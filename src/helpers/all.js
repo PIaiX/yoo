@@ -108,7 +108,12 @@ const declination = (value, data, view = true) => {
   return view ? value + " " + data[2] : data[2];
 };
 
+const setCssColor = (name, value) => {
+  document.documentElement.style.setProperty(name, value);
+}
+
 export {
+  setCssColor,
   customPrice,
   getImageURL,
   convertColor,

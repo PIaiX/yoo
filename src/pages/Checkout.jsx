@@ -405,7 +405,17 @@ const Checkout = () => {
                 <span className="fw-6">{customPrice(total)}</span>
               </div>
 
-              <button type="submit" className="btn-secondary mt-3 w-100">
+              <button
+                type="submit"
+                disabled={
+                  isValid ||
+                  (state.delivery === "delivery" &&
+                    state?.cart?.zone?.minPrice < price) ||
+                  (point > 0 && total === 0)
+                }
+                className="btn-primary mt-3 w-100"
+                onClick={handleSubmit(onSubmit)}
+              >
                 <span className="fw-4">Оформить заказ</span>
               </button>
             </Col>

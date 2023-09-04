@@ -10,16 +10,17 @@ import GooglePlay from "../assets/imgs/googleplay-black.svg";
 import Phone from "../assets/imgs/phone.png";
 import Offer from "../components/Offer";
 import ProductCardMini from "../components/ProductCardMini";
-import Section3 from "../components/Section3";
-import StoriesSection from "../components/StoriesSection";
+import Catalog from "../components/Catalog";
+// import StoriesSection from "../components/StoriesSection";
 
 import { Navigation, Pagination } from "swiper";
 import "swiper/css";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { getCategories } from "../services/category";
-import { getSales } from "../services/sales";
+import ScrollToTop from "../components/ScrollToTop";
 import Loader from "../components/utils/Loader";
 import { getImageURL } from "../helpers/all";
+import { getCategories } from "../services/category";
+import { getSales } from "../services/sales";
 
 const Home = () => {
   const [categories, setCategories] = useState({
@@ -111,7 +112,7 @@ const Home = () => {
         </div>
       </section> */}
 
-      <Section3 data={categories.items}/>
+      <Catalog data={categories.items} />
 
       <Container className="overflow-hidden">
         <section className="sec-4 mb-5">
@@ -246,6 +247,7 @@ const Home = () => {
           </Link>
         </Container>
       </section>
+      <ScrollToTop />
     </main>
   );
 };

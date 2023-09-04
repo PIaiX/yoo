@@ -2,12 +2,7 @@ import React, { useState } from "react";
 import { Navigation, FreeMode } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
-import FoodRolls from "../components/svgs/FoodRolls";
-import FoodSets from "../components/svgs/FoodSets";
-import FoodPizza from "../components/svgs/FoodPizza";
-import FoodCombo from "../components/svgs/FoodCombo";
-import FoodPoke from "../components/svgs/FoodPoke";
-import FoodDesserts from "../components/svgs/FoodDesserts";
+
 import {
   HiOutlineArrowRightCircle,
   HiOutlineArrowLeftCircle,
@@ -28,23 +23,6 @@ const Categories = memo(({ className, data }) => {
   const handleСollapse = () => {
     swiper.enable();
     setIsFull(false);
-  };
-
-  const textArray = ["пицца", "комбо", "поке", "десерты", "сеты", "роллы"];
-  const iconsArray = [
-    <FoodPizza className="fs-15" />,
-    <FoodCombo className="fs-15" />,
-    <FoodPoke className="fs-15" />,
-    <FoodDesserts className="fs-15" />,
-    <FoodSets className="fs-15" />,
-    <FoodRolls className="fs-15" />,
-  ];
-
-  const searchIcon = (text) => {
-    let index = textArray.findIndex((e) => e === text.trim().toLowerCase());
-    if (index != -1) {
-      return iconsArray[index];
-    }
   };
 
   return data.length > 0 ? (
@@ -81,8 +59,7 @@ const Categories = memo(({ className, data }) => {
           {data.map((e) => (
             <SwiperSlide>
               <button type="button" className="btn-8">
-                {searchIcon(e.title)}
-                <span className="ms-2">{e.title}</span>
+                {e.title}
               </button>
             </SwiperSlide>
           ))}
@@ -166,13 +143,11 @@ const Categories = memo(({ className, data }) => {
           onClick={handleСollapse}
           className="categories-btn"
         >
-          <span>свернуть</span>
-          <HiArrowUturnUp className="fs-15 ms-3 main-color" />
+          <HiArrowUturnUp className="fs-15 main-color" />
         </button>
       ) : (
         <button type="button" onClick={handleExpand} className="categories-btn">
-          <span>показать все</span>
-          <HiOutlineArrowUturnDown className="fs-15 ms-3 main-color rotateY-180" />
+          <HiOutlineArrowUturnDown className="fs-15 main-color rotateY-180" />
         </button>
       )}
     </div>

@@ -40,8 +40,7 @@ const Select = memo(
             onClick(e);
           }}
           className={
-            "select d-flex align-items-center justify-content-between " +
-            className
+            "d-flex align-items-center justify-content-between " + className
           }
         >
           {label && <span className="select-label">{label}</span>}
@@ -66,9 +65,9 @@ const Select = memo(
     });
 
     return (
-      <Dropdown>
+      <Dropdown className="select">
         <Dropdown.Toggle as={CustomToggle} />
-        <Dropdown.Menu>
+        <Dropdown.Menu as="ul" className="select-options">
           {data && search && (
             <div className="mb-2 bg-body position-sticky top-0">
               <Input
@@ -81,6 +80,8 @@ const Select = memo(
           {searchData.length > 0
             ? searchData.map((e, index) => (
                 <Dropdown.Item
+                  as="li"
+                  bsPrefix="select-options-item"
                   key={index}
                   active={e.value === value ?? e.title === value ?? e.main}
                   onClick={() => onClick && onClick(e)}

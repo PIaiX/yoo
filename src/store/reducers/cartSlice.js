@@ -1,4 +1,4 @@
-import {createSlice} from '@reduxjs/toolkit'
+import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
     promo: false,
@@ -71,7 +71,7 @@ const cartSlice = createSlice({
                     },
                 })
             }
-            console.log(state.items)
+
             return state
         },
         cartEditOptions: (state, action) => {

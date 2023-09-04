@@ -5,11 +5,15 @@ import Col from "react-bootstrap/Col";
 import CategoryCard from "./CategoryCard";
 import Choose from "../assets/imgs/choose.svg";
 import GridIcon from "./svgs/GridIcon";
-import { HiOutlineArrowUturnDown } from "react-icons/hi2";
+import {
+  HiOutlineAdjustmentsHorizontal,
+  HiOutlineArrowUturnDown,
+  HiOutlineBars3,
+} from "react-icons/hi2";
 import CategoryGroup from "./CategoryGroup";
 import Categories from "./Categories";
 
-const Section3 = memo(({ data }) => {
+const Catalog = memo(({ data }) => {
   const [viewCategories, setViewCategories] = useState(false);
 
   return (
@@ -44,14 +48,22 @@ const Section3 = memo(({ data }) => {
         <Container>
           <div className="sticky-box mb-3 mb-sm-4 mb-md-5">
             <Categories className={"w-90"} data={data} />
-            <button
+            {/* <button
               type="button"
               onClick={() => setViewCategories(!viewCategories)}
               className="btn-view me-4"
             >
               <img src={Choose} alt="Choose" />
               <GridIcon />
-            </button>
+            </button> */}
+            <div className="filterGrid-filter">
+              <button type="button" className="btn-filter btn-10">
+                <HiOutlineAdjustmentsHorizontal className="fs-15" />
+              </button>
+              <button type="button" className="d-lg-none btn-10 ms-2 ms-sm-3">
+                <HiOutlineBars3 className="fs-15" />
+              </button>
+            </div>
           </div>
           {data.length > 0 && (
             <div className="categories-box">
@@ -66,4 +78,4 @@ const Section3 = memo(({ data }) => {
   );
 });
 
-export default Section3;
+export default Catalog;
