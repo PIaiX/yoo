@@ -91,8 +91,8 @@ const Header = memo(() => {
                 </ul>
                 {mainAffiliate?.phone[0] && (
                   <a href={"tel:" + mainAffiliate.phone[0]} className="phone">
-                    <HiOutlineDevicePhoneMobile className="fs-15" />
-                    <span className="fs-11 ms-2">{mainAffiliate.phone[0]}</span>
+                    <HiOutlineDevicePhoneMobile className="fs-12" />
+                    <span className="ms-1">{mainAffiliate.phone[0]}</span>
                   </a>
                 )}
               </>
@@ -100,21 +100,18 @@ const Header = memo(() => {
 
             <ul className="icons-menu">
               <li>
-                <SelectImitation
-                  btnClass={"borderless"}
-                  imgClass={"round"}
-                  optionsArr={[
+                <Select
+                  value="ru"
+                  data={[
                     {
-                      value: 1,
-                      label: "русский",
-                      icon: ruFlag,
-                      defaultChecked: true,
+                      value: "ru",
+                      title: "русский",
+                      image: ruFlag,
                     },
                     {
-                      value: 2,
-                      label: "english",
-                      icon: engFlag,
-                      defaultChecked: false,
+                      value: "en",
+                      title: "english",
+                      image: engFlag,
                     },
                   ]}
                 />
@@ -123,12 +120,12 @@ const Header = memo(() => {
                 <>
                   <li>
                     <Link to={auth.isAuth ? "/account" : "/login"}>
-                      <HiOutlineUserCircle />
+                      <HiOutlineUserCircle size={25} />
                     </Link>
                   </li>
                   <li>
                     <Link to="/cart" className="position-relative">
-                      <HiOutlineShoppingBag />
+                      <HiOutlineShoppingBag size={25} />
                       {count > 0 && (
                         <span className="position-absolute top-100 start-100 translate-middle badge rounded-pill">
                           {count}
@@ -138,7 +135,7 @@ const Header = memo(() => {
                   </li>
                   <li>
                     <Link to="/">
-                      <HiOutlineHeart />
+                      <HiOutlineHeart size={25} />
                     </Link>
                   </li>
                 </>

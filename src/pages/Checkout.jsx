@@ -408,7 +408,7 @@ const Checkout = () => {
               <button
                 type="submit"
                 disabled={
-                  isValid ||
+                  !isValid ||
                   (state.delivery === "delivery" &&
                     state?.cart?.zone?.minPrice < price) ||
                   (point > 0 && total === 0)

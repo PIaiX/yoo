@@ -8,6 +8,8 @@ import {
   HiOutlineArrowLeftCircle,
   HiOutlineArrowUturnDown,
   HiArrowUturnUp,
+  HiOutlineAdjustmentsHorizontal,
+  HiOutlineBars3,
 } from "react-icons/hi2";
 import { memo } from "react";
 
@@ -150,6 +152,12 @@ const Categories = memo(({ className, data }) => {
           <HiOutlineArrowUturnDown className="fs-15 main-color rotateY-180" />
         </button>
       )}
+      <button type="button" className="categories-btn">
+        <HiOutlineAdjustmentsHorizontal className="fs-15 main-color" />
+      </button>
+      <button type="button" className="d-lg-none categories-btn">
+        <HiOutlineBars3 className="fs-15 main-color" />
+      </button>
     </div>
   ) : null;
 });

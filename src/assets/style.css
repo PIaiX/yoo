@@ -1401,15 +1401,6 @@ header nav ul.text-menu li:not(:first-child) {
 header nav ul.icons-menu > li:not(:first-child) {
   margin-left: 1.25em;
 }
-header nav ul.icons-menu a {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  flex-wrap: nowrap;
-  color: var(--main-color);
-  font-size: 1.75em;
-}
 header .logo {
   height: 50px;
   max-width: 80px;
@@ -2040,7 +2031,7 @@ main {
 }
 .categories-wrap {
   position: relative;
-  width: 95%;
+  width: 100%;
   padding: 0px 2.75em;
 }
 @media (max-width: 991.98px) {
@@ -2601,99 +2592,6 @@ main {
 .ingredient button {
   padding: 0.33em 0.6em;
   margin-left: 0.625em;
-}
-
-.filterGrid {
-  position: relative;
-  --size: 2.75em;
-  display: grid;
-  grid-template-columns: 800px auto 50px 180px;
-  grid-template-rows: 1fr;
-  grid-template-areas: "search . filter sort";
-  gap: 1em;
-}
-@media (max-width: 1199.98px) {
-  .filterGrid {
-    grid-template-columns: 600px auto 50px 180px;
-  }
-}
-@media (max-width: 991.98px) {
-  .filterGrid {
-    grid-template-areas: "sort search filter";
-    grid-template-columns: 180px auto 100px;
-  }
-}
-@media (max-width: 575.98px) {
-  .filterGrid {
-    grid-template-columns: 180px auto auto;
-    gap: 0.5em;
-  }
-}
-.filterGrid-search {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: stretch;
-  flex-wrap: nowrap;
-  grid-area: search;
-  position: relative;
-}
-@media (max-width: 991.98px) {
-  .filterGrid-search {
-    justify-content: flex-end;
-  }
-}
-@media (max-width: 767.98px) {
-  .filterGrid-search {
-    position: static;
-  }
-}
-.filterGrid-filter {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  flex-wrap: nowrap;
-  grid-area: filter;
-}
-.filterGrid-sort {
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
-  align-items: center;
-  flex-wrap: nowrap;
-  grid-area: sort;
-}
-.filterGrid-sort .select {
-  height: var(--size);
-}
-.filterGrid .subcategories-list {
-  flex: 1;
-  list-style: none;
-  padding-left: 0px;
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: center;
-  flex-wrap: nowrap;
-  overflow: hidden;
-  margin: 0 1em;
-}
-@media (max-width: 991.98px) {
-  .filterGrid .subcategories-list {
-    display: none;
-  }
-}
-.filterGrid .subcategories-list li:not(:last-child) {
-  margin-right: 1em;
-}
-.filterGrid .subcategories-list li button {
-  height: var(--size);
-}
-.filterGrid .btn-10 {
-  width: var(--size);
-  height: var(--size);
-  padding: 0px;
 }
 
 .searchForm {
@@ -4595,4 +4493,19 @@ ACCOUNT END
   .scroll-top {
     bottom: 5em;
   }
+}
+
+.dropdown > a {
+  border: 1px solid var(--main-color);
+  border-radius: 1.25em;
+  padding: 8px 15px;
+  min-height: 40px;
+}
+.dropdown-item {
+  font-size: 14px;
+  padding: 6px 15px;
+}
+.dropdown-item.active {
+  color: #fff !important;
+  background-color: var(--main-color) !important;
 }/*# sourceMappingURL=style.css.map */

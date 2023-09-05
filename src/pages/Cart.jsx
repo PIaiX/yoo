@@ -220,13 +220,6 @@ const Cart = () => {
 
               <Link
                 to={state?.isAuth ? "/checkout" : "/login"}
-                disabled={
-                  !state?.isAuth ||
-                  (state?.isAuth && state?.address?.items?.length === 0) ||
-                  (state.delivery === "delivery" &&
-                    state?.cart?.zone?.minPrice < price) ||
-                  state.delivery === "pickup"
-                }
                 className="btn-primary w-100"
               >
                 <span className="fw-4">

@@ -56,14 +56,6 @@ const Catalog = memo(({ data }) => {
               <img src={Choose} alt="Choose" />
               <GridIcon />
             </button> */}
-            <div className="filterGrid-filter">
-              <button type="button" className="btn-filter btn-10">
-                <HiOutlineAdjustmentsHorizontal className="fs-15" />
-              </button>
-              <button type="button" className="d-lg-none btn-10 ms-2 ms-sm-3">
-                <HiOutlineBars3 className="fs-15" />
-              </button>
-            </div>
           </div>
           {data.length > 0 && (
             <div className="categories-box">
