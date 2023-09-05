@@ -1518,7 +1518,7 @@ header .btn-menu:hover, header .btn-menu:focus, header .btn-menu:active {
 }
 
 main {
-  min-height: calc(100vh - var(--h-height) - var(--f-height));
+  min-height: calc(100vh - var(--h-height));
   padding: 3em 0px;
 }
 @media (max-width: 991.98px) {

@@ -31,9 +31,11 @@ const Loader = memo(
     };
     if (full) {
       return (
-        <div className="loader">
-          <Icon />
-        </div>
+        <main className="d-flex align-items-center justify-content-center">
+          <div className="loader">
+            <Icon />
+          </div>
+        </main>
       );
     }
     return <Icon />;

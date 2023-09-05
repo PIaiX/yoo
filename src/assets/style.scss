@@ -1504,7 +1504,7 @@ header {
 }
 
 main {
-  min-height: calc(100vh - var(--h-height) - var(--f-height));
+  min-height: calc(100vh - var(--h-height));
   padding: 3em 0px;
   @media (max-width: $bp-lg) {
     min-height: 100vh;
