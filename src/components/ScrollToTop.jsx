@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { memo, useEffect, useState } from "react";
 import { IoChevronUp } from "react-icons/io5";
 
-const ScrollToTop = () => {
+const ScrollToTop = memo(() => {
   const [visible, setVisible] = useState(false);
 
   const toggleVisible = () => {
@@ -35,6 +35,6 @@ const ScrollToTop = () => {
       <IoChevronUp />
     </button>
   );
-};
+});
 
 export default ScrollToTop;

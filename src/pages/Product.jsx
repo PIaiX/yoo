@@ -24,6 +24,7 @@ import { getProduct, getProducts } from "../services/product";
 import Loader from "../components/utils/Loader";
 import { customPrice, customWeight, getImageURL } from "../helpers/all";
 import ButtonCart from "../components/ButtonCart";
+import Meta from "../components/Meta";
 
 const Product = () => {
   const [isRemove, setIsRemove] = useState(false);
@@ -88,6 +89,7 @@ const Product = () => {
 
   return (
     <main>
+      <Meta title={product?.item?.title ?? "Товар"} />
       <Container>
         <NavTop
           toBack={true}
@@ -149,9 +151,9 @@ const Product = () => {
                                 defaultChecked={index === 0}
                                 onChange={() => {
                                   let newData = { ...data };
-                           
+
                                   newData.cart.data.modifiers = e;
-                                  
+
                                   setData(newData);
                                 }}
                               />

@@ -21,6 +21,7 @@ import { cartZone, resetCart } from "../store/reducers/cartSlice";
 import { Link, useNavigate } from "react-router-dom";
 import { checkAuth } from "../services/auth";
 import { customPrice } from "../helpers/all";
+import Meta from "../components/Meta";
 
 const Checkout = () => {
   const paymentsData = [
@@ -238,6 +239,7 @@ const Checkout = () => {
 
   return (
     <main>
+      <Meta title="Оформление заказа" />
       <Container>
         <NavTop toBack={true} breadcrumbs={false} />
         <form className="cart">

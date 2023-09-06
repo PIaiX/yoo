@@ -1,11 +1,21 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { $api, $authApi } from ".";
 import { apiRoutes } from "../config/api";
+import { updateAddresses } from "../store/reducers/addressSlice";
+import { updateCartAll } from "../store/reducers/cartSlice";
 // import socket from "../config/socket";
 
 const login = createAsyncThunk("auth/login", async (payloads, thunkAPI) => {
   try {
     const response = await $api.post(apiRoutes.AUTH_LOGIN, payloads);
+    if (response?.data) {
+      thunkAPI.dispatch(updateAddresses(response?.data?.user?.addresses));
+
+      thunkAPI.dispatch(updateCartAll(response?.data?.products ?? []));
+
+      // thunkAPI.dispatch(getFavorites());
+    }
+
     return response?.data;
   } catch (error) {
     return thunkAPI.rejectWithValue(error);

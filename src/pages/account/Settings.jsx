@@ -6,6 +6,7 @@ import { useForm, useWatch } from "react-hook-form";
 import { NotificationManager } from "react-notifications";
 import { useDispatch, useSelector } from "react-redux";
 import AccountTitleReturn from "../../components/AccountTitleReturn";
+import Meta from "../../components/Meta";
 import Input from "../../components/utils/Input";
 import NavBreadcrumbs from "../../components/utils/NavBreadcrumbs";
 import useIsMobile from "../../hooks/isMobile";
@@ -55,13 +56,19 @@ const Settings = () => {
 
   return (
     <main className="account mb-2 mb-sm-3 mb-md-0">
+      <Meta title="Настройки" />
       <Container className="pt-4 pt-lg-0">
         {isMobileLG ? (
           <AccountTitleReturn link="/account" title="Внесите изменения" />
         ) : (
           <>
             <h1 className="mb-2">Личный кабинет</h1>
-            <NavBreadcrumbs />
+            <NavBreadcrumbs
+              breadcrumbs={[
+                { title: "Аккаунт", link: "/account" },
+                { title: "Настройки", link: "/account/settings" },
+              ]}
+            />
           </>
         )}
 
@@ -88,7 +95,7 @@ const Settings = () => {
                     <p className="fs-09 fw-6">Вы можете потратить</p>
                     <p className="main-color">
                       <span className="fs-18">{user.point}</span>&nbsp;
-                      <span className="fw-6 fs-11">бонуса</span>
+                      <span className="fw-6 fs-18">Б</span>
                     </p>
                   </div>
                 </Col>

@@ -23,11 +23,9 @@ const Textarea = memo(
         }
       >
         {label && (
-          <label htmlFor={name}>
-            <span>
-              {label}
-              {required && "*"}
-            </span>
+          <label className="mb-2 fs-09">
+            <span>{label}</span>
+            {required && <span class="ms-1 text-danger">*</span>}
           </label>
         )}
         <textarea

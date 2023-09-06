@@ -29,7 +29,7 @@ $green: #00ab55;
 $yellow: #fef8be;
 $black: #212b36;
 $dark: #373737;
-$dark-gray: #637381;
+$dark-gray: #ddd;
 $gray: #c2c2c2;
 $light-gray: #f4f6f8;
 $white: #fff;
@@ -276,6 +276,12 @@ h6 {
   }
 }
 .fs {
+  &-06 {
+    font-size: 0.6em;
+  }
+  &-07 {
+    font-size: 0.7em;
+  }
   &-08 {
     font-size: 0.8em;
   }
@@ -405,6 +411,11 @@ textarea,
     border: 1px solid $gray;
   }
 }
+.error {
+  input {
+    border-color: $red !important;
+  }
+}
 input {
   &[type="checkbox"] {
     @include no-appearance;
@@ -420,6 +431,7 @@ input {
     box-shadow: none;
     &:checked {
       background-color: var(--main-color);
+      border: 1px solid var(--main-color);
     }
     &[role="switch"] {
       width: $radius * 2.75;
@@ -508,14 +520,7 @@ input {
     }
   }
 }
-label {
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  span {
-    flex: 1;
-  }
-}
+
 .inputGroup {
   @include list();
   @include flex(row, flex-start, center, nowrap);
@@ -961,14 +966,7 @@ button {
     }
   }
 }
-label {
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  span {
-    flex: 1;
-  }
-}
+
 select {
   @include no-appearance();
   border: none;
@@ -980,7 +978,7 @@ select {
 }
 .select {
   position: relative;
-  width: 180px;
+  min-width: 160px;
   &-button {
     width: 100%;
     position: relative;
@@ -1023,7 +1021,8 @@ select {
   }
   &-options {
     @include list();
-    min-width: 200px;
+    min-width: 160px;
+    width: 100%;
     background-color: $white;
     @include shadow();
     border-radius: $radius * 0.5;
@@ -1362,7 +1361,6 @@ header {
     z-index: 1050;
     @include shadow();
     .select {
-      width: 6em;
       &-button-value {
         span {
           display: none;
@@ -3040,32 +3038,7 @@ ACCOUNT
       }
     }
   }
-  .sec-orders {
-    @include shadow();
-    background-color: $white;
-    border-radius: $radius;
-    @media (max-width: $bp-lg) {
-      background-color: transparent;
-      box-shadow: unset;
-    }
-    ul {
-      @include list();
-      li {
-        padding: 1em;
-        border-bottom: 1px solid $light-gray;
-        @media (max-width: $bp-xl) {
-          padding: 0.75em;
-        }
-        @media (max-width: $bp-lg) {
-          border-bottom: unset;
-          padding-right: calc(var(--bs-gutter-x) * 0.5);
-          padding-left: calc(var(--bs-gutter-x) * 0.5);
-          padding-top: 0px;
-          padding-bottom: 0px;
-        }
-      }
-    }
-  }
+
   .order-card {
     display: grid;
     grid-template-columns: 70px 150px 120px auto 100px 150px;
@@ -3919,17 +3892,94 @@ ACCOUNT END
 }
 .dropdown {
   & > a {
-    border: 1px solid var(--main-color);
-    border-radius: $radius;
+    border: 1px solid #ddd;
+    border-radius: 12px;
     padding: 8px 15px;
     min-height: 40px;
   }
   &-item {
     font-size: 14px;
-    padding: 6px 15px;
+    padding: 8px 15px;
+    &:active,
     &.active {
       color: $white !important;
       background-color: var(--main-color) !important;
+    }
+  }
+}
+.custom-table {
+  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.06);
+  background-color: #fff;
+  border-radius: 1.25em;
+  border: none;
+  &.lite {
+    box-shadow: none !important;
+  }
+  .item {
+    border-bottom: 1px solid $light-gray;
+  }
+  .card-footer:last-child {
+    border: none;
+  }
+  .item:last-child {
+    border: none;
+  }
+  .active {
+    background-color: $light-gray !important;
+  }
+  .desc {
+    border-bottom: 1px solid $light-gray;
+    .row {
+      border: none;
+    }
+  }
+  .col,
+  [class^="col-"] {
+    padding: 12px;
+    align-items: center;
+    display: flex;
+    font-size: 13px;
+  }
+  &.lite .head,
+  .head {
+    background-color: $light-gray;
+    color: $dark-gray;
+    font-weight: 600;
+    border-top-left-radius: 1.25em;
+    border-top-right-radius: 1.25em;
+    border-bottom: none;
+    .col {
+      display: block;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  }
+
+  .light {
+    background-color: transparent !important;
+    border-bottom: 1px solid $gray !important;
+  }
+
+  a svg {
+    color: $black;
+  }
+  .form-check-inpu:checked .row {
+    background-color: $light-gray;
+  }
+  .order.status-new {
+    background-color: #00a76f14;
+  }
+  .order.status-reservation {
+    background-color: #ab41ff14;
+  }
+}
+.empty {
+  svg {
+    max-width: 300px;
+    max-height: 300px;
+    path {
+      color: var(--main-color) !important;
     }
   }
 }

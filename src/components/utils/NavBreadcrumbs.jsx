@@ -1,15 +1,23 @@
-import React from 'react';
-import {Link} from 'react-router-dom';
+import React from "react";
+import { Link } from "react-router-dom";
 
-const NavBreadcrumbs = () => {
+const NavBreadcrumbs = ({ breadcrumbs = false }) => {
   return (
-    <nav className="breadcrumbs">
-      <ul>
-        <li><Link to="/">Главная</Link></li>
-        <li><Link to="/account">Аккаунт</Link></li>
-        <li><Link to="/account/settings">Настройки</Link></li>
-      </ul>
-    </nav>
+    breadcrumbs &&
+    breadcrumbs?.length > 0 && (
+      <nav className="breadcrumbs">
+        <ul>
+          <li>
+            <Link to="/">Главная</Link>
+          </li>
+          {breadcrumbs.map((e) => (
+            <li>
+              <Link to={e.link}>{e.title}</Link>
+            </li>
+          ))}
+        </ul>
+      </nav>
+    )
   );
 };
 

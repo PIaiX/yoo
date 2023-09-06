@@ -11,5 +11,20 @@ const getDelivery = async (data) => {
   });
   return response?.data;
 };
+const getOrder = async (orderId) => {
+  if (!orderId) {
+    return false;
+  }
+  const response = await $authApi.get(apiRoutes.ACCOUNT_ORDER_GET, {
+    params: { orderId },
+  });
+  return response?.data;
+};
+const getOrders = async (page, limit) => {
+  const response = await $authApi.get(apiRoutes.ACCOUNT_ORDERS_GET, {
+    params: { page, limit },
+  });
+  return response?.data;
+};
 
-export { createOrder, getDelivery };
+export { getOrder, getOrders, createOrder, getDelivery };

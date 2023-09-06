@@ -1,42 +1,90 @@
-import React from 'react';
-import OrderCard from '../../components/OrderCard';
+import React, { useLayoutEffect, useState } from "react";
 import { HiOutlineArrowLeftCircle } from "react-icons/hi2";
-import {Link} from 'react-router-dom';
-import useIsMobile from '../../hooks/isMobile';
-import NavPagination from '../../components/NavPagination';
+import { Link } from "react-router-dom";
+import DataTable from "../../components/DataTable";
+import Meta from "../../components/Meta";
+import Loader from "../../components/utils/Loader";
+import useIsMobile from "../../hooks/isMobile";
+import { getOrders } from "../../services/order";
 
 const Orders = () => {
-  const isMobileLG = useIsMobile('991px');
+  const isMobileLG = useIsMobile("991px");
+
+  const [orders, setOrders] = useState({
+    loading: true,
+    items: [],
+    pagination: {},
+  });
+  console.log(orders);
+
+  const orderColumns = [
+    {
+      name: "Время заказа",
+      selector: "createdAt",
+      cell: (row) => moment(row.createdAt).format("DD MMM YYYY kk:mm"),
+    },
+    {
+      name: "Статус",
+      selector: "status",
+      cell: (row) => <Status data={row} />,
+    },
+    {
+      name: "Способ доставки",
+      selector: "deliveryType",
+      cell: (row) => deliveryData(row.delivery).text,
+    },
+    {
+      name: "Итого",
+      width: "100px",
+      align: "right",
+      selector: "total",
+      cell: (row) => (
+        <div className="d-flex align-items-center">
+          <span>{customPrice(row.total)}</span>
+          <img className="ms-1" src={paymentData(row.payment).icon} />
+        </div>
+      ),
+    },
+    {
+      width: "35px",
+      selector: "action",
+      align: "right",
+      cell: (row) => (
+        <Link to={"/order/" + row.id}>
+          <IoCreateOutline size={22} />
+        </Link>
+      ),
+    },
+  ];
+
+  useLayoutEffect(() => {
+    getOrders()
+      .then((res) => setOrders((data) => ({ ...data, loading: false, ...res })))
+      .catch(() => setOrders((data) => ({ ...data, loading: false })));
+  }, []);
+
+  if (orders?.loading) {
+    return <Loader full />;
+  }
 
   return (
-    <section className='sec-orders'>
-      {
-        (isMobileLG)
-        ? <div className="d-flex align-items-center mb-4">
-          <Link to="/account" className='link-return'>
-            <HiOutlineArrowLeftCircle/>
+    <section className="sec-orders">
+      <Meta title="Заказы" />
+      {isMobileLG && (
+        <div className="d-flex align-items-center mb-4">
+          <Link to="/account" className="link-return">
+            <HiOutlineArrowLeftCircle />
             <span>Назад</span>
           </Link>
-          <h6 className='fs-12 mb-0'>Заказы</h6>
+          <h6 className="fs-12 mb-0">Заказы</h6>
         </div>
-        : <div className="order-card top">
-          <div className='order-card-num'>№</div>
-          <div className='order-card-time'>Время заказа</div>
-          <div className='order-card-status'>Статус</div>
-          <div className='order-card-delivery'>Способ доставки</div>
-          <div className='order-card-price'>Стоимость</div>
-          <div className='order-card-btn'></div>
-        </div>
-      }
-      
-      <ul className='row row-cols-1 row-cols-sm-2 row-cols-lg-1 gy-3 gx-2 g-md-4 g-lg-0'>
-        <li><OrderCard/></li>
-        <li><OrderCard/></li>
-        <li><OrderCard/></li>
-        <li><OrderCard/></li>
-      </ul>
-      
-      <NavPagination/>
+      )}
+
+      <DataTable
+        columns={orderColumns}
+        data={orders.items}
+        pagination={orders.pagination}
+      />
     </section>
   );
 };

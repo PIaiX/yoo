@@ -174,6 +174,12 @@ h6 {
   }
 }
 
+.fs-06 {
+  font-size: 0.6em;
+}
+.fs-07 {
+  font-size: 0.7em;
+}
 .fs-08 {
   font-size: 0.8em;
 }
@@ -260,7 +266,7 @@ h6 {
 }
 
 .dark-gray {
-  color: #637381;
+  color: #ddd;
 }
 
 .gray {
@@ -329,6 +335,10 @@ textarea:active,
   border: 1px solid #c2c2c2;
 }
 
+.error input {
+  border-color: #e01e00 !important;
+}
+
 input[type=checkbox] {
   appearance: none;
   -webkit-appearance: none;
@@ -350,6 +360,7 @@ input[type=checkbox] {
 }
 input[type=checkbox]:checked {
   background-color: var(--main-color);
+  border: 1px solid var(--main-color);
 }
 input[type=checkbox][role=switch] {
   width: 3.4375em;
@@ -451,15 +462,6 @@ input[type=number]::-webkit-outer-spin-button, input[type=number]::-webkit-inner
 }
 .password button svg path {
   stroke-width: 1.25px;
-}
-
-label {
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-}
-label span {
-  flex: 1;
 }
 
 .inputGroup {
@@ -611,7 +613,7 @@ label span {
   padding: 0.75em;
 }
 .promoCode .clear {
-  color: #637381;
+  color: #ddd;
   font-size: 1.5em;
   margin-left: 0.3125em;
 }
@@ -810,14 +812,14 @@ button {
   border: 1px solid var(--main-color);
 }
 .btn-99 {
-  color: #637381;
+  color: #ddd;
   background-color: #f4f6f8;
   border: 1px solid #f4f6f8;
 }
 .btn-99:hover, .btn-99:focus, .btn-99:active, .btn-99.active {
   color: #fff;
-  background-color: #637381;
-  border: 1px solid #637381;
+  background-color: #ddd;
+  border: 1px solid #ddd;
 }
 .btn-orange {
   color: #ff9d17;
@@ -842,7 +844,7 @@ button {
 .btn[disabled], [disabled].btn-primary, [disabled].btn-10, [disabled].btn-2, [disabled].btn-secondary, [disabled].btn-30, [disabled].btn-4, [disabled].btn-40, [disabled].btn-green, [disabled].btn-deepgreen, [disabled].btn-6, [disabled].btn-light-outline, [disabled].btn-light, [disabled].btn-8, [disabled].btn-9, [disabled].btn-90, [disabled].btn-99, [disabled].btn-orange, [disabled].btn-red {
   background-color: #f4f6f8;
   border: 1px solid #f4f6f8;
-  color: #637381;
+  color: #ddd;
   cursor: pointer;
   pointer-events: none;
 }
@@ -867,7 +869,7 @@ button {
 }
 .btn-fav svg {
   stroke-width: 1px;
-  stroke: #637381;
+  stroke: #ddd;
   fill: transparent;
   transition: 300ms ease-in;
   transition-property: stroke, fill;
@@ -875,15 +877,6 @@ button {
 .btn-fav.active svg {
   stroke: var(--main-color);
   fill: var(--main-color-outline);
-}
-
-label {
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-}
-label span {
-  flex: 1;
 }
 
 select {
@@ -904,7 +897,7 @@ select {
 
 .select {
   position: relative;
-  width: 180px;
+  min-width: 160px;
 }
 .select-button {
   width: 100%;
@@ -960,7 +953,8 @@ select {
 .select-options {
   list-style: none;
   padding-left: 0px;
-  min-width: 200px;
+  min-width: 160px;
+  width: 100%;
   background-color: #fff;
   box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.06);
   border-radius: 0.625em;
@@ -1344,9 +1338,6 @@ header {
     width: 100%;
     z-index: 1050;
     box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.06);
-  }
-  header .select {
-    width: 6em;
   }
   header .select-button-value span {
     display: none;
@@ -2164,7 +2155,7 @@ main {
 .filter-line .btn-search {
   margin-right: auto;
   padding: 0.55em;
-  color: #637381;
+  color: #ddd;
 }
 .filter-line .btn-search:hover, .filter-line .btn-search:active {
   color: #fff;
@@ -2415,7 +2406,7 @@ main {
 .productPage-edit .top button {
   position: relative;
   z-index: 1;
-  background-color: #637381;
+  background-color: #ddd;
   color: #fff;
   border-radius: 1.25em 1.25em 0px 0px;
   height: 2.5em;
@@ -2442,7 +2433,7 @@ main {
   z-index: 1;
   bottom: 0px;
   font-size: 1.25em;
-  color: #637381;
+  color: #ddd;
   transition: color 300ms ease-in;
 }
 .productPage-edit .top button .corner-right {
@@ -2829,7 +2820,7 @@ main {
   grid-area: about;
 }
 .sec-6 .offer-product-about p {
-  color: #637381;
+  color: #ddd;
   margin-bottom: 0.5em;
 }
 @media (max-width: 575.98px) {
@@ -3021,7 +3012,7 @@ main {
   }
 }
 .cart-item .left .text p {
-  color: #637381;
+  color: #ddd;
   margin-bottom: 0.5em;
 }
 .cart-item .left .text p.consist {
@@ -3184,7 +3175,7 @@ footer .mobile ul li a {
 footer .mobile ul li a svg {
   width: 1.6em !important;
   height: 1.6em !important;
-  color: #637381;
+  color: #ddd;
   transition: color 300ms ease-in;
 }
 footer .mobile ul li a .text {
@@ -3310,7 +3301,7 @@ ACCOUNT
   }
 }
 .account-nav ul li a {
-  color: #637381;
+  color: #ddd;
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
@@ -3345,7 +3336,7 @@ ACCOUNT
 }
 .account-menu .btn-settings {
   background-color: #f4f6f8;
-  color: #637381;
+  color: #ddd;
   font-size: 1.8em;
   display: flex;
   flex-direction: row;
@@ -3396,39 +3387,6 @@ ACCOUNT
   font-size: 1.5em;
   margin-right: 0.5em;
 }
-.account .sec-orders {
-  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.06);
-  background-color: #fff;
-  border-radius: 1.25em;
-}
-@media (max-width: 991.98px) {
-  .account .sec-orders {
-    background-color: transparent;
-    box-shadow: unset;
-  }
-}
-.account .sec-orders ul {
-  list-style: none;
-  padding-left: 0px;
-}
-.account .sec-orders ul li {
-  padding: 1em;
-  border-bottom: 1px solid #f4f6f8;
-}
-@media (max-width: 1199.98px) {
-  .account .sec-orders ul li {
-    padding: 0.75em;
-  }
-}
-@media (max-width: 991.98px) {
-  .account .sec-orders ul li {
-    border-bottom: unset;
-    padding-right: calc(var(--bs-gutter-x) * 0.5);
-    padding-left: calc(var(--bs-gutter-x) * 0.5);
-    padding-top: 0px;
-    padding-bottom: 0px;
-  }
-}
 .account .order-card {
   display: grid;
   grid-template-columns: 70px 150px 120px auto 100px 150px;
@@ -3475,7 +3433,7 @@ ACCOUNT
   background-color: #f4f6f8;
   grid-template-rows: 1fr;
   grid-template-areas: "num time status delivery price btn";
-  color: #637381;
+  color: #ddd;
   font-weight: 600;
   border-radius: 1.25em 1.25em 0px 0px;
 }
@@ -3502,7 +3460,7 @@ ACCOUNT
 }
 @media (max-width: 991.98px) {
   .account .order-card-time {
-    color: #637381;
+    color: #ddd;
     justify-content: flex-end;
     padding: 0.5em 1em 0.5em 0;
   }
@@ -3531,7 +3489,7 @@ ACCOUNT
 }
 @media (max-width: 991.98px) {
   .account .order-card-delivery {
-    color: #637381;
+    color: #ddd;
     padding: 0.25em 1em;
   }
 }
@@ -3670,7 +3628,7 @@ ACCOUNT
   grid-area: data;
 }
 .account .order-item .text .consist {
-  color: #637381;
+  color: #ddd;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
@@ -3685,7 +3643,7 @@ ACCOUNT
 }
 .account .order-item .info {
   grid-area: info;
-  color: #637381;
+  color: #ddd;
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
@@ -3708,7 +3666,7 @@ ACCOUNT
 }
 .account .order-item .extra {
   grid-area: extra;
-  color: #637381;
+  color: #ddd;
 }
 .account .order-item .quantity {
   grid-area: quantity;
@@ -3806,7 +3764,7 @@ ACCOUNT
 }
 .account .bonus-program ul li .date {
   grid-area: date;
-  color: #637381;
+  color: #ddd;
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
@@ -3968,7 +3926,7 @@ ACCOUNT
   }
 }
 .account .notifications-list li .info p {
-  color: #637381;
+  color: #ddd;
 }
 @media (max-width: 575.98px) {
   .account .notifications-list li .info p {
@@ -3990,7 +3948,7 @@ ACCOUNT
 }
 .account .notifications-list li .date {
   grid-area: date;
-  color: #637381;
+  color: #ddd;
   text-align: right;
   display: flex;
   flex-direction: row;
@@ -4088,7 +4046,7 @@ ACCOUNT
 }
 .account .bankcard button {
   font-size: 1.25em;
-  color: #637381;
+  color: #ddd;
 }
 .account .support {
   display: grid;
@@ -4176,7 +4134,7 @@ ACCOUNT
   margin-top: 1.5em;
 }
 .account .support-choose ul li .text {
-  color: #637381;
+  color: #ddd;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -4496,16 +4454,91 @@ ACCOUNT END
 }
 
 .dropdown > a {
-  border: 1px solid var(--main-color);
-  border-radius: 1.25em;
+  border: 1px solid #ddd;
+  border-radius: 12px;
   padding: 8px 15px;
   min-height: 40px;
 }
 .dropdown-item {
   font-size: 14px;
-  padding: 6px 15px;
+  padding: 8px 15px;
 }
-.dropdown-item.active {
+.dropdown-item:active, .dropdown-item.active {
   color: #fff !important;
   background-color: var(--main-color) !important;
+}
+
+.custom-table {
+  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.06);
+  background-color: #fff;
+  border-radius: 1.25em;
+  border: none;
+}
+.custom-table.lite {
+  box-shadow: none !important;
+}
+.custom-table .item {
+  border-bottom: 1px solid #f4f6f8;
+}
+.custom-table .card-footer:last-child {
+  border: none;
+}
+.custom-table .item:last-child {
+  border: none;
+}
+.custom-table .active {
+  background-color: #f4f6f8 !important;
+}
+.custom-table .desc {
+  border-bottom: 1px solid #f4f6f8;
+}
+.custom-table .desc .row {
+  border: none;
+}
+.custom-table .col,
+.custom-table [class^=col-] {
+  padding: 12px;
+  align-items: center;
+  display: flex;
+  font-size: 13px;
+}
+.custom-table.lite .head,
+.custom-table .head {
+  background-color: #f4f6f8;
+  color: #ddd;
+  font-weight: 600;
+  border-top-left-radius: 1.25em;
+  border-top-right-radius: 1.25em;
+  border-bottom: none;
+}
+.custom-table.lite .head .col,
+.custom-table .head .col {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.custom-table .light {
+  background-color: transparent !important;
+  border-bottom: 1px solid #c2c2c2 !important;
+}
+.custom-table a svg {
+  color: #212b36;
+}
+.custom-table .form-check-inpu:checked .row {
+  background-color: #f4f6f8;
+}
+.custom-table .order.status-new {
+  background-color: rgba(0, 167, 111, 0.0784313725);
+}
+.custom-table .order.status-reservation {
+  background-color: rgba(171, 65, 255, 0.0784313725);
+}
+
+.empty svg {
+  max-width: 300px;
+  max-height: 300px;
+}
+.empty svg path {
+  color: var(--main-color) !important;
 }/*# sourceMappingURL=style.css.map */

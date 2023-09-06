@@ -15,8 +15,11 @@ import { useTotalCart } from "../hooks/useCart";
 import { deleteCart } from "../services/cart";
 import { getDelivery } from "../services/order";
 import { isPromo } from "../services/promo";
-import { cartDeletePromo } from "../store/reducers/cartSlice";
+import { cartDeletePromo, cartZone } from "../store/reducers/cartSlice";
 import Input from "../components/utils/Input";
+import Empty from "../components/Empty";
+import EmptyCart from "../components/empty/cart";
+import Meta from "../components/Meta";
 
 const Cart = () => {
   const state = useSelector(
@@ -113,12 +116,24 @@ const Cart = () => {
     }
   }, [state?.delivery]);
 
-  if (count === 0) {
-    return null;
+  if (!Array.isArray(state.cart.items) || state.cart.items.length <= 0) {
+    return (
+      <Empty
+        text="Корзина пуста"
+        desc="Перейдите к меню, чтобы сделать первый заказ"
+        image={() => <EmptyCart />}
+        button={
+          <Link className="btn-primary" to="/">
+            Перейти в меню
+          </Link>
+        }
+      />
+    );
   }
 
   return (
     <main>
+      <Meta title="Корзина" />
       <Container>
         <NavTop breadcrumbs={false} />
         <div className="cart">

@@ -19,7 +19,9 @@ const AccountLayout = ({ isMobile }) => {
         ) : (
           <div>
             <h1 className="mb-2">Личный кабинет</h1>
-            <NavBreadcrumbs />
+            <NavBreadcrumbs
+              breadcrumbs={[{ title: "Аккаунт", link: "/account" }]}
+            />
             <Row className="account-top gx-3 gx-xl-4">
               <Col lg={3}>
                 <div className="box w-100 h-100 d-flex align-items-center">
@@ -50,7 +52,7 @@ const AccountLayout = ({ isMobile }) => {
                   <p className="fs-09 fw-6">Вы можете потратить</p>
                   <p className="main-color">
                     <span className="fs-18">{user.point}</span>&nbsp;
-                    <span className="fw-6 fs-11">бонуса</span>
+                    <span className="fw-6 fs-18">Б</span>
                   </p>
                 </div>
               </Col>

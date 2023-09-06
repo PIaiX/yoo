@@ -9,7 +9,6 @@ import { checkAuth, logout } from "./services/auth";
 import { getOptions } from "./services/option";
 import { updateAddresses } from "./store/reducers/addressSlice";
 import { updateAffiliate } from "./store/reducers/affiliateSlice";
-import { setAuth, setUser } from "./store/reducers/authSlice";
 import { updateCartAll } from "./store/reducers/cartSlice";
 import { updateOptions } from "./store/reducers/settingsSlice";
 
@@ -36,19 +35,15 @@ function App() {
             }
           }
 
-          res?.affiliates && dispatch(updateAffiliate(res.affiliates));
+          dispatch(updateAffiliate(res.affiliates));
+
           // res?.statuses && dispatch(updateStatus(res.statuses))
           // dispatch(updateConnect(true))
+
           if (localStorage.getItem("token")) {
             await checkAuth()
               .then(async (data) => {
-                if (data?.user) {
-                  dispatch(setAuth(true));
-                  dispatch(setUser(data.user));
-                }
-
-                data?.user?.addresses?.length > 0 &&
-                  dispatch(updateAddresses(data.user.addresses));
+                dispatch(updateAddresses(data.user.addresses));
 
                 dispatch(updateCartAll(data?.products ?? []));
 

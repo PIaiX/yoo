@@ -21,6 +21,7 @@ import Loader from "../components/utils/Loader";
 import { getImageURL } from "../helpers/all";
 import { getCategories } from "../services/category";
 import { getSales } from "../services/sales";
+import Meta from "../components/Meta";
 
 const Home = () => {
   const [categories, setCategories] = useState({
@@ -52,6 +53,7 @@ const Home = () => {
 
   return (
     <main>
+      <Meta title="Главная" />
       {sales?.items?.length > 0 && (
         <section className="sec-1 mb-5">
           <div className="container-md gx-0 gx-md-4">

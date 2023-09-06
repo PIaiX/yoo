@@ -9,6 +9,7 @@ const Input = memo(
     onFocus,
     onClick,
     onChange,
+    required,
     type,
     label,
     className,
@@ -27,10 +28,17 @@ const Input = memo(
     const [visible, setVisibility] = useState(false);
     return (
       <>
-        <div className={"labeled-input " + className}>
+        <div
+          className={
+            "labeled-input" +
+            (className ? " " + className : "") +
+            (errors && errors[name] ? " error" : "")
+          }
+        >
           {label && (
-            <label className="mb-2">
+            <label className="mb-2 fs-09">
               <span>{label}</span>
+              {required && <span class="ms-1 text-danger">*</span>}
             </label>
           )}
           {type === "password" ? (
@@ -91,7 +99,9 @@ const Input = memo(
             />
           )}
         </div>
-        {errors && <p className="text-danger mt-1 fs-08">{errors[name]?.message}</p>}
+        {errors && (
+          <p className="text-danger mt-1 fs-08">{errors[name]?.message}</p>
+        )}
       </>
     );
   }
