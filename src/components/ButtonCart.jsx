@@ -64,8 +64,8 @@ const ButtonCart = memo(
       >
         {children ?? (
           <>
-            <HiOutlineShoppingBag className="fs-15 d-none d-md-block" />
-            <span className="d-md-none">Добавить</span>
+            <HiOutlineShoppingBag className="fs-15" />
+            {/* <span className="d-none d-md-inline-block">Добавить</span> */}
           </>
         )}
       </button>

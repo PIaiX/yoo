@@ -4,10 +4,28 @@ import AccountTitleReturn from "../../components/AccountTitleReturn";
 import useIsMobile from "../../hooks/isMobile";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
+import Empty from "../../components/Empty";
+import EmptyAddresses from "../../components/empty/addresses";
 
 const Addresses = () => {
   const isMobileLG = useIsMobile("991px");
   const addresses = useSelector((state) => state.address);
+
+  if (!Array.isArray(addresses.items) || addresses.items.length <= 0) {
+    return (
+      <Empty
+        mini
+        text="Адрес не добавлен"
+        desc="Создайте новый адрес для доставки заказа"
+        image={() => <EmptyAddresses />}
+        button={
+          <Link className="btn-primary" to="/account/addresses/add">
+            Добавить адрес
+          </Link>
+        }
+      />
+    );
+  }
 
   return (
     <section className="addresses">

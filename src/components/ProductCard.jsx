@@ -10,8 +10,10 @@ import { HiOutlineShoppingBag, HiOutlineHeart } from "react-icons/hi2";
 import useIsMobile from "../hooks/isMobile";
 import { customPrice, customWeight, getImageURL } from "../helpers/all";
 import ButtonCart from "./ButtonCart";
+import { useSelector } from "react-redux";
 
 const ProductCard = memo(({ data }) => {
+  const auth = useSelector((state) => state.auth);
   const [isFav, setIsFav] = useState(false);
   const isMobileMD = useIsMobile("767px");
   const price =
@@ -41,19 +43,21 @@ const ProductCard = memo(({ data }) => {
             <div className="new">Новинка</div>
           </li>
         </ul> */}
-        <button
-          type="button"
-          onClick={() => setIsFav(!isFav)}
-          className={isFav ? "btn-fav active" : "btn-fav"}
-        >
-          <HiOutlineHeart />
-        </button>
+        {auth?.isAuth && (
+          <button
+            type="button"
+            onClick={() => setIsFav(!isFav)}
+            className={isFav ? "btn-fav active" : "btn-fav"}
+          >
+            <HiOutlineHeart />
+          </button>
+        )}
       </div>
 
       <h6>{data.title}</h6>
       {!isMobileMD && (
         <>
-          <p>{data.description}</p>
+          <p className="text-muted fs-09">{data.description}</p>
           <hr />
         </>
       )}

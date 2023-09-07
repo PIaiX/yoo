@@ -202,6 +202,9 @@ address {
 .flex-1 {
   flex: 1;
 }
+.border-top {
+  border-color: $light-gray !important;
+}
 .w {
   &-xs-100 {
     @media (max-width: $bp-sm) {
@@ -367,7 +370,7 @@ h6 {
   color: $black;
 }
 .dark-gray {
-  color: $dark-gray;
+  color: $dark;
 }
 .gray {
   color: $gray;
@@ -647,7 +650,7 @@ input {
     padding: 0.75em;
   }
   .clear {
-    color: $dark-gray;
+    color: $dark;
     font-size: 1.5em;
     margin-left: $radius * 0.25;
   }
@@ -892,7 +895,7 @@ button {
   /* светло-серая кнопка */
   &-99 {
     @extend .btn;
-    color: $dark-gray;
+    color: $dark;
     background-color: $light-gray;
     border: 1px solid $light-gray;
     &:hover,
@@ -900,7 +903,7 @@ button {
     &:active,
     &.active {
       color: $white;
-      background-color: $dark-gray;
+      background-color: $dark;
       border: 1px solid $dark-gray;
     }
   }
@@ -937,7 +940,7 @@ button {
   &[disabled] {
     background-color: $light-gray;
     border: 1px solid $light-gray;
-    color: $dark-gray;
+    color: $dark;
     cursor: pointer;
     pointer-events: none;
   }
@@ -1074,6 +1077,11 @@ select {
       position: relative;
       z-index: 2;
     }
+  }
+  &-label {
+    font-size: 14px;
+    position: relative;
+    z-index: 2;
   }
 }
 
@@ -1413,11 +1421,18 @@ header {
   .logo {
     height: 50px;
     max-width: 80px;
+    @media (max-width: $bp-xl) {
+      height: 40px;
+      max-width: 60px;
+    }
     object-fit: contain;
   }
   .logo-name {
     font-size: 18px;
     font-weight: bold;
+    @media (max-width: $bp-xl) {
+      font-size: 16px;
+    }
   }
   .phone {
     @include flex(row, flex-start, center, nowrap);
@@ -1670,9 +1685,6 @@ main {
 }
 
 .sec-3 {
-  @media (min-width: 767.98px) {
-    margin-top: 8em;
-  }
   .box {
     background-color: $white;
     @include shadow();
@@ -2004,7 +2016,7 @@ main {
   .btn-search {
     margin-right: auto;
     padding: 0.55em;
-    color: $dark-gray;
+    color: $dark;
     &:hover,
     &:active {
       color: $white;
@@ -2196,7 +2208,7 @@ main {
       button {
         position: relative;
         z-index: 1;
-        background-color: $dark-gray;
+        background-color: $dark;
         color: $white;
         border-radius: $radius $radius 0px 0px;
         height: calc($radius * 2);
@@ -2218,7 +2230,7 @@ main {
           z-index: 1;
           bottom: 0px;
           font-size: $radius;
-          color: $dark-gray;
+          color: $dark;
           transition: color $transition;
           &-right {
             @extend .corner;
@@ -2597,7 +2609,7 @@ main {
     &-about {
       grid-area: about;
       p {
-        color: $dark-gray;
+        color: $dark;
         margin-bottom: 0.5em;
         @media (max-width: $bp-sm) {
           font-size: 0.9em;
@@ -2722,7 +2734,7 @@ main {
           }
         }
         p {
-          color: $dark-gray;
+          color: $dark;
           margin-bottom: 0.5em;
           &.consist {
             @include clamp(2, 1.2em, true);
@@ -2783,7 +2795,6 @@ main {
   background-color: $white;
   padding: $radius * 0.5;
   border-radius: $radius;
-  @include flex();
   @include shadow();
   img {
     width: 60px;
@@ -2849,10 +2860,10 @@ footer {
           transition: $transition;
           transition-property: background-color, max-width;
           svg {
-            // font-size: 1.6em;
+            font-size: 2.4em;
             width: 1.6em !important;
             height: 1.6em !important;
-            color: $dark-gray;
+            color: $dark;
             transition: color $transition;
           }
           .text {
@@ -2867,6 +2878,7 @@ footer {
             background-color: var(--main-color);
             max-width: 130px;
             svg {
+              font-size: 1.2em;
               color: $white;
             }
             .text {
@@ -2923,7 +2935,7 @@ ACCOUNT
     border-radius: $radius * 0.5;
     &-blue {
       @include lightShadow();
-      background-color: var(--main-color);
+      background-color: var(--main-color-outline);
       border-radius: $radius * 0.5;
     }
   }
@@ -2960,7 +2972,7 @@ ACCOUNT
           }
         }
         a {
-          color: $dark-gray;
+          color: $dark;
           @include flex(row, flex-start, center, nowrap);
           padding: 0.75em 1em;
           border-radius: $radius;
@@ -2997,7 +3009,7 @@ ACCOUNT
   &-menu {
     .btn-settings {
       background-color: $light-gray;
-      color: $dark-gray;
+      color: $dark;
       font-size: 1.8em;
       @include flex();
       padding: 0.3em;
@@ -3081,7 +3093,7 @@ ACCOUNT
       background-color: $light-gray;
       grid-template-rows: 1fr;
       grid-template-areas: "num time status delivery price btn";
-      color: $dark-gray;
+      color: $dark;
       font-weight: 600;
       border-radius: $radius $radius 0px 0px;
     }
@@ -3096,7 +3108,7 @@ ACCOUNT
       grid-area: time;
       @include flex(row, flex-start, center, nowrap);
       @media (max-width: $bp-lg) {
-        color: $dark-gray;
+        color: $dark;
         justify-content: flex-end;
         padding: 0.5em 1em 0.5em 0;
       }
@@ -3113,7 +3125,7 @@ ACCOUNT
       grid-area: delivery;
       @include flex(row, flex-start, center, nowrap);
       @media (max-width: $bp-lg) {
-        color: $dark-gray;
+        color: $dark;
         padding: 0.25em 1em;
       }
     }
@@ -3212,7 +3224,7 @@ ACCOUNT
     .text {
       grid-area: data;
       .consist {
-        color: $dark-gray;
+        color: $dark;
         @include clamp(2, 1.2em, true);
         @media (max-width: $bp-md) {
           display: none;
@@ -3221,7 +3233,7 @@ ACCOUNT
     }
     .info {
       grid-area: info;
-      color: $dark-gray;
+      color: $dark;
       @include flex(row, flex-start, center, nowrap);
       @include list();
       li {
@@ -3239,7 +3251,7 @@ ACCOUNT
     }
     .extra {
       grid-area: extra;
-      color: $dark-gray;
+      color: $dark;
     }
     .quantity {
       grid-area: quantity;
@@ -3315,7 +3327,7 @@ ACCOUNT
         }
         .date {
           grid-area: date;
-          color: $dark-gray;
+          color: $dark;
           @include flex(row, flex-start, center, nowrap);
           @media (max-width: $bp-sm) {
             text-align: right;
@@ -3444,7 +3456,7 @@ ACCOUNT
             }
           }
           p {
-            color: $dark-gray;
+            color: $dark;
             @media (max-width: $bp-sm) {
               font-size: 0.9em;
             }
@@ -3459,7 +3471,7 @@ ACCOUNT
         }
         .date {
           grid-area: date;
-          color: $dark-gray;
+          color: $dark;
           text-align: right;
           @include flex(row, flex-end, center, nowrap);
           @media (max-width: $bp-sm) {
@@ -3469,65 +3481,7 @@ ACCOUNT
       }
     }
   }
-  .bankcard {
-    background-color: $white;
-    border-radius: $radius * 0.5;
-    @include shadow();
-    padding: $radius * 0.5 $radius * 0.75;
-    height: 150px;
-    @include flex(column, space-between, stretch, nowrap);
-    @media (max-width: $bp-xxl) {
-      height: 175px;
-    }
-    @media (max-width: $bp-xl) {
-      height: 150px;
-    }
-    @media (max-width: $bp-sm) {
-      height: 33vw;
-    }
-    &-logo {
-      max-height: 3em;
-      max-width: 9em;
-      object-fit: scale-down;
-      object-position: left center;
-      @media (max-width: $bp-xxl) {
-        max-height: 4em;
-        max-width: 10em;
-      }
-      @media (max-width: $bp-sm) {
-        max-width: 75%;
-      }
-    }
-    &-type {
-      width: 2.5em;
-      height: 1.4em;
-      object-fit: scale-down;
-      object-position: left center;
-      @media (max-width: $bp-xxl) {
-        width: 3em;
-        height: 1.5em;
-      }
-      @media (max-width: $bp-sm) {
-        width: 2.75em;
-      }
-    }
-    &-num {
-      font-size: 0.95em;
-      @media (max-width: $bp-xxl) {
-        font-size: 1em;
-      }
-      @media (max-width: $bp-lg) {
-        font-size: 1.1em;
-      }
-      @media (max-width: $bp-sm) {
-        font-size: 1em;
-      }
-    }
-    button {
-      font-size: 1.25em;
-      color: $dark-gray;
-    }
-  }
+
   .support {
     display: grid;
     grid-template-columns: 7fr 3fr;
@@ -3596,7 +3550,7 @@ ACCOUNT
             margin-top: 1.5em;
           }
           .text {
-            color: $dark-gray;
+            color: $dark;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
@@ -3676,8 +3630,7 @@ ACCOUNT
 }
 .login {
   position: relative;
-  min-height: calc(100vh - var(--h-height) - var(--f-height));
-  height: 700px;
+  min-height: calc(100vh - var(--h-height));
   &-forms {
     position: relative;
     z-index: 1;
@@ -3848,13 +3801,11 @@ ACCOUNT END
   text-align: left;
   flex-direction: column;
   border-radius: 12px;
+  border: 2px solid transparent;
   background-color: $light-gray;
   &.active {
-    background-color: $green;
-    color: $white;
-    p {
-      color: rgba(255, 255, 255, 0.7);
-    }
+    border-color: var(--main-color);
+    background-color: var(--main-color-outline);
   }
   p {
     font-size: 13px;
@@ -3905,13 +3856,18 @@ ACCOUNT END
       color: $white !important;
       background-color: var(--main-color) !important;
     }
+    &:active p,
+    &.active p {
+      color: $white !important;
+    }
   }
 }
 .custom-table {
   box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.06);
-  background-color: #fff;
-  border-radius: 1.25em;
+  background-color: $white;
+  border-radius: 1em;
   border: none;
+  overflow: hidden;
   &.lite {
     box-shadow: none !important;
   }
@@ -3919,7 +3875,9 @@ ACCOUNT END
     border-bottom: 1px solid $light-gray;
   }
   .card-footer:last-child {
+    padding: 15px;
     border: none;
+    background-color: $white;
   }
   .item:last-child {
     border: none;
@@ -3943,10 +3901,11 @@ ACCOUNT END
   &.lite .head,
   .head {
     background-color: $light-gray;
-    color: $dark-gray;
+    color: $dark;
+    padding: 5px;
     font-weight: 600;
-    border-top-left-radius: 1.25em;
-    border-top-right-radius: 1.25em;
+    border-top-left-radius: 1em;
+    border-top-right-radius: 1em;
     border-bottom: none;
     .col {
       display: block;
@@ -3980,6 +3939,99 @@ ACCOUNT END
     max-height: 300px;
     path {
       color: var(--main-color) !important;
+    }
+  }
+  &.mini {
+    min-height: auto !important;
+    svg {
+      max-width: 230px;
+      max-height: 230px;
+    }
+  }
+}
+.bankcard {
+  background-color: $white;
+  border-radius: $radius * 0.5;
+  @include shadow();
+  padding: $radius * 0.5 $radius * 0.75;
+  height: 150px;
+  @include flex(column, space-between, stretch, nowrap);
+  @media (max-width: $bp-xxl) {
+    height: 175px;
+  }
+  @media (max-width: $bp-xl) {
+    height: 150px;
+  }
+  @media (max-width: $bp-sm) {
+    height: 33vw;
+  }
+  &-logo {
+    max-height: 3em;
+    max-width: 9em;
+    object-fit: scale-down;
+    object-position: left center;
+    @media (max-width: $bp-xxl) {
+      max-height: 4em;
+      max-width: 10em;
+    }
+    @media (max-width: $bp-sm) {
+      max-width: 75%;
+    }
+  }
+  &-type {
+    width: 2.5em;
+    height: 1.4em;
+    object-fit: scale-down;
+    object-position: left center;
+    @media (max-width: $bp-xxl) {
+      width: 3em;
+      height: 1.5em;
+    }
+    @media (max-width: $bp-sm) {
+      width: 2.75em;
+    }
+  }
+  &-num {
+    font-size: 0.95em;
+    @media (max-width: $bp-xxl) {
+      font-size: 1em;
+    }
+    @media (max-width: $bp-lg) {
+      font-size: 1.1em;
+    }
+    @media (max-width: $bp-sm) {
+      font-size: 1em;
+    }
+  }
+  button {
+    font-size: 1.25em;
+    color: $dark;
+  }
+}
+.payment {
+  cursor: pointer;
+  background-color: $white;
+  border-radius: $radius * 0.5;
+  border: 2px solid transparent;
+  &.active {
+    border-color: var(--main-color);
+    background-color: var(--main-color-outline);
+  }
+  @include shadow();
+  padding: $radius * 0.5 $radius * 0.75;
+  height: 60px;
+  @include flex();
+  &-logo {
+    max-height: 3em;
+    max-width: 3em;
+    margin-right: 0.8em;
+    object-fit: contain;
+  }
+  &-num {
+    font-weight: 600;
+    font-size: 14px;
+    @media (max-width: $bp-sm) {
+      font-size: 13px;
     }
   }
 }

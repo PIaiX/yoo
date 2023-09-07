@@ -1,20 +1,21 @@
-import React from "react";
+import React, { memo } from "react";
 import Container from "react-bootstrap/Container";
-import useIsMobile from "../hooks/isMobile";
-import LogoWhite from "../assets/imgs/logo-white.svg";
-import LogoTextWhite from "../assets/imgs/logo-text-white.svg";
+import { useSelector } from "react-redux";
+import { Link, NavLink } from "react-router-dom";
 import AppStore from "../assets/imgs/appstore.svg";
 import GooglePlay from "../assets/imgs/googleplay.svg";
-import { Link, NavLink } from "react-router-dom";
-import HomeIcon from "./svgs/HomeIcon";
+import LogoTextWhite from "../assets/imgs/logo-text-white.svg";
+import LogoWhite from "../assets/imgs/logo-white.svg";
+import useIsMobile from "../hooks/isMobile";
 import BellIcon from "./svgs/BellIcon";
-import FlameIcon from "./svgs/FlameIcon";
 import CartIcon from "./svgs/CartIcon";
+import FlameIcon from "./svgs/FlameIcon";
+import HomeIcon from "./svgs/HomeIcon";
 import UserIcon from "./svgs/UserIcon";
-import { memo } from "react";
 
 const Footer = memo(() => {
   const isMobileLG = useIsMobile("991px");
+  const { user, isAuth } = useSelector((state) => state.auth);
 
   return (
     <footer>
@@ -25,7 +26,7 @@ const Footer = memo(() => {
               <li>
                 <NavLink to="/">
                   <HomeIcon />
-                  <div className="text">
+                  <div className="text ms-2 fs-09">
                     <span>Главная</span>
                   </div>
                 </NavLink>
@@ -33,7 +34,7 @@ const Footer = memo(() => {
               <li>
                 <NavLink to="/notifications">
                   <BellIcon />
-                  <div className="text">
+                  <div className="text ms-2 fs-09">
                     <span>Уведомления</span>
                   </div>
                 </NavLink>
@@ -41,7 +42,7 @@ const Footer = memo(() => {
               <li>
                 <NavLink to="/promo">
                   <FlameIcon />
-                  <div className="text">
+                  <div className="text ms-2 fs-09">
                     <span>Акции</span>
                   </div>
                 </NavLink>
@@ -49,15 +50,15 @@ const Footer = memo(() => {
               <li>
                 <NavLink to="/cart">
                   <CartIcon />
-                  <div className="text">
+                  <div className="text ms-2 fs-09">
                     <span>Корзина</span>
                   </div>
                 </NavLink>
               </li>
               <li>
-                <NavLink to="/login">
-                  <UserIcon />
-                  <div className="text">
+                <NavLink to={isAuth ? "/account" : "/login"}>
+                  <UserIcon size={50} />
+                  <div className="text ms-2 fs-09">
                     <span>Аккаунт</span>
                   </div>
                 </NavLink>

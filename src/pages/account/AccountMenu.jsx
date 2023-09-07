@@ -1,24 +1,32 @@
-import React from 'react';
-import { NavLink } from 'react-router-dom';
-import { HiOutlineShoppingBag, HiOutlineMapPin, HiOutlineStar, HiOutlineCreditCard, HiOutlineBellAlert, HiOutlineBolt, HiOutlineLifebuoy } from "react-icons/hi2";
+import React from "react";
+import { NavLink } from "react-router-dom";
+import {
+  HiOutlineShoppingBag,
+  HiOutlineMapPin,
+  // HiOutlineStar,
+  // HiOutlineCreditCard,
+  // HiOutlineBellAlert,
+  // HiOutlineBolt,
+  // HiOutlineLifebuoy,
+} from "react-icons/hi2";
 
 const AccountMenu = (props) => {
   return (
-    <nav className='account-nav'>
+    <nav className="account-nav">
       <ul>
         <li>
           <NavLink to="orders">
-            <HiOutlineShoppingBag/>
+            <HiOutlineShoppingBag />
             <div>Заказы</div>
           </NavLink>
         </li>
         <li>
           <NavLink to="addresses">
-            <HiOutlineMapPin/>
+            <HiOutlineMapPin />
             <div>Адреса</div>
           </NavLink>
         </li>
-        <li>
+        {/* <li>
           <NavLink to="bonus">
             <HiOutlineStar/>
             <div>Бонусная программа</div>
@@ -47,7 +55,7 @@ const AccountMenu = (props) => {
             <HiOutlineBolt/>
             <div>Акции и промокоды</div>
           </NavLink>
-        </li>
+        </li> */}
       </ul>
     </nav>
   );

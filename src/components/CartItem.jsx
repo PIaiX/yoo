@@ -3,7 +3,7 @@ import Collapse from "react-bootstrap/Collapse";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Tooltip from "react-bootstrap/Tooltip";
 import { IoCaretDownOutline } from "react-icons/io5";
-import { customPrice, getImageURL } from "../helpers/all";
+import { customPrice, customWeight, getImageURL } from "../helpers/all";
 import ButtonCart from "./ButtonCart";
 import BtnFav from "./utils/BtnFav";
 
@@ -12,7 +12,9 @@ const CartItem = memo(({ data }) => {
   const price = data?.cart?.data?.modifiers?.price
     ? data.cart.data.modifiers.price
     : data.price;
-
+  const weight = data?.cart?.data?.modifiers?.energy?.weight
+    ? data.cart.data.modifiers.energy.weight
+    : data.weight;
   return (
     <div className="cart-item">
       <div className="left">
@@ -23,6 +25,9 @@ const CartItem = memo(({ data }) => {
             {data.title}
             {/* <span className="tag">Подарок</span> */}
           </h6>
+          {weight > 0 && (
+            <p className="text-muted fs-09">{customWeight(weight)}</p>
+          )}
           {data?.description && (
             <OverlayTrigger
               placement="bottom"

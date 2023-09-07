@@ -2,6 +2,8 @@ import React, { useLayoutEffect, useState } from "react";
 import { HiOutlineArrowLeftCircle } from "react-icons/hi2";
 import { Link } from "react-router-dom";
 import DataTable from "../../components/DataTable";
+import Empty from "../../components/Empty";
+import EmptyOrders from "../../components/empty/orders";
 import Meta from "../../components/Meta";
 import Loader from "../../components/utils/Loader";
 import useIsMobile from "../../hooks/isMobile";
@@ -65,6 +67,22 @@ const Orders = () => {
 
   if (orders?.loading) {
     return <Loader full />;
+  }
+
+  if (!Array.isArray(orders.items) || orders.items.length <= 0) {
+    return (
+      <Empty
+        mini
+        text="Заказов пока нет"
+        desc="Перейдите к меню, чтобы сделать первый заказ"
+        image={() => <EmptyOrders />}
+        button={
+          <Link className="btn-primary" to="/">
+            Перейти в меню
+          </Link>
+        }
+      />
+    );
   }
 
   return (

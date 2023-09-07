@@ -153,7 +153,7 @@ const Home = () => {
         </section>
       </Container>
 
-      <section className="sec-5 d-none d-md-block mb-5">
+      {/* <section className="sec-5 d-none d-md-block mb-5">
         <Container>
           <h2>Часто заказывают</h2>
           <Swiper
@@ -193,7 +193,7 @@ const Home = () => {
             </SwiperSlide>
           </Swiper>
         </Container>
-      </section>
+      </section> */}
 
       <section className="sec-6 mb-5">
         <Container>

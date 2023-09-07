@@ -457,10 +457,10 @@ const Registration = () => {
                       }}
                     />
                   </div>
-                  <label className="pale-blue mb-3">
+                  <label className="d-flex pale-blue mb-3">
                     <input
                       type="checkbox"
-                      className="checkbox me-3"
+                      className="checkbox me-2"
                       {...registerReg("accept", {
                         required:
                           "Примите условия пользовательского соглашения",

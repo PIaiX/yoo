@@ -32,36 +32,38 @@ const Select = memo(
       let titleFind = item?.title ?? title ?? "Выберите элемент";
 
       return (
-        <a
-          disabled={disabled}
-          ref={ref}
-          onClick={(e) => {
-            e.preventDefault();
-            onClick(e);
-          }}
-          className={
-            "d-flex align-items-center justify-content-between" +
-            (className ? " " + className : "")
-          }
-        >
-          {label && <span className="select-label">{label}</span>}
-          <span
+        <>
+          {label && <label className="select-label mb-2">{label}</label>}
+          <a
+            disabled={disabled}
+            ref={ref}
+            onClick={(e) => {
+              e.preventDefault();
+              onClick(e);
+            }}
             className={
-              "d-flex align-items-center flex-row " +
-              (!data.find((e) => e.value === value || e.title === value)
-                ? "text-muted"
-                : "")
+              "d-flex align-items-center justify-content-between" +
+              (className ? " " + className : "")
             }
           >
-            {item?.image && (
-              <img src={item.image} height={20} width={20} className="me-2" />
-            )}
-            {titleFind}
-          </span>
-          <span className="ms-2">
-            <IoChevronDownOutline size={18} />
-          </span>
-        </a>
+            <span
+              className={
+                "d-flex align-items-center flex-row " +
+                (!data.find((e) => e.value === value || e.title === value)
+                  ? "text-muted"
+                  : "")
+              }
+            >
+              {item?.image && (
+                <img src={item.image} height={20} width={20} className="me-2" />
+              )}
+              {titleFind}
+            </span>
+            <span className="ms-2">
+              <IoChevronDownOutline size={18} />
+            </span>
+          </a>
+        </>
       );
     });
 
@@ -113,7 +115,10 @@ const Select = memo(
                       className="me-2"
                     />
                   )}
-                  {e.title}
+                  <div>
+                    <p className={e.desc ? "fw-6" : ""}>{e.title}</p>
+                    {e.desc && <p className="text-muted fs-08">{e.desc}</p>}
+                  </div>
                 </Dropdown.Item>
               ))}
         </Dropdown.Menu>

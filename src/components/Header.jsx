@@ -83,10 +83,13 @@ const Header = memo(() => {
                 </ul>
                 <ul className="text-menu">
                   <li>
-                    <Link to="/">Доставка и оплата</Link>
+                    <Link to="/delivery">Доставка и оплата</Link>
                   </li>
                   <li>
-                    <Link to="/">О нас</Link>
+                    <Link to="/about">О нас</Link>
+                  </li>
+                  <li>
+                    <Link to="/promo">Акции</Link>
                   </li>
                 </ul>
                 {mainAffiliate?.phone[0] && (
@@ -99,7 +102,7 @@ const Header = memo(() => {
             )}
 
             <ul className="icons-menu">
-              <li>
+              {/* <li>
                 <Select
                   value="ru"
                   data={[
@@ -115,7 +118,7 @@ const Header = memo(() => {
                     },
                   ]}
                 />
-              </li>
+              </li> */}
               {!isMobileLG ? (
                 <>
                   <li>
@@ -133,11 +136,13 @@ const Header = memo(() => {
                       )}
                     </Link>
                   </li>
-                  <li>
-                    <Link to="/">
-                      <HiOutlineHeart size={25} />
-                    </Link>
-                  </li>
+                  {auth.isAuth && (
+                    <li>
+                      <Link to="/account/favorites">
+                        <HiOutlineHeart size={25} />
+                      </Link>
+                    </li>
+                  )}
                 </>
               ) : (
                 <li>

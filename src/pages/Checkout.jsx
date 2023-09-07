@@ -1,27 +1,35 @@
+import moment from "moment";
 import React, { useCallback, useEffect, useState } from "react";
+import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
-import NavTop from "../components/utils/NavTop";
-import CountInput from "../components/utils/CountInput";
-import CheckoutProduct from "../components/CheckoutProduct";
-import Select from "../components/utils/Select";
-import Input from "../components/utils/Input";
+import { useForm, useWatch } from "react-hook-form";
 import { NotificationManager } from "react-notifications";
 import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import CheckoutProduct from "../components/CheckoutProduct";
+import Empty from "../components/Empty";
+import EmptyAddresses from "../components/empty/addresses";
+import EmptyAuth from "../components/empty/auth";
+import EmptyCart from "../components/empty/cart";
+import EmptyWork from "../components/empty/work";
+import Meta from "../components/Meta";
+import CountInput from "../components/utils/CountInput";
+import Input from "../components/utils/Input";
+import NavTop from "../components/utils/NavTop";
+import PaymentItem from "../components/utils/PaymentItem";
+import Select from "../components/utils/Select";
+import Textarea from "../components/utils/Textarea";
+import { customPrice } from "../helpers/all";
 import { useTotalCart } from "../hooks/useCart";
-import { useForm, useWatch } from "react-hook-form";
+import { checkAuth } from "../services/auth";
+import { createOrder, getDelivery } from "../services/order";
+import { cartZone, resetCart } from "../store/reducers/cartSlice";
 import {
   editDeliveryCheckout,
   resetCheckout,
   setCheckout,
 } from "../store/reducers/checkoutSlice";
-import { createOrder, getDelivery } from "../services/order";
-import { cartZone, resetCart } from "../store/reducers/cartSlice";
-import { Link, useNavigate } from "react-router-dom";
-import { checkAuth } from "../services/auth";
-import { customPrice } from "../helpers/all";
-import Meta from "../components/Meta";
 
 const Checkout = () => {
   const paymentsData = [
@@ -81,11 +89,6 @@ const Checkout = () => {
   const [distance, setDistance] = useState({ time: false });
   const [showServing, setShowServing] = useState(false);
   const [end, setEnd] = useState(false);
-
-  const [showAddressModal, setShowAddressModal] = useState(false);
-  const [showCreateAffiliateModal, setShowAffiliateModal] = useState(false);
-  const [showCreateAddressModal, setShowCreateAddressModal] = useState(false);
-  const [showPaymentModal, setShowPaymentModal] = useState(false);
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -147,10 +150,6 @@ const Checkout = () => {
   });
 
   const data = useWatch({ control });
-
-  const paymentTitle = paymentsData.find(
-    (e) => e.value === data?.payment
-  )?.title;
 
   useEffect(() => {
     if (total > 0) {
@@ -237,6 +236,72 @@ const Checkout = () => {
     [data.address, state?.cart?.zone]
   );
 
+  if (!Array.isArray(state.cart.items) || state.cart.items.length <= 0) {
+    return (
+      <Empty
+        text="Корзина пуста"
+        desc="Перейдите к меню, чтобы сделать первый заказ"
+        image={() => <EmptyCart />}
+        button={
+          <Link className="btn-primary" to="/">
+            Перейти в меню
+          </Link>
+        }
+      />
+    );
+  }
+
+  if (!state?.isAuth) {
+    return (
+      <Empty
+        text="Вы не авторизованы"
+        desc="Войдите в свой аккаунт или зарегистрируйтесь"
+        image={() => <EmptyAuth />}
+        button={
+          <Link className="btn-primary" to="/login">
+            Войти или создать профиль
+          </Link>
+        }
+      />
+    );
+  }
+
+  if (
+    data?.delivery == "delivery" &&
+    (!Array.isArray(state.address.items) || state.address.length <= 0)
+  ) {
+    return (
+      <Empty
+        text="Адрес не добавлен"
+        desc="Создайте новый адрес для доставки заказа"
+        image={() => <EmptyAddresses />}
+        button={
+          <Link className="btn-primary" to="/account/addresses/add">
+            Добавить адрес
+          </Link>
+        }
+      />
+    );
+  }
+
+  if (
+    data?.delivery == "pickup" &&
+    (!Array.isArray(state.affiliate.items) || state.affiliate.length <= 0)
+  ) {
+    return (
+      <Empty
+        text="Заказы временно недоступны"
+        desc="Попробуйте зайди немного позже"
+        image={() => <EmptyWork />}
+        button={
+          <Link className="btn-primary" to="/account/addresses/add">
+            Перейти на главную
+          </Link>
+        }
+      />
+    );
+  }
+
   return (
     <main>
       <Meta title="Оформление заказа" />
@@ -276,25 +341,45 @@ const Checkout = () => {
                 <Col md={12}>
                   <div className="mb-3">
                     {data.delivery == "delivery" ? (
-                      state?.address?.items?.length > 0 ? (
+                      <>
                         <Select
+                          label="Адрес"
+                          value={data?.address?.id}
                           data={state?.address?.items.map((e) => ({
-                            title: e.full,
+                            title: e?.title?.length > 0 ? e.title : e.full,
+                            desc: e?.title?.length > 0 ? e.full : false,
                             value: e.id,
                           }))}
+                          onClick={(address) =>
+                            setValue(
+                              "address",
+                              state?.address?.items.find(
+                                (e) => e.id === address.value
+                              )
+                            )
+                          }
                         />
-                      ) : (
-                        <Link className="btn btn-sm btn-green rounded-3">
-                          Добавить адрес
-                        </Link>
-                      )
+                        <p className="text-muted fs-09 mt-2">
+                          Нет нужного адреса?{" "}
+                          <Link
+                            to="/account/addresses/add"
+                            className="text-success"
+                          >
+                            Добавить новый адрес
+                          </Link>
+                        </p>
+                      </>
                     ) : (
                       state?.affiliate?.items?.length > 0 && (
                         <Select
+                          label="Адрес"
+                          value={data?.affiliateId}
                           data={state?.affiliate?.items.map((e) => ({
-                            title: e.full,
+                            title: e?.title?.length > 0 ? e.title : e.full,
+                            desc: e?.title?.length > 0 ? e.full : false,
                             value: e.id,
                           }))}
+                          onClick={(e) => setValue("affiliateId", e.value)}
                         />
                       )
                     )}
@@ -307,7 +392,6 @@ const Checkout = () => {
                       name="firstName"
                       placeholder="Введите имя"
                       errors={errors}
-                      defaultValue={data?.firstName}
                       register={register}
                     />
                   </div>
@@ -325,20 +409,73 @@ const Checkout = () => {
                       autoCapitalize="none"
                       leftIcon="call-outline"
                       errors={errors}
-                      defaultValue={data?.phone}
                       register={register}
                     />
                   </div>
                 </Col>
-                <Col>
+                <Col md={12}>
                   <div className="mb-3">
-                    <p>Количество персон</p>
-                    <CountInput dis={false} />
+                    <p className="mb-2 fs-09">Кол-во персон</p>
+                    <CountInput
+                      dis={false}
+                      value={data.person}
+                      onChange={(e) => setValue("person", e)}
+                    />
                   </div>
                 </Col>
                 <Col md={12}>
-                  <div className="mb-2">Комментарий</div>
-                  <textarea rows="3" className="mb-4"></textarea>
+                  <div className="mb-3">
+                    <Input
+                      label="Время подачи"
+                      name="serving"
+                      control={control}
+                      autoCapitalize="none"
+                      errors={errors}
+                      register={register}
+                      type="datetime-local"
+                      validation={{
+                        min: {
+                          value: moment()
+                            .add(2, "hours")
+                            .format("YYYY-MM-DDTkk:mm"),
+                          message:
+                            "Время подачи заказа не менее чем через 2 часа",
+                        },
+                        max: {
+                          value: moment()
+                            .add(1, "year")
+                            .format("YYYY-MM-DDTkk:mm"),
+                          message: "Максимальное время подачи не более 1 года",
+                        },
+                      }}
+                    />
+                  </div>
+                </Col>
+                <Col md={12}>
+                  <div className="mb-3">
+                    <p className="mb-2 fs-09">Способ оплаты</p>
+                    <Row xs={2} sm={3} md={3} className="gx-2 gy-4">
+                      {paymentsData.map((e) => (
+                        <Col>
+                          <PaymentItem
+                            onClick={(e) => setValue("payment", e.value)}
+                            data={e}
+                            active={e.value === data.payment}
+                          />
+                        </Col>
+                      ))}
+                    </Row>
+                  </div>
+                </Col>
+                <Col md={12}>
+                  <Textarea
+                    label="Комментарий"
+                    name="comment"
+                    placeholder="Введите комментарий"
+                    errors={errors}
+                    defaultValue={data?.comment}
+                    register={register}
+                  />
                 </Col>
               </Row>
             </Col>

@@ -1,8 +1,13 @@
 import { memo } from "react";
 
-const Empty = memo(({ text, desc, image = false, button }) => {
+const Empty = memo(({ text, mini, desc, image = false, button }) => {
   return (
-    <main className="empty d-flex flex-column align-items-center justify-content-center">
+    <main
+      className={
+        "empty d-flex flex-column align-items-center justify-content-center" +
+        (mini ? " mini" : "")
+      }
+    >
       {image && <div className="mb-4">{image()}</div>}
       <div>
         <p className="text-center h4">{text ?? "Ничего нет"}</p>

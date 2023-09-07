@@ -280,13 +280,13 @@ const CreateAddress = () => {
           <button
             disabled={!isValid}
             onClick={handleSubmit(onSubmit)}
-            className="btn-deepgreen w-xs-100 ms-xxl-5 me-3"
+            className="btn-deepgreen w-xs-100"
           >
             Сохранить адрес
           </button>
         </div>
         <div>
-          <p className="fs-09">
+          <p className="fs-09 ms-3">
             <span className="text-danger">*</span> - обязательные поля для
             заполнения
           </p>

@@ -8,8 +8,10 @@ import { Col, Dropdown, Form, Row } from "react-bootstrap";
 import { useForm, useWatch } from "react-hook-form";
 import { NotificationManager } from "react-notifications";
 import { useDispatch } from "react-redux";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import AccountTitleReturn from "../../components/AccountTitleReturn";
+import Empty from "../../components/Empty";
+import EmptyAddresses from "../../components/empty/addresses";
 import Meta from "../../components/Meta";
 import Input from "../../components/utils/Input";
 import Loader from "../../components/utils/Loader";
@@ -124,6 +126,22 @@ const EditAddress = () => {
 
   if (loading) {
     return <Loader full />;
+  }
+
+  if (!data?.id) {
+    return (
+      <Empty
+        mini
+        text="Такого адреса не существует"
+        desc="Попробуйте обновить страницу или добавьте новый адрес"
+        image={() => <EmptyAddresses />}
+        button={
+          <Link className="btn-primary" to="/account/addresses/add">
+            Добавить адрес
+          </Link>
+        }
+      />
+    );
   }
 
   return (
@@ -305,13 +323,13 @@ const EditAddress = () => {
           <button
             disabled={!isValid}
             onClick={handleSubmit(onSubmit)}
-            className="btn-deepgreen w-xs-100 ms-xxl-5 me-3"
+            className="btn-deepgreen w-xs-100"
           >
             Сохранить адрес
           </button>
         </div>
         <div>
-          <p className="fs-09">
+          <p className="fs-09 ms-3">
             <span className="text-danger">*</span> - обязательные поля для
             заполнения
           </p>
