@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Navigation, FreeMode } from "swiper";
+import { Navigation, FreeMode, Mousewheel } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 
@@ -12,6 +12,7 @@ import {
   HiOutlineBars3,
 } from "react-icons/hi2";
 import { memo } from "react";
+import { Link } from "react-router-dom";
 
 const Categories = memo(({ className, data }) => {
   const [isFull, setIsFull] = useState(false);
@@ -27,20 +28,29 @@ const Categories = memo(({ className, data }) => {
     setIsFull(false);
   };
 
+  const updateSlider = (i) => {
+    swiper.slideTo(i);
+  };
+
   return data.length > 0 ? (
     <div className={"categories " + className}>
       <div className="categories-wrap">
         <Swiper
+          loop={false}
+          freeMode={{
+            enabled: true,
+            sticky: true,
+          }}
+          mousewheel={true}
           className={
             isFull
               ? "categories-slider categories-slider-disabled"
               : "categories-slider"
           }
-          modules={[Navigation, FreeMode]}
+          modules={[Navigation, FreeMode, Mousewheel]}
           speed={750}
           spaceBetween={10}
           slidesPerView={"auto"}
-          freeMode={true}
           observer={true}
           observeSlideChildren={true}
           watchSlidesProgress={true}
@@ -60,9 +70,18 @@ const Categories = memo(({ className, data }) => {
         >
           {data.map((e) => (
             <SwiperSlide>
-              <button type="button" className="btn-8">
+              <Link
+                className="btn-8"
+                activeClass="active"
+                to={e.id}
+                spy={true}
+                smooth={true}
+                offset={-160}
+                duration={500}
+                onSetActive={() => updateSlider(index)}
+              >
                 {e.title}
-              </button>
+              </Link>
             </SwiperSlide>
           ))}
           {/* <SwiperSlide>

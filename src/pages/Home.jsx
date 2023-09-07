@@ -81,14 +81,14 @@ const Home = () => {
                 >
                   {sales.items.map((e) => (
                     <SwiperSlide>
-                      <Link to="/promo/1">
+                      <Link to={"/promo/" + e.id}>
                         <img
                           src={getImageURL({
                             path: e.medias,
                             type: "sale",
                             size: "full",
                           })}
-                          alt="Большие пиццы"
+                          alt={e?.title}
                           className="img-fluid"
                           loading="lazy"
                         />
