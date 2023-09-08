@@ -1,8 +1,8 @@
 import { apiRoutes } from "../config/api";
 import { $api } from "./index";
 
-const getCategory = async (data) => {
-  const response = await $api.get(apiRoutes.CATEGORY_ONE, { params: data });
+const getCategory = async (id) => {
+  const response = await $api.get(apiRoutes.CATEGORY_ONE, { params: { id } });
   return response?.data;
 };
 

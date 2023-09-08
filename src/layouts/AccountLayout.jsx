@@ -25,7 +25,7 @@ const AccountLayout = ({ isMobile }) => {
             <Row className="account-top gx-3 gx-xl-4">
               <Col lg={3}>
                 <div className="box w-100 h-100 d-flex align-items-center">
-                  <div className="icon">
+                  <div className="icon d-none d-sm-none d-md-none d-xxl-flex">
                     <span>
                       {user.firstName
                         ? user.firstName.slice(0, 1).toUpperCase()
@@ -33,17 +33,25 @@ const AccountLayout = ({ isMobile }) => {
                     </span>
                   </div>
                   <div>
-                    <h6>{user.firstName}</h6>
-                    {user.phone && (
-                      <>
-                        <p className="mb-2">
-                          <a href={"tel:" + user.phone}>{user.phone}</a>
-                        </p>
-                        <Link to="/account/settings" className="main-color">
-                          Изменить
-                        </Link>
-                      </>
-                    )}
+                    <h6>{user?.firstName ?? "Имя"}</h6>
+                    {user?.phone ||
+                      (user?.email && (
+                        <>
+                          {user?.phone && (
+                            <p className="mb-2">
+                              <a href={"tel:" + user.phone}>{user.phone}</a>
+                            </p>
+                          )}
+                          {user?.email && (
+                            <p className="mb-2 fs-09">
+                              <a href={"mailer:" + user.email}>{user.email}</a>
+                            </p>
+                          )}
+                          <Link to="/account/settings" className="main-color">
+                            Изменить
+                          </Link>
+                        </>
+                      ))}
                   </div>
                 </div>
               </Col>

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Navigation, FreeMode, Mousewheel } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
+import { Link } from "react-scroll";
 
 import {
   HiOutlineArrowRightCircle,
@@ -12,7 +13,6 @@ import {
   HiOutlineBars3,
 } from "react-icons/hi2";
 import { memo } from "react";
-import { Link } from "react-router-dom";
 
 const Categories = memo(({ className, data }) => {
   const [isFull, setIsFull] = useState(false);
@@ -68,16 +68,16 @@ const Categories = memo(({ className, data }) => {
             },
           }}
         >
-          {data.map((e) => (
+          {data.map((e, index) => (
             <SwiperSlide>
               <Link
                 className="btn-8"
                 activeClass="active"
-                to={e.id}
+                to={"category-" + e.id}
                 spy={true}
                 smooth={true}
-                offset={-160}
-                duration={500}
+                offset={-100}
+                duration={100}
                 onSetActive={() => updateSlider(index)}
               >
                 {e.title}

@@ -313,7 +313,7 @@ const Checkout = () => {
               <h1 className="text-center text-md-start">Оформление заказа</h1>
               <Row>
                 <Col md={12}>
-                  <div className="d-flex align-items-center mb-3">
+                  <div className="d-flex align-items-center mb-4">
                     <a
                       className={
                         "delivery" +
@@ -339,7 +339,7 @@ const Checkout = () => {
                   </div>
                 </Col>
                 <Col md={12}>
-                  <div className="mb-3">
+                  <div className="mb-4">
                     {data.delivery == "delivery" ? (
                       <>
                         <Select
@@ -386,7 +386,7 @@ const Checkout = () => {
                   </div>
                 </Col>
                 <Col md={6}>
-                  <div className="mb-3">
+                  <div className="mb-4">
                     <Input
                       label="Имя"
                       name="firstName"
@@ -397,7 +397,7 @@ const Checkout = () => {
                   </div>
                 </Col>
                 <Col md={6}>
-                  <div className="mb-3">
+                  <div className="mb-4">
                     <Input
                       label="Номер телефона"
                       type="custom"
@@ -414,7 +414,7 @@ const Checkout = () => {
                   </div>
                 </Col>
                 <Col md={12}>
-                  <div className="mb-3">
+                  <div className="mb-4">
                     <p className="mb-2 fs-09">Кол-во персон</p>
                     <CountInput
                       dis={false}
@@ -423,8 +423,8 @@ const Checkout = () => {
                     />
                   </div>
                 </Col>
-                <Col md={12}>
-                  <div className="mb-3">
+                <Col md={6}>
+                  <div className="mb-4">
                     <Input
                       label="Время подачи"
                       name="serving"
@@ -452,7 +452,7 @@ const Checkout = () => {
                   </div>
                 </Col>
                 <Col md={12}>
-                  <div className="mb-3">
+                  <div className="mb-4">
                     <p className="mb-2 fs-09">Способ оплаты</p>
                     <Row xs={2} sm={3} md={3} className="gx-2 gy-4">
                       {paymentsData.map((e) => (
@@ -485,14 +485,14 @@ const Checkout = () => {
 
                 <ul className="list-unstyled">
                   {state.cart.items.map((e) => (
-                    <li className="mb-3">
+                    <li className="mb-4">
                       <CheckoutProduct data={e} />
                     </li>
                   ))}
                 </ul>
               </div>
 
-              <div className="mb-3 d-flex">
+              <div className="mb-4 d-flex">
                 <Input
                   className="w-100"
                   type="number"

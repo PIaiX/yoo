@@ -9,7 +9,7 @@ import ProductCard from "./ProductCard";
 
 const CategoryGroup = memo(({ data }) => {
   return (
-    <section className="CategoryGroup" id={data.id}>
+    <section className="CategoryGroup" id={"category-" + data.id}>
       <div className="filterGrid mb-5">
         {/* <div className="filterGrid-search"> */}
         <h4 className=" d-xl-block title mb-0">{data.title}</h4>

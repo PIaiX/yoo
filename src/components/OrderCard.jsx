@@ -41,32 +41,32 @@ const OrderCard = memo(({ data }) => {
             }}
           >
             <SwiperSlide>
-              <Link to="/menu/product">
+              <Link to="/product">
                 <img src="imgs/img3.png" alt="Название" />
               </Link>
             </SwiperSlide>
             <SwiperSlide>
-              <Link to="/menu/product">
+              <Link to="/product">
                 <img src="imgs/img3.png" alt="Название" />
               </Link>
             </SwiperSlide>
             <SwiperSlide>
-              <Link to="/menu/product">
+              <Link to="/product">
                 <img src="imgs/img3.png" alt="Название" />
               </Link>
             </SwiperSlide>
             <SwiperSlide>
-              <Link to="/menu/product">
+              <Link to="/product">
                 <img src="imgs/img3.png" alt="Название" />
               </Link>
             </SwiperSlide>
             <SwiperSlide>
-              <Link to="/menu/product">
+              <Link to="/product">
                 <img src="imgs/img3.png" alt="Название" />
               </Link>
             </SwiperSlide>
             <SwiperSlide>
-              <Link to="/menu/product">
+              <Link to="/product">
                 <img src="imgs/img3.png" alt="Название" />
               </Link>
             </SwiperSlide>

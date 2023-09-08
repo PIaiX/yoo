@@ -24,7 +24,7 @@ const ProductCard = memo(({ data }) => {
   return (
     <div className="product">
       <div className="product-img">
-        <Link to={"/menu/product/" + data.id}>
+        <Link to={"/product/" + data.id}>
           <img src={getImageURL({ path: data.medias })} alt={data.title} />
         </Link>
         {/* <ul className="product-stickers">

@@ -11,11 +11,15 @@ import { authRegister, login } from "../../services/auth";
 import Meta from "../../components/Meta";
 import { Button } from "react-bootstrap";
 import { NotificationManager } from "react-notifications";
+import { setAuth, setUser } from "../../store/reducers/authSlice";
 
 const Registration = () => {
-  const auth = useSelector((state) => state?.auth);
+  const { auth, options } = useSelector(({ auth, settings: { options } }) => ({
+    auth,
+    options,
+  }));
   const navigate = useNavigate();
-
+  console.log(options);
   useLayoutEffect(() => {
     if (auth.isAuth) {
       return navigate("/");
@@ -195,9 +199,13 @@ const Registration = () => {
     }
 
     authRegister(data)
-      .then(() => {
+      .then((res) => {
         NotificationManager.success("Завершите регистрацию, подтвердив почту");
-        navigate("/");
+        if (res?.id) {
+          dispatch(setAuth(true));
+          dispatch(setUser(res));
+        }
+        setEnd({ type: "email" });
       })
       .catch(
         (err) =>

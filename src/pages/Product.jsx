@@ -19,12 +19,14 @@ import {
   HiMinus,
 } from "react-icons/hi2";
 import NavTop from "../components/utils/NavTop";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { getProduct, getProducts } from "../services/product";
 import Loader from "../components/utils/Loader";
 import { customPrice, customWeight, getImageURL } from "../helpers/all";
 import ButtonCart from "../components/ButtonCart";
 import Meta from "../components/Meta";
+import Empty from "../components/Empty";
+import EmptyCatalog from "../components/empty/catalog";
 
 const Product = () => {
   const [isRemove, setIsRemove] = useState(false);
@@ -73,6 +75,20 @@ const Product = () => {
     return <Loader full />;
   }
 
+  if (!product?.item?.id) {
+    return (
+      <Empty
+        text="Такого товара нет"
+        desc="Возможно вы перепутали ссылку"
+        image={() => <EmptyCatalog />}
+        button={
+          <Link className="btn-primary" to="/">
+            Перейти в меню
+          </Link>
+        }
+      />
+    );
+  }
   const price = data?.cart?.data?.modifiers?.price
     ? data.cart.data.modifiers.price
     : product?.item?.modifiers?.length > 0 &&
@@ -94,7 +110,6 @@ const Product = () => {
         <NavTop
           toBack={true}
           breadcrumbs={[
-            { title: "Меню", link: "/menu" },
             {
               title: product?.item?.category?.title ?? "Нет категории",
               link: product?.item?.category?.id

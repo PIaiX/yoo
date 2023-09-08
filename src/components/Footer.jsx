@@ -71,9 +71,6 @@ const Footer = memo(() => {
 
             <nav>
               <ul className="list-unstyled d-flex">
-                <li>
-                  <Link to="/">Меню</Link>
-                </li>
                 <li className="ms-4">
                   <Link to="/">Вакансии</Link>
                 </li>

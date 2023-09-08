@@ -77,7 +77,7 @@ const Settings = () => {
             <Row className="g-3 g-xl-4">
               <Col xs={12} sm={6} md={4}>
                 <div className="box w-100 d-flex align-items-center p-3 h-100">
-                  <div className="icon">
+                  <div className="icon d-none d-sm-none d-md-none d-xxl-flex">
                     <span>
                       {user.firstName
                         ? user.firstName.slice(0, 1).toUpperCase()
@@ -85,7 +85,7 @@ const Settings = () => {
                     </span>
                   </div>
                   <div>
-                    <h6>{user.firstName}</h6>
+                    <h6>{user.firstName ?? "Имя"}</h6>
                   </div>
                 </div>
               </Col>

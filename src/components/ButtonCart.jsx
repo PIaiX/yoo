@@ -54,7 +54,7 @@ const ButtonCart = memo(
           data?.cart?.data?.modifiers
             ? onPress(1)
             : product?.modifiers?.length > 0 && !full
-            ? navigate("/menu/product/" + product.id, product)
+            ? navigate("/product/" + product.id, product)
             : onPress(1)
         }
         type="button"

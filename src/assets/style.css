@@ -2564,6 +2564,7 @@ main {
   box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.06);
   border-radius: 0.625em;
   padding: 0.625em;
+  border: 2px solid transparent;
 }
 @media (max-width: 1399.98px) {
   .ingredient {
@@ -2571,7 +2572,8 @@ main {
   }
 }
 .ingredient.active {
-  background-color: #c2c2c2;
+  background-color: var(--main-color-outline);
+  border-color: var(--main-color);
 }
 .ingredient-img {
   width: 2.5em;
@@ -4586,8 +4588,8 @@ ACCOUNT END
   background-color: var(--main-color-outline);
 }
 .payment-logo {
-  max-height: 3em;
-  max-width: 3em;
+  max-height: 2em;
+  max-width: 2em;
   margin-right: 0.8em;
   -o-object-fit: contain;
      object-fit: contain;

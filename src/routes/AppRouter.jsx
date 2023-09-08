@@ -3,11 +3,11 @@ import {
   Route,
   RouterProvider,
   createBrowserRouter,
-  createRoutesFromElements
+  createRoutesFromElements,
 } from "react-router-dom";
 import AppLayout from "../layouts/AppLayout";
 import Cart from "../pages/Cart";
-import Catalog from "../pages/Catalog";
+import Category from "../pages/Category";
 import Checkout from "../pages/Checkout";
 import Contacts from "../pages/Contacts";
 import Home from "../pages/Home";
@@ -26,8 +26,8 @@ const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<AppLayout />}>
       <Route index element={<Home />} />
-      <Route path="menu" element={<Catalog />} />
-      <Route path="menu/product/:productId" element={<Product />} />
+      <Route path="category/:categoryId" element={<Category />} />
+      <Route path="product/:productId" element={<Product />} />
       <Route path="cart" element={<Cart />} />
       <Route path="checkout" element={<Checkout />} />
       <Route path="promo" element={<Promo />} />

@@ -6,6 +6,8 @@ import Meta from "../../components/Meta";
 import Loader from "../../components/utils/Loader";
 import { authActivate } from "../../services/auth";
 import { useState } from "react";
+import Empty from "../../components/Empty";
+import EmptyWork from "../../components/empty/work";
 
 const Activate = () => {
   const { key } = useParams();
@@ -36,21 +38,23 @@ const Activate = () => {
   }
 
   return (
-    <main>
+    <>
       <Meta title="Подтверждение почты" />
-      <Container>
-        <section className="hv-100 sec-login d-flex flex-column align-items-center justify-content-center">
-          <h1 className="h2 text-center">
-            {status
-              ? "Вы успешно подтвердили почту"
-              : "Ошибка при подтверждении почты"}
-          </h1>
+      <Empty
+        text={
+          status
+            ? "Вы успешно подтвердили почту"
+            : "Ошибка при подтверждении почты"
+        }
+        desc="Вероятно вы перешли по старой ссылке. Попробуйте запросить подтверждение еще раз."
+        image={() => <EmptyWork />}
+        button={
           <Link to="/login" className="btn btn-primary">
             Войти в профиль
           </Link>
-        </section>
-      </Container>
-    </main>
+        }
+      />
+    </>
   );
 };
 

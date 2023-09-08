@@ -2314,11 +2314,13 @@ main {
   @include shadow();
   border-radius: $radius * 0.5;
   padding: $radius * 0.5;
+  border: 2px solid transparent;
   @media (max-width: $bp-xxl) {
     font-size: 0.9em;
   }
   &.active {
-    background-color: $gray;
+    background-color: var(--main-color-outline);
+    border-color: var(--main-color);
   }
   &-img {
     width: 2.5em;
@@ -4022,8 +4024,8 @@ ACCOUNT END
   height: 60px;
   @include flex();
   &-logo {
-    max-height: 3em;
-    max-width: 3em;
+    max-height: 2em;
+    max-width: 2em;
     margin-right: 0.8em;
     object-fit: contain;
   }

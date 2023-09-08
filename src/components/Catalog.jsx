@@ -6,9 +6,9 @@ import CategoryCard from "./CategoryCard";
 import Choose from "../assets/imgs/choose.svg";
 import GridIcon from "./svgs/GridIcon";
 import {
-  HiOutlineAdjustmentsHorizontal,
+  // HiOutlineAdjustmentsHorizontal,
   HiOutlineArrowUturnDown,
-  HiOutlineBars3,
+  // HiOutlineBars3,
 } from "react-icons/hi2";
 import CategoryGroup from "./CategoryGroup";
 import Categories from "./Categories";
@@ -47,7 +47,7 @@ const Catalog = memo(({ data }) => {
       ) : (
         <Container>
           <div className="sticky-box mb-3 mb-sm-4 mb-md-5">
-            <Categories className={"w-90"} data={data} />
+            <Categories className="w-90" data={data} />
             {/* <button
               type="button"
               onClick={() => setViewCategories(!viewCategories)}
