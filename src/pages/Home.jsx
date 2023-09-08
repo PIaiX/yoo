@@ -19,42 +19,37 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import ScrollToTop from "../components/ScrollToTop";
 import Loader from "../components/utils/Loader";
 import { getImageURL } from "../helpers/all";
-import { getCategories } from "../services/category";
-import { getSales } from "../services/sales";
 import Meta from "../components/Meta";
+import { useGetCategoriesQuery, useGetSalesQuery } from "../services/home";
+import Empty from "../components/Empty";
+import EmptyCatalog from "../components/empty/catalog";
 
 const Home = () => {
-  const [categories, setCategories] = useState({
-    loading: true,
-    items: [],
-  });
-  const [sales, setSales] = useState({
-    loading: true,
-    items: [],
-  });
+  const sales = useGetSalesQuery();
+  const categories = useGetCategoriesQuery();
 
-  const onLoad = () => {
-    getSales()
-      .then((res) => setSales({ loading: false, ...res }))
-      .catch(() => setSales({ ...sales, loading: false }));
-
-    getCategories()
-      .then((res) => setCategories({ loading: false, items: res }))
-      .catch(() => setCategories({ ...categories, loading: false }));
-  };
-
-  useLayoutEffect(() => {
-    onLoad();
-  }, []);
-
-  if (categories.loading || sales.loading) {
+  if (categories.isLoading || sales.isLoading) {
     return <Loader full />;
   }
 
+  if (!Array.isArray(categories.data) || categories.data.length <= 0) {
+    return (
+      <Empty
+        text="Нет товаров"
+        desc="Временно товары отсуствуют"
+        image={() => <EmptyCatalog />}
+        button={
+          <Link className="btn-primary" to="/">
+            Обновить страницу
+          </Link>
+        }
+      />
+    );
+  }
   return (
     <main>
       <Meta title="Главная" />
-      {sales?.items?.length > 0 && (
+      {sales?.data?.length > 0 && (
         <section className="sec-1 mb-5">
           <div className="container-md gx-0 gx-md-4">
             <div className="row justify-content-center">
@@ -79,7 +74,7 @@ const Home = () => {
                     },
                   }}
                 >
-                  {sales.items.map((e) => (
+                  {sales.data.map((e) => (
                     <SwiperSlide>
                       <Link to={"/promo/" + e.id}>
                         <img
@@ -114,7 +109,7 @@ const Home = () => {
         </div>
       </section> */}
 
-      <Catalog data={categories.items} />
+      <Catalog data={categories.data} />
 
       <Container className="overflow-hidden">
         <section className="sec-4 mb-5">

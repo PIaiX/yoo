@@ -14,6 +14,7 @@ const login = createAsyncThunk("auth/login", async (payloads, thunkAPI) => {
       thunkAPI.dispatch(updateCartAll(response?.data?.products ?? []));
 
       // thunkAPI.dispatch(getFavorites());
+
     }
 
     return response?.data;
@@ -50,8 +51,8 @@ const authRegister = async (params) => {
   return response?.data;
 };
 
-const authActivate = async (key) => {
-  const response = await $api.post(apiRoutes.AUTH_ACTIVATE, { key });
+const authActivate = async (data) => {
+  const response = await $authApi.post(apiRoutes.AUTH_ACTIVATE, data);
   return response?.data;
 };
 

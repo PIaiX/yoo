@@ -2084,7 +2084,20 @@ main {
   &-img {
     position: relative;
     width: 100%;
+    height: 250px;
     margin-bottom: 1em;
+    @media (max-width: $bp-xxl) {
+      height: 230px;
+    }
+    @media (max-width: $bp-xl) {
+      height: 210px;
+    }
+    @media (max-width: $bp-md) {
+      height: 155px;
+    }
+    @media (max-width: $bp-sm) {
+      height: 43vw;
+    }
     img {
       width: 100%;
       height: 250px;
@@ -4034,6 +4047,21 @@ ACCOUNT END
     font-size: 14px;
     @media (max-width: $bp-sm) {
       font-size: 13px;
+    }
+  }
+}
+.input-code {
+  display: flex;
+  input {
+    margin-right: 15px;
+    text-align: center;
+    height: 50px;
+    font-size: 20px;
+    padding-left: 0px;
+    padding-right: 0px;
+    font-weight: 600;
+    &:last-child {
+      margin-right: 0px;
     }
   }
 }

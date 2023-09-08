@@ -24,7 +24,6 @@ import MenuPhone from "./svgs/MenuPhone";
 import MenuVacancies from "./svgs/MenuVacancies";
 import YooApp from "./svgs/YooApp";
 import Select from "./utils/Select";
-import SelectImitation from "./utils/SelectImitation";
 
 const Header = memo(() => {
   const {
@@ -122,7 +121,15 @@ const Header = memo(() => {
               {!isMobileLG ? (
                 <>
                   <li>
-                    <Link to={auth.isAuth ? "/account" : "/login"}>
+                    <Link
+                      to={
+                        auth.isAuth
+                          ? auth.user.status === 0
+                            ? "/activate"
+                            : "/account"
+                          : "/login"
+                      }
+                    >
                       <HiOutlineUserCircle size={25} />
                     </Link>
                   </li>

@@ -43,7 +43,7 @@ const router = createBrowserRouter(
         }
       />
       <Route path="activate-email/:key" element={<ActivateEditEmail />} />
-      <Route path="activate/:key" element={<Activate />} />
+      <Route path="activate" element={<Activate />} />
       <Route path="password" element={<Recovery />} />
       <Route path="login" element={<Registration />} />
     </Route>

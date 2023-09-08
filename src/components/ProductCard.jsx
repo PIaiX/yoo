@@ -7,25 +7,30 @@ import { HiOutlineShoppingBag, HiOutlineHeart } from "react-icons/hi2";
 // import Meat from '../assets/imgs/meat.png';
 // import Spicy from '../assets/imgs/pepper.png';
 // import Vegetarian from '../assets/imgs/vegetarian.png';
-import useIsMobile from "../hooks/isMobile";
+// import useIsMobile from "../hooks/isMobile";
 import { customPrice, customWeight, getImageURL } from "../helpers/all";
 import ButtonCart from "./ButtonCart";
 import { useSelector } from "react-redux";
+import { isMobile } from "react-device-detect";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 
 const ProductCard = memo(({ data }) => {
   const auth = useSelector((state) => state.auth);
   const [isFav, setIsFav] = useState(false);
-  const isMobileMD = useIsMobile("767px");
-  const price =
-    data?.modifiers?.length > 0 && Array.isArray(data.modifiers)
-      ? data.modifiers.sort((a, b) => a.price - b.price)[0]?.price
-      : data.price;
+
+  var price = data.price ?? 0;
+  if (Array.isArray(data.modifiers) && data?.modifiers?.length > 0) {
+    var price = Math.min(...data.modifiers.map((item) => item.price));
+  }
 
   return (
     <div className="product">
       <div className="product-img">
         <Link to={"/product/" + data.id}>
-          <img src={getImageURL({ path: data.medias })} alt={data.title} />
+          <LazyLoadImage
+            src={getImageURL({ path: data.medias })}
+            alt={data.title}
+          />
         </Link>
         {/* <ul className="product-stickers">
           <li>
@@ -55,7 +60,7 @@ const ProductCard = memo(({ data }) => {
       </div>
 
       <h6>{data.title}</h6>
-      {!isMobileMD && (
+      {!isMobile && (
         <>
           <p className="text-muted fs-09">{data.description}</p>
           <hr />

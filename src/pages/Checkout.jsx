@@ -1,5 +1,10 @@
 import moment from "moment";
-import React, { useCallback, useEffect, useState } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useState,
+} from "react";
 import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
@@ -150,6 +155,11 @@ const Checkout = () => {
   });
 
   const data = useWatch({ control });
+  useLayoutEffect(() => {
+    if (state.isAuth && state.user.status === 0) {
+      navigate("/activate");
+    }
+  }, [state.isAuth]);
 
   useEffect(() => {
     if (total > 0) {

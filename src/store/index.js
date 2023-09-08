@@ -17,6 +17,7 @@ import favoriteSlice from "./reducers/favoriteSlice";
 import settingsSlice from "./reducers/settingsSlice";
 import affiliateSlice from "./reducers/affiliateSlice";
 import addressSlice from "./reducers/addressSlice";
+import { homeApi } from '../services/home'
 
 const rootReducer = combineReducers({
   settings: settingsSlice,
@@ -26,6 +27,7 @@ const rootReducer = combineReducers({
   address: addressSlice,
   affiliate: affiliateSlice,
   checkout: checkoutSlice,
+  [homeApi.reducerPath]: homeApi.reducer,
 });
 
 const persistConfig = {
@@ -38,12 +40,12 @@ const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 export const store = configureStore({
   reducer: persistedReducer,
-  middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware({
-      serializableCheck: {
-        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
-      },
-    }),
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware({
+    serializableCheck: {
+      ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+    },
+  }).concat(homeApi.middleware)
+
 });
 const persistor = persistStore(store);
 

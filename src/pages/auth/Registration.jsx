@@ -1,8 +1,8 @@
-import useIsMobile from "../../hooks/isMobile";
+// import useIsMobile from "../../hooks/isMobile";
 import React, { useState, useRef, useCallback, useLayoutEffect } from "react";
-import Col from "react-bootstrap/Col";
+// import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
-import Row from "react-bootstrap/Row";
+// import Row from "react-bootstrap/Row";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
@@ -12,216 +12,21 @@ import Meta from "../../components/Meta";
 import { Button } from "react-bootstrap";
 import { NotificationManager } from "react-notifications";
 import { setAuth, setUser } from "../../store/reducers/authSlice";
+import { isMobile } from "react-device-detect";
 
 const Registration = () => {
   const { auth, options } = useSelector(({ auth, settings: { options } }) => ({
     auth,
     options,
   }));
+
   const navigate = useNavigate();
-  console.log(options);
-  useLayoutEffect(() => {
-    if (auth.isAuth) {
-      return navigate("/");
-    }
-  }, [auth.isAuth]);
-
-  const {
-    register,
-    formState: { errors, isValid },
-    handleSubmit,
-  } = useForm({ mode: "all", reValidateMode: "onSubmit" });
-
-  const {
-    register: registerReg,
-    formState: { errors: errorsReg, isValid: isValidReg },
-    handleSubmit: handleSubmitReg,
-  } = useForm({ mode: "all", reValidateMode: "onSubmit" });
-
-  const dispatch = useDispatch();
-
-  const onSubmit = useCallback((data) => {
-    dispatch(login(data));
-  }, []);
-
-  const onSubmitReg = useCallback((data) => {
-    if (data.email) {
-      let successDomain = [
-        "5ballov.ru",
-        "aeterna.ru",
-        "aim.com",
-        "algxmail.com",
-        "ameritech.net",
-        "aol.com",
-        "att.net",
-        "autorambler.ru",
-        "bigmir.net",
-        "bk.ru",
-        "charter.net",
-        "clear.net.nz",
-        "cox.net",
-        "email.it",
-        "fastmail.com.au",
-        "fastmail.fm",
-        "flash.net",
-        "fmgirl.com",
-        "fotoplenka.ru",
-        "free.fr",
-        "fromru.com",
-        "front.ru",
-        "games.com",
-        "gmail.com",
-        "gmx.de",
-        "gmx.net",
-        "googlemail.com",
-        "hotbox.ru",
-        "hotmail.co.nz",
-        "hotmail.com",
-        "hotmail.ru",
-        "hotpop.com",
-        "imapmail.org",
-        "inbox.ru",
-        "interia.pl",
-        "km.ru",
-        "krovatka.su",
-        "land.ru",
-        "lenta.ru",
-        "libero.it",
-        "list.ru",
-        "live.com",
-        "love.com",
-        "mail.ru",
-        "mail15.com",
-        "mail333.com",
-        "megabox.ru",
-        "memori.ru",
-        "meta.ua",
-        "msn.com",
-        "myrambler.ru",
-        "myrealbox.com",
-        "naui.net",
-        "newmail.ru",
-        "nfmail.com",
-        "nightmail.ru",
-        "nl.rogers.com",
-        "nm.ru",
-        "nvbell.net",
-        "nxt.ru",
-        "o2.pl",
-        "olympus.ru",
-        "operamail.com",
-        "orange.net",
-        "pacbell.net",
-        "photofile.ru",
-        "pisem.net",
-        "pochta.com",
-        "pochta.ru",
-        "pochtamt.ru",
-        "pop3.ru",
-        "post.ru",
-        "pplmail.com",
-        "premoweb.com",
-        "prodigy.net",
-        "qip.ru",
-        "rambler.ru",
-        "rbcmail.ru",
-        "rikt.ru",
-        "ro.ru",
-        "rocketmail.com",
-        "rogers.com",
-        "sbcglobal.net",
-        "seznam.cz",
-        "sibnet.ru",
-        "sky.com",
-        "sky.ru",
-        "skynet.be",
-        "smtp.ru",
-        "snet.net",
-        "softhome.net",
-        "startfree.com",
-        "su29.ru",
-        "swbell.net",
-        "talktalk.net",
-        "telenet.be",
-        "telus.net",
-        "tlen.pl",
-        "ua.fm",
-        "ukr.net",
-        "unliminet.de",
-        "verizon.net",
-        "wans.net",
-        "web.de",
-        "wow.com",
-        "wp.pl",
-        "xtra.co.nz",
-        "ya.ru",
-        "yahoo.ca",
-        "yahoo.co.id",
-        "yahoo.co.in",
-        "yahoo.co.kr",
-        "yahoo.co.nz",
-        "yahoo.co.th",
-        "yahoo.co.uk",
-        "yahoo.com",
-        "yahoo.com.ar",
-        "yahoo.com.au",
-        "yahoo.com.br",
-        "yahoo.com.cn",
-        "yahoo.com.hk",
-        "yahoo.com.mx",
-        "yahoo.com.my",
-        "yahoo.com.ph",
-        "yahoo.com.sg",
-        "yahoo.com.tw",
-        "yahoo.com.vn",
-        "yahoo.de",
-        "yahoo.dk",
-        "yahoo.es",
-        "yahoo.fr",
-        "yahoo.ie",
-        "yahoo.it",
-        "yahoo.no",
-        "yahoo.pl",
-        "yahoo.se",
-        "yahoomail.com",
-        "yandex.ru",
-        "ymail.com",
-        "zebra.lt",
-        "ziza.ru",
-      ];
-      let domain = data.email.split("@")[1];
-      if (!domain || !successDomain.includes(domain)) {
-        NotificationManager.error(
-          "Разрешены только популярные почтовые сервисы"
-        );
-        return false;
-      }
-    }
-
-    authRegister(data)
-      .then((res) => {
-        NotificationManager.success("Завершите регистрацию, подтвердив почту");
-        if (res?.id) {
-          dispatch(setAuth(true));
-          dispatch(setUser(res));
-        }
-        setEnd({ type: "email" });
-      })
-      .catch(
-        (err) =>
-          err &&
-          NotificationManager.error(
-            err?.response?.data?.error ?? "Неизвестная ошибка при регистрации"
-          )
-      );
-  }, []);
-
   const [loginView, setLoginView] = useState(false);
+  const [end, setEnd] = useState(false);
   const block1 = useRef();
   const block2 = useRef();
   const text1 = useRef();
   const text2 = useRef();
-  const isMobileLG = useIsMobile("991px");
 
   const optionsTiming = {
     duration: 1000,
@@ -229,6 +34,212 @@ const Registration = () => {
     iterations: 1,
     fill: "forwards",
   };
+
+  useLayoutEffect(() => {
+    if (auth.isAuth) {
+      return navigate("/");
+    }
+  }, []);
+
+  const {
+    register,
+    formState: { errors, isValid },
+    handleSubmit,
+  } = useForm({ mode: "all", reValidateMode: "onChange" });
+
+  const {
+    register: registerReg,
+    formState: { errors: errorsReg, isValid: isValidReg },
+    handleSubmit: handleSubmitReg,
+  } = useForm({ mode: "all", reValidateMode: "onChange" });
+
+  const dispatch = useDispatch();
+
+  const onSubmit = useCallback(async (data) => {
+    const response = await dispatch(login(data)).unwrap();
+    if (response?.user?.status === 0) {
+      navigate("/activate");
+    } else {
+      navigate("/");
+    }
+  }, []);
+
+  const onSubmitReg = useCallback(
+    (data) => {
+      if (data.email) {
+        let successDomain = [
+          "5ballov.ru",
+          "aeterna.ru",
+          "aim.com",
+          "algxmail.com",
+          "ameritech.net",
+          "aol.com",
+          "att.net",
+          "autorambler.ru",
+          "bigmir.net",
+          "bk.ru",
+          "charter.net",
+          "clear.net.nz",
+          "cox.net",
+          "email.it",
+          "fastmail.com.au",
+          "fastmail.fm",
+          "flash.net",
+          "fmgirl.com",
+          "fotoplenka.ru",
+          "free.fr",
+          "fromru.com",
+          "front.ru",
+          "games.com",
+          "gmail.com",
+          "gmx.de",
+          "gmx.net",
+          "googlemail.com",
+          "hotbox.ru",
+          "hotmail.co.nz",
+          "hotmail.com",
+          "hotmail.ru",
+          "hotpop.com",
+          "imapmail.org",
+          "inbox.ru",
+          "interia.pl",
+          "km.ru",
+          "krovatka.su",
+          "land.ru",
+          "lenta.ru",
+          "libero.it",
+          "list.ru",
+          "live.com",
+          "love.com",
+          "mail.ru",
+          "mail15.com",
+          "mail333.com",
+          "megabox.ru",
+          "memori.ru",
+          "meta.ua",
+          "msn.com",
+          "myrambler.ru",
+          "myrealbox.com",
+          "naui.net",
+          "newmail.ru",
+          "nfmail.com",
+          "nightmail.ru",
+          "nl.rogers.com",
+          "nm.ru",
+          "nvbell.net",
+          "nxt.ru",
+          "o2.pl",
+          "olympus.ru",
+          "operamail.com",
+          "orange.net",
+          "pacbell.net",
+          "photofile.ru",
+          "pisem.net",
+          "pochta.com",
+          "pochta.ru",
+          "pochtamt.ru",
+          "pop3.ru",
+          "post.ru",
+          "pplmail.com",
+          "premoweb.com",
+          "prodigy.net",
+          "qip.ru",
+          "rambler.ru",
+          "rbcmail.ru",
+          "rikt.ru",
+          "ro.ru",
+          "rocketmail.com",
+          "rogers.com",
+          "sbcglobal.net",
+          "seznam.cz",
+          "sibnet.ru",
+          "sky.com",
+          "sky.ru",
+          "skynet.be",
+          "smtp.ru",
+          "snet.net",
+          "softhome.net",
+          "startfree.com",
+          "su29.ru",
+          "swbell.net",
+          "talktalk.net",
+          "telenet.be",
+          "telus.net",
+          "tlen.pl",
+          "ua.fm",
+          "ukr.net",
+          "unliminet.de",
+          "verizon.net",
+          "wans.net",
+          "web.de",
+          "wow.com",
+          "wp.pl",
+          "xtra.co.nz",
+          "ya.ru",
+          "yahoo.ca",
+          "yahoo.co.id",
+          "yahoo.co.in",
+          "yahoo.co.kr",
+          "yahoo.co.nz",
+          "yahoo.co.th",
+          "yahoo.co.uk",
+          "yahoo.com",
+          "yahoo.com.ar",
+          "yahoo.com.au",
+          "yahoo.com.br",
+          "yahoo.com.cn",
+          "yahoo.com.hk",
+          "yahoo.com.mx",
+          "yahoo.com.my",
+          "yahoo.com.ph",
+          "yahoo.com.sg",
+          "yahoo.com.tw",
+          "yahoo.com.vn",
+          "yahoo.de",
+          "yahoo.dk",
+          "yahoo.es",
+          "yahoo.fr",
+          "yahoo.ie",
+          "yahoo.it",
+          "yahoo.no",
+          "yahoo.pl",
+          "yahoo.se",
+          "yahoomail.com",
+          "yandex.ru",
+          "ymail.com",
+          "zebra.lt",
+          "ziza.ru",
+        ];
+        let domain = data.email.split("@")[1];
+        if (!domain || !successDomain.includes(domain)) {
+          NotificationManager.error(
+            "Разрешены только популярные почтовые сервисы"
+          );
+          return false;
+        }
+      }
+
+      authRegister(data)
+        .then((res) => {
+          NotificationManager.success(
+            "Завершите регистрацию, подтвердив почту"
+          );
+          if (res?.id) {
+            dispatch(setAuth(true));
+            dispatch(setUser(res));
+          }
+          navigate("/activate");
+        })
+        .catch(
+          (err) =>
+            err &&
+            NotificationManager.error(
+              err?.response?.data?.error ?? "Неизвестная ошибка при регистрации"
+            )
+        );
+    },
+    [options, end]
+  );
 
   const handleClick = () => {
     if (loginView) {
@@ -294,7 +305,7 @@ const Registration = () => {
     <main className="py-lg-0">
       <Meta title={loginView ? "Регистрация" : "Вход"} />
       <Container>
-        {isMobileLG ? (
+        {isMobile ? (
           <section className="login-mobile">
             {loginView ? (
               <>

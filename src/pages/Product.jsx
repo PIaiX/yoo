@@ -93,14 +93,14 @@ const Product = () => {
     ? data.cart.data.modifiers.price
     : product?.item?.modifiers?.length > 0 &&
       Array.isArray(product.item.modifiers)
-    ? product.item.modifiers.sort((a, b) => a.price - b.price)[0].price
+    ? Math.min(...product.item.modifiers.map((item) => item.price))
     : product?.item?.modifiers?.price ?? product?.item?.price ?? 0;
 
   const discount = data?.cart?.data?.modifiers?.discount
     ? data.cart.data.modifiers.discount
     : product?.item?.modifiers?.length > 0 &&
       Array.isArray(product.item.modifiers)
-    ? product.item.modifiers.sort((a, b) => a.price - b.price)[0].discount
+    ? Math.min(...product.item.modifiers.map((item) => item.discount))
     : product?.item?.modifiers?.discount ?? product?.item?.discount ?? 0;
 
   return (
