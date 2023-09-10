@@ -83,6 +83,7 @@ const Contacts = () => {
                 mainAffiliate?.options?.coordinates?.lon && (
                   <YMaps>
                     <Map
+                      className="map"
                       state={{
                         center: [
                           mainAffiliate.options.coordinates.lat,
