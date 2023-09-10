@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useState } from "react";
+import React from "react";
 import Container from "react-bootstrap/Container";
 import {
   HiOutlineArrowLeftCircle,
@@ -9,20 +9,20 @@ import AppStore from "../assets/imgs/appstore-black.svg";
 import GooglePlay from "../assets/imgs/googleplay-black.svg";
 import Phone from "../assets/imgs/phone.png";
 import Offer from "../components/Offer";
-import ProductCardMini from "../components/ProductCardMini";
+// import ProductCardMini from "../components/ProductCardMini";
 import Catalog from "../components/Catalog";
 // import StoriesSection from "../components/StoriesSection";
 
 import { Navigation, Pagination } from "swiper";
 import "swiper/css";
 import { Swiper, SwiperSlide } from "swiper/react";
+import Empty from "../components/Empty";
+import Meta from "../components/Meta";
 import ScrollToTop from "../components/ScrollToTop";
+import EmptyCatalog from "../components/empty/catalog";
 import Loader from "../components/utils/Loader";
 import { getImageURL } from "../helpers/all";
-import Meta from "../components/Meta";
 import { useGetCategoriesQuery, useGetSalesQuery } from "../services/home";
-import Empty from "../components/Empty";
-import EmptyCatalog from "../components/empty/catalog";
 
 const Home = () => {
   const sales = useGetSalesQuery();

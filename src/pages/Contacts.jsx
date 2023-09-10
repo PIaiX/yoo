@@ -29,35 +29,49 @@ const Contacts = () => {
                 </div>
 
                 <h6 className="mb-3">{mainAffiliate.full}</h6>
-                <p className="mb-3">
-                  <a href={"tel:" + mainAffiliate.phone[0]} className="d-flex">
-                    <HiOutlineDevicePhoneMobile className="fs-15 main-color" />
-                    <span className="fs-11 ms-2 main-color">Горячая линия</span>
-                    <span className="fs-11 ms-2">{mainAffiliate.phone[0]}</span>
-                  </a>
-                </p>
-                <a
-                  href={"tel:" + mainAffiliate.phone[0]}
-                  type="button"
-                  className="btn-primary"
-                >
-                  Заказать звонок
-                </a>
+                {mainAffiliate?.phone[0] && (
+                  <>
+                    <p className="mb-3">
+                      <a
+                        href={"tel:" + mainAffiliate.phone[0]}
+                        className="d-flex"
+                      >
+                        <HiOutlineDevicePhoneMobile className="fs-15 main-color" />
+                        <span className="fs-11 ms-2 main-color">
+                          Горячая линия
+                        </span>
+                        <span className="fs-11 ms-2">
+                          {mainAffiliate.phone[0]}
+                        </span>
+                      </a>
+                    </p>
+                    <a
+                      href={"tel:" + mainAffiliate.phone[0]}
+                      type="button"
+                      className="btn-primary"
+                    >
+                      Позвонить
+                    </a>
+                  </>
+                )}
 
                 <ul className="list-unstyled mt-4">
                   {affiliate.items.map((e) => (
                     <li>
                       <a onClick={() => setMainAffiliate(e)}>
                         <h6 className="mb-2">{e.full}</h6>
-                        {/* <address className="mb-3">
-                      <span className="main-color">•</span> ул. Белинского, 1
-                    </address> */}
                         <p className="main-color mt-2 mb-1">
                           Доставка и самовывоз
                         </p>
                         <p>{e.desc}</p>
-                        {/* <p className="main-color mt-2 mb-1">Ресторан</p>
-                      <p>08:00 — 00:00</p> */}
+                        {e.phone[0] && (
+                          <>
+                            <p className="main-color mt-2 mb-1">
+                              Номер телефона
+                            </p>
+                            <p>{e.phone[0]}</p>
+                          </>
+                        )}
                       </a>
                     </li>
                   ))}
@@ -65,30 +79,34 @@ const Contacts = () => {
               </div>
             </Col>
             <Col md={8}>
-              <YMaps>
-                <Map
-                  state={{
-                    center: [
-                      mainAffiliate.options.coordinates.lat,
-                      mainAffiliate.options.coordinates.lon,
-                    ],
-                    zoom: 17,
-                  }}
-                  width="100%"
-                  height="100%"
-                >
-                  <Placemark
-                    geometry={[
-                      mainAffiliate.options.coordinates.lat,
-                      mainAffiliate.options.coordinates.lon,
-                    ]}
-                  />
-                </Map>
-              </YMaps>
-
-              {/* <div className="map">
-                <img src="imgs/map.jpg" alt="map" />
-              </div> */}
+              {mainAffiliate?.options?.coordinates?.lat &&
+                mainAffiliate?.options?.coordinates?.lon && (
+                  <YMaps>
+                    <Map
+                      state={{
+                        center: [
+                          mainAffiliate.options.coordinates.lat,
+                          mainAffiliate.options.coordinates.lon,
+                        ],
+                        zoom: 17,
+                      }}
+                      width="100%"
+                      height="100%"
+                    >
+                      <Placemark
+                        options={{
+                          iconLayout: "default#image",
+                          iconImageHref: "imgs/marker.png",
+                          iconImageSize: [38, 54],
+                        }}
+                        geometry={[
+                          mainAffiliate.options.coordinates.lat,
+                          mainAffiliate.options.coordinates.lon,
+                        ]}
+                      />
+                    </Map>
+                  </YMaps>
+                )}
             </Col>
           </Row>
         </Container>
