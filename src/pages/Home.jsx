@@ -84,15 +84,14 @@ const Home = () => {
                   {sales.data.items.map((e) => (
                     <SwiperSlide>
                       <Link to={"/promo/" + e.id}>
-                        <LazyLoadImage
+                        <img
                           src={getImageURL({
-                            path: e.medias,
+                            path: e?.medias,
                             type: "sale",
                             size: "full",
                           })}
                           alt={e?.title}
                           className="img-fluid"
-                          loading="lazy"
                         />
                       </Link>
                     </SwiperSlide>
