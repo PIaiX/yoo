@@ -15,8 +15,11 @@ import UserIcon from "./svgs/UserIcon";
 
 const Footer = memo(() => {
   const isMobileLG = useIsMobile("991px");
-  const { user, isAuth } = useSelector((state) => state.auth);
-
+  const { auth, options } = useSelector(({ auth, settings: { options } }) => ({
+    auth,
+    options,
+  }));
+  console.log(options);
   return (
     <footer>
       <Container className="h-100">
@@ -56,7 +59,7 @@ const Footer = memo(() => {
                 </NavLink>
               </li>
               <li>
-                <NavLink to={isAuth ? "/account" : "/login"}>
+                <NavLink to={auth.isAuth ? "/account" : "/login"}>
                   <UserIcon size={50} />
                   <div className="text ms-2 fs-09">
                     <span>Аккаунт</span>
@@ -71,16 +74,13 @@ const Footer = memo(() => {
 
             <nav>
               <ul className="list-unstyled d-flex">
-                <li className="ms-4">
-                  <Link to="/">Вакансии</Link>
+                <li className="me-4">
+                  <Link to="/contact">Контакты</Link>
                 </li>
-                <li className="ms-4">
-                  <Link to="/contacts">Контакты</Link>
+                <li>
+                  <Link to="/">Политика конфиденциальности</Link>
                 </li>
               </ul>
-              <Link to="/" className="d-block mt-4">
-                Политика конфиденциальности
-              </Link>
             </nav>
 
             <div>
@@ -100,8 +100,14 @@ const Footer = memo(() => {
             </div>
 
             <div>
-              <div>Разработано на платформе</div>
-              <img src={LogoTextWhite} alt="yoo.app" className="d-block mt-2" />
+              <a href="https://yooapp.ru/" target="_blank">
+                <div>Разработано на платформе</div>
+                <img
+                  src={LogoTextWhite}
+                  alt="yoo.app"
+                  className="d-block mt-2"
+                />
+              </a>
             </div>
           </div>
         )}

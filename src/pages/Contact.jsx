@@ -6,7 +6,7 @@ import { HiOutlineDevicePhoneMobile } from "react-icons/hi2";
 import { YMaps, Map, Placemark } from "@pbe/react-yandex-maps";
 import { useSelector } from "react-redux";
 
-const Contacts = () => {
+const Contact = () => {
   const { affiliate } = useSelector((state) => state);
 
   const [mainAffiliate, setMainAffiliate] = useState(
@@ -116,4 +116,4 @@ const Contacts = () => {
   );
 };
 
-export default Contacts;
+export default Contact;
