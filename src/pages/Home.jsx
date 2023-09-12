@@ -23,6 +23,7 @@ import EmptyCatalog from "../components/empty/catalog";
 import Loader from "../components/utils/Loader";
 import { getImageURL } from "../helpers/all";
 import { useGetCategoriesQuery, useGetSalesQuery } from "../services/home";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 
 const Home = () => {
   const sales = useGetSalesQuery();
@@ -49,7 +50,7 @@ const Home = () => {
   return (
     <main>
       <Meta title="Главная" />
-      {sales?.data?.length > 0 && (
+      {sales?.data?.items?.length > 0 && (
         <section className="sec-1 mb-5">
           <div className="container-md gx-0 gx-md-4">
             <div className="row justify-content-center">
@@ -61,7 +62,7 @@ const Home = () => {
                   spaceBetween={0}
                   slidesPerView={1}
                   initialSlide={1}
-                  loopedSlides={2}
+                  loopedSlides={1}
                   speed={750}
                   navigation={{
                     nextEl: ".swiper-button-next",
@@ -74,10 +75,10 @@ const Home = () => {
                     },
                   }}
                 >
-                  {sales.data.map((e) => (
+                  {sales.data.items.map((e) => (
                     <SwiperSlide>
                       <Link to={"/promo/" + e.id}>
-                        <img
+                        <LazyLoadImage
                           src={getImageURL({
                             path: e.medias,
                             type: "sale",

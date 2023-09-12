@@ -30,6 +30,7 @@ const ProductCard = memo(({ data }) => {
           <LazyLoadImage
             src={getImageURL({ path: data.medias })}
             alt={data.title}
+            loading="lazy"
           />
         </Link>
         {/* <ul className="product-stickers">
