@@ -40,9 +40,15 @@ const Home = () => {
         desc="Временно товары отсуствуют"
         image={() => <EmptyCatalog />}
         button={
-          <Link className="btn-primary" to="/">
+          <a
+            className="btn-primary"
+            onclick={() => {
+              location.reload();
+              return false;
+            }}
+          >
             Обновить страницу
-          </Link>
+          </a>
         }
       />
     );
@@ -190,61 +196,41 @@ const Home = () => {
           </Swiper>
         </Container>
       </section> */}
-
-      <section className="sec-6 mb-5">
-        <Container>
-          <Swiper
-            className="sw-offers"
-            spaceBetween={5}
-            slidesPerView={"auto"}
-            speed={750}
-            breakpoints={{
-              576: {
-                slidesPerView: "auto",
-                spaceBetween: 7,
-              },
-              768: {
-                slidesPerView: "auto",
-                spaceBetween: 10,
-              },
-              992: {
-                slidesPerView: 3,
-                spaceBetween: 10,
-              },
-            }}
-          >
-            <SwiperSlide>
-              <Offer
-                blackText={false}
-                img={"imgs/offers/offer1.jpg"}
-                title={"Весна пришла"}
-                subtitle={"А с ней новые вкусы роллов!"}
-              />
-            </SwiperSlide>
-            <SwiperSlide>
-              <Offer
-                blackText={false}
-                img={"imgs/offers/offer2.jpg"}
-                title={"Пицца «Гаваи»"}
-                subtitle={"Улётный микс из курицы и ананаса"}
-              />
-            </SwiperSlide>
-            <SwiperSlide>
-              <Offer
-                blackText={true}
-                img={"imgs/offers/offer3.jpg"}
-                title={"Свежих ягод много бывает"}
-                subtitle={
-                  "Попробуйте наш фирменный тарт — мы добавили в него ещё больше клубники!"
-                }
-              />
-            </SwiperSlide>
-          </Swiper>
-          <Link to="/promo" className="btn-30 mt-4 mx-auto">
-            смотреть все акции
-          </Link>
-        </Container>
-      </section>
+      {sales.data.items.length > 0 && (
+        <section className="sec-6 mb-5">
+          <Container>
+            <Swiper
+              className="sw-offers"
+              spaceBetween={5}
+              slidesPerView={"auto"}
+              speed={750}
+              breakpoints={{
+                576: {
+                  slidesPerView: "auto",
+                  spaceBetween: 7,
+                },
+                768: {
+                  slidesPerView: "auto",
+                  spaceBetween: 10,
+                },
+                992: {
+                  slidesPerView: 3,
+                  spaceBetween: 10,
+                },
+              }}
+            >
+              {sales.data.items.map((e) => (
+                <SwiperSlide>
+                  <Offer data={e} />
+                </SwiperSlide>
+              ))}
+            </Swiper>
+            <Link to="/promo" className="btn-30 mt-4 mx-auto">
+              смотреть все акции
+            </Link>
+          </Container>
+        </section>
+      )}
       <ScrollToTop />
     </main>
   );

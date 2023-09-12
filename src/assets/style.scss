@@ -745,16 +745,17 @@ button {
     }
   }
   /* белая кнопка */
-  &-4 {
+  &-4,
+  &-white {
     @extend .btn;
     color: $black;
-    background-color: rgba($color: $white, $alpha: 0.87);
+    background-color: $white;
     &:hover,
     &:focus,
     &:active,
     &.active {
-      color: $white;
-      background-color: var(--main-color-outline);
+      color: $black;
+      background-color: rgba($color: $white, $alpha: 0.87);
     }
   }
   /* кнопка c белой обводкой */

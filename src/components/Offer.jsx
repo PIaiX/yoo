@@ -1,16 +1,45 @@
-import React from 'react';
-import {Link} from 'react-router-dom';
+import React from "react";
+import { LazyLoadImage } from "react-lazy-load-image-component";
+import { Link } from "react-router-dom";
+import { getImageURL } from "../helpers/all";
 
-const Offer = (props) => {
+const Offer = ({ data }) => {
   return (
-    <figure className='offer'>
-      <img src={props.img} alt={props.title} />
+    <figure className="offer">
+      {data?.medias && (
+        <LazyLoadImage
+          src={getImageURL({
+            path: data.medias,
+            type: "sale",
+            size: "full",
+          })}
+          alt={data?.title}
+          loading="lazy"
+        />
+      )}
       <figcaption>
         <div>
-          <h4 className={(props.blackText) ? 'black' : ''}>{props.title}</h4>
-          <h6 className={(props.blackText) ? 'black fw-4' : 'fw-4'}>{props.subtitle}</h6>
+          {data?.title && (
+            <h4 className={data?.blackText ? "black" : ""}>{data.title}</h4>
+          )}
+          {data?.desc && (
+            <h6 className={data?.blackText ? "black fw-4" : "fw-4"}>
+              {data.desc}
+            </h6>
+          )}
         </div>
-        <Link to='/promo/1' className='btn-4'>Заказать</Link>
+        <Link
+          to={
+            data?.options?.link
+              ? data.options.link
+              : data?.id
+              ? "/promo/" + data.id
+              : ""
+          }
+          className="btn-white"
+        >
+          Заказать
+        </Link>
       </figcaption>
     </figure>
   );

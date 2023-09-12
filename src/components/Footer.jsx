@@ -14,12 +14,12 @@ import HomeIcon from "./svgs/HomeIcon";
 import UserIcon from "./svgs/UserIcon";
 
 const Footer = memo(() => {
-  const isMobileLG = useIsMobile("991px");
+  const isMobileLG = false;
   const { auth, options } = useSelector(({ auth, settings: { options } }) => ({
     auth,
     options,
   }));
-  console.log(options);
+
   return (
     <footer>
       <Container className="h-100">

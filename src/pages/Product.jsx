@@ -1,32 +1,28 @@
-import React, { useState, useLayoutEffect, useCallback } from "react";
+import React, { useLayoutEffect, useState } from "react";
+import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
-import ProductCard from "../components/ProductCard";
-import SelectImitation from "../components/utils/SelectImitation";
 import Notice from "../components/Notice";
+import ProductCard from "../components/ProductCard";
 import Ingredient from "../components/utils/Ingredient";
 // swiper
 import { Navigation } from "swiper";
-import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
+import { Swiper, SwiperSlide } from "swiper/react";
 // icons & images
-import Corner from "../components/svgs/Corner";
 import {
   HiOutlineInformationCircle,
   HiOutlineShoppingBag,
-  HiPlus,
-  HiMinus,
 } from "react-icons/hi2";
-import NavTop from "../components/utils/NavTop";
 import { Link, useParams } from "react-router-dom";
-import { getProduct, getProducts } from "../services/product";
-import Loader from "../components/utils/Loader";
-import { customPrice, customWeight, getImageURL } from "../helpers/all";
 import ButtonCart from "../components/ButtonCart";
-import Meta from "../components/Meta";
 import Empty from "../components/Empty";
 import EmptyCatalog from "../components/empty/catalog";
+import Meta from "../components/Meta";
+import Loader from "../components/utils/Loader";
+import NavTop from "../components/utils/NavTop";
+import { customPrice, customWeight, getImageURL } from "../helpers/all";
+import { getProduct, getProducts } from "../services/product";
 
 const Product = () => {
   const [isRemove, setIsRemove] = useState(false);
@@ -51,7 +47,7 @@ const Product = () => {
     },
   });
 
-  const onLoad = useCallback(() => {
+  useLayoutEffect(() => {
     getProduct(productId)
       .then((res) => {
         setProduct({ loading: false, item: res });
@@ -65,10 +61,6 @@ const Product = () => {
           .catch(() => setRecommends((data) => ({ ...data, loading: false })));
       })
       .catch(() => setProduct((data) => ({ ...data, loading: false })));
-  }, [productId]);
-
-  useLayoutEffect(() => {
-    onLoad();
   }, [productId]);
 
   if (product?.loading) {

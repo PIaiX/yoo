@@ -10,6 +10,7 @@ import Cart from "../pages/Cart";
 import Category from "../pages/Category";
 import Checkout from "../pages/Checkout";
 import Contact from "../pages/Contact";
+import Delivery from "../pages/Delivery";
 import Home from "../pages/Home";
 import NotFound from "../pages/NotFound";
 import OfferPage from "../pages/OfferPage";
@@ -31,8 +32,9 @@ const router = createBrowserRouter(
       <Route path="cart" element={<Cart />} />
       <Route path="checkout" element={<Checkout />} />
       <Route path="promo" element={<Promo />} />
-      <Route path="promo/:id" element={<OfferPage />} />
+      <Route path="promo/:saleId" element={<OfferPage />} />
       <Route path="contact" element={<Contact />} />
+      <Route path="delivery" element={<Delivery />} />
       <Route path="*" element={<NotFound />} />
       <Route
         path="account/*"

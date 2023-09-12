@@ -1,8 +1,8 @@
 import { apiRoutes } from '../config/api'
 import { $api } from './index'
 
-const getSale = async (id = '') => {
-    const response = await $api.get(`${apiRoutes.SALE_GET}/${id}`)
+const getSale = async (id) => {
+    const response = await $api.get(apiRoutes.SALE_GET, { params: { id } })
     return response?.data
 }
 

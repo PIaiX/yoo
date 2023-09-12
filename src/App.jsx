@@ -1,6 +1,7 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import React, { useLayoutEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useCallback } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import "./assets/style.min.css";
 import Loader from "./components/utils/Loader";
 import { convertColor, setCssColor } from "./helpers/all";
@@ -15,24 +16,33 @@ import { updateOptions } from "./store/reducers/settingsSlice";
 function App() {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
+  const { options } = useSelector(({ settings: { options } }) => ({ options }));
+
+  const updateColor = useCallback(
+    (options) => {
+      if (options.colorMain) {
+        setCssColor("--main-color", options.colorMain);
+        setCssColor(
+          "--main-color-active",
+          convertColor(options.colorMain, 0.9)
+        );
+        setCssColor(
+          "--main-color-outline",
+          convertColor(options.colorMain, 0.1)
+        );
+      }
+    },
+    [options]
+  );
 
   useLayoutEffect(() => {
     (async () => {
+      updateColor(options);
       await getOptions()
         .then(async (res) => {
           if (res?.options) {
             dispatch(updateOptions(res.options));
-            if (res?.options?.colorMain) {
-              setCssColor("--main-color", res.options.colorMain);
-              setCssColor(
-                "--main-color-active",
-                convertColor(res.options.colorMain, 0.9)
-              );
-              setCssColor(
-                "--main-color-outline",
-                convertColor(res.options.colorMain, 0.1)
-              );
-            }
+            updateColor(res.options);
           }
 
           dispatch(updateAffiliate(res.affiliates));
