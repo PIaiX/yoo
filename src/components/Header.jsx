@@ -15,7 +15,6 @@ import { Link } from "react-router-dom";
 import engFlag from "../assets/imgs/flags/eng.jpg";
 import ruFlag from "../assets/imgs/flags/rus.jpg";
 import { getCount } from "../helpers/all";
-import useIsMobile from "../hooks/isMobile";
 import { editDeliveryCheckout } from "../store/reducers/checkoutSlice";
 import MenuDelivery from "./svgs/MenuDelivery";
 import MenuDocs from "./svgs/MenuDocs";
@@ -36,7 +35,6 @@ const Header = memo(() => {
 
   const dispatch = useDispatch();
 
-  const isMobileLG = useIsMobile("991px");
   const [showMenu, setShowMenu] = useState(false);
   const [isContacts, setIsContacts] = useState(false);
   const count = getCount(cart.items);
@@ -55,52 +53,87 @@ const Header = memo(() => {
                 {options?.title ?? "YOOAPP"}
               </span>
             </Link>
-            {!isMobileLG && (
-              <>
-                <ul className="btns-menu">
-                  <li className="d-none d-md-block">
-                    <Select
-                      data={[
-                        {
-                          value: "delivery",
-                          title: "Доставка",
-                        },
-                        {
-                          value: "pickup",
-                          title: "Самовывоз",
-                        },
-                      ]}
-                      value={delivery}
-                      onClick={(e) => dispatch(editDeliveryCheckout(e.value))}
-                    />
-                  </li>
-                  {/* <li className="ms-3">
-                    <Link to="/menu" className="btn-primary py-2">
-                      Меню
-                    </Link>
-                  </li> */}
-                </ul>
-                <ul className="text-menu">
-                  <li>
-                    <Link to="/delivery">Доставка и оплата</Link>
-                  </li>
-                  <li>
-                    <Link to="/contact">Контакты</Link>
-                  </li>
-                  <li>
-                    <Link to="/promo">Акции</Link>
-                  </li>
-                </ul>
-                {mainAffiliate?.phone[0] && (
-                  <a href={"tel:" + mainAffiliate.phone[0]} className="phone">
-                    <HiOutlineDevicePhoneMobile className="fs-12" />
-                    <span className="ms-1">{mainAffiliate.phone[0]}</span>
-                  </a>
-                )}
-              </>
+            <ul className="btns-menu d-none d-lg-flex">
+              <li className="d-none d-md-block">
+                <Select
+                  data={[
+                    {
+                      value: "delivery",
+                      title: "Доставка",
+                    },
+                    {
+                      value: "pickup",
+                      title: "Самовывоз",
+                    },
+                  ]}
+                  value={delivery}
+                  onClick={(e) => dispatch(editDeliveryCheckout(e.value))}
+                />
+              </li>
+              {/* <li className="ms-3">
+                <Link to="/menu" className="btn-primary py-2">
+                  Меню
+                </Link>
+              </li> */}
+            </ul>
+            <ul className="text-menu d-none d-lg-flex">
+              <li>
+                <Link to="/delivery">Доставка и оплата</Link>
+              </li>
+              <li>
+                <Link to="/contact">Контакты</Link>
+              </li>
+              <li>
+                <Link to="/promo">Акции</Link>
+              </li>
+            </ul>
+            {mainAffiliate?.phone[0] && (
+              <a href={"tel:" + mainAffiliate.phone[0]} className="phone">
+                <HiOutlineDevicePhoneMobile className="fs-12" />
+                <span className="ms-1">{mainAffiliate.phone[0]}</span>
+              </a>
             )}
 
             <ul className="icons-menu">
+              <li className="d-none d-lg-block">
+                <Link
+                  to={
+                    auth.isAuth
+                      ? auth.user.status === 0
+                        ? "/activate"
+                        : "/account"
+                      : "/login"
+                  }
+                >
+                  <HiOutlineUserCircle size={25} />
+                </Link>
+              </li>
+              <li className="d-none d-lg-block">
+                <Link to="/cart" className="position-relative">
+                  <HiOutlineShoppingBag size={25} />
+                  {count > 0 && (
+                    <span className="position-absolute top-100 start-100 translate-middle badge rounded-pill">
+                      {count}
+                    </span>
+                  )}
+                </Link>
+              </li>
+              {auth.isAuth && (
+                <li className="d-none d-lg-block">
+                  <Link to="/account/favorites">
+                    <HiOutlineHeart size={25} />
+                  </Link>
+                </li>
+              )}
+              <li className="d-lg-none">
+                <button
+                  type="button"
+                  onClick={() => setShowMenu(!showMenu)}
+                  className="btn-menu"
+                >
+                  {showMenu ? <IoCloseOutline /> : <MenuIcon />}
+                </button>
+              </li>
               {/* <li>
                 <Select
                   value="ru"
@@ -118,50 +151,6 @@ const Header = memo(() => {
                   ]}
                 />
               </li> */}
-              {!isMobileLG ? (
-                <>
-                  <li>
-                    <Link
-                      to={
-                        auth.isAuth
-                          ? auth.user.status === 0
-                            ? "/activate"
-                            : "/account"
-                          : "/login"
-                      }
-                    >
-                      <HiOutlineUserCircle size={25} />
-                    </Link>
-                  </li>
-                  <li>
-                    <Link to="/cart" className="position-relative">
-                      <HiOutlineShoppingBag size={25} />
-                      {count > 0 && (
-                        <span className="position-absolute top-100 start-100 translate-middle badge rounded-pill">
-                          {count}
-                        </span>
-                      )}
-                    </Link>
-                  </li>
-                  {auth.isAuth && (
-                    <li>
-                      <Link to="/account/favorites">
-                        <HiOutlineHeart size={25} />
-                      </Link>
-                    </li>
-                  )}
-                </>
-              ) : (
-                <li>
-                  <button
-                    type="button"
-                    onClick={() => setShowMenu(!showMenu)}
-                    className="btn-menu"
-                  >
-                    {showMenu ? <IoCloseOutline /> : <MenuIcon />}
-                  </button>
-                </li>
-              )}
             </ul>
           </nav>
         </Container>

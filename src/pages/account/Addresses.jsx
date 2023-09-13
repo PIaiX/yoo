@@ -1,14 +1,12 @@
 import React from "react";
 import LiAddress from "../../components/LiAddress";
 import AccountTitleReturn from "../../components/AccountTitleReturn";
-import useIsMobile from "../../hooks/isMobile";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import Empty from "../../components/Empty";
 import EmptyAddresses from "../../components/empty/addresses";
 
 const Addresses = () => {
-  const isMobileLG = useIsMobile("991px");
   const addresses = useSelector((state) => state.address);
 
   if (!Array.isArray(addresses.items) || addresses.items.length <= 0) {
@@ -29,7 +27,11 @@ const Addresses = () => {
 
   return (
     <section className="addresses">
-      {isMobileLG && <AccountTitleReturn link="/account" title="Адреса" />}
+      <AccountTitleReturn 
+        className="d-lg-none"
+        link="/account" 
+        title="Адреса" 
+      />
       <div className="d-flex flex-column flex-lg-column-reverse">
         <ul className="addresses-list w-100">
           {addresses?.items?.length > 0 &&

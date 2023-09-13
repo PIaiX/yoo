@@ -2,11 +2,9 @@ import React, {useState} from 'react';
 import CountInput from './utils/CountInput';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Tooltip from 'react-bootstrap/Tooltip';
-import useIsMobile from '../hooks/isMobile';
 import { HiOutlineChevronDown, HiOutlineChevronUp } from "react-icons/hi2";
 
 const OrderItem = () => {
-  const isMobileXXL = useIsMobile('1399px');
   const [showExtra, setShowExtra] = useState(false);
 
   return (
@@ -40,14 +38,9 @@ const OrderItem = () => {
         </button>
       </div>
       <div className='quantity'>
-        {
-          (isMobileXXL)
-          ? <div className="input w-50p py-1 px-2 rounded-4 text-center">x2</div>
-          : <>
-            <p className='text-center mb-2'>Количество</p>
-            <CountInput dis={true}/>
-          </>
-        }
+        <div className="d-xxl-none input w-50p py-1 px-2 rounded-4 text-center">x2</div>
+        <p className='d-none d-xxl-block text-center mb-2'>Количество</p>
+        <CountInput className="d-none d-xxl-flex" dis={true}/>
       </div>
       <div className='price'>640&nbsp;₽</div>
       {

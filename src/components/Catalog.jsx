@@ -47,7 +47,7 @@ const Catalog = memo(({ data }) => {
       ) : (
         <Container>
           <div className="sticky-box mb-3 mb-sm-4 mb-md-5">
-            <Categories className="w-90" data={data} />
+            <Categories data={data} />
             {/* <button
               type="button"
               onClick={() => setViewCategories(!viewCategories)}

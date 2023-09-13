@@ -4,12 +4,9 @@ import { HiOutlineChevronRight } from "react-icons/hi2";
 import { Navigation } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
-import useIsMobile from "../hooks/isMobile";
 import { memo } from "react";
 
 const OrderCard = memo(({ data }) => {
-  const isMobileLG = useIsMobile("991px");
-
   return (
     <div className="order-card">
       <div className="order-card-num">
@@ -29,49 +26,47 @@ const OrderCard = memo(({ data }) => {
       </div>
       <address>Филиал — ул. Фучика 89, д 1</address>
       <div className="order-card-price">
-        {isMobileLG && (
-          <Swiper
-            className="order-card-slider mb-2"
-            modules={[Navigation]}
-            spaceBetween={8}
-            slidesPerView={"auto"}
-            navigation={{
-              nextEl: ".swiper-button-next",
-              prevEl: ".swiper-button-prev",
-            }}
-          >
-            <SwiperSlide>
-              <Link to="/product">
-                <img src="imgs/img3.png" alt="Название" />
-              </Link>
-            </SwiperSlide>
-            <SwiperSlide>
-              <Link to="/product">
-                <img src="imgs/img3.png" alt="Название" />
-              </Link>
-            </SwiperSlide>
-            <SwiperSlide>
-              <Link to="/product">
-                <img src="imgs/img3.png" alt="Название" />
-              </Link>
-            </SwiperSlide>
-            <SwiperSlide>
-              <Link to="/product">
-                <img src="imgs/img3.png" alt="Название" />
-              </Link>
-            </SwiperSlide>
-            <SwiperSlide>
-              <Link to="/product">
-                <img src="imgs/img3.png" alt="Название" />
-              </Link>
-            </SwiperSlide>
-            <SwiperSlide>
-              <Link to="/product">
-                <img src="imgs/img3.png" alt="Название" />
-              </Link>
-            </SwiperSlide>
-          </Swiper>
-        )}
+        <Swiper
+          className="d-lg-none order-card-slider mb-2"
+          modules={[Navigation]}
+          spaceBetween={8}
+          slidesPerView={"auto"}
+          navigation={{
+            nextEl: ".swiper-button-next",
+            prevEl: ".swiper-button-prev",
+          }}
+        >
+          <SwiperSlide>
+            <Link to="/product">
+              <img src="imgs/img3.png" alt="Название" />
+            </Link>
+          </SwiperSlide>
+          <SwiperSlide>
+            <Link to="/product">
+              <img src="imgs/img3.png" alt="Название" />
+            </Link>
+          </SwiperSlide>
+          <SwiperSlide>
+            <Link to="/product">
+              <img src="imgs/img3.png" alt="Название" />
+            </Link>
+          </SwiperSlide>
+          <SwiperSlide>
+            <Link to="/product">
+              <img src="imgs/img3.png" alt="Название" />
+            </Link>
+          </SwiperSlide>
+          <SwiperSlide>
+            <Link to="/product">
+              <img src="imgs/img3.png" alt="Название" />
+            </Link>
+          </SwiperSlide>
+          <SwiperSlide>
+            <Link to="/product">
+              <img src="imgs/img3.png" alt="Название" />
+            </Link>
+          </SwiperSlide>
+        </Swiper>
         <div>
           <span className="d-lg-none me-2">Стоимость</span>
           <span>1 500 ₽</span>

@@ -7,11 +7,9 @@ import { HiOutlineShoppingBag, HiOutlineHeart } from "react-icons/hi2";
 // import Meat from '../assets/imgs/meat.png';
 // import Spicy from '../assets/imgs/pepper.png';
 // import Vegetarian from '../assets/imgs/vegetarian.png';
-// import useIsMobile from "../hooks/isMobile";
 import { customPrice, customWeight, getImageURL } from "../helpers/all";
 import ButtonCart from "./ButtonCart";
 import { useSelector } from "react-redux";
-import { isMobile } from "react-device-detect";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 
 const ProductCard = memo(({ data }) => {
@@ -61,12 +59,8 @@ const ProductCard = memo(({ data }) => {
       </div>
 
       <h6>{data.title}</h6>
-      {!isMobile && (
-        <>
-          <p className="text-muted fs-09">{data.description}</p>
-          <hr />
-        </>
-      )}
+      <p className="d-none d-md-block text-muted fs-09">{data.description}</p>
+      <hr className="d-none d-md-block"/>
 
       <div className="d-flex justify-content-between align-items-center">
         {data.energy.weight > 0 && (

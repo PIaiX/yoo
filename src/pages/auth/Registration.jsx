@@ -1,4 +1,3 @@
-// import useIsMobile from "../../hooks/isMobile";
 import React, { useState, useRef, useCallback, useLayoutEffect } from "react";
 // import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
@@ -12,7 +11,6 @@ import Meta from "../../components/Meta";
 import { Button } from "react-bootstrap";
 import { NotificationManager } from "react-notifications";
 import { setAuth, setUser } from "../../store/reducers/authSlice";
-import { isMobile } from "react-device-detect";
 
 const Registration = () => {
   const { auth, options } = useSelector(({ auth, settings: { options } }) => ({
@@ -305,222 +303,219 @@ const Registration = () => {
     <main className="py-lg-0">
       <Meta title={loginView ? "Регистрация" : "Вход"} />
       <Container>
-        {isMobile ? (
-          <section className="login-mobile">
-            {loginView ? (
-              <>
-                {/* <LoginForm /> */}
-                <button
-                  type="button"
-                  onClick={() => setLogin(false)}
-                  className="main-color fs-13 mx-auto mt-4 text-decoration-underline"
-                >
-                  Зарегистрироваться
-                </button>
-              </>
-            ) : (
-              <>
-                {/* <RegistrationForm /> */}
-                <button
-                  type="button"
-                  onClick={() => setLogin(true)}
-                  className="main-color fs-13 mx-auto mt-4 text-decoration-underline"
-                >
-                  Войти
-                </button>
-              </>
-            )}
-          </section>
-        ) : (
-          <section className="login">
-            <div ref={block2} className="login-forms">
-              {loginView ? (
-                <form className="login-form" onSubmit={handleSubmit(onSubmit)}>
-                  <h4 class="main-color text-center fw-6">
-                    С&nbsp;возвращением!
-                  </h4>
-                  <p class="text-center fs-11 mb-5">
-                    Вкусные роллы и&nbsp;пицца скучали по&nbsp;тебе
-                  </p>
-                  <div className="mb-3">
-                    <Input
-                      type="email"
-                      label="Email"
-                      name="email"
-                      placeholder="Введите email"
-                      errors={errors}
-                      register={register}
-                      validation={{
-                        required: "Введите email",
-                        maxLength: {
-                          value: 250,
-                          message: "Максимально 250 символов",
-                        },
-                        pattern: {
-                          value: /\S+@\S+\.\S+/,
-                          message: "Неверный формат Email",
-                        },
-                      }}
-                    />
-                  </div>
-                  <div className="mb-3">
-                    <Input
-                      label="Пароль"
-                      type="password"
-                      name="password"
-                      errors={errors}
-                      placeholder="Введите пароль"
-                      register={register}
-                      validation={{
-                        required: "Введите пароль",
-                        minLength: {
-                          value: 4,
-                          message:
-                            "Минимальный пароль должен состоять из 4-ех символов",
-                        },
-                      }}
-                    />
-                  </div>
-                  <Button
-                    type="submit"
-                    variant="primary"
-                    disabled={!isValid}
-                    className="w-100 rounded-3"
-                  >
-                    Войти
-                  </Button>
-                </form>
-              ) : (
-                <form
-                  className="login-form"
-                  onSubmit={handleSubmitReg(onSubmitReg)}
-                >
-                  <h4 class="main-color text-center fw-6">Привет, друг!</h4>
-                  <p class="text-center fs-11 mb-5">
-                    Введи данные чтобы&nbsp;зарегистрироваться
-                  </p>
-                  <div className="mb-3">
-                    <Input
-                      type="email"
-                      label="Email"
-                      placeholder="Введите Email"
-                      name="email"
-                      errors={errorsReg}
-                      register={registerReg}
-                      validation={{
-                        required: "Введите Email",
-                        minLength: {
-                          value: 3,
-                          message: "Минимально 3 символа",
-                        },
-                        maxLength: {
-                          value: 250,
-                          message: "Максимально 250 символов",
-                        },
-                        pattern: {
-                          value: /\S+@\S+\.\S+/,
-                          message: "Неверный формат Email",
-                        },
-                      }}
-                    />
-                  </div>
-                  <div className="mb-3">
-                    <Input
-                      type="password"
-                      label="Пароль"
-                      placeholder="Придумайте пароль"
-                      name="password"
-                      errors={errorsReg}
-                      register={registerReg}
-                      validation={{
-                        required: "Введите пароль",
-                        minLength: {
-                          value: 6,
-                          message: "Минимальное кол-во символов 6",
-                        },
-                        maxLength: {
-                          value: 250,
-                          message: "Максимальное кол-во символов 250",
-                        },
-                        pattern: {
-                          value: /(?=.*[0-9])(?=.*[a-z])[0-9a-zA-Z]{6,}/g,
-                          message:
-                            "Пароль должен содержать не менее 6 символов латинского алфавита и цифры",
-                        },
-                      }}
-                    />
-                  </div>
-                  <div className="mb-3">
-                    <Input
-                      type="password"
-                      label="Подтверждение пароля"
-                      placeholder="Повторите пароль"
-                      name="passwordConfirm"
-                      errors={errorsReg}
-                      register={registerReg}
-                      validation={{
-                        required: "Введите повторный пароль",
-                        minLength: {
-                          value: 6,
-                          message: "Минимальное кол-во символов 6",
-                        },
-                        maxLength: {
-                          value: 250,
-                          message: "Максимальное кол-во символов 250",
-                        },
-                        pattern: {
-                          value: /(?=.*[0-9])(?=.*[a-z])[0-9a-zA-Z]{6,}/g,
-                          message:
-                            "Пароль должен содержать не менее 6 символов латинского алфавита и цифры",
-                        },
-                      }}
-                    />
-                  </div>
-                  <label className="d-flex pale-blue mb-3">
-                    <input
-                      type="checkbox"
-                      className="checkbox me-2"
-                      {...registerReg("accept", {
-                        required:
-                          "Примите условия пользовательского соглашения",
-                      })}
-                    />
-                    <span className="fs-09">
-                      Принять условия Пользовательского соглашения
-                    </span>
-                  </label>
-                  <Button
-                    type="submit"
-                    variant="primary"
-                    disabled={!isValidReg}
-                    className="w-100 rounded-3"
-                  >
-                    Зарегистрироваться
-                  </Button>
-                </form>
-              )}
-            </div>
-            <div ref={block1} className="login-toggler">
-              <div className="text">
-                <div ref={text1} className="text-1">
-                  <h4>Уже есть аккаунт?</h4>
-                  <p>Войди в личный кабинет</p>
-                </div>
-                <div ref={text2} className="text-2">
-                  <h4>Это ваш первый заказ?</h4>
-                  <p>Пройдите регистрацию</p>
-                </div>
-              </div>
+        <section className="d-lg-none login-mobile">
+          {loginView ? (
+            <>
+              {/* <LoginForm /> */}
               <button
                 type="button"
-                onClick={handleClick}
-                className="btn-40 rounded-3 mx-auto mt-4"
+                onClick={() => setLogin(false)}
+                className="main-color fs-13 mx-auto mt-4 text-decoration-underline"
               >
-                {loginView ? <span>Регистрация</span> : <span>Войти</span>}
+                Зарегистрироваться
               </button>
+            </>
+          ) : (
+            <>
+              {/* <RegistrationForm /> */}
+              <button
+                type="button"
+                onClick={() => setLogin(true)}
+                className="main-color fs-13 mx-auto mt-4 text-decoration-underline"
+              >
+                Войти
+              </button>
+            </>
+          )}
+        </section>
+        <section className="d-none d-lg-block login">
+          <div ref={block2} className="login-forms">
+            {loginView ? (
+              <form className="login-form" onSubmit={handleSubmit(onSubmit)}>
+                <h4 class="main-color text-center fw-6">
+                  С&nbsp;возвращением!
+                </h4>
+                <p class="text-center fs-11 mb-5">
+                  Вкусные роллы и&nbsp;пицца скучали по&nbsp;тебе
+                </p>
+                <div className="mb-3">
+                  <Input
+                    type="email"
+                    label="Email"
+                    name="email"
+                    placeholder="Введите email"
+                    errors={errors}
+                    register={register}
+                    validation={{
+                      required: "Введите email",
+                      maxLength: {
+                        value: 250,
+                        message: "Максимально 250 символов",
+                      },
+                      pattern: {
+                        value: /\S+@\S+\.\S+/,
+                        message: "Неверный формат Email",
+                      },
+                    }}
+                  />
+                </div>
+                <div className="mb-3">
+                  <Input
+                    label="Пароль"
+                    type="password"
+                    name="password"
+                    errors={errors}
+                    placeholder="Введите пароль"
+                    register={register}
+                    validation={{
+                      required: "Введите пароль",
+                      minLength: {
+                        value: 4,
+                        message:
+                          "Минимальный пароль должен состоять из 4-ех символов",
+                      },
+                    }}
+                  />
+                </div>
+                <Button
+                  type="submit"
+                  variant="primary"
+                  disabled={!isValid}
+                  className="w-100 rounded-3"
+                >
+                  Войти
+                </Button>
+              </form>
+            ) : (
+              <form
+                className="login-form"
+                onSubmit={handleSubmitReg(onSubmitReg)}
+              >
+                <h4 class="main-color text-center fw-6">Привет, друг!</h4>
+                <p class="text-center fs-11 mb-5">
+                  Введи данные чтобы&nbsp;зарегистрироваться
+                </p>
+                <div className="mb-3">
+                  <Input
+                    type="email"
+                    label="Email"
+                    placeholder="Введите Email"
+                    name="email"
+                    errors={errorsReg}
+                    register={registerReg}
+                    validation={{
+                      required: "Введите Email",
+                      minLength: {
+                        value: 3,
+                        message: "Минимально 3 символа",
+                      },
+                      maxLength: {
+                        value: 250,
+                        message: "Максимально 250 символов",
+                      },
+                      pattern: {
+                        value: /\S+@\S+\.\S+/,
+                        message: "Неверный формат Email",
+                      },
+                    }}
+                  />
+                </div>
+                <div className="mb-3">
+                  <Input
+                    type="password"
+                    label="Пароль"
+                    placeholder="Придумайте пароль"
+                    name="password"
+                    errors={errorsReg}
+                    register={registerReg}
+                    validation={{
+                      required: "Введите пароль",
+                      minLength: {
+                        value: 6,
+                        message: "Минимальное кол-во символов 6",
+                      },
+                      maxLength: {
+                        value: 250,
+                        message: "Максимальное кол-во символов 250",
+                      },
+                      pattern: {
+                        value: /(?=.*[0-9])(?=.*[a-z])[0-9a-zA-Z]{6,}/g,
+                        message:
+                          "Пароль должен содержать не менее 6 символов латинского алфавита и цифры",
+                      },
+                    }}
+                  />
+                </div>
+                <div className="mb-3">
+                  <Input
+                    type="password"
+                    label="Подтверждение пароля"
+                    placeholder="Повторите пароль"
+                    name="passwordConfirm"
+                    errors={errorsReg}
+                    register={registerReg}
+                    validation={{
+                      required: "Введите повторный пароль",
+                      minLength: {
+                        value: 6,
+                        message: "Минимальное кол-во символов 6",
+                      },
+                      maxLength: {
+                        value: 250,
+                        message: "Максимальное кол-во символов 250",
+                      },
+                      pattern: {
+                        value: /(?=.*[0-9])(?=.*[a-z])[0-9a-zA-Z]{6,}/g,
+                        message:
+                          "Пароль должен содержать не менее 6 символов латинского алфавита и цифры",
+                      },
+                    }}
+                  />
+                </div>
+                <label className="d-flex pale-blue mb-3">
+                  <input
+                    type="checkbox"
+                    className="checkbox me-2"
+                    {...registerReg("accept", {
+                      required:
+                        "Примите условия пользовательского соглашения",
+                    })}
+                  />
+                  <span className="fs-09">
+                    Принять условия Пользовательского соглашения
+                  </span>
+                </label>
+                <Button
+                  type="submit"
+                  variant="primary"
+                  disabled={!isValidReg}
+                  className="w-100 rounded-3"
+                >
+                  Зарегистрироваться
+                </Button>
+              </form>
+            )}
+          </div>
+          <div ref={block1} className="login-toggler">
+            <div className="text">
+              <div ref={text1} className="text-1">
+                <h4>Уже есть аккаунт?</h4>
+                <p>Войди в личный кабинет</p>
+              </div>
+              <div ref={text2} className="text-2">
+                <h4>Это ваш первый заказ?</h4>
+                <p>Пройдите регистрацию</p>
+              </div>
             </div>
-          </section>
-        )}
+            <button
+              type="button"
+              onClick={handleClick}
+              className="btn-40 rounded-3 mx-auto mt-4"
+            >
+              {loginView ? <span>Регистрация</span> : <span>Войти</span>}
+            </button>
+          </div>
+        </section>
       </Container>
     </main>
   );

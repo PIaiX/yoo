@@ -5,11 +5,8 @@ import LiRequest from '../../components/LiRequest';
 import UserMessage from '../../components/chat/UserMessage';
 import ManagerMessage from '../../components/chat/ManagerMessage';
 import InputFile from '../../components/utils/InputFile';
-import useIsMobile from '../../hooks/isMobile';
 
 const Support = () => {
-  const isMobileLG = useIsMobile('991px');
-
   return (
     <section>
       <AccountTitleReturn link={'/account'} title={'Чат с поддержкой'}/>
@@ -35,50 +32,46 @@ const Support = () => {
           <InputFile className="p-2"/>
         </div>
         <div className="support-choose">
-          {
-            (isMobileLG)
-            ? <SelectImitation 
-              btnClass={'rounded-3'}
-              imgClass={'round'}
-              optionsArr={[
-                {
-                  value: 1,
-                  label: 'Обращение №1111',
-                  defaultChecked: true,
-                },
-                {
-                  value: 2,
-                  label: 'Обращение №2222',
-                  defaultChecked: false,
-                }
-              ]}
-            />
-            : <>
-              <SelectImitation 
-                btnClass={'rounded-3'}
-                imgClass={'round'}
-                optionsArr={[
-                  {
-                    value: 1,
-                    label: 'По дате',
-                    defaultChecked: true,
-                  },
-                  {
-                    value: 2,
-                    label: 'По порядку',
-                    defaultChecked: false,
-                  }
-                ]}
-              />
-              <ul className='my-4'>
-                <LiRequest/>
-                <LiRequest/>
-                <LiRequest/>
-                <LiRequest/>
-              </ul>
-            </>
-          }
-          
+          <SelectImitation 
+            boxClass="d-lg-none"
+            btnClass={'rounded-3'}
+            imgClass={'round'}
+            optionsArr={[
+              {
+                value: 1,
+                label: 'Обращение №1111',
+                defaultChecked: true,
+              },
+              {
+                value: 2,
+                label: 'Обращение №2222',
+                defaultChecked: false,
+              }
+            ]}
+          />
+          <SelectImitation 
+            boxClass="d-none d-lg-block"
+            btnClass={'rounded-3'}
+            imgClass={'round'}
+            optionsArr={[
+              {
+                value: 1,
+                label: 'По дате',
+                defaultChecked: true,
+              },
+              {
+                value: 2,
+                label: 'По порядку',
+                defaultChecked: false,
+              }
+            ]}
+          />
+          <ul className='d-none d-lg-block my-4'>
+            <LiRequest/>
+            <LiRequest/>
+            <LiRequest/>
+            <LiRequest/>
+          </ul>
         </div>
       </form>
     </section>

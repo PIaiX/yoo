@@ -1,11 +1,11 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-const NavBreadcrumbs = ({ breadcrumbs = false }) => {
+const NavBreadcrumbs = ({ breadcrumbs = false, className = "" }) => {
   return (
     breadcrumbs &&
     breadcrumbs?.length > 0 && (
-      <nav className="breadcrumbs">
+      <nav className={"breadcrumbs " + className}>
         <ul>
           <li>
             <Link to="/">Главная</Link>

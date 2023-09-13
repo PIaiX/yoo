@@ -9,7 +9,6 @@ import AccountTitleReturn from "../../components/AccountTitleReturn";
 import Meta from "../../components/Meta";
 import Input from "../../components/utils/Input";
 import NavBreadcrumbs from "../../components/utils/NavBreadcrumbs";
-import useIsMobile from "../../hooks/isMobile";
 import { editAccount } from "../../services/account";
 import { setUser } from "../../store/reducers/authSlice";
 
@@ -29,9 +28,6 @@ const Settings = () => {
   });
 
   const form = useWatch({ control });
-
-  const isMobileLG = useIsMobile("991px");
-  const isMobileSM = useIsMobile("575px");
 
   const onSubmit = useCallback(
     async (data) => {
@@ -58,19 +54,19 @@ const Settings = () => {
     <main className="account mb-2 mb-sm-3 mb-md-0">
       <Meta title="Настройки" />
       <Container className="pt-4 pt-lg-0">
-        {isMobileLG ? (
-          <AccountTitleReturn link="/account" title="Внесите изменения" />
-        ) : (
-          <>
-            <h1 className="mb-2">Личный кабинет</h1>
-            <NavBreadcrumbs
-              breadcrumbs={[
-                { title: "Аккаунт", link: "/account" },
-                { title: "Настройки", link: "/account/settings" },
-              ]}
-            />
-          </>
-        )}
+        <AccountTitleReturn 
+          className="d-lg-none"
+          link="/account" 
+          title="Внесите изменения" 
+        />
+        <h1 className="d-none d-lg-block mb-2">Личный кабинет</h1>
+        <NavBreadcrumbs
+          className="d-none d-lg-block"
+          breadcrumbs={[
+            { title: "Аккаунт", link: "/account" },
+            { title: "Настройки", link: "/account/settings" },
+          ]}
+        />
 
         <Row className="gx-3 gx-xl-4">
           <Col lg={8}>
@@ -89,17 +85,15 @@ const Settings = () => {
                   </div>
                 </div>
               </Col>
-              {!isMobileSM && (
-                <Col xs={12} sm={6} md={3}>
-                  <div className="box p-3 w-100 h-100 d-flex flex-column justify-content-between text-center">
-                    <p className="fs-09 fw-6">Вы можете потратить</p>
-                    <p className="main-color">
-                      <span className="fs-18">{user.point}</span>&nbsp;
-                      <span className="fw-6 fs-18">Б</span>
-                    </p>
-                  </div>
-                </Col>
-              )}
+              <Col xs={12} sm={6} md={3} className="d-none d-sm-block">
+                <div className="box p-3 w-100 h-100 d-flex flex-column justify-content-between text-center">
+                  <p className="fs-09 fw-6">Вы можете потратить</p>
+                  <p className="main-color">
+                    <span className="fs-18">{user.point}</span>&nbsp;
+                    <span className="fw-6 fs-18">Б</span>
+                  </p>
+                </div>
+              </Col>
               <Col xs={12} md={5}>
                 <label className="mb-3">
                   <span className="me-1 me-sm-3">Включить пуш-уведомления</span>
@@ -186,11 +180,9 @@ const Settings = () => {
               </Col>
             </Row>
           </Col>
-          {!isMobileLG && (
-            <Col lg={4}>
-              <div className="gradient-block"></div>
-            </Col>
-          )}
+          <Col lg={4} className="d-none d-lg-block">
+            <div className="gradient-block"></div>
+          </Col>
         </Row>
       </Container>
     </main>

@@ -6,12 +6,9 @@ import Empty from "../../components/Empty";
 import EmptyOrders from "../../components/empty/orders";
 import Meta from "../../components/Meta";
 import Loader from "../../components/utils/Loader";
-import useIsMobile from "../../hooks/isMobile";
 import { getOrders } from "../../services/order";
 
 const Orders = () => {
-  const isMobileLG = useIsMobile("991px");
-
   const [orders, setOrders] = useState({
     loading: true,
     items: [],
@@ -88,15 +85,13 @@ const Orders = () => {
   return (
     <section className="sec-orders">
       <Meta title="Заказы" />
-      {isMobileLG && (
-        <div className="d-flex align-items-center mb-4">
-          <Link to="/account" className="link-return">
-            <HiOutlineArrowLeftCircle />
-            <span>Назад</span>
-          </Link>
-          <h6 className="fs-12 mb-0">Заказы</h6>
-        </div>
-      )}
+      <div className="d-flex d-lg-none align-items-center mb-4">
+        <Link to="/account" className="link-return">
+          <HiOutlineArrowLeftCircle />
+          <span>Назад</span>
+        </Link>
+        <h6 className="fs-12 mb-0">Заказы</h6>
+      </div>
 
       <DataTable
         columns={orderColumns}
