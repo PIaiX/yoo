@@ -12,8 +12,6 @@ import { IoLogoWhatsapp } from "react-icons/io";
 import { IoCall, IoCloseOutline } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import engFlag from "../assets/imgs/flags/eng.jpg";
-import ruFlag from "../assets/imgs/flags/rus.jpg";
 import { getCount } from "../helpers/all";
 import { editDeliveryCheckout } from "../store/reducers/checkoutSlice";
 import MenuDelivery from "./svgs/MenuDelivery";
@@ -23,6 +21,7 @@ import MenuPhone from "./svgs/MenuPhone";
 import MenuVacancies from "./svgs/MenuVacancies";
 import YooApp from "./svgs/YooApp";
 import Select from "./utils/Select";
+import ScrollToTop from "../components/ScrollToTop";
 
 const Header = memo(() => {
   const {
@@ -267,6 +266,7 @@ const Header = memo(() => {
           </Container>
         </Offcanvas.Body>
       </Offcanvas>
+      <ScrollToTop count={count} />
     </>
   );
 });
