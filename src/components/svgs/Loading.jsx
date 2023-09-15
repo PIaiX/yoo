@@ -6,8 +6,8 @@ const Loading = (props) => (
     strokeLinejoin="round"
     shapeRendering="geometricPrecision"
     textRendering="geometricPrecision"
-    width={50}
-    height={50}
+    width="334"
+    height="334"
     viewBox="0 0 334.81 334.41"
     {...props}
   >
