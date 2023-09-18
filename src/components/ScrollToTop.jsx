@@ -4,7 +4,6 @@ import {
   HiOutlineHeart,
   HiOutlineShoppingCart,
 } from "react-icons/hi2";
-import { Link } from "react-router-dom";
 
 const ScrollToTop = memo(({ count = 0 }) => {
   const [visible, setVisible] = useState(false);
