@@ -26,7 +26,7 @@ import { useGetCategoriesQuery, useGetSalesQuery } from "../services/home";
 const Home = () => {
   const sales = useGetSalesQuery();
   const categories = useGetCategoriesQuery();
-  return <Loader full />;
+
   if (categories.isLoading || sales.isLoading) {
     return <Loader full />;
   }
