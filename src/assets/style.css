@@ -562,7 +562,7 @@ input[type=number]::-webkit-outer-spin-button, input[type=number]::-webkit-inner
 }
 @media (max-width: 767.98px) {
   .countInput input {
-    width: 100px;
+    width: 60px;
   }
 }
 .countInput button {
@@ -1524,6 +1524,85 @@ header .btn-menu:hover, header .btn-menu:focus, header .btn-menu:active {
   border-radius: 0.3125em;
 }
 
+.appOffer {
+  position: fixed;
+  z-index: 100;
+  right: 0px;
+  top: calc(var(--h-height) * 2);
+  background-color: #00ab55;
+  color: #fff;
+  font-size: 2.5em;
+  border-radius: 0.25em 0px 0px 0.25em;
+  width: 1.15em;
+  height: 1.5em;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: nowrap;
+}
+@media (max-width: 575.98px) {
+  .appOffer {
+    top: calc(var(--h-height) * 2.25);
+    font-size: 2.5em;
+    width: 1em;
+    height: 1.25em;
+  }
+}
+
+.offcanvas-app {
+  height: -moz-fit-content !important;
+  height: fit-content !important;
+}
+.offcanvas-app-close {
+  position: absolute;
+  bottom: 0px;
+  left: 50%;
+  font-size: 1.5em;
+  background-color: #212b36;
+  color: #fff;
+  width: 1.5em;
+  height: 1.5em;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: nowrap;
+  border-radius: 50%;
+  transform: translate(-50%, 50%);
+}
+.offcanvas-app .offcanvas-body {
+  padding: 2em 1em 2em;
+  background-color: #e5f1ff;
+  background-image: url(imgs/curve.svg);
+  background-repeat: no-repeat;
+  background-position: 12% 55%, center bottom;
+  background-size: 62% auto, 100% calc(100% - 10em);
+  position: relative;
+  overflow: visible;
+}
+@media (max-width: 991.98px) {
+  .offcanvas-app .offcanvas-body {
+    padding-top: calc(var(--h-height) + 1em);
+  }
+}
+.offcanvas-app .offcanvas-body .sec-4 {
+  background: none;
+  padding: 0em;
+}
+.offcanvas-app .offcanvas-body .sec-4 .phone {
+  position: relative;
+  bottom: unset;
+  right: unset;
+  width: auto;
+  max-width: 100%;
+  max-height: 320px;
+  -o-object-fit: contain;
+     object-fit: contain;
+  margin-left: auto;
+  display: block;
+}
+
 main {
   min-height: calc(100vh - var(--h-height));
   padding: 3em 0px;
@@ -1991,7 +2070,7 @@ main {
 
 .sticky-box {
   position: sticky;
-  z-index: 1051;
+  z-index: 1000;
   top: 0px;
   left: 0px;
   width: 100%;
@@ -4356,6 +4435,15 @@ ACCOUNT END
   opacity: 1;
   transition: opacity 300ms ease-in;
 }
+@media (max-width: 991.98px) {
+  .sidebar {
+    border-radius: 50%;
+    top: unset;
+    right: 0.5em;
+    bottom: calc(var(--f-height) + 1em);
+    transform: translateY(0%);
+  }
+}
 .sidebar.hide {
   opacity: 0;
 }
@@ -4371,8 +4459,10 @@ ACCOUNT END
 .sidebar ul li {
   padding: 0.2em;
 }
-.sidebar ul li:not(:first-child) {
-  border-top: 1px solid #c2c2c2;
+@media (min-width: 991.98px) {
+  .sidebar ul li:not(:first-child) {
+    border-top: 1px solid #c2c2c2;
+  }
 }
 .sidebar ul li a, .sidebar ul li button {
   position: relative;

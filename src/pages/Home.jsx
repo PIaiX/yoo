@@ -230,7 +230,7 @@ const Home = () => {
           </Container>
         </section>
       )}
-      <ScrollToTop />
+      {/* <ScrollToTop /> */}
     </main>
   );
 };

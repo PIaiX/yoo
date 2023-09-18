@@ -1,13 +1,7 @@
 import React, { memo, useEffect, useState } from "react";
-import { IoChevronUp } from "react-icons/io5";
 import { Link } from "react-router-dom";
 import {
-  HiOutlineArrowLeftCircle,
-  HiOutlineDevicePhoneMobile,
   HiOutlineHeart,
-  HiOutlineShoppingBag,
-  HiOutlineUserCircle,
-  HiArrowUp,
   HiOutlineShoppingCart,
   HiOutlineChevronDoubleUp
 } from "react-icons/hi2";
@@ -16,9 +10,9 @@ const ScrollToTop = memo(() => {
   const [visible, setVisible] = useState(false);
 
   const toggleVisible = () => {
-    if (window.pageYOffset > 500) {
+    if (window.pageYOffset > 250) {
       setVisible(true);
-    } else if (window.pageYOffset <= 500) {
+    } else if (window.pageYOffset <= 250) {
       setVisible(false);
     }
   };
@@ -40,7 +34,7 @@ const ScrollToTop = memo(() => {
   return (
     <nav className={visible ? "sidebar" : "sidebar hide"}>
       <ul>
-        <li>
+        <li className="d-none d-lg-block">
           <Link to="/cart" className="position-relative">
             <HiOutlineShoppingCart />
             <span className="badge">
@@ -48,7 +42,7 @@ const ScrollToTop = memo(() => {
             </span>
           </Link>
         </li>
-        <li>
+        <li className="d-none d-lg-block">
           <Link to="/account/favorites">
             <HiOutlineHeart/>
           </Link>

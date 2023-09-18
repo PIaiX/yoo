@@ -610,7 +610,7 @@ input {
     @include lightShadow();
     margin: 0px $radius * 0.25;
     @media (max-width: $bp-md) {
-      width: 100px;
+      width: 60px;
     }
   }
   button {
@@ -1519,6 +1519,70 @@ header {
     }
   }
 }
+.appOffer {
+  position: fixed;
+  z-index: 100;
+  right: 0px;
+  top: calc(var(--h-height)*2);
+  background-color: $green;
+  color: $white;
+  font-size: 2.5em;
+  border-radius: .25em 0px 0px .25em;
+  width: 1.15em;
+  height: 1.5em;
+  @include flex();
+  @media (max-width: $bp-sm) {
+    top: calc(var(--h-height)*2.25);
+    font-size: 2.5em;
+    width: 1em;
+    height: 1.25em;
+  }
+}
+.offcanvas-app {
+  height: fit-content !important;
+  &-close {
+    position: absolute;
+    bottom: 0px;
+    left: 50%;
+    font-size: 1.5em;
+    background-color: $black;
+    color: $white;
+    width: 1.5em;
+    height: 1.5em;
+    @include flex();
+    border-radius: 50%;
+    transform: translate(-50%, 50%);
+  }
+  .offcanvas-body {
+    padding: 2em 1em 2em;
+    background-color: #e5f1ff;
+    background-image: url(imgs/curve.svg);
+    background-repeat: no-repeat;
+    background-position: 12% 55%, center bottom;
+    background-size: 62% auto, 100% calc(100% - 10em);
+    position: relative;
+    overflow: visible;
+    @media (max-width: $bp-lg) {
+      padding-top: calc(var(--h-height) + 1em);
+    }
+    .sec-4 {
+      background: none;
+      padding: 0em;
+      .phone {
+        position: relative;
+        bottom: unset;
+        right: unset;
+        width: auto;
+        max-width: 100%;
+        max-height: 320px;
+        object-fit: contain;
+        margin-left: auto;
+        display: block;
+      }
+    }
+  }
+}
+
 
 main {
   min-height: calc(100vh - var(--h-height));
@@ -1892,7 +1956,7 @@ main {
 }
 .sticky-box {
   position: sticky;
-  z-index: 1051;
+  z-index: 1000;
   top: 0px;
   left: 0px;
   width: 100%;
@@ -3838,6 +3902,13 @@ ACCOUNT END
   padding: .35em;
   opacity: 1;
   transition: opacity $transition;
+  @media (max-width: $bp-lg) {
+    border-radius: 50%;
+    top: unset;
+    right: 0.5em;
+    bottom: calc(var(--f-height) + 1em);
+    transform: translateY(0%);
+  }
   &.hide {
     opacity: 0;
   }
@@ -3846,8 +3917,10 @@ ACCOUNT END
     @include flex(column, center, stretch, nowrap);
     li {
       padding: .2em;
-      &:not(:first-child){
-        border-top: 1px solid $gray;
+      @media (min-width: $bp-lg) {
+        &:not(:first-child){
+          border-top: 1px solid $gray;
+        }
       }
       a, button {
         position: relative;

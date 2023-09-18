@@ -58,17 +58,17 @@ const ProductCard = memo(({ data }) => {
         )}
       </div>
 
-      <h6>{data.title}</h6>
+      <h6 className="text-center text-md-start">{data.title}</h6>
       <p className="d-none d-md-block text-muted fs-09">{data.description}</p>
       <hr className="d-none d-md-block"/>
 
-      <div className="d-flex justify-content-between align-items-center">
+      <div className="d-flex flex-column flex-md-row justify-content-between align-items-center">
         {data.energy.weight > 0 && (
           <div className="gray d-none d-md-block">
             {customWeight(data.energy.weight)}
           </div>
         )}
-        <div className="w-xs-100 d-flex justify-content-between align-items-center">
+        <div className="d-flex justify-content-between align-items-center mb-2 mb-md-0">
           <div>
             <div className="fs-12">
               {data?.modifiers?.length > 0
