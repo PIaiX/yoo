@@ -3,10 +3,10 @@ import { Link } from "react-router-dom";
 import {
   HiOutlineHeart,
   HiOutlineShoppingCart,
-  HiOutlineChevronDoubleUp
 } from "react-icons/hi2";
+import { Link } from "react-router-dom";
 
-const ScrollToTop = memo(() => {
+const ScrollToTop = memo(({ count = 0 }) => {
   const [visible, setVisible] = useState(false);
 
   const toggleVisible = () => {
@@ -37,22 +37,17 @@ const ScrollToTop = memo(() => {
         <li className="d-none d-lg-block">
           <Link to="/cart" className="position-relative">
             <HiOutlineShoppingCart />
-            <span className="badge">
-              12
-            </span>
+            {count > 0 && <span className="badge">{count}</span>}
           </Link>
         </li>
         <li className="d-none d-lg-block">
           <Link to="/account/favorites">
-            <HiOutlineHeart/>
+            <HiOutlineHeart />
           </Link>
         </li>
         <li>
-          <button
-            type="button"
-            onClick={toTop}
-          >
-            <HiOutlineChevronDoubleUp/>
+          <button type="button" onClick={toTop}>
+            <HiOutlineChevronDoubleUp />
           </button>
         </li>
       </ul>

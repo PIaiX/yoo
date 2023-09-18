@@ -18,17 +18,15 @@ import "swiper/css";
 import { Swiper, SwiperSlide } from "swiper/react";
 import Empty from "../components/Empty";
 import Meta from "../components/Meta";
-import ScrollToTop from "../components/ScrollToTop";
 import EmptyCatalog from "../components/empty/catalog";
 import Loader from "../components/utils/Loader";
 import { getImageURL } from "../helpers/all";
 import { useGetCategoriesQuery, useGetSalesQuery } from "../services/home";
-import { LazyLoadImage } from "react-lazy-load-image-component";
 
 const Home = () => {
   const sales = useGetSalesQuery();
   const categories = useGetCategoriesQuery();
-
+  return <Loader full />;
   if (categories.isLoading || sales.isLoading) {
     return <Loader full />;
   }
