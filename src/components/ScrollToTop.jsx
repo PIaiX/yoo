@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import {
   HiOutlineHeart,
   HiOutlineShoppingCart,
+  HiOutlineChevronDoubleUp,
 } from "react-icons/hi2";
 
 const ScrollToTop = memo(({ count = 0 }) => {

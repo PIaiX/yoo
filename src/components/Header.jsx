@@ -271,6 +271,65 @@ const Header = memo(() => {
           </Container>
         </Offcanvas.Body>
       </Offcanvas>
+
+      <button type="button" className="appOffer" onClick={()=>setShowApp(true)}>
+        <AppDownload/>
+      </button>
+
+      <Offcanvas
+        className="offcanvas-app"
+        show={showApp}
+        onHide={() => setShowApp(false)}
+        placement={"top"}
+      >
+        <Offcanvas.Body>
+          <Container className="h-100">
+            <section className="sec-4 row">
+              <div className="col-12 col-md-7">
+                <h3>
+                  Заказывать стало <br className="d-lg-none" />
+                  ещё&nbsp;удобнее!
+                </h3>
+                <div className="d-flex align-items-center mb-3 mb-lg-4">
+                  <button
+                    type="button"
+                    className="btn-2 fs-20 py-2 px-3 px-lg-4 me-2 me-md-3"
+                  >
+                    <span className="d-lg-none">—</span>
+                    <span className="d-none d-lg-inline">скидка</span>
+                    <span> 15%</span>
+                  </button>
+                  <p className="fs-16">
+                    на&nbsp;первый заказ <br />
+                    через&nbsp;приложение
+                  </p>
+                </div>
+                <ul className="logotips mb-3 mb-lg-5">
+                  <li>
+                    <a href="/">
+                      <img src={AppStore} alt="App Store" />
+                    </a>
+                  </li>
+                  <li>
+                    <a href="/">
+                      <img src={GooglePlay} alt="Google Play" />
+                    </a>
+                  </li>
+                </ul>
+                <p>Акция действует при заказе на сумму от 1 000 ₽</p>
+              </div>
+              <div className="d-none d-md-block col-5">
+                <img src={Phone} alt="Phone" className="phone" />
+              </div>
+            </section>
+            <button type="button" onClick={() => setShowApp(false)} className="offcanvas-app-close">
+              <IoClose/>
+            </button>
+          </Container>
+        </Offcanvas.Body>
+      </Offcanvas>
+
+      <ScrollToTop/>
     </>
   );
 });
