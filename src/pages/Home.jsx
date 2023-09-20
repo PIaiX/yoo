@@ -193,7 +193,7 @@ const Home = () => {
           </Swiper>
         </Container>
       </section> */}
-      {sales.data.items.length > 0 && (
+      {sales?.data?.items?.length > 0 && (
         <section className="sec-6 mb-5">
           <Container>
             <Swiper

@@ -32,7 +32,7 @@ const Categories = memo(({ className, data }) => {
     swiper.slideTo(i);
   };
 
-  return data.length > 0 ? (
+  return data?.length > 0 ? (
     <div className={"categories " + className}>
       <div className="categories-wrap">
         <Swiper

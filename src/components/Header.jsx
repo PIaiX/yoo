@@ -85,7 +85,7 @@ const Header = memo(() => {
                 <Link to="/promo">Акции</Link>
               </li>
             </ul>
-            {mainAffiliate?.phone[0] && (
+            {mainAffiliate && mainAffiliate?.phone[0] && (
               <a href={"tel:" + mainAffiliate.phone[0]} className="phone">
                 <HiOutlineDevicePhoneMobile className="fs-12" />
                 <span className="ms-1">{mainAffiliate.phone[0]}</span>

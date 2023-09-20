@@ -5,6 +5,8 @@ import Col from "react-bootstrap/Col";
 import { HiOutlineDevicePhoneMobile } from "react-icons/hi2";
 import { YMaps, Map, Placemark } from "@pbe/react-yandex-maps";
 import { useSelector } from "react-redux";
+import EmptyWork from "../components/empty/work";
+import Empty from "../components/Empty";
 
 const Contact = () => {
   const { affiliate } = useSelector((state) => state);
@@ -12,6 +14,27 @@ const Contact = () => {
   const [mainAffiliate, setMainAffiliate] = useState(
     affiliate?.items?.length > 0 ? affiliate.items.find((e) => e.main) : false
   );
+
+  if (!mainAffiliate || !mainAffiliate?.phone[0]) {
+    return (
+      <Empty
+        text="В данный момент контактов нет"
+        desc="Вернитесь на эту страницу чуть позже"
+        image={() => <EmptyWork />}
+        button={
+          <a
+            className="btn-primary"
+            onclick={() => {
+              location.reload();
+              return false;
+            }}
+          >
+            Обновить страницу
+          </a>
+        }
+      />
+    );
+  }
 
   return (
     <main>

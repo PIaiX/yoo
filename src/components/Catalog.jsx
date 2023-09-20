@@ -28,7 +28,7 @@ const Catalog = memo(({ data }) => {
             <img src={Choose} alt="Choose" />
             <GridIcon />
           </button>
-          {data.length > 0 && (
+          {data?.length > 0 && (
             <>
               <Row xs={2} md={3} xl={4} className="g-3 g-sm-4">
                 {data.map((e) => (
@@ -57,7 +57,7 @@ const Catalog = memo(({ data }) => {
               <GridIcon />
             </button> */}
           </div>
-          {data.length > 0 && (
+          {data?.length > 0 && (
             <div className="categories-box">
               {data.map((e) => (
                 <CategoryGroup data={e} />
