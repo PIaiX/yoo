@@ -16,7 +16,7 @@ const getOrder = async (orderId) => {
     return false;
   }
   const response = await $authApi.get(apiRoutes.ACCOUNT_ORDER_GET, {
-    params: { orderId },
+    params: { id: orderId },
   });
   return response?.data;
 };

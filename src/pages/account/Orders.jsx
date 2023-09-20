@@ -1,11 +1,15 @@
+import moment from "moment";
 import React, { useLayoutEffect, useState } from "react";
+import { Badge } from "react-bootstrap";
 import { HiOutlineArrowLeftCircle } from "react-icons/hi2";
+import { IoCreateOutline } from "react-icons/io5";
 import { Link } from "react-router-dom";
 import DataTable from "../../components/DataTable";
 import Empty from "../../components/Empty";
 import EmptyOrders from "../../components/empty/orders";
 import Meta from "../../components/Meta";
 import Loader from "../../components/utils/Loader";
+import { customPrice, deliveryData, paymentData } from "../../helpers/all";
 import { getOrders } from "../../services/order";
 
 const Orders = () => {
@@ -25,31 +29,30 @@ const Orders = () => {
     {
       name: "Статус",
       selector: "status",
-      cell: (row) => <Status data={row} />,
+      cell: (row) => <Badge bg="success">Принят</Badge>,
     },
     {
       name: "Способ доставки",
       selector: "deliveryType",
-      cell: (row) => deliveryData(row.delivery).text,
+      cell: (row) => deliveryData[row.delivery],
     },
     {
       name: "Итого",
-      width: "100px",
+      width: "150px",
       align: "right",
       selector: "total",
       cell: (row) => (
         <div className="d-flex align-items-center">
           <span>{customPrice(row.total)}</span>
-          <img className="ms-1" src={paymentData(row.payment).icon} />
         </div>
       ),
     },
     {
-      width: "35px",
+      width: "60px",
       selector: "action",
       align: "right",
       cell: (row) => (
-        <Link to={"/order/" + row.id}>
+        <Link to={"/account/orders/" + row.id}>
           <IoCreateOutline size={22} />
         </Link>
       ),

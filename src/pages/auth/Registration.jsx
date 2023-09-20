@@ -491,12 +491,12 @@ const Registration = () => {
           <div ref={block1} className="login-toggler">
             <div className="text">
               <div ref={text1} className="text-1">
-                <h4>Уже есть аккаунт?</h4>
-                <p>Войди в личный кабинет</p>
-              </div>
-              <div ref={text2} className="text-2">
                 <h4>Это ваш первый заказ?</h4>
                 <p>Пройдите регистрацию</p>
+              </div>
+              <div ref={text2} className="text-2">
+                <h4>Уже есть аккаунт?</h4>
+                <p>Войди в личный кабинет</p>
               </div>
             </div>
             <button
