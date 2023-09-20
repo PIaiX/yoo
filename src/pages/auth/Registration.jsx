@@ -20,7 +20,6 @@ const Registration = () => {
 
   const navigate = useNavigate();
   const [loginView, setLoginView] = useState(false);
-  const [end, setEnd] = useState(false);
   const block1 = useRef();
   const block2 = useRef();
   const text1 = useRef();
@@ -236,7 +235,7 @@ const Registration = () => {
             )
         );
     },
-    [options, end]
+    [options]
   );
 
   const handleClick = () => {
@@ -305,27 +304,21 @@ const Registration = () => {
       <Container>
         <section className="d-lg-none login-mobile">
           {loginView ? (
-            <>
-              {/* <LoginForm /> */}
-              <button
-                type="button"
-                onClick={() => setLogin(false)}
-                className="main-color fs-13 mx-auto mt-4 text-decoration-underline"
-              >
-                Зарегистрироваться
-              </button>
-            </>
+            <button
+              type="button"
+              onClick={() => setLogin(false)}
+              className="main-color fs-13 mx-auto mt-4 text-decoration-underline"
+            >
+              Зарегистрироваться
+            </button>
           ) : (
-            <>
-              {/* <RegistrationForm /> */}
-              <button
-                type="button"
-                onClick={() => setLogin(true)}
-                className="main-color fs-13 mx-auto mt-4 text-decoration-underline"
-              >
-                Войти
-              </button>
-            </>
+            <button
+              type="button"
+              onClick={() => setLogin(true)}
+              className="main-color fs-13 mx-auto mt-4 text-decoration-underline"
+            >
+              Войти
+            </button>
           )}
         </section>
         <section className="d-none d-lg-block login">
@@ -477,8 +470,7 @@ const Registration = () => {
                     type="checkbox"
                     className="checkbox me-2"
                     {...registerReg("accept", {
-                      required:
-                        "Примите условия пользовательского соглашения",
+                      required: "Примите условия пользовательского соглашения",
                     })}
                   />
                   <span className="fs-09">

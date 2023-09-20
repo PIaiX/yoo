@@ -9,12 +9,15 @@ const login = createAsyncThunk("auth/login", async (payloads, thunkAPI) => {
   try {
     const response = await $api.post(apiRoutes.AUTH_LOGIN, payloads);
     if (response?.data) {
-      thunkAPI.dispatch(updateAddresses(response?.data?.user?.addresses));
+      response.data?.user?.addresses?.length > 0 && thunkAPI.dispatch(updateAddresses(response.data.user.addresses));
 
-      thunkAPI.dispatch(updateCartAll(response?.data?.products ?? []));
+      if (thunkAPI.getState?.cart?.items?.length > 0) {
+        thunkAPI.dispatch(updateCartAll(response?.data?.products ?? []));
+      }
 
-      // thunkAPI.dispatch(getFavorites());
-
+      if (thunkAPI.getState?.favorite?.items?.length > 0) {
+        thunkAPI.dispatch(getFavorites())
+      }
     }
 
     return response?.data;

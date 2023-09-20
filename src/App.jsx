@@ -16,7 +16,7 @@ import { updateOptions } from "./store/reducers/settingsSlice";
 function App() {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
-  const { options } = useSelector(({ settings: { options } }) => ({ options }));
+  const options = useSelector((state) => state.settings.options);
 
   const updateColor = useCallback(
     (options) => {

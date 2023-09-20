@@ -13,7 +13,7 @@ import { useSelector } from "react-redux";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 
 const ProductCard = memo(({ data }) => {
-  const auth = useSelector((state) => state.auth);
+  const isAuth = useSelector((state) => state.auth.isAuth);
   const [isFav, setIsFav] = useState(false);
 
   var price = data.price ?? 0;
@@ -47,7 +47,7 @@ const ProductCard = memo(({ data }) => {
             <div className="new">Новинка</div>
           </li>
         </ul> */}
-        {auth?.isAuth && (
+        {isAuth && (
           <button
             type="button"
             onClick={() => setIsFav(!isFav)}
@@ -60,7 +60,7 @@ const ProductCard = memo(({ data }) => {
 
       <h6 className="text-center text-md-start">{data.title}</h6>
       <p className="d-none d-md-block text-muted fs-09">{data.description}</p>
-      <hr className="d-none d-md-block"/>
+      <hr className="d-none d-md-block" />
 
       <div className="d-flex flex-column flex-md-row justify-content-between align-items-center">
         {data.energy.weight > 0 && (

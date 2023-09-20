@@ -10,6 +10,7 @@ import { useForm, useWatch } from "react-hook-form";
 import { Card, Col, Container, Form, Row } from "react-bootstrap";
 import { NotificationManager } from "react-notifications";
 import { setUser } from "../../store/reducers/authSlice";
+import EmptyActivate from "../../components/empty/activate";
 
 const Activate = () => {
   const { auth, options } = useSelector(({ auth, settings: { options } }) => ({
@@ -67,7 +68,7 @@ const Activate = () => {
               : "Номер телефона успешно подтвержден"
           }
           desc="Теперь вы можете перейти в меню для заказов"
-          image={() => <EmptyWork />}
+          image={() => <EmptyActivate />}
           button={
             <Link to="/" className="btn btn-primary">
               Перейти в меню
