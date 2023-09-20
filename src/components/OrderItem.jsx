@@ -3,7 +3,7 @@ import Collapse from "react-bootstrap/Collapse";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Tooltip from "react-bootstrap/Tooltip";
 import { IoCaretDownOutline } from "react-icons/io5";
-import { customPrice, customWeight } from "../helpers/all";
+import { customPrice, customWeight, getImageURL } from "../helpers/all";
 
 const OrderItem = memo(({ data }) => {
   const [open, setOpen] = useState(false);
@@ -16,7 +16,7 @@ const OrderItem = memo(({ data }) => {
 
   return (
     <div className="order-item">
-      {/* <img src={getImageURL({ path: data.medias })} alt={data.title} /> */}
+      <img src={getImageURL({ path: data.medias })} alt={data.title} />
       <div className="text">
         <h6>
           {data.title}
