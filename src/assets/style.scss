@@ -808,7 +808,7 @@ button {
   &-light-outline {
     @extend .btn;
     color: var(--main-color);
-    background-color: var(--main-color);
+    background-color: var(--main-color-outline);
     &:hover,
     &:focus,
     &:active,
@@ -971,11 +971,11 @@ button {
   }
   &.loading {
     position: relative;
-    &>* {
+    & > * {
       opacity: 0;
     }
     &::after {
-      content: '';
+      content: "";
       position: absolute;
       z-index: 1;
       top: 50%;

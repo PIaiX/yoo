@@ -750,7 +750,7 @@ button {
 }
 .btn-6, .btn-light-outline {
   color: var(--main-color);
-  background-color: var(--main-color);
+  background-color: var(--main-color-outline);
 }
 .btn-6:hover, .btn-6:focus, .btn-6:active, .btn-6.active, .btn-light-outline:hover, .btn-light-outline:focus, .btn-light-outline:active, .btn-light-outline.active {
   color: #fff;
