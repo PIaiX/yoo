@@ -243,33 +243,6 @@ const Registration = () => {
       block1.current.animate(
         {
           width: ["38%", "60%", "38%"],
-          right: ["62%", "0%"],
-          backgroundPosition: ["0% 100%, 0% 50%", "100% 100%, 100% 50%"],
-        },
-        optionsTiming
-      );
-      block2.current.animate(
-        {
-          marginLeft: ["38%", "0%"],
-        },
-        optionsTiming
-      );
-      text1.current.animate(
-        {
-          marginLeft: ["100%", "0%"],
-        },
-        optionsTiming
-      );
-      text2.current.animate(
-        {
-          left: ["0%", "-100%"],
-        },
-        optionsTiming
-      );
-    } else {
-      block1.current.animate(
-        {
-          width: ["38%", "60%", "38%"],
           right: ["0%", "62%"],
           backgroundPosition: ["100% 100%, 100% 50%", "0% 100%, 0% 50%"],
         },
@@ -290,6 +263,33 @@ const Registration = () => {
       text2.current.animate(
         {
           left: ["-100%", "0%"],
+        },
+        optionsTiming
+      );
+    } else {
+      block1.current.animate(
+        {
+          width: ["38%", "60%", "38%"],
+          right: ["62%", "0%"],
+          backgroundPosition: ["0% 100%, 0% 50%", "100% 100%, 100% 50%"],
+        },
+        optionsTiming
+      );
+      block2.current.animate(
+        {
+          marginLeft: ["38%", "0%"],
+        },
+        optionsTiming
+      );
+      text1.current.animate(
+        {
+          marginLeft: ["100%", "0%"],
+        },
+        optionsTiming
+      );
+      text2.current.animate(
+        {
+          left: ["0%", "-100%"],
         },
         optionsTiming
       );
