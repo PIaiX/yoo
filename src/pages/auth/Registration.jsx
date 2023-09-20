@@ -19,7 +19,7 @@ const Registration = () => {
   }));
 
   const navigate = useNavigate();
-  const [loginView, setLoginView] = useState(false);
+  const [loginView, setLoginView] = useState(true);
   const block1 = useRef();
   const block2 = useRef();
   const text1 = useRef();

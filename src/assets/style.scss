@@ -969,6 +969,34 @@ button {
       }
     }
   }
+  &.loading {
+    position: relative;
+    &>* {
+      opacity: 0;
+    }
+    &::after {
+      content: '';
+      position: absolute;
+      z-index: 1;
+      top: 50%;
+      left: 50%;
+      width: 1em;
+      height: 1em;
+      background: url(imgs/spin.png) no-repeat;
+      background-size: contain;
+      opacity: 1;
+      animation: spin 1s linear 0s infinite;
+      transform: translate(-50%, -50%) rotate(0deg);
+    }
+  }
+}
+@keyframes spin {
+  from {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
 }
 
 select {
@@ -3733,10 +3761,15 @@ ACCOUNT
     z-index: 10;
     width: 38%;
     background-color: var(--main-color);
-    background-image: url(imgs/bg/fruits.png), url(imgs/bg/entrance.jpg);
+    // background-image: url(imgs/bg/fruits.png), url(imgs/bg/entrance.jpg);
+    // background-repeat: no-repeat;
+    // background-size: cover;
+    // background-position: 100% 100%, 100% 50%;
+
+    background-image: url(imgs/bg/entrance.jpg);
     background-repeat: no-repeat;
     background-size: cover;
-    background-position: 100% 100%, 100% 50%;
+    background-position: 100% 50%;
     color: $white;
     text-align: center;
     padding-top: 4em;
