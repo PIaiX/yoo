@@ -223,7 +223,7 @@ const Home = () => {
               ))}
             </Swiper>
             <Link to="/promo" className="btn-30 mt-4 mx-auto">
-              смотреть все акции
+              все акции
             </Link>
           </Container>
         </section>

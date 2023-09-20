@@ -22,22 +22,12 @@ import EmptyCart from "../components/empty/cart";
 import Meta from "../components/Meta";
 
 const Cart = () => {
-  const state = useSelector(
-    ({
-      auth: { isAuth, user },
-      settings: { options },
-      cart,
-      checkout: { delivery },
-      address,
-    }) => ({
-      isAuth,
-      user,
-      cart,
-      delivery,
-      address,
-      options,
-    })
-  );
+  const user = useSelector((state) => state.auth.user);
+  const cart = useSelector((state) => state.cart.items);
+  const promo = useSelector((state) => state.cart.promo);
+  const stateDelivery = useSelector((state) => state.checkout.delivery);
+  const address = useSelector((state) => state.address.items);
+  const options = useSelector((state) => state.settings.options);
 
   const {
     total = 0,
@@ -46,36 +36,32 @@ const Cart = () => {
     discount = 0,
     delivery,
     cashback,
-  } = state?.cart?.items && useTotalCart();
-
-  const count = getCount(state.cart.items);
+  } = useTotalCart();
 
   const [distance, setDistance] = useState({ time: false });
-  const [isLoading, setIsLoading] = useState(false);
-  const [alertReset, setAlertReset] = useState(false);
+
   const {
     control,
+    formState: { isValid, errors },
     register,
-    formState: { isValid, isSubmitting, errors },
     handleSubmit,
     setValue,
-    reset,
   } = useForm({
     mode: "all",
     reValidateMode: "onSubmit",
     defaultValues: {
-      promo: state?.cart?.promo?.name ? state.cart.promo.name : "",
+      promo: promo?.name ? promo.name : "",
     },
   });
+
+  const count = getCount(cart);
 
   const dispatch = useDispatch();
   const data = useWatch({ control });
 
   useEffect(() => {
-    if (state.delivery == "delivery" && state.isAuth) {
-      const selectedAddress = state?.address?.items
-        ? state.address.items.find((e) => e.main)
-        : false;
+    if (stateDelivery == "delivery" && user?.id && address?.length > 0) {
+      const selectedAddress = address ? address.find((e) => e.main) : false;
       if (selectedAddress) {
         getDelivery({ distance: true, addressId: selectedAddress.id }).then(
           (res) => {
@@ -85,18 +71,14 @@ const Cart = () => {
         );
       }
     }
-  }, [state?.address?.items, state.delivery, state?.cart?.items]);
+  }, [address, stateDelivery, cart]);
 
   const onPromo = useCallback(
     (e) => {
-      (e?.promo?.length > 0 || state?.cart?.promo?.name?.length > 0) &&
+      (e?.promo?.length > 0 || promo?.name?.length > 0) &&
         isPromo({
-          promo: e?.promo
-            ? e.promo
-            : state?.cart?.promo?.name
-            ? state.cart.promo.name
-            : "",
-          delivery: state.delivery,
+          promo: e?.promo ? e.promo : promo?.name ? promo.name : "",
+          delivery: stateDelivery,
         })
           .then(({ data }) => data?.promo && dispatch(cartPromo(data.promo)))
           .catch((err) => {
@@ -106,17 +88,17 @@ const Cart = () => {
             );
           });
     },
-    [state?.cart?.promo]
+    [promo, stateDelivery]
   );
 
   useEffect(() => {
-    if (state?.cart?.promo?.name) {
+    if (promo?.name) {
       onPromo();
       setValue("promo", "");
     }
-  }, [state?.delivery]);
+  }, [stateDelivery, promo]);
 
-  if (!Array.isArray(state.cart.items) || state.cart.items.length <= 0) {
+  if (!Array.isArray(cart) || cart.length <= 0) {
     return (
       <Empty
         text="Корзина пуста"
@@ -170,7 +152,7 @@ const Cart = () => {
               </div>
 
               <ul className="list-unstyled">
-                {state.cart.items.map((e) => (
+                {cart.map((e) => (
                   <li>
                     <CartItem data={e} />
                   </li>
@@ -188,8 +170,17 @@ const Cart = () => {
                   errors={errors}
                   defaultValue={data?.promo}
                   register={register}
+                  validation={{
+                    required: true,
+                    maxLength: { value: 100 },
+                  }}
                 />
-                <button type="button" className="btn-10 ms-2 ms-sm-4 rounded-3">
+                <button
+                  type="button"
+                  disabled={!isValid}
+                  onClick={handleSubmit(onPromo)}
+                  className="btn-10 ms-2 ms-sm-4 rounded-3"
+                >
                   Применить
                 </button>
               </div>
@@ -205,7 +196,7 @@ const Cart = () => {
                   <span>-{customPrice(discount)}</span>
                 </div>
               )}
-              {state.delivery == "delivery" && (
+              {address?.length > 0 && stateDelivery == "delivery" && (
                 <div className="d-flex justify-content-between my-2">
                   <span>Доставка</span>
                   <span className="main-color">
@@ -231,14 +222,24 @@ const Cart = () => {
                 <span className="fw-6">{customPrice(total)}</span>
               </div>
 
-              {state.options.giftVisible && <Gifts />}
+              {options.giftVisible && <Gifts />}
 
               <Link
-                to={state?.isAuth ? "/checkout" : "/login"}
+                to={
+                  user?.id
+                    ? address?.length === 0 && stateDelivery == "delivery"
+                      ? "/account/addresses/add"
+                      : "/checkout"
+                    : "/login"
+                }
                 className="btn-primary w-100"
               >
                 <span className="fw-4">
-                  {state?.isAuth ? "Далее" : "Войти в профиль"}
+                  {user?.id
+                    ? address?.length === 0 && stateDelivery == "delivery"
+                      ? "Добавить адрес"
+                      : "Далее"
+                    : "Войти в профиль"}
                 </span>
               </Link>
             </Col>

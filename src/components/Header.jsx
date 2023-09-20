@@ -28,23 +28,22 @@ import AppStore from "../assets/imgs/appstore-black.svg";
 import GooglePlay from "../assets/imgs/googleplay-black.svg";
 
 const Header = memo(() => {
-  const {
-    cart,
-    auth,
-    checkout: { delivery = "delivery" },
-    affiliate,
-    settings: { options = false },
-  } = useSelector((state) => state);
+  const isAuth = useSelector((state) => state.auth.isAuth);
+  const user = useSelector((state) => state.auth.user);
+  const cart = useSelector((state) => state.cart.items);
+  const delivery = useSelector((state) => state.checkout.delivery);
+  const affiliate = useSelector((state) => state.affiliate.items);
+  const options = useSelector((state) => state.settings.options);
 
   const dispatch = useDispatch();
 
   const [showMenu, setShowMenu] = useState(false);
   const [showApp, setShowApp] = useState(false);
   const [isContacts, setIsContacts] = useState(false);
-  const count = getCount(cart.items);
+  const count = getCount(cart);
 
   const mainAffiliate =
-    affiliate?.items?.length > 0 ? affiliate.items.find((e) => e.main) : false;
+    affiliate?.length > 0 ? affiliate.find((e) => e.main) : false;
 
   return (
     <>
@@ -74,11 +73,6 @@ const Header = memo(() => {
                   onClick={(e) => dispatch(editDeliveryCheckout(e.value))}
                 />
               </li>
-              {/* <li className="ms-3">
-                <Link to="/menu" className="btn-primary py-2">
-                  Меню
-                </Link>
-              </li> */}
             </ul>
             <ul className="text-menu d-none d-lg-flex">
               <li>
@@ -102,8 +96,8 @@ const Header = memo(() => {
               <li className="d-none d-lg-block">
                 <Link
                   to={
-                    auth.isAuth
-                      ? auth.user.status === 0
+                    isAuth
+                      ? user?.status === 0
                         ? "/activate"
                         : "/account"
                       : "/login"
@@ -122,7 +116,7 @@ const Header = memo(() => {
                   )}
                 </Link>
               </li>
-              {auth.isAuth && (
+              {isAuth && (
                 <li className="d-none d-lg-block">
                   <Link to="/account/favorites">
                     <HiOutlineHeart size={25} />
@@ -272,8 +266,12 @@ const Header = memo(() => {
         </Offcanvas.Body>
       </Offcanvas>
 
-      <button type="button" className="appOffer" onClick={()=>setShowApp(true)}>
-        <AppDownload/>
+      <button
+        type="button"
+        className="appOffer"
+        onClick={() => setShowApp(true)}
+      >
+        <AppDownload />
       </button>
 
       <Offcanvas
@@ -322,14 +320,17 @@ const Header = memo(() => {
                 <img src={Phone} alt="Phone" className="phone" />
               </div>
             </section>
-            <button type="button" onClick={() => setShowApp(false)} className="offcanvas-app-close">
-              <IoClose/>
+            <button
+              type="button"
+              onClick={() => setShowApp(false)}
+              className="offcanvas-app-close"
+            >
+              <IoClose />
             </button>
           </Container>
         </Offcanvas.Body>
       </Offcanvas>
-
-      <ScrollToTop/>
+      <ScrollToTop count={count} />
     </>
   );
 });

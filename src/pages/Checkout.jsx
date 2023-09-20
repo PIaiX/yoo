@@ -11,7 +11,7 @@ import Row from "react-bootstrap/Row";
 import { useForm, useWatch } from "react-hook-form";
 import { NotificationManager } from "react-notifications";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, redirect, useNavigate } from "react-router-dom";
 import CheckoutProduct from "../components/CheckoutProduct";
 import Empty from "../components/Empty";
 import EmptyAddresses from "../components/empty/addresses";
@@ -58,25 +58,15 @@ const Checkout = () => {
     },
   ];
 
-  const state = useSelector(
-    ({
-      auth: { isAuth, user },
-      settings: { options },
-      cart,
-      checkout: { checkout, delivery },
-      address,
-      affiliate,
-    }) => ({
-      isAuth,
-      user,
-      cart,
-      checkout,
-      delivery,
-      address,
-      affiliate,
-      options,
-    })
-  );
+  const isAuth = useSelector((state) => state.auth.isAuth);
+  const user = useSelector((state) => state.auth.user);
+  const cart = useSelector((state) => state.cart.items);
+  const promo = useSelector((state) => state.cart.promo);
+  const zone = useSelector((state) => state.cart.zone);
+  const checkout = useSelector((state) => state.checkout);
+  const address = useSelector((state) => state.address.items);
+  const affiliate = useSelector((state) => state.affiliate.items);
+  const options = useSelector((state) => state.settings.options);
 
   const {
     total = 0,
@@ -85,16 +75,11 @@ const Checkout = () => {
     point = 0,
     delivery,
     cashback,
-  } = state?.cart?.items && useTotalCart();
+  } = useTotalCart();
 
-  const selectedAffiliate = state?.affiliate?.items
-    ? state.affiliate.items.find((e) => e.main)
-    : false;
+  const selectedAffiliate = affiliate ? affiliate.find((e) => e.main) : false;
 
-  const [distance, setDistance] = useState({ time: false });
-  const [showServing, setShowServing] = useState(false);
   const [end, setEnd] = useState(false);
-
   const [isLoading, setIsLoading] = useState(false);
 
   const dispatch = useDispatch();
@@ -111,29 +96,23 @@ const Checkout = () => {
     mode: "all",
     reValidateMode: "onSubmit",
     defaultValues: {
-      name: state.user.firstName ?? "",
-      phone: state.user.phone ?? "",
-      serving: state.checkout.serving ?? "",
-      delivery: state.delivery ?? "delivery",
-      payment: state.options[state.checkout.payment]
-        ? state.checkout.payment
-        : "cash",
-      person: state.checkout.person ?? 1,
-      comment: state.checkout.comment ?? "",
+      name: user.firstName ?? "",
+      phone: user.phone ?? "",
+      serving: checkout.serving ?? "",
+      delivery: checkout.delivery ?? "delivery",
+      payment: options[checkout.payment] ? checkout.payment : "cash",
+      person: checkout.person ?? 1,
+      comment: checkout.comment ?? "",
 
-      address: state?.address?.items
-        ? state.address.items.find((e) => e.main)
-        : false,
-      affiliateId: state?.affiliate?.items
-        ? state.affiliate.items.find((e) => e.main)?.id
-        : false,
+      address: address ? address.find((e) => e.main) : false,
+      affiliateId: affiliate ? affiliate.find((e) => e.main)?.id : false,
 
       // Сохранение адреса по умолчанию
-      save: state.checkout.save ?? false,
+      save: checkout.save ?? false,
 
-      products: state.cart.items ?? [],
+      products: cart ?? [],
 
-      promo: state.cart.promo ?? false,
+      promo: promo ?? false,
 
       // Сумма баллов
       point: point,
@@ -150,16 +129,17 @@ const Checkout = () => {
       // Итоговая сумма
       total: total,
 
-      type: "app",
+      type: "site",
     },
   });
 
   const data = useWatch({ control });
+
   useLayoutEffect(() => {
-    if (state.isAuth && state.user.status === 0) {
+    if (isAuth && user?.status === 0) {
       navigate("/activate");
     }
-  }, [state.isAuth]);
+  }, [isAuth]);
 
   useEffect(() => {
     if (total > 0) {
@@ -176,27 +156,26 @@ const Checkout = () => {
   }, [data]);
 
   useEffect(() => {
-    if (state.delivery == "delivery" && data?.address?.id) {
-      getDelivery({ distance: true, addressId: data.address.id }).then(
+    if (checkout.delivery == "delivery" && data?.address?.id) {
+      getDelivery({ distance: false, addressId: data.address.id }).then(
         (res) => {
-          res?.distance && setDistance(res.distance);
           res?.zone && dispatch(cartZone(res.zone));
         }
       );
     }
-  }, [data.address, state.delivery]);
+  }, [isAuth, checkout.delivery]);
 
   useEffect(() => {
-    if (state.delivery) {
-      setValue("delivery", state.delivery);
+    if (checkout.delivery) {
+      setValue("delivery", checkout.delivery);
     }
-  }, [state.delivery]);
+  }, [checkout.delivery]);
 
   useEffect(() => {
-    if (state?.address?.items?.length > 0) {
-      setValue("address", state.address.items.find((e) => e.main) ?? false);
+    if (address?.length > 0) {
+      setValue("address", address.find((e) => e.main) ?? false);
     }
-  }, [state?.address?.items]);
+  }, [address]);
 
   const onSubmit = useCallback(
     (data) => {
@@ -205,35 +184,41 @@ const Checkout = () => {
           return NotificationManager.error("Добавьте адрес доставки");
         }
 
-        if (!state?.cart?.zone || !state.cart.zone.status) {
+        if (!zone || !zone.status) {
           NotificationManager.error(
             "По данному адресу доставка не производится"
           );
           return false;
         }
 
-        data.affiliateId = state.cart.zone.affiliateId;
+        data.affiliateId = zone.affiliateId;
       }
       setIsLoading(true);
 
       createOrder(data)
         .then(async (response) => {
+          if (response?.data) {
+            NotificationManager.success(
+              response?.data?.link
+                ? "Перенаправление на страницу оплаты..."
+                : "Заказ успешно отправлен"
+            );
+          }
+
+          reset();
+          dispatch(resetCart());
+          dispatch(resetCheckout());
+          setEnd(true);
+
+          if (response?.data?.point > 0) {
+            checkAuth().then(
+              async (auth) =>
+                auth?.data?.user && dispatch(setUser(auth.data.user))
+            );
+          }
+
           if (response?.data?.link) {
-            return navigate("/pay", response.data);
-          } else {
-            reset();
-            dispatch(resetCart());
-            dispatch(resetCheckout());
-            setEnd(true);
-            if (response?.data) {
-              NotificationManager.success("Заказ успешно отправлен");
-            }
-            if (response?.data?.point > 0) {
-              checkAuth().then(
-                async (auth) =>
-                  auth?.data?.user && dispatch(setUser(auth.data.user))
-              );
-            }
+            return window.location.replace(response.data.link);
           }
         })
         .catch((error) => {
@@ -243,10 +228,10 @@ const Checkout = () => {
         })
         .finally(() => setIsLoading(false));
     },
-    [data.address, state?.cart?.zone]
+    [data.address, zone]
   );
 
-  if (!Array.isArray(state.cart.items) || state.cart.items.length <= 0) {
+  if (!Array.isArray(cart) || cart.length <= 0) {
     return (
       <Empty
         text="Корзина пуста"
@@ -261,7 +246,7 @@ const Checkout = () => {
     );
   }
 
-  if (!state?.isAuth) {
+  if (!isAuth) {
     return (
       <Empty
         text="Вы не авторизованы"
@@ -278,7 +263,7 @@ const Checkout = () => {
 
   if (
     data?.delivery == "delivery" &&
-    (!Array.isArray(state.address.items) || state.address.length <= 0)
+    (!Array.isArray(address) || address.length <= 0)
   ) {
     return (
       <Empty
@@ -296,7 +281,7 @@ const Checkout = () => {
 
   if (
     data?.delivery == "pickup" &&
-    (!Array.isArray(state.affiliate.items) || state.affiliate.length <= 0)
+    (!Array.isArray(affiliate) || affiliate.length <= 0)
   ) {
     return (
       <Empty
@@ -327,7 +312,7 @@ const Checkout = () => {
                     <a
                       className={
                         "delivery" +
-                        (state.delivery === "delivery" ? " active" : "")
+                        (data.delivery === "delivery" ? " active" : "")
                       }
                       onClick={() => dispatch(editDeliveryCheckout("delivery"))}
                     >
@@ -339,7 +324,7 @@ const Checkout = () => {
                     <a
                       className={
                         "delivery" +
-                        (state.delivery === "pickup" ? " active" : "")
+                        (data.delivery === "pickup" ? " active" : "")
                       }
                       onClick={() => dispatch(editDeliveryCheckout("pickup"))}
                     >
@@ -355,17 +340,15 @@ const Checkout = () => {
                         <Select
                           label="Адрес"
                           value={data?.address?.id}
-                          data={state?.address?.items.map((e) => ({
+                          data={address.map((e) => ({
                             title: e?.title?.length > 0 ? e.title : e.full,
                             desc: e?.title?.length > 0 ? e.full : false,
                             value: e.id,
                           }))}
-                          onClick={(address) =>
+                          onClick={(e) =>
                             setValue(
                               "address",
-                              state?.address?.items.find(
-                                (e) => e.id === address.value
-                              )
+                              address.find((e) => e.id === e.value)
                             )
                           }
                         />
@@ -380,11 +363,11 @@ const Checkout = () => {
                         </p>
                       </>
                     ) : (
-                      state?.affiliate?.items?.length > 0 && (
+                      affiliate?.length > 0 && (
                         <Select
                           label="Адрес"
                           value={data?.affiliateId}
-                          data={state?.affiliate?.items.map((e) => ({
+                          data={affiliate.map((e) => ({
                             title: e?.title?.length > 0 ? e.title : e.full,
                             desc: e?.title?.length > 0 ? e.full : false,
                             value: e.id,
@@ -494,7 +477,7 @@ const Checkout = () => {
                 <h6>Ваш заказ</h6>
 
                 <ul className="list-unstyled">
-                  {state.cart.items.map((e) => (
+                  {cart.map((e) => (
                     <li className="mb-4">
                       <CheckoutProduct data={e} />
                     </li>
@@ -528,7 +511,7 @@ const Checkout = () => {
                   <span>-{customPrice(discount)}</span>
                 </div>
               )}
-              {state.delivery == "delivery" && (
+              {data.delivery == "delivery" && (
                 <div className="d-flex justify-content-between my-2">
                   <span>Доставка</span>
                   <span className="main-color">
@@ -558,8 +541,7 @@ const Checkout = () => {
                 type="submit"
                 disabled={
                   !isValid ||
-                  (state.delivery === "delivery" &&
-                    state?.cart?.zone?.minPrice < price) ||
+                  (data.delivery === "delivery" && zone?.minPrice < price) ||
                   (point > 0 && total === 0)
                 }
                 className="btn-primary mt-3 w-100"
