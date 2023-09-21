@@ -36,32 +36,32 @@ const OrderCard = () => {
           >
             <SwiperSlide>
               <Link to="/menu/product">
-                <img src="imgs/img3.png" alt="Название" />
+                <img src="/imgs/img3.png" alt="Название" />
               </Link>
             </SwiperSlide>
             <SwiperSlide>
               <Link to="/menu/product">
-                <img src="imgs/img3.png" alt="Название" />
+                <img src="/imgs/img3.png" alt="Название" />
               </Link>
             </SwiperSlide>
             <SwiperSlide>
               <Link to="/menu/product">
-                <img src="imgs/img3.png" alt="Название" />
+                <img src="/imgs/img3.png" alt="Название" />
               </Link>
             </SwiperSlide>
             <SwiperSlide>
               <Link to="/menu/product">
-                <img src="imgs/img3.png" alt="Название" />
+                <img src="/imgs/img3.png" alt="Название" />
               </Link>
             </SwiperSlide>
             <SwiperSlide>
               <Link to="/menu/product">
-                <img src="imgs/img3.png" alt="Название" />
+                <img src="/imgs/img3.png" alt="Название" />
               </Link>
             </SwiperSlide>
             <SwiperSlide>
               <Link to="/menu/product">
-                <img src="imgs/img3.png" alt="Название" />
+                <img src="/imgs/img3.png" alt="Название" />
               </Link>
             </SwiperSlide>
           </Swiper>

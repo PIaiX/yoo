@@ -168,7 +168,7 @@ const Header = () => {
                 </div>
               </div>
               : <>
-              <img src="imgs/slider-main/slide-1.jpg" alt="Большие пиццы" className='menu-offer'/>
+              <img src="/imgs/slider-main/slide-1.jpg" alt="Большие пиццы" className='menu-offer'/>
               <nav>
                 <ul>
                   <li>

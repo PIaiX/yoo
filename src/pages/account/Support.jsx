@@ -16,7 +16,7 @@ const Support = () => {
       <form className='support'>
         <div className="support-top">
           <div className="support-top-icon me-4">
-            <img src="imgs/avatar.jpg" alt="avatar" />
+            <img src="/imgs/avatar.jpg" alt="avatar" />
             <div className="indicator active"></div>
           </div>
           <h6 className='mb-0'>Чат с поддержкой</h6>

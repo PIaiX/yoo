@@ -49,7 +49,7 @@ const Contacts = () => {
             </Col>
             <Col md={8}>
               <div className="map">
-                <img src="imgs/map.jpg" alt="map" />
+                <img src="/imgs/map.jpg" alt="map" />
               </div>
             </Col>
           </Row>

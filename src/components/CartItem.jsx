@@ -13,7 +13,7 @@ const CartItem = () => {
     <div className='cart-item'>
       <div className="left">
         <input type="checkbox" className='me-1 me-sm-3'/>
-        <img src="imgs/img3.png" alt="Пепперони" />
+        <img src="/imgs/img3.png" alt="Пепперони" />
         <div className='text'>
           <h6>Пепперони <span className="tag">Подарок</span></h6>
           <OverlayTrigger

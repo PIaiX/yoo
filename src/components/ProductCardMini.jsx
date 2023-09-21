@@ -7,7 +7,7 @@ const ProductCardMini = () => {
 
   return (
     <figure className="product-card-mini">
-      <Link to='/menu/product'><img src="imgs/img3.png" alt="Ролл «Филадельфия»" /></Link>
+      <Link to='/menu/product'><img src="/imgs/img3.png" alt="Ролл «Филадельфия»" /></Link>
       <figcaption>
         <div>
           <h6><Link to='/menu/product'>Ролл «Филадельфия»</Link></h6>

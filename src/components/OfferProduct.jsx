@@ -10,7 +10,7 @@ const OfferProduct = () => {
   return (
     <div className="offer-product">
       <Link to='/menu/product' className="offer-product-img">
-        <img src="imgs/img3.png" alt="Ролл «Филадельфия»" />
+        <img src="/imgs/img3.png" alt="Ролл «Филадельфия»" />
       </Link>
       <div className="offer-product-about">
         <h6><Link to='/menu/product'>Ролл «Филадельфия»</Link></h6>

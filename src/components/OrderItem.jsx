@@ -11,7 +11,7 @@ const OrderItem = () => {
 
   return (
     <div className='order-item'>
-      <img src="imgs/img3.png" alt="Пепперони" />
+      <img src="/imgs/img3.png" alt="Пепперони" />
       <div className='text'>
         <h6>Пепперони <span className="tag">Подарок</span></h6>
         <OverlayTrigger

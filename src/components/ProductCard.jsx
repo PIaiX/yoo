@@ -17,7 +17,7 @@ const ProductCard = () => {
     <div className="product">
       <div className="product-img">
         <Link to='/menu/product'>
-          <img src="imgs/img3.png" alt="Ролл «Филадельфия»"/>
+          <img src="/imgs/img3.png" alt="Ролл «Филадельфия»"/>
         </Link>
         <ul className="product-stickers">
           <li>

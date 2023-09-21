@@ -12,7 +12,7 @@ const OfferPage = () => {
           <Row className='flex-row flex-lg-row-reverse gx-4 gx-xxl-5'>
             <Col xs={12} md={6} lg={4} className='mb-4'>
               <figure className='offer full'>
-                <img src="imgs/offers/offer4.jpg" alt="Акция «Счастливые часы»"/>
+                <img src="/imgs/offers/offer4.jpg" alt="Акция «Счастливые часы»"/>
                 <figcaption>
                   <div>
                     <h4>Счастливые часы</h4>

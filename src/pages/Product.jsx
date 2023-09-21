@@ -27,7 +27,7 @@ const Product = () => {
         <form className='productPage mb-5'>
           <Row className='gx-4 gx-xxl-5'>
             <Col xs={12} lg={3}>
-              <img src="imgs/img3.png" alt="Четыре сыра" className='productPage-img'/>
+              <img src="/imgs/img3.png" alt="Четыре сыра" className='productPage-img'/>
             </Col>
             <Col xs={12} md={6} lg={5}>
               <div className="d-flex align-items-center justify-content-between justify-content-md-start mb-4">

@@ -17,7 +17,7 @@ const Profile = () => {
         <Col xl={9} xxl={8}>
           <div className='user'>
             <div className="user-photo">
-              <img src="imgs/user2.jpg" alt="userphoto" />
+              <img src="/imgs/user2.jpg" alt="userphoto" />
               <button type='button'><FiEdit/></button>
             </div>
             <div className="user-main">
@@ -56,11 +56,11 @@ const Profile = () => {
         <Col xl={3} xxl={4}>
           <Row xs={2} xl={1} xxl={2} className='align-items-center mt-3 mt-xl-0'>
             <Col xs={3} xl={12} xxl={6}>
-              <img src="imgs/qr-code.svg" alt="qr-code" className='qr-code'/>
+              <img src="/imgs/qr-code.svg" alt="qr-code" className='qr-code'/>
             </Col>
             <Col xs={9} xl={12} xxl={6}>
               <Link to="/account/offers/add" className='post ms-auto'>
-                <img src="imgs/icons/plusx2.png" alt="plusx2" />
+                <img src="/imgs/icons/plusx2.png" alt="plusx2" />
                 <div>Разместить объявление</div>
               </Link>
             </Col>

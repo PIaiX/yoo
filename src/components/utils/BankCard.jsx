@@ -8,13 +8,13 @@ const BankCard = () => {
   return (
     <div className="bankcard">
       <div className="d-flex justify-content-between align-items-center">
-        <img src="imgs/tinkoff.jpg" alt="tinkoff" className='bankcard-logo'/>
+        <img src="/imgs/tinkoff.jpg" alt="tinkoff" className='bankcard-logo'/>
         <button type='button' onClick={()=>setShowDelConfirmation(true)} className='d-flex'>
           <HiOutlineTrash/>
         </button>
       </div>
       <div className="d-flex justify-content-between align-items-center">
-        <img src="imgs/visa.jpg" alt="visa" className='bankcard-type'/>
+        <img src="/imgs/visa.jpg" alt="visa" className='bankcard-type'/>
         <div className='bankcard-num'>
           <span className='d-none d-sm-inline'>**** **** ****</span> 
           <span className='d-sm-none'>* * * </span> 
