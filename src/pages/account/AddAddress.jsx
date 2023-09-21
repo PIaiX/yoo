@@ -1,8 +1,13 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useState,
+} from "react";
 import { Col, Dropdown, Form, Row } from "react-bootstrap";
 import { useForm, useWatch } from "react-hook-form";
 import { NotificationManager } from "react-notifications";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import AccountTitleReturn from "../../components/AccountTitleReturn";
 import Meta from "../../components/Meta";
@@ -16,6 +21,11 @@ import { setAddress } from "../../store/reducers/addressSlice";
 const CreateAddress = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const { user } = useSelector((state) => state.auth);
+  const affiliate = useSelector((state) => state.affiliate.items);
+  const mainCityAffiliate =
+    affiliate.length > 0 ? affiliate.map((e) => e.options.city) : false;
+
   const [streets, setStreets] = useState([]);
   const [showDropdown, setShowDropdown] = useState(false);
   const {
@@ -31,6 +41,12 @@ const CreateAddress = () => {
   const data = useWatch({ control });
 
   const streetText = useDebounce(data.full, 1000);
+
+  useLayoutEffect(() => {
+    if (user?.status === 0) {
+      return navigate("/activate");
+    }
+  }, [user]);
 
   const clickAddress = useCallback(
     (address) => {
@@ -80,13 +96,15 @@ const CreateAddress = () => {
 
   useEffect(() => {
     if (streetText) {
-      getDadataStreets(streetText).then((res) => {
-        if (res?.data?.suggestions) {
-          setStreets(res.data.suggestions);
+      getDadataStreets({ query: streetText, city: mainCityAffiliate }).then(
+        (res) => {
+          if (res?.data?.suggestions) {
+            setStreets(res.data.suggestions);
+          }
         }
-      });
+      );
     }
-  }, [streetText]);
+  }, [streetText, mainCityAffiliate]);
 
   const onSubmit = useCallback((data) => {
     createAddress(data)

@@ -1,10 +1,11 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useLayoutEffect } from "react";
 import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import { useForm, useWatch } from "react-hook-form";
 import { NotificationManager } from "react-notifications";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import AccountTitleReturn from "../../components/AccountTitleReturn";
 import Meta from "../../components/Meta";
 import Input from "../../components/utils/Input";
@@ -15,6 +16,13 @@ import { setUser } from "../../store/reducers/authSlice";
 const Settings = () => {
   const { user } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  useLayoutEffect(() => {
+    if (user?.status === 0) {
+      return navigate("/activate");
+    }
+  }, [user]);
 
   const {
     control,
@@ -54,10 +62,10 @@ const Settings = () => {
     <main className="account mb-2 mb-sm-3 mb-md-0">
       <Meta title="Настройки" />
       <Container className="pt-4 pt-lg-0">
-        <AccountTitleReturn 
+        <AccountTitleReturn
           className="d-lg-none"
-          link="/account" 
-          title="Внесите изменения" 
+          link="/account"
+          title="Внесите изменения"
         />
         <h1 className="d-none d-lg-block mb-2">Личный кабинет</h1>
         <NavBreadcrumbs

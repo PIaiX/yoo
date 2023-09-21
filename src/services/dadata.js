@@ -1,11 +1,16 @@
 import axios from 'axios'
-import {DADATA_URL_ADDRESS, DADATA_URL_STREET, DADATA_TOKEN} from '../config/api'
+import { DADATA_URL_ADDRESS, DADATA_URL_STREET, DADATA_TOKEN } from '../config/api'
 
-const getDadataStreets = async (query) => {
+const getDadataStreets = async ({ query, city }) => {
+    let locations = []
+    if (city && city.length > 0) {
+        city.forEach(e => locations.push({ city: e.toLowerCase() }))
+    }
     return await axios.post(
         DADATA_URL_STREET,
         JSON.stringify({
             query,
+            locations
             // from_bound: {value: 'street'},
             // to_bound: {value: 'house'},
             // locations: [
@@ -44,7 +49,7 @@ const getDadataStreets = async (query) => {
     )
 }
 const getDadataAddress = async (fiasId) => {
-    return await axios.post(DADATA_URL_ADDRESS, JSON.stringify({query: fiasId}), {
+    return await axios.post(DADATA_URL_ADDRESS, JSON.stringify({ query: fiasId }), {
         headers: {
             'Content-Type': 'application/json',
             Accept: 'application/json',
@@ -53,4 +58,4 @@ const getDadataAddress = async (fiasId) => {
     })
 }
 
-export {getDadataStreets, getDadataAddress}
+export { getDadataStreets, getDadataAddress }

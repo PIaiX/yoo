@@ -1,13 +1,21 @@
-import React from "react";
+import React, { useLayoutEffect } from "react";
 import LiAddress from "../../components/LiAddress";
 import AccountTitleReturn from "../../components/AccountTitleReturn";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import Empty from "../../components/Empty";
 import EmptyAddresses from "../../components/empty/addresses";
 
 const Addresses = () => {
   const addresses = useSelector((state) => state.address);
+  const { user } = useSelector((state) => state.auth);
+  const navigate = useNavigate();
+
+  useLayoutEffect(() => {
+    if (user?.status === 0) {
+      return navigate("/activate");
+    }
+  }, [user]);
 
   if (!Array.isArray(addresses.items) || addresses.items.length <= 0) {
     return (
@@ -27,10 +35,10 @@ const Addresses = () => {
 
   return (
     <section className="addresses">
-      <AccountTitleReturn 
+      <AccountTitleReturn
         className="d-lg-none"
-        link="/account" 
-        title="Адреса" 
+        link="/account"
+        title="Адреса"
       />
       <div className="d-flex flex-column flex-lg-column-reverse">
         <ul className="addresses-list w-100">

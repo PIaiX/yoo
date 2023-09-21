@@ -137,7 +137,7 @@ const Checkout = () => {
 
   useLayoutEffect(() => {
     if (isAuth && user?.status === 0) {
-      navigate("/activate");
+      return navigate("/activate");
     }
   }, [isAuth]);
 

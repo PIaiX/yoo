@@ -7,7 +7,7 @@ import React, {
 import { Col, Dropdown, Form, Row } from "react-bootstrap";
 import { useForm, useWatch } from "react-hook-form";
 import { NotificationManager } from "react-notifications";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import AccountTitleReturn from "../../components/AccountTitleReturn";
 import Empty from "../../components/Empty";
@@ -19,16 +19,16 @@ import Textarea from "../../components/utils/Textarea";
 import useDebounce from "../../hooks/useDebounce";
 import { editAddress, getAddress } from "../../services/address";
 import { getDadataStreets } from "../../services/dadata";
-import {
-  updateAddress,
-  updateAddresses,
-} from "../../store/reducers/addressSlice";
+import { updateAddress } from "../../store/reducers/addressSlice";
 
 const EditAddress = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { addressId } = useParams();
   const [loading, setLoading] = useState(true);
+  const affiliate = useSelector((state) => state.affiliate.items);
+  const mainCityAffiliate =
+    affiliate.length > 0 ? affiliate.map((e) => e.options.city) : false;
 
   const [streets, setStreets] = useState([]);
   const [showDropdown, setShowDropdown] = useState(false);
@@ -100,13 +100,15 @@ const EditAddress = () => {
 
   useEffect(() => {
     if (streetText) {
-      getDadataStreets(streetText).then((res) => {
-        if (res?.data?.suggestions) {
-          setStreets(res.data.suggestions);
+      getDadataStreets({ query: streetText, city: mainCityAffiliate }).then(
+        (res) => {
+          if (res?.data?.suggestions) {
+            setStreets(res.data.suggestions);
+          }
         }
-      });
+      );
     }
-  }, [streetText]);
+  }, [streetText, mainCityAffiliate]);
 
   const onSubmit = useCallback((data) => {
     editAddress(data)

@@ -37,7 +37,7 @@ const convertColor = (color, opacity) => {
   return color + _opacity.toString(16).toUpperCase();
 };
 
-const convert = (value) => (value ? Math.round(Number(value) * 1000) : 0);
+const convert = (value) => (value ? Math.round(Number(value)) : 0);
 
 const customWeight = (value) => {
   if (!value) {
