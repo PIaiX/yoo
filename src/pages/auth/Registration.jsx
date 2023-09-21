@@ -36,7 +36,7 @@ const Registration = () => {
     if (auth.isAuth) {
       return navigate("/");
     }
-  }, []);
+  }, [auth.isAuth]);
 
   const {
     register,
@@ -52,13 +52,8 @@ const Registration = () => {
 
   const dispatch = useDispatch();
 
-  const onSubmit = useCallback(async (data) => {
-    const response = await dispatch(login(data)).unwrap();
-    if (response?.user?.status === 0) {
-      navigate("/activate");
-    } else {
-      navigate("/");
-    }
+  const onSubmit = useCallback((data) => {
+    dispatch(login(data));
   }, []);
 
   const onSubmitReg = useCallback(

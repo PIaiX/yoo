@@ -9,13 +9,13 @@ import EmptyWork from "../components/empty/work";
 import Empty from "../components/Empty";
 
 const Contact = () => {
-  const { affiliate } = useSelector((state) => state);
+  const affiliate = useSelector((state) => state.affiliate.items);
 
   const [mainAffiliate, setMainAffiliate] = useState(
-    affiliate?.items?.length > 0 ? affiliate.items.find((e) => e.main) : false
+    affiliate?.length > 0 ? affiliate.find((e) => e.main) : false
   );
-
-  if (!mainAffiliate || !mainAffiliate?.phone[0]) {
+  console.log(mainAffiliate);
+  if (!mainAffiliate || !mainAffiliate?.phone?.length > 0) {
     return (
       <Empty
         text="В данный момент контактов нет"
@@ -79,7 +79,7 @@ const Contact = () => {
                 )}
 
                 <ul className="list-unstyled mt-4">
-                  {affiliate.items.map((e) => (
+                  {affiliate.map((e) => (
                     <li>
                       <a onClick={() => setMainAffiliate(e)}>
                         <h6 className="mb-2">{e.full}</h6>
