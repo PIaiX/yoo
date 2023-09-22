@@ -21,13 +21,18 @@ import Meta from "../components/Meta";
 import EmptyCatalog from "../components/empty/catalog";
 import Loader from "../components/utils/Loader";
 import { getImageURL } from "../helpers/all";
-import { useGetCategoriesQuery, useGetSalesQuery } from "../services/home";
+import {
+  useGetCategoriesQuery,
+  useGetSalesQuery,
+  useGetBannersQuery,
+} from "../services/home";
 
 const Home = () => {
+  const banners = useGetBannersQuery();
   const sales = useGetSalesQuery();
   const categories = useGetCategoriesQuery();
 
-  if (categories.isLoading || sales.isLoading) {
+  if (categories.isLoading || sales.isLoading || banners.isLoading) {
     return <Loader full />;
   }
 
@@ -54,7 +59,7 @@ const Home = () => {
   return (
     <main>
       <Meta title="Главная" />
-      {sales?.data?.items?.length > 0 && (
+      {banners?.data?.items?.length > 0 && (
         <section className="sec-1 mb-5">
           <div className="container-md gx-0 gx-md-4">
             <div className="row justify-content-center">
@@ -79,13 +84,13 @@ const Home = () => {
                     },
                   }}
                 >
-                  {sales.data.items.map((e) => (
+                  {banners.data.items.map((e) => (
                     <SwiperSlide>
                       <Link to={"/promo/" + e.id}>
                         <img
                           src={getImageURL({
                             path: e?.medias,
-                            type: "sale",
+                            type: "banner",
                             size: "full",
                           })}
                           alt={e?.title}

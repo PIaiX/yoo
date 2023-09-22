@@ -13,10 +13,8 @@ import { NotificationManager } from "react-notifications";
 import { setAuth, setUser } from "../../store/reducers/authSlice";
 
 const Registration = () => {
-  const { auth, options } = useSelector(({ auth, settings: { options } }) => ({
-    auth,
-    options,
-  }));
+  const isAuth = useSelector((state) => state.auth.isAuth);
+  const options = useSelector((state) => state.settings.options);
 
   const navigate = useNavigate();
   const [loginView, setLoginView] = useState(true);
@@ -33,10 +31,10 @@ const Registration = () => {
   };
 
   useLayoutEffect(() => {
-    if (auth.isAuth) {
+    if (isAuth) {
       return navigate("/");
     }
-  }, [auth.isAuth]);
+  }, [isAuth]);
 
   const {
     register,
@@ -58,159 +56,6 @@ const Registration = () => {
 
   const onSubmitReg = useCallback(
     (data) => {
-      if (data.email) {
-        let successDomain = [
-          "5ballov.ru",
-          "aeterna.ru",
-          "aim.com",
-          "algxmail.com",
-          "ameritech.net",
-          "aol.com",
-          "att.net",
-          "autorambler.ru",
-          "bigmir.net",
-          "bk.ru",
-          "charter.net",
-          "clear.net.nz",
-          "cox.net",
-          "email.it",
-          "fastmail.com.au",
-          "fastmail.fm",
-          "flash.net",
-          "fmgirl.com",
-          "fotoplenka.ru",
-          "free.fr",
-          "fromru.com",
-          "front.ru",
-          "games.com",
-          "gmail.com",
-          "gmx.de",
-          "gmx.net",
-          "googlemail.com",
-          "hotbox.ru",
-          "hotmail.co.nz",
-          "hotmail.com",
-          "hotmail.ru",
-          "hotpop.com",
-          "imapmail.org",
-          "inbox.ru",
-          "interia.pl",
-          "km.ru",
-          "krovatka.su",
-          "land.ru",
-          "lenta.ru",
-          "libero.it",
-          "list.ru",
-          "live.com",
-          "love.com",
-          "mail.ru",
-          "mail15.com",
-          "mail333.com",
-          "megabox.ru",
-          "memori.ru",
-          "meta.ua",
-          "msn.com",
-          "myrambler.ru",
-          "myrealbox.com",
-          "naui.net",
-          "newmail.ru",
-          "nfmail.com",
-          "nightmail.ru",
-          "nl.rogers.com",
-          "nm.ru",
-          "nvbell.net",
-          "nxt.ru",
-          "o2.pl",
-          "olympus.ru",
-          "operamail.com",
-          "orange.net",
-          "pacbell.net",
-          "photofile.ru",
-          "pisem.net",
-          "pochta.com",
-          "pochta.ru",
-          "pochtamt.ru",
-          "pop3.ru",
-          "post.ru",
-          "pplmail.com",
-          "premoweb.com",
-          "prodigy.net",
-          "qip.ru",
-          "rambler.ru",
-          "rbcmail.ru",
-          "rikt.ru",
-          "ro.ru",
-          "rocketmail.com",
-          "rogers.com",
-          "sbcglobal.net",
-          "seznam.cz",
-          "sibnet.ru",
-          "sky.com",
-          "sky.ru",
-          "skynet.be",
-          "smtp.ru",
-          "snet.net",
-          "softhome.net",
-          "startfree.com",
-          "su29.ru",
-          "swbell.net",
-          "talktalk.net",
-          "telenet.be",
-          "telus.net",
-          "tlen.pl",
-          "ua.fm",
-          "ukr.net",
-          "unliminet.de",
-          "verizon.net",
-          "wans.net",
-          "web.de",
-          "wow.com",
-          "wp.pl",
-          "xtra.co.nz",
-          "ya.ru",
-          "yahoo.ca",
-          "yahoo.co.id",
-          "yahoo.co.in",
-          "yahoo.co.kr",
-          "yahoo.co.nz",
-          "yahoo.co.th",
-          "yahoo.co.uk",
-          "yahoo.com",
-          "yahoo.com.ar",
-          "yahoo.com.au",
-          "yahoo.com.br",
-          "yahoo.com.cn",
-          "yahoo.com.hk",
-          "yahoo.com.mx",
-          "yahoo.com.my",
-          "yahoo.com.ph",
-          "yahoo.com.sg",
-          "yahoo.com.tw",
-          "yahoo.com.vn",
-          "yahoo.de",
-          "yahoo.dk",
-          "yahoo.es",
-          "yahoo.fr",
-          "yahoo.ie",
-          "yahoo.it",
-          "yahoo.no",
-          "yahoo.pl",
-          "yahoo.se",
-          "yahoomail.com",
-          "yandex.ru",
-          "ymail.com",
-          "zebra.lt",
-          "ziza.ru",
-        ];
-        let domain = data.email.split("@")[1];
-        if (!domain || !successDomain.includes(domain)) {
-          NotificationManager.error(
-            "Разрешены только популярные почтовые сервисы"
-          );
-          return false;
-        }
-      }
-
       authRegister(data)
         .then((res) => {
           NotificationManager.success(

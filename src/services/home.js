@@ -8,13 +8,16 @@ export const homeApi = createApi({
       refetchOnFocus: true,
       keepUnusedDataFor: 350,
       endpoints: (build) => ({
+            getBanners: build.query({
+                  query: () => apiRoutes.BANNERS,
+            }),
             getCategories: build.query({
                   query: () => apiRoutes.CATEGORY_ALL,
             }),
             getSales: build.query({
                   query: () => apiRoutes.SALES_GET,
-            })
+            }),
       }),
 })
 
-export const { useGetCategoriesQuery, useGetSalesQuery } = homeApi
+export const { useGetCategoriesQuery, useGetSalesQuery, useGetBannersQuery } = homeApi

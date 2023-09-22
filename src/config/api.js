@@ -79,6 +79,11 @@ const apiRoutes = {
   SALE_GET: "/sale/one",
   GIFTS_GET: "/sale/gifts",
 
+  // Banners
+  BANNERS: "/banner",
+  BANNER_PRODUCTS: "/banner/products",
+  BANNER: "/banner/one",
+
   // Favorite
   FAVORITES: SERVICE_FAVORITE,
   FAVORITES_LIST: SERVICE_FAVORITE + "/list",

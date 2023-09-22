@@ -22,7 +22,7 @@ const DEVICE = JSON.stringify({
 
 $api.interceptors.request.use(
   async (config) => {
-    // config.headers["Content-Type"] = "application/json";
+    config.headers["Content-Type"] = "application/json";
     config.headers.token = `API ${API_TOKEN}`
     config.headers.device = DEVICE;
     return config;
