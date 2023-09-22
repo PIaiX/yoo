@@ -14,6 +14,7 @@ import { setAuth, setUser } from "../../store/reducers/authSlice";
 
 const Registration = () => {
   const isAuth = useSelector((state) => state.auth.isAuth);
+  const user = useSelector((state) => state.auth.user);
   const options = useSelector((state) => state.settings.options);
 
   const navigate = useNavigate();
@@ -32,9 +33,13 @@ const Registration = () => {
 
   useLayoutEffect(() => {
     if (isAuth) {
-      return navigate("/");
+      if (user?.id && user?.status === 0) {
+        return navigate("/activate");
+      } else {
+        return navigate("/");
+      }
     }
-  }, [isAuth]);
+  }, [isAuth, user]);
 
   const {
     register,
