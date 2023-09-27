@@ -3282,11 +3282,11 @@ footer .desktop {
   flex-wrap: nowrap;
 }
 footer .desktop .logo {
-  width: 140px;
+  width: 80px;
 }
 @media (max-width: 1199.98px) {
   footer .desktop .logo {
-    width: 100px;
+    width: 60px;
   }
 }
 footer .desktop a {

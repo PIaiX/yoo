@@ -2935,9 +2935,9 @@ footer {
     height: 100%;
     @include flex(row, space-between, center, nowrap);
     .logo {
-      width: 140px;
+      width: 80px;
       @media (max-width: $bp-xl) {
-        width: 100px;
+        width: 60px;
       }
     }
     a {

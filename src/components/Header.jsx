@@ -51,10 +51,14 @@ const Header = memo(() => {
         <Container className="h-100">
           <nav className="h-100">
             <Link to="/">
-              <img src="/logo.svg" alt="yooapp" className="logo" />
-              <span className="ms-3 logo-name">
+              <img
+                src="/logo.png"
+                alt={options?.title ?? "YOOAPP"}
+                className="logo"
+              />
+              {/* <span className="ms-3 logo-name">
                 {options?.title ?? "YOOAPP"}
-              </span>
+              </span> */}
             </Link>
             <ul className="btns-menu d-none d-lg-flex">
               <li className="d-none d-md-block">

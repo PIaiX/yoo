@@ -66,7 +66,11 @@ const Footer = memo(() => {
           </ul>
         </nav>
         <div className="desktop d-none d-lg-flex">
-          <img src={LogoWhite} alt="yoo.app" className="logo" />
+          <img
+            src="/logo.png"
+            alt={options?.title ?? "YOOAPP"}
+            className="logo"
+          />
 
           <nav>
             <ul className="list-unstyled d-flex">
@@ -98,11 +102,7 @@ const Footer = memo(() => {
           <div>
             <a href="https://yooapp.ru/" target="_blank">
               <div>Разработано на платформе</div>
-              <img
-                src={LogoTextWhite}
-                alt="yoo.app"
-                className="d-block mt-2"
-              />
+              <img src={LogoTextWhite} alt="yoo.app" className="d-block mt-2" />
             </a>
           </div>
         </div>
