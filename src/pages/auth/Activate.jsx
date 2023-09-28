@@ -1,22 +1,20 @@
-import React, { useState, useCallback, useLayoutEffect } from "react";
+import React, { useCallback, useLayoutEffect, useState } from "react";
+import { Form } from "react-bootstrap";
+import { useForm, useWatch } from "react-hook-form";
+import { NotificationManager } from "react-notifications";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import Empty from "../../components/Empty";
-import EmptyWork from "../../components/empty/work";
+import EmptyActivate from "../../components/empty/activate";
 import Meta from "../../components/Meta";
 import InputCode from "../../components/utils/InputCode";
 import { authActivate } from "../../services/auth";
-import { useForm, useWatch } from "react-hook-form";
-import { Card, Col, Container, Form, Row } from "react-bootstrap";
-import { NotificationManager } from "react-notifications";
 import { setUser } from "../../store/reducers/authSlice";
-import EmptyActivate from "../../components/empty/activate";
 
 const Activate = () => {
-  const { auth, options } = useSelector(({ auth, settings: { options } }) => ({
-    auth,
-    options,
-  }));
+  const isAuth = useSelector((state) => state.auth.isAuth);
+  const options = useSelector((state) => state.settings.options);
+
   const { control, handleSubmit, setValue } = useForm({
     mode: "all",
     reValidateMode: "onSubmit",
@@ -29,10 +27,10 @@ const Activate = () => {
   const [status, setStatus] = useState(false);
 
   useLayoutEffect(() => {
-    if (!auth.isAuth) {
+    if (!isAuth) {
       return navigate("/");
     }
-  }, [auth.isAuth]);
+  }, [isAuth]);
 
   const onSubmit = useCallback(
     (data) => {

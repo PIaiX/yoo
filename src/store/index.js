@@ -37,7 +37,7 @@ const persistConfig = {
   key: "root",
   storage,
   transforms: [encryptor],
-  whitelist: ["checkout", "cart", "auth", "favorite", "settings"],
+  // whitelist: ["checkout", "cart", "auth", "favorite", "settings"],
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

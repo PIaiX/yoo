@@ -63,7 +63,9 @@ const Checkout = () => {
   const cart = useSelector((state) => state.cart.items);
   const promo = useSelector((state) => state.cart.promo);
   const zone = useSelector((state) => state.cart.zone);
-  const checkout = useSelector((state) => state.checkout);
+  const { checkout, delivery: deliveryCheckout } = useSelector(
+    (state) => state.checkout
+  );
   const address = useSelector((state) => state.address.items);
   const affiliate = useSelector((state) => state.affiliate.items);
   const options = useSelector((state) => state.settings.options);
@@ -99,8 +101,8 @@ const Checkout = () => {
       name: user.firstName ?? "",
       phone: user.phone ?? "",
       serving: checkout.serving ?? "",
-      delivery: checkout.delivery ?? "delivery",
-      payment: options[checkout.payment] ? checkout.payment : "cash",
+      delivery: deliveryCheckout ?? "delivery",
+      payment: checkout.payment ?? options[checkout.payment] ?? "cash",
       person: checkout.person ?? 1,
       comment: checkout.comment ?? "",
 
@@ -156,20 +158,20 @@ const Checkout = () => {
   }, [data]);
 
   useEffect(() => {
-    if (checkout.delivery == "delivery" && data?.address?.id) {
+    if (deliveryCheckout == "delivery" && data?.address?.id) {
       getDelivery({ distance: false, addressId: data.address.id }).then(
         (res) => {
           res?.zone && dispatch(cartZone(res.zone));
         }
       );
     }
-  }, [isAuth, checkout.delivery]);
+  }, [isAuth, deliveryCheckout]);
 
   useEffect(() => {
-    if (checkout.delivery) {
-      setValue("delivery", checkout.delivery);
+    if (deliveryCheckout) {
+      setValue("delivery", deliveryCheckout);
     }
-  }, [checkout.delivery]);
+  }, [deliveryCheckout]);
 
   useEffect(() => {
     if (address?.length > 0) {
@@ -296,7 +298,7 @@ const Checkout = () => {
       />
     );
   }
-
+  console.log(isValid);
   return (
     <main>
       <Meta title="Оформление заказа" />
@@ -348,7 +350,7 @@ const Checkout = () => {
                           onClick={(e) =>
                             setValue(
                               "address",
-                              address.find((e) => e.id === e.value)
+                              address.find((a) => a.id === e.value)
                             )
                           }
                         />
@@ -541,7 +543,7 @@ const Checkout = () => {
                 type="submit"
                 disabled={
                   !isValid ||
-                  (data.delivery === "delivery" && zone?.minPrice < price) ||
+                  (data.delivery === "delivery" && zone?.minPrice > price) ||
                   (point > 0 && total === 0)
                 }
                 className="btn-primary mt-3 w-100"

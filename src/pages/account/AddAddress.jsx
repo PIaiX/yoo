@@ -21,7 +21,7 @@ import { setAddress } from "../../store/reducers/addressSlice";
 const CreateAddress = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { user } = useSelector((state) => state.auth);
+  const user = useSelector((state) => state.auth.user);
   const affiliate = useSelector((state) => state.affiliate.items);
   const mainCityAffiliate =
     affiliate.length > 0 ? affiliate.map((e) => e.options.city) : false;

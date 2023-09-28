@@ -17,6 +17,8 @@ function App() {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
   const options = useSelector((state) => state.settings.options);
+  const cart = useSelector((state) => state.cart.items);
+  const favorite = useSelector((state) => state.favorite.items);
 
   const updateColor = useCallback(
     (options) => {
@@ -55,9 +57,10 @@ function App() {
               .then(async (data) => {
                 dispatch(updateAddresses(data.user.addresses));
 
-                dispatch(updateCartAll(data?.products ?? []));
+                cart.length === 0 &&
+                  dispatch(updateCartAll(data?.products ?? []));
 
-                dispatch(getFavorites());
+                favorite.length === 0 && dispatch(getFavorites());
               })
               .catch(async (err) => {
                 if (

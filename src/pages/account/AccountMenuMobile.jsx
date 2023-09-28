@@ -13,7 +13,7 @@ import {
 import { useSelector } from "react-redux";
 
 const AccountMenu = () => {
-  const { user } = useSelector((state) => state.auth);
+  const user = useSelector((state) => state.auth.user);
   return (
     <div className="account-menu">
       <div className="box p-3 p-sm-4 d-flex align-items-center mb-2 mb-sm-3">

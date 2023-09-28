@@ -5,7 +5,6 @@ import { Link, NavLink } from "react-router-dom";
 import AppStore from "../assets/imgs/appstore.svg";
 import GooglePlay from "../assets/imgs/googleplay.svg";
 import LogoTextWhite from "../assets/imgs/logo-text-white.svg";
-import LogoWhite from "../assets/imgs/logo-white.svg";
 import BellIcon from "./svgs/BellIcon";
 import CartIcon from "./svgs/CartIcon";
 import FlameIcon from "./svgs/FlameIcon";
@@ -13,10 +12,8 @@ import HomeIcon from "./svgs/HomeIcon";
 import UserIcon from "./svgs/UserIcon";
 
 const Footer = memo(() => {
-  const { auth, options } = useSelector(({ auth, settings: { options } }) => ({
-    auth,
-    options,
-  }));
+  const isAuth = useSelector((state) => state.auth.isAuth);
+  const options = useSelector((state) => state.settings.options);
 
   return (
     <footer>
@@ -56,7 +53,7 @@ const Footer = memo(() => {
               </NavLink>
             </li>
             <li>
-              <NavLink to={auth.isAuth ? "/account" : "/login"}>
+              <NavLink to={isAuth ? "/account" : "/login"}>
                 <UserIcon size={50} />
                 <div className="text fs-09">
                   <span>&nbsp;Аккаунт</span>

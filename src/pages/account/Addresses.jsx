@@ -8,7 +8,7 @@ import EmptyAddresses from "../../components/empty/addresses";
 
 const Addresses = () => {
   const addresses = useSelector((state) => state.address);
-  const { user } = useSelector((state) => state.auth);
+  const user = useSelector((state) => state.auth.user);
   const navigate = useNavigate();
 
   useLayoutEffect(() => {

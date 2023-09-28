@@ -9,7 +9,7 @@ import NavBreadcrumbs from "../components/utils/NavBreadcrumbs";
 import { useSelector } from "react-redux";
 
 const AccountLayout = ({ isMobile }) => {
-  const { user } = useSelector((state) => state.auth);
+  const user = useSelector((state) => state.auth.user);
 
   return (
     <main className="account mb-2 mb-sm-3 mb-md-4 mb-xl-5">

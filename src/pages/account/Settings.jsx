@@ -14,7 +14,7 @@ import { editAccount } from "../../services/account";
 import { setUser } from "../../store/reducers/authSlice";
 
 const Settings = () => {
-  const { user } = useSelector((state) => state.auth);
+  const user = useSelector((state) => state.auth.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
