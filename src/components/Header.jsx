@@ -5,7 +5,7 @@ import {Link} from 'react-router-dom';
 import useIsMobile from '../hooks/isMobile';
 import SelectImitation from './utils/SelectImitation';
 import { HiOutlineDevicePhoneMobile, HiOutlineUserCircle, HiOutlineShoppingBag, HiOutlineHeart, HiOutlineArrowLeftCircle } from "react-icons/hi2";
-import Logo from '../assets/imgs/logo.svg';
+import Logo from '../assets/imgs/LogoBeautifulDay.svg';
 import delivery from '../assets/imgs/delivery_icon.svg';
 import ruFlag from '../assets/imgs/flags/rus.jpg';
 import engFlag from '../assets/imgs/flags/eng.jpg';
@@ -33,26 +33,8 @@ const Header = () => {
               (!isMobileLG) && 
               <>
                 <ul className='btns-menu'>
-                  <li className='d-none d-xxl-block'>
-                    <SelectImitation 
-                      optionsArr={[
-                        {
-                          value: 1,
-                          label: 'Доставка',
-                          icon: delivery,
-                          defaultChecked: true,
-                        },
-                        {
-                          value: 2,
-                          label: 'Самовывоз',
-                          icon: delivery,
-                          defaultChecked: false,
-                        }
-                      ]}
-                    />
-                  </li>
                   <li className='ms-3'>
-                    <Link to='/menu' className='btn-primary py-2'>Меню</Link>
+                    <Link to='/menu' className='btn-primary py-2'>Каталог</Link>
                   </li>
                 </ul>
                 <ul className='text-menu'>
@@ -71,26 +53,6 @@ const Header = () => {
             }
 
             <ul className='icons-menu'>
-              <li>
-                <SelectImitation 
-                  btnClass={'borderless'}
-                  imgClass={'round'}
-                  optionsArr={[
-                    {
-                      value: 1,
-                      label: 'русский',
-                      icon: ruFlag,
-                      defaultChecked: true,
-                    },
-                    {
-                      value: 2,
-                      label: 'english',
-                      icon: engFlag,
-                      defaultChecked: false,
-                    }
-                  ]}
-                />
-              </li>
               {
                 (!isMobileLG)
                 ? <>

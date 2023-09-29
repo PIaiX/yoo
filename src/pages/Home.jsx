@@ -23,50 +23,35 @@ const Home = () => {
             <div className='col-12 col-lg-11 col-xl-9 col-xxl-8'>
               <Swiper
                 className='main-slider paginated'
-                modules={[Navigation, Pagination]}
+                modules={[Pagination]}
                 loop={true}
                 spaceBetween={0}
                 slidesPerView={1}
                 initialSlide={1}
                 loopedSlides={2}
                 speed={750}
-                navigation={{
-                  nextEl: '.swiper-button-next',
-                  prevEl: '.swiper-button-prev',
-                }}
                 pagination={{ clickable: true }}
                 breakpoints={{
                   768: {
-                    spaceBetween: 35,
+                    spaceBetween: 15,
                   },
                 }}
               >
                 <SwiperSlide>
                   <Link to='/promo/1'>
-                    <img src="/imgs/slider-main/slide-1.jpg" alt="Большие пиццы" className='img-fluid' loading="lazy"/>
+                    <img src="/imgs/slider-main/slide-1.webp" alt="Обновление ассортимента" className='img-fluid' loading="lazy"/>
                   </Link>
                 </SwiperSlide>
                 <SwiperSlide>
                   <Link to='/promo/2'>
-                    <img src="/imgs/slider-main/slide-2.jpg" alt="Фестиваль уличной еды" className='img-fluid' loading="lazy"/>
+                    <img src="/imgs/slider-main/slide-2.webp" alt="Гелевые шары" className='img-fluid' loading="lazy"/>
                   </Link>
                 </SwiperSlide>
                 <SwiperSlide>
                   <Link to='/promo/3'>
-                    <img src="/imgs/slider-main/slide-3.jpg" alt="Счастливые часы" className='img-fluid' loading="lazy"/>
+                    <img src="/imgs/slider-main/slide-3.webp" alt="бесплатная доставка" className='img-fluid' loading="lazy"/>
                   </Link>
                 </SwiperSlide>
-                <SwiperSlide>
-                  <Link to='/promo/2'>
-                    <img src="/imgs/slider-main/slide-2.jpg" alt="Фестиваль уличной еды" className='img-fluid' loading="lazy"/>
-                  </Link>
-                </SwiperSlide>
-                <div className="swiper-button-prev">
-                  <HiOutlineArrowLeftCircle/>
-                </div>
-                <div className="swiper-button-next">
-                  <HiOutlineArrowRightCircle/>
-                </div>
               </Swiper>
             </div>
           </div>

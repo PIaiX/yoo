@@ -1,7 +1,7 @@
 import React from 'react';
 import Container from 'react-bootstrap/Container';
 import useIsMobile from '../hooks/isMobile';
-import LogoWhite from '../assets/imgs/logo-white.svg';
+import LogoWhite from '../assets/imgs/LogoBeautifulDayWhite.svg';
 import LogoTextWhite from '../assets/imgs/logo-text-white.svg';
 import AppStore from '../assets/imgs/appstore.svg';
 import GooglePlay from '../assets/imgs/googleplay.svg';
@@ -59,36 +59,22 @@ const Footer = () => {
           : <div className='desktop'>
             <img src={LogoWhite} alt="yoo.app" className='logo'/>
 
-            <nav>
+            <nav className='ms-5 me-auto'>
               <ul className="list-unstyled d-flex">
                 <li>
-                  <Link to='/'>Меню</Link>
+                  <Link to='/'>Каталог</Link>
                 </li>
                 <li className='ms-4'>
-                  <Link to='/'>Вакансии</Link>
+                  <Link to='/'>Оплата и доставка</Link>
                 </li>
                 <li className='ms-4'>
                   <Link to='/contacts'>Контакты</Link>
                 </li>
               </ul>
-              <Link to='/' className='d-block mt-4'>Политика конфиденциальности</Link>
+              <Link to='/' className='d-block mt-3'>Политика конфиденциальности</Link>
             </nav>
 
-            <div>
-              <p>Заказывать через приложение ещё удобнее</p>
-              <ul className="list-unstyled d-flex mt-2">
-                <li>
-                  <a href="/">
-                    <img src={AppStore} alt="App Store" />
-                  </a>
-                </li>
-                <li className='ms-3'>
-                  <a href="/">
-                    <img src={GooglePlay} alt="Google Play" />
-                  </a>
-                </li>
-              </ul>
-            </div>
+
 
             <div>
               <div>Разработано на платформе</div>
