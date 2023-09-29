@@ -31,6 +31,7 @@ const Header = memo(() => {
   const isAuth = useSelector((state) => state.auth.isAuth);
   const user = useSelector((state) => state.auth.user);
   const cart = useSelector((state) => state.cart.items);
+  const favorite = useSelector((state) => state.favorite.items);
   const delivery = useSelector((state) => state.checkout.delivery);
   const affiliate = useSelector((state) => state.affiliate.items);
   const options = useSelector((state) => state.settings.options);
@@ -122,8 +123,13 @@ const Header = memo(() => {
               </li>
               {isAuth && (
                 <li className="d-none d-lg-block">
-                  <Link to="/account/favorites">
+                  <Link to="/account/favorites" className="position-relative">
                     <HiOutlineHeart size={25} />
+                    {favorite?.length > 0 && (
+                      <span className="position-absolute top-100 start-100 translate-middle badge rounded-pill">
+                        {favorite?.length}
+                      </span>
+                    )}
                   </Link>
                 </li>
               )}

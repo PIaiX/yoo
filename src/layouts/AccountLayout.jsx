@@ -38,20 +38,22 @@ const AccountLayout = ({ isMobile }) => {
                       (user?.email && (
                         <>
                           {user?.phone && (
-                            <p className="mb-2">
+                            <p className="mb-3">
                               <a href={"tel:" + user.phone}>{user.phone}</a>
                             </p>
                           )}
                           {user?.email && (
-                            <p className="mb-2 fs-09">
+                            <p className="mb-3 fs-09">
                               <a href={"mailer:" + user.email}>{user.email}</a>
                             </p>
                           )}
-                          <Link to="/account/settings" className="main-color">
-                            Изменить
-                          </Link>
                         </>
                       ))}
+                    <p className="mt-2">
+                      <Link to="/account/settings" className="main-color">
+                        Изменить
+                      </Link>
+                    </p>
                   </div>
                 </div>
               </Col>

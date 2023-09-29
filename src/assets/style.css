@@ -880,7 +880,7 @@ button {
 }
 .btn-fav.active svg {
   stroke: var(--main-color);
-  fill: var(--main-color-outline);
+  fill: var(--main-color);
 }
 .btn.loading, .loading.btn-primary, .loading.btn-10, .loading.btn-2, .loading.btn-secondary, .loading.btn-30, .loading.btn-4, .loading.btn-white, .loading.btn-40, .loading.btn-green, .loading.btn-deepgreen, .loading.btn-6, .loading.btn-light-outline, .loading.btn-light, .loading.btn-8, .loading.btn-9, .loading.btn-90, .loading.btn-99, .loading.btn-orange, .loading.btn-red {
   position: relative;
@@ -2495,8 +2495,8 @@ main {
 }
 .product .btn-fav {
   position: absolute;
-  bottom: 1em;
-  right: 1em;
+  bottom: 0.8em;
+  right: 0.8em;
   z-index: 1;
 }
 .product p {

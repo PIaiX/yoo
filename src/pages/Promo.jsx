@@ -4,7 +4,7 @@ import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import "swiper/css";
 import Empty from "../components/Empty";
-import EmptyCatalog from "../components/empty/catalog";
+import EmptySale from "../components/empty/sale";
 import Offer from "../components/Offer";
 import Loader from "../components/utils/Loader";
 import { useGetSalesQuery } from "../services/home";
@@ -21,7 +21,7 @@ const Promo = () => {
       <Empty
         text="Нет акций"
         desc="Временно акции отсуствуют"
-        image={() => <EmptyCatalog />}
+        image={() => <EmptySale />}
         button={
           <a
             className="btn-primary"

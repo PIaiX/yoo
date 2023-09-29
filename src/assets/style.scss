@@ -965,7 +965,7 @@ button {
     &.active {
       svg {
         stroke: var(--main-color);
-        fill: var(--main-color-outline);
+        fill: var(--main-color);
       }
     }
   }
@@ -2266,8 +2266,8 @@ main {
   }
   .btn-fav {
     position: absolute;
-    bottom: 1em;
-    right: 1em;
+    bottom: 0.8em;
+    right: 0.8em;
     z-index: 1;
   }
   p {

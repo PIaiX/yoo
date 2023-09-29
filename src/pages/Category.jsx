@@ -1,12 +1,11 @@
-import React, { useState, useCallback, useLayoutEffect } from "react";
-import Categories from "../components/Categories";
-import Notice from "../components/Notice";
-import CategoryGroup from "../components/CategoryGroup";
-import Loader from "../components/utils/Loader";
+import React, { useCallback, useLayoutEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import { getCategory } from "../services/category";
+import CategoryGroup from "../components/CategoryGroup";
 import Empty from "../components/Empty";
 import EmptyCatalog from "../components/empty/catalog";
+import Notice from "../components/Notice";
+import Loader from "../components/utils/Loader";
+import { getCategory } from "../services/category";
 
 const Category = () => {
   const { categoryId } = useParams();
