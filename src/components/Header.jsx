@@ -34,7 +34,7 @@ const Header = () => {
               <>
                 <ul className='btns-menu'>
                   <li className='ms-3'>
-                    <Link to='/menu' className='btn-primary py-2'>Каталог</Link>
+                    <Link to='/menu' className='btn-primary'>Каталог</Link>
                   </li>
                 </ul>
                 <ul className='text-menu'>

@@ -26,8 +26,10 @@ $yellow: #FEF8BE;
 
 $primary: #FE545E;
 $secondary: #5C5DEF;
+$secondary-light: #B9CDFF;
 $success: #54C878;
 $info: #FAFF14;
+$light: #F3F7FF;
 $white: #fff;
 $light-gray: #F4F6F8;
 $gray: #DFE2E5;
@@ -159,7 +161,7 @@ a, a:hover, a:focus, a:active {
   cursor: pointer;
 }
 h1, h2, h3, h4, h5, h6, p, label, span, a, button, form, fieldset, legend, select, input, textarea, button, div, blockquote, cite, figure, figcaption, table, ul, ol, dl, li, address {
-  line-height: 135%;
+  line-height: normal;
   margin-bottom: 0px;
 }
 
@@ -193,15 +195,19 @@ hr {
   border: none;
   opacity: 1;
 }
+.mb-6 {margin-bottom: 6em;}
+@media (min-width: 1400px) {
+  .container {
+    max-width: 1140px;
+  }
+}
+
 
 h1, h2 {
   font-family: $title-font;
-  font-size: 1.75em;
-  font-weight: 600;
-  margin-bottom: 1em;
-  @media (max-width: $bp-sm) {
-    font-size: 1.35em;
-  }
+  font-size: 2em;
+  font-weight: 400;
+  margin-bottom: .25em;
 }
 h3 {
   font-family: $title-font;
@@ -521,13 +527,12 @@ button {
 }
 .btn {
   @include flex(row, center, center, nowrap);
-  padding: .7em 1.2em;
+  padding: .4em 1.2em;
   text-align: center;
   transition: $transition;
   transition-property: color, background-color, border;
   width: fit-content;
   border-radius: $radius*1.5;
-  /* голубая кнопка */
   &-primary {
     @extend .btn;
     color: $white;
@@ -539,203 +544,42 @@ button {
       border: 1px solid darken($color: $primary, $amount: 10%);
     }
   }
-  /* кнопка c голубой обводкой */
-  &-10 {
-    @extend .btn;
-    color: $primary;
-    background-color: $white;
-    border: 1px solid $primary;
-    &:hover, &:focus, &:active, &.active {
-      color: $white;
-      background-color: $primary;
-    }
-  }
-  /* красная кнопка */
-  &-2 {
-    @extend .btn;
-    color: $white;
-    background-color: $red;
-    &:hover, &:focus, &:active, &.active {
-      color: $white;
-      background-color: darken($color: $red, $amount: 5%);
-    }
-  }
-  /* черная кнопка */
   &-secondary {
     @extend .btn;
     color: $white;
-    background-color: #202020;
-    font-weight: 600;
+    background-color: $secondary;
+    border: 1px solid $secondary;
     &:hover, &:focus, &:active, &.active {
       color: $white;
-      background-color: $primary;
+      background-color: darken($color: $secondary, $amount: 10%);
+      border: 1px solid darken($color: $secondary, $amount: 10%);
     }
   }
-  /* кнопка c черной обводкой */
-  &-30 {
-    @extend .btn;
-    color: $black;
-    background-color: $white;
-    border: 1px solid $black;
-    font-weight: 600;
-    &:hover, &:focus, &:active, &.active {
-      color: $white;
-      background-color: $black;
-    }
-  }
-  /* белая кнопка */
-  &-4 {
-    @extend .btn;
-    color: $black;
-    background-color: rgba($color: $white, $alpha: .87);
-    &:hover, &:focus, &:active, &.active {
-      color: $white;
-      background-color: $primary;
-    }
-  }
-  /* кнопка c белой обводкой */
-  &-40 {
-    @extend .btn;
-    color: $white;
-    background-color: transparent;
-    border: 1px solid $white;
-    &:hover, &:focus, &:active, &.active {
-      color: $white;
-      background-color: rgba($color: $white, $alpha: 0.1);
-      border: 1px solid $white;
-    }
-  }
-  /* светло-зеленая кнопка */
-  &-green {
-    @extend .btn;
-    color: $success;
-    border: 1px solid transparent;
-    background-color: rgba($color: $success, $alpha: 0.1);
-    &:hover, &:focus, &:active, &.active {
-      color: $white;
-      background-color: $success;
-      border: 1px solid $success;
-    }
-  }
-  /* зеленая кнопка */
-  &-deepgreen {
-    @extend .btn;
-    color: $white;
-    background-color: $success;
-    border: 1px solid $success;
-    &:hover, &:focus, &:active, &.active {
-      color: $white;
-      background-color: darken($color: $success, $amount: 10%);
-      border: 1px solid darken($color: $success, $amount: 10%);
-    }
-  }
-  /* прозрачно-голубая кнопка */
-  &-6 {
-    @extend .btn;
-    color: $primary;
-    background-color: rgba($color: $primary, $alpha: 0.1);
-    &:hover, &:focus, &:active, &.active {
-      color: $white;
-      background-color: $primary;
-    }
-  }
-  /* светло-голубая кнопка */
   &-light {
     @extend .btn;
-    color: $white;
-    background-color: rgba($color: $primary, $alpha: 0.6);
-    &:hover, &:focus, &:active, &.active {
-      color: $white;
-      background-color: $primary;
-    }
-  }
-  /* белая кнопка c тенью */
-  &-8 {
-    @extend .btn;
-    background-color: $white;
-    @include lightShadow();
-    color: $black;
-    @media (max-width: $bp-lg) {
-      background-color: $light-gray;
-    }
-    svg {
-      color: $primary;
-      transition: color $transition;
-    }
-    &:hover, &:focus, &:active, &.active {
-      background-color: $primary;
-      color: $white;
-      svg {color: $white;}
-    }
-  }
-  /* серая кнопка */
-  &-9 {
-    @extend .btn;
-    color: $white;
-    background-color: $gray;
-    border: 1px solid $gray;
-    &:hover, &:focus, &:active, &.active {
-      color: $white;
-      background-color: $black;
-      border: 1px solid $black;
-    }
-    svg {
-      stroke-width: 1px;
-    }
-  }
-  /* кнопка c серой обводкой */
-  &-90 {
-    @extend .btn;
-    color: $black;
-    background-color: $white;
-    border: 1px solid $gray;
-    font-weight: 600;
+    color: $secondary;
+    background-color: $light;
+    border: 1px solid $light;
     &:hover, &:focus {
-      color: $black;
-      background-color: $white;
-      border: 1px solid $gray;
-      @include shadow();
+      color: $secondary;
+      background-color: $light;
+      border: 1px solid $secondary;
     }
     &:active, &.active {
       color: $white;
-      background-color: $primary;
-      border: 1px solid $primary;
+      background-color: $secondary;
+      border: 1px solid $secondary;
     }
   }
-  /* светло-серая кнопка */
-  &-99 {
+  &-info {
     @extend .btn;
-    color: $dark-gray;
-    background-color: $light-gray;
-    border: 1px solid $light-gray;
+    color: $black;
+    background-color: $info;
+    border: 1px solid $info;
     &:hover, &:focus, &:active, &.active {
-      color: $white;
-      background-color: $dark-gray;
-      border: 1px solid $dark-gray;
-    }
-  }
-  /* orange */
-  &-orange {
-    @extend .btn;
-    color: $orange;
-    background-color: rgba($color: $orange, $alpha: 0.1);
-    border: 1px solid transparent;
-    &:hover, &:focus, &:active, &.active {
-      color: $white;
-      background-color: $orange;
-      border: 1px solid $orange;
-    }
-  }
-  /* red */
-  &-red {
-    @extend .btn;
-    color: $red;
-    background-color: rgba($color: $red, $alpha: 0.1);
-    border: 1px solid transparent;
-    &:hover, &:focus, &:active, &.active {
-      color: $white;
-      background-color: $red;
-      border: 1px solid $red;
+      color: $black;
+      background-color: darken($color: $info, $amount: 7%);
+      border: 1px solid darken($color: $info, $amount: 7%);
     }
   }
   &[disabled]{
@@ -1175,7 +1019,6 @@ header {
     --pad: 40px;
     background-color: $white;
     padding: 0px var(--pad);
-    @include shadow();
     border-radius: 0px 0px $radius $radius;
     width: calc(100% + var(--pad)*2);
     margin-left: calc(var(--pad) * -1);
@@ -1468,39 +1311,33 @@ main {
 }
 
 
-.sec-3 {
-  @media (min-width: 767.98px) {
-    margin-top: 8em;
-  }
-  .box {
-    background-color: $white;
-    @include shadow();
-    padding: $radius;
-    border-radius: $radius;
-    @media (max-width: $bp-md) {
-      padding: 0px 1em;
-      border-radius: 0px;
-      box-shadow: none;
-    }
-  }
-}
-.btn-view {
-  position: relative;
-  color: $gray;
-  font-size: 1.5em;
-  @include flex();
-  @media (max-width: $bp-lg) {
-    display: none;
-  }
-  svg {
+/* Catalog */
+.sec-catalog {
+  h2 {
+    width: fit-content;
     position: relative;
-    z-index: 10;
-  }
-  img {
-    position: absolute;
-    bottom: 0px;
-    right: -4.5em;
-    z-index: -1;
+    padding: .5em 0em;
+    margin: 0em auto .5em;
+    &::before {
+      content: "";
+      position: absolute;
+      top: -0.5em;
+      left: -1.75em;
+      background: url(imgs/icons/vbiehf.png) no-repeat;
+      background-size: contain;
+      width: 3em;
+      height: 2em;
+    }
+    &::after {
+      content: "";
+      position: absolute;
+      bottom: 0em;
+      right: -2em;
+      background: url(imgs/icons/vbi.png) no-repeat;
+      background-size: contain;
+      width: 2em;
+      height: 1.65em;
+    }
   }
 }
 .category-card {
@@ -1532,105 +1369,13 @@ main {
     }
   }
 }
-
-.sec-4 {
-  background-image: url(imgs/curve.svg), url(imgs/trapezoid.svg);
-  background-repeat: no-repeat;
-  background-position: 12% 55%, center bottom;
-  background-size: 62% auto, 100% calc(100% - 10em);
-  padding: 15em 4em 3em;
-  position: relative;
-  @media (max-width: $bp-xxl) {
-    padding: 10em 3em 2em;
-    background-position: 12% 25%,center bottom;
-    background-size: 62% auto,100% calc(100% - 5em);
-  }
-  @media (max-width: $bp-xl) {
-    padding: 6em 3em 2em;
-    background-position: 12% 0%, center bottom;
-    background-size: 62% auto, 100% calc(100% - 1em);
-  }
-  @media (max-width: $bp-lg) {
-    padding: 5em 2em 1.5em;
-    background-position: 0% 0%, center bottom;
-    background-size: 80% auto, 100% calc(100% - 1em);
-    .fs-16 {font-size: 1.3em}
-  }
-  @media (max-width: $bp-md) {
-    padding: 4em 1.5em 1em;
-    .fs-20 {font-size: 1.5em}
-  }
-  @media (max-width: $bp-sm) {
-    padding: 3em 1em 1em;
-    font-size: 10px;
-    .fs-16 {font-size: 1.2em}
-  }
-  .logotips {
-    @include list();
-    @include flex(row, flex-start, center, nowrap);
-    li {
-      &:not(:first-child){
-        margin-left: 3em;
-        @media (max-width: $bp-lg) {
-          margin-left: 2em;
-        }
-        @media (max-width: $bp-md) {
-          margin-left: 1em;
-        }
-      }
-    }
-    img {
-      height: 60px;
-      @media (max-width: $bp-xl) {
-        height: 55px;
-      }
-      @media (max-width: $bp-lg) {
-        height: 50px;
-      }
-      @media (max-width: $bp-md) {
-        height: 40px;
-      }
-      @media (max-width: $bp-sm) {
-        height: 30px;
-      }
-    }
-  }
-  .phone {
-    position: absolute;
-    bottom: -7%;
-    right: -5%;
-    width: 50%;
-    @media (max-width: $bp-xl) {
-      bottom: -5%;
-      width: 45%;
-    }
-    @media (max-width: $bp-lg) {
-      width: 55%;
-      right: -10%;
-    }
-    @media (max-width: $bp-md) {
-      width: 60%;
-      right: -20%;
-      bottom: 5%;
-    }
-  }
-}
+/* Catalog END */
 
 
-.sec-5 {
-  position: relative;
-  .product-slider {
-    overflow: visible;
-    padding: 1em 0px;
-    .swiper-slide {
-      width: fit-content;
-    }
-  }
-}
 .product-card-mini {
   width: 380px;
   padding: 1em;
-  @include shadow();
+  border: 1px solid $secondary-light;
   border-radius: $radius;
   @include flex(row, flex-start, stretch, nowrap);
   @media (max-width: $bp-lg) {
@@ -2240,11 +1985,197 @@ main {
 }
 
 
-.sec-6 {
-  --offer-w: 415px;
-  @media (max-width: $bp-xxl) {
-    --offer-w: 355px;
+.sec-3 {
+  background: url(imgs/bg/gradient.jpg) no-repeat;
+  background-size: cover;
+  color: $white;
+  padding: 4em 0em;
+  position: relative;
+  margin-top: 10em;
+  &::after {
+    content: "";
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+    width: 60%;
+    height: 150%;
+    background: url(imgs/bg/balloons.png) no-repeat;
+    background-size: contain;
+    background-position: 50% 100%;
+    z-index: 10;
   }
+}
+
+
+.sec-4 {
+  position: relative;
+  .product-slider {
+    overflow: visible;
+    padding: 1em 0px;
+    .swiper-slide {
+      width: fit-content;
+    }
+  }
+}
+
+
+/* Articles */
+.sec-5 {
+  .cover {
+    width: 100%;
+    height: 320px;
+    object-fit: cover;
+    border-radius: 1em;
+    @media (max-width: $bp-lg) {
+      height: 400px;
+    }
+    @media (max-width: $bp-md) {
+      height: 300px;
+    }
+    @media (max-width: $bp-sm) {
+      height: 55vw;
+    }
+  }
+  .img {
+    width: 100%;
+    height: 270px;
+    object-fit: cover;
+    border-radius: 1em;
+  }
+  .more {
+    position: relative;
+    img {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      height: 270px;
+      object-fit: cover;
+      border-radius: 1em;
+      @media (max-width: $bp-lg) {
+        height: 200px;
+      }
+      @media (max-width: $bp-md) {
+        height: 170px;
+      }
+      @media (max-width: $bp-sm) {
+        height: 140px;
+      }
+    }
+  }
+}
+.articles-slider {
+  margin-top: 2em;
+  @media (max-width: $bp-sm) {
+    margin-top: 1.5em;
+  }
+  .swiper-slide {
+    width: 200px;
+    @media (max-width: $bp-md) {
+      width: 170px;
+    }
+    @media (max-width: $bp-sm) {
+      width: 140px;
+    }
+  }
+}
+.article-card {
+  img {
+    width: 100%;
+    height: 270px;
+    object-fit: cover;
+    border-radius: 1em;
+    margin-bottom: 1em;
+    @media (max-width: $bp-xl) {
+      height: 290px;
+    }
+    @media (max-width: $bp-lg) {
+      height: 200px;
+    }
+    @media (max-width: $bp-md) {
+      height: 170px;
+    }
+    @media (max-width: $bp-sm) {
+      height: 140px;
+    }
+  }
+  figcaption {
+    font-size: 1.1em;
+    font-weight: 500;
+    @include clamp(2, 1.2em, true);
+    @media (max-width: $bp-sm) {
+      font-size: .9em;
+    }
+  }
+  &-midi {
+    @include flex(row, flex-start, stretch, nowrap);
+    margin-bottom: 2em;
+    img {
+      --w: 200px;
+      @include roundedImg(var(--w), $radius, cover);
+      margin-right: 3em;
+      @media (max-width: $bp-xl) {
+        margin-right: 2em;
+      }
+      @media (max-width: $bp-lg) {
+        margin-right: 1em;
+        --w: 150px;
+      }
+      @media (max-width: $bp-sm) {
+        --w: 25vw;
+      }
+    }
+    h5 {
+      font-weight: 700;
+    }
+    .text {
+      font-size: .9em;
+      @include clamp(5, 1.2em, true);
+    }
+    figcaption {
+      @include flex(column, space-between, stretch, nowrap);
+    }
+  }
+}
+.article-single {
+  display: inline-block;
+  img {
+    --img-w: 360px;
+    float: right;
+    @include roundedImg(var(--img-w), $radius, cover);
+    margin-left: 2em;
+    margin-bottom: 2em;
+    @media (max-width: $bp-xl) {
+      --img-w: 300px;
+    }
+    @media (max-width: $bp-lg) {
+      --img-w: 250px;
+    }
+    @media (max-width: $bp-md) {
+      --img-w: 500px;
+      float: unset;
+      display: block;
+      margin-left: 0em;
+    }
+    @media (max-width: $bp-sm) {
+      --img-w: 88vw;
+    }
+  }
+  p {
+    font-weight: 500;
+    margin-bottom: 2em;
+    @media (max-width: $bp-lg) {
+      margin-bottom: 1.5em;
+    }
+    @media (max-width: $bp-sm) {
+      margin-bottom: 1em;
+    }
+  }
+}
+/* Articles END */
+
+
+.sec-6 {
+  --offer-w: 350px;
   @media (max-width: $bp-xl) {
     --offer-w: 300px;
   }
@@ -2636,6 +2567,9 @@ footer {
     }
   }
 }
+
+
+
 
 
 /***********

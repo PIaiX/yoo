@@ -1,23 +1,31 @@
 import React from 'react';
 import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 import {Link} from 'react-router-dom';
 import StoriesSection from '../components/StoriesSection';
+import CategoryCard from '../components/CategoryCard';
 import ProductCardMini from '../components/ProductCardMini';
 import Offer from '../components/Offer';
-import Section3 from '../components/Section3';
-import AppStore from '../assets/imgs/appstore-black.svg';
-import GooglePlay from '../assets/imgs/googleplay-black.svg';
-import Phone from '../assets/imgs/phone.png';
-import { HiOutlineArrowRightCircle, HiOutlineArrowLeftCircle } from "react-icons/hi2";
+import ArticleCard from '../components/ArticleCard';
+import Callback from '../components/modals/Callback';
+
+import ArticlesMore from '../assets/imgs/articlesMore.jpg';
+import ArticlesCover from '../assets/imgs/articlesCover.jpg';
+import jsonData from "../data/categories";
+import jsonArticles from "../data/articles";
+import useIsMobile from '../hooks/isMobile';
 
 import { Navigation, Pagination } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 
 const Home = () => {
+  const isMobileLG = useIsMobile('991px');
+
   return (
     <main>
-      <section className='sec-1 mb-5'>
+      <section className='sec-1 mb-6'>
         <div className='container-md gx-0 gx-md-4'>
           <div className='row justify-content-center'>
             <div className='col-12 col-lg-11 col-xl-9 col-xxl-8'>
@@ -58,45 +66,46 @@ const Home = () => {
         </div>
       </section>
 
-      <section className='sec-2 mb-5'>
+      <section className='sec-2 mb-6'>
         <div className='container-md px-0 px-md-4'>
           <StoriesSection/>
         </div>
       </section>
 
-      <Section3/>
+      {/* <Section3/> */}
 
-      <Container className='overflow-hidden'>
-        <section className='sec-4 mb-5'>
-          <h3>Заказывать стало <br className='d-lg-none'/>ещё&nbsp;удобнее!</h3>
-          <div className="d-flex align-items-center mb-3 mb-lg-4">
-            <button type='button' className='btn-2 fs-20 py-2 px-3 px-lg-4 me-2 me-md-3'>
-              <span className='d-lg-none'>—</span>
-              <span className='d-none d-lg-inline'>скидка</span>
-              <span> 15%</span>
-            </button>
-            <p className='fs-16'>на&nbsp;первый заказ <br/>через&nbsp;приложение</p>
-          </div>
-          <ul className='logotips mb-3 mb-lg-5'>
-            <li>
-              <a href="/">
-                <img src={AppStore} alt="App Store" />
-              </a>
-            </li>
-            <li>
-              <a href="/">
-                <img src={GooglePlay} alt="Google Play" />
-              </a>
-            </li>
-          </ul>
-          <p>Акция действует при заказе на сумму от 1 000 ₽</p>
-          <img src={Phone} alt="Phone" className='phone' />
-        </section>
-      </Container>
-
-      <section className='sec-5 d-none d-md-block mb-5'>
+      <section className='sec-catalog mb-6'>
         <Container>
-          <h2>Часто заказывают</h2>
+          <h2 className='text-center'>Каталог подарков</h2>
+          <Row md={4} className='justify-content-center g-4'>
+            {
+              (jsonData).map(obj => {
+                return <Col key={obj.id}>
+                  <CategoryCard data={obj}/>
+                </Col>
+              })
+            }
+          </Row>
+          <button type='button' className='btn-primary mx-auto mt-4'>показать все</button>
+        </Container>
+      </section>
+
+      <section className='sec-3 mb-6'>
+        <Container>
+          <Row className='justify-content-end'>
+            <Col md={6}>
+              <h2 className='text-center'>Сделайте праздник по‑настоящему ярким</h2>
+              <p className='text-center'>Скорее заказывайте воздушные шары, они понравятся как взрослым, так и малышам</p>
+              {/* <button type='button' className='btn-info mx-auto mt-4'>Заказать</button> */}
+              <Callback btnText={'Заказать'} btnClass={'btn-info mx-auto mt-4'}/>
+            </Col>
+          </Row>
+        </Container>
+      </section>
+
+      <section className='sec-4 d-none d-md-block mb-6'>
+        <Container>
+          <h2 className='mb-0'>Часто заказывают</h2>
           <Swiper
             className='product-slider'
             spaceBetween={10}
@@ -133,6 +142,61 @@ const Home = () => {
               <ProductCardMini/>
             </SwiperSlide>
           </Swiper>
+        </Container>
+      </section>
+
+      <section className='sec-5 mb-6'>
+        <Container>
+          <Row className='gx-4 gy-5'>
+            <Col xs={12} lg={8} xl={6}>
+              <img src={ArticlesCover} alt="Cover" className='cover'/>
+            </Col>
+            {
+              (!isMobileLG) &&
+              <>
+                {
+                  jsonArticles.map(obj => {
+                    return <Col key={obj.id} md={4} xl={3}><ArticleCard data={obj} /></Col>
+                  })
+                }
+                <Col md={4} xl={3}>
+                  <Link className="more">
+                    <img src={ArticlesMore} alt="more" className='img'/>
+                  </Link>
+                </Col>
+              </>
+            }
+          </Row>
+          {
+            (isMobileLG) &&
+            <Swiper
+              className='articles-slider'
+              spaceBetween={20}
+              slidesPerView={'auto'}
+            >
+              <SwiperSlide>
+                <ArticleCard />
+              </SwiperSlide>
+              <SwiperSlide>
+                <ArticleCard />
+              </SwiperSlide>
+              <SwiperSlide>
+                <ArticleCard />
+              </SwiperSlide>
+              <SwiperSlide>
+                <ArticleCard />
+              </SwiperSlide>
+              <SwiperSlide>
+                <ArticleCard />
+              </SwiperSlide>
+              <SwiperSlide>
+                <div className="cover">
+                  <img src={ArticlesMore} alt="more" className='img'/>
+                  <Link to='/articles' className='btn-30'>читать другие статьи</Link>
+                </div>
+              </SwiperSlide>
+            </Swiper>
+          }
         </Container>
       </section>
 

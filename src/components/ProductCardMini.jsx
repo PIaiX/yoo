@@ -11,11 +11,11 @@ const ProductCardMini = () => {
       <figcaption>
         <div>
           <h6><Link to='/menu/product'>Ролл «Филадельфия»</Link></h6>
-          {
+          {/* {
             (!isMobileLG) &&
             <p className='gray'>240 г</p>
           }
-          
+           */}
         </div>
         <div className="d-flex justify-content-between align-items-center">
           {
@@ -24,7 +24,7 @@ const ProductCardMini = () => {
             : <p className='fw-6'>340 ₽</p>
           }
           
-          <button type='button' className='btn-secondary'>
+          <button type='button' className='btn-light'>
             {
               (isMobileLG)
               ? '340 ₽'
