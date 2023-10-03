@@ -10,7 +10,7 @@ const Offer = (props) => {
           <h4 className={(props.blackText) ? 'black' : ''}>{props.title}</h4>
           <h6 className={(props.blackText) ? 'black fw-4' : 'fw-4'}>{props.subtitle}</h6>
         </div>
-        <Link to='/promo/1' className='btn-4'>Заказать</Link>
+        <Link to='/promo/1' className='btn-light'>Заказать</Link>
       </figcaption>
     </figure>
   );

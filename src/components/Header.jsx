@@ -3,12 +3,8 @@ import Offcanvas from 'react-bootstrap/Offcanvas';
 import Container from 'react-bootstrap/Container';
 import {Link} from 'react-router-dom';
 import useIsMobile from '../hooks/isMobile';
-import SelectImitation from './utils/SelectImitation';
-import { HiOutlineDevicePhoneMobile, HiOutlineUserCircle, HiOutlineShoppingBag, HiOutlineHeart, HiOutlineArrowLeftCircle } from "react-icons/hi2";
+import { HiOutlineDevicePhoneMobile, HiOutlineUserCircle, HiOutlineShoppingBag, HiOutlineHeart, HiOutlineArrowLeftCircle, HiMagnifyingGlass } from "react-icons/hi2";
 import Logo from '../assets/imgs/LogoBeautifulDay.svg';
-import delivery from '../assets/imgs/delivery_icon.svg';
-import ruFlag from '../assets/imgs/flags/rus.jpg';
-import engFlag from '../assets/imgs/flags/eng.jpg';
 import MenuIcon from './svgs/MenuIcon';
 import MenuPhone from './svgs/MenuPhone';
 import MenuDelivery from './svgs/MenuDelivery';
@@ -16,7 +12,12 @@ import MenuVacancies from './svgs/MenuVacancies';
 import MenuDocs from './svgs/MenuDocs';
 import { IoCloseOutline, IoCall } from "react-icons/io5";
 import { IoLogoWhatsapp } from "react-icons/io";
+
+// icons
 import YooApp from './svgs/YooApp';
+import Loupe from './svgs/Loupe';
+import CartIcon from './svgs/CartIcon';
+import Heart from './svgs/Heart';
 
 const Header = () => {
   const isMobileLG = useIsMobile('991px');
@@ -26,7 +27,7 @@ const Header = () => {
   return (
     <>
       <header>
-        <Container className='h-100'>
+        <Container className='full h-100'>
           <nav className='h-100'>
             <Link to='/'><img src={Logo} alt="yoo.app" className='logo'/></Link>
             {
@@ -39,16 +40,19 @@ const Header = () => {
                 </ul>
                 <ul className='text-menu'>
                   <li>
-                    <Link to='/'>Доставка и оплата</Link>
+                    <Link to='/'>Новинки</Link>
                   </li>
                   <li>
-                    <Link to='/'>О нас</Link>
+                    <Link to='/'>Акции</Link>
                   </li>
                 </ul>
-                <a href="tel:+7987987-78-78" className='phone'>
-                  <HiOutlineDevicePhoneMobile className='fs-15'/>
-                  <span className='fs-11 ms-2'>+7 987 987-78-78</span>
-                </a>
+                <form action="" className='formSearch'>
+                  <input type="search" />
+                  <button type='submit'>
+                    <Loupe/>
+                  </button>
+                </form>
+                <a href="tel:+7987987-78-78" className='phone'>+7 987 987-78-78</a>
               </>
             }
 
@@ -56,20 +60,21 @@ const Header = () => {
               {
                 (!isMobileLG)
                 ? <>
+                  
                   <li>
-                    <Link to="/login">
-                      <HiOutlineUserCircle/>
+                    <Link to="/cart" className='btn-icon'>
+                      <CartIcon/>
+                      <span className="badge">2</span>
                     </Link>
                   </li>
                   <li>
-                    <Link to="/cart" className='position-relative'>
-                      <HiOutlineShoppingBag/>
-                      <span className="position-absolute top-100 start-100 translate-middle badge rounded-pill">2</span>
+                    <Link to="/" className='btn-icon'>
+                      <Heart/>
                     </Link>
                   </li>
                   <li>
-                    <Link to="/">
-                      <HiOutlineHeart/>
+                    <Link to="/login" className='btn-primary'>
+                      Войти
                     </Link>
                   </li>
                 </>

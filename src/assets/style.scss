@@ -197,7 +197,7 @@ hr {
 }
 .mb-6 {margin-bottom: 6em;}
 @media (min-width: 1400px) {
-  .container {
+  .container:not(.full) {
     max-width: 1140px;
   }
 }
@@ -219,7 +219,6 @@ h3 {
   }
 }
 h4 {
-  font-family: $title-font;
   font-size: 1.875em;
   font-weight: 400;
   margin-bottom: .5em;
@@ -294,18 +293,17 @@ h6 {
 /* Form elements */
 input, textarea, .input {
   background-color: $white;
-  border: 1px solid $light-gray;
+  border: 1px solid $gray;
   border-radius: $radius*0.5;
-  padding: .7em 1.2em;
+  padding: .4em 1.2em;
   width: 100%;
   outline: none;
   display: block;
   transition: border $transition;
   @include placeholder($gray, 400);
-  @include lightShadow();
-  &:hover, &:focus, &:active {
-    border: 1px solid $gray;
-  }
+  // &:hover, &:focus, &:active {
+  //   border: 1px solid $gray;
+  // }
 }
 input {
   &[type='checkbox'] {
@@ -771,6 +769,7 @@ select {
   }
 }
 
+
 /* Sliders */
 .swiper {
   position: relative;
@@ -1031,32 +1030,15 @@ header {
       box-shadow: none;
       border-radius: 0px;
     }
-    svg {
-      stroke-width: 1px;
-    }
     ul {
       @include list();
       @include flex();
-      &.text-menu {
-        li {
-          &:not(:first-child){
-            margin-left: 2.5em;
-            @media (max-width: $bp-xxl) {
-              margin-left: 1.5em;
-            }
+      li {
+        &:not(:first-child){
+          margin-left: 2.5em;
+          @media (max-width: $bp-xxl) {
+            margin-left: 1.5em;
           }
-        }
-      }
-      &.icons-menu {
-        &>li {
-          &:not(:first-child){
-            margin-left: 1.25em;
-          }
-        }
-        a {
-          @include flex();
-          color: $primary;
-          font-size: 1.75em;
         }
       }
     }
@@ -1065,20 +1047,50 @@ header {
     width: 270px;
   }
   .phone {
-    @include flex(row, flex-start, center, nowrap);
+    display: block;
     color: $black;
+    font-size: 1.2em;
     transition: color $transition;
     &:hover, &:focus, &:active {
       color: $primary;
     }
   }
-  .badge {
-    font-size: 10px;
-    background-color: $primary;
-    color: $white;
-    width: 1.6em;
-    height: 1.6em;
+  .formSearch {
     @include flex();
+    position: relative;
+    button {
+      position: absolute;
+      top: 0px;
+      right: 0px;
+      height: 100%;
+      width: 2em;
+      font-size: 1.25em;
+      svg {
+        color: $dark-gray;
+        stroke-width: 1.5px;
+      }
+    }
+  }
+  .btn-icon {
+    position: relative;
+    color: $primary;
+    font-size: 1.65em;
+    svg {
+      stroke-width: 1.5px;
+    }
+    .badge {
+      position: absolute;
+      bottom: 0px;
+      right: -.5em;
+      font-size: 11px;
+      font-weight: 400;
+      background-color: $primary;
+      color: $white;
+      width: 1.6em;
+      height: 1.6em;
+      border-radius: 50%;
+      @include flex();
+    }
   }
   .btn-menu {
     color: $gray;
@@ -1201,10 +1213,10 @@ main {
     @include roundedImg(var(--w));
     background-color: $white;
     padding: 2px;
-    border: 3px solid rgba($color: $primary, $alpha: 0.3);
+    border: 3px solid $secondary-light;
     @media (max-width: $bp-md) {
       padding: 1px;
-      border: 2px solid rgba($color: $primary, $alpha: 0.3);
+      border-width: 2px;
     }
   }
   figcaption {
@@ -1372,47 +1384,7 @@ main {
 /* Catalog END */
 
 
-.product-card-mini {
-  width: 380px;
-  padding: 1em;
-  border: 1px solid $secondary-light;
-  border-radius: $radius;
-  @include flex(row, flex-start, stretch, nowrap);
-  @media (max-width: $bp-lg) {
-    flex-direction: column;
-    width: calc(200px + 2em);
-  }
-  @media (max-width: $bp-sm) {
-    width: calc(145px + 2em);
-  }
-  img {
-    --card-mini-w: 130px;
-    @include roundedImg(var(--card-mini-w), $radius, scale-down);
-    margin-right: $radius;
-    @media (max-width: $bp-lg) {
-      --card-mini-w: 200px;
-      margin-right: 0px;
-    }
-    @media (max-width: $bp-sm) {
-      --card-mini-w: 145px;
-    }
-  }
-  figcaption {
-    flex: 1;
-    @include flex(column, space-between, stretch, nowrap);
-    h6 {
-      @media (max-width: $bp-sm) {
-        font-weight: 400;
-      }
-    }
-    a {
-      transition: color $transition;
-      &:hover {
-        color: $primary;
-      }
-    }
-  }
-}
+
 .sticky-box {
   position: sticky;
   z-index: 100;
@@ -2010,10 +1982,51 @@ main {
 .sec-4 {
   position: relative;
   .product-slider {
-    overflow: visible;
+    overflow: hidden;
     padding: 1em 0px;
-    .swiper-slide {
-      width: fit-content;
+    // .swiper-slide {
+    //   width: fit-content;
+    // }
+    .product-card-mini {
+      width: 100%;
+      padding: 1em;
+      border: 1px solid $secondary-light;
+      border-radius: $radius;
+      @include flex(row, flex-start, stretch, nowrap);
+      @media (max-width: $bp-lg) {
+        flex-direction: column;
+        width: calc(200px + 2em);
+      }
+      @media (max-width: $bp-sm) {
+        width: calc(145px + 2em);
+      }
+      img {
+        --card-mini-w: 100px;
+        @include roundedImg(var(--card-mini-w), $radius, scale-down);
+        margin-right: $radius;
+        @media (max-width: $bp-lg) {
+          --card-mini-w: 200px;
+          margin-right: 0px;
+        }
+        @media (max-width: $bp-sm) {
+          --card-mini-w: 145px;
+        }
+      }
+      figcaption {
+        flex: 1;
+        @include flex(column, space-between, stretch, nowrap);
+        h6 {
+          @media (max-width: $bp-sm) {
+            font-weight: 400;
+          }
+        }
+        a {
+          transition: color $transition;
+          &:hover {
+            color: $primary;
+          }
+        }
+      }
     }
   }
 }
@@ -2026,6 +2039,9 @@ main {
     height: 320px;
     object-fit: cover;
     border-radius: 1em;
+    @media (max-width: $bp-xl) {
+      height: 340px;
+    }
     @media (max-width: $bp-lg) {
       height: 400px;
     }
@@ -2036,21 +2052,18 @@ main {
       height: 55vw;
     }
   }
-  .img {
-    width: 100%;
-    height: 270px;
-    object-fit: cover;
-    border-radius: 1em;
-  }
   .more {
     position: relative;
     img {
       position: relative;
       z-index: 1;
       width: 100%;
-      height: 270px;
+      height: 260px;
       object-fit: cover;
       border-radius: 1em;
+      @media (max-width: $bp-xl) {
+        height: 290px;
+      }
       @media (max-width: $bp-lg) {
         height: 200px;
       }
@@ -2081,7 +2094,7 @@ main {
 .article-card {
   img {
     width: 100%;
-    height: 270px;
+    height: 260px;
     object-fit: cover;
     border-radius: 1em;
     margin-bottom: 1em;
@@ -2567,8 +2580,6 @@ footer {
     }
   }
 }
-
-
 
 
 

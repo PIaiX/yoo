@@ -109,7 +109,7 @@ const Home = () => {
           <Swiper
             className='product-slider'
             spaceBetween={10}
-            slidesPerView={'auto'}
+            slidesPerView={3}
             speed={750}
             breakpoints={{
               576: {
@@ -160,7 +160,7 @@ const Home = () => {
                   })
                 }
                 <Col md={4} xl={3}>
-                  <Link className="more">
+                  <Link to='/articles' className="more">
                     <img src={ArticlesMore} alt="more" className='img'/>
                   </Link>
                 </Col>
@@ -174,26 +174,17 @@ const Home = () => {
               spaceBetween={20}
               slidesPerView={'auto'}
             >
+              {
+                jsonArticles.map(obj => {
+                  return <SwiperSlide key={obj.id}>
+                    <ArticleCard data={obj} />
+                  </SwiperSlide>
+                })
+              }
               <SwiperSlide>
-                <ArticleCard />
-              </SwiperSlide>
-              <SwiperSlide>
-                <ArticleCard />
-              </SwiperSlide>
-              <SwiperSlide>
-                <ArticleCard />
-              </SwiperSlide>
-              <SwiperSlide>
-                <ArticleCard />
-              </SwiperSlide>
-              <SwiperSlide>
-                <ArticleCard />
-              </SwiperSlide>
-              <SwiperSlide>
-                <div className="cover">
+                <Link to='/articles' className="more">
                   <img src={ArticlesMore} alt="more" className='img'/>
-                  <Link to='/articles' className='btn-30'>читать другие статьи</Link>
-                </div>
+                  </Link>
               </SwiperSlide>
             </Swiper>
           }
@@ -232,7 +223,7 @@ const Home = () => {
               <Offer blackText={true} img={"imgs/offers/offer3.jpg"} title={'Свежих ягод много бывает'} subtitle={'Попробуйте наш фирменный тарт — мы добавили в него ещё больше клубники!'}/>
             </SwiperSlide>
           </Swiper>
-          <Link to='/promo' className='btn-30 mt-4 mx-auto'>смотреть все акции</Link>
+          <Link to='/promo' className='btn-primary mt-5 mx-auto'>смотреть все акции</Link>
         </Container>
       </section>
     </main>
