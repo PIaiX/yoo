@@ -195,7 +195,15 @@ hr {
   border: none;
   opacity: 1;
 }
-.mb-6 {margin-bottom: 6em;}
+.mb-6 {
+  margin-bottom: 6em;
+  @media (max-width: $bp-md) {
+    margin-bottom: 4.5em;
+  }
+  @media (max-width: $bp-sm) {
+    margin-bottom: 3em;
+  }
+}
 @media (min-width: 1400px) {
   .container:not(.full) {
     max-width: 1140px;
@@ -772,7 +780,7 @@ select {
 
 /* Sliders */
 .swiper {
-  position: relative;
+  position: unset;
   overflow: hidden;
   &-pagination {
     position: absolute;
@@ -832,6 +840,39 @@ select {
   &.paginated {
     .swiper-button {
       bottom: .9em;
+    }
+  }
+  &-arrow {
+    @include flex();
+    position: absolute;
+    top: 50%;
+    z-index: 10;
+    font-size: 1.7em;
+    color: $secondary-light;
+    transform: translateY(-50%);
+    transition: color $transition;
+    &[data-locked="locked"] {
+      opacity: 0;
+    }
+    &.disabled, &.locked {
+      opacity: 0;
+    }
+    &:hover, &:focus {
+      color: $secondary;
+    }
+    &:active {
+      color: $primary;
+    }
+    svg {
+      stroke-width: 1.25px;
+    }
+    &-prev {
+      @extend .swiper-arrow;
+      left: -1.25em;
+    }
+    &-next {
+      @extend .swiper-arrow;
+      right: -1.25em;
     }
   }
 }
@@ -1035,7 +1076,7 @@ header {
       @include flex();
       li {
         &:not(:first-child){
-          margin-left: 2.5em;
+          margin-left: 1.5em;
           @media (max-width: $bp-xxl) {
             margin-left: 1.5em;
           }
@@ -1045,6 +1086,9 @@ header {
   }
   .logo {
     width: 270px;
+    @media (max-width: $bp-xxl) {
+      width: 200px;
+    }
   }
   .phone {
     display: block;
@@ -1058,6 +1102,9 @@ header {
   .formSearch {
     @include flex();
     position: relative;
+    @media (max-width: $bp-xl) {
+      display: none;
+    }
     button {
       position: absolute;
       top: 0px;
@@ -1097,6 +1144,9 @@ header {
     font-size: 2em;
     @include flex();
     transition: color $transition;
+    svg {
+      stroke-width: 1.25px;
+    }
     &:hover, &:focus, &:active {
       color: $primary;
     }
@@ -1108,6 +1158,8 @@ header {
     padding: calc(var(--h-height) + 2em) 1em calc(var(--f-height) + 2em);
     .menu-offer {
       width: 100%;
+      height: 400px;
+      object-fit: cover;
       border-radius: $radius;
       margin-bottom: 2em;
     }
@@ -1363,12 +1415,16 @@ main {
     @media (max-width: $bp-xxl) {
       height: 180px;
     }
-    @media (max-width: $bp-lg) {
-      height: 150px;
+    @media (max-width: $bp-xl) {
+      height: 160px;
     }
+    // @media (max-width: $bp-lg) {
+    //   height: 150px;
+    // }
     @media (max-width: $bp-sm) {
       height: 30vw;
       border-radius: $radius*0.5;
+      margin-bottom: 0.1em;
     }
   }
   figcaption {
@@ -1957,6 +2013,7 @@ main {
 }
 
 
+/* Section 3 */
 .sec-3 {
   background: url(imgs/bg/gradient.jpg) no-repeat;
   background-size: cover;
@@ -1964,17 +2021,36 @@ main {
   padding: 4em 0em;
   position: relative;
   margin-top: 10em;
+  @media (max-width: $bp-lg) {
+    margin-top: 0em;
+  }
+  @media (max-width: $bp-md) {
+    padding: 2em 0em 16em;
+    background: url(imgs/bg/gradientM.jpg) no-repeat;
+    background-position: 50% 50%;
+  }
   &::after {
     content: "";
     position: absolute;
     bottom: 0px;
     left: 0px;
     width: 60%;
-    height: 150%;
+    height: calc(100% + 7em);
     background: url(imgs/bg/balloons.png) no-repeat;
     background-size: contain;
     background-position: 50% 100%;
     z-index: 10;
+    @media (max-width: $bp-lg) {
+      width: 50%;
+      height: 100%;
+    }
+    @media (max-width: $bp-md) {
+      width: 100%;
+      height: 16em;
+    }
+    @media (max-width: $bp-sm) {
+      background-size: cover;
+    }
   }
 }
 

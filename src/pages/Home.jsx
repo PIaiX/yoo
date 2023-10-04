@@ -17,8 +17,10 @@ import jsonArticles from "../data/articles";
 import useIsMobile from '../hooks/isMobile';
 
 import { Navigation, Pagination } from 'swiper';
-import { Swiper, SwiperSlide } from 'swiper/react';
+import { Swiper, SwiperSlide, SlidePrevButton, SlideNextButton } from 'swiper/react';
 import 'swiper/css';
+import SwiperButtonNext from '../components/utils/SwiperButtonNext';
+import SwiperButtonPrev from '../components/utils/SwiperButtonPrev';
 
 const Home = () => {
   const isMobileLG = useIsMobile('991px');
@@ -67,9 +69,9 @@ const Home = () => {
       </section>
 
       <section className='sec-2 mb-6'>
-        <div className='container-md px-0 px-md-4'>
+        <Container className='position-relative'>
           <StoriesSection/>
-        </div>
+        </Container>
       </section>
 
       {/* <Section3/> */}
@@ -77,7 +79,7 @@ const Home = () => {
       <section className='sec-catalog mb-6'>
         <Container>
           <h2 className='text-center'>Каталог подарков</h2>
-          <Row md={4} className='justify-content-center g-4'>
+          <Row xs={2} md={3} lg={4} className='justify-content-center gx-2 gy-3 g-sm-4'>
             {
               (jsonData).map(obj => {
                 return <Col key={obj.id}>
@@ -93,7 +95,7 @@ const Home = () => {
       <section className='sec-3 mb-6'>
         <Container>
           <Row className='justify-content-end'>
-            <Col md={6}>
+            <Col xs={12} md={8} lg={6}>
               <h2 className='text-center'>Сделайте праздник по‑настоящему ярким</h2>
               <p className='text-center'>Скорее заказывайте воздушные шары, они понравятся как взрослым, так и малышам</p>
               {/* <button type='button' className='btn-info mx-auto mt-4'>Заказать</button> */}
@@ -103,45 +105,49 @@ const Home = () => {
         </Container>
       </section>
 
-      <section className='sec-4 d-none d-md-block mb-6'>
+      <section className='sec-4 mb-6'>
         <Container>
           <h2 className='mb-0'>Часто заказывают</h2>
-          <Swiper
-            className='product-slider'
-            spaceBetween={10}
-            slidesPerView={3}
-            speed={750}
-            breakpoints={{
-              576: {
-                spaceBetween: 20,
-              },
-            }}
-          >
-            <SwiperSlide>
-              <ProductCardMini/>
-            </SwiperSlide>
-            <SwiperSlide>
-              <ProductCardMini/>
-            </SwiperSlide>
-            <SwiperSlide>
-              <ProductCardMini/>
-            </SwiperSlide>
-            <SwiperSlide>
-              <ProductCardMini/>
-            </SwiperSlide>
-            <SwiperSlide>
-              <ProductCardMini/>
-            </SwiperSlide>
-            <SwiperSlide>
-              <ProductCardMini/>
-            </SwiperSlide>
-            <SwiperSlide>
-              <ProductCardMini/>
-            </SwiperSlide>
-            <SwiperSlide>
-              <ProductCardMini/>
-            </SwiperSlide>
-          </Swiper>
+          <div className="position-relative">
+            <Swiper
+              className='product-slider'
+              spaceBetween={10}
+              slidesPerView={3}
+              speed={750}
+              breakpoints={{
+                576: {
+                  spaceBetween: 20,
+                },
+              }}
+            >
+              <SwiperSlide>
+                <ProductCardMini/>
+              </SwiperSlide>
+              <SwiperSlide>
+                <ProductCardMini/>
+              </SwiperSlide>
+              <SwiperSlide>
+                <ProductCardMini/>
+              </SwiperSlide>
+              <SwiperSlide>
+                <ProductCardMini/>
+              </SwiperSlide>
+              <SwiperSlide>
+                <ProductCardMini/>
+              </SwiperSlide>
+              <SwiperSlide>
+                <ProductCardMini/>
+              </SwiperSlide>
+              <SwiperSlide>
+                <ProductCardMini/>
+              </SwiperSlide>
+              <SwiperSlide>
+                <ProductCardMini/>
+              </SwiperSlide>
+              <SwiperButtonPrev/>
+              <SwiperButtonNext/>
+            </Swiper>
+          </div>
         </Container>
       </section>
 

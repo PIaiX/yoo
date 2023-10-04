@@ -6,6 +6,9 @@ import {Swiper, SwiperSlide} from 'swiper/react';
 import {FreeMode, Navigation, Scrollbar} from 'swiper';
 import { HiOutlineArrowRightCircle, HiOutlineArrowLeftCircle, HiXMark } from "react-icons/hi2";
 
+import SwiperButtonNext from './utils/SwiperButtonNext';
+import SwiperButtonPrev from './utils/SwiperButtonPrev';
+
 const StoriesSection = () => {
   const [activeSlide, setActiveSlide] = useState(0);
   const [story, setStory] = useState(false);
@@ -24,6 +27,7 @@ const StoriesSection = () => {
         speed={750}
         spaceBetween={10}
         slidesPerView={'auto'}
+        watchOverflow={true}
         freeMode={true}
         navigation={{
           nextEl: '.swiper-button-next',
@@ -53,12 +57,9 @@ const StoriesSection = () => {
         <SwiperSlide>
           <Story onClick={() => showStory(3)} img={"imgs/img4.png"} title={"Попробуйте новые сезонные напитки"}/>
         </SwiperSlide>
-        <div className="swiper-button-prev">
-          <HiOutlineArrowLeftCircle/>
-        </div>
-        <div className="swiper-button-next">
-          <HiOutlineArrowRightCircle/>
-        </div>
+        
+        <SwiperButtonPrev/>
+        <SwiperButtonNext/>
       </Swiper>
 
       <Modal show={story} onHide={closeStory} className="story-modal">

@@ -3,14 +3,9 @@ import Offcanvas from 'react-bootstrap/Offcanvas';
 import Container from 'react-bootstrap/Container';
 import {Link} from 'react-router-dom';
 import useIsMobile from '../hooks/isMobile';
-import { HiOutlineDevicePhoneMobile, HiOutlineUserCircle, HiOutlineShoppingBag, HiOutlineHeart, HiOutlineArrowLeftCircle, HiMagnifyingGlass } from "react-icons/hi2";
+import { HiOutlineArrowLeftCircle } from "react-icons/hi2";
 import Logo from '../assets/imgs/LogoBeautifulDay.svg';
-import MenuIcon from './svgs/MenuIcon';
-import MenuPhone from './svgs/MenuPhone';
-import MenuDelivery from './svgs/MenuDelivery';
-import MenuVacancies from './svgs/MenuVacancies';
-import MenuDocs from './svgs/MenuDocs';
-import { IoCloseOutline, IoCall } from "react-icons/io5";
+import { IoCall } from "react-icons/io5";
 import { IoLogoWhatsapp } from "react-icons/io";
 
 // icons
@@ -18,6 +13,12 @@ import YooApp from './svgs/YooApp';
 import Loupe from './svgs/Loupe';
 import CartIcon from './svgs/CartIcon';
 import Heart from './svgs/Heart';
+import CrossIcon from './svgs/CrossIcon';
+import MenuIcon from './svgs/MenuIcon';
+import MenuPhone from './svgs/MenuPhone';
+import MenuDelivery from './svgs/MenuDelivery';
+import MenuVacancies from './svgs/MenuVacancies';
+import MenuDocs from './svgs/MenuDocs';
 
 const Header = () => {
   const isMobileLG = useIsMobile('991px');
@@ -33,12 +34,10 @@ const Header = () => {
             {
               (!isMobileLG) && 
               <>
-                <ul className='btns-menu'>
-                  <li className='ms-3'>
+                <ul>
+                  <li>
                     <Link to='/menu' className='btn-primary'>Каталог</Link>
                   </li>
-                </ul>
-                <ul className='text-menu'>
                   <li>
                     <Link to='/'>Новинки</Link>
                   </li>
@@ -56,11 +55,10 @@ const Header = () => {
               </>
             }
 
-            <ul className='icons-menu'>
+            <ul>
               {
                 (!isMobileLG)
                 ? <>
-                  
                   <li>
                     <Link to="/cart" className='btn-icon'>
                       <CartIcon/>
@@ -82,7 +80,7 @@ const Header = () => {
                   <button type='button' onClick={()=>setShowMenu(!showMenu)} className='btn-menu'>
                     {
                       (showMenu)
-                      ? <IoCloseOutline/>
+                      ? <CrossIcon/>
                       : <MenuIcon/>
                     }
                   </button>
@@ -135,7 +133,7 @@ const Header = () => {
                 </div>
               </div>
               : <>
-              <img src="/imgs/slider-main/slide-1.jpg" alt="Большие пиццы" className='menu-offer'/>
+              <img src="/imgs/img.jpg" alt="Beautiful Day" className='menu-offer'/>
               <nav>
                 <ul>
                   <li>
@@ -148,6 +146,18 @@ const Header = () => {
                     <Link to='/'>
                       <MenuDelivery/>
                       <span>Оплата и доставка</span>
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to='/'>
+                      <MenuDocs/>
+                      <span>Новости</span>
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to='/promo'>
+                      <MenuDocs/>
+                      <span>Акции</span>
                     </Link>
                   </li>
                   <li>

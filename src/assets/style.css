@@ -75,6 +75,16 @@ hr {
 .mb-6 {
   margin-bottom: 6em;
 }
+@media (max-width: 767.98px) {
+  .mb-6 {
+    margin-bottom: 4.5em;
+  }
+}
+@media (max-width: 575.98px) {
+  .mb-6 {
+    margin-bottom: 3em;
+  }
+}
 
 @media (min-width: 1400px) {
   .container:not(.full) {
@@ -823,7 +833,7 @@ select {
 
 /* Sliders */
 .swiper {
-  position: relative;
+  position: unset;
   overflow: hidden;
 }
 .swiper-pagination {
@@ -889,6 +899,41 @@ select {
 }
 .swiper.paginated .swiper-button, .swiper.paginated .swiper-button-prev, .swiper.paginated .swiper-button-next {
   bottom: 0.9em;
+}
+.swiper-arrow, .swiper-arrow-next, .swiper-arrow-prev {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: nowrap;
+  position: absolute;
+  top: 50%;
+  z-index: 10;
+  font-size: 1.7em;
+  color: #B9CDFF;
+  transform: translateY(-50%);
+  transition: color 300ms ease-in;
+}
+.swiper-arrow[data-locked=locked], [data-locked=locked].swiper-arrow-next, [data-locked=locked].swiper-arrow-prev {
+  opacity: 0;
+}
+.swiper-arrow.disabled, .disabled.swiper-arrow-next, .disabled.swiper-arrow-prev, .swiper-arrow.locked, .locked.swiper-arrow-next, .locked.swiper-arrow-prev {
+  opacity: 0;
+}
+.swiper-arrow:hover, .swiper-arrow-next:hover, .swiper-arrow-prev:hover, .swiper-arrow:focus, .swiper-arrow-next:focus, .swiper-arrow-prev:focus {
+  color: #5C5DEF;
+}
+.swiper-arrow:active, .swiper-arrow-next:active, .swiper-arrow-prev:active {
+  color: #FE545E;
+}
+.swiper-arrow svg, .swiper-arrow-next svg, .swiper-arrow-prev svg {
+  stroke-width: 1.25px;
+}
+.swiper-arrow-prev {
+  left: -1.25em;
+}
+.swiper-arrow-next {
+  right: -1.25em;
 }
 
 .notice {
@@ -1141,7 +1186,7 @@ header nav ul {
   flex-wrap: nowrap;
 }
 header nav ul li:not(:first-child) {
-  margin-left: 2.5em;
+  margin-left: 1.5em;
 }
 @media (max-width: 1399.98px) {
   header nav ul li:not(:first-child) {
@@ -1150,6 +1195,11 @@ header nav ul li:not(:first-child) {
 }
 header .logo {
   width: 270px;
+}
+@media (max-width: 1399.98px) {
+  header .logo {
+    width: 200px;
+  }
 }
 header .phone {
   display: block;
@@ -1167,6 +1217,11 @@ header .formSearch {
   align-items: center;
   flex-wrap: nowrap;
   position: relative;
+}
+@media (max-width: 1199.98px) {
+  header .formSearch {
+    display: none;
+  }
 }
 header .formSearch button {
   position: absolute;
@@ -1215,6 +1270,9 @@ header .btn-menu {
   flex-wrap: nowrap;
   transition: color 300ms ease-in;
 }
+header .btn-menu svg {
+  stroke-width: 1.25px;
+}
 header .btn-menu:hover, header .btn-menu:focus, header .btn-menu:active {
   color: #FE545E;
 }
@@ -1227,6 +1285,9 @@ header .btn-menu:hover, header .btn-menu:focus, header .btn-menu:active {
 }
 .offcanvas-menu .offcanvas-body .menu-offer {
   width: 100%;
+  height: 400px;
+  -o-object-fit: cover;
+     object-fit: cover;
   border-radius: 1.25em;
   margin-bottom: 2em;
 }
@@ -1521,15 +1582,16 @@ main {
     height: 180px;
   }
 }
-@media (max-width: 991.98px) {
+@media (max-width: 1199.98px) {
   .category-card img {
-    height: 150px;
+    height: 160px;
   }
 }
 @media (max-width: 575.98px) {
   .category-card img {
     height: 30vw;
     border-radius: 0.625em;
+    margin-bottom: 0.1em;
   }
 }
 .category-card figcaption {
@@ -2298,6 +2360,7 @@ main {
   }
 }
 
+/* Section 3 */
 .sec-3 {
   background: url(imgs/bg/gradient.jpg) no-repeat;
   background-size: cover;
@@ -2306,17 +2369,46 @@ main {
   position: relative;
   margin-top: 10em;
 }
+@media (max-width: 991.98px) {
+  .sec-3 {
+    margin-top: 0em;
+  }
+}
+@media (max-width: 767.98px) {
+  .sec-3 {
+    padding: 2em 0em 16em;
+    background: url(imgs/bg/gradientM.jpg) no-repeat;
+    background-position: 50% 50%;
+  }
+}
 .sec-3::after {
   content: "";
   position: absolute;
   bottom: 0px;
   left: 0px;
   width: 60%;
-  height: 150%;
+  height: calc(100% + 7em);
   background: url(imgs/bg/balloons.png) no-repeat;
   background-size: contain;
   background-position: 50% 100%;
   z-index: 10;
+}
+@media (max-width: 991.98px) {
+  .sec-3::after {
+    width: 50%;
+    height: 100%;
+  }
+}
+@media (max-width: 767.98px) {
+  .sec-3::after {
+    width: 100%;
+    height: 16em;
+  }
+}
+@media (max-width: 575.98px) {
+  .sec-3::after {
+    background-size: cover;
+  }
 }
 
 .sec-4 {
