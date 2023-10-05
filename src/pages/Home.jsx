@@ -16,8 +16,8 @@ import jsonData from "../data/categories";
 import jsonArticles from "../data/articles";
 import useIsMobile from '../hooks/isMobile';
 
-import { Navigation, Pagination } from 'swiper';
-import { Swiper, SwiperSlide, SlidePrevButton, SlideNextButton } from 'swiper/react';
+import { Pagination } from 'swiper';
+import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import SwiperButtonNext from '../components/utils/SwiperButtonNext';
 import SwiperButtonPrev from '../components/utils/SwiperButtonPrev';
@@ -28,24 +28,19 @@ const Home = () => {
   return (
     <main>
       <section className='sec-1 mb-6'>
-        <div className='container-md gx-0 gx-md-4'>
+        <div className='container'>
           <div className='row justify-content-center'>
             <div className='col-12 col-lg-11 col-xl-9 col-xxl-8'>
               <Swiper
                 className='main-slider paginated'
                 modules={[Pagination]}
                 loop={true}
-                spaceBetween={0}
+                spaceBetween={15}
                 slidesPerView={1}
                 initialSlide={1}
                 loopedSlides={2}
                 speed={750}
                 pagination={{ clickable: true }}
-                breakpoints={{
-                  768: {
-                    spaceBetween: 15,
-                  },
-                }}
               >
                 <SwiperSlide>
                   <Link to='/promo/1'>
@@ -73,8 +68,6 @@ const Home = () => {
           <StoriesSection/>
         </Container>
       </section>
-
-      {/* <Section3/> */}
 
       <section className='sec-catalog mb-6'>
         <Container>
@@ -111,11 +104,16 @@ const Home = () => {
           <div className="position-relative">
             <Swiper
               className='product-slider'
-              spaceBetween={10}
-              slidesPerView={3}
+              spaceBetween={15}
+              slidesPerView={'auto'}
               speed={750}
               breakpoints={{
                 576: {
+                  spaceBetween: 20,
+                  slidesPerView: 'auto',
+                },
+                992: {
+                  slidesPerView: 3,
                   spaceBetween: 20,
                 },
               }}
@@ -229,7 +227,7 @@ const Home = () => {
               <Offer blackText={true} img={"imgs/offers/offer3.jpg"} title={'Свежих ягод много бывает'} subtitle={'Попробуйте наш фирменный тарт — мы добавили в него ещё больше клубники!'}/>
             </SwiperSlide>
           </Swiper>
-          <Link to='/promo' className='btn-primary mt-5 mx-auto'>смотреть все акции</Link>
+          <Link to='/promo' className='btn-primary mt-4 mt-sm-5 mx-auto'>смотреть все акции</Link>
         </Container>
       </section>
     </main>

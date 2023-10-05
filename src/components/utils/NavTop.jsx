@@ -1,6 +1,6 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
-import { HiOutlineArrowLeftCircle } from "react-icons/hi2";
+import PrevIcon from '../svgs/PrevIcon';
 
 const NavTop = (props) => {
   return (
@@ -8,8 +8,7 @@ const NavTop = (props) => {
       {
         (props.toBack) &&
         <Link to="/" className='navTop-back'>
-          <HiOutlineArrowLeftCircle/>
-          <span>Назад</span>
+          <PrevIcon/>
         </Link>
       }
       {

@@ -87,12 +87,8 @@ const StoriesSection = () => {
             <SwiperSlide>
               <StoryBig img={"imgs/img4.png"} title={"Попробуйте новые сезонные напитки"}/>
             </SwiperSlide>
-            <div className="swiper-button-prev">
-              <HiOutlineArrowLeftCircle/>
-            </div>
-            <div className="swiper-button-next">
-              <HiOutlineArrowRightCircle/>
-            </div>
+            <SwiperButtonPrev/>
+            <SwiperButtonNext/>
           </Swiper>
           <button className='close' onClick={closeStory}>
             <HiXMark/>

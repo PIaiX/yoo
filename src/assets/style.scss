@@ -246,7 +246,7 @@ h5 {
   }
 }
 h6 {
-  font-size: 1.125em;
+  font-size: 1em;
   font-weight: 600;
   margin-bottom: .5em;
   @media (max-width: $bp-md) {
@@ -539,6 +539,9 @@ button {
   transition-property: color, background-color, border;
   width: fit-content;
   border-radius: $radius*1.5;
+  @media (max-width: $bp-xl) {
+    padding: .5em 1.2em;
+  }
   &-primary {
     @extend .btn;
     color: $white;
@@ -851,6 +854,9 @@ select {
     color: $secondary-light;
     transform: translateY(-50%);
     transition: color $transition;
+    @media (max-width: $bp-md) {
+      display: none !important;
+    }
     &[data-locked="locked"] {
       opacity: 0;
     }
@@ -910,9 +916,8 @@ select {
 
 .navTop {
   margin-bottom: 2em;
-  color: rgba($color: $primary, $alpha: 0.6);
+  color: $dark-gray;
   @include flex(row, flex-start, center, wrap);
-  font-size: 1.125em;
   @media (max-width: $bp-lg) {
     margin-top: 1.5em;
   }
@@ -922,9 +927,10 @@ select {
   }
   &-back {
     @include flex();
-    margin-right: 5em;
+    margin-right: 2em;
+    color: $secondary;
     svg {
-      font-size: 1.35em;
+      font-size: 1.6em;
       stroke-width: 1.25px;
       margin-right: .25em;
     }
@@ -932,12 +938,16 @@ select {
   &-breadcrumbs {
     @include flex(row, flex-start, baseline, wrap);
     @include list();
+    font-size: 0.8em;
     li {
       &:not(:first-child){
         &::before {
-          content: '—';
+          content: '❯';
           margin: 0em .5em;
         }
+      }
+      &:last-child {
+        color: $secondary;
       }
     }
   }
@@ -1089,6 +1099,9 @@ header {
     @media (max-width: $bp-xxl) {
       width: 200px;
     }
+    @media (max-width: $bp-sm) {
+      width: 160px;
+    }
   }
   .phone {
     display: block;
@@ -1186,7 +1199,7 @@ header {
             }
             svg {
               font-size: 1.6em;
-              color: $primary;
+              color: $secondary;
               margin-right: .5em;
               @media (max-width: $bp-sm) {
                 margin-right: .25em;
@@ -1230,7 +1243,6 @@ main {
         height: 330px;
       }
       @media (max-width: $bp-md) {
-        border-radius: 0px;
         height: auto;
       }
     }
@@ -1433,6 +1445,19 @@ main {
       transition: color $transition;
       &:hover {
         color: $primary;
+      }
+    }
+  }
+}
+.categories-topSlider {
+  .category-card {
+    img {
+      height: 170px;
+      @media (max-width: $bp-xxl) {
+        height: 180px;
+      }
+      @media (max-width: $bp-xl) {
+        height: 160px;
       }
     }
   }
@@ -2060,17 +2085,21 @@ main {
   .product-slider {
     overflow: hidden;
     padding: 1em 0px;
-    // .swiper-slide {
-    //   width: fit-content;
-    // }
+    .swiper-slide {
+      @media (max-width: $bp-lg) {
+        width: fit-content;
+      }
+    }
     .product-card-mini {
       width: 100%;
       padding: 1em;
       border: 1px solid $secondary-light;
-      border-radius: $radius;
+      border-radius: $radius*0.5;
       @include flex(row, flex-start, stretch, nowrap);
       @media (max-width: $bp-lg) {
         flex-direction: column;
+      }
+      @media (max-width: $bp-md) {
         width: calc(200px + 2em);
       }
       @media (max-width: $bp-sm) {
@@ -2080,6 +2109,9 @@ main {
         --card-mini-w: 100px;
         @include roundedImg(var(--card-mini-w), $radius, scale-down);
         margin-right: $radius;
+        @media (max-width: $bp-xl) {
+          --card-mini-w: 90px;
+        }
         @media (max-width: $bp-lg) {
           --card-mini-w: 200px;
           margin-right: 0px;
@@ -2092,15 +2124,16 @@ main {
         flex: 1;
         @include flex(column, space-between, stretch, nowrap);
         h6 {
-          @media (max-width: $bp-sm) {
-            font-weight: 400;
-          }
+          font-weight: 400;
         }
         a {
           transition: color $transition;
           &:hover {
             color: $primary;
           }
+        }
+        @media (max-width: $bp-lg) { 
+          .btn-light {width: 100%;}
         }
       }
     }
@@ -2263,6 +2296,7 @@ main {
 /* Articles END */
 
 
+/* Section 6 */
 .sec-6 {
   --offer-w: 350px;
   @media (max-width: $bp-xl) {
@@ -2271,17 +2305,17 @@ main {
   @media (max-width: $bp-lg) {
     --offer-w: 310px;
   }
-  @media (max-width: $bp-md) {
-    --offer-w: 450px;
-  }
   @media (max-width: $bp-sm) {
-    --offer-w: 82vw;
+    --offer-w: 200px;
   }
   .offer {
     width: 100%;
     position: relative;
     @include shadowF();
     transition: transform 200ms linear;
+    @media (max-width: $bp-sm) {
+      font-size: 11px;
+    }
     img {
       position: relative;
       z-index: 1;
@@ -2297,24 +2331,6 @@ main {
       @include flex(column, space-between, stretch, nowrap);
       @media (max-width: $bp-xl) {
         padding: 1em;
-      }
-    }
-    &:not(.full) {
-      @media (max-width: $bp-md) {
-        --offer-w: 240px;
-      }
-      @media (max-width: $bp-sm) {
-        --offer-w: 41vw;
-      }
-      figcaption {
-        @media (max-width: $bp-sm) {
-          font-size: 10px;
-        }
-      }
-      h6 {
-        @media (max-width: $bp-md) {
-          display: none;
-        }
       }
     }
   }
@@ -2415,7 +2431,7 @@ main {
     }
   }
 }
-
+/* Section 6 END */
 
 .sec-7 {
   .box {
@@ -2590,7 +2606,7 @@ footer {
     left: 0px;
     width: 100%;
     z-index: 1050;
-    @include shadow();
+    box-shadow: 0px -4px 20px rgba(0,0,0,.06);
   }
   .desktop {
     height: 100%;
@@ -2619,14 +2635,13 @@ footer {
           padding: 0.5em;
           border-radius: $radius*0.5;
           background-color: transparent;
-          
           max-width: 2.6em;
           height: 2.6em;
           overflow: hidden;
           transition: $transition;
           transition-property: background-color, max-width;
           svg {
-            // font-size: 1.6em;
+            stroke-width: 1.25px;
             width: 1.6em !important;
             height: 1.6em !important;
             color: $dark-gray;
@@ -2634,14 +2649,13 @@ footer {
           }
           .text {
             color: $white;
-            // padding: 0 .5em;
             overflow: hidden;
             max-width: 0px;
-            // display: none;
             transition: max-width $transition;
+            span {margin-left: .25em;}
           }
           &.active {
-            background-color: $primary;
+            background-color: $secondary;
             max-width: 130px;
             svg {
               color: $white;
@@ -3551,6 +3565,8 @@ ACCOUNT END
       top: .25em;
       right: .25em;
       font-size: 1.5em;
+      width: 1em;
+      height: 1em;
       @include flex();
       opacity: .6;
       transition: opacity $transition;

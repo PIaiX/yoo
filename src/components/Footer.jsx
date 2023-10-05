@@ -7,7 +7,7 @@ import AppStore from '../assets/imgs/appstore.svg';
 import GooglePlay from '../assets/imgs/googleplay.svg';
 import {Link, NavLink} from 'react-router-dom';
 import HomeIcon from './svgs/HomeIcon';
-import BellIcon from './svgs/BellIcon';
+import CatalogIcon from './svgs/CatalogIcon';
 import FlameIcon from './svgs/FlameIcon';
 import CartIcon from './svgs/CartIcon';
 import UserIcon from './svgs/UserIcon';
@@ -31,9 +31,9 @@ const Footer = () => {
                 </NavLink>
               </li>
               <li>
-                <NavLink to='/notifications'>
-                  <BellIcon/>
-                  <div className="text"><span>Уведомления</span></div>
+                <NavLink to='/menu'>
+                  <CatalogIcon/>
+                  <div className="text"><span>Каталог</span></div>
                 </NavLink>
               </li>
               <li>
@@ -73,9 +73,6 @@ const Footer = () => {
               </ul>
               <Link to='/' className='d-block mt-3'>Политика конфиденциальности</Link>
             </nav>
-
-
-
             <div>
               <div>Разработано на платформе</div>
               <img src={LogoTextWhite} alt="yoo.app" className='d-block mt-2'/>

@@ -12,12 +12,14 @@ import Cart from '../pages/Cart'
 import Checkout from '../pages/Checkout'
 import AccountRouter from './AccountRouter'
 import Registration from '../pages/Registration'
+import Categories from '../pages/Categories'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<AppLayout />}>
       <Route index element={<Home />}/>
       <Route path="menu" element={<Catalog/>} />
+      <Route path="categories" element={<Categories/>} />
       <Route path="menu/product" element={<Product/>} />
       <Route path="cart" element={<Cart/>} />
       <Route path="checkout" element={<Checkout/>} />

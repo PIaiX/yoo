@@ -19,6 +19,8 @@ import MenuPhone from './svgs/MenuPhone';
 import MenuDelivery from './svgs/MenuDelivery';
 import MenuVacancies from './svgs/MenuVacancies';
 import MenuDocs from './svgs/MenuDocs';
+import MenuBlog from './svgs/MenuBlog';
+import MenuOffers from './svgs/MenuOffers';
 
 const Header = () => {
   const isMobileLG = useIsMobile('991px');
@@ -36,7 +38,7 @@ const Header = () => {
               <>
                 <ul>
                   <li>
-                    <Link to='/menu' className='btn-primary'>Каталог</Link>
+                    <Link to='/categories' className='btn-primary'>Каталог</Link>
                   </li>
                   <li>
                     <Link to='/'>Новинки</Link>
@@ -150,13 +152,13 @@ const Header = () => {
                   </li>
                   <li>
                     <Link to='/'>
-                      <MenuDocs/>
+                      <MenuBlog/>
                       <span>Новости</span>
                     </Link>
                   </li>
                   <li>
                     <Link to='/promo'>
-                      <MenuDocs/>
+                      <MenuOffers/>
                       <span>Акции</span>
                     </Link>
                   </li>
