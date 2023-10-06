@@ -4,7 +4,6 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import ProductCard from '../components/ProductCard';
 import SelectImitation from '../components/utils/SelectImitation';
-import Notice from '../components/Notice';
 import Ingredient from '../components/utils/Ingredient';
 // swiper
 import { Navigation } from 'swiper';
@@ -146,7 +145,7 @@ const Product = () => {
                   </div>
                 }
               </div>
-              <Notice/>
+              {/* <Notice/> */}
             </Col>
           </Row>
         </form>
