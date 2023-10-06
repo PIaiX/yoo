@@ -5,7 +5,7 @@ import EmptyWork from "../components/empty/work";
 import Loader from "../components/utils/Loader";
 import { getDocument } from "../services/document";
 
-const Contact = () => {
+const Delivery = () => {
   const [document, setDocument] = useState({ loading: true, data: false });
 
   useLayoutEffect(() => {
@@ -52,4 +52,4 @@ const Contact = () => {
   );
 };
 
-export default Contact;
+export default Delivery;

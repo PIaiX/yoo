@@ -162,16 +162,20 @@ const Categories = memo(({ className, data }) => {
         <button
           type="button"
           onClick={handleСollapse}
-          className="categories-btn"
+          className="categories-btn ms-auto"
         >
           <HiArrowUturnUp className="fs-15 main-color" />
         </button>
       ) : (
-        <button type="button" onClick={handleExpand} className="categories-btn">
+        <button
+          type="button"
+          onClick={handleExpand}
+          className="categories-btn ms-auto"
+        >
           <HiOutlineArrowUturnDown className="fs-15 main-color rotateY-180" />
         </button>
       )}
-      <button type="button" className="categories-btn">
+      <button type="button" className="categories-btn ms-4">
         <HiOutlineAdjustmentsHorizontal className="fs-15 main-color" />
       </button>
       <button type="button" className="d-lg-none categories-btn">

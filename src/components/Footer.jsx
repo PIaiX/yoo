@@ -28,14 +28,14 @@ const Footer = memo(() => {
                 </div>
               </NavLink>
             </li>
-            <li>
+            {/* <li>
               <NavLink to="/notifications">
                 <BellIcon />
                 <div className="text fs-09">
                   <span>&nbsp;Уведомления</span>
                 </div>
               </NavLink>
-            </li>
+            </li> */}
             <li>
               <NavLink to="/promo">
                 <FlameIcon />
@@ -75,26 +75,27 @@ const Footer = memo(() => {
                 <Link to="/contact">Контакты</Link>
               </li>
               <li>
-                <Link to="/">Политика конфиденциальности</Link>
+                <Link to="/policy">Политика конфиденциальности</Link>
               </li>
             </ul>
           </nav>
-
-          <div>
-            <p>Заказывать через приложение ещё удобнее</p>
-            <ul className="list-unstyled d-flex mt-2">
-              <li>
-                <a href="/">
-                  <img src={AppStore} alt="App Store" />
-                </a>
-              </li>
-              <li className="ms-3">
-                <a href="/">
-                  <img src={GooglePlay} alt="Google Play" />
-                </a>
-              </li>
-            </ul>
-          </div>
+          {options?.appYes && (
+            <div>
+              <p>Заказывать через приложение ещё удобнее</p>
+              <ul className="list-unstyled d-flex mt-2">
+                <li>
+                  <a href="/">
+                    <img src={AppStore} alt="App Store" />
+                  </a>
+                </li>
+                <li className="ms-3">
+                  <a href="/">
+                    <img src={GooglePlay} alt="Google Play" />
+                  </a>
+                </li>
+              </ul>
+            </div>
+          )}
 
           <div>
             <a href="https://yooapp.ru/" target="_blank">

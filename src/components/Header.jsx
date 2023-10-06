@@ -12,7 +12,7 @@ import { IoLogoWhatsapp } from "react-icons/io";
 import { IoCall, IoCloseOutline, IoClose } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { getCount } from "../helpers/all";
+import { getCount, getImageURL } from "../helpers/all";
 import { editDeliveryCheckout } from "../store/reducers/checkoutSlice";
 import MenuDelivery from "./svgs/MenuDelivery";
 import MenuDocs from "./svgs/MenuDocs";
@@ -26,6 +26,7 @@ import AppDownload from "./svgs/AppDownload";
 import Phone from "../assets/imgs/phone.png";
 import AppStore from "../assets/imgs/appstore-black.svg";
 import GooglePlay from "../assets/imgs/googleplay-black.svg";
+import { useGetBannersQuery } from "../services/home";
 
 const Header = memo(() => {
   const isAuth = useSelector((state) => state.auth.isAuth);
@@ -35,6 +36,7 @@ const Header = memo(() => {
   const delivery = useSelector((state) => state.checkout.delivery);
   const affiliate = useSelector((state) => state.affiliate.items);
   const options = useSelector((state) => state.settings.options);
+  const banners = useGetBannersQuery();
 
   const dispatch = useDispatch();
 
@@ -230,59 +232,62 @@ const Header = memo(() => {
               </div>
             ) : (
               <>
-                <img
-                  src="imgs/slider-main/slide-1.jpg"
-                  alt="Большие пиццы"
-                  className="menu-offer"
-                />
+                {banners?.data?.items?.length > 0 && (
+                  <img
+                    src={getImageURL({
+                      path: banners.data.items[0].medias,
+                      type: "banner",
+                      size: "full",
+                    })}
+                    alt="Большие пиццы"
+                    className="menu-offer"
+                  />
+                )}
+
                 <nav>
                   <ul>
                     <li>
-                      <button type="button" onClick={() => setIsContacts(true)}>
+                      <Link to="/contact" onClick={() => setShowMenu(false)}>
                         <MenuPhone />
                         <span>Контакты</span>
-                      </button>
+                      </Link>
                     </li>
                     <li>
-                      <Link to="/">
+                      <Link to="/delivery" onClick={() => setShowMenu(false)}>
                         <MenuDelivery />
                         <span>Оплата и доставка</span>
                       </Link>
                     </li>
                     <li>
-                      <Link to="/">
-                        <MenuVacancies />
-                        <span>Вакансии</span>
-                      </Link>
-                    </li>
-                    <li>
-                      <Link to="/">
+                      <Link to="/policy" onClick={() => setShowMenu(false)}>
                         <MenuDocs />
                         <span>Политика конфиденциальности</span>
                       </Link>
                     </li>
                   </ul>
                 </nav>
-
-                <p className="gray text-center mt-4 mt-md-5">
-                  Разработано на платформе
-                </p>
-                <p className="text-center mt-2">
-                  <YooApp />
-                </p>
+                <a href="https://yooapp.ru/" target="_blank">
+                  <p className="gray text-center mt-4 mt-md-5">
+                    Разработано на платформе
+                  </p>
+                  <p className="text-center mt-2">
+                    <YooApp />
+                  </p>
+                </a>
               </>
             )}
           </Container>
         </Offcanvas.Body>
       </Offcanvas>
-
-      <button
-        type="button"
-        className="appOffer"
-        onClick={() => setShowApp(true)}
-      >
-        <AppDownload />
-      </button>
+      {options?.appYes && (
+        <button
+          type="button"
+          className="appOffer"
+          onClick={() => setShowApp(true)}
+        >
+          <AppDownload />
+        </button>
+      )}
 
       <Offcanvas
         className="offcanvas-app"

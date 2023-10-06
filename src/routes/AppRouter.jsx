@@ -22,6 +22,7 @@ import Recovery from "../pages/auth/Recovery";
 import Registration from "../pages/auth/Registration";
 import AccountRouter from "./AccountRouter";
 import AuthRoute from "./AuthRoute";
+import Policy from "../pages/Policy";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -35,6 +36,7 @@ const router = createBrowserRouter(
       <Route path="promo/:saleId" element={<OfferPage />} />
       <Route path="contact" element={<Contact />} />
       <Route path="delivery" element={<Delivery />} />
+      <Route path="policy" element={<Policy />} />
       <Route path="*" element={<NotFound />} />
       <Route
         path="account/*"
