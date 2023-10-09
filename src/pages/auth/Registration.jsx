@@ -16,6 +16,7 @@ const Registration = () => {
   const isAuth = useSelector((state) => state.auth.isAuth);
   const user = useSelector((state) => state.auth.user);
   const options = useSelector((state) => state.settings.options);
+  const loadingLogin = useSelector((state) => state.auth.loadingLogin);
 
   const navigate = useNavigate();
   const [loginView, setLoginView] = useState(true);
@@ -177,25 +178,45 @@ const Registration = () => {
                   Вкусные роллы и&nbsp;пицца скучали по&nbsp;тебе
                 </p>
                 <div className="mb-3">
-                  <Input
-                    type="email"
-                    label="Email"
-                    name="email"
-                    placeholder="Введите email"
-                    errors={errors}
-                    register={register}
-                    validation={{
-                      required: "Введите email",
-                      maxLength: {
-                        value: 250,
-                        message: "Максимально 250 символов",
-                      },
-                      pattern: {
-                        value: /\S+@\S+\.\S+/,
-                        message: "Неверный формат Email",
-                      },
-                    }}
-                  />
+                  {!options.authType || options.authType === "email" ? (
+                    <Input
+                      type="email"
+                      label="Email"
+                      name="email"
+                      placeholder="Введите email"
+                      errors={errors}
+                      register={register}
+                      validation={{
+                        required: "Введите email",
+                        maxLength: {
+                          value: 250,
+                          message: "Максимально 250 символов",
+                        },
+                        pattern: {
+                          value: /\S+@\S+\.\S+/,
+                          message: "Неверный формат Email",
+                        },
+                      }}
+                    />
+                  ) : (
+                    <Input
+                      type="custom"
+                      label="Номер телефона"
+                      name="phone"
+                      placeholder="+7(900)000-00-00"
+                      mask="+7(999)999-99-99"
+                      errors={errors}
+                      register={register}
+                      maxLength={16}
+                      validation={{
+                        required: "Введите номер телефона",
+                        maxLength: {
+                          value: 16,
+                          message: "Максимально 16 символов",
+                        },
+                      }}
+                    />
+                  )}
                 </div>
                 <div className="mb-3">
                   <Input
@@ -234,29 +255,45 @@ const Registration = () => {
                   Введи данные чтобы&nbsp;зарегистрироваться
                 </p>
                 <div className="mb-3">
-                  <Input
-                    type="email"
-                    label="Email"
-                    placeholder="Введите Email"
-                    name="email"
-                    errors={errorsReg}
-                    register={registerReg}
-                    validation={{
-                      required: "Введите Email",
-                      minLength: {
-                        value: 3,
-                        message: "Минимально 3 символа",
-                      },
-                      maxLength: {
-                        value: 250,
-                        message: "Максимально 250 символов",
-                      },
-                      pattern: {
-                        value: /\S+@\S+\.\S+/,
-                        message: "Неверный формат Email",
-                      },
-                    }}
-                  />
+                  {!options.authType || options.authType === "email" ? (
+                    <Input
+                      type="email"
+                      label="Email"
+                      name="email"
+                      placeholder="Введите email"
+                      errors={errorsReg}
+                      register={registerReg}
+                      validation={{
+                        required: "Введите email",
+                        maxLength: {
+                          value: 250,
+                          message: "Максимально 250 символов",
+                        },
+                        pattern: {
+                          value: /\S+@\S+\.\S+/,
+                          message: "Неверный формат Email",
+                        },
+                      }}
+                    />
+                  ) : (
+                    <Input
+                      type="custom"
+                      label="Номер телефона"
+                      name="phone"
+                      placeholder="+7(900)000-00-00"
+                      mask="+7(999)999-99-99"
+                      errors={errorsReg}
+                      register={registerReg}
+                      maxLength={16}
+                      validation={{
+                        required: "Введите номер телефона",
+                        maxLength: {
+                          value: 16,
+                          message: "Максимально 16 символов",
+                        },
+                      }}
+                    />
+                  )}
                 </div>
                 <div className="mb-3">
                   <Input

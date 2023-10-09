@@ -87,7 +87,7 @@ const Home = () => {
                 >
                   {banners.data.items.map((e) => (
                     <SwiperSlide>
-                      <Link to={"/promo/" + e.id}>
+                      <Link>
                         <img
                           src={getImageURL({
                             path: e?.medias,
@@ -229,12 +229,11 @@ const Home = () => {
               ))}
             </Swiper>
             <Link to="/promo" className="btn-30 mt-4 mx-auto">
-              все акции
+              Все акции
             </Link>
           </Container>
         </section>
       )}
-      {/* <ScrollToTop /> */}
     </main>
   );
 };

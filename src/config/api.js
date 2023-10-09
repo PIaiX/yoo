@@ -1,5 +1,5 @@
-const API_TOKEN = "p9tzlf7s7pg6b9g8lhqaxtu2fij3mwmixew44";
-const DOMAIN = "xn-----6kcck5axabc0adfrer9ea5h2a9c.xn--p1ai";
+const API_TOKEN = "igiuxdxheuhu3htgbsfy723t6tgfajkfsiug7vjb";
+const DOMAIN = "yakinori.ru";
 const SITE_URL = "https://yooapp.ru";
 const BASE_URL = "https://api.yooapp.ru";
 const ADMIN_URL = "https://admin.yooapp.ru";

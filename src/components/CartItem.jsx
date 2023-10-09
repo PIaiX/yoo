@@ -6,15 +6,19 @@ import { IoCaretDownOutline } from "react-icons/io5";
 import { customPrice, customWeight, getImageURL } from "../helpers/all";
 import ButtonCart from "./ButtonCart";
 import BtnFav from "./utils/BtnFav";
+import { useSelector } from "react-redux";
 
 const CartItem = memo(({ data }) => {
   const [open, setOpen] = useState(false);
+  const isAuth = useSelector((state) => state.auth.isAuth);
+
   const price = data?.cart?.data?.modifiers?.price
     ? data.cart.data.modifiers.price
     : data.price;
   const weight = data?.cart?.data?.modifiers?.energy?.weight
     ? data.cart.data.modifiers.energy.weight
     : data.weight;
+
   return (
     <div className="cart-item">
       <div className="left">
@@ -74,7 +78,7 @@ const CartItem = memo(({ data }) => {
 
         <div className="order-1 order-md-2">{customPrice(price)}</div>
 
-        <BtnFav checked={false} />
+        {isAuth && <BtnFav checked={false} />}
       </div>
     </div>
   );

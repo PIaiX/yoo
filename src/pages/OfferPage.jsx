@@ -6,7 +6,6 @@ import { LazyLoadImage } from "react-lazy-load-image-component";
 import { useParams } from "react-router-dom";
 import Empty from "../components/Empty";
 import EmptyCatalog from "../components/empty/catalog";
-import OfferProduct from "../components/OfferProduct";
 import Loader from "../components/utils/Loader";
 import { getImageURL } from "../helpers/all";
 import { getSale } from "../services/sales";
@@ -29,7 +28,7 @@ const OfferPage = () => {
     return <Loader full />;
   }
 
-  if (!sale.data) {
+  if (!sale?.data?.id) {
     return (
       <Empty
         text="Такой акции не существует"

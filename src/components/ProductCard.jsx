@@ -21,7 +21,7 @@ const ProductCard = memo(({ data }) => {
   }
 
   return (
-    <div className="product">
+    <div className="product" key={data.id}>
       <div className="product-img">
         <Link to={"/product/" + data.id}>
           <LazyLoadImage
