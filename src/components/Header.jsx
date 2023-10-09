@@ -55,7 +55,7 @@ const Header = memo(() => {
           <nav className="h-100">
             <Link to="/">
               <img
-                src="/logo.svg"
+                src="/logo.png"
                 alt={options?.title ?? "YOOAPP"}
                 className="logo"
               />

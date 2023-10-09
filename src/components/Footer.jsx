@@ -64,7 +64,7 @@ const Footer = memo(() => {
         </nav>
         <div className="desktop d-none d-lg-flex">
           <img
-            src="/logo.svg"
+            src="/logo.png"
             alt={options?.title ?? "YOOAPP"}
             className="logo"
           />

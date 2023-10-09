@@ -1,16 +1,22 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import {
   HiOutlineShoppingBag,
   HiOutlineMapPin,
+  HiOutlineArrowRightOnRectangle,
   // HiOutlineStar,
   // HiOutlineCreditCard,
   // HiOutlineBellAlert,
   // HiOutlineBolt,
   // HiOutlineLifebuoy,
 } from "react-icons/hi2";
+import { useDispatch } from "react-redux";
+import { logout } from "../../services/auth";
 
 const AccountMenu = (props) => {
+  const dispatch = useDispatch();
+  const navigaion = useNavigate();
+
   return (
     <nav className="account-nav">
       <ul>
@@ -25,6 +31,17 @@ const AccountMenu = (props) => {
             <HiOutlineMapPin />
             <div>Адреса</div>
           </NavLink>
+        </li>
+        <li>
+          <a
+            onClick={() => {
+              dispatch(logout());
+              navigaion("/login");
+            }}
+          >
+            <HiOutlineArrowRightOnRectangle />
+            <div>Выйти</div>
+          </a>
         </li>
         {/* <li>
           <NavLink to="bonus">
