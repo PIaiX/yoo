@@ -29,7 +29,7 @@ const ProductCard = () => {
           <div className='gray fs-09 text-decoration-line-through'> 650 </div>
         </div>
         <button type='button' className='btn-primary rounded-pill ms-3'>
-          <CartIcon className='fs-15 d-md-none'/>
+          <CartIcon className='fs-13 d-md-none'/>
           <span className='d-none d-md-block'>Добавить</span>
         </button>
       </div>

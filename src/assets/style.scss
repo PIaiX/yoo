@@ -162,52 +162,6 @@ h1, h2, h3, h4, h5, h6, p, label, span, a, button, form, fieldset, legend, selec
   margin-bottom: 0px;
 }
 
-.rotateY-180 {transform: rotateY(180deg);}
-.flex-1 {flex: 1;}
-.w {
-  &-xs-100 {
-    @media (max-width: $bp-sm) {
-      width: 100% !important;
-    }
-  }
-  &-md-100 {
-    @media (max-width: $bp-lg) {
-      width: 100% !important;
-    }
-  }
-  &-fit {
-    width: fit-content;
-  }
-  &-auto {
-    width: auto;
-  }
-  &-50p {
-    width: 50px !important;
-  }
-}
-hr {
-  background-color: $gray;
-  height: 0.5px;
-  width: 100%;
-  border: none;
-  opacity: 1;
-}
-.mb-6 {
-  margin-bottom: 6em;
-  @media (max-width: $bp-md) {
-    margin-bottom: 4.5em;
-  }
-  @media (max-width: $bp-sm) {
-    margin-bottom: 3em;
-  }
-}
-@media (min-width: 1400px) {
-  .container:not(.full) {
-    max-width: 1140px;
-  }
-}
-
-
 h1, h2 {
   font-family: $title-font;
   font-size: 2em;
@@ -296,6 +250,9 @@ h6 {
 .secondary {
   color: $secondary;
 }
+.svgSW {
+  stroke-width: 1.25px;
+}
 
 
 /* Form elements */
@@ -322,11 +279,13 @@ input {
     background-color: $white;
     background-image: url(imgs/mark.svg);
     background-repeat: no-repeat;
-    background-size: contain;
+    background-size: cover;
     background-position: center;
     border-radius: calc($radius * 0.25);
     box-shadow: none;
+    transition-property: border, background-color;
     &:checked {
+      border: 1px solid $primary;
       background-color: $primary;
     }
     &[role="switch"]{
@@ -602,13 +561,6 @@ button {
   &-fav {
     font-size: 1.75em;
     @include flex();
-    @media (max-width: $bp-xl) {
-      right: 0.5em;
-    }
-    @media (max-width: $bp-md) {
-      bottom: 0em;
-      right: 0em;
-    }
     svg {
       stroke-width: 1px;
       stroke: $dark-gray;
@@ -1105,6 +1057,52 @@ select {
 }
 
 
+.rotateY-180 {transform: rotateY(180deg);}
+.flex-1 {flex: 1;}
+.w {
+  &-xs-100 {
+    @media (max-width: $bp-sm) {
+      width: 100% !important;
+    }
+  }
+  &-md-100 {
+    @media (max-width: $bp-lg) {
+      width: 100% !important;
+    }
+  }
+  &-fit {
+    width: fit-content;
+  }
+  &-auto {
+    width: auto;
+  }
+  &-50p {
+    width: 50px !important;
+  }
+}
+hr {
+  background-color: $gray;
+  height: 0.5px;
+  width: 100%;
+  border: none;
+  opacity: 1;
+}
+.mb-6 {
+  margin-bottom: 6em;
+  @media (max-width: $bp-md) {
+    margin-bottom: 4.5em;
+  }
+  @media (max-width: $bp-sm) {
+    margin-bottom: 3em;
+  }
+}
+@media (min-width: 1400px) {
+  .container:not(.full) {
+    max-width: 1140px;
+  }
+}
+
+
 
 body {
   margin: 0;
@@ -1535,25 +1533,33 @@ main {
         @media (max-width: $bp-xl) {
           height: 160px;
         }
+        @media (max-width: $bp-sm) {
+          height: 42vw;
+        }
       }
     }
   }
   .subcategories-slider {
     width: 60%;
     margin: 0px;
+    @media (max-width: $bp-md) {
+      width: 100%;
+      margin-bottom: 1em;
+    }
     .swiper-slide {
       width: fit-content;
       a {
-        display: block;
+        @include flex();
         padding: .4em 1.2em;
         border: 1px solid $secondary-light;
         border-radius: 1.5em;
+        height: 100%;
       }
     }
   }
 }
 //Filter
-form.filter {
+.filter {
   position: sticky;
   top: 0px;
   left: 0px;
@@ -1589,6 +1595,21 @@ form.filter {
         background-color: $gray;
         margin-right: .25em;
       }
+    }
+  }
+  &-heading {
+    @include flex(row, flex-start, center, nowrap);
+    margin-bottom: 1em;
+    border-bottom: 1px solid $gray;
+    color: $secondary;
+    padding-bottom: .5em;
+  }
+}
+.offcanvas-filter {
+  .offcanvas-body {
+    padding: 0px;
+    @media (max-width:$bp-lg) {
+      padding: calc(var(--h-height) + 1em) 1.5em calc(var(--f-height) + 1em);
     }
   }
 }
@@ -1878,6 +1899,11 @@ form.filter {
     right: 0.25em;
     z-index: 1;
   }
+  .btn-primary {
+    svg {
+      stroke-width: 1.25px;
+    }
+  }
   hr {
     background-color: $light-gray;
     height: 1px;
@@ -2010,6 +2036,176 @@ form.filter {
   }
   .notice {
     padding: .75em 5em .75em 1em;
+  }
+}
+.productPage {
+  @media (max-width: $bp-md) {
+    h1 {flex:1;}
+  }
+  &-photo {
+    position: relative;
+    --img: 315px;
+    @include flex(row, flex-start, flex-start, nowrap);
+    @media (max-width: $bp-lg) {
+      --img: 270px;
+    }
+    @media (max-width: $bp-md) {
+      --img: 450px;
+      margin-bottom: 1em;
+      flex-direction: row-reverse;
+    }
+    @media (max-width: $bp-sm) {
+      --img: calc(88vw - 50px - 1em);
+    }
+    .thumbSlider {
+      width: 50px;
+      margin-right: 1em;
+      height: var(--img);
+      @media (max-width: $bp-md) {
+        margin-right: 0em;
+        margin-left: 1em;
+      }
+      .swiper-slide {
+        height: 50px;
+        img {
+          width: 100%;
+          @include roundedImg(50px, $radius*0.5, contain);
+          background-color: $white;
+          border: 1px solid $light-gray;
+        }
+      }
+    }
+    .mainSlider {
+      flex: 1;
+      img {
+        @include roundedImg(var(--img), $radius, contain);
+        width: 100%;
+      }
+    }
+  }
+  &-edit {
+    .top {
+      @include flex(row, flex-start, flex-end, nowrap);
+      button {
+        position: relative;
+        z-index: 1;
+        background-color: $dark-gray;
+        color: $white;
+        border-radius: $radius $radius 0px 0px;
+        @include flex();
+        transition: $transition;
+        padding: .5em 1em;
+        font-weight: 500;
+        span {margin-left: .25em;}
+        .corner {
+          position: absolute;
+          z-index: 1;
+          bottom: 0px;
+          font-size: $radius;
+          color: $dark-gray;
+          transition: $transition;
+          &-right{
+            @extend .corner;
+            left: 100%;
+          }
+          &-left{
+            @extend .corner;
+            right: 100%;
+            transform: rotateY(180deg);
+          }
+        }
+        &.active {
+          background-color: $light-gray;
+          color: $black;
+          z-index: 2;
+          .corner {
+            color: $light-gray;
+          }
+        }
+      }
+    }
+    .box {
+      background-color: $light-gray;
+      padding: .75em;
+      border-radius: 0px $radius $radius $radius;
+      ul {
+        --mt: 5px;
+        --h: 60px;
+        @include list();
+        max-height: calc(var(--h) * 5 + var(--mt) * 4);
+        overflow: auto;
+        @include scrollCustomized();
+        padding-right: var(--mt);
+        @media (max-width: $bp-xxl) {
+          --h: 54px;
+        }
+        @media (max-width: $bp-xl) {
+          --h: 47.25px;
+        }
+        li {
+          &:not(:first-child){
+            margin-top: var(--mt);
+          }
+        }
+      }
+    }
+  }
+  &-price {
+    margin-top: 1em;
+    @include flex(row, space-between, center, nowrap);
+    @media (max-width: $bp-xl) {
+      flex-wrap: wrap;
+      align-items: center;
+      .btn-2 {
+        width: 100%;
+        margin-top: .5em;
+      }
+    }
+    @media (max-width: $bp-md) {
+      position: fixed;
+      bottom: calc(var(--f-height) - 2px);
+      left: 0px;
+      width: 100%;
+      height: 50px;
+      z-index: 100;
+      background-color: $white;
+      justify-content: center;
+      flex-wrap: nowrap;
+      align-items: center;
+      @include shadow();
+      .btn-2 {
+        width: auto;
+        margin-top: 0em;
+      }
+    }
+    @media (max-width: $bp-sm) {
+      padding: 0px 1.5em;
+    }
+  }
+  .notice {
+    padding: .75em 5em .75em 1em;
+  }
+}
+.features {
+  @include list();
+  width: 100%;
+  columns: 2;
+  column-gap: 50px;
+  @media (max-width: $bp-lg) {
+    columns: 1;
+  }
+  li {
+    @include flex(row, space-between, center, nowrap);
+    margin-bottom: 1em;
+    div {
+      &:first-child {
+        width: 55%;
+      }
+      &:last-child {
+        width: 45%;
+        color: $secondary;
+      }
+    }
   }
 }
 /* Product END */

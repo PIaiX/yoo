@@ -4,154 +4,103 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import ProductCard from '../components/ProductCard';
 import SelectImitation from '../components/utils/SelectImitation';
-import Ingredient from '../components/utils/Ingredient';
-// swiper
-import { Navigation } from 'swiper';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import 'swiper/css';
+import CountInput from '../components/utils/CountInput';
+
 // icons & images
 import Corner from '../components/svgs/Corner';
 import { HiOutlineInformationCircle, HiOutlineShoppingBag, HiPlus, HiMinus } from "react-icons/hi2";
 import NavTop from '../components/utils/NavTop';
 
+// swiper
+import { Navigation, Thumbs, FreeMode } from 'swiper';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import 'swiper/css';
 
 const Product = () => {
   const [isRemove, setIsRemove] = useState(false);
+  const [thumbsSwiper, setThumbsSwiper] = useState(null);
 
   return (
     <main>
       <Container>
         <NavTop toBack={true} breadcrumbs={true}/>
 
-        <form className='productPage mb-5'>
+        <form className='productPage mb-6'>
           <Row className='gx-4 gx-xxl-5'>
             <Col xs={12} lg={3}>
-              <img src="/imgs/img3.png" alt="Четыре сыра" className='productPage-img'/>
+            <div className="productPage-photo">
+                    <Swiper
+                      className="thumbSlider"
+                      modules={[Thumbs, FreeMode]}
+                      watchSlidesProgress
+                      onSwiper={setThumbsSwiper}
+                      direction="vertical"
+                      loop={true}
+                      spaceBetween={20}
+                      slidesPerView={'auto'}
+                      freeMode={true}
+                    >
+                      <SwiperSlide>
+                        <img src="/imgs/product.jpg" alt="Какой-то подарок" className='productPage-img'/>
+                      </SwiperSlide>
+                      <SwiperSlide>
+                        <img src="/imgs/product.jpg" alt="Какой-то подарок" className='productPage-img'/>
+                      </SwiperSlide>
+                      <SwiperSlide>
+                        <img src="/imgs/product.jpg" alt="Какой-то подарок" className='productPage-img'/>
+                      </SwiperSlide>
+                    </Swiper>
+                    <Swiper 
+                      className="mainSlider"
+                      modules={[Thumbs]} 
+                      loop={true}
+                      spaceBetween={20}
+                      thumbs={{ swiper: thumbsSwiper && !thumbsSwiper.destroyed ? thumbsSwiper : null }}
+                    >
+                      <SwiperSlide>
+                        <img src="/imgs/product.jpg" alt="Какой-то подарок" className='productPage-img'/>
+                      </SwiperSlide>
+                      <SwiperSlide>
+                        <img src="/imgs/product.jpg" alt="Какой-то подарок" className='productPage-img'/>
+                      </SwiperSlide>
+                      <SwiperSlide>
+                        <img src="/imgs/product.jpg" alt="Какой-то подарок" className='productPage-img'/>
+                      </SwiperSlide>
+                    </Swiper>
+                    {/* <BtnFav/> */}
+                  </div>
             </Col>
-            <Col xs={12} md={6} lg={5}>
-              <div className="d-flex align-items-center justify-content-between justify-content-md-start mb-4">
-                <h1 className='mb-0'>Четыре сыра</h1>
-                <h6 className='gray mb-0 ms-3'>510гр</h6>
-                <HiOutlineInformationCircle className='dark-gray fs-15 ms-2'/>
+            <Col xs={12} md={6} lg={6} className='d-flex flex-column justify-content-between'>
+              <div>
+                <h1 className='mb-0'>Какой-то подарок</h1>
+                <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Odio molestiae culpa porro velit. Omnis culpa quae magnam tempore perferendis unde, odit ex dicta perspiciatis minus reprehenderit eligendi incidunt fugit ipsa?</p>
               </div>
-              
-              <p className='mb-2'>Состав:</p>
-              <p>тесто, сыр блю чиз, смесь сыров чеддер и пармезан, моцарелла, фирменный соус альфредо</p>
-
-              <h6 className='mt-4'>Тесто</h6>
-              <div className="d-xxl-flex mb-4">
-                <ul className='inputGroup'>
-                  <li>
-                    <label>
-                      <input type="radio" name='param1'/>
-                      <div className='text'>тонкое</div>
-                    </label>
-                  </li>
-                  <li>
-                    <label>
-                      <input type="radio" defaultChecked={true} name='param1'/>
-                      <div className='text'>обычное</div>
-                    </label>
-                  </li>
-                </ul>
-                <ul className='inputGroup mt-2 mt-xxl-0 ms-xxl-5'>
-                  <li>
-                    <label>
-                      <input type="radio" name='param2' defaultChecked={true}/>
-                      <div className='text'>25см</div>
-                    </label>
-                  </li>
-                  <li>
-                    <label>
-                      <input type="radio" name='param2'/>
-                      <div className='text'>30см</div>
-                    </label>
-                  </li>
-                  <li>
-                    <label>
-                      <input type="radio" name='param2'/>
-                      <div className='text'>36см</div>
-                    </label>
-                  </li>
-                </ul>
-              </div>
-              
-              <SelectImitation 
-                boxClass={'main-color w-fit mb-4'}
-                btnClass={'rounded-pill'}
-                optionsArr={[
-                  {
-                    value: 1,
-                    label: 'Сливочный соус',
-                    defaultChecked: true,
-                  },
-                  {
-                    value: 2,
-                    label: 'Красный соус',
-                    defaultChecked: false,
-                  }
-                ]}
-              />
 
               <div className='productPage-price'>
                 <div>
                   <div className='fs-12'>650 ₽</div>
                   <div className='gray fs-09 text-decoration-line-through'> 650 </div>
                 </div>
-                <button type='button' className='btn-secondary fs-12 rounded-pill ms-3'>
-                  <span className='fw-4'>В корзину</span>
-                  <HiOutlineShoppingBag className='fs-15 ms-2'/>
-                </button>
+                <button type='button' className='btn-primary ms-3'>Заказать</button>
+                <CountInput/>
               </div>
             </Col>
-            <Col xs={12} md={6} lg={4} className='mt-3mt-sm-4 mt-md-0'>
-              <h6>Изменить по вкусу</h6>
-              <div className="productPage-edit mb-3">
-                <div className="top">
-                  <button type='button' className={(isRemove) ? '' : 'active'} onClick={()=>setIsRemove(false)}>
-                    <HiPlus/>
-                    <span>Добавить</span>
-                    <Corner className="corner-right" />
-                  </button>
-                  <button type='button' className={(isRemove) ? 'active' : ''} onClick={()=>setIsRemove(true)}>
-                    <HiMinus/>
-                    <span>Убрать</span>
-                    <Corner className="corner-left" />
-                    <Corner className="corner-right" />
-                  </button>
-                </div>
-                {
-                  (isRemove)
-                  ? <div className="box">
-                    <ul>
-                      <li><Ingredient/></li>
-                      <li><Ingredient/></li>
-                      <li><Ingredient/></li>
-                    </ul>
-                  </div>
-                  : <div className="box">
-                    <ul>
-                      <li><Ingredient/></li>
-                      <li><Ingredient/></li>
-                      <li><Ingredient/></li>
-                      <li><Ingredient/></li>
-                      <li><Ingredient/></li>
-                      <li><Ingredient/></li>
-                      <li><Ingredient/></li>
-                      <li><Ingredient/></li>
-                      <li><Ingredient/></li>
-                      <li><Ingredient/></li>
-                    </ul>
-                  </div>
-                }
+            <Col xs={12} md={6} lg={3} className='mt-3mt-sm-4 mt-md-0'>
+              <div className="box">
+                <h6 className='secondary'>Доставка:</h6>
+                <p className='fs-09 dark-gray'>По Казани осуществляется по договорённости с курьером. Минимальная сумма заказа 400 ₽</p>
+                <p className='fs-09 dark-gray'>По России через компанию CDEK или почтой России</p>
+                <h6 className="mt-4 secondary">Самовывоз:</h6>
+                <p className='fs-09 dark-gray'>Магазин по адресу: Татарстан, Казань, Рашида Вагопова 3</p>
+                <h6 className="mt-4 secondary">Оплата:</h6>
+                <p className='fs-09 dark-gray'>Наличными или онлайн банковской картой</p>
               </div>
-              {/* <Notice/> */}
             </Col>
           </Row>
         </form>
 
         <section className='d-none d-md-block mb-5'>
-          <h2>Товары из этой категории</h2>
+          <h4>Вам пригодится</h4>
           <Swiper
             className=""
             modules={[Navigation]}
@@ -172,6 +121,10 @@ const Product = () => {
               },
               992: {
                 slidesPerView: 4,
+                spaceBetween: 30,
+              },
+              1200: {
+                slidesPerView: 5,
                 spaceBetween: 30,
               },
             }}
