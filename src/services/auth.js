@@ -2,21 +2,16 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import { $api, $authApi } from ".";
 import { apiRoutes } from "../config/api";
 import { updateAddresses } from "../store/reducers/addressSlice";
-import { updateCartAll } from "../store/reducers/cartSlice";
-// import socket from "../config/socket";
 
 const login = createAsyncThunk("auth/login", async (payloads, thunkAPI) => {
   try {
     const response = await $api.post(apiRoutes.AUTH_LOGIN, payloads);
     if (response?.data) {
-      response.data?.user?.addresses?.length > 0 && thunkAPI.dispatch(updateAddresses(response.data.user.addresses));
-
-      if (thunkAPI.getState?.cart?.items?.length > 0) {
-        thunkAPI.dispatch(updateCartAll(response?.data?.products ?? []));
-      }
+      response.data?.user?.addresses?.length > 0 &&
+        thunkAPI.dispatch(updateAddresses(response.data.user.addresses));
 
       if (thunkAPI.getState?.favorite?.items?.length > 0) {
-        thunkAPI.dispatch(getFavorites())
+        thunkAPI.dispatch(getFavorites());
       }
     }
 
@@ -88,7 +83,10 @@ const authEditEmail = async (data) => {
   const response = await $authApi.post(apiRoutes.AUTH_EDIT_EMAIL, data);
   return response?.data;
 };
-
+const authNewKeyRecovery = async (params) => {
+  const data = await $authApi.post(apiRoutes.AUTH_NEW_KEY_RECOVERY, params);
+  return data;
+};
 export {
   authActivate,
   authActivateEmail,
@@ -97,6 +95,7 @@ export {
   authEditPassword,
   authEditPhone,
   authPasswordRecovery,
+  authNewKeyRecovery,
   authRegister,
   checkAuth,
   login,

@@ -24,6 +24,7 @@ const getOrders = async (page, limit) => {
   const response = await $authApi.get(apiRoutes.ACCOUNT_ORDERS_GET, {
     params: { page, limit },
   });
+  console.log(response.data)
   return response?.data;
 };
 

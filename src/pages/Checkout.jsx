@@ -486,7 +486,7 @@ const Checkout = () => {
                   ))}
                 </ul>
               </div>
-
+              <div className="fs-11 mb-1">Списание баллов</div>
               <div className="mb-4 d-flex">
                 <Input
                   className="w-100"
@@ -494,7 +494,6 @@ const Checkout = () => {
                   name="point"
                   placeholder="Введите сумму баллов"
                   errors={errors}
-                  defaultValue={data?.point}
                   register={register}
                 />
                 <button type="button" className="btn-10 ms-2 ms-sm-4 rounded-3">

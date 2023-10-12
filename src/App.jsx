@@ -12,6 +12,7 @@ import { updateAddresses } from "./store/reducers/addressSlice";
 import { updateAffiliate } from "./store/reducers/affiliateSlice";
 import { updateCartAll } from "./store/reducers/cartSlice";
 import { updateOptions } from "./store/reducers/settingsSlice";
+import { getFavorites } from "./services/favorite";
 
 function App() {
   const dispatch = useDispatch();
@@ -49,16 +50,10 @@ function App() {
 
           dispatch(updateAffiliate(res.affiliates));
 
-          // res?.statuses && dispatch(updateStatus(res.statuses))
-          // dispatch(updateConnect(true))
-
           if (localStorage.getItem("token")) {
             await checkAuth()
               .then(async (data) => {
-                dispatch(updateAddresses(data.user.addresses));
-
-                cart.length === 0 &&
-                  dispatch(updateCartAll(data?.products ?? []));
+                dispatch(updateAddresses(data.addresses));
 
                 favorite.length === 0 && dispatch(getFavorites());
               })

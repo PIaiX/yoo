@@ -4107,7 +4107,7 @@ ACCOUNT END
   svg {
     max-width: 300px;
     max-height: 300px;
-    path {
+    path, circle {
       color: var(--main-color) !important;
     }
   }

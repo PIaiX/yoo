@@ -83,6 +83,9 @@ const Header = memo(() => {
             </ul>
             <ul className="text-menu d-none d-lg-flex">
               <li>
+                <Link to="/">Меню</Link>
+              </li>
+              <li>
                 <Link to="/delivery">Доставка и оплата</Link>
               </li>
               <li>

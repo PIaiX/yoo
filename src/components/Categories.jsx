@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, memo } from "react";
 import { Navigation, FreeMode, Mousewheel } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
@@ -12,7 +12,6 @@ import {
   HiOutlineAdjustmentsHorizontal,
   HiOutlineBars3,
 } from "react-icons/hi2";
-import { memo } from "react";
 
 const Categories = memo(({ className, data }) => {
   const [isFull, setIsFull] = useState(false);
@@ -33,7 +32,7 @@ const Categories = memo(({ className, data }) => {
   };
 
   return data?.length > 0 ? (
-    <div className={"categories " + className}>
+    <div className={"categories" + (className ? " " + className : "")}>
       <div className="categories-wrap">
         <Swiper
           loop={false}

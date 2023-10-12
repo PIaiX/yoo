@@ -164,16 +164,12 @@ const Cart = () => {
               <div className="mb-3 d-flex">
                 <Input
                   className="w-100"
-                  type="number"
+                  type="text"
                   name="promo"
                   placeholder="Введите промокод"
                   errors={errors}
-                  defaultValue={data?.promo}
                   register={register}
-                  validation={{
-                    required: true,
-                    maxLength: { value: 100 },
-                  }}
+                  maxLength={100}
                 />
                 <button
                   type="button"

@@ -8,12 +8,16 @@ import Empty from "../../components/Empty";
 import EmptyActivate from "../../components/empty/activate";
 import Meta from "../../components/Meta";
 import InputCode from "../../components/utils/InputCode";
-import { authActivate } from "../../services/auth";
+import { authActivate, authNewKeyActivate, logout } from "../../services/auth";
 import { setUser } from "../../store/reducers/authSlice";
+import { Timer } from "../../helpers/timer";
 
 const Activate = () => {
+  const user = useSelector((state) => state.auth.user);
   const isAuth = useSelector((state) => state.auth.isAuth);
   const options = useSelector((state) => state.settings.options);
+  const [endTimer, setEndTimer] = useState(false);
+  const [status, setStatus] = useState(false);
 
   const { control, handleSubmit, setValue } = useForm({
     mode: "all",
@@ -23,8 +27,6 @@ const Activate = () => {
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
-  const [status, setStatus] = useState(false);
 
   useLayoutEffect(() => {
     if (!isAuth) {
@@ -48,6 +50,20 @@ const Activate = () => {
     },
     [options]
   );
+
+  const onNewKey = () => {
+    setEndTimer(false);
+    authNewKeyActivate(user)
+      .then(() => {
+        NotificationManager.success("Код подтверждения отправлен повторно");
+      })
+      .catch((err) => {
+        NotificationManager.error(
+          err?.response?.data?.error ?? "Произошла неизвестная ошибка"
+        );
+      });
+  };
+
   if (status) {
     return (
       <>
@@ -100,14 +116,14 @@ const Activate = () => {
           <p className="mb-4 text-center text-muted fs-09">
             {options.authType == "email" ? (
               <span>
-                Мы отправили 6-значный код подтверждения на указанную
+                Мы отправили 4-значный код подтверждения на указанную
                 электронную почту. <br />
                 Пожалуйста, введите код в поле ниже, чтобы подтвердить свой
                 адрес электронной почты.
               </span>
             ) : (
               <span>
-                Мы отправили 6-значный код подтверждения на указанный номер
+                Мы отправили 4-значный код подтверждения на указанный номер
                 телефона. Введите полученный код в поле ниже.
               </span>
             )}
@@ -119,15 +135,33 @@ const Activate = () => {
               onChange={(e) => setValue("key", e)}
             />
           </div>
+          <p className="fs-09 text-muted text-center">
+            {endTimer ? (
+              <a onClick={() => onNewKey()}>
+                Отправить повторно код подтверждения
+              </a>
+            ) : (
+              <p>
+                Повторить отправку кода подтверждения через{" "}
+                <Timer onEnd={() => setEndTimer(true)} /> сек
+              </p>
+            )}
+          </p>
           <button
             type="submit"
-            disabled={data?.key?.length != 4}
-            className="btn-primary w-100"
+            disabled={!data?.key || data?.key?.length != 4}
+            className="btn-primary w-100 mt-4"
           >
             Подтвердить{" "}
             {options.authType == "email" ? "почту" : "номер телефона"}
           </button>
         </Form>
+        <button
+          className="btn-white text-danger w-100 mt-4"
+          onClick={() => dispatch(logout())}
+        >
+          Выйти из аккаунта
+        </button>
       </div>
     </main>
   );

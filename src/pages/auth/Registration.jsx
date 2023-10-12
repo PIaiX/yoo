@@ -16,7 +16,6 @@ const Registration = () => {
   const isAuth = useSelector((state) => state.auth.isAuth);
   const user = useSelector((state) => state.auth.user);
   const options = useSelector((state) => state.settings.options);
-  const loadingLogin = useSelector((state) => state.auth.loadingLogin);
 
   const navigate = useNavigate();
   const [loginView, setLoginView] = useState(true);
@@ -68,8 +67,7 @@ const Registration = () => {
             "Завершите регистрацию, подтвердив почту"
           );
           if (res?.id) {
-            dispatch(setAuth(true));
-            dispatch(setUser(res));
+            dispatch(login(data));
           }
           navigate("/activate");
         })
@@ -171,11 +169,9 @@ const Registration = () => {
           <div ref={block2} className="login-forms">
             {loginView ? (
               <form className="login-form" onSubmit={handleSubmit(onSubmit)}>
-                <h4 class="main-color text-center fw-6">
-                  С&nbsp;возвращением!
-                </h4>
+                <h4 class="main-color text-center fw-6">Свозвращением!</h4>
                 <p class="text-center fs-11 mb-5">
-                  Вкусные роллы и&nbsp;пицца скучали по&nbsp;тебе
+                  Вкусные роллы ипицца скучали потебе
                 </p>
                 <div className="mb-3">
                   {!options.authType || options.authType === "email" ? (
@@ -229,9 +225,9 @@ const Registration = () => {
                     validation={{
                       required: "Введите пароль",
                       minLength: {
-                        value: 4,
+                        value: 6,
                         message:
-                          "Минимальный пароль должен состоять из 4-ех символов",
+                          "Минимальный пароль должен состоять из 6 символов",
                       },
                     }}
                   />
@@ -244,6 +240,9 @@ const Registration = () => {
                 >
                   Войти
                 </Button>
+                <div className="mt-4 text-center text-muted fs-09">
+                  <Link to="/recovery">Забыли пароль?</Link>
+                </div>
               </form>
             ) : (
               <form
@@ -252,7 +251,7 @@ const Registration = () => {
               >
                 <h4 class="main-color text-center fw-6">Привет, друг!</h4>
                 <p class="text-center fs-11 mb-5">
-                  Введи данные чтобы&nbsp;зарегистрироваться
+                  Введи данные чтобы зарегистрироваться
                 </p>
                 <div className="mb-3">
                   {!options.authType || options.authType === "email" ? (
@@ -313,11 +312,6 @@ const Registration = () => {
                         value: 250,
                         message: "Максимальное кол-во символов 250",
                       },
-                      pattern: {
-                        value: /(?=.*[0-9])(?=.*[a-z])[0-9a-zA-Z]{6,}/g,
-                        message:
-                          "Пароль должен содержать не менее 6 символов латинского алфавита и цифры",
-                      },
                     }}
                   />
                 </div>
@@ -338,11 +332,6 @@ const Registration = () => {
                       maxLength: {
                         value: 250,
                         message: "Максимальное кол-во символов 250",
-                      },
-                      pattern: {
-                        value: /(?=.*[0-9])(?=.*[a-z])[0-9a-zA-Z]{6,}/g,
-                        message:
-                          "Пароль должен содержать не менее 6 символов латинского алфавита и цифры",
                       },
                     }}
                   />

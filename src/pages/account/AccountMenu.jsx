@@ -4,6 +4,7 @@ import {
   HiOutlineShoppingBag,
   HiOutlineMapPin,
   HiOutlineArrowRightOnRectangle,
+  HiOutlineHeart,
   // HiOutlineStar,
   // HiOutlineCreditCard,
   // HiOutlineBellAlert,
@@ -30,6 +31,12 @@ const AccountMenu = (props) => {
           <NavLink to="addresses">
             <HiOutlineMapPin />
             <div>Адреса</div>
+          </NavLink>
+        </li>
+        <li>
+          <NavLink to="favorites">
+            <HiOutlineHeart />
+            <div>Избранное</div>
           </NavLink>
         </li>
         <li>

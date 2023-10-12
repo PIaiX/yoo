@@ -18,7 +18,6 @@ const Orders = () => {
     items: [],
     pagination: {},
   });
-  console.log(orders);
 
   const orderColumns = [
     {
