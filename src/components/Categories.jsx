@@ -83,72 +83,6 @@ const Categories = memo(({ className, data }) => {
               </Link>
             </SwiperSlide>
           ))}
-          {/* <SwiperSlide>
-            <button type="button" className="btn-8">
-              <FoodSets className="fs-15" />
-              <span className="ms-2">Сеты</span>
-            </button>
-          </SwiperSlide>
-          <SwiperSlide>
-            <button type="button" className="btn-8">
-              <FoodPizza />
-              <span className="ms-2">Пицца</span>
-            </button>
-          </SwiperSlide>
-          <SwiperSlide>
-            <button type="button" className="btn-8">
-              <FoodCombo />
-              <span className="ms-2">Комбо</span>
-            </button>
-          </SwiperSlide>
-          <SwiperSlide>
-            <button type="button" className="btn-8">
-              <FoodDesserts />
-              <span className="ms-2">Десерты</span>
-            </button>
-          </SwiperSlide>
-          <SwiperSlide>
-            <button type="button" className="btn-8">
-              <FoodPoke />
-              <span className="ms-2">Поке</span>
-            </button>
-          </SwiperSlide>
-          <SwiperSlide>
-            <button type="button" className="btn-8">
-              <FoodRolls className="fs-15" />
-              <span className="ms-2">Роллы</span>
-            </button>
-          </SwiperSlide>
-          <SwiperSlide>
-            <button type="button" className="btn-8">
-              <FoodSets className="fs-15" />
-              <span className="ms-2">Сеты</span>
-            </button>
-          </SwiperSlide>
-          <SwiperSlide>
-            <button type="button" className="btn-8">
-              <FoodPizza />
-              <span className="ms-2">Пицца</span>
-            </button>
-          </SwiperSlide>
-          <SwiperSlide>
-            <button type="button" className="btn-8">
-              <FoodCombo />
-              <span className="ms-2">Комбо</span>
-            </button>
-          </SwiperSlide>
-          <SwiperSlide>
-            <button type="button" className="btn-8">
-              <FoodDesserts />
-              <span className="ms-2">Десерты</span>
-            </button>
-          </SwiperSlide>
-          <SwiperSlide>
-            <button type="button" className="btn-8">
-              <FoodPoke />
-              <span className="ms-2">Поке</span>
-            </button>
-          </SwiperSlide> */}
           <div className="swiper-button-prev">
             <HiOutlineArrowLeftCircle />
           </div>
@@ -174,12 +108,12 @@ const Categories = memo(({ className, data }) => {
           <HiOutlineArrowUturnDown className="fs-15 main-color rotateY-180" />
         </button>
       )}
-      <button type="button" className="categories-btn ms-4">
+      {/* <button type="button" className="categories-btn ms-4">
         <HiOutlineAdjustmentsHorizontal className="fs-15 main-color" />
       </button>
       <button type="button" className="d-lg-none categories-btn">
         <HiOutlineBars3 className="fs-15 main-color" />
-      </button>
+      </button> */}
     </div>
   ) : null;
 });

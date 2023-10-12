@@ -5,8 +5,9 @@ import { apiRoutes } from "../config/api";
 export const homeApi = createApi({
   reducerPath: "homeApi",
   baseQuery: $authApi,
-  refetchOnFocus: true,
-  keepUnusedDataFor: 0,
+  refetchOnReconnect: true,
+  refetchOnMountOrArgChange: true,
+  keepUnusedDataFor: 350,
   endpoints: (build) => ({
     getBanners: build.query({
       query: () => apiRoutes.BANNERS,

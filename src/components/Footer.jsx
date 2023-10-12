@@ -5,7 +5,7 @@ import { Link, NavLink } from "react-router-dom";
 import AppStore from "../assets/imgs/appstore.svg";
 import GooglePlay from "../assets/imgs/googleplay.svg";
 import LogoTextWhite from "../assets/imgs/logo-text-white.svg";
-import BellIcon from "./svgs/BellIcon";
+import { getCount } from "../helpers/all";
 import CartIcon from "./svgs/CartIcon";
 import FlameIcon from "./svgs/FlameIcon";
 import HomeIcon from "./svgs/HomeIcon";
@@ -13,7 +13,9 @@ import UserIcon from "./svgs/UserIcon";
 
 const Footer = memo(() => {
   const isAuth = useSelector((state) => state.auth.isAuth);
+  const cart = useSelector((state) => state.cart.items);
   const options = useSelector((state) => state.settings.options);
+  const count = getCount(cart);
 
   return (
     <footer>
@@ -45,11 +47,16 @@ const Footer = memo(() => {
               </NavLink>
             </li>
             <li>
-              <NavLink to="/cart">
+              <NavLink to="/cart" className="position-relative">
                 <CartIcon />
                 <div className="text fs-09">
                   <span>&nbsp;Корзина</span>
                 </div>
+                {count > 0 && (
+                  <span class="position-absolute translate-middle badge rounded-pill">
+                    {count}
+                  </span>
+                )}
               </NavLink>
             </li>
             <li>

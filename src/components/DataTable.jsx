@@ -1,15 +1,14 @@
-import React, { memo, useCallback, useMemo, useState } from "react";
-import { useEffect } from "react";
+import React, { memo, useCallback, useEffect, useMemo, useState } from "react";
 import { Card, Col, Container, Form, Row } from "react-bootstrap";
-import { IoChevronDownOutline, IoChevronUpOutline } from "react-icons/io5";
 import {
-  HiChevronDoubleRight,
-  HiChevronRight,
   HiChevronDoubleLeft,
+  HiChevronDoubleRight,
   HiChevronLeft,
+  HiChevronRight,
 } from "react-icons/hi2";
+import { IoChevronDownOutline, IoChevronUpOutline } from "react-icons/io5";
 
-import { Link, useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 
 const DataTable = React.memo(
   ({
@@ -67,7 +66,7 @@ const DataTable = React.memo(
       return (
         <Row className={"head gx-0 " + headClassName}>
           {selectable && (
-            <Col className="col-auto">
+            <Col className="col-auto px-2">
               <Form.Check
                 aria-label="all"
                 onChange={() => onSelectedAll()}
@@ -86,7 +85,7 @@ const DataTable = React.memo(
               <Col
                 style={width && { maxWidth: width }}
                 md={size}
-                className={[size == "auto" && "col-auto", optionAlign]}
+                className={['px-2', size == "auto" && "col-auto", optionAlign]}
                 key={index}
               >
                 {name}
@@ -120,7 +119,7 @@ const DataTable = React.memo(
               ]}
             >
               {selectable && (
-                <Col className="col-auto">
+                <Col className="col-auto px-2">
                   <Form.Check
                     checked={isSelected(index)}
                     aria-label={index}
@@ -140,7 +139,7 @@ const DataTable = React.memo(
                     <Col
                       md={size}
                       style={width && { maxWidth: width }}
-                      className={[size == "auto" && "col-auto", optionAlign]}
+                      className={['px-2', size == "auto" && "col-auto", optionAlign]}
                     >
                       {openDesc ? (
                         <a
@@ -187,7 +186,7 @@ const DataTable = React.memo(
         <Card.Footer>{footer}</Card.Footer>
       ) : (
         pagination && (
-          <Card.Footer className="fs-08 d-flex justify-content-end align-items-center sticky pagination">
+          <Card.Footer className="px-2 fs-08 d-flex justify-content-end align-items-center sticky pagination">
             <span className="me-4">
               Страница {pagination.currentPage} из {pagination.totalPages}
             </span>

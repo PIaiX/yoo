@@ -2,7 +2,7 @@ import moment from "moment";
 import React, { useLayoutEffect, useState } from "react";
 import { Badge } from "react-bootstrap";
 import { HiOutlineArrowLeftCircle } from "react-icons/hi2";
-import { IoCreateOutline } from "react-icons/io5";
+import { IoCreateOutline, IoEye, IoEyeOutline } from "react-icons/io5";
 import { Link } from "react-router-dom";
 import DataTable from "../../components/DataTable";
 import Empty from "../../components/Empty";
@@ -21,7 +21,7 @@ const Orders = () => {
 
   const orderColumns = [
     {
-      name: "Время заказа",
+      name: "Дата",
       selector: "createdAt",
       cell: (row) => moment(row.createdAt).format("DD MMM YYYY kk:mm"),
     },
@@ -31,7 +31,7 @@ const Orders = () => {
       cell: (row) => <Badge bg="success">Принят</Badge>,
     },
     {
-      name: "Способ доставки",
+      name: "Способ",
       selector: "deliveryType",
       cell: (row) => deliveryData[row.delivery],
     },
@@ -47,12 +47,12 @@ const Orders = () => {
       ),
     },
     {
-      width: "60px",
+      width: "50px",
       selector: "action",
       align: "right",
       cell: (row) => (
         <Link to={"/account/orders/" + row.id}>
-          <IoCreateOutline size={22} />
+          <IoEyeOutline size={20} />
         </Link>
       ),
     },

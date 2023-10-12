@@ -63,7 +63,7 @@ const Header = memo(() => {
                 {options?.title ?? "YOOAPP"}
               </span>
             </Link>
-            <ul className="btns-menu d-none d-lg-flex">
+            {/* <ul className="btns-menu d-none d-lg-flex">
               <li className="d-none d-md-block">
                 <Select
                   data={[
@@ -80,7 +80,7 @@ const Header = memo(() => {
                   onClick={(e) => dispatch(editDeliveryCheckout(e.value))}
                 />
               </li>
-            </ul>
+            </ul> */}
             <ul className="text-menu d-none d-lg-flex">
               <li>
                 <Link to="/">Меню</Link>

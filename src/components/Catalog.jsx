@@ -45,26 +45,21 @@ const Catalog = memo(({ data }) => {
           )}
         </Container>
       ) : (
-        <Container>
-          <div className="sticky-box mb-3 mb-sm-4 mb-md-5">
+        <>
+          <div className="container p-0 pe-md-3 ps-md-3 sticky-box mb-3 mb-sm-4 mb-md-5">
             <Categories data={data} />
-            {/* <button
-              type="button"
-              onClick={() => setViewCategories(!viewCategories)}
-              className="btn-view me-4"
-            >
-              <img src={Choose} alt="Choose" />
-              <GridIcon />
-            </button> */}
           </div>
-          {data?.length > 0 && (
-            <div className="categories-box">
-              {data.map((e) => (
-                <CategoryGroup data={e} />
-              ))}
-            </div>
-          )}
-        </Container>
+
+          <Container>
+            {data?.length > 0 && (
+              <div className="categories-box">
+                {data.map((e) => (
+                  <CategoryGroup data={e} />
+                ))}
+              </div>
+            )}
+          </Container>
+        </>
       )}
     </section>
   );

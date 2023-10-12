@@ -26,7 +26,6 @@ const Settings = () => {
   }, [user]);
 
   const {
-    control,
     register,
     formState: { errors, isValid },
     handleSubmit,
@@ -179,7 +178,7 @@ const Settings = () => {
                       type="submit"
                       disabled={!isValid}
                       onClick={handleSubmit(onSubmit)}
-                      className="btn-green mt-4"
+                      className="btn-green mt-4 d-block d-md-flex w-xs-100"
                     >
                       Сохранить изменения
                     </button>

@@ -2127,7 +2127,7 @@ main {
 }
 .categories-wrap {
   position: relative;
-  max-width: 90%;
+  max-width: 95%;
   padding: 0px 2.75em;
 }
 @media (max-width: 991.98px) {
@@ -2145,7 +2145,7 @@ main {
 @media (max-width: 991.98px) {
   .categories-slider {
     width: 100%;
-    padding: 0.25em !important;
+    padding: 0.75em 0.25em !important;
   }
 }
 .categories-slider .swiper-slide {
@@ -2399,6 +2399,15 @@ main {
   .product-img img {
     height: 43vw;
   }
+}
+.product .title {
+  min-height: 40px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -moz-box;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
 }
 .product-stickers {
   position: absolute;
@@ -3245,7 +3254,7 @@ footer {
     bottom: -1px;
     left: 0px;
     width: 100%;
-    z-index: 1050;
+    z-index: 900;
     box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.06);
   }
 }
@@ -3308,9 +3317,27 @@ footer .mobile ul li a .text {
   max-width: 0px;
   transition: max-width 300ms ease-in;
 }
+footer .mobile ul li a .badge {
+  bottom: -3px;
+  left: 18px;
+  font-size: 9px;
+  background-color: var(--main-color);
+  color: #fff;
+  width: 1.5em;
+  height: 1.5em;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: nowrap;
+}
 footer .mobile ul li a.active {
   background-color: var(--main-color);
   max-width: 130px;
+}
+footer .mobile ul li a.active .badge {
+  background-color: #fff;
+  color: var(--main-color);
 }
 footer .mobile ul li a.active svg {
   color: #fff;
@@ -4657,7 +4684,8 @@ ACCOUNT END
   max-width: 300px;
   max-height: 300px;
 }
-.empty svg path, .empty svg circle {
+.empty svg path,
+.empty svg circle {
   color: var(--main-color) !important;
 }
 .empty.mini {

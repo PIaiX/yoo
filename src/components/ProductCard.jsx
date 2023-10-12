@@ -49,7 +49,7 @@ const ProductCard = memo(({ data }) => {
         {isAuth && <BtnFav product={data} />}
       </div>
 
-      <h6 className="text-center text-md-start">{data.title}</h6>
+      <h6 className="title text-center text-md-start">{data.title}</h6>
       <p className="d-none d-md-block text-muted fs-09">{data.description}</p>
       <hr className="d-none d-md-block" />
 

@@ -384,7 +384,7 @@ const Checkout = () => {
                   <div className="mb-4">
                     <Input
                       label="Имя"
-                      name="firstName"
+                      name="name"
                       placeholder="Введите имя"
                       errors={errors}
                       register={register}
