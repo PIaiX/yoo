@@ -18,7 +18,7 @@ const Gifts = () => {
           <div className='icon'><HiOutlineGift/></div>
         </li>
       </ul>
-      <p className='mt-2'>Добавьте товары на 268 ₽, чтобы получить подарок</p>
+      <p className='fs-09 mt-2'>Добавьте товары на 268 ₽, чтобы получить подарок</p>
     </div>
   );
 };
