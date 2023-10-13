@@ -1,7 +1,5 @@
 import React, { useState, useRef, useCallback, useLayoutEffect } from "react";
-// import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
-// import Row from "react-bootstrap/Row";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
@@ -10,7 +8,6 @@ import { authRegister, login } from "../../services/auth";
 import Meta from "../../components/Meta";
 import { Button } from "react-bootstrap";
 import { NotificationManager } from "react-notifications";
-import { setAuth, setUser } from "../../store/reducers/authSlice";
 
 const Registration = () => {
   const isAuth = useSelector((state) => state.auth.isAuth);
@@ -146,25 +143,6 @@ const Registration = () => {
     <main className="py-lg-0">
       <Meta title={loginView ? "Регистрация" : "Вход"} />
       <Container>
-        <section className="d-lg-none login-mobile">
-          {loginView ? (
-            <button
-              type="button"
-              onClick={() => setLogin(false)}
-              className="main-color fs-13 mx-auto mt-4 text-decoration-underline"
-            >
-              Зарегистрироваться
-            </button>
-          ) : (
-            <button
-              type="button"
-              onClick={() => setLogin(true)}
-              className="main-color fs-13 mx-auto mt-4 text-decoration-underline"
-            >
-              Войти
-            </button>
-          )}
-        </section>
         <section className="d-none d-lg-block login">
           <div ref={block2} className="login-forms">
             {loginView ? (
@@ -378,6 +356,25 @@ const Registration = () => {
               {loginView ? <span>Регистрация</span> : <span>Войти</span>}
             </button>
           </div>
+        </section>
+        <section className="d-lg-none login-mobile">
+          {loginView ? (
+            <button
+              type="button"
+              onClick={() => setLoginView(false)}
+              className="main-color fs-13 mx-auto mt-4 text-decoration-underline"
+            >
+              Зарегистрироваться
+            </button>
+          ) : (
+            <button
+              type="button"
+              onClick={() => setLoginView(true)}
+              className="main-color fs-13 mx-auto mt-4 text-decoration-underline"
+            >
+              Войти
+            </button>
+          )}
         </section>
       </Container>
     </main>
