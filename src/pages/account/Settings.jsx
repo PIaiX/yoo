@@ -18,7 +18,7 @@ const Settings = () => {
   const user = useSelector((state) => state.auth.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
+  
   useLayoutEffect(() => {
     if (user?.status === 0) {
       return navigate("/activate");

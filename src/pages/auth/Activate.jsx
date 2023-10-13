@@ -29,7 +29,7 @@ const Activate = () => {
   const dispatch = useDispatch();
 
   useLayoutEffect(() => {
-    if (!isAuth) {
+    if (!isAuth || user.status === 1) {
       return navigate("/");
     }
   }, [isAuth]);
@@ -102,9 +102,9 @@ const Activate = () => {
             : "номера телефона")
         }
       />
-      <div className="login-forms">
+      <div className="login-forms p-2 p-md-3 w-xs-100">
         <Form
-          className="login-form text-center d-flex flex-column justify-content-center"
+          className="login-form text-center d-flex flex-column justify-content-center w-xs-100"
           onSubmit={handleSubmit(onSubmit)}
         >
           <h5 className="mb-3 fw-6 text-center">
