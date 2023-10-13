@@ -1087,6 +1087,14 @@ select {
     padding-bottom: 2em;
   }
 }
+.pagination {
+  @include flex(row, flex-end, center, nowrap);
+  font-size: .9em;
+  select {
+    width: 80px;
+    min-width: unset;
+  } 
+}
 
 
 .rotateY-180 {transform: rotateY(180deg);}
@@ -1221,13 +1229,14 @@ header {
     @media (max-width: $bp-xl) {
       display: none;
     }
-    button {
+    button, a {
       position: absolute;
       top: 0px;
       right: 0px;
       height: 100%;
       width: 2em;
       font-size: 1.25em;
+      @include flex();
       svg {
         color: $dark-gray;
         stroke-width: 1.5px;
@@ -1943,133 +1952,7 @@ main {
     opacity: 1;
   }
 }
-// .productPage {
-//   @media (max-width: $bp-md) {
-//     h1 {flex:1;}
-//   }
-//   &-img {
-//     width: 100%;
-//     height: 290px;
-//     object-fit: scale-down;
-//     border-radius: $radius;
-//     @media (max-width: $bp-xxl) {
-//       height: 260px;
-//     }
-//     @media (max-width: $bp-xl) {
-//       height: 215px;
-//     }
-//     @media (max-width: $bp-lg) {
-//       height: 500px;
-//       margin-bottom: 1em;
-//     }
-//     @media (max-width: $bp-sm) {
-//       height: 85vw;
-//     }
-//   }
-//   &-edit {
-//     .top {
-//       @include flex(row, flex-start, flex-end, nowrap);
-//       button {
-//         position: relative;
-//         z-index: 1;
-//         background-color: $dark-gray;
-//         color: $white;
-//         border-radius: $radius $radius 0px 0px;
-//         height: calc($radius*2);
-//         @include flex();
-//         transition: $transition;
-//         transition-property: background-color, color;
-//         &:first-child {
-//           padding: 0em 2.5em 0em 1.5em;
-//         }
-//         &:last-child {
-//           padding: 0em 2.5em;
-//           margin-left: -2em;
-//         }
-//         span {margin-left: .25em;}
-//         .corner {
-//           position: absolute;
-//           z-index: 1;
-//           bottom: 0px;
-//           font-size: $radius;
-//           color: $dark-gray;
-//           transition: color $transition;
-//           &-right{
-//             @extend .corner;
-//             left: 100%;
-//           }
-//           &-left{
-//             @extend .corner;
-//             right: 100%;
-//             transform: rotateY(180deg);
-//           }
-//         }
-//         &.active {
-//           background-color: $light-gray;
-//           color: $black;
-//           z-index: 2;
-//           .corner {
-//             color: $light-gray;
-//           }
-//         }
-//       }
-//     }
-//     .box {
-//       background-color: $light-gray;
-//       padding: .75em;
-//       border-radius: 0px $radius $radius $radius;
-//       ul {
-//         --mt: 5px;
-//         --h: 60px;
-//         @include list();
-//         max-height: calc(var(--h) * 5 + var(--mt) * 4);
-//         overflow: auto;
-//         @include scrollCustomized();
-//         padding-right: var(--mt);
-//         @media (max-width: $bp-xxl) {
-//           --h: 54px;
-//         }
-//         @media (max-width: $bp-xl) {
-//           --h: 47.25px;
-//         }
-//         li {
-//           &:not(:first-child){
-//             margin-top: var(--mt);
-//           }
-//         }
-//       }
-//     }
-//   }
-//   &-price {
-//     @include flex(row, flex-start, center, nowrap);
-//     @media (max-width: $bp-md) {
-//       position: fixed;
-//       bottom: calc(var(--f-height) - 2px);
-//       left: 0px;
-//       width: 100%;
-//       height: 50px;
-//       z-index: 100;
-//       background-color: $white;
-//       justify-content: center;
-//       button {
-//         width: 270px;
-//       }
-//     }
-//     @media (max-width: $bp-sm) {
-//       padding: 0px 1.5em;
-//       button {
-//         width: 100%;
-//         flex: 1;
-//       }
-//     }
-//   }
-//   .select-button {
-//     padding: .6em 1em;
-//   }
-//   .notice {
-//     padding: .75em 5em .75em 1em;
-//   }
-// }
+
 .productPage {
   h1 {
     font-family: $main-font;
@@ -2240,6 +2123,68 @@ main {
       &:last-child {
         width: 45%;
         color: $secondary;
+      }
+    }
+  }
+}
+.product-slider {
+  position: unset;
+  @media (max-width: $bp-sm){
+    .swiper-slide {
+      width: 170px;
+    }
+  }
+}
+.product-card-mini {
+  width: 100%;
+  padding: 1em;
+  border: 1px solid $gray;
+  border-radius: 1em;
+  @include flex(row, flex-start, stretch, nowrap);
+  @media (max-width: $bp-xl) {
+    font-size: .8em;
+  }
+  @media (max-width: $bp-lg) {
+    font-size: 1em;
+  }
+  @media (max-width: $bp-md) {
+    font-size: .8em;
+    padding: .75em;
+  }
+  @media (max-width: $bp-sm) {
+    font-size: 1em;
+    @include flex(column, flex-start, stretch, nowrap);
+    border-radius: 1.5em;
+  }
+  img {
+    --card-mini-w: 100px;
+    @include roundedImg(var(--card-mini-w), $radius, cover);
+    margin-right: 1em;
+    @media (max-width: $bp-xl) {
+      --card-mini-w: 75px;
+    }
+    @media (max-width: $bp-md) {
+      margin-right: .75em;
+    }
+    @media (max-width: $bp-sm) {
+      width: 100%;
+      height: 140px;
+      margin-bottom: 1em;
+    }
+  }
+  figcaption {
+    flex: 1;
+    @include flex(column, space-between, stretch, nowrap);
+    h5 {
+      @media (max-width: $bp-sm) {
+        font-size: .9em;
+        @include clamp(2, 1.2em, true);
+      }
+    }
+    a {
+      transition: $transition;
+      &:hover {
+        color: $primary;
       }
     }
   }
@@ -2672,7 +2617,7 @@ main {
     --offer-w: 310px;
   }
   @media (max-width: $bp-sm) {
-    --offer-w: 200px;
+    --offer-w: 45vw;
   }
   .offer {
     width: 100%;
@@ -2694,7 +2639,7 @@ main {
       @include absBG(10);
       color: $white;
       padding: 2em;
-      @include flex(column, space-between, stretch, nowrap);
+      @include flex(column, flex-end, stretch, nowrap);
       @media (max-width: $bp-xl) {
         padding: 1em;
       }
@@ -2778,16 +2723,13 @@ main {
     }
     &-price {
       grid-area: price;
-      @include flex(row, flex-end, flex-start, nowrap);
-      font-size: 1.2em;
-      @media (max-width: $bp-xxl) {
-        font-size: 1.1em;
-      }
+      @include flex(column, center, flex-end, nowrap);
       @media (max-width: $bp-md) {
+        flex-direction: row;
         justify-content: space-between;
-      }
-      @media (max-width: $bp-sm) {
-        font-size: 1em;
+        .btn-fav {
+          display: none;
+        }
       }
     }
     &s-list{
@@ -2797,11 +2739,18 @@ main {
     }
   }
 }
+.offerPage {
+  @media (max-width: $bp-md) {
+    --offer-w: 500px;
+  }
+  @media (max-width: $bp-sm) {
+    --offer-w: 90vw;
+  }
+}
 /* Section 6 END */
 
 .sec-7 {
   .box {
-    height: 700px;
     @include flex(column, flex-start, stretch, nowrap);
   }
   ul {
@@ -2819,6 +2768,18 @@ main {
     @include safariFix();
     @include flex();
     height: 700px;
+    @media (max-width: $bp-xxl) {
+      height: 600px;
+    }
+    @media (max-width: $bp-xl) {
+      height: 500px;
+    }
+    @media (max-width: $bp-md) {
+      height: 400px;
+    }
+    @media (max-width: $bp-sm) {
+      height: 300px;
+    }
     img {
       width: 100%;
       height: 100%;
@@ -2837,6 +2798,9 @@ main {
     border-radius: $radius;
     @include lightShadow();
     margin-bottom: .5em;
+    @media (max-width: $bp-md) {
+      font-size: .9em;
+    }
   }
   &-item {
     position: relative;
@@ -2895,9 +2859,9 @@ main {
       @include flex(column, space-between, flex-end, nowrap);
       width: 35%;
       @media (max-width: $bp-md) {
+        @include flex(row, space-between, center, nowrap);
         width: 100%;
         margin-top: 1em;
-        align-items: center;
       }
       @media (max-width: $bp-sm) {
         margin-top: .5em;

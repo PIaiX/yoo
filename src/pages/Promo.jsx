@@ -4,8 +4,12 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Offer from '../components/Offer';
 import ProductCardMini from '../components/ProductCardMini';
+
 import { Swiper, SwiperSlide } from 'swiper/react';
+import { Navigation, FreeMode } from 'swiper';
 import 'swiper/css';
+import SwiperButtonNext from '../components/utils/SwiperButtonNext';
+import SwiperButtonPrev from '../components/utils/SwiperButtonPrev';
 
 const Promo = () => {
   return (
@@ -38,42 +42,59 @@ const Promo = () => {
       <section className='sec-5 mb-5'>
         <Container>
           <h2>Вам может понравиться</h2>
-          <Swiper
-            className='product-slider'
-            spaceBetween={10}
-            slidesPerView={'auto'}
-            speed={750}
-            breakpoints={{
-              576: {
-                spaceBetween: 20,
-              },
-            }}
-          >
-            <SwiperSlide>
-              <ProductCardMini/>
-            </SwiperSlide>
-            <SwiperSlide>
-              <ProductCardMini/>
-            </SwiperSlide>
-            <SwiperSlide>
-              <ProductCardMini/>
-            </SwiperSlide>
-            <SwiperSlide>
-              <ProductCardMini/>
-            </SwiperSlide>
-            <SwiperSlide>
-              <ProductCardMini/>
-            </SwiperSlide>
-            <SwiperSlide>
-              <ProductCardMini/>
-            </SwiperSlide>
-            <SwiperSlide>
-              <ProductCardMini/>
-            </SwiperSlide>
-            <SwiperSlide>
-              <ProductCardMini/>
-            </SwiperSlide>
-          </Swiper>
+          <div className="position-relative">
+            <Swiper
+              className='product-slider'
+              modules={[Navigation, FreeMode]}
+              spaceBetween={20}
+              slidesPerView={'auto'}
+              speed={750}
+              navigation
+              freeMode={true}
+              breakpoints={{
+                576: {
+                  slidesPerView: 2,
+                  spaceBetween: 10,
+                  freeMode: false,
+                },
+                768: {
+                  slidesPerView: 2,
+                  spaceBetween: 20,
+                },
+                992: {
+                  slidesPerView: 3,
+                  spaceBetween: 20,
+                },
+              }}
+            >
+              <SwiperSlide>
+                <ProductCardMini/>
+              </SwiperSlide>
+              <SwiperSlide>
+                <ProductCardMini/>
+              </SwiperSlide>
+              <SwiperSlide>
+                <ProductCardMini/>
+              </SwiperSlide>
+              <SwiperSlide>
+                <ProductCardMini/>
+              </SwiperSlide>
+              <SwiperSlide>
+                <ProductCardMini/>
+              </SwiperSlide>
+              <SwiperSlide>
+                <ProductCardMini/>
+              </SwiperSlide>
+              <SwiperSlide>
+                <ProductCardMini/>
+              </SwiperSlide>
+              <SwiperSlide>
+                <ProductCardMini/>
+              </SwiperSlide>
+              <SwiperButtonPrev/>
+              <SwiperButtonNext/>
+            </Swiper>
+          </div>
         </Container>
       </section>
     </main>

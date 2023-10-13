@@ -7,13 +7,19 @@ import NavTop from '../components/utils/NavTop';
 import Gifts from '../components/utils/Gifts';
 import { HiOutlineTrash, HiXMark } from "react-icons/hi2";
 import CartItem from '../components/CartItem';
+import ProductCard from '../components/ProductCard';
+
+// swiper
+import { Navigation, Thumbs, FreeMode } from 'swiper';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import 'swiper/css';
 
 const Cart = () => {
   return (
     <main>
       <Container>
         <NavTop toBack={true} breadcrumbs={true}/>
-        <form className='cart'>
+        <form className='cart mb-6'>
           <Row className='g-4 g-xxl-5'>
             <Col xs={12} lg={8}>
               <h1 className='text-center text-lg-start'>Вы добавили 3 товара</h1>
@@ -76,6 +82,53 @@ const Cart = () => {
             </Col>
           </Row>
         </form>
+        <section className='mb-6'>
+          <h5>Добавьте к заказу</h5>
+          <Swiper
+            className=""
+            modules={[Navigation]}
+            spaceBetween={15}
+            slidesPerView={2}
+            navigation={{
+              nextEl: '.swiper-button-next',
+              prevEl: '.swiper-button-prev',
+            }}
+            breakpoints={{
+              576: {
+                slidesPerView: 3,
+                spaceBetween: 20,
+              },
+              768: {
+                slidesPerView: 3,
+                spaceBetween: 30,
+              },
+              992: {
+                slidesPerView: 4,
+                spaceBetween: 30,
+              },
+              1200: {
+                slidesPerView: 5,
+                spaceBetween: 30,
+              },
+            }}
+          >
+            <SwiperSlide>
+              <ProductCard/>
+            </SwiperSlide>
+            <SwiperSlide>
+              <ProductCard/>
+            </SwiperSlide>
+            <SwiperSlide>
+              <ProductCard/>
+            </SwiperSlide>
+            <SwiperSlide>
+              <ProductCard/>
+            </SwiperSlide>
+            <SwiperSlide>
+              <ProductCard/>
+            </SwiperSlide>
+          </Swiper>
+        </section>
       </Container>
     </main>
   );

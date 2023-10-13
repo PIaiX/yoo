@@ -10,7 +10,7 @@ const Checkout = () => {
   return (
     <main>
       <Container>
-        <NavTop toBack={true} breadcrumbs={false}/>
+        <NavTop toBack={true} breadcrumbs={true}/>
         <form className='cart'>
           <Row className='g-4 g-xxl-5'>
             <Col xs={12} md={6} xl={8}>

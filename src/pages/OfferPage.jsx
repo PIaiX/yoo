@@ -3,33 +3,26 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import OfferProduct from '../components/OfferProduct';
+import Offer from '../components/Offer';
 
 const OfferPage = () => {
   return (
     <main>
-      <section className='sec-6 pt-4 pt-lg-0 mb-5'>
+      <section className='sec-6 offerPage pt-4 pt-lg-0 mb-5'>
         <Container>
           <Row className='flex-row flex-lg-row-reverse gx-4 gx-xxl-5'>
             <Col xs={12} md={6} lg={4} className='mb-4'>
-              <figure className='offer full'>
-                <img src="/imgs/offers/offer4.jpg" alt="Акция «Счастливые часы»"/>
-                <figcaption>
-                  <div>
-                    <h4>Счастливые часы</h4>
-                    <h6 className='fw-4'>Скидка 20% на весь ассортимент японской кухни*</h6>
-                  </div>
-                </figcaption>
-              </figure>
+              <Offer blackText={false} img={"/imgs/img.jpg"} title={'Весна пришла'}/>
             </Col>
             <Col xs={12} lg={8}>
-              <h1>Акция «Счастливые часы»</h1>
+              <h1>Название акции</h1>
               <div className="box mb-5">
-                <p>Специальная цена на определённые позиции из ассортимента японской кухни</p>
-                <p>Акция действует на заказы оформленные на доставку, в зале и на самовывоз в период с понедельника по четверг, с 13:00 до 15:00.</p>
-                <p>Не суммируется с другими акциями.Не действует в выходные, праздничные и предпраздничные дни.</p>
+                <p>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias</p>
+                <p>Excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga.</p>
+                <p>Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus.</p>
               </div>
 
-              <h2>Товары, участвующие в акции</h2>
+              <h6 className='secondary'>Товары, участвующие в акции</h6>
               <ul className='list-unstyled offer-products-list'>
                 <li><OfferProduct/></li>
                 <li><OfferProduct/></li>

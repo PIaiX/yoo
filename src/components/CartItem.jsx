@@ -13,9 +13,8 @@ const CartItem = () => {
         <input type="checkbox" className='me-1 me-sm-3'/>
         <img src="/imgs/img3.png" alt="Пепперони" />
         <div className='text'>
-          <h6>Пепперони <span className="tag">Подарок</span></h6>
+          <h6>Название товара</h6>
 
-          {/* Кнопка с разворачивающимся блоком появляются только если есть дополнительные ингредиенты */}
           <button 
             type='button' 
             onClick={() => setOpen(!open)} 
@@ -26,10 +25,7 @@ const CartItem = () => {
             <IoCaretDownOutline className='fs-08 ms-2'/>
           </button>
           <Collapse in={open}>
-            <ul className='cart-item-ingredients'>
-              <li>Сыр +45 ₽</li>
-              <li>Оливки +45 ₽</li>
-            </ul>
+            <p className='fs-08'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima, non saepe! Eum, magni assumenda officiis et nam perspiciatis libero similique ex autem ratione reiciendis, vel, incidunt accusamus! Fugit, deleniti? Fugit.</p>
           </Collapse>
         </div>
       </div>

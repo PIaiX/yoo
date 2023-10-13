@@ -13,6 +13,8 @@ import Checkout from '../pages/Checkout'
 import AccountRouter from './AccountRouter'
 import Registration from '../pages/Registration'
 import Categories from '../pages/Categories'
+import SearchResults from '../pages/SearchResults'
+import Blog from '../pages/Blog'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -29,6 +31,8 @@ const router = createBrowserRouter(
       <Route path="*" element={<NotFound />} />
       <Route path="account/*" element={<AccountRouter/>} />
       <Route path="login" element={<Registration/>} />
+      <Route path="search" element={<SearchResults/>} />
+      <Route path="articles" element={<Blog/>} />
     </Route>
   )
 )

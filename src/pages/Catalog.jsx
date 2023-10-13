@@ -86,6 +86,7 @@ const Catalog = () => {
                         valueMax="650" 
                       />
                     </fieldset>
+                    
                     <fieldset>
                       <legend>Характеристика 1</legend>
                       <select className='w-100 mb-2'>

@@ -44,14 +44,17 @@ const Header = () => {
                     <Link to='/'>Новинки</Link>
                   </li>
                   <li>
-                    <Link to='/'>Акции</Link>
+                    <Link to='/promo'>Акции</Link>
                   </li>
                 </ul>
                 <form action="" className='formSearch'>
                   <input type="search" />
-                  <button type='submit'>
+                  <Link to='/search'>
                     <Loupe/>
-                  </button>
+                  </Link>
+                  {/* <button type='submit'>
+                    <Loupe/>
+                  </button> */}
                 </form>
                 <a href="tel:+7987987-78-78" className='phone'>+7 987 987-78-78</a>
               </>
