@@ -1,4 +1,10 @@
-import React, { useState, useRef, useCallback, useLayoutEffect } from "react";
+import React, {
+  useState,
+  useRef,
+  useCallback,
+  useLayoutEffect,
+  useMemo,
+} from "react";
 import Container from "react-bootstrap/Container";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
@@ -141,7 +147,7 @@ const Registration = () => {
     setTimeout(() => setLoginView(!loginView), 500);
   };
 
-  const Reg = () => (
+  const regForm = useMemo(() => (
     <form className="login-form" onSubmit={handleSubmit(onSubmit)}>
       <h4 class="main-color text-center fw-6">Свозвращением!</h4>
       <p class="text-center fs-11 mb-5">Вкусные роллы ипицца скучали потебе</p>
@@ -215,9 +221,9 @@ const Registration = () => {
         <Link to="/recovery">Забыли пароль?</Link>
       </div>
     </form>
-  );
+  ));
 
-  const Login = () => (
+  const loginForm = useMemo(() => (
     <form className="login-form" onSubmit={handleSubmitReg(onSubmitReg)}>
       <h4 class="main-color text-center fw-6">Привет, друг!</h4>
       <p class="text-center fs-11 mb-5">
@@ -327,15 +333,15 @@ const Registration = () => {
         Зарегистрироваться
       </Button>
     </form>
-  );
+  ));
 
   return (
     <main className="py-lg-0">
-      <Meta title={loginView ? "Регистрация" : "Вход"} />
+      <Meta title={loginView ? "Вход" : "Регистрация"} />
       <Container>
         {isMobile ? (
           <section className="d-lg-none login-mobile">
-            {loginView ? <Reg /> : <Login />}
+            {loginView ? regForm : loginForm}
             {loginView ? (
               <button
                 type="button"
@@ -357,7 +363,7 @@ const Registration = () => {
         ) : (
           <section className="d-none d-lg-block login">
             <div ref={block2} className="login-forms">
-              {loginView ? <Reg /> : <Login />}
+              {loginView ? regForm : loginForm}
             </div>
             <div ref={block1} className="login-toggler">
               <div className="text">
