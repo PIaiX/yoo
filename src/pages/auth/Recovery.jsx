@@ -2,13 +2,13 @@ import React, { useCallback, useState } from "react";
 import Container from "react-bootstrap/Container";
 import { useForm, useWatch } from "react-hook-form";
 import { NotificationManager } from "react-notifications";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+import Meta from "../../components/Meta";
 import Input from "../../components/utils/Input";
 import InputCode from "../../components/utils/InputCode";
 import { Timer } from "../../helpers/timer";
 import { authNewKeyRecovery, authPasswordRecovery } from "../../services/auth";
-import { Link } from "react-router-dom";
-import Meta from "../../components/Meta";
 
 const Recovery = () => {
   const authType = useSelector((state) => state.settings.options.authType);
@@ -31,7 +31,7 @@ const Recovery = () => {
 
   const onSubmit = useCallback((data) => {
     authPasswordRecovery(data)
-      .then((res) => {
+      .then(() => {
         reset({ ...data, step: data.step + 1 });
         data.step == 1 ||
           (data.step == 3 &&
