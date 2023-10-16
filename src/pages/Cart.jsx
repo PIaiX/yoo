@@ -10,7 +10,7 @@ import CartItem from '../components/CartItem';
 import ProductCard from '../components/ProductCard';
 
 // swiper
-import { Navigation, Thumbs, FreeMode } from 'swiper';
+import { Navigation } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 
@@ -45,7 +45,7 @@ const Cart = () => {
             </Col>
             <Col xs={12} lg={4}>
               <div className="cart-box">
-                <div className='main-color fs-11 mb-1'>Комментарий</div>
+                <div className='fs-11 mb-1'>Комментарий</div>
                 <textarea rows="3" defaultValue={'Уберите, пожалуйста, лук'} className='fs-09 mb-4'></textarea>
 
                 <div className='fs-11 mb-1'>Промокод</div>

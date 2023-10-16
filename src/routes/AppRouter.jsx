@@ -15,6 +15,7 @@ import Registration from '../pages/Registration'
 import Categories from '../pages/Categories'
 import SearchResults from '../pages/SearchResults'
 import Blog from '../pages/Blog'
+import Article from '../pages/Article'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -33,6 +34,7 @@ const router = createBrowserRouter(
       <Route path="login" element={<Registration/>} />
       <Route path="search" element={<SearchResults/>} />
       <Route path="articles" element={<Blog/>} />
+      <Route path="articles/:id" element={<Article/>} />
     </Route>
   )
 )

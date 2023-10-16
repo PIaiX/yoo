@@ -73,14 +73,8 @@ const Checkout = () => {
               </Row>
             </Col>
             <Col xs={12} md={6} xl={4}>
-              <div className="cart-box mb-4">
-                <h6>Ваш заказ</h6>
-                <ul className='list-unstyled'>
-                  <li className='mb-3'><CheckoutProduct/></li>
-                  <li className='mb-3'><CheckoutProduct/></li>
-                  <li className='mb-3'><CheckoutProduct/></li>
-                </ul>
-              </div>
+              <div className='fs-11 mb-1'>Комментарий</div>
+              <textarea rows="3" defaultValue={'Уберите, пожалуйста, лук'} className='fs-09 mb-4'></textarea>
 
               <div className="d-flex justify-content-between my-2">
                 <span>Стоимость товаров</span>
@@ -88,7 +82,7 @@ const Checkout = () => {
               </div>
               <div className="d-flex justify-content-between my-2">
                 <span>Доставка</span>
-                <span className='main-color'>бесплатно</span>
+                <span className='secondary'>бесплатно</span>
               </div>
               <hr className='my-3'/>
               <div className="d-flex justify-content-between mb-4">
@@ -96,10 +90,11 @@ const Checkout = () => {
                 <span className='fw-6'>1 880 ₽</span>
               </div>
 
-              <div className='bg-main-01 main-color p-2 fw-6 text-center w-100 rounded-3 mt-3'>34 бонуса будут начислены за этот заказ</div>
-              <button type='submit' className='btn-secondary mt-3 w-100'>
+              
+              <button type='submit' className='btn-primary mt-3 w-100'>
                 <span className='fw-4'>Заказать</span>
               </button>
+              <div className='fs-09 bg-secondary secondary p-2 fw-5 text-center w-100 rounded-2 mt-3'>34 бонуса будут начислены за этот заказ</div>
             </Col>
           </Row>
         </form>
