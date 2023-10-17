@@ -4297,6 +4297,16 @@ ACCOUNT
     padding: 2em;
   }
 }
+@media (max-width: 767.98px) {
+  .login-forms {
+    width: 100%;
+  }
+}
+@media (max-width: 575.98px) {
+  .login-forms {
+    padding: 1em;
+  }
+}
 .login-forms form {
   background-color: #fff;
   border-radius: 1.25em;
@@ -4306,6 +4316,16 @@ ACCOUNT
 .login-forms form.login-form {
   width: 80%;
   margin: 0 auto;
+}
+@media (max-width: 991.98px) {
+  .login-forms form.login-form {
+    width: 100%;
+  }
+}
+@media (max-width: 575.98px) {
+  .login-forms form.login-form {
+    padding: 1em;
+  }
 }
 .login-toggler {
   position: absolute;

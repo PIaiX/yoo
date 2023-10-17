@@ -3771,6 +3771,12 @@ ACCOUNT
     @media (max-width: $bp-xl) {
       padding: 2em;
     }
+    @media (max-width: $bp-md) {
+      width: 100%;
+    }
+    @media (max-width: $bp-sm) {
+      padding: 1em;
+    }
     form {
       background-color: $white;
       border-radius: $radius;
@@ -3779,6 +3785,12 @@ ACCOUNT
       &.login-form {
         width: 80%;
         margin: 0 auto;
+        @media (max-width: $bp-lg) {
+          width: 100%;
+        }
+        @media (max-width: $bp-sm) {
+          padding: 1em;
+        }
       }
     }
   }
