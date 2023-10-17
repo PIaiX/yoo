@@ -213,6 +213,14 @@ h6 {
   color: #5C5DEF;
 }
 
+.bg-success {
+  background-color: rgba(84, 200, 120, 0.1) !important;
+}
+
+.success {
+  color: #54C878;
+}
+
 .svgSW {
   stroke-width: 1.25px;
 }
@@ -295,26 +303,30 @@ input[type=radio] {
   outline: none;
   padding: 0px;
   margin: 0px;
-  width: 1em;
-  height: 1em;
-  border: 1px solid #FE545E;
+  width: 1.1em;
+  height: 1.1em;
+  border: 2px solid #DFE2E5;
   background-color: #fff;
   border-radius: 50%;
   box-shadow: none;
-  transition: background-color 300ms ease-in;
+  transition: border-color 300ms ease-in;
   position: relative;
 }
 input[type=radio]::before {
   content: "";
   position: absolute;
-  top: 4px;
-  left: 4px;
-  height: 10px;
-  width: 10px;
+  top: 50%;
+  left: 50%;
+  height: 50%;
+  width: 50%;
   border-radius: 50%;
-  background-color: #FE545E;
+  background-color: #5C5DEF;
+  transform: translate(-50%, -50%);
   transition: background-color 300ms ease-in;
   opacity: 0;
+}
+input[type=radio]:checked {
+  border-color: #5C5DEF;
 }
 input[type=radio]:checked::before {
   opacity: 1;
@@ -358,8 +370,8 @@ label span {
   width: -moz-fit-content;
   width: fit-content;
   background-color: #F4F6F8;
-  padding: 0.5em;
-  border-radius: 0.75em;
+  padding: 0.25em;
+  border-radius: 0.25em;
 }
 @media (max-width: 767.98px) {
   .inputGroup {
@@ -372,17 +384,20 @@ label span {
 }
 .inputGroup label .text {
   width: 100%;
-  background-color: transparent;
+  background-color: #fff;
+  color: #1C1C1C;
   border-radius: 0.25em;
-  padding: 0.7em 1em;
+  padding: 0.5em 0.75em;
   transition: background-color 300ms ease-in;
+  transition-property: background-color, color;
   text-align: center;
 }
 .inputGroup label input {
   display: none;
 }
 .inputGroup label input:checked + .text {
-  background-color: #fff;
+  background-color: #5C5DEF;
+  color: #fff;
 }
 .inputGroup li {
   position: relative;
@@ -393,8 +408,8 @@ label span {
   }
 }
 .inputGroup li:not(:first-child) {
-  margin-left: 0.5em;
-  padding-left: 0.5em;
+  margin-left: 0.25em;
+  padding-left: 0.25em;
 }
 .inputGroup li:not(:first-child)::before {
   content: "";
@@ -1241,6 +1256,9 @@ select {
 }
 .w-50p {
   width: 50px !important;
+}
+.w-100p {
+  width: 100px !important;
 }
 
 hr {
@@ -3239,7 +3257,7 @@ main {
   margin-right: 1em;
 }
 .checkoutProduct-count {
-  border: 1px solid #F4F6F8;
+  border: 1px solid #DFE2E5;
   padding: 0.33em 0.8em;
   background-color: #fff;
   border-radius: 1em;
@@ -4422,10 +4440,10 @@ ACCOUNT
   z-index: 10;
   width: 38%;
   background-color: #FE545E;
-  background-image: url(imgs/bg/fruits.png), url(imgs/bg/entrance.jpg);
+  background-image: url(imgs/bg/entrance.jpg);
   background-repeat: no-repeat;
   background-size: cover;
-  background-position: 100% 100%, 100% 50%;
+  background-position: 100% 50%;
   color: #fff;
   text-align: center;
   padding-top: 4em;

@@ -250,6 +250,12 @@ h6 {
 .secondary {
   color: $secondary;
 }
+.bg-success {
+  background-color: rgba($color: $success, $alpha: 0.1) !important;
+}
+.success {
+  color: $success;
+}
 .svgSW {
   stroke-width: 1.25px;
 }
@@ -317,28 +323,32 @@ input {
   }
   &[type='radio']{
     @include no-appearance;
-    width: $radius;
-    height: $radius;
-    border: 1px solid $primary;
+    width: 1.1em;
+    height: 1.1em;
+    border: 2px solid $gray;
     background-color: $white;
     border-radius: 50%;
     box-shadow: none;
-    transition: background-color $transition;
+    transition: border-color $transition;
     position: relative;
     &::before {
       content: '';
       position: absolute;
-      top: 4px;
-      left: 4px;
-      height: 10px;
-      width: 10px;
+      top: 50%;
+      left: 50%;
+      height: 50%;
+      width: 50%;
       border-radius: 50%;
-      background-color: $primary;
+      background-color: $secondary;
+      transform: translate(-50%, -50%);
       transition: background-color $transition;
       opacity: 0;
     }
-    &:checked::before {
-      opacity: 1;
+    &:checked {
+      border-color: $secondary;
+      &::before {
+        opacity: 1;
+      }
     }
   }
   &[type=number]{
@@ -362,8 +372,8 @@ label {
   @include flex(row, flex-start, center, nowrap);
   width: fit-content;
   background-color: $light-gray;
-  padding: .5em;
-  border-radius: .75em;
+  padding: .25em;
+  border-radius: .25em;
   @media (max-width: $bp-md) {
     width: 100%;
   }
@@ -372,16 +382,19 @@ label {
     width: 100%;
     .text {
       width: 100%;
-      background-color: transparent;
+      background-color: $white;
+      color: $black;
       border-radius: .25em;
-      padding: .7em 1em;
+      padding: .5em .75em;
       transition: background-color $transition;
+      transition-property: background-color, color;
       text-align: center;
     }
     input {
       display: none;
       &:checked + .text {
-        background-color: $white;
+        background-color: $secondary;
+        color: $white;
       }
     }
   }
@@ -391,8 +404,8 @@ label {
       flex-grow: 1;
     }
     &:not(:first-child){
-      margin-left: .5em;
-      padding-left: .5em;
+      margin-left: .25em;
+      padding-left: .25em;
       &::before {
         content: '';
         position: absolute;
@@ -1118,6 +1131,9 @@ select {
   }
   &-50p {
     width: 50px !important;
+  }
+  &-100p {
+    width: 100px !important;
   }
 }
 hr {
@@ -2984,7 +3000,7 @@ main {
     margin-right: 1em;
   }
   &-count {
-    border: 1px solid $light-gray;
+    border: 1px solid $gray;
     padding: .33em .8em;
     background-color: $white;
     border-radius: $radius;
@@ -3916,10 +3932,10 @@ ACCOUNT
     z-index: 10;
     width: 38%;
     background-color: $primary;
-    background-image: url(imgs/bg/fruits.png), url(imgs/bg/entrance.jpg);
+    background-image: url(imgs/bg/entrance.jpg);
     background-repeat: no-repeat;
     background-size: cover;
-    background-position: 100% 100%, 100% 50%;
+    background-position: 100% 50%;
     color: $white;
     text-align: center;
     padding-top: 4em;

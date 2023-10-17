@@ -92,7 +92,7 @@ const Registration = () => {
                   <p>Пройдите регистрацию</p>
                 </div>
               </div>
-              <button type='button' onClick={handleClick} className='btn-40 rounded-3 mx-auto mt-4'>
+              <button type='button' onClick={handleClick} className='btn-light rounded-3 mx-auto mt-4'>
                 {
                   (login)
                   ? <span>Регистрация</span>
