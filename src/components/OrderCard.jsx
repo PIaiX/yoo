@@ -17,7 +17,7 @@ const OrderCard = () => {
       </div>
       <div className='order-card-time'>10:00 12 Авг 2023</div>
       <div className='order-card-status'>
-        <div className='btn-green rounded-3 px-2 px-lg-3 py-1 py-lg-2'>Готовится</div>
+        <div className='bg-success success rounded-3 px-1'>Готовится</div>
       </div>
       <div className='order-card-delivery'>Самовывоз <span className='dark-gray ms-1'>•</span></div>
       <address>Филиал — ул. Фучика 89, д 1</address>

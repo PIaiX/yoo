@@ -36,7 +36,9 @@ const Orders = () => {
         <li><OrderCard/></li>
       </ul>
       
-      <NavPagination/>
+      <div className="p-3">
+        <NavPagination/>
+      </div>
     </section>
   );
 };

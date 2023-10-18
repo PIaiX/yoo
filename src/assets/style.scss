@@ -240,7 +240,7 @@ h6 {
 .red {color: $red;}
 .orange {color: $orange;}
 .green {color: $success;}
-.main-color {color: $primary;}
+.main-color, .primary {color: $primary;}
 .main-color-60 {
   color: rgba($color: $primary, $alpha: 0.6);
 }
@@ -561,6 +561,15 @@ button {
       background-color: darken($color: $info, $amount: 7%);
       border: 1px solid darken($color: $info, $amount: 7%);
     }
+  }
+  &-gray {
+    background-color: $light-gray;
+    color: $dark-gray;
+    transition: $transition;
+    transition-property: color, background-color;
+    padding: .5em;
+    border-radius: 2em;
+    @include flex();
   }
   &[disabled]{
     background-color: $light-gray;
@@ -3087,7 +3096,6 @@ footer {
 }
 
 
-
 /***********
 ACCOUNT
 ***********/
@@ -3116,15 +3124,6 @@ ACCOUNT
       font-weight: 600;
     }
   }
-  .gradient-block {
-    display: block;
-    background: url(imgs/bg/gradient.jpg) no-repeat center;
-    background-size: cover;
-    border-radius: $radius*0.5;
-    width: 100%;
-    height: 100%;
-    min-height: 125px;
-  }
   .box {
     @include lightShadow();
     background-color: $white;
@@ -3148,6 +3147,13 @@ ACCOUNT
   }
   &-top {
     margin-bottom: 2em;
+    display: grid;
+    grid-template-rows: 1fr;
+    grid-template-columns: 3fr 2fr 2fr 4fr;
+    gap: 1em;
+    &>div {
+      grid-column: span 1;
+    }
     .box {
       @include shadow();
       border-radius: $radius;
@@ -3174,10 +3180,13 @@ ACCOUNT
           border-radius: $radius;
           transition: $transition;
           transition-property: color, background-color;
-          svg {font-size: 1.5em;}
+          svg {
+            font-size: 1.5em;
+            stroke-width: 1.25px;
+          }
           div {
             font-size: 1.1em;
-            font-weight: 600;
+            font-weight: 500;
             margin-left: .5em;
             flex: 1;
           }
@@ -3191,8 +3200,8 @@ ACCOUNT
             color: $primary;
           }
           &:active, &.active {
-            background-color: rgba($primary, .2);
-            color: $primary;
+            background-color: $light;
+            color: $secondary;
           }
         }
       }
@@ -3269,7 +3278,7 @@ ACCOUNT
   }
   .order-card {
     display: grid;
-    grid-template-columns: 70px 150px 120px auto 100px 150px;
+    grid-template-columns: 70px 150px 85px auto 80px 140px;
     grid-template-rows: repeat(2, 1fr);
     grid-template-areas: 
     "num time status delivery price btn"
@@ -3355,11 +3364,11 @@ ACCOUNT
     }
     &-price {
       grid-area: price;
-      @include flex(row, flex-start, center, nowrap);
+      @include flex(row, center, center, nowrap);
       @media (max-width: $bp-lg) {
         padding: .5em 1em;
         font-weight: 600;
-        @include flex(column, flex-start, stretch, nowrap);
+        @include flex(column, center, stretch, nowrap);
       }
     }
     &-btn {
@@ -3370,11 +3379,11 @@ ACCOUNT
         border-top: 1px solid $light-gray;
       }
       a {
-        color: $primary;
+        color: $secondary;
         @include flex();
         svg {
           font-size: 1.5em;
-          background-color: rgba($color: $primary, $alpha: 0.1);
+          background-color: $light;
           border-radius: 50%;
           margin-left: 0.25em;
           padding: 0.15em;

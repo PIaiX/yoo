@@ -1,20 +1,23 @@
 import React from 'react';
 import { NavLink, Link } from 'react-router-dom';
 import { HiOutlineCog8Tooth, HiOutlineShoppingBag, HiOutlineMapPin, HiOutlineStar, HiOutlineCreditCard, HiOutlineBellAlert, HiOutlineBolt, HiOutlineLifebuoy } from "react-icons/hi2";
+import { RxDotFilled } from "react-icons/rx";
+import Gear from '../../components/svgs/Gear';
 
 const AccountMenu = (props) => {
   return (
     <div className='account-menu'>
-      <div className="box p-3 p-sm-4 d-flex align-items-center mb-2 mb-sm-3">
-        <div className="icon">
-          <span>A</span>
-        </div>
+      <div className="box p-3 w-100 h-100 d-flex align-items-center mb-2 mb-sm-3">
         <div className='flex-1'>
-          <h6>Алексей</h6>
-          <p><a href="tel:+79198563658">+7 919 856-36-58</a></p>
+          <div>
+            <span>Элли</span> 
+            <RxDotFilled className='primary'/>
+            <a href="tel:+79198563658">+7 919 856-36-58</a>
+          </div>
+          <p className="dark-gray mt-2"><a href="mailto:GreatOZ@mail.com">GreatOZ@mail.com</a></p>
         </div>
-        <Link to='settings' className='btn-settings'>
-          <HiOutlineCog8Tooth/>
+        <Link to='/account/settings' className='btn-gray'>
+          <Gear className="fs-15"/>
         </Link>
       </div>
       <ul className='list-unstyled row row-cols-3 gx-2 gx-sm-3 gx-md-4 mb-3'>
