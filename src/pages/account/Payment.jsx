@@ -26,7 +26,7 @@ const Payment = () => {
           <BankCard />
         </Col>
         <Col>
-          <button type='button' className='w-100 h-100 btn-10 rounded-3 flex-column'>
+          <button type='button' className='w-100 h-100 btn-light rounded-3 flex-column'>
             <HiOutlinePlus className='fs-25'/>
             <div className='fs-11 mt-2'>Добавить новую карту</div>
           </button>

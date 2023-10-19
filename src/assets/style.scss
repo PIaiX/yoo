@@ -233,6 +233,7 @@ h6 {
   &-8 {font-weight: 800;}
   &-9 {font-weight: 900;}
 }
+.sky{color: $secondary-light;}
 .white {color: $white;}
 .black {color: $black;}
 .dark-gray {color: $dark-gray;}
@@ -723,7 +724,7 @@ select {
   display: flex;
   align-items: center;
   position: relative;
-  border-radius: $radius;
+  border-radius: 2em;
   transition: border-color $transition;
   background-color: $white;
   border: 1px solid $light-gray;
@@ -743,7 +744,7 @@ select {
     padding: 0px;
   }
   svg {
-    color: $primary;
+    color: $secondary;
     font-size: 1.5em;
     stroke-width: 1.25px;
   }
@@ -751,10 +752,15 @@ select {
     position: absolute;
     bottom: -.25em;
     right: 0px;
-    color: $primary;
-    font-weight: 600;
-    line-height: 1em;
-    font-size: .9em;
+    color: $white;
+    background-color: $secondary;
+    font-weight: 500;
+    line-height: 1.3em;
+    font-size: .8em;
+    @include flex();
+    width: 1.3em;
+    height: 1.3em;
+    border-radius: 50%;
     &:empty {
       display: none;
     }
@@ -3125,19 +3131,19 @@ ACCOUNT
     }
   }
   .box {
-    @include lightShadow();
+    border: 1px solid $gray;
     background-color: $white;
-    border-radius: $radius*0.5;
+    border-radius: $radius;
     &-blue {
-      @include lightShadow();
-      background-color: rgba($color: $primary, $alpha: 0.1);
-      border-radius: $radius*0.5;
+      border: 1px solid $light;
+      background-color: $light;
+      border-radius: $radius;
     }
   }
   .link-return {
     @include flex(row, flex-start, center, nowrap);
-    color: rgba($color: $primary, $alpha: .6);
-    margin-right: 2em;
+    color: $secondary;
+    margin-right: .5em;
     font-size: 1.1em;
     svg {
       font-size: 1.7em;
@@ -3155,8 +3161,8 @@ ACCOUNT
       grid-column: span 1;
     }
     .box {
-      @include shadow();
       border-radius: $radius;
+      border-color: $light-gray;
       padding: 1em;
       @media (max-width: $bp-xxl) {
         padding: .75em;
@@ -3191,13 +3197,13 @@ ACCOUNT
             flex: 1;
           }
           .badge {
-            background-color: rgba($primary, .2);
+            background-color: rgba($secondary, .2);
             padding: .34em;
             border-radius: $radius;
             color: $black;
           }
           &:hover, &:focus {
-            color: $primary;
+            color: $secondary;
           }
           &:active, &.active {
             background-color: $light;
@@ -3235,7 +3241,7 @@ ACCOUNT
             font-size: 1.2em;
             padding: .75em 1em;
             &:active, &.active {
-              background-color: rgba($color: $primary, $alpha: 0.1);
+              background-color: rgba($color: $secondary, $alpha: 0.1);
             }
             div {
               flex: 1;
@@ -3244,6 +3250,15 @@ ACCOUNT
               stroke-width: 1px;
               font-size: 1.5em;
               margin-right: .5em;
+            }
+            .badge {
+              background-color: $light;
+              border-radius: $radius;
+              color: $secondary;
+              width: 1.5em;
+              height: 1.5em;
+              padding: 0em;
+              @include flex();
             }
           }
         }
@@ -3349,10 +3364,6 @@ ACCOUNT
     &-delivery {
       grid-area: delivery;
       @include flex(row, flex-start, center, nowrap);
-      @media (max-width: $bp-lg) {
-        color: $dark-gray;
-        padding: .25em 1em;
-      }
     }
     address {
       grid-area: address;
@@ -3412,13 +3423,13 @@ ACCOUNT
   .order-item {
     --w: 100px;
     display: grid;
-    grid-template-columns: var(--w) auto 110px 50px;
+    grid-template-columns: var(--w) auto 100px;
     grid-template-rows: auto;
     grid-template-areas: 
-    "img data quantity price"
-    "img info quantity price"
-    "img show . ."
-    ". extra . .";
+    "img data price"
+    "img data quantity"
+    "img show ."
+    ". extra .";
     gap: 0.5em 1em;
     @media (max-width: $bp-xxl) {
       grid-template-columns: var(--w) auto 50px 50px;
@@ -3470,7 +3481,7 @@ ACCOUNT
     .show {
       grid-area: show;
       @media (max-width: $bp-md) {
-        color: $primary;
+        color: $secondary;
         font-weight: 300;
       }
     }
@@ -3522,6 +3533,7 @@ ACCOUNT
       @include list();
       padding: .75em 0em 0.5em;
       li {
+        font-size: .9em;
         border-bottom: 1px solid $light-gray;
         padding: .75em 1.25em;
         display: grid;
@@ -3654,7 +3666,7 @@ ACCOUNT
           width: var(--icon);
           height: var(--icon);
           border-radius: 50%;
-          background-color: $primary;
+          background-color: $secondary;
         }
         .info {
           position: relative;
@@ -3662,8 +3674,8 @@ ACCOUNT
           h6 {width: fit-content;}
           .NB {
             float: right;
-            color: $success;
-            background-color: rgba($color: $success, $alpha: 0.1);
+            color: $secondary;
+            background-color: $light;
             font-size: .75em;
             border-radius: 1.25em;
             padding: 0.3em 1em;
@@ -3890,7 +3902,7 @@ ACCOUNT
         margin-top: .5em;
         padding: 1em;
         border-radius: $radius*0.5 $radius*0.5 0px $radius*0.5;
-        background-color: rgba($color: $primary, $alpha: 0.1);
+        background-color: rgba($color: $secondary, $alpha: 0.1);
       }
     } 
     &.manager {

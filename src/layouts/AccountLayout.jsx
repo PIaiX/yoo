@@ -32,7 +32,7 @@ const AccountLayout = ({isMobile}) => {
                 </Link>
               </div>
               <div className="box">
-                <Link to='/account' className='w-100 h-100 d-flex align-items-center justify-content-between'>
+                <Link to='/account/favorites' className='w-100 h-100 d-flex align-items-center justify-content-between'>
                   <span>Избранное</span>
                   <img src="/imgs/favs.png" alt="favs" />
                 </Link>

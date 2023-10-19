@@ -12,7 +12,7 @@ const OrderCard = () => {
   return (
     <div className="order-card">
       <div className='order-card-num'>
-        <Link to="3471" className='d-lg-none main-color fs-11 fw-6'>Заказ №3471</Link>
+        <Link to="3471" className='d-lg-none secondary fs-11 fw-6'>Заказ №3471</Link>
         <span className='d-none d-lg-flex'>3471</span>
       </div>
       <div className='order-card-time'>10:00 12 Авг 2023</div>
@@ -76,7 +76,7 @@ const OrderCard = () => {
           <span>Инфо о заказе</span>
           <HiOutlineChevronRight/>
         </Link>
-        <button type='button' className='btn-6 d-lg-none w-100 rounded-3'>Повторить заказ</button>
+        <button type='button' className='btn-light d-lg-none w-100 rounded-3'>Повторить заказ</button>
       </div>
     </div>
   );

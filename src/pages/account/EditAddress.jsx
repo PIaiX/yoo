@@ -46,7 +46,7 @@ const EditAddress = () => {
             </Row>
           </Col>
           <Col md={6} xxl={7} className='d-flex flex-column justify-content-end'>
-            <button type='submit' className='btn-deepgreen w-xs-100 ms-xxl-5'>Сохранить адрес</button>
+            <button type='submit' className='btn-light w-xs-100 ms-xxl-5'>Сохранить адрес</button>
           </Col>
         </Row>
       </form>

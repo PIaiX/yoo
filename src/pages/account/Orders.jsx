@@ -1,9 +1,8 @@
 import React from 'react';
 import OrderCard from '../../components/OrderCard';
-import { HiOutlineArrowLeftCircle } from "react-icons/hi2";
-import {Link} from 'react-router-dom';
 import useIsMobile from '../../hooks/isMobile';
 import NavPagination from '../../components/NavPagination';
+import AccountTitleReturn from '../../components/AccountTitleReturn';
 
 const Orders = () => {
   const isMobileLG = useIsMobile('991px');
@@ -12,13 +11,7 @@ const Orders = () => {
     <section className='sec-orders'>
       {
         (isMobileLG)
-        ? <div className="d-flex align-items-center mb-4">
-          <Link to="/account" className='link-return'>
-            <HiOutlineArrowLeftCircle/>
-            <span>Назад</span>
-          </Link>
-          <h6 className='fs-12 mb-0'>Заказы</h6>
-        </div>
+        ? <AccountTitleReturn link={'/account'} title={'Заказы'}/>
         : <div className="order-card top">
           <div className='order-card-num'>№</div>
           <div className='order-card-time'>Время заказа</div>

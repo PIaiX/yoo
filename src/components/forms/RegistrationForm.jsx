@@ -5,7 +5,7 @@ import Col from 'react-bootstrap/Col';
 const RegistrationForm = () => {
   return (
     <form action="" className='registration-form'>
-      <h4 className='main-color text-center fw-6'>Привет, друг!</h4>
+      <h4 className='secondary text-center fw-6'>Привет, друг!</h4>
       <p className='text-center fs-11 mb-5'>Введи данные чтобы зарегистрироваться</p>
       
       <p className='fs-11 mb-1'>Имя</p>
@@ -25,7 +25,7 @@ const RegistrationForm = () => {
         </Col>
       </Row>
 
-      <p className="main-color fs-09">Нажимая на кнопку «Зарегистрироваться», вы принимаете условия Пользовательского соглашения и соглашаетесь с Политикой конфиденциальности</p>
+      <p className="secondary fs-09">Нажимая на кнопку «Зарегистрироваться», вы принимаете условия Пользовательского соглашения и соглашаетесь с Политикой конфиденциальности</p>
       <button type='submit' disabled className='btn-secondary w-md-100 mt-4'>Зарегистрироваться</button>
     </form>
   );

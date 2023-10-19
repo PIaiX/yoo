@@ -23,11 +23,11 @@ const LiNotification = () => {
       <div className="links">
         {
           (isMobileMD)
-          ? <button type='button' className='btn-6 d-flex align-items-center px-2 py-1'>
+          ? <button type='button' className='btn-light d-flex align-items-center px-2 py-1'>
             <span>Перейти</span>
             <HiChevronRight/>
           </button>
-          : <button type='button' className='btn-primary'>К заказам</button>
+          : <button type='button' className='btn-secondary'>К заказам</button>
         }
       </div>
       <div className="date">12:18 23.05.2023</div>

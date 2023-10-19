@@ -1,20 +1,14 @@
 import React from 'react';
-import {Link} from 'react-router-dom';
-import { HiOutlineArrowLeftCircle } from "react-icons/hi2";
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import OrderItem from '../../components/OrderItem';
+import { RxDotFilled } from "react-icons/rx";
+import AccountTitleReturn from '../../components/AccountTitleReturn';
 
 const Order = () => {
   return (
     <section >
-      <div className="d-flex align-items-center mb-4">
-        <Link to="/account/orders" className='link-return'>
-          <HiOutlineArrowLeftCircle/>
-          <span>Назад</span>
-        </Link>
-        <h5 className='fw-6 mb-0'>Заказ № 3471</h5>
-      </div>
+      <AccountTitleReturn link={'/account/orders'} title={'Заказ № 3471'}/>
 
       <Row>
         <Col lg={8} className='mb-4 mb-lg-0'>
@@ -28,35 +22,44 @@ const Order = () => {
           <div className="box">
             <div className="p-2 p-xl-3">
               <p className='fs-09 d-flex align-items-center mb-3'>
-                <span>Время заказа</span>
-                <span className='ms-3'>10:00 12&nbsp;Авг&nbsp;2023</span>
+                <span>Оформлен</span>
+                <span className='dark-gray ms-3'>10:00 12&nbsp;Авг&nbsp;2023</span>
               </p>
-              <div className='btn-green fs-09 rounded-3 mb-3'>Готовится</div>
-              <div className='order-card-delivery'>Самовывоз <span className='dark-gray ms-1'>•</span></div>
+              <div class="w-fit bg-success success rounded-3 px-1 mb-3">Готовится</div>
+              <div className='order-card-delivery'>
+                <span>Самовывоз</span> 
+                <RxDotFilled className='primary'/>
+              </div>
               <address className='d-block fs-09 dark-gray'>Филиал — ул. Фучика 89, д 1</address>
 
-              <div className="main-color mt-4 mt-xxl-5 mb-1">Комментарий</div>
-              <textarea disabled className='fs-09' value={'Уберите, пожалуйста, лук'}></textarea>
-
-              <div className="d-flex justify-content-between align-items-center mt-3">
-                <p>Количество персон</p>
-                <div className="input w-50p py-1 px-2 rounded-4 w-fit text-center">2</div>
+              <div className="mt-4 mb-1">
+                <RxDotFilled className='primary'/>
+                <span>Комментарий</span>
               </div>
+              <textarea disabled className='fs-09 fw-3' value={'Перезвоните пожалуйста, уточню детали'}></textarea>
               
-              <div className="d-flex justify-content-between mt-3">
-                <p>Доставка</p>
-                <p className="main-color">бесплатно</p>
+              <div className="fs-09 d-flex justify-content-between mt-3">
+                <p>Стоимость товаров</p>
+                <p>20 960 ₽</p>
               </div>
-
-              <div className="d-flex justify-content-between fw-6 mt-4">
-                <p className='fs-11'>Итоговая сумма</p>
-                <p>1 880 ₽</p>
+              <div className="fs-09 dark-gray d-flex justify-content-between mt-2">
+                <p>Скидка</p>
+                <p>199 ₽</p>
+              </div>
+              <div className="fs-09 d-flex justify-content-between mt-2">
+                <p>Доставка</p>
+                <p className="secondary">бесплатно</p>
               </div>
             </div>
-            <div className='btn-green rounded-0 w-100 justify-content-start'>Списано 33 бонуса</div>
-            <div className="p-2 p-xl-3">
-              <p className="fs-09 main-color">34 бонуса будут начислены за этот заказ</p>
-              <button type='submit' disabled className='btn-red w-100 mt-3'>Отменить заказ</button>
+            <hr className='my-0'/>
+            <div className="p-2 px-xl-3 d-flex justify-content-between">
+              <p className='fs-11'>Итоговая сумма</p>
+              <p>1 880 ₽</p>
+            </div>
+            <div className='success bg-success p-2 px-xl-3 w-100'>Списано 33 бонуса</div>
+            <div className="p-2 px-xl-3">
+              <p className="fs-09 secondary">34 бонуса будут начислены за этот заказ</p>
+              <button type='submit' disabled className='btn-secondary w-100 mt-2'>Отменить заказ</button>
             </div>
           </div>
         </Col>
