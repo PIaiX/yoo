@@ -1,14 +1,12 @@
-import React from "react";
-import { NavLink } from "react-router-dom";
-import {
-  HiOutlineShoppingBag,
-  HiOutlineMapPin,
-  // HiOutlineStar,
-  // HiOutlineCreditCard,
-  // HiOutlineBellAlert,
-  // HiOutlineBolt,
-  // HiOutlineLifebuoy,
-} from "react-icons/hi2";
+import React from 'react';
+import { NavLink } from 'react-router-dom';
+import CartIcon from '../../components/svgs/CartIcon';
+import AddressPin from '../../components/svgs/AddressPin';
+import Star from '../../components/svgs/Star';
+import Support from '../../components/svgs/Support';
+import Bell from '../../components/svgs/Bell';
+import Promo from '../../components/svgs/Promo';
+import CardIcon from '../../components/svgs/CardIcon';
 
 const AccountMenu = (props) => {
   return (
@@ -16,44 +14,45 @@ const AccountMenu = (props) => {
       <ul>
         <li>
           <NavLink to="orders">
-            <HiOutlineShoppingBag />
+            <CartIcon/>
             <div>Заказы</div>
           </NavLink>
         </li>
         <li>
           <NavLink to="addresses">
-            <HiOutlineMapPin />
+            <AddressPin/>
             <div>Адреса</div>
           </NavLink>
         </li>
         {/* <li>
           <NavLink to="bonus">
-            <HiOutlineStar/>
-            <div>Бонусная программа</div>
+            <Star/>
+            <div>Бонусы</div>
           </NavLink>
         </li>
         <li>
           <NavLink to="payment">
-            <HiOutlineCreditCard/>
+            <CardIcon/>
             <div>Способы оплаты</div>
           </NavLink>
         </li>
         <li>
           <NavLink to="support">
-            <HiOutlineLifebuoy/>
-            <div>Тех. подержка</div>
+            <Support/>
+            <div>Тех.&nbsp;подержка</div>
           </NavLink>
         </li>
         <li>
           <NavLink to="notifications">
-            <HiOutlineBellAlert/>
+            <Bell/>
             <div>Уведомления</div>
+            <span className='badge'>12</span>
           </NavLink>
         </li>
         <li>
           <NavLink to="offers">
-            <HiOutlineBolt/>
-            <div>Акции и промокоды</div>
+            <Promo/>
+            <div>Акции</div>
           </NavLink>
         </li> */}
       </ul>

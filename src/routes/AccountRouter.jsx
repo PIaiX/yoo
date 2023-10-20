@@ -39,8 +39,9 @@ const AccountRouter = () => {
         <Route path="notifications" element={<Notifications />} />
         <Route path="payment" element={<Payment />} />
         <Route path="support" element={<Support />} />
+        <Route path="settings" element={<Settings />} />
       </Route>
-      <Route path="settings" element={<Settings />} />
+      
       <Route path="/*" element={<Navigate to="orders" replace={true} />} />
     </Routes>
   );

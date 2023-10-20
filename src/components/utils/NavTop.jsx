@@ -1,6 +1,6 @@
 import React, { memo } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { HiOutlineArrowLeftCircle } from "react-icons/hi2";
+import PrevIcon from '../svgs/PrevIcon';
 
 const NavTop = memo(({ toBack = true, breadcrumbs = false }) => {
   const navigate = useNavigate();
@@ -8,8 +8,7 @@ const NavTop = memo(({ toBack = true, breadcrumbs = false }) => {
     <nav className="navTop">
       {toBack && (
         <a onClick={() => navigate(-1)} className="navTop-back">
-          <HiOutlineArrowLeftCircle />
-          <span>Назад</span>
+          <PrevIcon />
         </a>
       )}
       {breadcrumbs && breadcrumbs?.length > 0 && (

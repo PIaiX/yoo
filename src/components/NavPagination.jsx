@@ -3,8 +3,17 @@ import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
 
 const NavPagination = () => {
   return (
-    <div className='fs-09 d-flex align-items-center justify-content-between justify-content-lg-end p-3'>
+    <nav className='pagination'>
       <div className="d-flex align-items-center">
+        <button type='button' disabled className='fs-14 p-2 d-flex'>
+          <FiChevronLeft/>
+        </button>
+        <span className='mx-3'>6–10 из 11</span>
+        <button type='button' className='fs-14 p-2 d-flex'>
+          <FiChevronRight/>
+        </button>
+      </div>
+      <div className="d-flex align-items-center ms-5">
         <span className='d-none d-sm-inline me-3'>Страницы:</span>
         <select name="" id="" defaultValue={'1'}>
           <option value="1">1</option>
@@ -23,18 +32,7 @@ const NavPagination = () => {
           <option value="14">14</option>
         </select>
       </div>
-      
-      <span className='mx-4'>6–10 из 11</span>
-      
-      <div className="d-flex align-items-center">
-        <button type='button' disabled className='fs-14 p-2 d-flex'>
-          <FiChevronLeft/>
-        </button>
-        <button type='button' className='fs-14 p-2 d-flex'>
-          <FiChevronRight/>
-        </button>
-      </div>
-    </div>
+    </nav>
   );
 };
 

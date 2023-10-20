@@ -25,6 +25,7 @@ import { customPrice, customWeight, getImageURL } from "../helpers/all";
 import { getProduct, getProducts } from "../services/product";
 
 const Product = () => {
+  const [featuresShow, setFeaturesShow] = useState(false);
   const [isRemove, setIsRemove] = useState(false);
   const { productId } = useParams();
 

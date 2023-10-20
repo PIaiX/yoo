@@ -6,15 +6,16 @@ import { IoCaretDownOutline } from "react-icons/io5";
 import { customPrice, customWeight, getImageURL } from "../helpers/all";
 import ButtonCart from "./ButtonCart";
 import BtnFav from "./utils/BtnFav";
+import CountInput from './utils/CountInput';
 
 const CartItem = memo(({ data }) => {
   const [open, setOpen] = useState(false);
   const price = data?.cart?.data?.modifiers?.price
     ? data.cart.data.modifiers.price
     : data.price;
-  const weight = data?.cart?.data?.modifiers?.energy?.weight
-    ? data.cart.data.modifiers.energy.weight
-    : data.weight;
+  // const weight = data?.cart?.data?.modifiers?.energy?.weight
+  //   ? data.cart.data.modifiers.energy.weight
+  //   : data.weight;
   return (
     <div className="cart-item">
       <div className="left">
@@ -25,24 +26,19 @@ const CartItem = memo(({ data }) => {
             {data.title}
             {/* <span className="tag">Подарок</span> */}
           </h6>
-          {weight > 0 && (
+          {/* {weight > 0 && (
             <p className="text-muted fs-09">{customWeight(weight)}</p>
-          )}
+          )} */}
           {data?.description && (
-            <OverlayTrigger
-              placement="bottom"
-              overlay={<Tooltip>{data.description}</Tooltip>}
-            >
-              <p className="consist">{data.description}</p>
-            </OverlayTrigger>
+            <p className="consist">{data.description}</p>
           )}
-          {data?.cart?.data?.modifiers && (
+          {/* {data?.cart?.data?.modifiers && (
             <p>{data.cart.data.modifiers.title}</p>
-          )}
+          )} */}
 
           {/* Кнопка с разворачивающимся блоком появляются только если есть дополнительные ингредиенты */}
 
-          {data?.cart?.data?.additions?.length > 0 && (
+          {/* {data?.cart?.data?.additions?.length > 0 && (
             <>
               <button
                 type="button"
@@ -63,18 +59,13 @@ const CartItem = memo(({ data }) => {
                 </ul>
               </Collapse>
             </>
-          )}
+          )} */}
         </div>
       </div>
       <div className="right">
-        <div className="order-2 order-md-1">
-          <p className="d-none d-md-block text-center mb-2">Количество</p>
-          <ButtonCart cart product={data} />
-        </div>
-
-        <div className="order-1 order-md-2">{customPrice(price)}</div>
-
-        <BtnFav checked={false} />
+        <div>{customPrice(price)} ₽</div>
+        <CountInput dis={false}/>
+        <BtnFav checked={false}/>
       </div>
     </div>
   );

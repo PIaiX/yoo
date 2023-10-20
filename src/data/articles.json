@@ -1,0 +1,27 @@
+[
+    {
+        "id": 0,
+        "title": "С 11 июня ВРЕМЕННО изменяется режим работы",
+        "imgLink": "/imgs/articles/article-1.webp"
+    },
+    {
+        "id": 1,
+        "title": "Сладости с перчинкой",
+        "imgLink": "/imgs/articles/article-2.webp"
+    },
+    {
+        "id": 2,
+        "title": "Весеннее поступление наборов для любимых",
+        "imgLink": "/imgs/articles/article-3.webp"
+    },
+    {
+        "id": 3,
+        "title": "Как дарить косметику? И какую?",
+        "imgLink": "/imgs/articles/article-4.webp"
+    },
+    {
+        "id": 4,
+        "title": "Сделать самому или купить?",
+        "imgLink": "/imgs/articles/article-5.webp"
+    }
+]

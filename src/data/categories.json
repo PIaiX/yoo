@@ -1,0 +1,42 @@
+[
+    {
+        "id": 0,
+        "title": "Наборы",
+        "imgLink": "/imgs/categories/kit.webp"
+    },
+    {
+        "id": 1,
+        "title": "Подарки на день рождения",
+        "imgLink": "/imgs/categories/birthday.webp"
+    },
+    {
+        "id": 2,
+        "title": "Воздушные шары",
+        "imgLink": "/imgs/categories/balloons.webp"
+    },
+    {
+        "id": 3,
+        "title": "Упаковка и пакеты",
+        "imgLink": "/imgs/categories/wrapping.webp"
+    },
+    {
+        "id": 4,
+        "title": "Подарочная косметика",
+        "imgLink": "/imgs/categories/cosmetics.webp"
+    },
+    {
+        "id": 5,
+        "title": "Украшения",
+        "imgLink": "/imgs/categories/decor.webp"
+    },
+    {
+        "id": 6,
+        "title": "Настольные игры",
+        "imgLink": "/imgs/categories/board-games.webp"
+    },
+    {
+        "id": 7,
+        "title": "Канцтовары",
+        "imgLink": "/imgs/categories/stationery.webp"
+    }
+]

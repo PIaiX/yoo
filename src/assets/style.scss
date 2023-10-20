@@ -1,7 +1,3 @@
-@import url("https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&display=swap");
-html {
-  scroll-behavior: smooth;
-}
 :root {
   --h-height: 70px;
   --f-height: 112px;
@@ -23,16 +19,22 @@ html {
 
 $main-font: "Open Sans";
 $radius: 1.25em;
-$red: #e01e00;
-$orange: #ff9d17;
-$green: #00ab55;
-$yellow: #fef8be;
-$black: #212b36;
+$main-color: #0077FF;
+$red: #E01E00;
+$orange: #FF9D17;
+$green: #00AB55;
+$yellow: #FEF8BE;
+$black: #212B36;
 $dark: #373737;
-$dark-gray: #ddd;
-$gray: #c2c2c2;
-$light-gray: #f4f6f8;
+$dark-gray: #637381;
+$gray: #C2C2C2;
+$light-gray: #F4F6F8;
 $white: #fff;
+$light-gray: #F4F6F8;
+$gray: #DFE2E5;
+$dark-gray: #637381;
+$black: #1C1C1C;
+
 $transition: 300ms ease-in;
 
 $bp-sm: 575.98px;
@@ -133,16 +135,15 @@ $bp-xxl: 1399.98px;
     @include shadow();
     &:hover,
     &:active {
-      background: rgba(var(--main-color-rgb), 0.05);
+      background: rgba($color: $main-color, $alpha: 0.05);
     }
   }
   &::-webkit-scrollbar-thumb {
     background-color: #dfe2e5;
     border-radius: 5px;
     transition: background-color 0.2s;
-    &:hover,
-    &:active {
-      background: var(--main-color);
+    &:hover, &:active {
+      background: rgba($color: $main-color, $alpha: 0.15)
     }
   }
   &::-webkit-scrollbar-button:vertical:start:decrement,
@@ -163,48 +164,13 @@ a:active {
   text-decoration: none;
   cursor: pointer;
 }
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-p,
-label,
-span,
-a,
-button,
-form,
-fieldset,
-legend,
-select,
-input,
-textarea,
-button,
-div,
-blockquote,
-cite,
-figure,
-figcaption,
-table,
-ul,
-ol,
-dl,
-li,
-address {
+h1, h2, h3, h4, h5, h6, p, label, span, a, button, form, fieldset, legend, select, input, textarea, button, div, blockquote, cite, figure, figcaption, table, ul, ol, dl, li, address {
   line-height: 135%;
   margin-bottom: 0px;
 }
 
-.rotateY-180 {
-  transform: rotateY(180deg);
-}
-.flex-1 {
-  flex: 1;
-}
-.border-top {
-  border-color: $light-gray !important;
-}
+.rotateY-180 {transform: rotateY(180deg);}
+.flex-1 {flex: 1;}
 .w {
   &-xs-100 {
     @media (max-width: $bp-sm) {
@@ -234,8 +200,7 @@ hr {
   opacity: 1;
 }
 
-h1,
-h2 {
+h1, h2 {
   font-size: 1.75em;
   font-weight: 600;
   margin-bottom: 1em;
@@ -271,7 +236,7 @@ h5 {
   }
 }
 h6 {
-  font-size: 1.125em;
+  font-size: 1em;
   font-weight: 600;
   margin-bottom: 0.5em;
   @media (max-width: $bp-md) {
@@ -363,35 +328,19 @@ h6 {
     font-weight: 900;
   }
 }
-.white {
-  color: $white;
-}
-.black {
-  color: $black;
-}
-.dark-gray {
-  color: $dark;
-}
-.gray {
-  color: $gray;
-}
-.red {
-  color: $red;
-}
-.orange {
-  color: $orange;
-}
-.green {
-  color: $green;
-}
-.main-color {
-  color: var(--main-color);
-}
+.white {color: $white;}
+.black {color: $black;}
+.dark-gray {color: $dark-gray;}
+.gray {color: $gray;}
+.red {color: $red;}
+.orange {color: $orange;}
+.green {color: $green;}
+.main-color {color: $main-color;}
 .main-color-60 {
-  color: var(--main-color);
+  color: rgba($color: $main-color, $alpha: 0.6);
 }
 .bg-main-01 {
-  background-color: var(--main-color);
+  background-color: rgba($color: $main-color, $alpha: 0.1);
 }
 
 /* Form elements */
@@ -400,17 +349,15 @@ textarea,
 .input {
   background-color: $white;
   border: 1px solid $light-gray;
-  border-radius: $radius * 0.5;
-  padding: 0.7em 1.2em;
+  border-radius: $radius*0.5;
+  padding: .7em 1.2em;
   width: 100%;
   outline: none;
   display: block;
   transition: border $transition;
   @include placeholder($gray, 400);
   @include lightShadow();
-  &:hover,
-  &:focus,
-  &:active {
+  &:hover, &:focus, &:active {
     border: 1px solid $gray;
   }
 }
@@ -424,17 +371,17 @@ input {
     @include no-appearance;
     width: $radius;
     height: $radius;
-    border: 1px solid var(--main-color);
+    border: 1px solid $main-color;
     background-color: $white;
     background-image: url(imgs/mark.svg);
     background-repeat: no-repeat;
-    background-size: contain;
+    background-size: cover;
     background-position: center;
     border-radius: calc($radius * 0.25);
     box-shadow: none;
+    transition-property: border, background-color;
     &:checked {
-      background-color: var(--main-color);
-      border: 1px solid var(--main-color);
+      background-color: $main-color;
     }
     &[role="switch"] {
       width: $radius * 2.75;
@@ -456,7 +403,7 @@ input {
         transition: left $transition;
       }
       &:checked {
-        background-color: $green;
+        background-color: $success;
         &::before {
           left: $radius * 1.4;
         }
@@ -467,26 +414,29 @@ input {
     @include no-appearance;
     width: $radius;
     height: $radius;
-    border: 1px solid var(--main-color);
+    border: 1px solid $main-color;
     background-color: $white;
     border-radius: 50%;
     box-shadow: none;
-    transition: background-color $transition;
+    transition: border-color $transition;
     position: relative;
     &::before {
       content: "";
       position: absolute;
-      top: 4px;
-      left: 4px;
-      height: 10px;
-      width: 10px;
+      top: 50%;
+      left: 50%;
+      height: 50%;
+      width: 50%;
       border-radius: 50%;
-      background-color: var(--main-color);
+      background-color: $main-color;
       transition: background-color $transition;
       opacity: 0;
     }
-    &:checked::before {
-      opacity: 1;
+    &:checked {
+      border-color: $secondary;
+      &::before {
+        opacity: 1;
+      }
     }
   }
   &[type="number"] {
@@ -498,30 +448,11 @@ input {
     }
   }
 }
-.password {
-  position: relative;
-  input {
-    font-size: inherit;
-    font-weight: inherit;
-    position: relative;
-    z-index: 1;
-  }
-  button {
-    position: absolute;
-    top: 0px;
-    right: 0px;
-    z-index: 5;
-    color: $gray;
-    height: 100%;
-    width: 2em;
-    font-size: 1.6em;
-    @include flex();
-    svg {
-      path {
-        stroke-width: 1.25px;
-      }
-    }
-  }
+label {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  span {flex:1;}
 }
 
 .inputGroup {
@@ -529,8 +460,8 @@ input {
   @include flex(row, flex-start, center, nowrap);
   width: fit-content;
   background-color: $light-gray;
-  padding: 0.5em;
-  border-radius: 0.75em;
+  padding: .5em;
+  border-radius: .75em;
   @media (max-width: $bp-md) {
     width: 100%;
   }
@@ -540,15 +471,17 @@ input {
     .text {
       width: 100%;
       background-color: transparent;
-      border-radius: 0.25em;
-      padding: 0.7em 1em;
+      border-radius: .25em;
+      padding: .7em 1em;
       transition: background-color $transition;
+      transition-property: background-color, color;
       text-align: center;
     }
     input {
       display: none;
       &:checked + .text {
-        background-color: $white;
+        background-color: $secondary;
+        color: $white;
       }
     }
   }
@@ -557,9 +490,9 @@ input {
     @media (max-width: $bp-md) {
       flex-grow: 1;
     }
-    &:not(:first-child) {
-      margin-left: 0.5em;
-      padding-left: 0.5em;
+    &:not(:first-child){
+      margin-left: .5em;
+      padding-left: .5em;
       &::before {
         content: "";
         position: absolute;
@@ -603,56 +536,53 @@ input {
   }
   input {
     padding: 0px;
-    height: $radius * 1.5;
-    width: $radius * 2;
+    height: $radius*1.5;
+    width: $radius*2;
     text-align: center;
+    border: 1px solid $gray;
     border-radius: $radius;
     @include lightShadow();
-    margin: 0px $radius * 0.25;
+    margin: 0px $radius*0.25;
     @media (max-width: $bp-md) {
-      width: 60px;
+      width: 100px;
     }
   }
   button {
     padding: 0.3em;
     background-color: $white;
-    border: 1px solid $light-gray;
+    border: 1px solid $gray;
     border-radius: $radius;
     color: $gray;
-    height: $radius * 1.5;
-    width: $radius * 1.5;
+    height: $radius*1.5;
+    width: $radius*1.5;
     @include flex();
-    @include lightShadow();
     transition: $transition;
     transition-property: color, background-color, border;
-    svg {
-      font-size: 0.8em;
-    }
-    &:hover,
-    &:focus {
-      color: var(--main-color);
+    svg {font-size: .8em;}
+    &:hover, &:focus {
+      color: $main-color;
     }
     &:active {
       color: $white;
-      background-color: var(--main-color);
-      border: 1px solid var(--main-color);
+      background-color: $main-color;
+      border: 1px solid $main-color;
     }
   }
 }
 .promoCode {
-  @include flex();
+  @include flex(row, flex-start, stretch, nowrap);
   input {
     flex: 1;
-    border-radius: $radius * 0.5 0px 0px $radius * 0.5;
+    border-radius: $radius*0.5 0px 0px $radius*0.5;
   }
   .btn-primary {
-    border-radius: 0px $radius * 0.5 $radius * 0.5 0px;
+    border-radius: 0px $radius*0.5 $radius*0.5 0px;
     padding: 0.75em;
   }
   .clear {
-    color: $dark;
+    color: $dark-gray;
     font-size: 1.5em;
-    margin-left: $radius * 0.25;
+    margin-left: $radius*0.25;
   }
 }
 
@@ -667,39 +597,33 @@ button {
 }
 .btn {
   @include flex(row, center, center, nowrap);
-  padding: 0.7em 1.2em;
+  padding: .7em 1.2em;
   text-align: center;
   transition: $transition;
   transition-property: color, background-color, border;
   width: fit-content;
-  border-radius: $radius * 1.5;
+  border-radius: $radius*1.5;
   /* голубая кнопка */
   &-primary {
     @extend .btn;
     color: $white;
-    background-color: var(--main-color);
-    border: 1px solid var(--main-color);
-    &:hover,
-    &:focus,
-    &:active,
-    &.active {
+    background-color: $main-color;
+    border: 1px solid $main-color;
+    &:hover, &:focus, &:active, &.active {
       color: $white;
-      background-color: var(--main-color-active);
-      border: 1px solid var(--main-color-active);
+      background-color: darken($color: $main-color, $amount: 10%);
+      border: 1px solid darken($color: $main-color, $amount: 10%);
     }
   }
   /* кнопка c голубой обводкой */
   &-10 {
     @extend .btn;
-    color: var(--main-color);
+    color: $main-color;
     background-color: $white;
-    border: 1px solid var(--main-color);
-    &:hover,
-    &:focus,
-    &:active,
-    &.active {
+    border: 1px solid $main-color;
+    &:hover, &:focus, &:active, &.active {
       color: $white;
-      background-color: var(--main-color);
+      background-color: $main-color;
     }
   }
   /* красная кнопка */
@@ -707,67 +631,48 @@ button {
     @extend .btn;
     color: $white;
     background-color: $red;
-    &:hover,
-    &:focus,
-    &:active,
-    &.active {
+    &:hover, &:focus, &:active, &.active {
       color: $white;
       background-color: darken($color: $red, $amount: 5%);
     }
   }
-  /* черная кнопка */
   &-secondary {
     @extend .btn;
     color: $white;
     background-color: #202020;
     font-weight: 600;
-    &:hover,
-    &:focus,
-    &:active,
-    &.active {
+    &:hover, &:focus, &:active, &.active {
       color: $white;
-      background-color: var(--main-color-outline);
+      background-color: $main-color;
     }
   }
-  /* кнопка c черной обводкой */
-  &-30 {
+  &-light {
     @extend .btn;
     color: $black;
     background-color: $white;
     border: 1px solid $black;
     font-weight: 600;
-    &:hover,
-    &:focus,
-    &:active,
-    &.active {
+    &:hover, &:focus, &:active, &.active {
       color: $white;
       background-color: $black;
     }
   }
   /* белая кнопка */
-  &-4,
-  &-white {
+  &-4 {
     @extend .btn;
     color: $black;
-    background-color: $white;
-    &:hover,
-    &:focus,
-    &:active,
-    &.active {
-      color: $black;
-      background-color: rgba($color: $white, $alpha: 0.87);
+    background-color: rgba($color: $white, $alpha: .87);
+    &:hover, &:focus, &:active, &.active {
+      color: $white;
+      background-color: $main-color;
     }
   }
-  /* кнопка c белой обводкой */
-  &-40 {
+  &-info {
     @extend .btn;
     color: $white;
     background-color: transparent;
     border: 1px solid $white;
-    &:hover,
-    &:focus,
-    &:active,
-    &.active {
+    &:hover, &:focus, &:active, &.active {
       color: $white;
       background-color: rgba($color: $white, $alpha: 0.1);
       border: 1px solid $white;
@@ -779,10 +684,7 @@ button {
     color: $green;
     border: 1px solid transparent;
     background-color: rgba($color: $green, $alpha: 0.1);
-    &:hover,
-    &:focus,
-    &:active,
-    &.active {
+    &:hover, &:focus, &:active, &.active {
       color: $white;
       background-color: $green;
       border: 1px solid $green;
@@ -794,40 +696,30 @@ button {
     color: $white;
     background-color: $green;
     border: 1px solid $green;
-    &:hover,
-    &:focus,
-    &:active,
-    &.active {
+    &:hover, &:focus, &:active, &.active {
       color: $white;
       background-color: darken($color: $green, $amount: 10%);
       border: 1px solid darken($color: $green, $amount: 10%);
     }
   }
   /* прозрачно-голубая кнопка */
-  &-6,
-  &-light-outline {
+  &-6 {
     @extend .btn;
-    color: var(--main-color);
-    background-color: var(--main-color-outline);
-    &:hover,
-    &:focus,
-    &:active,
-    &.active {
+    color: $main-color;
+    background-color: rgba($color: $main-color, $alpha: 0.1);
+    &:hover, &:focus, &:active, &.active {
       color: $white;
-      background-color: var(--main-color);
+      background-color: $main-color;
     }
   }
   /* светло-голубая кнопка */
   &-light {
     @extend .btn;
     color: $white;
-    background-color: var(--main-color);
-    &:hover,
-    &:focus,
-    &:active,
-    &.active {
+    background-color: rgba($color: $main-color, $alpha: 0.6);
+    &:hover, &:focus, &:active, &.active {
       color: $white;
-      background-color: var(--main-color);
+      background-color: $main-color;
     }
   }
   /* белая кнопка c тенью */
@@ -840,18 +732,13 @@ button {
       background-color: $light-gray;
     }
     svg {
-      color: var(--main-color);
+      color: $main-color;
       transition: color $transition;
     }
-    &:hover,
-    &:focus,
-    &:active,
-    &.active {
-      background-color: var(--main-color);
+    &:hover, &:focus, &:active, &.active {
+      background-color: $main-color;
       color: $white;
-      svg {
-        color: $white;
-      }
+      svg {color: $white;}
     }
   }
   /* серая кнопка */
@@ -860,10 +747,7 @@ button {
     color: $white;
     background-color: $gray;
     border: 1px solid $gray;
-    &:hover,
-    &:focus,
-    &:active,
-    &.active {
+    &:hover, &:focus, &:active, &.active {
       color: $white;
       background-color: $black;
       border: 1px solid $black;
@@ -879,32 +763,27 @@ button {
     background-color: $white;
     border: 1px solid $gray;
     font-weight: 600;
-    &:hover,
-    &:focus {
+    &:hover, &:focus {
       color: $black;
       background-color: $white;
       border: 1px solid $gray;
       @include shadow();
     }
-    &:active,
-    &.active {
+    &:active, &.active {
       color: $white;
-      background-color: var(--main-color);
-      border: 1px solid var(--main-color);
+      background-color: $main-color;
+      border: 1px solid $main-color;
     }
   }
   /* светло-серая кнопка */
   &-99 {
     @extend .btn;
-    color: $dark;
+    color: $dark-gray;
     background-color: $light-gray;
     border: 1px solid $light-gray;
-    &:hover,
-    &:focus,
-    &:active,
-    &.active {
+    &:hover, &:focus, &:active, &.active {
       color: $white;
-      background-color: $dark;
+      background-color: $dark-gray;
       border: 1px solid $dark-gray;
     }
   }
@@ -914,10 +793,7 @@ button {
     color: $orange;
     background-color: rgba($color: $orange, $alpha: 0.1);
     border: 1px solid transparent;
-    &:hover,
-    &:focus,
-    &:active,
-    &.active {
+    &:hover, &:focus, &:active, &.active {
       color: $white;
       background-color: $orange;
       border: 1px solid $orange;
@@ -929,10 +805,7 @@ button {
     color: $red;
     background-color: rgba($color: $red, $alpha: 0.1);
     border: 1px solid transparent;
-    &:hover,
-    &:focus,
-    &:active,
-    &.active {
+    &:hover, &:focus, &:active, &.active {
       color: $white;
       background-color: $red;
       border: 1px solid $red;
@@ -948,24 +821,19 @@ button {
   &-fav {
     font-size: 1.75em;
     @include flex();
-    @media (max-width: $bp-xl) {
-      right: 0.5em;
-    }
-    @media (max-width: $bp-md) {
-      bottom: 0em;
-      right: 0em;
-    }
     svg {
-      stroke-width: 1px;
-      stroke: $dark-gray;
-      fill: transparent;
-      transition: $transition;
-      transition-property: stroke, fill;
+      path {
+        stroke-width: 1px;
+        stroke: $dark-gray;
+        fill: transparent;
+        transition: $transition;
+        transition-property: stroke, fill;
+      }
     }
     &.active {
       svg {
-        stroke: var(--main-color);
-        fill: var(--main-color);
+        stroke: $main-color;
+        fill: rgba($main-color, 0.3);
       }
     }
   }
@@ -1001,12 +869,16 @@ button {
 
 select {
   @include no-appearance();
-  border: none;
-  background-image: url(imgs/chevron.svg);
+  background-color: $white;
+  border: 1px solid $gray;
+  border-radius: 5px;
+  padding: .4em 1.2em;
+  min-width: 200px;
+  background-image: url(imgs/icons/chevron-down.svg);
   background-repeat: no-repeat;
   padding-right: 1em;
   background-position: right center;
-  background-size: 0.75em;
+  background-size: .75em;
 }
 .select {
   position: relative;
@@ -1016,7 +888,7 @@ select {
     position: relative;
     z-index: 10;
     @include flex();
-    border: 1px solid var(--main-color);
+    border: 1px solid $main-color;
     border-radius: 1.5em;
     padding: 0.45em 0.75em;
     height: 100%;
@@ -1047,8 +919,8 @@ select {
     }
     &-chevron {
       font-size: 1em;
-      color: var(--main-color);
-      margin-left: 0.25em;
+      color: $main-color;
+      margin-left: .25em;
     }
   }
   &-options {
@@ -1082,7 +954,7 @@ select {
       transition: background-color $transition;
       padding: 0.5em 1em;
       &.active {
-        background-color: var(--main-color);
+        background-color: rgba($color: $main-color, $alpha: 0.1);
       }
       input {
         position: relative;
@@ -1118,7 +990,7 @@ select {
   display: flex;
   align-items: center;
   position: relative;
-  border-radius: $radius;
+  border-radius: 2em;
   transition: border-color $transition;
   background-color: $white;
   border: 1px solid $light-gray;
@@ -1139,7 +1011,7 @@ select {
     padding: 0px;
   }
   svg {
-    color: var(--main-color);
+    color: $main-color;
     font-size: 1.5em;
     stroke-width: 1.25px;
   }
@@ -1147,38 +1019,116 @@ select {
     position: absolute;
     bottom: -0.25em;
     right: 0px;
-    color: var(--main-color);
+    color: $main-color;
     font-weight: 600;
     line-height: 1em;
-    font-size: 0.9em;
+    font-size: .9em;
     &:empty {
       display: none;
     }
   }
 }
 
+.range {
+  margin-bottom: 1em;
+  &-values {
+    @include flex(row, space-between, center, nowrap);
+    input {
+      flex: 1;
+    }
+    hr {
+      height: 1px;
+      width: 2em;
+      background-color: $gray;
+      margin: auto 1em;
+    }
+  }
+  &-slider {
+    position: relative;
+    width: 100%;
+    height: 2px;
+    border-radius: 2px;
+    background-color: $gray;
+    input {
+      position: absolute;
+      top: 0px;
+      left: 0px;
+      width: 100%;
+      @include no-appearance();
+      background-color: transparent;
+      border: none;
+      display: block;
+      padding: 0px;
+      &::-moz-range-track {
+        height: 2px;
+        background: transparent;
+      }
+      &::-moz-range-thumb {
+        position: relative;
+        z-index: 10;
+        @include no-appearance();
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background-color: $primary;
+        transform: translateY(-4px);
+        cursor: grab;
+      }
+      &::-webkit-slider-runnable-track {
+        height: 2px;
+        background: transparent;
+      }
+      &::-webkit-slider-thumb {
+        position: relative;
+        z-index: 10;
+        @include no-appearance();
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background-color: $primary;
+        transform: translateY(-4px);
+        cursor: grab;
+        &:active {
+          cursor: grabbing;
+        }
+      }
+    }
+    &-diapason {
+      position: absolute;
+      top: 0px;
+      left: 0px;
+      width: 30%;
+      height: 100%;
+      background-color: $primary;
+      z-index: 2;
+    }
+  }
+  
+}
+
+
 /* Sliders */
 .swiper {
-  position: relative;
+  position: unset;
   overflow: hidden;
   &-pagination {
     position: absolute;
+    z-index: 100;
     left: 0px;
-    bottom: 0px;
+    bottom: 1.5em;
     width: 100%;
     @include flex(row, center, center, nowrap);
     &-bullet {
       display: block;
       opacity: 1;
-      width: 0.5em;
-      height: 0.5em;
-      border-radius: 0.25em;
-      margin: 0 0.75em !important;
-      background-color: var(--main-color-outline);
+      width: .5em;
+      height: .5em;
+      border-radius: .25em;
+      margin: 0 .75em !important;
+      background-color: rgba($color: $main-color, $alpha: .3);
       transition: width $transition;
       &-active {
         width: 1.8em;
-        background-color: var(--main-color);
       }
     }
   }
@@ -1217,7 +1167,6 @@ select {
     }
   }
   &.paginated {
-    padding-bottom: 1.75em;
     .swiper-button {
       bottom: 0.9em;
     }
@@ -1237,10 +1186,10 @@ select {
     margin-bottom: 1em;
     padding: 1.25em;
     padding-right: 4em;
-    border-radius: $radius * 0.5;
+    border-radius: $radius*0.5;
   }
   &::after {
-    content: "";
+    content: '';
     background: url(../assets/imgs/lightning.png) no-repeat center;
     background-size: contain;
     position: absolute;
@@ -1255,11 +1204,11 @@ select {
   }
 }
 
+
 .navTop {
   margin-bottom: 2em;
-  color: var(--main-color);
+  color: rgba($color: $main-color, $alpha: 0.6);
   @include flex(row, flex-start, center, wrap);
-  font-size: 1.125em;
   @media (max-width: $bp-lg) {
     margin-top: 1.5em;
   }
@@ -1269,9 +1218,10 @@ select {
   }
   &-back {
     @include flex();
-    margin-right: 5em;
+    margin-right: 2em;
+    color: $secondary;
     svg {
-      font-size: 1.35em;
+      font-size: 1.6em;
       stroke-width: 1.25px;
       margin-right: 0.25em;
     }
@@ -1279,12 +1229,16 @@ select {
   &-breadcrumbs {
     @include flex(row, flex-start, baseline, wrap);
     @include list();
+    font-size: 0.8em;
     li {
       &:not(:first-child) {
         &::before {
-          content: "—";
-          margin: 0em 0.5em;
+          content: '—';
+          margin: 0em .5em;
         }
+      }
+      &:last-child {
+        color: $secondary;
       }
     }
   }
@@ -1299,31 +1253,34 @@ select {
       flex-grow: 1;
       @include flex();
       &:not(:first-child) {
-        margin-left: $radius * 0.35;
+        margin-left: $radius*0.35;
       }
       .bar {
         flex: 1;
-        height: $radius * 0.5;
-        border-radius: $radius * 0.25;
+        height: $radius*0.5;
+        border-radius: $radius*0.25;
         background-color: $light-gray;
       }
       .icon {
+        width: 2em;
+        height: 2em;
         background-color: $gray;
-        color: $white;
+        color: $dark-gray;
         @include flex();
-        margin-left: $radius * 0.35;
+        margin-left: $radius*0.35;
         padding: 0.33em;
         border-radius: 50%;
         svg {
-          font-size: $radius;
+          font-size: 1.25em;
         }
       }
       &.full {
         .bar {
-          background-color: var(--main-color);
+          background-color: $main-color;
         }
         .icon {
-          background-color: $red;
+          background-color: $primary;
+          color: $white;
         }
         + li:not(.full) {
           .bar {
@@ -1337,12 +1294,8 @@ select {
               left: 0px;
               height: 100%;
               width: 80%;
-              border-radius: $radius * 0.25;
-              background-image: linear-gradient(
-                90deg,
-                var(--main-color) 40%,
-                var(--main-color) 100%
-              );
+              border-radius: $radius*0.25;
+              background-image: linear-gradient(90deg, $main-color 40%, lighten($main-color, 40%) 100%);
             }
           }
         }
@@ -1351,6 +1304,34 @@ select {
   }
 }
 
+.tabs {
+  @include list();
+  @include flex(row, flex-start, stretch, nowrap);
+  border-bottom: 1px solid $gray;
+  padding: 0px 1em;
+  @media (max-width: $bp-sm) {
+    padding: 0px $radius;
+  }
+  li {
+    &:not(:first-child){
+      margin-left: 2.5em;
+      @media (max-width: $bp-sm) {
+        margin-left: 1.5em;
+      }
+    }
+    button {
+      border-bottom: 2px solid transparent;
+      margin-bottom: -1px;
+      padding: 1em 0px;
+      font-weight: 500;
+      color: $dark-gray;
+      &.active {
+        color: $black;
+        border-bottom: 2px solid $secondary;
+      }
+    }
+  }
+}
 .breadcrumbs {
   margin-bottom: 2em;
   ul {
@@ -1372,6 +1353,7 @@ select {
     }
   }
 }
+
 
 body {
   margin: 0;
@@ -1409,7 +1391,6 @@ header {
     --pad: 40px;
     background-color: $white;
     padding: 0px var(--pad);
-    @include shadow();
     border-radius: 0px 0px $radius $radius;
     width: calc(100% + var(--pad) * 2);
     margin-left: calc(var(--pad) * -1);
@@ -1422,15 +1403,12 @@ header {
       box-shadow: none;
       border-radius: 0px;
     }
-    svg {
-      stroke-width: 1px;
-    }
     ul {
       @include list();
       @include flex();
       &.text-menu {
         li {
-          &:not(:first-child) {
+          &:not(:first-child){
             margin-left: 2.5em;
             @media (max-width: $bp-xxl) {
               margin-left: 1.5em;
@@ -1439,46 +1417,34 @@ header {
         }
       }
       &.icons-menu {
-        & > li {
-          &:not(:first-child) {
+        &>li {
+          &:not(:first-child){
             margin-left: 1.25em;
           }
+        }
+        a {
+          @include flex();
+          color: $main-color;
+          font-size: 1.75em;
         }
       }
     }
   }
   .logo {
-    height: 50px;
-    max-width: 80px;
-    @media (max-width: $bp-xl) {
-      height: 40px;
-      max-width: 60px;
-    }
-    object-fit: contain;
-  }
-  .logo-name {
-    font-size: 18px;
-    font-weight: bold;
-    @media (max-width: $bp-xl) {
-      font-size: 16px;
-    }
+    width: 100px;
   }
   .phone {
-    @include flex(row, flex-start, center, nowrap);
+    display: block;
     color: $black;
+    font-size: 1.2em;
     transition: color $transition;
-    &:hover,
-    &:focus,
-    &:active {
-      color: var(--main-color);
-    }
-    @media (max-width: $bp-lg) {
-      display: none;
+    &:hover, &:focus, &:active {
+      color: $main-color;
     }
   }
   .badge {
     font-size: 10px;
-    background-color: var(--main-color);
+    background-color: $main-color;
     color: $white;
     width: 1.6em;
     height: 1.6em;
@@ -1489,10 +1455,8 @@ header {
     font-size: 2em;
     @include flex();
     transition: color $transition;
-    &:hover,
-    &:focus,
-    &:active {
-      color: var(--main-color);
+    &:hover, &:focus, &:active {
+      color: $main-color;
     }
   }
 }
@@ -1502,6 +1466,8 @@ header {
     padding: calc(var(--h-height) + 2em) 1em calc(var(--f-height) + 2em);
     .menu-offer {
       width: 100%;
+      height: 400px;
+      object-fit: cover;
       border-radius: $radius;
       margin-bottom: 2em;
     }
@@ -1529,8 +1495,8 @@ header {
             }
             svg {
               font-size: 1.6em;
-              color: var(--main-color);
-              margin-right: 0.5em;
+              color: $main-color;
+              margin-right: .5em;
               @media (max-width: $bp-sm) {
                 margin-right: 0.25em;
               }
@@ -1631,7 +1597,6 @@ main {
       object-fit: cover;
       border-radius: $radius;
       @media (max-width: $bp-md) {
-        border-radius: 0px;
         height: auto;
       }
     }
@@ -1653,7 +1618,7 @@ main {
     .swiper-button {
       bottom: 50%;
       transform: translateY(50%);
-      color: var(--main-color);
+      color: rgba($color: $main-color, $alpha: 0.6);
     }
   }
 }
@@ -1665,10 +1630,10 @@ main {
     @include roundedImg(var(--w));
     background-color: $white;
     padding: 2px;
-    border: 3px solid var(--main-color);
+    border: 3px solid rgba($color: $main-color, $alpha: 0.3);
     @media (max-width: $bp-md) {
       padding: 1px;
-      border: 2px solid var(--main-color);
+      border: 2px solid rgba($color: $main-color, $alpha: 0.3);
     }
   }
   figcaption {
@@ -1777,6 +1742,9 @@ main {
 }
 
 .sec-3 {
+  @media (min-width: 767.98px) {
+    margin-top: 8em;
+  }
   .box {
     background-color: $white;
     @include shadow();
@@ -1815,7 +1783,7 @@ main {
     height: 200px;
     object-fit: cover;
     border-radius: $radius;
-    margin-bottom: $radius * 0.5;
+    margin-bottom: $radius*0.5;
     @media (max-width: $bp-xxl) {
       height: 180px;
     }
@@ -1824,7 +1792,7 @@ main {
     }
     @media (max-width: $bp-sm) {
       height: 30vw;
-      border-radius: $radius * 0.5;
+      border-radius: $radius*0.5;
     }
   }
   figcaption {
@@ -1832,7 +1800,7 @@ main {
     a {
       transition: color $transition;
       &:hover {
-        color: var(--main-color);
+        color: $main-color;
       }
     }
   }
@@ -1847,8 +1815,8 @@ main {
   position: relative;
   @media (max-width: $bp-xxl) {
     padding: 10em 3em 2em;
-    background-position: 12% 25%, center bottom;
-    background-size: 62% auto, 100% calc(100% - 5em);
+    background-position: 12% 25%,center bottom;
+    background-size: 62% auto,100% calc(100% - 5em);
   }
   @media (max-width: $bp-xl) {
     padding: 6em 3em 2em;
@@ -1859,28 +1827,22 @@ main {
     padding: 5em 2em 1.5em;
     background-position: 0% 0%, center bottom;
     background-size: 80% auto, 100% calc(100% - 1em);
-    .fs-16 {
-      font-size: 1.3em;
-    }
+    .fs-16 {font-size: 1.3em}
   }
   @media (max-width: $bp-md) {
     padding: 4em 1.5em 1em;
-    .fs-20 {
-      font-size: 1.5em;
-    }
+    .fs-20 {font-size: 1.5em}
   }
   @media (max-width: $bp-sm) {
     padding: 3em 1em 1em;
     font-size: 10px;
-    .fs-16 {
-      font-size: 1.2em;
-    }
+    .fs-16 {font-size: 1.2em}
   }
   .logotips {
     @include list();
     @include flex(row, flex-start, center, nowrap);
     li {
-      &:not(:first-child) {
+      &:not(:first-child){
         margin-left: 3em;
         @media (max-width: $bp-lg) {
           margin-left: 2em;
@@ -1927,6 +1889,7 @@ main {
   }
 }
 
+
 .sec-5 {
   position: relative;
   .product-slider {
@@ -1934,64 +1897,34 @@ main {
     padding: 1em 0px;
     .swiper-slide {
       width: fit-content;
-    }
-  }
-}
-.product-card-mini {
-  width: 380px;
-  padding: 1em;
-  @include shadow();
-  border-radius: $radius;
-  @include flex(row, flex-start, stretch, nowrap);
-  @media (max-width: $bp-lg) {
-    flex-direction: column;
-    width: calc(200px + 2em);
-  }
-  @media (max-width: $bp-sm) {
-    width: calc(145px + 2em);
-  }
-  img {
-    --card-mini-w: 130px;
-    @include roundedImg(var(--card-mini-w), $radius, scale-down);
-    margin-right: $radius;
-    @media (max-width: $bp-lg) {
-      --card-mini-w: 200px;
-      margin-right: 0px;
-    }
-    @media (max-width: $bp-sm) {
-      --card-mini-w: 145px;
-    }
-  }
-  figcaption {
-    flex: 1;
-    @include flex(column, space-between, stretch, nowrap);
-    h6 {
-      @media (max-width: $bp-sm) {
-        font-weight: 400;
+      a {
+        @include flex();
+        padding: .4em 1.2em;
+        border: 1px solid $secondary-light;
+        border-radius: 1.5em;
+        height: 100%;
       }
     }
     a {
       transition: color $transition;
       &:hover {
-        color: var(--main-color);
+        color: $main-color;
       }
     }
   }
 }
 .sticky-box {
   position: sticky;
-  z-index: 1000;
+  z-index: 100;
   top: 0px;
   left: 0px;
   width: 100%;
-  padding: 0.5em 0.75em;
+  padding: .5em .75em;
   @include shadow();
   background-color: $white;
   border-radius: $radius;
   @include flex(row, space-between, center, nowrap);
   @media (max-width: $bp-lg) {
-    top: calc(var(--h-height) - 1px);
-    border-radius: 0px 0px $radius $radius;
     padding: 0em;
     box-shadow: none;
   }
@@ -2000,29 +1933,34 @@ main {
   @include flex(row, space-between, flex-start, nowrap);
   max-width: 100%;
   flex: 1;
+  &.w-90 {
+    max-width: 90%;
+    @media (max-width: $bp-lg) {
+      max-width: 100%;
+    }
+  }
   &-wrap {
     position: relative;
-    max-width: 90%;
+    width: 80%;
     padding: 0px 2.75em;
     @media (max-width: $bp-lg) {
       width: 100%;
-      max-width: 100%;
       padding: 0px 0px;
     }
   }
   &-slider {
-    margin: 0px !important;
-    position: unset !important;
-    padding: 0.75em !important;
+    margin: 0px;
+    position: unset;
+    padding: .75em;
     @media (max-width: $bp-lg) {
       width: 100%;
-      padding: 0.25em !important;
+      padding: 0em;
     }
     .swiper-slide {
       width: fit-content;
     }
     .swiper-button {
-      color: var(--main-color);
+      color: $main-color;
       bottom: 50%;
       transform: translateY(50%);
       @media (max-width: $bp-lg) {
@@ -2059,7 +1997,7 @@ main {
     }
   }
   &-btn {
-    color: var(--main-color);
+    color: $main-color;
     @include flex();
     padding: 1.3em 0px;
     margin-left: 2em;
@@ -2069,7 +2007,7 @@ main {
   }
 }
 .CategoryGroup {
-  &:not(:last-child) {
+  &:not(:last-child){
     padding-bottom: 3em;
     margin-bottom: 4em;
     border-bottom: 1px solid rgba($color: $gray, $alpha: 0.5);
@@ -2104,10 +2042,9 @@ main {
   }
   .btn-search {
     margin-right: auto;
-    padding: 0.55em;
-    color: $dark;
-    &:hover,
-    &:active {
+    padding: .55em;
+    color: $dark-gray;
+    &:hover, &:active {
       color: $white;
     }
     @media (max-width: $bp-lg) {
@@ -2117,7 +2054,7 @@ main {
     }
     @media (max-width: $bp-sm) {
       margin-right: 1em;
-      padding: 0.35em;
+      padding: .35em;
     }
     svg {
       font-size: 1.5em;
@@ -2129,14 +2066,14 @@ main {
   .btn-filter {
     margin-left: auto;
     margin-right: 1.5em;
-    padding: 0.55em;
+    padding: .55em;
     @media (max-width: $bp-lg) {
       order: 3;
       margin-left: unset;
     }
     @media (max-width: $bp-sm) {
       margin-right: 1em;
-      padding: 0.35em;
+      padding: .35em;
     }
     svg {
       font-size: 1.5em;
@@ -2151,7 +2088,7 @@ main {
     }
   }
   .btn-subcategories {
-    padding: 0.55em;
+    padding: .55em;
     @media (min-width: 991.98px) {
       display: none;
     }
@@ -2159,7 +2096,7 @@ main {
       order: 4;
     }
     @media (max-width: $bp-sm) {
-      padding: 0.35em;
+      padding: .35em;
     }
     svg {
       font-size: 1.5em;
@@ -2191,9 +2128,9 @@ main {
     img {
       width: 100%;
       height: 250px;
-      object-fit: cover;
+      object-fit: scale-down;
       object-position: center;
-      border-radius: $radius;
+      border-radius: $radius*0.7;
       @media (max-width: $bp-xxl) {
         height: 230px;
       }
@@ -2266,12 +2203,9 @@ main {
   }
   .btn-fav {
     position: absolute;
-    bottom: 0.8em;
-    right: 0.8em;
+    bottom: 1em;
+    right: 1em;
     z-index: 1;
-  }
-  p {
-    @include clamp(2, 1.2em, true);
   }
   hr {
     background-color: $light-gray;
@@ -2280,11 +2214,10 @@ main {
     opacity: 1;
   }
 }
+
 .productPage {
   @media (max-width: $bp-md) {
-    h1 {
-      flex: 1;
-    }
+    h1 {flex:1;}
   }
   &-img {
     width: 100%;
@@ -2295,14 +2228,44 @@ main {
       height: 260px;
     }
     @media (max-width: $bp-xl) {
-      height: 215px;
+      --img: 270px;
     }
-    @media (max-width: $bp-lg) {
-      height: 500px;
+    @media (max-width: $bp-md) {
+      --img: 450px;
       margin-bottom: 1em;
     }
     @media (max-width: $bp-sm) {
-      height: 85vw;
+      --img: calc(88vw - 50px - 1em);
+    }
+    .thumbSlider {
+      width: 50px;
+      margin-right: 1em;
+      height: var(--img);
+      .swiper-slide {
+        height: 50px;
+        img {
+          width: 100%;
+          @include roundedImg(50px, $radius*0.5, cover);
+          background-color: $white;
+          border: 1px solid $light-gray;
+        }
+      }
+    }
+    .mainSlider {
+      flex: 1;
+      img {
+        @include roundedImg(var(--img), $radius, cover);
+        width: 100%;
+      }
+    }
+    .btn-fav {
+      position: absolute;
+      top: 0.25em;
+      right: 0.25em;
+      z-index: 1;
+      background-color: rgba($color: $white, $alpha: 0.7);
+      padding: 0.2em;
+      border-radius: 50%;
     }
   }
   &-edit {
@@ -2314,7 +2277,7 @@ main {
         background-color: $dark;
         color: $white;
         border-radius: $radius $radius 0px 0px;
-        height: calc($radius * 2);
+        height: calc($radius*2);
         @include flex();
         transition: $transition;
         transition-property: background-color, color;
@@ -2325,17 +2288,15 @@ main {
           padding: 0em 2.5em;
           margin-left: -2em;
         }
-        span {
-          margin-left: 0.25em;
-        }
+        span {margin-left: .25em;}
         .corner {
           position: absolute;
           z-index: 1;
           bottom: 0px;
           font-size: $radius;
-          color: $dark;
+          color: $dark-gray;
           transition: color $transition;
-          &-right {
+          &-right{
             @extend .corner;
             left: 100%;
           }
@@ -2382,18 +2343,23 @@ main {
     }
   }
   &-price {
+    margin-top: 1em;
     @include flex(row, flex-start, center, nowrap);
     @media (max-width: $bp-md) {
       position: fixed;
-      bottom: calc(var(--f-height) - 2px);
+      bottom: 0px;
       left: 0px;
       width: 100%;
       height: 50px;
-      z-index: 100;
+      z-index: 1100;
       background-color: $white;
       justify-content: center;
-      button {
-        width: 270px;
+      flex-wrap: nowrap;
+      align-items: center;
+      @include shadow();
+      .btn-2 {
+        width: auto;
+        margin-top: 0em;
       }
     }
     @media (max-width: $bp-sm) {
@@ -2405,32 +2371,27 @@ main {
     }
   }
   .select-button {
-    padding: 0.6em 1em;
+    padding: .6em 1em;
   }
   .notice {
-    padding: 0.75em 5em 0.75em 1em;
+    padding: .75em 5em .75em 1em;
   }
 }
 .ingredient {
   @include flex(row, flex-start, center, nowrap);
   background-color: $white;
   @include shadow();
-  border-radius: $radius * 0.5;
-  padding: $radius * 0.5;
-  border: 2px solid transparent;
+  border-radius: $radius*0.5;
+  padding: $radius*0.5;
   @media (max-width: $bp-xxl) {
-    font-size: 0.9em;
-  }
-  &.active {
-    background-color: var(--main-color-outline);
-    border-color: var(--main-color);
+    font-size: .9em;
   }
   &-img {
     width: 2.5em;
     height: 2.5em;
     object-fit: cover;
-    border-radius: $radius * 0.25;
-    margin-right: $radius * 0.5;
+    border-radius: $radius*0.25;
+    margin-right: $radius*0.5;
   }
   &-title {
     flex: 1;
@@ -2441,81 +2402,73 @@ main {
     margin-left: $radius;
     text-align: right;
     @media (max-width: $bp-xxl) {
-      margin-left: $radius * 0.5;
+      margin-left: $radius*0.5;
     }
   }
   button {
-    padding: 0.33em 0.6em;
-    margin-left: $radius * 0.5;
+    padding: .33em .6em;
+    margin-left: $radius*0.5;
   }
 }
 
-// .filterGrid {
-//   position: relative;
-//   --size: 2.75em;
-//   display: grid;
-//   grid-template-columns: 800px auto 50px 180px;
-//   grid-template-rows: 1fr;
-//   grid-template-areas: "search . filter sort";
-//   gap: 1em;
-//   @media (max-width: $bp-xl) {
-//     grid-template-columns: 600px auto 50px 180px;
-//   }
-//   @media (max-width: $bp-lg) {
-//     grid-template-areas: "sort search filter";
-//     grid-template-columns: 180px auto 100px;
-//   }
-//   @media (max-width: $bp-sm) {
-//     grid-template-columns: 180px auto auto;
-//     gap: 0.5em;
-//   }
-//   &-search {
-//     @include flex(row, space-between, stretch, nowrap);
-//     grid-area: search;
-//     position: relative;
-//     @media (max-width: $bp-lg) {
-//       justify-content: flex-end;
-//     }
-//     @media (max-width: $bp-md) {
-//       position: static;
-//     }
-//   }
-//   &-filter {
-//     @include flex(row, center, center, nowrap);
-//     grid-area: filter;
-//   }
-//   &-sort {
-//     @include flex(row, flex-end, center, nowrap);
-//     grid-area: sort;
-//     .select {
-//       height: var(--size);
-//     }
-//   }
+.filterGrid {
+  position: relative;
+  --size: 2.75em;
+  display: grid;
+  grid-template-columns: 800px auto 50px 180px;
+  grid-template-rows: 1fr;
+  grid-template-areas: "search . filter sort";
+  gap: 1em;
+  @media (max-width: $bp-xl) {
+    grid-template-columns: 600px auto 50px 180px;
+  }
+  @media (max-width: $bp-lg) {
+    grid-template-areas: "sort search filter";
+    grid-template-columns: 180px auto 100px;
+  }
+  @media (max-width: $bp-sm) {
+    grid-template-columns: 180px auto auto;
+    gap: .5em;
+  }
+  &-search {
+    @include flex(row, space-between, stretch, nowrap);
+    grid-area: search;
+    position: relative;
+    @media (max-width: $bp-lg) {
+      justify-content: flex-end;
+    }
+    @media (max-width: $bp-md) {
+      position: static;
+    }
+  }
+  &-filter {
+    @include flex(row, center, center, nowrap);
+    grid-area: filter;
+  }
+  &-sort {
+    @include flex(row, flex-end, stretch, nowrap);
+    grid-area: sort;
+  }
 
-//   .subcategories-list {
-//     flex: 1;
-//     @include list();
-//     @include flex(row, flex-start, center, nowrap);
-//     overflow: hidden;
-//     margin: 0 1em;
-//     @media (max-width: $bp-lg) {
-//       display: none;
-//     }
-//     li {
-//       &:not(:last-child) {
-//         margin-right: 1em;
-//       }
-//       button {
-//         height: var(--size);
-//       }
-//     }
-//   }
-//   .btn-10 {
-//     width: var(--size);
-//     height: var(--size);
-//     padding: 0px;
-//   }
-// }
+  .subcategories-list {
+    @include list();
+    @include flex(row, flex-start, center, wrap);
+    @media (max-width: $bp-lg) {
+      display: none;
+    }
+    li {
+      &:not(:last-child){margin-right: 1em;}
+      button {
+        height: var(--size);
+      }
+    }
+  }
+  .btn-10 {
+    width: var(--size);
+    height: var(--size);
+    padding: 0px;
+  }
+}
 .searchForm {
   --size: 2.75em;
   position: relative;
@@ -2536,75 +2489,173 @@ main {
     background-color: $white;
     transition: max-width $transition, border $transition;
     @media (max-width: $bp-md) {
-      opacity: 0;
-      z-index: -1;
+      width: 170px;
+    }
+    @media (max-width: $bp-sm) {
+      width: 140px;
     }
   }
-  button {
-    position: relative;
-    z-index: 10;
-    width: var(--size);
-    height: var(--size);
-    border: none;
-    border-radius: 1.5em;
-    padding: 0px;
-    background-color: transparent;
-    color: $gray;
-    transition: color $transition;
+}
+.article-card {
+  img {
+    width: 100%;
+    height: 260px;
+    object-fit: cover;
+    border-radius: 1em;
+    margin-bottom: 1em;
+    @media (max-width: $bp-xl) {
+      height: 290px;
+    }
+    @media (max-width: $bp-lg) {
+      height: 200px;
+    }
     @media (max-width: $bp-md) {
-      border: 1px solid $gray;
+      height: 170px;
+    }
+    @media (max-width: $bp-sm) {
+      height: 140px;
     }
     svg {
       font-size: 1.5em;
       color: inherit;
     }
-    &:hover,
-    &:focus,
-    &:active {
-      color: var(--main-color);
+    &:hover, &:focus, &:active {
+      color: $main-color;
     }
   }
   &.opened {
     input {
       max-width: 800px;
-      border: 1px solid var(--main-color);
+      border: 1px solid $main-color;
       @media (max-width: $bp-xl) {
-        max-width: 600px;
+        margin-right: 2em;
       }
       @media (max-width: $bp-lg) {
-        max-width: 370px;
+        margin-right: 1em;
+        --w: 150px;
       }
-      @media (max-width: $bp-md) {
-        max-width: 100%;
-        opacity: 1;
-        z-index: 100;
+      @media (max-width: $bp-sm) {
+        --w: 25vw;
       }
+    }
+    h5 {
+      font-weight: 700;
+    }
+    .text {
+      font-size: .9em;
+      @include clamp(5, 1.2em, true);
+    }
+    figcaption {
+      @include flex(column, space-between, stretch, nowrap);
+    }
+  }
+}
+.article-preview {
+  @include flex(row, flex-start, stretch, nowrap);
+  font-size: .9em;
+  @media (max-width: $bp-sm) {
+    flex-direction: column;
+  }
+  img {
+    --img: 200px;
+    @include roundedImg(var(--img), 1em, cover);
+    @media (max-width: $bp-md) {
+      --img: 150px;
+    }
+    @media (max-width: $bp-sm) {
+      width: 100%;
+      height: 90vw;
+      margin-bottom: 1em;
+    }
+  }
+  h5 {
+    font-size: 1.2em;
+    font-weight: 700;
+  }
+  p {
+    @include clamp(5, 1.2em, true);
+    @media (max-width: $bp-sm) {
+      display: none;
+    }
+  }
+  .btn-primary {
+    display: none;
+  }
+}
+.article-single {
+  display: inline-block;
+  img {
+    --img-w: 360px;
+    float: right;
+    @include roundedImg(var(--img-w), $radius, cover);
+    margin-left: 2em;
+    margin-bottom: 2em;
+    @media (max-width: $bp-xl) {
+      --img-w: 300px;
+    }
+    @media (max-width: $bp-lg) {
+      --img-w: 250px;
+    }
+    @media (max-width: $bp-md) {
+      --img-w: 500px;
+      float: unset;
+      display: block;
+      margin-left: 0em;
+    }
+    @media (max-width: $bp-sm) {
+      --img-w: 88vw;
+    }
+  }
+  p {
+    font-weight: 500;
+    margin-bottom: 2em;
+    @media (max-width: $bp-lg) {
+      margin-bottom: 1.5em;
+    }
+    @media (max-width: $bp-sm) {
+      margin-bottom: 1em;
+    }
+  }
+}
+.article-page {
+  img {
+    width: 100%;
+    height: 360px;
+    object-fit: cover;
+    border-radius: $radius;
+    margin-bottom: 1.5em;
+    @media (max-width: $bp-xl) {
+      height: 300px;
+    }
+    @media (max-width: $bp-md) {
+      height: 250px;
+    }
+    @media (max-width: $bp-sm) {
+      height: 50vw;
     }
   }
 }
 
+
 .sec-6 {
-  --offer-w: 415px;
-  @media (max-width: $bp-xxl) {
-    --offer-w: 355px;
-  }
+  --offer-w: 350px;
   @media (max-width: $bp-xl) {
     --offer-w: 300px;
   }
   @media (max-width: $bp-lg) {
     --offer-w: 310px;
   }
-  @media (max-width: $bp-md) {
-    --offer-w: 450px;
-  }
   @media (max-width: $bp-sm) {
-    --offer-w: 82vw;
+    --offer-w: 45vw;
   }
   .offer {
     width: 100%;
     position: relative;
     @include shadowF();
     transition: transform 200ms linear;
+    @media (max-width: $bp-sm) {
+      font-size: 11px;
+    }
     img {
       position: relative;
       z-index: 1;
@@ -2617,27 +2668,9 @@ main {
       @include absBG(10);
       color: $white;
       padding: 2em;
-      @include flex(column, space-between, stretch, nowrap);
+      @include flex(column, flex-end, stretch, nowrap);
       @media (max-width: $bp-xl) {
         padding: 1em;
-      }
-    }
-    &:not(.full) {
-      @media (max-width: $bp-md) {
-        --offer-w: 240px;
-      }
-      @media (max-width: $bp-sm) {
-        --offer-w: 41vw;
-      }
-      figcaption {
-        @media (max-width: $bp-sm) {
-          font-size: 10px;
-        }
-      }
-      h6 {
-        @media (max-width: $bp-md) {
-          display: none;
-        }
       }
     }
   }
@@ -2723,16 +2756,13 @@ main {
     }
     &-price {
       grid-area: price;
-      @include flex(row, flex-end, flex-start, nowrap);
-      font-size: 1.2em;
-      @media (max-width: $bp-xxl) {
-        font-size: 1.1em;
-      }
+      @include flex(column, center, flex-end, nowrap);
       @media (max-width: $bp-md) {
+        flex-direction: row;
         justify-content: space-between;
-      }
-      @media (max-width: $bp-sm) {
-        font-size: 1em;
+        .btn-fav {
+          display: none;
+        }
       }
     }
     &s-list {
@@ -2743,9 +2773,9 @@ main {
   }
 }
 
+
 .sec-7 {
   .box {
-    height: 700px;
     @include flex(column, flex-start, stretch, nowrap);
   }
   ul {
@@ -2763,6 +2793,18 @@ main {
     @include safariFix();
     @include flex();
     height: 700px;
+    @media (max-width: $bp-xxl) {
+      height: 600px;
+    }
+    @media (max-width: $bp-xl) {
+      height: 500px;
+    }
+    @media (max-width: $bp-md) {
+      height: 400px;
+    }
+    @media (max-width: $bp-sm) {
+      height: 300px;
+    }
     img {
       width: 100%;
       height: 100%;
@@ -2795,11 +2837,11 @@ main {
     padding: 0.75em 1em;
     border-radius: $radius;
     @include lightShadow();
-    margin-bottom: 0.5em;
+    margin-bottom: .5em;
   }
   &-item {
     position: relative;
-    @include flex(row, space-between, flex-start, nowrap);
+    @include flex(row, space-between, stretch, nowrap);
     padding: 1.5em 1em;
     border-bottom: 1px solid $light-gray;
     @media (max-width: $bp-md) {
@@ -2824,9 +2866,9 @@ main {
           width: fit-content;
           .tag {
             float: right;
-            color: var(--main-color);
+            color: $main-color;
             font-size: 0.75em;
-            border: 1px solid var(--main-color);
+            border: 1px solid $main-color;
             border-radius: $radius;
             padding: 0.3em 0.6em;
             transform: rotate(-3.5deg);
@@ -2851,12 +2893,12 @@ main {
       }
     }
     .right {
-      @include flex(row, space-between, flex-start, nowrap);
+      @include flex(column, space-between, flex-end, nowrap);
       width: 35%;
       @media (max-width: $bp-md) {
+        @include flex(row, space-between, center, nowrap);
         width: 100%;
         margin-top: 1em;
-        align-items: center;
       }
       @media (max-width: $bp-sm) {
         margin-top: 0.5em;
@@ -2884,13 +2926,14 @@ main {
           content: "+";
           font-weight: 600;
           color: $green;
-          margin-right: 0.5em;
+          margin-right: .5em;
         }
       }
     }
   }
   &-box {
-    background-color: $light-gray;
+    border: 1px solid $gray;
+    background-color: transparent;
     padding: 1em;
     border-radius: $radius;
   }
@@ -2910,7 +2953,7 @@ main {
   }
   &-count {
     border: 1px solid $light-gray;
-    padding: 0.33em 0.8em;
+    padding: .33em .8em;
     background-color: $white;
     border-radius: $radius;
     margin-left: $radius;
@@ -2929,21 +2972,21 @@ footer {
     left: 0px;
     width: 100%;
     z-index: 1050;
-    @include shadow();
+    box-shadow: 0px -4px 20px rgba(0,0,0,.06);
   }
   .desktop {
     height: 100%;
     @include flex(row, space-between, center, nowrap);
     .logo {
-      width: 80px;
+      width: 140px;
       @media (max-width: $bp-xl) {
-        width: 60px;
+        width: 100px;
       }
     }
     a {
       transition: color $transition;
       &:hover {
-        color: var(--main-color);
+        color: lighten($color: $main-color, $amount: 20%);
       }
     }
   }
@@ -2958,13 +3001,14 @@ footer {
           padding: 0.5em;
           border-radius: $radius * 0.5;
           background-color: transparent;
-
+          
           max-width: 2.6em;
           height: 2.6em;
           overflow: hidden;
           transition: $transition;
           transition-property: background-color, max-width;
           svg {
+            // font-size: 1.6em;
             width: 1.6em !important;
             height: 1.6em !important;
             color: $dark;
@@ -2972,14 +3016,13 @@ footer {
           }
           .text {
             color: $white;
-            // padding: 0 .5em;
             overflow: hidden;
             max-width: 0px;
-            // display: none;
             transition: max-width $transition;
+            span {margin-left: .25em;}
           }
           &.active {
-            background-color: var(--main-color);
+            background-color: $main-color;
             max-width: 130px;
             svg {
               // font-size: 1.2em;
@@ -3003,7 +3046,7 @@ ACCOUNT
   position: relative;
   .icon {
     --w: 95px;
-    background-color: var(--main-color-outline);
+    background-color: rgba($color: $main-color, $alpha: 0.1);
     border-radius: 50%;
     @include roundedImg(var(--w));
     margin-right: 1em;
@@ -3028,24 +3071,24 @@ ACCOUNT
     display: block;
     background: url(imgs/bg/gradient.jpg) no-repeat center;
     background-size: cover;
-    border-radius: $radius * 0.5;
+    border-radius: $radius*0.5;
     width: 100%;
     height: 100%;
     min-height: 125px;
   }
   .box {
-    @include lightShadow();
+    border: 1px solid $gray;
     background-color: $white;
-    border-radius: $radius * 0.5;
+    border-radius: $radius*0.5;
     &-blue {
       @include lightShadow();
-      background-color: var(--main-color-outline);
-      border-radius: $radius * 0.5;
+      background-color: rgba($color: $main-color, $alpha: 0.1);
+      border-radius: $radius*0.5;
     }
   }
   .link-return {
     @include flex(row, flex-start, center, nowrap);
-    color: var(--main-color);
+    color: rgba($color: $main-color, $alpha: .6);
     margin-right: 2em;
     font-size: 1.1em;
     svg {
@@ -3056,9 +3099,16 @@ ACCOUNT
   }
   &-top {
     margin-bottom: 2em;
+    display: grid;
+    grid-template-rows: 1fr;
+    grid-template-columns: 3fr 2fr 2fr 4fr;
+    gap: 1em;
+    &>div {
+      grid-column: span 1;
+    }
     .box {
-      @include shadow();
       border-radius: $radius;
+      border-color: $light-gray;
       padding: 1em;
       @media (max-width: $bp-xxl) {
         padding: 0.75em;
@@ -3082,29 +3132,25 @@ ACCOUNT
           border-radius: $radius;
           transition: $transition;
           transition-property: color, background-color;
-          svg {
-            font-size: 1.5em;
-          }
+          svg {font-size: 1.5em;}
           div {
             font-size: 1.1em;
             font-weight: 600;
-            margin-left: 0.5em;
+            margin-left: .5em;
             flex: 1;
           }
           .badge {
-            background-color: var(--main-color);
-            padding: 0.34em;
+            background-color: rgba($main-color, .2);
+            padding: .34em;
             border-radius: $radius;
             color: $black;
           }
-          &:hover,
-          &:focus {
-            color: var(--main-color);
+          &:hover, &:focus {
+            color: $main-color;
           }
-          &:active,
-          &.active {
-            background-color: var(--main-color-outline);
-            color: var(--main-color);
+          &:active, &.active {
+            background-color: rgba($main-color, .2);
+            color: $main-color;
           }
         }
       }
@@ -3136,10 +3182,9 @@ ACCOUNT
             @include flex();
             font-weight: 400;
             font-size: 1.2em;
-            padding: 0.75em 1em;
-            &:active,
-            &.active {
-              background-color: var(--main-color-outline);
+            padding: .75em 1em;
+            &:active, &.active {
+              background-color: rgba($color: $main-color, $alpha: 0.1);
             }
             div {
               flex: 1;
@@ -3149,6 +3194,15 @@ ACCOUNT
               font-size: 1.5em;
               margin-right: 0.5em;
             }
+            .badge {
+              background-color: $light;
+              border-radius: $radius;
+              color: $secondary;
+              width: 1.5em;
+              height: 1.5em;
+              padding: 0em;
+              @include flex();
+            }
           }
         }
       }
@@ -3157,7 +3211,7 @@ ACCOUNT
 
   .order-card {
     display: grid;
-    grid-template-columns: 70px 150px 120px auto 100px 150px;
+    grid-template-columns: 70px 150px 85px auto 80px 140px;
     grid-template-rows: repeat(2, 1fr);
     grid-template-areas:
       "num time status delivery price btn"
@@ -3229,8 +3283,8 @@ ACCOUNT
       grid-area: delivery;
       @include flex(row, flex-start, center, nowrap);
       @media (max-width: $bp-lg) {
-        color: $dark;
-        padding: 0.25em 1em;
+        color: $dark-gray;
+        padding: .25em 1em;
       }
     }
     address {
@@ -3243,11 +3297,11 @@ ACCOUNT
     }
     &-price {
       grid-area: price;
-      @include flex(row, flex-start, center, nowrap);
+      @include flex(row, center, center, nowrap);
       @media (max-width: $bp-lg) {
         padding: 0.5em 1em;
         font-weight: 600;
-        @include flex(column, flex-start, stretch, nowrap);
+        @include flex(column, center, stretch, nowrap);
       }
     }
     &-btn {
@@ -3258,11 +3312,11 @@ ACCOUNT
         border-top: 1px solid $light-gray;
       }
       a {
-        color: var(--main-color);
+        color: $main-color;
         @include flex();
         svg {
           font-size: 1.5em;
-          background-color: var(--main-color-outline);
+          background-color: rgba($color: $main-color, $alpha: 0.1);
           border-radius: 50%;
           margin-left: 0.25em;
           padding: 0.15em;
@@ -3291,13 +3345,13 @@ ACCOUNT
   .order-item {
     --w: 100px;
     display: grid;
-    grid-template-columns: var(--w) auto 110px 50px;
+    grid-template-columns: var(--w) auto 100px;
     grid-template-rows: auto;
-    grid-template-areas:
-      "img data quantity price"
-      "img info quantity price"
-      "img show . ."
-      ". extra . .";
+    grid-template-areas: 
+    "img data quantity price"
+    "img info quantity price"
+    "img show . ."
+    ". extra . .";
     gap: 0.5em 1em;
     @media (max-width: $bp-xxl) {
       grid-template-columns: var(--w) auto 50px 50px;
@@ -3349,7 +3403,7 @@ ACCOUNT
     .show {
       grid-area: show;
       @media (max-width: $bp-md) {
-        color: var(--main-color);
+        color: $main-color;
         font-weight: 300;
       }
     }
@@ -3401,6 +3455,7 @@ ACCOUNT
       @include list();
       padding: 0.75em 0em 0.5em;
       li {
+        font-size: .9em;
         border-bottom: 1px solid $light-gray;
         padding: 0.75em 1.25em;
         display: grid;
@@ -3456,8 +3511,8 @@ ACCOUNT
           width: 100%;
           text-align: center;
           @include flex();
-          background-color: rgba($color: $green, $alpha: 0.1);
-          color: $green;
+          background-color: rgba($color: $success, $alpha: 0.1);
+          color: $success;
           font-weight: 600;
           padding: 0.7em;
           border-radius: $radius * 0.5;
@@ -3472,8 +3527,8 @@ ACCOUNT
           width: 100%;
           text-align: center;
           @include flex();
-          background-color: var(--main-color);
-          color: var(--main-color);
+          background-color: rgba($color: $main-color, $alpha: 0.1);
+          color: $main-color;
           font-weight: 600;
           padding: 0.7em;
           border-radius: $radius * 0.5;
@@ -3533,7 +3588,7 @@ ACCOUNT
           width: var(--icon);
           height: var(--icon);
           border-radius: 50%;
-          background-color: var(--main-color);
+          background-color: $main-color;
         }
         .info {
           position: relative;
@@ -3545,7 +3600,7 @@ ACCOUNT
             float: right;
             color: $green;
             background-color: rgba($color: $green, $alpha: 0.1);
-            font-size: 0.75em;
+            font-size: .75em;
             border-radius: 1.25em;
             padding: 0.3em 1em;
             margin-left: 1em;
@@ -3630,7 +3685,7 @@ ACCOUNT
           box-sizing: content-box;
           transition: background-color $transition;
           &.active {
-            background-color: var(--main-color);
+            background-color: $main-color;
           }
         }
       }
@@ -3668,7 +3723,7 @@ ACCOUNT
             box-sizing: content-box;
             transition: background-color $transition;
             &.active {
-              background-color: var(--main-color);
+              background-color: $main-color;
             }
           }
         }
@@ -3712,8 +3767,8 @@ ACCOUNT
         margin-left: auto;
         margin-top: 0.5em;
         padding: 1em;
-        border-radius: $radius * 0.5 $radius * 0.5 0px $radius * 0.5;
-        background-color: var(--main-color);
+        border-radius: $radius*0.5 $radius*0.5 0px $radius*0.5;
+        background-color: rgba($color: $main-color, $alpha: 0.1);
       }
     }
     &.manager {
@@ -3761,13 +3816,8 @@ ACCOUNT
     bottom: 0px;
     z-index: 10;
     width: 38%;
-    background-color: var(--main-color);
-    // background-image: url(imgs/bg/fruits.png), url(imgs/bg/entrance.jpg);
-    // background-repeat: no-repeat;
-    // background-size: cover;
-    // background-position: 100% 100%, 100% 50%;
-
-    background-image: url(imgs/bg/entrance.jpg);
+    background-color: $main-color;
+    background-image: url(imgs/bg/fruits.png), url(imgs/bg/entrance.jpg);
     background-repeat: no-repeat;
     background-size: cover;
     background-position: 100% 50%;
@@ -3814,6 +3864,8 @@ ACCOUNT END
       top: 0.25em;
       right: 0.25em;
       font-size: 1.5em;
+      width: 1em;
+      height: 1em;
       @include flex();
       opacity: 0.6;
       transition: opacity $transition;
