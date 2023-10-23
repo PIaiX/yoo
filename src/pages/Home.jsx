@@ -1,3 +1,4 @@
+
 import React from "react";
 import Container from "react-bootstrap/Container";
 import {
@@ -16,9 +17,17 @@ import { useSelector } from "react-redux";
 import { Navigation, Pagination } from "swiper";
 import "swiper/css";
 import { Swiper, SwiperSlide } from "swiper/react";
+import SwiperButtonNext from '../components/utils/SwiperButtonNext';
+import SwiperButtonPrev from '../components/utils/SwiperButtonPrev';
+
+import ArticlesMore from '../assets/imgs/articlesMore.jpg';
+import ArticlesCover from '../assets/imgs/articlesCover.jpg';
+import jsonData from "../data/categories";
+import jsonArticles from "../data/articles";
+import useIsMobile from '../hooks/isMobile';
+
 import Empty from "../components/Empty";
 import Meta from "../components/Meta";
-import EmptyCatalog from "../components/empty/catalog";
 import Loader from "../components/utils/Loader";
 import { getImageURL } from "../helpers/all";
 import {
@@ -57,33 +66,26 @@ const Home = () => {
       />
     );
   }
+  const isMobileLG = useIsMobile('991px');
+
   return (
     <main>
       <Meta title="Главная" />
       {banners?.data?.items?.length > 0 && (
-        <section className="sec-1 mb-5">
-          <div className="container-md gx-0 gx-md-4">
+        <section className="sec-1 mb-6">
+          <div className="container">
             <div className="row justify-content-center">
               <div className="col-12 col-lg-11 col-xl-9 col-xxl-8">
                 <Swiper
                   className="main-slider paginated"
-                  modules={[Navigation, Pagination]}
+                  modules={[Pagination]}
                   loop={true}
-                  spaceBetween={0}
+                  spaceBetween={15}
                   slidesPerView={1}
                   initialSlide={1}
-                  loopedSlides={1}
+                  loopedSlides={2}
                   speed={750}
-                  navigation={{
-                    nextEl: ".swiper-button-next",
-                    prevEl: ".swiper-button-prev",
-                  }}
                   pagination={{ clickable: true }}
-                  breakpoints={{
-                    768: {
-                      spaceBetween: 35,
-                    },
-                  }}
                 >
                   {banners.data.items.map((e) => (
                     <SwiperSlide>
@@ -100,12 +102,6 @@ const Home = () => {
                       </Link>
                     </SwiperSlide>
                   ))}
-                  <div className="swiper-button-prev">
-                    <HiOutlineArrowLeftCircle />
-                  </div>
-                  <div className="swiper-button-next">
-                    <HiOutlineArrowRightCircle />
-                  </div>
                 </Swiper>
               </div>
             </div>
@@ -113,107 +109,153 @@ const Home = () => {
         </section>
       )}
 
-      {/* <section className="sec-2 mb-5">
-        <div className="container-md px-0 px-md-4">
-          <StoriesSection />
-        </div>
-      </section> */}
+      <section className='sec-2 mb-6'>
+        <Container className='position-relative'>
+          <StoriesSection/>
+        </Container>
+      </section>
 
-      <Catalog data={categories.data} />
-      {options?.appYes && (
-        <Container className="overflow-hidden">
-          <section className="sec-4 mb-5">
-            <h3>
-              Заказывать стало <br className="d-lg-none" />
-              ещё&nbsp;удобнее!
-            </h3>
-            <div className="d-flex align-items-center mb-3 mb-lg-4">
-              <button
-                type="button"
-                className="btn-2 fs-20 py-2 px-3 px-lg-4 me-2 me-md-3"
-              >
-                <span className="d-lg-none">—</span>
-                <span className="d-none d-lg-inline">скидка</span>
-                <span> 15%</span>
-              </button>
-              <p className="fs-16">
-                на&nbsp;первый заказ <br />
-                через&nbsp;приложение
-              </p>
-            </div>
-            <ul className="logotips mb-3 mb-lg-5">
-              <li>
-                <a href="/">
-                  <img src={AppStore} alt="App Store" />
-                </a>
-              </li>
-              <li>
-                <a href="/">
-                  <img src={GooglePlay} alt="Google Play" />
-                </a>
-              </li>
-            </ul>
-            <p>Акция действует при заказе на сумму от 1 000 ₽</p>
-            <img src={Phone} alt="Phone" className="phone" />
-          </section>
-        </Container>
-      )}
-      {/* <section className="sec-5 d-none d-md-block mb-5">
+      <section className='sec-catalog mb-6'>
         <Container>
-          <h2>Часто заказывают</h2>
-          <Swiper
-            className="product-slider"
-            spaceBetween={10}
-            slidesPerView={"auto"}
-            speed={750}
-            breakpoints={{
-              576: {
-                spaceBetween: 20,
-              },
-            }}
-          >
-            <SwiperSlide>
-              <ProductCardMini />
-            </SwiperSlide>
-            <SwiperSlide>
-              <ProductCardMini />
-            </SwiperSlide>
-            <SwiperSlide>
-              <ProductCardMini />
-            </SwiperSlide>
-            <SwiperSlide>
-              <ProductCardMini />
-            </SwiperSlide>
-            <SwiperSlide>
-              <ProductCardMini />
-            </SwiperSlide>
-            <SwiperSlide>
-              <ProductCardMini />
-            </SwiperSlide>
-            <SwiperSlide>
-              <ProductCardMini />
-            </SwiperSlide>
-            <SwiperSlide>
-              <ProductCardMini />
-            </SwiperSlide>
-          </Swiper>
+          <h2 className='text-center'>Каталог подарков</h2>
+          <Row xs={2} md={3} lg={4} className='justify-content-center gx-2 gy-3 g-sm-4'>
+            {
+              (jsonData).map(obj => {
+                return <Col key={obj.id}>
+                  <CategoryCard data={obj}/>
+                </Col>
+              })
+            }
+          </Row>
+          <button type='button' className='btn-primary mx-auto mt-4'>показать все</button>
         </Container>
-      </section> */}
+      </section>
+
+
+      <section className='sec-3 mb-6'>
+        <Container>
+          <Row className='justify-content-end'>
+            <Col xs={12} md={8} lg={6}>
+              <h2 className='text-center'>Сделайте праздник по‑настоящему ярким</h2>
+              <p className='text-center'>Скорее заказывайте воздушные шары, они понравятся как взрослым, так и малышам</p>
+              {/* <button type='button' className='btn-info mx-auto mt-4'>Заказать</button> */}
+              <Callback btnText={'Заказать'} btnClass={'btn-info mx-auto mt-4'}/>
+            </Col>
+          </Row>
+        </Container>
+      </section>
+
+      <section className='sec-4 mb-6'>
+        <Container>
+          <h2 className='mb-0'>Часто заказывают</h2>
+          <div className="position-relative">
+            <Swiper
+              className='product-slider'
+              spaceBetween={15}
+              slidesPerView={'auto'}
+              speed={750}
+              breakpoints={{
+                576: {
+                  spaceBetween: 20,
+                  slidesPerView: 'auto',
+                },
+                992: {
+                  slidesPerView: 3,
+                  spaceBetween: 20,
+                },
+              }}
+            >
+              <SwiperSlide>
+                <ProductCardMini/>
+              </SwiperSlide>
+              <SwiperSlide>
+                <ProductCardMini/>
+              </SwiperSlide>
+              <SwiperSlide>
+                <ProductCardMini/>
+              </SwiperSlide>
+              <SwiperSlide>
+                <ProductCardMini/>
+              </SwiperSlide>
+              <SwiperSlide>
+                <ProductCardMini/>
+              </SwiperSlide>
+              <SwiperSlide>
+                <ProductCardMini/>
+              </SwiperSlide>
+              <SwiperSlide>
+                <ProductCardMini/>
+              </SwiperSlide>
+              <SwiperSlide>
+                <ProductCardMini/>
+              </SwiperSlide>
+              <SwiperButtonPrev/>
+              <SwiperButtonNext/>
+            </Swiper>
+          </div>
+        </Container>
+      </section>
+
+      <section className='sec-5 mb-6'>
+        <Container>
+          <Row className='gx-4 gy-5'>
+            <Col xs={12} lg={8} xl={6}>
+              <img src={ArticlesCover} alt="Cover" className='cover'/>
+            </Col>
+            {
+              (!isMobileLG) &&
+              <>
+                {
+                  jsonArticles.map(obj => {
+                    return <Col key={obj.id} md={4} xl={3}><ArticleCard data={obj} /></Col>
+                  })
+                }
+                <Col md={4} xl={3}>
+                  <Link to='/articles' className="more">
+                    <img src={ArticlesMore} alt="more" className='img'/>
+                  </Link>
+                </Col>
+              </>
+            }
+          </Row>
+          {
+            (isMobileLG) &&
+            <Swiper
+              className='articles-slider'
+              spaceBetween={20}
+              slidesPerView={'auto'}
+            >
+              {
+                jsonArticles.map(obj => {
+                  return <SwiperSlide key={obj.id}>
+                    <ArticleCard data={obj} />
+                  </SwiperSlide>
+                })
+              }
+              <SwiperSlide>
+                <Link to='/articles' className="more">
+                  <img src={ArticlesMore} alt="more" className='img'/>
+                  </Link>
+              </SwiperSlide>
+            </Swiper>
+          }
+        </Container>
+      </section> 
       {sales?.data?.items?.length > 0 && (
         <section className="sec-6 mb-5">
           <Container>
             <Swiper
-              className="sw-offers"
+              className='sw-offers'
               spaceBetween={5}
-              slidesPerView={"auto"}
+              slidesPerView={'auto'}
               speed={750}
               breakpoints={{
                 576: {
-                  slidesPerView: "auto",
+                  slidesPerView: 'auto',
                   spaceBetween: 7,
                 },
                 768: {
-                  slidesPerView: "auto",
+                  slidesPerView: 'auto',
                   spaceBetween: 10,
                 },
                 992: {
@@ -228,8 +270,10 @@ const Home = () => {
                 </SwiperSlide>
               ))}
             </Swiper>
-            <Link to="/promo" className="btn-30 mt-4 mx-auto">
-              Все акции
+
+            <Link to="/promo" className="btn-primary mt-4 mt-sm-5 mx-auto">
+            смотреть все акции
+
             </Link>
           </Container>
         </section>

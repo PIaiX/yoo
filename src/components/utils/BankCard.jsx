@@ -1,6 +1,8 @@
-import React, { useState } from "react";
-import Modal from "react-bootstrap/Modal";
-import { HiOutlineTrash, HiXMark } from "react-icons/hi2";
+import React, { useState } from 'react';
+import Modal from 'react-bootstrap/Modal';
+import { HiXMark } from "react-icons/hi2";
+import Trash from '../svgs/Trash';
+
 
 const BankCard = () => {
   const [showDelConfirmation, setShowDelConfirmation] = useState(false);
@@ -8,6 +10,7 @@ const BankCard = () => {
   return (
     <div className="bankcard">
       <div className="d-flex justify-content-between align-items-center">
+
         <img src="imgs/tinkoff.jpg" alt="tinkoff" className="bankcard-logo" />
         <button
           type="button"
@@ -22,9 +25,11 @@ const BankCard = () => {
         <div className="bankcard-num">
           <span className="d-none d-sm-inline">**** **** ****</span>
           <span className="d-sm-none">* * * </span>
+
           <span>6789</span>
         </div>
       </div>
+
 
       <Modal
         show={showDelConfirmation}
@@ -37,6 +42,7 @@ const BankCard = () => {
           <h6 className="text-center">
             Вы уверены, что хотите удалить данную карту?
           </h6>
+
           <div className="d-flex">
             <button
               type="button"

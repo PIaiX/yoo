@@ -5,6 +5,8 @@ import LiRequest from '../../components/LiRequest';
 import UserMessage from '../../components/chat/UserMessage';
 import ManagerMessage from '../../components/chat/ManagerMessage';
 import InputFile from '../../components/utils/InputFile';
+import useIsMobile from '../../hooks/isMobile';
+import { RxDotFilled } from "react-icons/rx";
 
 const Support = () => {
   return (
@@ -13,12 +15,12 @@ const Support = () => {
       <form className='support'>
         <div className="support-top">
           <div className="support-top-icon me-4">
-            <img src="imgs/avatar.jpg" alt="avatar" />
+            <img src="/imgs/avatar.jpg" alt="avatar" />
             <div className="indicator active"></div>
           </div>
-          <h6 className='mb-0'>Чат с поддержкой</h6>
-          <span className='fs-13 mx-4'>•</span>
-          <h6 className='mb-0 dark-gray'>Обращение № 26574</h6>
+          <h6 className='mb-0'>Чат с поддержкой</h6>
+          <RxDotFilled className='mx-2'/>
+          <h6 className='mb-0 dark-gray'>Обращение № 26574</h6>
         </div>
         <div className="support-chat">
           <div className="chat">
@@ -28,7 +30,7 @@ const Support = () => {
         </div>
         <div className="support-form">
           <input type="text" placeholder='Новое сообщение...'/>
-          <button type='submit' className='btn-primary py-2 mx-3'>Отправить</button>
+          <button type='submit' className='btn-secondary py-2 mx-3'>Отправить</button>
           <InputFile className="p-2"/>
         </div>
         <div className="support-choose">

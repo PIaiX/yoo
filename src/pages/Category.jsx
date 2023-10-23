@@ -3,7 +3,6 @@ import { Link, useParams } from "react-router-dom";
 import CategoryGroup from "../components/CategoryGroup";
 import Empty from "../components/Empty";
 import EmptyCatalog from "../components/empty/catalog";
-import Notice from "../components/Notice";
 import Loader from "../components/utils/Loader";
 import { getCategory } from "../services/category";
 
@@ -48,14 +47,6 @@ const Category = () => {
 
   return (
     <main>
-      <section className="container">
-        <Notice />
-        {/* <img
-          src="imgs/Rectangle.png"
-          alt="Rectangle"
-          className="img-fluid mb-3 mb-sm-4"
-        /> */}
-      </section>
       <section className="sec-5 container mb-5">
         {/* <div className="sticky-box mb-3 mb-sm-4 mb-md-5">
           <Categories />

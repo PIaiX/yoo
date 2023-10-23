@@ -1,11 +1,11 @@
-import React from "react";
-import { Outlet } from "react-router-dom";
-import Container from "react-bootstrap/Container";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
-import AccountMenu from "../pages/account/AccountMenu";
-import { Link } from "react-router-dom";
-import NavBreadcrumbs from "../components/utils/NavBreadcrumbs";
+import React from 'react';
+import { Outlet } from 'react-router-dom'
+import Container from 'react-bootstrap/Container';
+import AccountMenu from '../pages/account/AccountMenu';
+import {Link} from 'react-router-dom';
+import NavBreadcrumbs from '../components/utils/NavBreadcrumbs';
+import { RxDotFilled } from "react-icons/rx";
+import Gear from '../components/svgs/Gear';
 import { useSelector } from "react-redux";
 
 const AccountLayout = ({ isMobile }) => {
@@ -22,61 +22,46 @@ const AccountLayout = ({ isMobile }) => {
             <NavBreadcrumbs
               breadcrumbs={[{ title: "Аккаунт", link: "/account" }]}
             />
-            <Row className="account-top gx-3 gx-xl-4">
-              <Col lg={3}>
-                <div className="box w-100 h-100 d-flex align-items-center">
-                  <div className="icon d-none d-sm-none d-md-none d-xxl-flex">
-                    <span>
-                      {user.firstName
+            <div className="account-top">
+              <div className="box w-100 h-100 d-flex align-items-center">
+                <div className='flex-1'>
+                  <div>
+                    <span>{user.firstName
                         ? user.firstName.slice(0, 1).toUpperCase()
-                        : "A"}
-                    </span>
+                        : "A"}</span> 
+                    <RxDotFilled className='primary'/>
+                    {
+                      user?.phone
+                      && <a href={"tel:" + user.phone}>{user.phone}</a>
+                    }
                   </div>
-                  <div>
-                    <h6>{user?.firstName ?? "Имя"}</h6>
-                    {user?.phone ||
-                      (user?.email && (
-                        <>
-                          {user?.phone && (
-                            <p className="mb-3">
-                              <a href={"tel:" + user.phone}>{user.phone}</a>
-                            </p>
-                          )}
-                          {user?.email && (
-                            <p className="mb-3 fs-09">
-                              <a href={"mailer:" + user.email}>{user.email}</a>
-                            </p>
-                          )}
-                        </>
-                      ))}
-                    <p className="mt-2">
-                      <Link to="/account/settings" className="main-color">
-                        Изменить
-                      </Link>
+                  {
+                    user?.email
+                    && <p className="dark-gray">
+                      <a href={"mailer:" + user.email}>{user.email}</a>
                     </p>
-                  </div>
+                  }
                 </div>
-              </Col>
-              <Col lg={2}>
-                <div className="box w-100 h-100 d-flex flex-column justify-content-between text-center">
-                  <p className="fs-09 fw-6">Вы можете потратить</p>
-                  <p className="main-color">
-                    <span className="fs-18">{user.point}</span>&nbsp;
-                    <span className="fw-6 fs-18">Б</span>
-                  </p>
-                </div>
-              </Col>
-              <Col lg={7}>
-                <div className="h-100 row row-cols-2 gx-3 gx-xl-4">
-                  <div>
-                    <div className="gradient-block"></div>
-                  </div>
-                  <div>
-                    <div className="gradient-block"></div>
-                  </div>
-                </div>
-              </Col>
-            </Row>
+                <Link to='/account/settings' className='btn-gray'>
+                  <Gear className="fs-15"/>
+                </Link>
+              </div>
+              <div className="box">
+                <Link to='/account/favorites' className='w-100 h-100 d-flex align-items-center justify-content-between'>
+                  <span>Избранное</span>
+                  <img src="/imgs/favs.png" alt="favs" />
+                </Link>
+              </div>
+              <div className="box w-100 h-100 d-flex flex-column justify-content-between text-center">
+                <p className='fs-09 fw-6'>Вы можете потратить</p>
+                <p className='secondary'>
+                  <span className='fs-18'>{user.point}</span>&nbsp;<span className='fw-6 fs-11'>бонуса</span>
+                </p>
+              </div>
+              <div>
+                <img src="/imgs/kits.jpg" alt="kits" className='img-fluid rounded-3' />
+              </div>
+            </div>
 
             <div className="row gx-3 gx-xl-4">
               <div className="col-4 col-lg-3">

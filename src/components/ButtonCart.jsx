@@ -1,11 +1,11 @@
 import { memo, useCallback } from "react";
 import { useDispatch } from "react-redux";
 import { isCart } from "../hooks/useCart";
-import { HiOutlineShoppingBag } from "react-icons/hi2";
 import { useNavigate } from "react-router-dom";
 import { updateCart } from "../services/cart";
 import CountInput from "./utils/CountInput";
 import { NotificationManager } from "react-notifications";
+import CartIcon from './svgs/CartIcon';
 
 const ButtonCart = memo(
   ({
@@ -64,8 +64,8 @@ const ButtonCart = memo(
       >
         {children ?? (
           <>
-            <span className="d-md-none me-2">Добавить</span>
-            <HiOutlineShoppingBag className="fs-15" />
+            <CartIcon className='fs-13 d-md-none' />
+            <span className="d-none d-md-block me-md-2">Добавить</span>
           </>
         )}
       </button>
