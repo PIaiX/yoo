@@ -85,6 +85,7 @@ const Footer = memo(() => {
               <img src={LogoTextWhite} alt="yoo.app" className='d-block mt-2'/>
             </div>
           </div>
+        }
       </Container>
     </footer>
   );

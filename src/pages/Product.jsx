@@ -2,7 +2,6 @@ import React, { useLayoutEffect, useState } from "react";
 import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
-import Notice from "../components/Notice";
 import ProductCard from "../components/ProductCard";
 import Ingredient from "../components/utils/Ingredient";
 // swiper
@@ -310,7 +309,6 @@ const Product = () => {
                   </div>
                 </>
               )}
-              <Notice />
             </Col>
           </Row>
         </form>

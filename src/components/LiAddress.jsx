@@ -1,5 +1,4 @@
-import React from 'react';
-import { HiOutlineMap, HiOutlineTrash } from "react-icons/hi2";
+import React, {memo} from 'react';
 import {Link} from 'react-router-dom';
 import Map from './svgs/Map';
 import Trash from './svgs/Trash';

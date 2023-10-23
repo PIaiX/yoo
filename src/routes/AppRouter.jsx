@@ -9,7 +9,7 @@ import AppLayout from "../layouts/AppLayout";
 import Cart from "../pages/Cart";
 import Category from "../pages/Category";
 import Checkout from "../pages/Checkout";
-import Contacts from "../pages/Contacts";
+import Contact from "../pages/Contact";
 import Delivery from "../pages/Delivery";
 import Home from "../pages/Home";
 import NotFound from "../pages/NotFound";
@@ -41,7 +41,7 @@ const router = createBrowserRouter(
       <Route path="checkout" element={<Checkout />} />
       <Route path="promo" element={<Promo />} />
       <Route path="promo/:saleId" element={<OfferPage />} />
-      <Route path="contacts" element={<Contacts />} />
+      <Route path="contacts" element={<Contact />} />
       <Route path="delivery" element={<Delivery />} />
       <Route path="search" element={<SearchResults/>} />
       <Route path="*" element={<NotFound />} />
