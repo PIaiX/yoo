@@ -1,7 +1,7 @@
 import React, { memo } from "react";
+import { IoHeart, IoHeartOutline } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleFavorite } from "../../services/favorite";
-import Heart from '../svgs/Heart';
 
 const BtnFav = memo(({ product }) => {
   const isFavoriteData = useSelector((state) => state.favorite.items);
@@ -17,7 +17,7 @@ const BtnFav = memo(({ product }) => {
       onClick={() => dispatch(toggleFavorite(product))}
       className={isFavorite ? "btn-fav active" : "btn-fav"}
     >
-      <Heart/>
+      {isFavorite ? <IoHeart /> : <IoHeartOutline />}
     </button>
   );
 });

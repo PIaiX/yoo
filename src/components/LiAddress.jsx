@@ -1,12 +1,9 @@
-
 import React, { memo, useState } from "react";
 import { HiOutlineMap, HiXMark, HiOutlineTrash } from "react-icons/hi2";
 import { Link } from "react-router-dom";
 import Modal from "react-bootstrap/Modal";
 import { useDispatch } from "react-redux";
 import { deleteAddress } from "../services/address";
-import Map from './svgs/Map';
-import Trash from './svgs/Trash';
 
 const LiAddress = memo(({ data }) => {
   const [showDelConfirmation, setShowDelConfirmation] = useState(false);

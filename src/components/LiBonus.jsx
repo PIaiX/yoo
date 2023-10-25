@@ -1,6 +1,5 @@
 import React from 'react';
-import CartIcon from './svgs/CartIcon';
-import Gift from './svgs/Gift';
+import { HiOutlineShoppingBag, HiOutlineGift } from "react-icons/hi2";
 
 const LiBonus = (props) => {
   return (
@@ -8,12 +7,12 @@ const LiBonus = (props) => {
       {
         (props.gift) 
         ? <div className='title'>
-          <Gift className='d-none d-md-block fs-15 secondary me-2'/>
+          <HiOutlineGift className='d-none d-md-block fs-15 main-color me-2'/>
           <p>Приветственные бонусы</p>
         </div>
         : <div className='title'>
-          <CartIcon className='d-none d-md-block fs-15 secondary me-2'/>
-          <p>Заказ № 3471</p>
+          <HiOutlineShoppingBag className='d-none d-md-block fs-15 main-color me-2'/>
+          <p>Заказ № 3471</p>
         </div>
       }
       <div className='date'>

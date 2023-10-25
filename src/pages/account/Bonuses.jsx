@@ -15,9 +15,7 @@ const Bonuses = () => {
           <LiBonus gift={false} income={150} spending={90}/>
           <LiBonus gift={true} income={500}/>
         </ul>
-        <div className="p-3">
-          <NavPagination/>
-        </div>
+        <NavPagination/>
       </div>
     </section>
   );

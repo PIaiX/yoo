@@ -10,7 +10,7 @@ const CheckoutProduct = memo(({ data }) => {
     : data.weight;
 
   return (
-    <div className="checkoutProduct">
+    <div className="checkoutProduct d-flex align-items-start">
       <img src={getImageURL({ path: data.medias })} alt={data.title} />
       <div className="flex-1">
         <h6>{data.title}</h6>

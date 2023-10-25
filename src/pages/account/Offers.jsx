@@ -7,16 +7,14 @@ import AccountTitleReturn from "../../components/AccountTitleReturn";
 const Offers = () => {
   return (
     <section>
-      {
-        (isMobileLG) && 
-        <AccountTitleReturn link={'/account'} title={'Акции и промокоды'}/>
-      }
-      <h5 className='fw-6'>Персональные акции</h5>
-      <div className="box p-2 p-md-4 mb-5">
-        <Row xs={2} sm={3} xxl={4} className='gx-3 gx-md-4 gy-4 gy-md-5'>
-          <Col>
-            <ProductCard/>
-          </Col>
+      <AccountTitleReturn 
+        className="d-lg-none"
+        link={"/account"} 
+        title={"Акции и промокоды"} 
+      />
+      <h5 className="fw-6">Персональные акции</h5>
+      <div className="box py-4 px-4 px-xxl-5 mb-5">
+        <Row xs={1} sm={2} lg={3} className="gx-4 gx-xl-5">
           <Col>
             <ProductCard />
           </Col>
@@ -28,18 +26,9 @@ const Offers = () => {
           </Col>
         </Row>
       </div>
-      <h5 className='fw-6'>Общие акции</h5>
-      <div className="box p-2 p-md-4">
-        <Row xs={2} sm={3} xxl={4} className='gx-3 gx-md-4 gy-4 gy-md-5'>
-          <Col>
-            <ProductCard/>
-          </Col>
-          <Col>
-            <ProductCard/>
-          </Col>
-          <Col>
-            <ProductCard/>
-          </Col>
+      <h5 className="fw-6">Общие акции</h5>
+      <div className="box py-4 px-4 px-xxl-5">
+        <Row md={3} className="gx-4 gx-xl-5">
           <Col>
             <ProductCard />
           </Col>

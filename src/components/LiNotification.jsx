@@ -19,7 +19,7 @@ const LiNotification = () => {
           <span>Перейти</span>
           <HiChevronRight/>
         </button>
-        <button type='button' className='d-md-flex btn-primary'>К заказам</button>
+        <button type='button' className='d-none d-md-flex btn-primary'>К заказам</button>
       </div>
       <div className="date">12:18 23.05.2023</div>
     </li>

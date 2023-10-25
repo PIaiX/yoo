@@ -1,11 +1,11 @@
 import React from 'react';
 
-const MenuIcon = ({className = ""}) => {
+const MenuIcon = (props) => {
   return (
-    <svg className={className} width="1em" height="1em" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M13.0003 15.7857C14.5388 15.7857 15.786 14.5385 15.786 12.9999C15.786 11.4614 14.5388 10.2142 13.0003 10.2142C11.4618 10.2142 10.2146 11.4614 10.2146 12.9999C10.2146 14.5385 11.4618 15.7857 13.0003 15.7857Z" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round"/>
-      <path d="M22.7499 15.3213C24.032 15.3213 25.0713 14.282 25.0713 12.9999C25.0713 11.7178 24.032 10.6785 22.7499 10.6785C21.4678 10.6785 20.4285 11.7178 20.4285 12.9999C20.4285 14.282 21.4678 15.3213 22.7499 15.3213Z" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round"/>
-      <path d="M3.2499 15.3213C4.53198 15.3213 5.57132 14.282 5.57132 12.9999C5.57132 11.7178 4.53198 10.6785 3.2499 10.6785C1.96781 10.6785 0.928467 11.7178 0.928467 12.9999C0.928467 14.282 1.96781 15.3213 3.2499 15.3213Z" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round"/>
+    <svg className={props.className} width="1em" height="1em" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M13.0001 15.7857C14.5386 15.7857 15.7858 14.5385 15.7858 13C15.7858 11.4615 14.5386 10.2143 13.0001 10.2143C11.4616 10.2143 10.2144 11.4615 10.2144 13C10.2144 14.5385 11.4616 15.7857 13.0001 15.7857Z" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round"/>
+      <path d="M22.7501 15.3214C24.0322 15.3214 25.0716 14.2821 25.0716 13C25.0716 11.7179 24.0322 10.6786 22.7501 10.6786C21.468 10.6786 20.4287 11.7179 20.4287 13C20.4287 14.2821 21.468 15.3214 22.7501 15.3214Z" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round"/>
+      <path d="M3.25014 15.3214C4.53223 15.3214 5.57157 14.2821 5.57157 13C5.57157 11.7179 4.53223 10.6786 3.25014 10.6786C1.96805 10.6786 0.928711 11.7179 0.928711 13C0.928711 14.2821 1.96805 15.3214 3.25014 15.3214Z" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round"/>
     </svg>
   );
 };

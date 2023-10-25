@@ -1,5 +1,5 @@
 import React from 'react';
-import Gift from '../svgs/Gift';
+import { HiOutlineGift } from "react-icons/hi2";
 
 const Gifts = () => {
   return (
@@ -7,18 +7,18 @@ const Gifts = () => {
       <ul>
         <li className='full'>
           <div className='bar'></div>
-          <div className='icon'><Gift/></div>
+          <div className='icon'><HiOutlineGift/></div>
         </li>
         <li className='full'>
           <div className='bar'></div>
-          <div className='icon'><Gift/></div>
+          <div className='icon'><HiOutlineGift/></div>
         </li>
         <li className=''>
           <div className='bar'></div>
-          <div className='icon'><Gift/></div>
+          <div className='icon'><HiOutlineGift/></div>
         </li>
       </ul>
-      <p className='fs-09 mt-2'>Добавьте товары на 268 ₽, чтобы получить подарок</p>
+      <p className='mt-2'>Добавьте товары на 268 ₽, чтобы получить подарок</p>
     </div>
   );
 };

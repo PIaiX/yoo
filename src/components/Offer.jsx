@@ -18,6 +18,16 @@ const Offer = ({ data }) => {
         />
       )}
       <figcaption>
+        <div>
+          {data?.title && (
+            <h4 className={data?.blackText ? "black" : ""}>{data.title}</h4>
+          )}
+          {data?.desc && (
+            <h6 className={data?.blackText ? "black fw-4" : "fw-4"}>
+              {data.desc}
+            </h6>
+          )}
+        </div>
         <Link
           to={
             data?.options?.link
@@ -26,7 +36,7 @@ const Offer = ({ data }) => {
               ? "/promo/" + data.id
               : ""
           }
-          className="btn-light"
+          className="btn-white"
         >
           Заказать
         </Link>

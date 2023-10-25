@@ -14,6 +14,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { getCount, getImageURL } from "../helpers/all";
 import { editDeliveryCheckout } from "../store/reducers/checkoutSlice";
+import MenuDelivery from "./svgs/MenuDelivery";
+import MenuDocs from "./svgs/MenuDocs";
+import MenuIcon from "./svgs/MenuIcon";
+import MenuPhone from "./svgs/MenuPhone";
+import MenuVacancies from "./svgs/MenuVacancies";
+import YooApp from "./svgs/YooApp";
 import Select from "./utils/Select";
 import ScrollToTop from "./ScrollToTop";
 import AppDownload from "./svgs/AppDownload";
@@ -21,21 +27,6 @@ import Phone from "../assets/imgs/phone.png";
 import AppStore from "../assets/imgs/appstore-black.svg";
 import GooglePlay from "../assets/imgs/googleplay-black.svg";
 import { useGetBannersQuery } from "../services/home";
-
-import Logo from '../assets/imgs/LogoBeautifulDay.svg';
-// icons
-import YooApp from './svgs/YooApp';
-import Loupe from './svgs/Loupe';
-import CartIcon from './svgs/CartIcon';
-import Heart from './svgs/Heart';
-import CrossIcon from './svgs/CrossIcon';
-import MenuIcon from './svgs/MenuIcon';
-import MenuPhone from './svgs/MenuPhone';
-import MenuDelivery from './svgs/MenuDelivery';
-import MenuVacancies from './svgs/MenuVacancies';
-import MenuDocs from './svgs/MenuDocs';
-import MenuBlog from './svgs/MenuBlog';
-import MenuOffers from './svgs/MenuOffers';
 
 const Header = memo(() => {
   const isAuth = useSelector((state) => state.auth.isAuth);
@@ -60,7 +51,7 @@ const Header = memo(() => {
   return (
     <>
       <header>
-        <Container className="full h-100">
+        <Container className="h-100">
           <nav className="h-100">
             <Link to="/">
               <img
@@ -68,59 +59,51 @@ const Header = memo(() => {
                 alt={options?.title ?? "YOOAPP"}
                 className="logo"
               />
-
+              <span className="ms-3 logo-name">
+                {options?.title ?? "YOOAPP"}
+              </span>
             </Link>
-
-            <ul className="d-none d-lg-flex">
+            {/* <ul className="btns-menu d-none d-lg-flex">
+              <li className="d-none d-md-block">
+                <Select
+                  data={[
+                    {
+                      value: "delivery",
+                      title: "Доставка",
+                    },
+                    {
+                      value: "pickup",
+                      title: "Самовывоз",
+                    },
+                  ]}
+                  value={delivery}
+                  onClick={(e) => dispatch(editDeliveryCheckout(e.value))}
+                />
+              </li>
+            </ul> */}
+            <ul className="text-menu d-none d-lg-flex">
               <li>
-                <Link to='/categories' className='btn-primary'>Каталог</Link>
+                <Link to="/">Меню</Link>
               </li>
               <li>
-                <Link to='/'>Новинки</Link>
+                <Link to="/delivery">Доставка и оплата</Link>
               </li>
               <li>
-                <Link to='/promo'>Акции</Link>
+                <Link to="/contact">Контакты</Link>
+              </li>
+              <li>
+                <Link to="/promo">Акции</Link>
               </li>
             </ul>
-            <form action="" className='formSearch'>
-              <input type="search" />
-              <Link to='/search'>
-                <Loupe/>
-              </Link>
-              {/* <button type='submit'>
-                <Loupe/>
-              </button> */}
-            </form>
             {mainAffiliate && mainAffiliate?.phone[0] && (
               <a href={"tel:" + mainAffiliate.phone[0]} className="phone">
-                {mainAffiliate.phone[0]}
+                <HiOutlineDevicePhoneMobile className="fs-12" />
+                <span className="ms-1">{mainAffiliate.phone[0]}</span>
               </a>
             )}
 
-            <ul>
+            <ul className="icons-menu">
               <li className="d-none d-lg-block">
-                <Link to="/cart" className='btn-icon'>
-                  <CartIcon />
-                  {count > 0 && (
-                    <span className="badge">
-                      {count}
-                    </span>
-                  )}
-                </Link>
-              </li>
-              {isAuth && (
-                <li className="d-none d-lg-block">
-                  <Link to="/account/favorites" className='btn-icon'>
-                    <Heart />
-                    {favorite?.length > 0 && (
-                      <span className="badge">
-                        {favorite?.length}
-                      </span>
-                    )}
-                  </Link>
-                </li>
-              )}
-              <li className='btn-primary d-none d-lg-block'>
                 <Link
                   to={
                     isAuth
@@ -130,18 +113,57 @@ const Header = memo(() => {
                       : "/login"
                   }
                 >
-                  Войти
+                  <HiOutlineUserCircle size={25} />
                 </Link>
               </li>
+              <li className="d-none d-lg-block">
+                <Link to="/cart" className="position-relative">
+                  <HiOutlineShoppingBag size={25} />
+                  {count > 0 && (
+                    <span className="position-absolute top-100 start-100 translate-middle badge rounded-pill">
+                      {count}
+                    </span>
+                  )}
+                </Link>
+              </li>
+              {isAuth && (
+                <li className="d-none d-lg-block">
+                  <Link to="/account/favorites" className="position-relative">
+                    <HiOutlineHeart size={25} />
+                    {favorite?.length > 0 && (
+                      <span className="position-absolute top-100 start-100 translate-middle badge rounded-pill">
+                        {favorite?.length}
+                      </span>
+                    )}
+                  </Link>
+                </li>
+              )}
               <li className="d-lg-none">
                 <button
                   type="button"
                   onClick={() => setShowMenu(!showMenu)}
                   className="btn-menu"
                 >
-                  {showMenu ? <CrossIcon /> : <MenuIcon />}
+                  {showMenu ? <IoCloseOutline /> : <MenuIcon />}
                 </button>
               </li>
+              {/* <li>
+                <Select
+                  value="ru"
+                  data={[
+                    {
+                      value: "ru",
+                      title: "русский",
+                      image: ruFlag,
+                    },
+                    {
+                      value: "en",
+                      title: "english",
+                      image: engFlag,
+                    },
+                  ]}
+                />
+              </li> */}
             </ul>
           </nav>
         </Container>
@@ -213,11 +235,18 @@ const Header = memo(() => {
               </div>
             ) : (
               <>
-                <img
-                  src="/imgs/img.jpg"
-                  alt="Beautiful Day"
-                  className="menu-offer"
-                />
+                {banners?.data?.items?.length > 0 && (
+                  <img
+                    src={getImageURL({
+                      path: banners.data.items[0].medias,
+                      type: "banner",
+                      size: "full",
+                    })}
+                    alt="Большие пиццы"
+                    className="menu-offer"
+                  />
+                )}
+
                 <nav>
                   <ul>
                     <li>
@@ -232,27 +261,8 @@ const Header = memo(() => {
                         <span>Оплата и доставка</span>
                       </Link>
                     </li>
-                   <li>
-
-                    <Link to='/'>
-                      <MenuBlog/>
-                      <span>Новости</span>
-                    </Link>
-                  </li>
-                  <li>
-                    <Link to='/promo'>
-                      <MenuOffers/>
-                      <span>Акции</span>
-                    </Link>
-                  </li>
-                  <li>
-                      <Link to="/">
-                        <MenuVacancies />
-                        <span>Вакансии</span>
-                      </Link>
-                    </li>
                     <li>
-                      <Link to="/">
+                      <Link to="/policy" onClick={() => setShowMenu(false)}>
                         <MenuDocs />
                         <span>Политика конфиденциальности</span>
                       </Link>
