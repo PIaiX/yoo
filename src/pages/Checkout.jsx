@@ -298,7 +298,7 @@ const Checkout = () => {
       />
     );
   }
-  console.log(isValid);
+
   return (
     <main>
       <Meta title="Оформление заказа" />

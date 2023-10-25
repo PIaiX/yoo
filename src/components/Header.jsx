@@ -9,36 +9,30 @@ import {
   HiOutlineUserCircle,
 } from "react-icons/hi2";
 import { IoLogoWhatsapp } from "react-icons/io";
-import { IoCall, IoCloseOutline, IoClose } from "react-icons/io5";
+import { IoCall, IoClose, IoCloseOutline } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import AppStore from "../assets/imgs/appstore-black.svg";
+import GooglePlay from "../assets/imgs/googleplay-black.svg";
+import Phone from "../assets/imgs/phone.png";
 import { getCount, getImageURL } from "../helpers/all";
-import { editDeliveryCheckout } from "../store/reducers/checkoutSlice";
+import { useGetBannersQuery } from "../services/home";
+import ScrollToTop from "./ScrollToTop";
+import AppDownload from "./svgs/AppDownload";
 import MenuDelivery from "./svgs/MenuDelivery";
 import MenuDocs from "./svgs/MenuDocs";
 import MenuIcon from "./svgs/MenuIcon";
 import MenuPhone from "./svgs/MenuPhone";
-import MenuVacancies from "./svgs/MenuVacancies";
 import YooApp from "./svgs/YooApp";
-import Select from "./utils/Select";
-import ScrollToTop from "./ScrollToTop";
-import AppDownload from "./svgs/AppDownload";
-import Phone from "../assets/imgs/phone.png";
-import AppStore from "../assets/imgs/appstore-black.svg";
-import GooglePlay from "../assets/imgs/googleplay-black.svg";
-import { useGetBannersQuery } from "../services/home";
 
 const Header = memo(() => {
   const isAuth = useSelector((state) => state.auth.isAuth);
   const user = useSelector((state) => state.auth.user);
   const cart = useSelector((state) => state.cart.items);
   const favorite = useSelector((state) => state.favorite.items);
-  const delivery = useSelector((state) => state.checkout.delivery);
   const affiliate = useSelector((state) => state.affiliate.items);
   const options = useSelector((state) => state.settings.options);
   const banners = useGetBannersQuery();
-
-  const dispatch = useDispatch();
 
   const [showMenu, setShowMenu] = useState(false);
   const [showApp, setShowApp] = useState(false);
@@ -86,7 +80,7 @@ const Header = memo(() => {
                 <Link to="/">Меню</Link>
               </li>
               <li>
-                <Link to="/delivery">Доставка и оплата</Link>
+                <Link to="/contact">Доставка и оплата</Link>
               </li>
               <li>
                 <Link to="/contact">Контакты</Link>

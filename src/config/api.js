@@ -3,6 +3,7 @@ const DOMAIN = "yakinori.ru";
 const SITE_URL = "https://yooapp.ru";
 const BASE_URL = "https://api.yooapp.ru";
 const ADMIN_URL = "https://admin.yooapp.ru";
+const IO_URL = "https://io.yooapp.ru";
 const DADATA_URL_STREET =
   "https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/address";
 const DADATA_URL_ADDRESS =
@@ -99,6 +100,7 @@ export {
   BASE_URL,
   SITE_URL,
   FILE_URL,
+  IO_URL,
   DOMAIN,
   API_TOKEN,
   DADATA_URL_STREET,

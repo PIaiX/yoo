@@ -9,8 +9,7 @@ import AppRouter from "./routes/AppRouter";
 import { checkAuth, logout } from "./services/auth";
 import { getOptions } from "./services/option";
 import { updateAddresses } from "./store/reducers/addressSlice";
-import { updateAffiliate } from "./store/reducers/affiliateSlice";
-import { updateCartAll } from "./store/reducers/cartSlice";
+import { updateAffiliate, updateZone } from "./store/reducers/affiliateSlice";
 import { updateOptions } from "./store/reducers/settingsSlice";
 import { getFavorites } from "./services/favorite";
 
@@ -18,7 +17,6 @@ function App() {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
   const options = useSelector((state) => state.settings.options);
-  const cart = useSelector((state) => state.cart.items);
   const favorite = useSelector((state) => state.favorite.items);
 
   const updateColor = useCallback(
@@ -49,12 +47,12 @@ function App() {
           }
 
           dispatch(updateAffiliate(res.affiliates));
+          dispatch(updateZone(res.zones));
 
           if (localStorage.getItem("token")) {
             await checkAuth()
               .then(async (data) => {
                 dispatch(updateAddresses(data.addresses));
-
                 favorite.length === 0 && dispatch(getFavorites());
               })
               .catch(async (err) => {

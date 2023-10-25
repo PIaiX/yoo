@@ -2,6 +2,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import { $api, $authApi } from ".";
 import { apiRoutes } from "../config/api";
 import { updateAddresses } from "../store/reducers/addressSlice";
+import socket from "../config/socket";
 
 const login = createAsyncThunk("auth/login", async (payloads, thunkAPI) => {
   try {
@@ -24,6 +25,7 @@ const login = createAsyncThunk("auth/login", async (payloads, thunkAPI) => {
 const logout = createAsyncThunk("auth/logout", async (_, thunkAPI) => {
   try {
     const response = await $api.post(apiRoutes.AUTH_LOGOUT);
+    socket.disconnect();
     return response?.data;
   } catch (error) {
     return thunkAPI.rejectWithValue(error.message);
@@ -32,6 +34,13 @@ const logout = createAsyncThunk("auth/logout", async (_, thunkAPI) => {
 
 const checkAuth = async () => {
   const response = await $authApi.post(apiRoutes.AUTH_CHECK);
+  if (response && response.status === 200) {
+    socket.io.opts.query = {
+      brandId: response.data.brandId ?? false,
+      userId: response.data.id ?? false,
+    };
+    socket.connect();
+  }
   return response?.data;
 };
 

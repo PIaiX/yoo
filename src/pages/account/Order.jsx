@@ -68,7 +68,7 @@ const Order = () => {
       />
     );
   }
-  console.log(status);
+
   return (
     <section>
       <div className="d-flex align-items-center mb-4">
