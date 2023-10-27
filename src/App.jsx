@@ -10,8 +10,9 @@ import { checkAuth, logout } from "./services/auth";
 import { getOptions } from "./services/option";
 import { updateAddresses } from "./store/reducers/addressSlice";
 import { updateAffiliate, updateZone } from "./store/reducers/affiliateSlice";
-import { updateOptions } from "./store/reducers/settingsSlice";
+import { updateIp, updateOptions } from "./store/reducers/settingsSlice";
 import { getFavorites } from "./services/favorite";
+import axios from "axios";
 
 function App() {
   const dispatch = useDispatch();
@@ -39,6 +40,9 @@ function App() {
   useLayoutEffect(() => {
     (async () => {
       updateColor(options);
+      await axios
+        .get("https://ip.yooapp.ru")
+        .then(({ data }) => data?.ip && dispatch(updateIp(data.ip)));
       await getOptions()
         .then(async (res) => {
           if (res?.options) {

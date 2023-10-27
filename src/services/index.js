@@ -22,8 +22,9 @@ const DEVICE = JSON.stringify({
 
 $api.interceptors.request.use(
   async (config) => {
-    config.headers["Content-Type"] = "application/json";
-    config.headers.token = `API ${API_TOKEN}`
+    const state = store.getState();
+    config.headers.ip = state?.settings?.ip ?? "0.0.0.0";
+    config.headers.token = `API ${API_TOKEN}`;
     config.headers.device = DEVICE;
     return config;
   },
@@ -37,8 +38,9 @@ const $authApi = axios.create({
 
 $authApi.interceptors.request.use(
   async (config) => {
-    // config.headers["Content-Type"] = "application/json";
-    config.headers.token = `API ${API_TOKEN}`
+    const state = store.getState();
+    config.headers.ip = state?.settings?.ip ?? "0.0.0.0";
+    config.headers.token = `API ${API_TOKEN}`;
     const token = localStorage.getItem("token");
     if (token) {
       config.headers.authorization = `Access ${token}`;
@@ -57,13 +59,13 @@ $authApi.interceptors.response.use(
     const {
       config,
       response: { status },
-    } = error
-    const originalRequest = config
-    if (
-      status === 401 && originalRequest && !originalRequest._isRetry
-    ) {
+    } = error;
+    const originalRequest = config;
+    if (status === 401 && originalRequest && !originalRequest._isRetry) {
       originalRequest._isRetry = true;
-      return store.dispatch(refreshAuth()).then(() => $authApi(originalRequest))
+      return store
+        .dispatch(refreshAuth())
+        .then(() => $authApi(originalRequest));
     }
     return Promise.reject(error);
   }
