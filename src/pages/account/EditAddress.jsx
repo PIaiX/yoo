@@ -108,7 +108,7 @@ const EditAddress = () => {
         }
       );
     }
-  }, [streetText, mainCityAffiliate]);
+  }, [streetText]);
 
   const onSubmit = useCallback((data) => {
     editAddress(data)
