@@ -71,8 +71,9 @@ const Home = () => {
                   loop={true}
                   spaceBetween={0}
                   slidesPerView={1}
-                  initialSlide={1}
+                  initialSlide={0}
                   loopedSlides={1}
+                  centeredSlides={true}
                   speed={750}
                   navigation={{
                     nextEl: ".swiper-button-next",
