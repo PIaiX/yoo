@@ -1,18 +1,17 @@
+import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
-import React, { useLayoutEffect, useState } from "react";
-import { useCallback } from "react";
+import React, { useCallback, useLayoutEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import "./assets/style.min.css";
 import Loader from "./components/utils/Loader";
 import { convertColor, setCssColor } from "./helpers/all";
 import AppRouter from "./routes/AppRouter";
 import { checkAuth, logout } from "./services/auth";
+import { getFavorites } from "./services/favorite";
 import { getOptions } from "./services/option";
 import { updateAddresses } from "./store/reducers/addressSlice";
 import { updateAffiliate, updateZone } from "./store/reducers/affiliateSlice";
 import { updateIp, updateOptions } from "./store/reducers/settingsSlice";
-import { getFavorites } from "./services/favorite";
-import axios from "axios";
 
 function App() {
   const dispatch = useDispatch();
