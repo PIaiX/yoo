@@ -53,9 +53,9 @@ const Header = memo(() => {
                 alt={options?.title ?? "YOOAPP"}
                 className="logo"
               />
-              <span className="ms-3 logo-name">
+              {/* <span className="ms-3 logo-name">
                 {options?.title ?? "YOOAPP"}
-              </span>
+              </span> */}
             </Link>
             {/* <ul className="btns-menu d-none d-lg-flex">
               <li className="d-none d-md-block">
