@@ -521,7 +521,7 @@ const Checkout = () => {
               {data.delivery == "delivery" && (
                 <div className="d-flex justify-content-between my-2">
                   <span>Доставка</span>
-                  <span className="main-color">
+                  <span className="text-success">
                     {delivery > 0 ? "+" + customPrice(delivery) : "Бесплатно"}
                   </span>
                 </div>
@@ -543,7 +543,11 @@ const Checkout = () => {
                 <span className="fw-6 fs-11">Итоговая сумма</span>
                 <span className="fw-6">{customPrice(total)}</span>
               </div>
-
+              {checkout.delivery == "delivery" && zone?.minPrice > price && (
+                <div className="text-danger text-center">
+                  Минимальная сумма для доставки {customPrice(zone.minPrice)}
+                </div>
+              )}
               <button
                 type="submit"
                 disabled={
