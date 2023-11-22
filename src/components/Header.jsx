@@ -24,6 +24,7 @@ import MenuDocs from "./svgs/MenuDocs";
 import MenuIcon from "./svgs/MenuIcon";
 import MenuPhone from "./svgs/MenuPhone";
 import YooApp from "./svgs/YooApp";
+import DeliveryBar from "./svgs/DeliveryBar";
 
 const Header = memo(() => {
   const isAuth = useSelector((state) => state.auth.isAuth);
@@ -162,6 +163,8 @@ const Header = memo(() => {
           </nav>
         </Container>
       </header>
+
+      <DeliveryBar sum={2500}/>
 
       <Offcanvas
         className="offcanvas-menu"
