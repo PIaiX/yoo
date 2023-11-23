@@ -42,6 +42,7 @@ $authApi.interceptors.request.use(
     config.headers.ip = state?.settings?.ip ?? "0.0.0.0";
     config.headers.token = `API ${API_TOKEN}`;
     const token = localStorage.getItem("token");
+    console.log(token)
     if (token) {
       config.headers.authorization = `Access ${token}`;
     }

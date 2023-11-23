@@ -1,44 +1,40 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect } from "react";
 import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import NavTop from "../components/utils/NavTop";
 // import Gifts from "../components/utils/Gifts";
-import { useForm, useWatch } from "react-hook-form";
-import { HiOutlineTrash, HiXMark } from "react-icons/hi2";
+import { useForm } from "react-hook-form";
 import { NotificationManager } from "react-notifications";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import CartItem from "../components/CartItem";
-import { customPrice, declination, getCount } from "../helpers/all";
-import { useTotalCart } from "../hooks/useCart";
-import { deleteCart } from "../services/cart";
-import { getDelivery } from "../services/order";
-import { isPromo } from "../services/promo";
-import { cartDeletePromo, cartZone } from "../store/reducers/cartSlice";
-import Input from "../components/utils/Input";
 import Empty from "../components/Empty";
 import EmptyCart from "../components/empty/cart";
 import Meta from "../components/Meta";
+import Input from "../components/utils/Input";
+import { customPrice, declination, getCount } from "../helpers/all";
+import { useTotalCart } from "../hooks/useCart";
+import { deleteCart } from "../services/cart";
+import { isPromo } from "../services/promo";
+import { cartDeletePromo } from "../store/reducers/cartSlice";
 
 const Cart = () => {
   const user = useSelector((state) => state.auth.user);
   const cart = useSelector((state) => state.cart.items);
   const promo = useSelector((state) => state.cart.promo);
-  const stateDelivery = useSelector((state) => state.checkout.delivery);
+  const checkout = useSelector((state) => state.checkout);
   const address = useSelector((state) => state.address.items);
   const options = useSelector((state) => state.settings.options);
-
+  const pointSwitch = useSelector((state) => state.checkout.data.pointSwitch);
   const {
     total = 0,
     price = 0,
-    point = 0,
-    discount = 0,
     delivery,
-    cashback,
+    pointAccrual,
+    pickupDiscount,
+    pointCheckout,
   } = useTotalCart();
-
-  const [distance, setDistance] = useState({ time: false });
 
   const {
     control,
@@ -57,28 +53,13 @@ const Cart = () => {
   const count = getCount(cart);
 
   const dispatch = useDispatch();
-  const data = useWatch({ control });
-
-  useEffect(() => {
-    if (stateDelivery == "delivery" && user?.id && address?.length > 0) {
-      const selectedAddress = address ? address.find((e) => e.main) : false;
-      if (selectedAddress) {
-        getDelivery({ distance: true, addressId: selectedAddress.id }).then(
-          (res) => {
-            res?.distance && setDistance(res.distance);
-            res?.zone && dispatch(cartZone(res.zone));
-          }
-        );
-      }
-    }
-  }, [address, stateDelivery, cart]);
 
   const onPromo = useCallback(
     (e) => {
       (e?.promo?.length > 0 || promo?.name?.length > 0) &&
         isPromo({
           promo: e?.promo ? e.promo : promo?.name ? promo.name : "",
-          delivery: stateDelivery,
+          delivery: checkout.delivery,
         })
           .then(({ data }) => data?.promo && dispatch(cartPromo(data.promo)))
           .catch((err) => {
@@ -88,7 +69,7 @@ const Cart = () => {
             );
           });
     },
-    [promo, stateDelivery]
+    [promo, checkout.delivery]
   );
 
   useEffect(() => {
@@ -96,7 +77,7 @@ const Cart = () => {
       onPromo();
       setValue("promo", "");
     }
-  }, [stateDelivery, promo]);
+  }, [checkout.delivery, promo]);
 
   if (!Array.isArray(cart) || cart.length <= 0) {
     return (
@@ -186,30 +167,32 @@ const Cart = () => {
                 <span>{customPrice(price)}</span>
               </div>
 
-              {discount > 0 && (
-                <div className="d-flex justify-content-between my-2">
-                  <span>Скидка</span>
-                  <span>-{customPrice(discount)}</span>
-                </div>
-              )}
-              {address?.length > 0 && stateDelivery == "delivery" && (
+              {checkout.delivery == "delivery" && (
                 <div className="d-flex justify-content-between my-2">
                   <span>Доставка</span>
-                  <span className="main-color">
+                  <span className="text-success">
                     {delivery > 0 ? "+" + customPrice(delivery) : "Бесплатно"}
                   </span>
                 </div>
               )}
-              {point > 0 && (
+              {pickupDiscount > 0 && (
                 <div className="d-flex justify-content-between my-2">
-                  <span>Списание баллов</span>
-                  <span>{customPoint({ value: point, char: "-" })}</span>
+                  <span>Скидка за самовывоз</span>
+                  <span className="text-success">
+                    -{customPrice(pickupDiscount)}
+                  </span>
                 </div>
               )}
-              {cashback > 0 && (
+              {pointCheckout > 0 && pointSwitch && (
+                <div className="d-flex justify-content-between my-2">
+                  <span>Списание баллов</span>
+                  <span>-{customPrice(pointCheckout)}</span>
+                </div>
+              )}
+              {pointAccrual > 0 && (
                 <div className="d-flex justify-content-between my-2">
                   <span>Начислится баллов</span>
-                  <span>{customPoint({ value: cashback, char: "+" })}</span>
+                  <span>+{customPrice(pointAccrual)}</span>
                 </div>
               )}
               <hr className="my-3" />
@@ -223,7 +206,7 @@ const Cart = () => {
               <Link
                 to={
                   user?.id
-                    ? address?.length === 0 && stateDelivery == "delivery"
+                    ? address?.length === 0 && checkout.delivery == "delivery"
                       ? "/account/addresses/add"
                       : "/checkout"
                     : "/login"
@@ -232,7 +215,7 @@ const Cart = () => {
               >
                 <span className="fw-4">
                   {user?.id
-                    ? address?.length === 0 && stateDelivery == "delivery"
+                    ? address?.length === 0 && checkout.delivery == "delivery"
                       ? "Добавить адрес"
                       : "Далее"
                     : "Войти в профиль"}

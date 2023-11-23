@@ -26,10 +26,11 @@ import PaymentItem from "../components/utils/PaymentItem";
 import Select from "../components/utils/Select";
 import Textarea from "../components/utils/Textarea";
 import { customPrice } from "../helpers/all";
+import { isWork } from "../hooks/all";
 import { useTotalCart } from "../hooks/useCart";
 import { checkAuth } from "../services/auth";
-import { createOrder, getDelivery } from "../services/order";
-import { cartZone, resetCart } from "../store/reducers/cartSlice";
+import { createOrder } from "../services/order";
+import { resetCart } from "../store/reducers/cartSlice";
 import {
   editDeliveryCheckout,
   resetCheckout,
@@ -56,16 +57,35 @@ const Checkout = () => {
       value: "cash",
       main: false,
     },
+    {
+      id: 4,
+      title: "СБП",
+      value: "sbp",
+      main: false,
+    },
+    {
+      id: 5,
+      title: "Sber Pay",
+      value: "sberpay",
+      main: false,
+    },
+    {
+      id: 6,
+      title: "Tinkoff Pay",
+      value: "tinkoffpay",
+      main: false,
+    },
   ];
 
+  const profilePointVisible = useSelector(
+    (state) => state.settings.options.profilePointVisible
+  );
   const isAuth = useSelector((state) => state.auth.isAuth);
   const user = useSelector((state) => state.auth.user);
   const cart = useSelector((state) => state.cart.items);
   const promo = useSelector((state) => state.cart.promo);
   const zone = useSelector((state) => state.cart.zone);
-  const { checkout, delivery: deliveryCheckout } = useSelector(
-    (state) => state.checkout
-  );
+  const checkout = useSelector((state) => state.checkout);
   const address = useSelector((state) => state.address.items);
   const affiliate = useSelector((state) => state.affiliate.items);
   const options = useSelector((state) => state.settings.options);
@@ -74,12 +94,21 @@ const Checkout = () => {
     total = 0,
     price = 0,
     discount = 0,
-    point = 0,
     delivery,
-    cashback,
+    pointAccrual,
+    pickupDiscount,
+    pointCheckout,
   } = useTotalCart();
 
-  const selectedAffiliate = affiliate ? affiliate.find((e) => e.main) : false;
+  const selectedAffiliate =
+    affiliate?.length > 0
+      ? affiliate.find(
+          (e) =>
+            (checkout.delivery == "delivery" &&
+              e.id == zone?.data?.affiliateId) ||
+            (checkout.delivery == "pickup" && e.main)
+        )
+      : false;
 
   const [end, setEnd] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -93,6 +122,7 @@ const Checkout = () => {
     handleSubmit,
     setValue,
     reset,
+    trigger,
     register,
   } = useForm({
     mode: "all",
@@ -100,24 +130,35 @@ const Checkout = () => {
     defaultValues: {
       name: user.firstName ?? "",
       phone: user.phone ?? "",
-      serving: checkout.serving ?? "",
-      delivery: deliveryCheckout ?? "delivery",
-      payment: checkout.payment ?? options[checkout.payment] ?? "cash",
-      person: checkout.person ?? 1,
-      comment: checkout.comment ?? "",
+      phoneReg: user.phoneReg ?? "",
+      serving: checkout?.data?.serving ?? "",
+      delivery: checkout.delivery ?? "delivery",
+      payment: checkout?.data?.payment ?? "cash",
+      person: checkout?.data?.person ?? 1,
+      comment: checkout?.data?.comment ?? "",
 
       address: address ? address.find((e) => e.main) : false,
       affiliateId: affiliate ? affiliate.find((e) => e.main)?.id : false,
 
       // Сохранение адреса по умолчанию
-      save: checkout.save ?? false,
+      save: checkout?.data?.save ?? false,
 
       products: cart ?? [],
 
       promo: promo ?? false,
 
-      // Сумма баллов
-      point: point,
+      // Списание баллов
+      pointWriting:
+        checkout?.data?.pointSwitch && checkout?.data?.pointWriting
+          ? checkout.data.pointWriting
+          : 0,
+      pointSwitch: checkout?.data?.pointSwitch,
+
+      //Скидка за самовывоз
+      pickupDiscount: checkout?.data?.pickupDiscount ?? 0,
+
+      // Начисление баллов
+      pointAccrual: checkout?.data?.pointAccrual ?? 0,
 
       // Сумма товаров
       price: price,
@@ -137,6 +178,11 @@ const Checkout = () => {
 
   const data = useWatch({ control });
 
+  const isValidBtn = () =>
+    !isValid ||
+    !user?.id ||
+    (checkout.delivery === "delivery" && zone?.data?.minPrice > price);
+
   useLayoutEffect(() => {
     if (isAuth && user?.status === 0) {
       return navigate("/activate");
@@ -144,34 +190,69 @@ const Checkout = () => {
   }, [isAuth]);
 
   useEffect(() => {
-    if (total > 0) {
+    if (!end && total > 0) {
       setValue("total", total);
       setValue("price", price);
       setValue("discount", discount);
       setValue("deliveryPrice", delivery);
+      setValue("pointAccrual", pointAccrual);
+      setValue("pickupDiscount", pickupDiscount);
     }
-    setValue("point", point);
-  }, [total, price, point, discount, delivery]);
+  }, [total, price, discount, delivery, pointAccrual, pickupDiscount, end]);
+
+  useEffect(() => {
+    if (!end && isAuth) {
+      setValue("name", user.firstName);
+      setValue("phone", user.phone);
+      setValue("phoneReg", user.phone);
+      trigger();
+    }
+  }, [user, end]);
 
   useEffect(() => {
     if (data) dispatch(setCheckout(data));
   }, [data]);
 
   useEffect(() => {
-    if (deliveryCheckout == "delivery" && data?.address?.id) {
-      getDelivery({ distance: false, addressId: data.address.id }).then(
-        (res) => {
-          res?.zone && dispatch(cartZone(res.zone));
-        }
+    if (isAuth && !end) {
+      setValue(
+        "pointWriting",
+        data.pointSwitch && pointCheckout > 0 ? pointCheckout : 0
       );
     }
-  }, [isAuth, deliveryCheckout]);
+  }, [data.pointSwitch, pointCheckout, end]);
 
   useEffect(() => {
-    if (deliveryCheckout) {
-      setValue("delivery", deliveryCheckout);
+    if (!end && data) dispatch(setCheckout(data));
+  }, [data, end]);
+
+  useEffect(() => {
+    if (!end && checkout.delivery) {
+      setValue("delivery", checkout.delivery);
     }
-  }, [deliveryCheckout]);
+  }, [checkout.delivery, end]);
+
+  useEffect(() => {
+    let pay =
+      checkout.delivery == "delivery"
+        ? options?.delivery ?? []
+        : options?.pickup ?? [];
+    if (pay && data.payment && !pay[data.payment]) {
+      if (pay?.online) {
+        setValue("payment", "online");
+      } else if (pay?.card) {
+        setValue("payment", "card");
+      } else if (pay?.cash) {
+        setValue("payment", "cash");
+      } else if (pay?.sbp) {
+        setValue("payment", "sbp");
+      } else if (pay?.sberpay) {
+        setValue("payment", "sberpay");
+      } else if (pay?.tinkoffpay) {
+        setValue("payment", "tinkoffpay");
+      }
+    }
+  }, [checkout.delivery, end, options, data.payment]);
 
   useEffect(() => {
     if (address?.length > 0) {
@@ -186,14 +267,14 @@ const Checkout = () => {
           return NotificationManager.error("Добавьте адрес доставки");
         }
 
-        if (!zone || !zone.status) {
+        if (!zone?.data || !zone?.data?.status) {
           NotificationManager.error(
             "По данному адресу доставка не производится"
           );
           return false;
         }
 
-        data.affiliateId = zone.affiliateId;
+        data.affiliateId = zone.data.affiliateId;
       }
       setIsLoading(true);
 
@@ -230,7 +311,7 @@ const Checkout = () => {
         })
         .finally(() => setIsLoading(false));
     },
-    [data.address, zone]
+    [data.address, zone?.data]
   );
 
   if (!Array.isArray(cart) || cart.length <= 0) {
@@ -281,24 +362,44 @@ const Checkout = () => {
     );
   }
 
-  if (
-    data?.delivery == "pickup" &&
-    (!Array.isArray(affiliate) || affiliate.length <= 0)
-  ) {
+  if (selectedAffiliate?.status === 0) {
     return (
       <Empty
-        text="Заказы временно недоступны"
-        desc="Попробуйте зайди немного позже"
+        text="Заведение сейчас не работает"
+        desc="Зайдите к нам немного позже"
         image={() => <EmptyWork />}
         button={
-          <Link className="btn-primary" to="/account/addresses/add">
+          <Link className="btn-primary" to="/">
             Перейти на главную
           </Link>
         }
       />
     );
   }
-
+  if (
+    selectedAffiliate?.options?.work &&
+    selectedAffiliate.options.work[moment().weekday()].end &&
+    selectedAffiliate.options.work[moment().weekday()].start &&
+    !isWork(
+      selectedAffiliate.options.work[moment().weekday()].start,
+      selectedAffiliate.options.work[moment().weekday()].end
+    )
+  ) {
+    return (
+      <Empty
+        text={`Мы работаем с ${
+          selectedAffiliate.options.work[moment().weekday()].start
+        } до ${selectedAffiliate.options.work[moment().weekday()].end}`}
+        desc="Зайдите к нам немного позже"
+        image={() => <EmptyWork />}
+        button={
+          <Link className="btn-primary" to="/">
+            Перейти на главную
+          </Link>
+        }
+      />
+    );
+  }
   return (
     <main>
       <Meta title="Оформление заказа" />
@@ -450,15 +551,25 @@ const Checkout = () => {
                   <div className="mb-4">
                     <p className="mb-2 fs-09">Способ оплаты</p>
                     <Row xs={2} sm={3} md={3} className="gx-2 gy-4">
-                      {paymentsData.map((e) => (
-                        <Col>
-                          <PaymentItem
-                            onClick={(e) => setValue("payment", e.value)}
-                            data={e}
-                            active={e.value === data.payment}
-                          />
-                        </Col>
-                      ))}
+                      {paymentsData.map((e) => {
+                        let pay =
+                          checkout.delivery == "delivery"
+                            ? options?.delivery ?? []
+                            : options?.pickup ?? [];
+
+                        if (!pay[e.value]) {
+                          return null;
+                        }
+                        return (
+                          <Col>
+                            <PaymentItem
+                              onClick={(e) => setValue("payment", e.value)}
+                              data={e}
+                              active={e.value === data.payment}
+                            />
+                          </Col>
+                        );
+                      })}
                     </Row>
                   </div>
                 </Col>
@@ -486,26 +597,27 @@ const Checkout = () => {
                   ))}
                 </ul>
               </div>
-              {options.promoVisible && (
-                <>
-                  <div className="fs-11 mb-1">Списание баллов</div>
-                  <div className="mb-4 d-flex">
-                    <Input
-                      className="w-100"
-                      type="number"
-                      name="point"
-                      placeholder="Введите сумму баллов"
-                      errors={errors}
-                      register={register}
-                    />
-                    <button
-                      type="button"
-                      className="btn-10 ms-2 ms-sm-4 rounded-3"
-                    >
-                      Применить
-                    </button>
+              {user?.point > 0 && profilePointVisible && (
+                <div className="cart-box mb-4 d-flex flex-row align-items-center justify-content-between">
+                  <div>
+                    <a>
+                      <b>
+                        Потратить {customPrice(pointCheckout, false)} баллов
+                      </b>
+                      <p>У вас всего {customPrice(user.point, false)} баллов</p>
+                    </a>
                   </div>
-                </>
+                  <div>
+                    <label>
+                      <input
+                        type="checkbox"
+                        role="switch"
+                        control={control}
+                        {...register("pointSwitch")}
+                      />
+                    </label>
+                  </div>
+                </div>
               )}
               <div className="d-flex justify-content-between my-2">
                 <span>Стоимость товаров</span>
@@ -526,16 +638,24 @@ const Checkout = () => {
                   </span>
                 </div>
               )}
-              {point > 0 && (
+              {pickupDiscount > 0 && (
                 <div className="d-flex justify-content-between my-2">
-                  <span>Списание баллов</span>
-                  <span>{customPoint({ value: point, char: "-" })}</span>
+                  <span>Скидка за самовывоз</span>
+                  <span className="text-success">
+                    -{customPrice(pickupDiscount)}
+                  </span>
                 </div>
               )}
-              {cashback > 0 && (
+              {pointCheckout > 0 && data.pointSwitch && (
+                <div className="d-flex justify-content-between my-2">
+                  <span>Списание баллов</span>
+                  <span>-{customPrice(pointCheckout)}</span>
+                </div>
+              )}
+              {pointAccrual > 0 && (
                 <div className="d-flex justify-content-between my-2">
                   <span>Начислится баллов</span>
-                  <span>{customPoint({ value: cashback, char: "+" })}</span>
+                  <span>+{customPrice(pointAccrual)}</span>
                 </div>
               )}
               <hr className="my-3" />
@@ -543,18 +663,16 @@ const Checkout = () => {
                 <span className="fw-6 fs-11">Итоговая сумма</span>
                 <span className="fw-6">{customPrice(total)}</span>
               </div>
-              {checkout.delivery == "delivery" && zone?.minPrice > price && (
-                <div className="text-danger text-center">
-                  Минимальная сумма для доставки {customPrice(zone.minPrice)}
-                </div>
-              )}
+              {checkout.delivery == "delivery" &&
+                zone?.data?.minPrice > price && (
+                  <div className="text-danger text-center">
+                    Минимальная сумма для доставки{" "}
+                    {customPrice(zone?.data.minPrice)}
+                  </div>
+                )}
               <button
                 type="submit"
-                disabled={
-                  !isValid ||
-                  (data.delivery === "delivery" && zone?.minPrice > price) ||
-                  (point > 0 && total === 0)
-                }
+                disabled={isValidBtn()}
                 className="btn-primary mt-3 w-100"
                 onClick={handleSubmit(onSubmit)}
               >

@@ -1,7 +1,7 @@
-import {createSlice} from '@reduxjs/toolkit'
+import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
-    checkout: false,
+    data: false,
     delivery: 'delivery',
 }
 
@@ -10,17 +10,17 @@ const checkoutSlice = createSlice({
     initialState,
     reducers: {
         setCheckout: (state, action) => {
-            state.checkout = action?.payload
+            state.data = action?.payload
         },
         editDeliveryCheckout: (state, action) => {
             state.delivery = action?.payload
         },
         resetCheckout: (state) => {
-            state.checkout = false
+            state.data = false
         },
     },
 })
 
-export const {setCheckout, editDeliveryCheckout, resetCheckout} = checkoutSlice.actions
+export const { setCheckout, editDeliveryCheckout, resetCheckout } = checkoutSlice.actions
 
 export default checkoutSlice.reducer

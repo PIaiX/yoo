@@ -1,30 +1,41 @@
 import React from "react";
-import useIsMobile from '../hooks/isMobile';
+import { useSelector } from "react-redux";
+import useIsMobile from "../hooks/isMobile";
+import { useTotalCart } from "../hooks/useCart";
 
-const DeliveryBar = ({ sum = 0 }) => {
-  const isMobileLG = useIsMobile('991px');
-  const min = 1500;
-  const freeDelivery = 3000;
-  console.log("sum=" + sum);
-  if(isMobileLG) {
+const DeliveryBar = () => {
+  const isMobileLG = useIsMobile("991px");
+  const delivery = useSelector((state) => state.checkout.delivery);
+  const isAuth = useSelector((state) => state.auth.isAuth);
+  const zone = useSelector((state) => state.cart.zone);
+  const { price = 0 } = useTotalCart();
+  console.log(zone?.data?.priceFree, zone?.data?.minPrice);
+  if (delivery != "delivery" || !isAuth || !zone?.data) {
+    return null;
+  }
+
+  if (isMobileLG) {
     return (
       <div className="freeDeliveryBar">
         <div className="box">
           <p>
-            {sum < min
-              ? "Минимальная сумма заказа 1500 руб"
-              : sum >= min && sum < freeDelivery
+            {price == 0
               ? "Бесплатная доставка пока не доступна"
+              : price > 0 && price < zone?.data?.priceFree
+              ? "Минимальная сумма заказа 1500 руб"
               : "Бесплатная доставка"}
           </p>
           <div className="mobileBar">
-            <div className="bar" data-state={
-              sum < min 
-              ? ('none') 
-              : sum >= min && sum < freeDelivery 
-              ? ('half') 
-              : ('full')}>
-            </div>
+            <div
+              className="bar"
+              data-state={
+                price == 0
+                  ? "none"
+                  : price > 0 && price < zone?.data?.priceFree
+                  ? "half"
+                  : "full"
+              }
+            ></div>
             <img src="/imgs/scooter.png" alt="delivery" />
           </div>
         </div>
@@ -50,8 +61,8 @@ const DeliveryBar = ({ sum = 0 }) => {
             fill="#637381"
             fillOpacity="0.2"
           />
-  
-          {sum < min ? (
+
+          {price == 0 ? (
             <path
               fillRule="evenodd"
               clipRule="evenodd"
@@ -59,7 +70,7 @@ const DeliveryBar = ({ sum = 0 }) => {
               fill="#637381"
               fillOpacity="0.4"
             />
-          ) : sum >= min && sum < freeDelivery ? (
+          ) : price > 0 && price < zone?.data?.priceFree ? (
             <>
               <path
                 fillRule="evenodd"
@@ -84,7 +95,7 @@ const DeliveryBar = ({ sum = 0 }) => {
               fillOpacity="1"
             />
           )}
-  
+
           <image
             x="11"
             y="16"
@@ -106,18 +117,17 @@ const DeliveryBar = ({ sum = 0 }) => {
             </linearGradient>
           </defs>
         </svg>
-  
+
         <div>
-          {sum < min
+          {price < zone?.data?.minPrice
             ? "Минимальная сумма заказа 1500 руб"
-            : sum >= min && sum < freeDelivery
+            : price >= zone?.data?.minPrice && price < zone?.data?.priceFree
             ? "Бесплатная доставка пока не доступна"
             : "Бесплатная доставка"}
         </div>
       </div>
     );
   }
-  
 };
 
 export default DeliveryBar;

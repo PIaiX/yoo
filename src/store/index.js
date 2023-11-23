@@ -17,17 +17,21 @@ import favoriteSlice from "./reducers/favoriteSlice";
 import settingsSlice from "./reducers/settingsSlice";
 import affiliateSlice from "./reducers/affiliateSlice";
 import addressSlice from "./reducers/addressSlice";
+import notificationSlice from "./reducers/notificationSlice";
+import statusSlice from "./reducers/statusSlice";
 import { homeApi } from "../services/home";
 import { encryptTransform } from "redux-persist-transform-encrypt";
 
 const rootReducer = combineReducers({
   settings: settingsSlice,
+  notification: notificationSlice,
   auth: authSlice,
   cart: cartSlice,
   favorite: favoriteSlice,
+  checkout: checkoutSlice,
   address: addressSlice,
   affiliate: affiliateSlice,
-  checkout: checkoutSlice,
+  status: statusSlice,
   [homeApi.reducerPath]: homeApi.reducer,
 });
 

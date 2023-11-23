@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit'
+import {createSlice} from '@reduxjs/toolkit'
 
 const initialState = {
     isLoading: false,
@@ -15,7 +15,7 @@ const addressSlice = createSlice({
                 e.main = false
                 return e
             })
-            state.items.push({ ...action?.payload })
+            state.items.push({...action?.payload})
         },
         updateAddress: (state, action) => {
             if (action?.payload.main) {
@@ -51,7 +51,7 @@ const addressSlice = createSlice({
     },
 })
 
-export const { setAddress, updateAddress, mainAddressEdit, updateAddresses, deleteAddressSlice, resetAddresses } =
+export const {setAddress, updateAddress, mainAddressEdit, updateAddresses, deleteAddressSlice, resetAddresses} =
     addressSlice.actions
 
 export default addressSlice.reducer
