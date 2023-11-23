@@ -21,8 +21,8 @@ const isCart = (product) => {
 
 const useTotalCart = () => {
     const stateDelivery = useSelector(state => state.checkout.delivery)
-    const statePayment = useSelector(state => state.checkout.data.payment)
-    const pointSwitch = useSelector(state => state.checkout.data.pointSwitch)
+    const statePayment = useSelector(state => state.checkout.data?.payment)
+    const pointSwitch = useSelector(state => state.checkout.data?.pointSwitch)
     const stateCart = useSelector(state => state.cart.items)
     const statePromo = useSelector(state => state.cart.promo)
     const stateZone = useSelector(state => state.cart.zone.data)
