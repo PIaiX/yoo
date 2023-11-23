@@ -4513,7 +4513,7 @@ ACCOUNT END
     border-radius: 50%;
     top: unset;
     right: 0.5em;
-    bottom: calc(var(--f-height) + 1em);
+    bottom: calc(var(--f-height) * 2 + 1em);
     transform: translateY(0%);
   }
 }
@@ -5190,7 +5190,88 @@ ACCOUNT END
   bottom: 2em;
   right: 1em;
   width: 100px;
-  font-size: 0.75em;
+  font-size: 12px;
   text-align: center;
   font-family: "Lobster", sans-serif;
+}
+@media (max-width: 991.98px) {
+  .freeDeliveryBar {
+    bottom: calc(var(--f-height) - 2px);
+    width: 100%;
+    height: var(--f-height);
+    right: 0px;
+    background-color: #fff;
+    border-top: 1px solid #D9D9D9;
+    font-family: "Open Sans";
+  }
+}
+.freeDeliveryBar .box {
+  max-width: 330px;
+  height: 100%;
+  margin: 0px auto;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: stretch;
+  flex-wrap: nowrap;
+}
+@media (max-width: 575.98px) {
+  .freeDeliveryBar .box {
+    max-width: 300px;
+  }
+}
+.freeDeliveryBar .mobileBar {
+  height: 40px;
+  margin-top: -10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: nowrap;
+  position: relative;
+}
+.freeDeliveryBar .mobileBar .bar {
+  height: 10px;
+  width: 100%;
+  border-radius: 5px;
+  background-color: #eeeeee;
+  position: relative;
+  z-index: 1;
+}
+.freeDeliveryBar .mobileBar .bar[data-state=half]::after {
+  content: "";
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  height: 100%;
+  width: 55%;
+  border-radius: 5px;
+  background: linear-gradient(to right, #038036 9%, #02B54C 90%);
+}
+.freeDeliveryBar .mobileBar .bar[data-state=full]::after {
+  content: "";
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  height: 100%;
+  width: 100%;
+  border-radius: 5px;
+  background: linear-gradient(to right, #038036 9%, #02B54C 90%);
+}
+.freeDeliveryBar .mobileBar .bar[data-state=full] + img {
+  background-color: #02B54C;
+}
+.freeDeliveryBar .mobileBar img {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  z-index: 10;
+  width: 40px;
+  height: 40px;
+  -o-object-fit: contain;
+     object-fit: contain;
+  border-radius: 50%;
+  background-color: #eeeeee;
+  padding: 4px;
 }/*# sourceMappingURL=style.css.map */

@@ -24,7 +24,7 @@ import MenuDocs from "./svgs/MenuDocs";
 import MenuIcon from "./svgs/MenuIcon";
 import MenuPhone from "./svgs/MenuPhone";
 import YooApp from "./svgs/YooApp";
-import DeliveryBar from "./svgs/DeliveryBar";
+import DeliveryBar from "./DeliveryBar";
 import Select from "./utils/Select";
 import { editDeliveryCheckout } from "../store/reducers/checkoutSlice";
 
