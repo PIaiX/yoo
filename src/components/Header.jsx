@@ -25,6 +25,8 @@ import MenuIcon from "./svgs/MenuIcon";
 import MenuPhone from "./svgs/MenuPhone";
 import YooApp from "./svgs/YooApp";
 import DeliveryBar from "./svgs/DeliveryBar";
+import Select from "./utils/Select";
+import { editDeliveryCheckout } from "../store/reducers/checkoutSlice";
 
 const Header = memo(() => {
   const isAuth = useSelector((state) => state.auth.isAuth);
@@ -33,8 +35,9 @@ const Header = memo(() => {
   const favorite = useSelector((state) => state.favorite.items);
   const affiliate = useSelector((state) => state.affiliate.items);
   const options = useSelector((state) => state.settings.options);
+  const delivery = useSelector((state) => state.checkout.delivery);
   const banners = useGetBannersQuery();
-
+  const dispatch = useDispatch();
   const [showMenu, setShowMenu] = useState(false);
   const [showApp, setShowApp] = useState(false);
   const [isContacts, setIsContacts] = useState(false);
@@ -58,7 +61,7 @@ const Header = memo(() => {
                 {options?.title ?? "YOOAPP"}
               </span> */}
             </Link>
-            {/* <ul className="btns-menu d-none d-lg-flex">
+            <ul className="btns-menu d-none d-lg-flex">
               <li className="d-none d-md-block">
                 <Select
                   data={[
@@ -75,7 +78,7 @@ const Header = memo(() => {
                   onClick={(e) => dispatch(editDeliveryCheckout(e.value))}
                 />
               </li>
-            </ul> */}
+            </ul>
             <ul className="text-menu d-none d-lg-flex">
               <li>
                 <Link to="/">Меню</Link>
@@ -164,7 +167,7 @@ const Header = memo(() => {
         </Container>
       </header>
 
-      <DeliveryBar sum={2500}/>
+      <DeliveryBar sum={2500} />
 
       <Offcanvas
         className="offcanvas-menu"
