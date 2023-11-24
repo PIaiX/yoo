@@ -256,7 +256,7 @@ const Header = memo(() => {
                       </Link>
                     </li>
                     <li>
-                      <Link to="/delivery" onClick={() => setShowMenu(false)}>
+                      <Link to="/contact" onClick={() => setShowMenu(false)}>
                         <MenuDelivery />
                         <span>Оплата и доставка</span>
                       </Link>

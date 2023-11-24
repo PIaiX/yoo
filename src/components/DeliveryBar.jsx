@@ -9,7 +9,7 @@ const DeliveryBar = () => {
   const isAuth = useSelector((state) => state.auth.isAuth);
   const zone = useSelector((state) => state.cart.zone);
   const { price = 0 } = useTotalCart();
-  console.log(zone?.data?.priceFree, zone?.data?.minPrice);
+
   if (delivery != "delivery" || !isAuth || !zone?.data) {
     return null;
   }

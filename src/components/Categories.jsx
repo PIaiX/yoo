@@ -1,4 +1,4 @@
-import React, { useState, memo } from "react";
+import React, { useState, memo, useRef } from "react";
 import { Navigation, FreeMode, Mousewheel } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
@@ -9,32 +9,30 @@ import {
   HiOutlineArrowLeftCircle,
   HiOutlineArrowUturnDown,
   HiArrowUturnUp,
-  HiOutlineAdjustmentsHorizontal,
-  HiOutlineBars3,
 } from "react-icons/hi2";
 
 const Categories = memo(({ className, data }) => {
   const [isFull, setIsFull] = useState(false);
-  const [swiper, setSwiper] = useState(null);
-
+  const swiperRef = useRef(null);
   const handleExpand = () => {
-    swiper.disable();
+    swiperRef.current.swiper.disable();
     setIsFull(true);
   };
 
   const handleСollapse = () => {
-    swiper.enable();
+    swiperRef.current.swiper.enable();
     setIsFull(false);
   };
 
   const updateSlider = (i) => {
-    swiper.slideTo(i);
+    swiperRef?.current?.swiper && swiperRef.current.swiper.slideTo(i);
   };
 
   return data?.length > 0 ? (
     <div className={"categories" + (className ? " " + className : "")}>
       <div className="categories-wrap">
         <Swiper
+          ref={swiperRef}
           loop={false}
           freeMode={{
             enabled: true,
@@ -49,7 +47,7 @@ const Categories = memo(({ className, data }) => {
           modules={[Navigation, FreeMode, Mousewheel]}
           speed={750}
           spaceBetween={10}
-          slidesPerView={"auto"}
+          slidesPerView="auto"
           observer={true}
           observeSlideChildren={true}
           watchSlidesProgress={true}
@@ -57,7 +55,6 @@ const Categories = memo(({ className, data }) => {
             nextEl: ".swiper-button-next",
             prevEl: ".swiper-button-prev",
           }}
-          onSwiper={setSwiper}
           breakpoints={{
             576: {
               spaceBetween: 15,
@@ -68,7 +65,7 @@ const Categories = memo(({ className, data }) => {
           }}
         >
           {data.map((e, index) => (
-            <SwiperSlide>
+            <SwiperSlide key={index}>
               <Link
                 className="btn-8"
                 activeClass="active"

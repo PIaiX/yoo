@@ -27,6 +27,7 @@ const useTotalCart = () => {
     const statePromo = useSelector(state => state.cart.promo)
     const stateZone = useSelector(state => state.cart.zone.data)
     const pointOptions = useSelector(state => state.settings.options.point)
+    const userPoint = useSelector(state => state.auth.user.point)
 
     const affiliateActive = useSelector(state => state?.affiliate?.items?.length > 0 && state.affiliate.items.find(e => e.main))
 
@@ -96,8 +97,11 @@ const useTotalCart = () => {
             }
 
             let pointCheckout = pointOptions?.writing?.value > 0 ? (totalCalcul / 100) * Number(pointOptions.writing.value) : 0
-
+            if (pointCheckout > 0 && pointCheckout > userPoint) {
+                pointCheckout = userPoint
+            }
             if (pointCheckout > 0 && pointSwitch) {
+
                 let is = true
                 if (!pointOptions?.writing?.delivery && stateDelivery == 'delivery') {
                     is = false

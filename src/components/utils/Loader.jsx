@@ -33,14 +33,14 @@ const Loader = memo(({ className, full = false, size = 120 }) => {
                     d="M27.76,246.57l137.45-79.36L27.71,87.83c-28.279543,49.141974-28.279543,109.618026,0,158.76l137.5-79.38"
                     fill="#fecc49"
                     stroke="#cb8635"
-                    stroke-miterlimit="10"
+                    strokeMiterlimit="10"
                   />
                   <path
                     d="M27.71,246.59c-28.279543-49.141974-28.279543-109.618026,0-158.76"
                     fill="none"
                     stroke="#cb8635"
-                    stroke-width="13"
-                    stroke-miterlimit="10"
+                    strokeWidth="13"
+                    strokeMiterlimit="10"
                   />
                   <circle
                     r="10.06"
@@ -131,14 +131,14 @@ const Loader = memo(({ className, full = false, size = 120 }) => {
                     d="M166.11,327.86v-158.71L28.62,248.53c28.416892,49.063232,80.791549,79.301797,137.49,79.38v-158.76"
                     fill="#fecc49"
                     stroke="#cb8635"
-                    stroke-miterlimit="10"
+                    strokeMiterlimit="10"
                   />
                   <path
                     d="M166.11,327.91c-56.698451-.078203-109.073108-30.316768-137.49-79.38"
                     fill="none"
                     stroke="#cb8635"
-                    stroke-width="13"
-                    stroke-miterlimit="10"
+                    strokeWidth="13"
+                    strokeMiterlimit="10"
                   />
                   <circle
                     r="10.06"
@@ -213,14 +213,14 @@ const Loader = memo(({ className, full = false, size = 120 }) => {
                     d="M305.49,248.12L168.05,168.76v158.77c56.70161-.076171,109.078642-30.319916,137.49-79.39L168.05,168.76"
                     fill="#fecc49"
                     stroke="#cb8635"
-                    stroke-miterlimit="10"
+                    strokeMiterlimit="10"
                   />
                   <path
                     d="M305.54,248.14c-28.411358,49.070084-80.78839,79.313829-137.49,79.39"
                     fill="none"
                     stroke="#cb8635"
-                    stroke-width="13"
-                    stroke-miterlimit="10"
+                    strokeWidth="13"
+                    strokeMiterlimit="10"
                   />
                   <ellipse
                     rx="16.82"
@@ -302,14 +302,14 @@ const Loader = memo(({ className, full = false, size = 120 }) => {
                     d="M307,88.12L169.6,167.47l137.49,79.38c28.293902-49.138136,28.293902-109.621864,0-158.76L169.6,167.47"
                     fill="#fecc49"
                     stroke="#cb8635"
-                    stroke-miterlimit="10"
+                    strokeMiterlimit="10"
                   />
                   <path
                     d="M307.09,88.09c28.293902,49.138136,28.293902,109.621864,0,158.76"
                     fill="none"
                     stroke="#cb8635"
-                    stroke-width="13"
-                    stroke-miterlimit="10"
+                    strokeWidth="13"
+                    strokeMiterlimit="10"
                   />
                   <ellipse
                     rx="7.74"
@@ -398,14 +398,14 @@ const Loader = memo(({ className, full = false, size = 120 }) => {
                     d="M168.05,7.08v158.71L305.54,86.41C277.130708,37.335224,224.754624,7.084407,168.05,7v158.79"
                     fill="#fecc49"
                     stroke="#cb8635"
-                    stroke-miterlimit="10"
+                    strokeMiterlimit="10"
                   />
                   <path
                     d="M168.05,7c56.704624.084407,109.080708,30.335224,137.49,79.41"
                     fill="none"
                     stroke="#cb8635"
-                    stroke-width="13"
-                    stroke-miterlimit="10"
+                    strokeWidth="13"
+                    strokeMiterlimit="10"
                   />
                   <ellipse
                     rx="10.06"
@@ -497,14 +497,14 @@ const Loader = memo(({ className, full = false, size = 120 }) => {
                     d="M28.36,86l137.49,79.27-.1-158.77C109.043616,6.616713,56.684514,36.903009,28.31,86l137.54,79.3"
                     fill="#fecc49"
                     stroke="#cb8635"
-                    stroke-miterlimit="10"
+                    strokeMiterlimit="10"
                   />
                   <path
                     d="M28.31,86C56.684514,36.903009,109.043616,6.616713,165.75,6.5"
                     fill="none"
                     stroke="#cb8635"
-                    stroke-width="13"
-                    stroke-miterlimit="10"
+                    strokeWidth="13"
+                    strokeMiterlimit="10"
                   />
                   <ellipse
                     rx="7.74"

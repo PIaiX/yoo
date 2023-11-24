@@ -23,15 +23,16 @@ import Registration from "../pages/auth/Registration";
 import AccountRouter from "./AccountRouter";
 import AuthRoute from "./AuthRoute";
 import Policy from "../pages/Policy";
+import Error from "../components/Error";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<AppLayout />}>
-      <Route index element={<Home />} />
+      <Route index element={<Home />} errorElement={<Error />} />
       <Route path="category/:categoryId" element={<Category />} />
       <Route path="product/:productId" element={<Product />} />
-      <Route path="cart" element={<Cart />} />
-      <Route path="checkout" element={<Checkout />} />
+      <Route path="cart" element={<Cart />} errorElement={<Error />} />
+      <Route path="checkout" element={<Checkout />} errorElement={<Error />} />
       <Route path="promo" element={<Promo />} />
       <Route path="promo/:saleId" element={<OfferPage />} />
       <Route path="contact" element={<Contact />} />
