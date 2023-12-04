@@ -2597,6 +2597,7 @@ main {
 
 .sec-6 {
   --offer-w: 415px;
+  overflow: hidden;
   @media (max-width: $bp-xxl) {
     --offer-w: 355px;
   }

@@ -61,8 +61,8 @@ const Header = memo(() => {
                 {options?.title ?? "YOOAPP"}
               </span> */}
             </Link>
-            <ul className="btns-menu d-none d-lg-flex">
-              <li className="d-none d-md-block">
+            <ul className="btns-menu">
+              <li>
                 <Select
                   data={[
                     {
