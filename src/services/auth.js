@@ -6,6 +6,7 @@ import socket from "../config/socket";
 import { setAuth, setLoadingLogin, setUser } from "../store/reducers/authSlice";
 import { resetCart } from "../store/reducers/cartSlice";
 import { resetCheckout } from "../store/reducers/checkoutSlice";
+import { NotificationManager } from "react-notifications";
 
 const login = createAsyncThunk("auth/login", async (payloads, thunkAPI) => {
   thunkAPI.dispatch(setLoadingLogin(true))
@@ -28,6 +29,11 @@ const login = createAsyncThunk("auth/login", async (payloads, thunkAPI) => {
     thunkAPI.dispatch(setLoadingLogin(false))
     return response?.data;
   } catch (error) {
+    NotificationManager.error(
+      typeof error?.response?.data?.error === "string"
+        ? error.response.data.error
+        : "Неизвестная ошибка"
+    )
     thunkAPI.dispatch(setLoadingLogin(false))
   }
 });
