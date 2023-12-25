@@ -41,9 +41,11 @@ const Recovery = () => {
                 : data.step == 3 && "Пароль успешно изменен"
             ));
       })
-      .catch((err) =>
+      .catch((error) =>
         NotificationManager.error(
-          err?.response?.data?.error ?? "Неизвестная ошибка при регистрации"
+          typeof error?.response?.data?.error === "string"
+            ? error.response.data.error
+            : "Неизвестная ошибка"
         )
       );
   }, []);

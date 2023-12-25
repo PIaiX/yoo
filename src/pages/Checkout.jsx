@@ -306,7 +306,9 @@ const Checkout = () => {
         })
         .catch((error) => {
           NotificationManager.error(
-            error?.response?.data?.error ?? "Неизвестная ошибка"
+            typeof error?.response?.data?.error === "string"
+              ? error.response.data.error
+              : "Неизвестная ошибка"
           );
         })
         .finally(() => setIsLoading(false));

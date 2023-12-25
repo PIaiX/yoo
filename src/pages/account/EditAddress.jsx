@@ -119,9 +119,11 @@ const EditAddress = () => {
         }
         navigate(-1);
       })
-      .catch((err) => {
+      .catch((error) => {
         NotificationManager.error(
-          err?.response?.data?.error ?? "Ошибка при сохранении"
+          typeof error?.response?.data?.error === "string"
+            ? error.response.data.error
+            : "Неизвестная ошибка"
         );
       });
   }, []);

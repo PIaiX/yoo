@@ -18,7 +18,7 @@ const Settings = () => {
   const user = useSelector((state) => state.auth.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  
+
   useLayoutEffect(() => {
     if (user?.status === 0) {
       return navigate("/activate");
@@ -53,9 +53,11 @@ const Settings = () => {
             navigate(-1);
           }
         })
-        .catch((err) => {
+        .catch((error) => {
           NotificationManager.error(
-            err?.response?.data?.error ?? "Ошибка при сохранении"
+            typeof error?.response?.data?.error === "string"
+              ? error.response.data.error
+              : "Неизвестная ошибка"
           );
         });
     },

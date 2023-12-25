@@ -63,8 +63,15 @@ const checkAuth = async () => {
 const refreshAuth = createAsyncThunk("auth/refresh", async (_, thunkAPI) => {
   try {
     const response = await $authApi.post(apiRoutes.AUTH_REFRESH);
-    return response?.data;
+    if (response?.data && response.status === 200) {
+      localStorage.setItem('token', response.data.token)
+    }
+    return response.data
   } catch (error) {
+    thunkAPI.dispatch(setUser(false))
+    thunkAPI.dispatch(setAuth(false))
+    socket.disconnect()
+    localStorage.removeItem('token')
     return thunkAPI.rejectWithValue(error);
   }
 });

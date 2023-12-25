@@ -62,10 +62,12 @@ const Cart = () => {
           delivery: checkout.delivery,
         })
           .then(({ data }) => data?.promo && dispatch(cartPromo(data.promo)))
-          .catch((err) => {
+          .catch((error) => {
             dispatch(cartDeletePromo());
             NotificationManager.error(
-              err?.response?.data?.error ?? "Такого промокода не существует"
+              typeof error?.response?.data?.error === "string"
+                ? err.response.data.error
+                : "Такого промокода не существует"
             );
           });
     },
