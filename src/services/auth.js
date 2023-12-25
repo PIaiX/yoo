@@ -29,10 +29,8 @@ const login = createAsyncThunk("auth/login", async (payloads, thunkAPI) => {
     thunkAPI.dispatch(setLoadingLogin(false))
     return response?.data;
   } catch (error) {
-    NotificationManager.error(
-      typeof error?.response?.data?.error === "string"
-        ? error.response.data.error
-        : "Неизвестная ошибка"
+    error?.response?.data?.error && typeof error?.response?.data?.error === "string" && NotificationManager.error(
+      error.response.data.error
     )
     thunkAPI.dispatch(setLoadingLogin(false))
   }
