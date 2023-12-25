@@ -4,6 +4,7 @@ import {
   HiOutlineCog8Tooth,
   HiOutlineShoppingBag,
   HiOutlineMapPin,
+  HiOutlineArrowRightOnRectangle,
   HiOutlineStar,
   HiOutlineCreditCard,
   HiOutlineBellAlert,
@@ -56,6 +57,17 @@ const AccountMenu = () => {
             <HiOutlineMapPin className="main-color fs-18 mb-1 mb-sm-2" />
             <div className="main-color fw-6">Адреса</div>
           </NavLink>
+        </li>
+        <li>
+          <a
+            onClick={() => {
+              dispatch(logout());
+              navigaion("/login");
+            }}
+          >
+            <HiOutlineArrowRightOnRectangle />
+            <div>Выйти</div>
+          </a>
         </li>
       </ul>
       <div className="gradient-block mb-3"></div>
