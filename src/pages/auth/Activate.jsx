@@ -41,9 +41,11 @@ const Activate = () => {
           dispatch(setUser(res));
           setStatus(true);
         })
-        .catch((err) => {
+        .catch((error) => {
           NotificationManager.error(
-            err?.response?.data?.error ?? "Произошла неизвестная ошибка"
+            typeof error?.response?.data?.error === "string"
+              ? error.response.data.error
+              : "Неизвестная ошибка"
           );
           setStatus(false);
         });
@@ -57,9 +59,11 @@ const Activate = () => {
       .then(() => {
         NotificationManager.success("Код подтверждения отправлен повторно");
       })
-      .catch((err) => {
+      .catch((error) => {
         NotificationManager.error(
-          err?.response?.data?.error ?? "Произошла неизвестная ошибка"
+          typeof error?.response?.data?.error === "string"
+            ? error.response.data.error
+            : "Неизвестная ошибка"
         );
       });
   };

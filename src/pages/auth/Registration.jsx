@@ -76,12 +76,12 @@ const Registration = () => {
           }
           navigate("/activate");
         })
-        .catch(
-          (err) =>
-            err &&
-            NotificationManager.error(
-              err?.response?.data?.error ?? "Неизвестная ошибка при регистрации"
-            )
+        .catch((error) =>
+          NotificationManager.error(
+            typeof error?.response?.data?.error === "string"
+              ? error.response.data.error
+              : "Неизвестная ошибка"
+          )
         );
     },
     [options]
