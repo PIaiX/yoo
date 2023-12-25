@@ -1640,7 +1640,7 @@ main {
 @media (max-width: 991.98px) {
   main {
     min-height: 100vh;
-    padding: var(--h-height) 0px var(--f-height);
+    padding: var(--h-height) 0px calc(var(--f-height) + 30px);
   }
 }
 
@@ -5188,7 +5188,7 @@ ACCOUNT END
 
 .freeDeliveryBar {
   position: fixed;
-  z-index: 100;
+  z-index: 900;
   bottom: 2em;
   right: 1em;
   width: 100px;

@@ -1,5 +1,5 @@
 import React from "react";
-import { NavLink, Link } from "react-router-dom";
+import { NavLink, Link, useNavigate } from "react-router-dom";
 import {
   HiOutlineCog8Tooth,
   HiOutlineShoppingBag,
@@ -12,9 +12,14 @@ import {
   HiOutlineLifebuoy,
 } from "react-icons/hi2";
 import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { logout } from "../../services/auth";
 
 const AccountMenu = () => {
   const user = useSelector((state) => state.auth.user);
+  const dispatch = useDispatch();
+  const navigaion = useNavigate();
+
   return (
     <div className="account-menu">
       <div className="box p-3 p-sm-4 d-flex align-items-center mb-2 mb-sm-3">
@@ -58,18 +63,17 @@ const AccountMenu = () => {
             <div className="main-color fw-6">Адреса</div>
           </NavLink>
         </li>
-        <li>
-          <a
-            onClick={() => {
-              dispatch(logout());
-              navigaion("/login");
-            }}
-          >
-            <HiOutlineArrowRightOnRectangle />
-            <div>Выйти</div>
-          </a>
-        </li>
       </ul>
+      <a
+        className="box-blue d-flex flex-column align-items-center justify-content-center p-2 p-sm-3 h-100 mb-3"
+        onClick={() => {
+          dispatch(logout());
+          navigaion("/login");
+        }}
+      >
+        <HiOutlineArrowRightOnRectangle className="main-color fs-18 mb-1 mb-sm-2" />
+        <div className="main-color fw-6">Выйти</div>
+      </a>
       <div className="gradient-block mb-3"></div>
       {/* <nav className="mb-3">
         <ul>
