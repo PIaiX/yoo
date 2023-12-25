@@ -32,6 +32,7 @@ $black: #212b36;
 $dark: #373737;
 $dark-gray: #ddd;
 $gray: #c2c2c2;
+$grayish: #ebebeb;
 $light-gray: #f4f6f8;
 $white: #fff;
 $transition: 300ms ease-in;
@@ -394,6 +395,9 @@ h6 {
 .bg-main-01 {
   background-color: var(--main-color);
 }
+.bg-gray {
+  background-color: $grayish;
+}
 
 /* Form elements */
 input,
@@ -675,7 +679,6 @@ button {
   transition-property: color, background-color, border;
   width: fit-content;
   border-radius: $radius * 1.5;
-  /* голубая кнопка */
   &-primary {
     @extend .btn;
     color: $white;
@@ -690,7 +693,6 @@ button {
       border: 1px solid var(--main-color-active);
     }
   }
-  /* кнопка c голубой обводкой */
   &-10 {
     @extend .btn;
     color: var(--main-color);
@@ -704,7 +706,6 @@ button {
       background-color: var(--main-color);
     }
   }
-  /* красная кнопка */
   &-2 {
     @extend .btn;
     color: $white;
@@ -717,7 +718,6 @@ button {
       background-color: darken($color: $red, $amount: 5%);
     }
   }
-  /* черная кнопка */
   &-secondary {
     @extend .btn;
     color: $white;
@@ -731,7 +731,6 @@ button {
       background-color: var(--main-color-outline);
     }
   }
-  /* кнопка c черной обводкой */
   &-30 {
     @extend .btn;
     color: $black;
@@ -746,7 +745,6 @@ button {
       background-color: $black;
     }
   }
-  /* белая кнопка */
   &-4,
   &-white {
     @extend .btn;
@@ -760,7 +758,6 @@ button {
       background-color: rgba($color: $white, $alpha: 0.87);
     }
   }
-  /* кнопка c белой обводкой */
   &-40 {
     @extend .btn;
     color: $white;
@@ -775,7 +772,6 @@ button {
       border: 1px solid $white;
     }
   }
-  /* светло-зеленая кнопка */
   &-green {
     @extend .btn;
     color: $green;
@@ -790,7 +786,6 @@ button {
       border: 1px solid $green;
     }
   }
-  /* зеленая кнопка */
   &-deepgreen {
     @extend .btn;
     color: $white;
@@ -805,7 +800,6 @@ button {
       border: 1px solid darken($color: $green, $amount: 10%);
     }
   }
-  /* прозрачно-голубая кнопка */
   &-6,
   &-light-outline {
     @extend .btn;
@@ -822,14 +816,35 @@ button {
   /* светло-голубая кнопка */
   &-light {
     @extend .btn;
-    color: $white;
+    color: var(--main-color);
     background-color: var(--main-color);
+    position: relative;
+    overflow: hidden;
+    @include safariFix();
+    &>* {
+      position: relative;
+      z-index: 10;
+    }
+    &::after {
+      content: '';
+      position: absolute;
+      top: 0%;
+      left: 0%;
+      width: 100%;
+      height: 100%;
+      background-color: #fff;
+      opacity: 0.8;
+      transition: opacity $transition;
+    }
     &:hover,
     &:focus,
     &:active,
     &.active {
       color: $white;
       background-color: var(--main-color);
+      &::after {
+        opacity: 0;
+      }
     }
   }
   /* белая кнопка c тенью */
@@ -2211,14 +2226,7 @@ main {
     }
   }
   .title {
-    min-height: 40px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: -moz-box;
-    -moz-box-orient: vertical;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
+    @include clamp(2, 1.2em, true);
   }
   &-stickers {
     position: absolute;
@@ -2395,14 +2403,16 @@ main {
   }
   &-price {
     @include flex(row, flex-start, center, nowrap);
+    font-size: 1.2em;
     @media (max-width: $bp-md) {
+      font-size: 1em;
       position: fixed;
-      bottom: calc(var(--f-height) - 2px);
+      bottom: calc(var(--f-height) + 50px);
       left: 0px;
       width: 100%;
       height: 50px;
-      z-index: 100;
-      background-color: $white;
+      z-index: 90;
+      background-color: transparent;
       justify-content: center;
       button {
         width: 270px;

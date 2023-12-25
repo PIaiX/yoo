@@ -212,7 +212,7 @@ const Product = () => {
 
               <div className="productPage-price">
                 <div className="me-3">
-                  <div className="fs-12">{customPrice(price)}</div>
+                  <div className="bg-gray py-2 px-3 rounded-pill">{customPrice(price)}</div>
                   {discount > 0 && (
                     <div className="gray fs-09 text-decoration-line-through">
                       {customPrice(discount)}
@@ -223,7 +223,7 @@ const Product = () => {
                   full
                   product={product.item}
                   data={data}
-                  className="btn-secondary fs-12 rounded-pill"
+                  className="btn-light py-2"
                 >
                   <span className="fw-4">В корзину</span>
                   <HiOutlineShoppingBag className="fs-15 ms-2" />

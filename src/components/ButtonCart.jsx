@@ -58,8 +58,8 @@ const ButtonCart = memo(
             : onPress(1)
         }
         type="button"
-        className={`${className} rounded-pill ${
-          isCartData ? "btn-light-outline" : "btn-light"
+        className={`${className} ${
+          isCartData ? "btn-light active" : "btn-light"
         }`}
       >
         {children ?? (
