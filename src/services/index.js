@@ -10,7 +10,7 @@ const $api = axios.create({
 });
 
 const client = new ClientJS();
-const browser = client.getBrowserData();
+const browser = client.getBrowser();
 const language = client.getLanguage();
 
 const DEVICE = JSON.stringify({
