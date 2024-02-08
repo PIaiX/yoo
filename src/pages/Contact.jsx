@@ -110,15 +110,17 @@ const Contact = () => {
                               } до ${e.options.work[moment().weekday()].end}`
                             : ""}
                         </p>
-                        {e.phone[0] && (
+
+                        {e?.phone[0] && (
                           <>
                             <p className="main-color mt-2 mb-1">
                               Номер телефона
                             </p>
-                            <p>{e.phone[0]}</p>
+                            <p className="mb-3">{e.phone[0]}</p>
                           </>
                         )}
                       </a>
+                      {e?.desc && <p className="white-space-break">{e.desc}</p>}
                     </li>
                   ))}
                 </ul>

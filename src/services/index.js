@@ -14,9 +14,9 @@ const browser = client.getBrowser();
 const language = client.getLanguage();
 
 const DEVICE = JSON.stringify({
-  brand: browser.browser.name ?? "",
-  osName: browser.os.name ?? "",
-  osVersion: browser.os.version ?? "",
+  brand: browser?.browser?.name ?? "",
+  osName: browser?.os?.name ?? "",
+  osVersion: browser?.os?.version ?? "",
   language: language ?? "ru-RU",
 });
 

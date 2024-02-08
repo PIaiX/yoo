@@ -821,12 +821,12 @@ button {
     position: relative;
     overflow: hidden;
     @include safariFix();
-    &>* {
+    & > * {
       position: relative;
       z-index: 10;
     }
     &::after {
-      content: '';
+      content: "";
       position: absolute;
       top: 0%;
       left: 0%;
@@ -4752,4 +4752,7 @@ ACCOUNT END
       padding: 4px;
     }
   }
+}
+.white-space-break {
+  white-space: break-spaces;
 }
