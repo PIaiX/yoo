@@ -452,7 +452,7 @@ const Header = memo(() => {
         onHide={() => setShowCity(false)}
       >
         <Modal.Body className="p-4">
-          <img src="/logo.png" className="logo" />
+          <img src="/logo.png" className="logo mb-4" />
           <button
             type="button"
             className="btn-close close"
