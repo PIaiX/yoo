@@ -149,8 +149,8 @@ const Registration = () => {
 
   const regForm = useMemo(() => (
     <form className="login-form" onSubmit={handleSubmit(onSubmit)}>
-      <h4 class="main-color text-center fw-6">С возвращением!</h4>
-      {/* <p class="text-center fs-11 mb-5">
+      <h4 className="main-color text-center fw-6">С возвращением!</h4>
+      {/* <p className="text-center fs-11 mb-5">
         Вкусные роллы и пицца скучали по тебе
       </p> */}
       <div className="mb-3">
@@ -227,8 +227,8 @@ const Registration = () => {
 
   const loginForm = useMemo(() => (
     <form className="login-form" onSubmit={handleSubmitReg(onSubmitReg)}>
-      <h4 class="main-color text-center fw-6">Привет, друг!</h4>
-      <p class="text-center fs-11 mb-5">
+      <h4 className="main-color text-center fw-6">Привет, друг!</h4>
+      <p className="text-center fs-11 mb-5">
         Введи данные, чтобы зарегистрироваться
       </p>
       <div className="mb-3">

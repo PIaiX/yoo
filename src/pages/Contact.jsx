@@ -28,7 +28,7 @@ const Contact = () => {
         button={
           <a
             className="btn-primary"
-            onclick={() => {
+            onClick={() => {
               location.reload();
               return false;
             }}
@@ -157,9 +157,9 @@ const Contact = () => {
                             ]}
                             properties={{
                               balloonContentBody: [
-                                "<address class='my-info'>",
-                                "<div class='my-info-body'>",
-                                `<h6 class='mb-0 fw-6'>${e.full}</h6>`,
+                                "<address className='my-info'>",
+                                "<div className='my-info-body'>",
+                                `<h6 className='mb-0 fw-6'>${e.full}</h6>`,
                                 "</div>",
                                 "</address>",
                               ].join(""),
@@ -191,9 +191,9 @@ const Contact = () => {
                               }}
                               properties={{
                                 balloonContentBody: [
-                                  "<address class='my-info'>",
-                                  "<div class='my-info-body'>",
-                                  `<h6 class='mb-0 fw-6'>${e.title}</h6>`,
+                                  "<address className='my-info'>",
+                                  "<div className='my-info-body'>",
+                                  `<h6 className='mb-0 fw-6'>${e.title}</h6>`,
                                   e.desc && `<p>${e.desc}</p>`,
                                   e.minPrice > 0
                                     ? `<p>Минимальная сумма заказа ${customPrice(

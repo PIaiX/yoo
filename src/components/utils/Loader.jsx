@@ -11,9 +11,9 @@ const Loader = memo(({ className, full = false, size = 120 }) => {
         xmlns="http://www.w3.org/2000/svg"
         xmlnsXlink="http://www.w3.org/1999/xlink"
         viewBox="0 0 334.81 334.41"
-        shape-rendering="geometricPrecision"
-        text-rendering="geometricPrecision"
-        stroke-linejoin="round"
+        shapeRendering="geometricPrecision"
+        textRendering="geometricPrecision"
+        strokeLinejoin="round"
       >
         <g transform="matrix(.795635 0 0 0.795635 34.211804 34.17085)">
           <g

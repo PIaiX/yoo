@@ -38,7 +38,7 @@ const Input = memo(
           {label && (
             <label className="mb-2 fs-09">
               <span>{label}</span>
-              {required && <span class="ms-1 text-danger">*</span>}
+              {required && <span className="ms-1 text-danger">*</span>}
             </label>
           )}
           {type === "password" ? (

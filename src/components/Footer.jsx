@@ -53,7 +53,7 @@ const Footer = memo(() => {
                   <span>&nbsp;Корзина</span>
                 </div>
                 {count > 0 && (
-                  <span class="position-absolute translate-middle badge rounded-pill">
+                  <span className="position-absolute translate-middle badge rounded-pill">
                     {count}
                   </span>
                 )}

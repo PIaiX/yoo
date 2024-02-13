@@ -1,4 +1,4 @@
-import React, { memo, useState } from "react";
+import React, { memo, useState, useEffect } from "react";
 import Container from "react-bootstrap/Container";
 import Offcanvas from "react-bootstrap/Offcanvas";
 import {
@@ -27,6 +27,11 @@ import YooApp from "./svgs/YooApp";
 import DeliveryBar from "./DeliveryBar";
 import Select from "./utils/Select";
 import { editDeliveryCheckout } from "../store/reducers/checkoutSlice";
+import { Col, Modal, Row } from "react-bootstrap";
+import { mainAffiliateEdit } from "../store/reducers/affiliateSlice";
+import { DADATA_TOKEN, DADATA_URL_GEO } from "../config/api";
+import axios from "axios";
+import { setUser } from "../store/reducers/authSlice";
 
 const Header = memo(() => {
   const isAuth = useSelector((state) => state.auth.isAuth);
@@ -41,10 +46,60 @@ const Header = memo(() => {
   const [showMenu, setShowMenu] = useState(false);
   const [showApp, setShowApp] = useState(false);
   const [isContacts, setIsContacts] = useState(false);
+  const [showCity, setShowCity] = useState(false);
   const count = getCount(cart);
 
+  const defaultCityOptions = user?.options ?? null;
   const mainAffiliate =
-    affiliate?.length > 0 ? affiliate.find((e) => e.main) : false;
+    affiliate?.length > 0
+      ? defaultCityOptions?.city && defaultCityOptions?.citySave
+        ? affiliate.find(
+            (e) =>
+              e.options.city.toLowerCase() ===
+              defaultCityOptions.city.toLowerCase()
+          )
+        : affiliate.find((e) => e.main)
+      : false;
+
+  useEffect(() => {
+    if ("geolocation" in navigator) {
+      navigator.geolocation.getCurrentPosition(async (position) => {
+        if (
+          position?.coords?.latitude &&
+          position?.coords?.longitude &&
+          DADATA_TOKEN &&
+          DADATA_URL_GEO &&
+          !defaultCityOptions?.city
+        ) {
+          let geo = await axios.post(
+            DADATA_URL_GEO,
+            JSON.stringify({
+              lat: position.coords.latitude,
+              lon: position.coords.longitude,
+            }),
+            {
+              headers: {
+                "Content-Type": "application/json",
+                Accept: "application/json",
+                Authorization: "Token " + DADATA_TOKEN,
+              },
+            }
+          );
+          if (geo?.data?.suggestions && geo?.data?.suggestions[0]?.data?.city) {
+            dispatch(
+              setUser({
+                ...user,
+                options: {
+                  ...user.options,
+                  city: geo.data.suggestions[0].data.city,
+                },
+              })
+            );
+          }
+        }
+      });
+    }
+  }, []);
 
   return (
     <>
@@ -61,7 +116,43 @@ const Header = memo(() => {
                 {options?.title ?? "YOOAPP"}
               </span> */}
             </Link>
-            <ul className="btns-menu">
+            <ul className="text-menu">
+              <li>
+                <Link onClick={() => setShowCity(true)} className="main-color">
+                  {defaultCityOptions?.city ?? "Выберите город"}
+                </Link>
+                {!defaultCityOptions?.citySave && defaultCityOptions?.city && (
+                  <div className="no-city">
+                    <p className="mb-3">
+                      Ваш город <b>{defaultCityOptions.city}</b> город?
+                    </p>
+                    <div className="d-flex align-items-center justify-content-center">
+                      <Link
+                        className="btn btn-sm btn-primary me-2"
+                        onClick={() => {
+                          dispatch(
+                            setUser({
+                              ...user,
+                              options: {
+                                ...user.options,
+                                citySave: true,
+                              },
+                            })
+                          );
+                        }}
+                      >
+                        Да
+                      </Link>
+                      <Link
+                        className="btn btn-sm btn-light"
+                        onClick={() => setShowCity(true)}
+                      >
+                        Нет
+                      </Link>
+                    </div>
+                  </div>
+                )}
+              </li>
               <li>
                 <Select
                   data={[
@@ -93,12 +184,17 @@ const Header = memo(() => {
                 <Link to="/promo">Акции</Link>
               </li>
             </ul>
-            {mainAffiliate && mainAffiliate?.phone[0] && (
-              <a href={"tel:" + mainAffiliate.phone[0]} className="phone">
-                <HiOutlineDevicePhoneMobile className="fs-12" />
-                <span className="ms-1">{mainAffiliate.phone[0]}</span>
-              </a>
-            )}
+            {mainAffiliate &&
+              mainAffiliate?.options?.phone &&
+              mainAffiliate?.options?.phone[0] && (
+                <a
+                  href={"tel:" + mainAffiliate.options.phone[0]}
+                  className="phone"
+                >
+                  <HiOutlineDevicePhoneMobile className="fs-12" />
+                  <span className="ms-1">{mainAffiliate.options.phone[0]}</span>
+                </a>
+              )}
 
             <ul className="icons-menu">
               <li className="d-none d-lg-block">
@@ -348,6 +444,54 @@ const Header = memo(() => {
           </Container>
         </Offcanvas.Body>
       </Offcanvas>
+      <Modal
+        size="xl"
+        centered
+        className="city"
+        show={showCity}
+        onHide={() => setShowCity(false)}
+      >
+        <Modal.Body className="p-4">
+          <img src="/logo.png" className="logo" />
+          <button
+            type="button"
+            className="btn-close close"
+            aria-label="Close"
+            onClick={() => setShowCity(false)}
+          ></button>
+          {affiliate?.length > 0 && (
+            <Row>
+              {affiliate.map((e, index) => (
+                <Col key={index}>
+                  <a
+                    onClick={() => {
+                      dispatch(
+                        setUser({
+                          ...user,
+                          options: {
+                            ...user.options,
+                            citySave: true,
+                            city: e.options.city,
+                          },
+                        })
+                      );
+                      setShowCity(false);
+                    }}
+                    className={
+                      "p-2 fw-6" +
+                      (e.options.city === defaultCityOptions?.city
+                        ? " active"
+                        : "")
+                    }
+                  >
+                    {e.options.city}
+                  </a>
+                </Col>
+              ))}
+            </Row>
+          )}
+        </Modal.Body>
+      </Modal>
       <ScrollToTop count={count} />
     </>
   );
