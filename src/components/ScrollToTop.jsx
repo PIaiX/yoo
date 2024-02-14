@@ -32,26 +32,28 @@ const ScrollToTop = memo(({ count = 0 }) => {
   });
 
   return (
-    <nav className={visible ? "sidebar" : "sidebar hide"}>
-      <ul>
-        <li className="d-none d-lg-block">
-          <Link to="/cart" className="position-relative">
-            <HiOutlineShoppingCart />
-            {count > 0 && <span className="badge">{count}</span>}
-          </Link>
-        </li>
-        <li className="d-none d-lg-block">
-          <Link to="/account/favorites">
-            <HiOutlineHeart />
-          </Link>
-        </li>
-        <li>
-          <button type="button" onClick={toTop}>
-            <HiOutlineChevronDoubleUp />
-          </button>
-        </li>
-      </ul>
-    </nav>
+    visible && (
+      <nav className={visible ? "sidebar" : "sidebar hide"}>
+        <ul>
+          <li className="d-none d-lg-block">
+            <Link to="/cart" className="position-relative">
+              <HiOutlineShoppingCart />
+              {count > 0 && <span className="badge">{count}</span>}
+            </Link>
+          </li>
+          <li className="d-none d-lg-block">
+            <Link to="/account/favorites">
+              <HiOutlineHeart />
+            </Link>
+          </li>
+          <li>
+            <button type="button" onClick={toTop}>
+              <HiOutlineChevronDoubleUp />
+            </button>
+          </li>
+        </ul>
+      </nav>
+    )
   );
 });
 

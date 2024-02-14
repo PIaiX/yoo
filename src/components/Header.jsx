@@ -62,14 +62,13 @@ const Header = memo(() => {
       : false;
 
   useEffect(() => {
-    if ("geolocation" in navigator) {
+    if (!defaultCityOptions?.city && "geolocation" in navigator) {
       navigator.geolocation.getCurrentPosition(async (position) => {
         if (
           position?.coords?.latitude &&
           position?.coords?.longitude &&
           DADATA_TOKEN &&
-          DADATA_URL_GEO &&
-          !defaultCityOptions?.city
+          DADATA_URL_GEO
         ) {
           let geo = await axios.post(
             DADATA_URL_GEO,
@@ -85,16 +84,27 @@ const Header = memo(() => {
               },
             }
           );
-          if (geo?.data?.suggestions && geo?.data?.suggestions[0]?.data?.city) {
-            dispatch(
-              setUser({
-                ...user,
-                options: {
-                  ...user.options,
-                  city: geo.data.suggestions[0].data.city,
-                },
-              })
+          if (
+            geo?.data?.suggestions &&
+            geo?.data?.suggestions[0]?.data?.city &&
+            affiliate?.length > 0
+          ) {
+            let city = affiliate.find(
+              (e) =>
+                e.options.city.toLowerCase() ===
+                geo.data.suggestions[0].data.city.toLowerCase()
             );
+            if (city) {
+              dispatch(
+                setUser({
+                  ...user,
+                  options: {
+                    ...user.options,
+                    city: city.options.city,
+                  },
+                })
+              );
+            }
           }
         }
       });
@@ -153,6 +163,8 @@ const Header = memo(() => {
                   </div>
                 )}
               </li>
+            </ul>
+            <ul className="text-menu d-none d-lg-flex">
               <li>
                 <Select
                   data={[
@@ -169,8 +181,6 @@ const Header = memo(() => {
                   onClick={(e) => dispatch(editDeliveryCheckout(e.value))}
                 />
               </li>
-            </ul>
-            <ul className="text-menu d-none d-lg-flex">
               <li>
                 <Link to="/">Меню</Link>
               </li>
@@ -342,7 +352,21 @@ const Header = memo(() => {
                     className="menu-offer"
                   />
                 )}
-
+                <Select
+                  className="my-3"
+                  data={[
+                    {
+                      value: "delivery",
+                      title: "Доставка",
+                    },
+                    {
+                      value: "pickup",
+                      title: "Самовывоз",
+                    },
+                  ]}
+                  value={delivery}
+                  onClick={(e) => dispatch(editDeliveryCheckout(e.value))}
+                />
                 <nav>
                   <ul>
                     <li>
