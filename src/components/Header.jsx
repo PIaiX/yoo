@@ -62,7 +62,11 @@ const Header = memo(() => {
       : false;
 
   useEffect(() => {
-    if (!defaultCityOptions?.city && "geolocation" in navigator) {
+    if (
+      affiliate?.length > 1 &&
+      !defaultCityOptions?.city &&
+      "geolocation" in navigator
+    ) {
       navigator.geolocation.getCurrentPosition(async (position) => {
         if (
           position?.coords?.latitude &&
@@ -128,8 +132,13 @@ const Header = memo(() => {
             </Link>
             <ul className="text-menu">
               <li>
-                <Link onClick={() => setShowCity(true)} className="main-color">
-                  {defaultCityOptions?.city ?? "Выберите город"}
+                <Link
+                  onClick={() => affiliate?.length > 1 && setShowCity(true)}
+                  className="main-color"
+                >
+                  {affiliate?.length > 1
+                    ? defaultCityOptions?.city ?? "Выберите город"
+                    : mainAffiliate?.options?.city ?? ""}
                 </Link>
                 {!defaultCityOptions?.citySave && defaultCityOptions?.city && (
                   <div className="no-city">

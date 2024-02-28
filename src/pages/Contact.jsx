@@ -19,7 +19,7 @@ const Contact = () => {
     affiliate?.length > 0 ? affiliate.find((e) => e.main) : false
   );
 
-  if (!mainAffiliate || !mainAffiliate?.phone?.length > 0) {
+  if (!mainAffiliate) {
     return (
       <Empty
         text="В данный момент контактов нет"
@@ -56,7 +56,7 @@ const Contact = () => {
                 </div>
 
                 <h6 className="mb-3">{mainAffiliate.full}</h6>
-                {mainAffiliate?.phone[0] && (
+                {mainAffiliate?.phone && mainAffiliate?.phone[0] && (
                   <>
                     <p className="mb-3">
                       <a
@@ -94,35 +94,38 @@ const Contact = () => {
                 )}
 
                 <ul className="list-unstyled mt-4">
-                  {affiliate.map((e) => (
-                    <li>
-                      <a onClick={() => setMainAffiliate(e)}>
-                        <h6 className="mb-2">{e.full}</h6>
-                        <p className="main-color mt-2 mb-1">
-                          Доставка и самовывоз
-                        </p>
-                        <p className="mb-3">
-                          {e?.options?.work &&
-                          e.options.work[moment().weekday()]?.start &&
-                          e.options.work[moment().weekday()]?.end
-                            ? `Работает с ${
-                                e.options.work[moment().weekday()].start
-                              } до ${e.options.work[moment().weekday()].end}`
-                            : ""}
-                        </p>
+                  {affiliate?.length > 0 &&
+                    affiliate.map((e) => (
+                      <li>
+                        <a onClick={() => setMainAffiliate(e)}>
+                          <h6 className="mb-2">{e.full}</h6>
+                          <p className="main-color mt-2 mb-1">
+                            Доставка и самовывоз
+                          </p>
+                          <p className="mb-3">
+                            {e?.options?.work &&
+                            e.options.work[moment().weekday()]?.start &&
+                            e.options.work[moment().weekday()]?.end
+                              ? `Работает с ${
+                                  e.options.work[moment().weekday()].start
+                                } до ${e.options.work[moment().weekday()].end}`
+                              : ""}
+                          </p>
 
-                        {e?.phone[0] && (
-                          <>
-                            <p className="main-color mt-2 mb-1">
-                              Номер телефона
-                            </p>
-                            <p className="mb-3">{e.phone[0]}</p>
-                          </>
+                          {e?.phone && e?.phone[0] && (
+                            <>
+                              <p className="main-color mt-2 mb-1">
+                                Номер телефона
+                              </p>
+                              <p className="mb-3">{e.phone[0]}</p>
+                            </>
+                          )}
+                        </a>
+                        {e?.desc && (
+                          <p className="white-space-break">{e.desc}</p>
                         )}
-                      </a>
-                      {e?.desc && <p className="white-space-break">{e.desc}</p>}
-                    </li>
-                  ))}
+                      </li>
+                    ))}
                 </ul>
               </div>
             </Col>
@@ -170,7 +173,7 @@ const Contact = () => {
                       {zones?.length > 0 &&
                         zones.map((e) => {
                           const geodata =
-                            e.data.length > 0
+                            e?.data?.length > 0
                               ? e.data.map((geo) => [geo[1], geo[0]])
                               : false;
 

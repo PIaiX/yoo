@@ -1,5 +1,5 @@
-const API_TOKEN = "9orw88ykz2w6pw8wlox4rt8qkom6yxe98akwi";
-const DOMAIN = "mashaspies.yooapp.online";
+const API_TOKEN = "igaoyeaheifoaspgisdjgasjdglkjsapogj9219";
+const DOMAIN = "telon.yooapp.online";
 const SITE_URL = "https://yooapp.ru";
 const BASE_URL = "https://api.yooapp.ru";
 const ADMIN_URL = "https://admin.yooapp.ru";
