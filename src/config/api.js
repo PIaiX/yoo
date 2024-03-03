@@ -1,5 +1,5 @@
-const API_TOKEN = "igaoyeaheifoaspgisdjgasjdglkjsapogj9219";
-const DOMAIN = "telon.yooapp.online";
+const API_TOKEN = "nuuxbuuc3s766e87ekzo35dqpi6imzmtr9f9c";
+const DOMAIN = "refettorio.yooapp.online";
 const SITE_URL = "https://yooapp.ru";
 const BASE_URL = "https://api.yooapp.ru";
 const ADMIN_URL = "https://admin.yooapp.ru";
@@ -68,6 +68,8 @@ const apiRoutes = {
   PRODUCT_RECOMMENDATIONS: '/product/recommendations',
   PRODUCT_GIFTS: '/product/gifts',
   PRODUCT_FREE: '/product/free',
+
+  HOME: SERVICE_CATALOG + '/home',
 
   // cart
   CART: SERVICE_CART,

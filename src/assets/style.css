@@ -8,9 +8,6 @@ html {
 :root {
   --h-height: 70px;
   --f-height: 112px;
-  --main-color: #222;
-  --main-color-outline: #22222223;
-  --main-color-active: #22222223;
 }
 @media (max-width: 991.98px) {
   :root {
@@ -28,6 +25,36 @@ html {
     --h-height: 60px;
     --f-height: 60px;
   }
+}
+
+:root[data-theme=light] {
+  --main-color: #222;
+  --main-color-outline: #22222223;
+  --main-color-active: #22222223;
+  --font-color: #111;
+  --bs-secondary-color: #444;
+  --bg-main: #fff;
+  --bg-btn: #c5c4c4;
+  --bg-second: #fbfbfb;
+  --hr-color: #2b2831;
+  --gray: #727272;
+  --light-gray: #1e1e1e;
+  --divider: #121212;
+}
+
+:root[data-theme=dark] {
+  --main-color: #222;
+  --main-color-outline: #22222223;
+  --main-color-active: #22222223;
+  --font-color: #fff;
+  --bs-secondary-color: #777;
+  --bg-main: #131313;
+  --bg-btn: #333;
+  --bg-second: #222;
+  --hr-color: #2b2831;
+  --gray: #727272;
+  --light-gray: #1e1e1e;
+  --divider: #121212;
 }
 
 /* mixins */
@@ -309,8 +336,9 @@ h6 {
 input,
 textarea,
 .input {
-  background-color: #fff;
-  border: 1px solid #f4f6f8;
+  background-color: var(--bg-main);
+  border: 1px solid var(--bg-second);
+  color: var(--font-color);
   border-radius: 0.625em;
   padding: 0.7em 1.2em;
   width: 100%;
@@ -336,7 +364,7 @@ textarea:active,
 .input:hover,
 .input:focus,
 .input:active {
-  border: 1px solid #c2c2c2;
+  border: 1px solid var(--gray);
 }
 
 .error input {
@@ -756,9 +784,9 @@ button {
   border: 1px solid var(--main-color-outline);
 }
 .btn-8 {
-  background-color: #fff;
+  background-color: var(--bg-btn);
   box-shadow: 0px 2px 20px rgba(0, 0, 0, 0.04);
-  color: #212b36;
+  color: var(--font-color);
 }
 @media (max-width: 991.98px) {
   .btn-8 {
@@ -837,9 +865,9 @@ button {
   border: 1px solid #e01e00;
 }
 .btn[disabled], [disabled].btn-primary, [disabled].btn-10, [disabled].btn-2, [disabled].btn-secondary, [disabled].btn-30, [disabled].btn-4, [disabled].btn-white, [disabled].btn-40, [disabled].btn-green, [disabled].btn-deepgreen, [disabled].btn-6, [disabled].btn-light-outline, [disabled].btn-light, [disabled].btn-8, [disabled].btn-9, [disabled].btn-90, [disabled].btn-99, [disabled].btn-orange, [disabled].btn-red {
-  background-color: #f4f6f8;
-  border: 1px solid #f4f6f8;
-  color: #373737;
+  background-color: var(--bg-btn);
+  border: 1px solid var(--bg-btn);
+  color: var(--bs-secondary-color);
   cursor: pointer;
   pointer-events: none;
 }
@@ -978,7 +1006,6 @@ select {
   padding-left: 0px;
   min-width: 160px;
   width: 100%;
-  background-color: #fff;
   box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.06);
   border-radius: 0.625em;
   border: none;
@@ -1344,7 +1371,8 @@ body {
   -moz-osx-font-smoothing: grayscale;
   font-size: 16px;
   font-weight: 400;
-  color: #212b36;
+  color: var(--font-color);
+  background: var(--bg-main);
   overflow-x: hidden;
 }
 @media (max-width: 1199.98px) {
@@ -1358,7 +1386,7 @@ header {
 }
 @media (max-width: 991.98px) {
   header {
-    background-color: #fff;
+    background-color: var(--bg-second);
     position: fixed;
     top: 0px;
     left: 0px;
@@ -1372,7 +1400,7 @@ header {
 }
 header nav {
   --pad: 40px;
-  background-color: #fff;
+  background-color: var(--bg-second);
   padding: 0px var(--pad);
   box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.06);
   border-radius: 0px 0px 1.25em 1.25em;
@@ -1575,6 +1603,11 @@ header .btn-menu:hover, header .btn-menu:focus, header .btn-menu:active {
     width: 1em;
     height: 1.25em;
   }
+}
+
+.offcanvas {
+  background-color: var(--bg-main) !important;
+  color: var(--font-color) !important;
 }
 
 .offcanvas-app {
@@ -2098,7 +2131,7 @@ main {
   width: 100%;
   padding: 0.5em 0.75em;
   box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.06);
-  background-color: #fff;
+  background-color: var(--bg-second);
   border-radius: 1.25em;
   display: flex;
   flex-direction: row;
@@ -2168,7 +2201,7 @@ main {
   right: 0px;
 }
 .categories-slider .swiper-button svg, .categories-slider .swiper-button-prev svg, .categories-slider .swiper-button-next svg {
-  fill: #fff;
+  fill: var(--bg-second);
 }
 .categories-slider-disabled .swiper-wrapper {
   flex-wrap: wrap;
@@ -2208,7 +2241,7 @@ main {
 .CategoryGroup:not(:last-child) {
   padding-bottom: 3em;
   margin-bottom: 4em;
-  border-bottom: 1px solid rgba(194, 194, 194, 0.5);
+  border-bottom: 1px solid var(--bg-second);
 }
 
 .filter-line {
@@ -2492,7 +2525,7 @@ main {
   height: 2.4em;
 }
 .product hr {
-  background-color: #f4f6f8;
+  background-color: var(--bg-second);
   height: 1px;
   border: none;
   opacity: 1;
@@ -3244,12 +3277,11 @@ main {
 
 footer {
   height: var(--f-height);
-  background-color: #212b36;
-  color: #fff;
+  background-color: var(--bg-second);
 }
 @media (max-width: 991.98px) {
   footer {
-    background-color: #fff;
+    background-color: var(--bg-second);
     box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.06);
     position: fixed;
     bottom: -1px;
@@ -3268,7 +3300,7 @@ footer .desktop {
   flex-wrap: nowrap;
 }
 footer .desktop .logo {
-  width: 60px;
+  width: 120px;
 }
 @media (max-width: 1199.98px) {
   footer .desktop .logo {
@@ -3309,11 +3341,11 @@ footer .mobile ul li a {
 footer .mobile ul li a svg {
   width: 1.6em !important;
   height: 1.6em !important;
-  color: #373737;
+  color: var(--font-color);
   transition: color 300ms ease-in;
 }
 footer .mobile ul li a .text {
-  color: #fff;
+  color: var(--font-color);
   overflow: hidden;
   max-width: 0px;
   transition: max-width 300ms ease-in;
@@ -4309,7 +4341,7 @@ ACCOUNT
   }
 }
 .login-forms form {
-  background-color: #fff;
+  background-color: var(--bg-second);
   border-radius: 1.25em;
   box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.06);
   padding: 2em;
@@ -4520,7 +4552,7 @@ ACCOUNT END
   top: 50%;
   right: 0px;
   transform: translateY(-50%);
-  background-color: #f4f6f8;
+  background-color: var(--bg-second);
   border-radius: 0.75em 0px 0px 0.75em;
   padding: 0.35em;
   opacity: 1;
@@ -4552,7 +4584,7 @@ ACCOUNT END
 }
 @media (min-width: 991.98px) {
   .sidebar ul li:not(:first-child) {
-    border-top: 1px solid #c2c2c2;
+    border-top: 1px solid var(--bg-btn);
   }
 }
 .sidebar ul li a,
@@ -4631,7 +4663,7 @@ ACCOUNT END
 }
 
 .dropdown > a {
-  border: 1px solid #ddd;
+  border: 1px solid var(--gray);
   border-radius: 12px;
   padding: 8px 15px;
   min-height: 40px;

@@ -5,7 +5,7 @@ import { Link, NavLink } from "react-router-dom";
 import AppStore from "../assets/imgs/appstore.svg";
 import GooglePlay from "../assets/imgs/googleplay.svg";
 import LogoTextWhite from "../assets/imgs/logo-text-white.svg";
-import { getCount } from "../helpers/all";
+import { getCount, getImageURL } from "../helpers/all";
 import CartIcon from "./svgs/CartIcon";
 import FlameIcon from "./svgs/FlameIcon";
 import HomeIcon from "./svgs/HomeIcon";
@@ -71,11 +71,18 @@ const Footer = memo(() => {
         </nav>
         <div className="desktop d-none d-lg-flex">
           <img
-            src="/logo.png"
+            src={
+              options?.logo
+                ? getImageURL({
+                    path: options.logo,
+                    type: "all/web/logo",
+                    size: "full",
+                  })
+                : "/logo.png"
+            }
             alt={options?.title ?? "YOOAPP"}
             className="logo"
           />
-
           <nav>
             <ul className="list-unstyled d-flex">
               <li className="me-4">

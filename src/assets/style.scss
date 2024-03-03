@@ -6,9 +6,7 @@ html {
 :root {
   --h-height: 70px;
   --f-height: 112px;
-  --main-color: #222;
-  --main-color-outline: #22222223;
-  --main-color-active: #22222223;
+
   @media (max-width: 991.98px) {
     --h-height: 60px;
     --f-height: 70px;
@@ -21,7 +19,35 @@ html {
     --f-height: 60px;
   }
 }
+:root[data-theme="light"] {
+  --main-color: #222;
+  --main-color-outline: #22222223;
+  --main-color-active: #22222223;
+  --font-color: #111;
+  --bs-secondary-color: #444;
+  --bg-main: #fff;
+  --bg-btn: #c5c4c4;
+  --bg-second: #fbfbfb;
+  --hr-color: #2b2831;
+  --gray: #727272;
+  --light-gray: #1e1e1e;
+  --divider: #121212;
+}
 
+:root[data-theme="dark"] {
+  --main-color: #222;
+  --main-color-outline: #22222223;
+  --main-color-active: #22222223;
+  --font-color: #fff;
+  --bs-secondary-color: #777;
+  --bg-main: #131313;
+  --bg-btn: #333;
+  --bg-second: #222;
+  --hr-color: #2b2831;
+  --gray: #727272;
+  --light-gray: #1e1e1e;
+  --divider: #121212;
+}
 $main-font: "Open Sans";
 $radius: 1.25em;
 $red: #e01e00;
@@ -403,8 +429,9 @@ h6 {
 input,
 textarea,
 .input {
-  background-color: $white;
-  border: 1px solid $light-gray;
+  background-color: var(--bg-main);
+  border: 1px solid var(--bg-second);
+  color: var(--font-color);
   border-radius: $radius * 0.5;
   padding: 0.7em 1.2em;
   width: 100%;
@@ -416,7 +443,7 @@ textarea,
   &:hover,
   &:focus,
   &:active {
-    border: 1px solid $gray;
+    border: 1px solid var(--gray);
   }
 }
 .error {
@@ -832,9 +859,9 @@ button {
   /* белая кнопка c тенью */
   &-8 {
     @extend .btn;
-    background-color: $white;
+    background-color: var(--bg-btn);
     @include lightShadow();
-    color: $black;
+    color: var(--font-color);
     @media (max-width: $bp-lg) {
       background-color: $light-gray;
     }
@@ -938,9 +965,9 @@ button {
     }
   }
   &[disabled] {
-    background-color: $light-gray;
-    border: 1px solid $light-gray;
-    color: $dark;
+    background-color: var(--bg-btn);
+    border: 1px solid var(--bg-btn);
+    color: var(--bs-secondary-color);
     cursor: pointer;
     pointer-events: none;
   }
@@ -1054,7 +1081,6 @@ select {
     @include list();
     min-width: 160px;
     width: 100%;
-    background-color: $white;
     @include shadow();
     border-radius: $radius * 0.5;
     border: none;
@@ -1379,7 +1405,8 @@ body {
   -moz-osx-font-smoothing: grayscale;
   font-size: 16px;
   font-weight: 400;
-  color: $black;
+  color: var(--font-color);
+  background: var(--bg-main);
   overflow-x: hidden;
   @media (max-width: $bp-xl) {
     font-size: 14px;
@@ -1389,7 +1416,7 @@ body {
 header {
   height: var(--h-height);
   @media (max-width: $bp-lg) {
-    background-color: $white;
+    background-color: var(--bg-second);
     position: fixed;
     top: 0px;
     left: 0px;
@@ -1406,7 +1433,7 @@ header {
   }
   nav {
     --pad: 40px;
-    background-color: $white;
+    background-color: var(--bg-second);
     padding: 0px var(--pad);
     @include shadow();
     border-radius: 0px 0px $radius $radius;
@@ -1564,6 +1591,10 @@ header {
     width: 1em;
     height: 1.25em;
   }
+}
+.offcanvas {
+  background-color: var(--bg-main) !important;
+  color: var(--font-color) !important;
 }
 .offcanvas-app {
   height: fit-content !important;
@@ -1985,7 +2016,7 @@ main {
   width: 100%;
   padding: 0.5em 0.75em;
   @include shadow();
-  background-color: $white;
+  background-color: var(--bg-second);
   border-radius: $radius;
   @include flex(row, space-between, center, nowrap);
   @media (max-width: $bp-lg) {
@@ -2034,7 +2065,7 @@ main {
         right: 0px;
       }
       svg {
-        fill: $white;
+        fill: var(--bg-second);
       }
     }
     &-disabled {
@@ -2071,7 +2102,7 @@ main {
   &:not(:last-child) {
     padding-bottom: 3em;
     margin-bottom: 4em;
-    border-bottom: 1px solid rgba($color: $gray, $alpha: 0.5);
+    border-bottom: 1px solid var(--bg-second);
   }
 }
 .filter-line {
@@ -2276,7 +2307,7 @@ main {
     @include clamp(2, 1.2em, true);
   }
   hr {
-    background-color: $light-gray;
+    background-color: var(--bg-second);
     height: 1px;
     border: none;
     opacity: 1;
@@ -2924,10 +2955,10 @@ main {
 
 footer {
   height: var(--f-height);
-  background-color: $black;
-  color: $white;
+  background-color: var(--bg-second);
+
   @media (max-width: $bp-lg) {
-    background-color: $white;
+    background-color: var(--bg-second);
     @include shadow();
     position: fixed;
     bottom: -1px;
@@ -2940,7 +2971,7 @@ footer {
     height: 100%;
     @include flex(row, space-between, center, nowrap);
     .logo {
-      width: 60px;
+      width: 120px;
       @media (max-width: $bp-xl) {
         width: 60px;
       }
@@ -2963,7 +2994,6 @@ footer {
           padding: 0.5em;
           border-radius: $radius * 0.5;
           background-color: transparent;
-
           max-width: 2.6em;
           height: 2.6em;
           overflow: hidden;
@@ -2972,11 +3002,11 @@ footer {
           svg {
             width: 1.6em !important;
             height: 1.6em !important;
-            color: $dark;
+            color: var(--font-color);
             transition: color $transition;
           }
           .text {
-            color: $white;
+            color: var(--font-color);
             // padding: 0 .5em;
             overflow: hidden;
             max-width: 0px;
@@ -3773,7 +3803,7 @@ ACCOUNT
       padding: 1em;
     }
     form {
-      background-color: $white;
+      background-color: var(--bg-second);
       border-radius: $radius;
       @include shadow();
       padding: 2em;
@@ -3981,7 +4011,7 @@ ACCOUNT END
   top: 50%;
   right: 0px;
   transform: translateY(-50%);
-  background-color: $light-gray;
+  background-color: var(--bg-second);
   border-radius: 0.75em 0px 0px 0.75em;
   padding: 0.35em;
   opacity: 1;
@@ -4003,7 +4033,7 @@ ACCOUNT END
       padding: 0.2em;
       @media (min-width: $bp-lg) {
         &:not(:first-child) {
-          border-top: 1px solid $gray;
+          border-top: 1px solid var(--bg-btn);
         }
       }
       a,
@@ -4067,7 +4097,7 @@ ACCOUNT END
 }
 .dropdown {
   & > a {
-    border: 1px solid #ddd;
+    border: 1px solid var(--gray);
     border-radius: 12px;
     padding: 8px 15px;
     min-height: 40px;

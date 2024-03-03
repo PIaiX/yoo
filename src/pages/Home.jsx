@@ -1,93 +1,53 @@
 import React from "react";
 import Container from "react-bootstrap/Container";
-import {
-  HiOutlineArrowLeftCircle,
-  HiOutlineArrowRightCircle,
-} from "react-icons/hi2";
 import { Link } from "react-router-dom";
 import AppStore from "../assets/imgs/appstore-black.svg";
 import GooglePlay from "../assets/imgs/googleplay-black.svg";
 import Phone from "../assets/imgs/phone.png";
 import Offer from "../components/Offer";
-// import ProductCardMini from "../components/ProductCardMini";
 import Catalog from "../components/Catalog";
-// import StoriesSection from "../components/StoriesSection";
 import { useSelector } from "react-redux";
-import { Navigation, Pagination } from "swiper";
+import { Pagination } from "swiper";
 import "swiper/css";
 import { Swiper, SwiperSlide } from "swiper/react";
-import Empty from "../components/Empty";
 import Meta from "../components/Meta";
-import EmptyCatalog from "../components/empty/catalog";
 import Loader from "../components/utils/Loader";
 import { getImageURL } from "../helpers/all";
-import {
-  useGetCategoriesQuery,
-  useGetSalesQuery,
-  useGetBannersQuery,
-} from "../services/home";
+import { useGetHomeQuery } from "../services/home";
 
 const Home = () => {
-  const banners = useGetBannersQuery();
-  const sales = useGetSalesQuery();
-  const categories = useGetCategoriesQuery();
+  const home = useGetHomeQuery();
   const options = useSelector((state) => state.settings.options);
 
-  if (categories.isLoading || sales.isLoading || banners.isLoading) {
+  if (home?.isLoading) {
     return <Loader full />;
   }
 
-  if (!Array.isArray(categories.data) || categories.data.length <= 0) {
-    return (
-      <Empty
-        text="Нет товаров"
-        desc="Временно товары отсуствуют"
-        image={() => <EmptyCatalog />}
-        button={
-          <a
-            className="btn-primary"
-            onClick={() => {
-              location.reload();
-              return false;
-            }}
-          >
-            Обновить страницу
-          </a>
-        }
-      />
-    );
-  }
   return (
     <main>
-      <Meta title="Главная" />
-      {banners?.data?.items?.length > 0 && (
-        <section className="sec-1 mb-5">
-          <div className="container-md gx-0 gx-md-4">
+      <Meta
+        title={options?.title ?? "Главная"}
+        description={options?.description}
+      />
+      {home?.data?.banners?.length > 0 && (
+        <section className="sec-1 mb-6">
+          <div className="container">
             <div className="row justify-content-center">
-              <div className="col-12 col-lg-11 col-xl-9 col-xxl-8">
+              <div className="col-12 col-md-11 col-lg-9 col-xl-8">
                 <Swiper
                   className="main-slider paginated"
-                  modules={[Navigation, Pagination]}
+                  modules={[Pagination]}
                   loop={true}
-                  spaceBetween={0}
+                  spaceBetween={15}
                   slidesPerView={1}
                   initialSlide={0}
                   loopedSlides={1}
                   centeredSlides={true}
                   speed={750}
-                  navigation={{
-                    nextEl: ".swiper-button-next",
-                    prevEl: ".swiper-button-prev",
-                  }}
                   pagination={{ clickable: true }}
-                  breakpoints={{
-                    768: {
-                      spaceBetween: 35,
-                    },
-                  }}
                 >
-                  {banners.data.items.map((e) => (
-                    <SwiperSlide>
+                  {home.data.banners.map((e, index) => (
+                    <SwiperSlide key={index}>
                       <Link>
                         <img
                           src={getImageURL({
@@ -101,26 +61,24 @@ const Home = () => {
                       </Link>
                     </SwiperSlide>
                   ))}
-                  <div className="swiper-button-prev">
-                    <HiOutlineArrowLeftCircle />
-                  </div>
-                  <div className="swiper-button-next">
-                    <HiOutlineArrowRightCircle />
-                  </div>
                 </Swiper>
               </div>
             </div>
           </div>
         </section>
       )}
+      {home?.data?.stories?.length > 0 && (
+        <section className="sec-2 mb-6">
+          <Container className="position-relative">
+            <StoriesSection data={home.data.stories} />
+          </Container>
+        </section>
+      )}
 
-      {/* <section className="sec-2 mb-5">
-        <div className="container-md px-0 px-md-4">
-          <StoriesSection />
-        </div>
-      </section> */}
+      {home?.data?.widgets?.length > 0 && <Widgets data={home.data.widgets} />}
 
-      <Catalog data={categories.data} />
+      {home?.data?.categories && <Catalog data={home.data.categories} />}
+
       {options?.appYes && (
         <Container className="overflow-hidden">
           <section className="sec-4 mb-5">
@@ -159,78 +117,36 @@ const Home = () => {
           </section>
         </Container>
       )}
-      {/* <section className="sec-5 d-none d-md-block mb-5">
-        <Container>
-          <h2>Часто заказывают</h2>
-          <Swiper
-            className="product-slider"
-            spaceBetween={10}
-            slidesPerView={"auto"}
-            speed={750}
-            breakpoints={{
-              576: {
-                spaceBetween: 20,
-              },
-            }}
-          >
-            <SwiperSlide>
-              <ProductCardMini />
-            </SwiperSlide>
-            <SwiperSlide>
-              <ProductCardMini />
-            </SwiperSlide>
-            <SwiperSlide>
-              <ProductCardMini />
-            </SwiperSlide>
-            <SwiperSlide>
-              <ProductCardMini />
-            </SwiperSlide>
-            <SwiperSlide>
-              <ProductCardMini />
-            </SwiperSlide>
-            <SwiperSlide>
-              <ProductCardMini />
-            </SwiperSlide>
-            <SwiperSlide>
-              <ProductCardMini />
-            </SwiperSlide>
-            <SwiperSlide>
-              <ProductCardMini />
-            </SwiperSlide>
-          </Swiper>
-        </Container>
-      </section> */}
-      {sales?.data?.items?.length > 0 && (
-        <section className="sec-6 mb-5">
+
+      {home?.data?.sales?.length > 0 && (
+        <section className="sec-6 mt-5 mb-5">
           <Container>
             <Swiper
               className="sw-offers"
-              spaceBetween={5}
+              spaceBetween={20}
               slidesPerView={"auto"}
               speed={750}
               breakpoints={{
                 576: {
                   slidesPerView: "auto",
-                  spaceBetween: 7,
                 },
                 768: {
                   slidesPerView: "auto",
-                  spaceBetween: 10,
                 },
                 992: {
                   slidesPerView: 3,
-                  spaceBetween: 10,
                 },
               }}
             >
-              {sales.data.items.map((e) => (
-                <SwiperSlide>
+              {home.data.sales.map((e, index) => (
+                <SwiperSlide key={index}>
                   <Offer data={e} />
                 </SwiperSlide>
               ))}
             </Swiper>
-            <Link to="/promo" className="btn-30 mt-4 mx-auto">
-              Все акции
+
+            <Link to="/promo" className="btn-primary mt-4 mt-sm-5 mx-auto">
+              Смотреть все акции
             </Link>
           </Container>
         </section>

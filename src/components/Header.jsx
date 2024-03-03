@@ -122,7 +122,15 @@ const Header = memo(() => {
           <nav className="h-100">
             <Link to="/">
               <img
-                src="/logo.png"
+                src={
+                  options?.logo
+                    ? getImageURL({
+                        path: options.logo,
+                        type: "all/web/logo",
+                        size: "full",
+                      })
+                    : "/logo.png"
+                }
                 alt={options?.title ?? "YOOAPP"}
                 className="logo"
               />
@@ -132,14 +140,16 @@ const Header = memo(() => {
             </Link>
             <ul className="text-menu">
               <li>
-                <Link
-                  onClick={() => affiliate?.length > 1 && setShowCity(true)}
-                  className="main-color"
-                >
-                  {affiliate?.length > 1
-                    ? defaultCityOptions?.city ?? "Выберите город"
-                    : mainAffiliate?.options?.city ?? ""}
-                </Link>
+                {affiliate.length > 0 && (
+                  <Link
+                    onClick={() => affiliate?.length > 1 && setShowCity(true)}
+                    className="main-color"
+                  >
+                    {affiliate?.length > 1
+                      ? defaultCityOptions?.city ?? "Выберите город"
+                      : mainAffiliate?.options?.city ?? ""}
+                  </Link>
+                )}
                 {!defaultCityOptions?.citySave && defaultCityOptions?.city && (
                   <div className="no-city">
                     <p className="mb-3">
@@ -190,18 +200,36 @@ const Header = memo(() => {
                   onClick={(e) => dispatch(editDeliveryCheckout(e.value))}
                 />
               </li>
-              <li>
-                <Link to="/">Меню</Link>
-              </li>
-              <li>
-                <Link to="/contact">Доставка и оплата</Link>
-              </li>
-              <li>
-                <Link to="/contact">Контакты</Link>
-              </li>
-              <li>
-                <Link to="/promo">Акции</Link>
-              </li>
+              {options?.menu?.length > 0 ? (
+                options.menu.map(
+                  (e) =>
+                    e?.status && (
+                      <li>
+                        <NavLink
+                          to={e?.link ?? e.page}
+                          // className={e.type == "dark" ? "btn-primary" : ""}
+                        >
+                          {e.title}
+                        </NavLink>
+                      </li>
+                    )
+                )
+              ) : (
+                <>
+                  <li>
+                    <Link to="/">Меню</Link>
+                  </li>
+                  <li>
+                    <Link to="/contact">Доставка и оплата</Link>
+                  </li>
+                  <li>
+                    <Link to="/contact">Контакты</Link>
+                  </li>
+                  <li>
+                    <Link to="/promo">Акции</Link>
+                  </li>
+                </>
+              )}
             </ul>
             {mainAffiliate &&
               mainAffiliate?.options?.phone &&
