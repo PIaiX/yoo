@@ -15,17 +15,17 @@ import BtnFav from "./utils/BtnFav";
 const ProductCard = memo(({ data }) => {
   const isAuth = useSelector((state) => state.auth.isAuth);
 
-  var price = data.price ?? 0;
-  if (Array.isArray(data.modifiers) && data?.modifiers?.length > 0) {
+  var price = data?.price ?? 0;
+  if (Array.isArray(data?.modifiers) && data?.modifiers?.length > 0) {
     var price = Math.min(...data.modifiers.map((item) => item.price));
   }
 
   return (
-    <div className="product" key={data.id}>
+    <div className="product" key={data?.id}>
       <div className="product-img">
-        <Link to={"/product/" + data.id}>
+        <Link to={"/product/" + data?.id}>
           <LazyLoadImage
-            src={getImageURL({ path: data.medias })}
+            src={getImageURL({ path: data?.medias })}
             alt={data.title}
             loading="lazy"
           />

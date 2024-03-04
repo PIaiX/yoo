@@ -1,0 +1,29 @@
+import React, { memo } from "react";
+import WidgetBlogs from "./widget/WidgetBlogs";
+import WidgetProjects from "./widget/WidgetProjects";
+import WidgetServices from "./widget/WidgetServices";
+import WidgetAbout from "./widget/WidgetAbout";
+import WidgetPopular from "./widget/WidgetPopular";
+import WidgetHello from "./widget/WidgetHello";
+
+const Widgets = memo(({ data }) => {
+  return data?.length > 0
+    ? data.map((e) =>
+        e.value == "services" ? (
+          <WidgetServices {...e} />
+        ) : e.value == "hello" ? (
+          <WidgetHello {...e} />
+        ) : e.value == "projects" ? (
+          <WidgetProjects {...e} />
+        ) : e.value == "about" ? (
+          <WidgetAbout {...e} />
+        ) : e.value == "popular" ? (
+          <WidgetPopular {...e} />
+        ) : e.value == "blogs" ? (
+          <WidgetBlogs {...e} />
+        ) : null
+      )
+    : null;
+});
+
+export default Widgets;

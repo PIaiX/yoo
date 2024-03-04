@@ -1229,10 +1229,12 @@ select {
     &-prev {
       @extend .swiper-button;
       left: 10px;
+      height: 100%;
     }
     &-next {
       @extend .swiper-button;
       right: 10px;
+      height: 100%;
     }
     &-disabled {
       opacity: 0;
@@ -1415,64 +1417,55 @@ body {
 
 header {
   height: var(--h-height);
+  --pad: 40px;
+  background-color: var(--bg-second);
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  z-index: 1050;
+  padding: 0px var(--pad);
+  @include shadow();
+  width: calc(100% + var(--pad) * 2);
+  margin-left: calc(var(--pad) * -1);
+  @include flex(row, space-between, center, nowrap);
+  @media (max-width: $bp-xl) {
+    --pad: 30px;
+  }
   @media (max-width: $bp-lg) {
-    background-color: var(--bg-second);
-    position: fixed;
-    top: 0px;
-    left: 0px;
-    width: 100%;
-    z-index: 1050;
-    @include shadow();
-    .select {
-      &-button-value {
-        span {
-          display: none;
-        }
-      }
-    }
+    --pad: 0px;
+    box-shadow: none;
+  }
+  svg {
+    stroke-width: 1px;
   }
   nav {
-    --pad: 40px;
-    background-color: var(--bg-second);
-    padding: 0px var(--pad);
-    @include shadow();
-    border-radius: 0px 0px $radius $radius;
-    width: calc(100% + var(--pad) * 2);
-    margin-left: calc(var(--pad) * -1);
-    @include flex(row, space-between, center, nowrap);
-    @media (max-width: $bp-xl) {
-      --pad: 30px;
-    }
-    @media (max-width: $bp-lg) {
-      --pad: 0px;
-      box-shadow: none;
-      border-radius: 0px;
-    }
-    svg {
-      stroke-width: 1px;
-    }
-    ul {
-      @include list();
-      @include flex();
-      &.text-menu {
-        li {
-          &:not(:first-child) {
-            margin-left: 2.5em;
-            @media (max-width: $bp-xxl) {
-              margin-left: 1.5em;
-            }
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  ul {
+    @include list();
+    @include flex();
+    &.text-menu {
+      li {
+        &:not(:first-child) {
+          margin-left: 2.5em;
+          @media (max-width: $bp-xxl) {
+            margin-left: 1.5em;
           }
         }
       }
-      &.icons-menu {
-        & > li {
-          &:not(:first-child) {
-            margin-left: 1.25em;
-          }
+    }
+    &.icons-menu {
+      & > li {
+        &:not(:first-child) {
+          margin-left: 1.25em;
         }
       }
     }
   }
+
   .logo {
     max-height: 60px;
     max-width: 200px;
@@ -1644,12 +1637,35 @@ header {
 main {
   min-height: calc(100vh - var(--h-height));
   padding: 3em 0px;
+  padding-top: var(--h-height);
   @media (max-width: $bp-lg) {
     min-height: 100vh;
     padding: var(--h-height) 0px calc(var(--f-height) + 30px);
   }
 }
-
+.hello {
+  min-height: 60vh;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  padding: 30px 10px;
+  align-items: center;
+  display: flex;
+  align-self: center;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  &-box {
+    max-width: 500px;
+    h1 {
+      font-size: 40px;
+      font-weight: bold;
+    }
+    p {
+      font-size: 18px;
+    }
+  }
+}
 .sec-1 {
   position: relative;
   overflow: hidden;
@@ -2971,9 +2987,9 @@ footer {
     height: 100%;
     @include flex(row, space-between, center, nowrap);
     .logo {
-      width: 120px;
+      width: 60px;
       @media (max-width: $bp-xl) {
-        width: 60px;
+        width: 120px;
       }
     }
     a {

@@ -14,6 +14,8 @@ import Meta from "../components/Meta";
 import Loader from "../components/utils/Loader";
 import { getImageURL } from "../helpers/all";
 import { useGetHomeQuery } from "../services/home";
+import Widgets from "../components/Widgets";
+import StoriesSection from "../components/StoriesSection";
 
 const Home = () => {
   const home = useGetHomeQuery();
