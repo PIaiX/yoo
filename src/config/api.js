@@ -61,6 +61,7 @@ const apiRoutes = {
   // category
   CATEGORY_ALL: SERVICE_CATALOG + '/categories',
   CATEGORY_ONE: SERVICE_CATALOG + '/category',
+  CATEGORIES_LIST: SERVICE_CATALOG + '/categoryList',
 
   // product
   PRODUCT: SERVICE_CATALOG + "/product",

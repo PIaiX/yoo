@@ -29,8 +29,8 @@ const Category = () => {
   }
 
   if (
-    !Array.isArray(category.item.products) ||
-    category.item.products.length <= 0
+    !Array.isArray(category.item.products.items) ||
+    category.item.products.items.length <= 0
   ) {
     return (
       <Empty

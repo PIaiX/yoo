@@ -128,10 +128,10 @@ const Product = () => {
                 <h1 className="mb-0">{product.item.title}</h1>
                 {product.item.energy.weight > 0 && (
                   <>
-                    <h6 className="gray mb-0 ms-3">
+                    <h6 className="text-muted mb-0 ms-3">
                       {customWeight(product.item.energy.weight)}
                     </h6>
-                    <HiOutlineInformationCircle className="dark-gray fs-15 ms-2" />
+                    {/* <HiOutlineInformationCircle className="dark-gray fs-15 ms-2" /> */}
                   </>
                 )}
               </div>
@@ -212,9 +212,11 @@ const Product = () => {
 
               <div className="productPage-price">
                 <div className="me-3">
-                  <div className="bg-gray py-2 px-3 rounded-pill">{customPrice(price)}</div>
+                  <div className="py-2 px-3 rounded-pill">
+                    {customPrice(price)}
+                  </div>
                   {discount > 0 && (
-                    <div className="gray fs-09 text-decoration-line-through">
+                    <div className="fs-09 text-decoration-line-through">
                       {customPrice(discount)}
                     </div>
                   )}

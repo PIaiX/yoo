@@ -1,4 +1,5 @@
 import React, { memo } from "react";
+import { Link } from "react-router-dom";
 import { getImageURL } from "../../helpers/all";
 
 const WidgetHello = memo((data) => {
@@ -20,9 +21,9 @@ const WidgetHello = memo((data) => {
         {data?.desc && <p>{data.desc}</p>}
         {data?.btnText && data?.btnLink && (
           <div className="d-flex mt-5 justify-content-center">
-            <a className="btn btn-40" href={data.btnLink}>
+            <Link className="btn btn-40" to={data.btnLink}>
               {data.btnText}
-            </a>
+            </Link>
           </div>
         )}
       </div>

@@ -55,7 +55,7 @@ const ProductCard = memo(({ data }) => {
 
       <div className="d-flex flex-column flex-md-row justify-content-between align-items-center">
         {data.energy.weight > 0 && (
-          <div className="gray d-none d-md-block">
+          <div className="text-muted d-none d-md-block">
             {customWeight(data.energy.weight)}
           </div>
         )}

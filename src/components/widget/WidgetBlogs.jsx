@@ -4,6 +4,7 @@ import "swiper/css";
 import { Swiper, SwiperSlide } from "swiper/react";
 import useIsMobile from "../../hooks/isMobile";
 import ArticleCard from "../ArticleCard";
+import { Link } from "react-router-dom";
 
 const WidgetBlogs = memo((data) => {
   const isMobileLG = useIsMobile("991px");
@@ -13,7 +14,14 @@ const WidgetBlogs = memo((data) => {
   return (
     <section className="sec-5 mb-6">
       <Container>
-        <h2>{data.title}</h2>
+        <div className="d-flex justify-content-between align-items-center mb-4">
+          <h2 className="mb-0">{data.title}</h2>
+          <div>
+            <Link to="/blogs" className="btn btn-sm btn-40">
+              Все новости
+            </Link>
+          </div>
+        </div>
         {!isMobileLG && (
           <Row className="gx-4 gy-5">
             {data.items.map((e) => {

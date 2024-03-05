@@ -11,7 +11,7 @@ import Row from "react-bootstrap/Row";
 import { useForm, useWatch } from "react-hook-form";
 import { NotificationManager } from "react-notifications";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, redirect, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import CheckoutProduct from "../components/CheckoutProduct";
 import Empty from "../components/Empty";
 import EmptyAddresses from "../components/empty/addresses";

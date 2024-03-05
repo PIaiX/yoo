@@ -1259,6 +1259,10 @@ select {
   margin-bottom: 2em;
   padding-right: 8em;
 }
+.notice p {
+  color: #222;
+  font-weight: 500;
+}
 @media (max-width: 575.98px) {
   .notice {
     margin-bottom: 1em;
@@ -1741,7 +1745,7 @@ main {
 }
 
 .hello {
-  min-height: 60vh;
+  min-height: 70vh;
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -1790,7 +1794,7 @@ main {
 }
 
 .sec-2 {
-  --w: 150px;
+  --w: 130px;
 }
 @media (max-width: 767.98px) {
   .sec-2 {
@@ -1799,7 +1803,7 @@ main {
 }
 @media (max-width: 575.98px) {
   .sec-2 {
-    --w: 90px;
+    --w: 80px;
   }
 }
 .sec-2 .swiper-stories .swiper-slide {

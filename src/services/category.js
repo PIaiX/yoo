@@ -11,4 +11,9 @@ const getCategories = async () => {
   return response?.data;
 };
 
-export { getCategory, getCategories };
+const getCategoriesList = async () => {
+  const response = await $api.get(apiRoutes.CATEGORIES_LIST);
+  return response?.data;
+};
+
+export { getCategory, getCategories, getCategoriesList };

@@ -35,7 +35,7 @@ const WidgetSales = memo((data) => {
           ))}
         </Swiper>
 
-        <Link to="/promo" className="btn-primary mt-4 mt-sm-5 mx-auto">
+        <Link to="/promo" className="btn btn-40 mt-4 mt-sm-5 mx-auto">
           Смотреть все акции
         </Link>
       </Container>

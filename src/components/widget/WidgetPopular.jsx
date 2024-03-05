@@ -4,6 +4,7 @@ import { FreeMode, Navigation } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
 import Empty from "../Empty";
 import ProductCardMini from "../ProductCardMini";
+import { Link } from "react-router-dom";
 
 const WidgetPopular = memo((data) => {
   if (!data?.items || data?.items?.length === 0) {
@@ -12,7 +13,14 @@ const WidgetPopular = memo((data) => {
   return (
     <section className="mb-6">
       <Container>
-        <h2>{data.title}</h2>
+        <div className="d-flex justify-content-between align-items-center mb-4">
+          <h2 className="mb-0">{data.title}</h2>
+          <div>
+            <Link to="/categories" className="btn btn-sm btn-40">
+              В меню
+            </Link>
+          </div>
+        </div>
         {data?.items?.length > 0 ? (
           <Swiper
             className="product-slider"

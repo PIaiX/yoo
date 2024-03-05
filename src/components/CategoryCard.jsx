@@ -1,13 +1,17 @@
 import React, { memo } from "react";
 import { Link } from "react-router-dom";
+import { getImageURL } from "../helpers/all";
 
 const CategoryCard = memo(({ data }) => {
+  const image = data?.media
+    ? getImageURL({ path: data.media, type: "category" })
+    : false;
   return (
     <figure className="category-card">
-      <img src="imgs/img2.png" alt="Роллы" />
+      {image && <img src={image} alt={data.title} />}
       <figcaption>
         <h6>
-          <Link to="/menu" className="stretched-link">
+          <Link to={`/category/${data.id}`} className="stretched-link">
             {data.title}
           </Link>
         </h6>

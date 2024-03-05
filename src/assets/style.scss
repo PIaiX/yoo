@@ -1292,6 +1292,10 @@ select {
   background-color: $yellow;
   border-radius: $radius;
   padding: 2em;
+  p {
+    color: #222;
+    font-weight: 500;
+  }
   @include shadow();
   position: relative;
   margin-top: 0.5em;
@@ -1689,7 +1693,7 @@ main {
   }
 }
 .hello {
-  min-height: 60vh;
+  min-height: 70vh;
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -1734,12 +1738,12 @@ main {
 }
 
 .sec-2 {
-  --w: 150px;
+  --w: 130px;
   @media (max-width: $bp-md) {
     position: relative;
   }
   @media (max-width: $bp-sm) {
-    --w: 90px;
+    --w: 80px;
   }
   .swiper-stories {
     .swiper-slide {
