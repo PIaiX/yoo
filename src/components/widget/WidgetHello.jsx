@@ -4,7 +4,7 @@ import { getImageURL } from "../../helpers/all";
 const WidgetHello = memo((data) => {
   return (
     <section
-      className="hello mb-5"
+      className="hello mb-6"
       style={
         data.media && {
           backgroundImage: `url(${getImageURL({

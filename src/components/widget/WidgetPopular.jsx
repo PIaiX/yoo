@@ -4,38 +4,32 @@ import { FreeMode, Navigation } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
 import Empty from "../Empty";
 import ProductCardMini from "../ProductCardMini";
-import {
-  HiOutlineArrowRightCircle,
-  HiOutlineArrowLeftCircle,
-  HiXMark,
-} from "react-icons/hi2";
 
 const WidgetPopular = memo((data) => {
+  if (!data?.items || data?.items?.length === 0) {
+    return null;
+  }
   return (
-    <section className="sec-catalog mb-6">
+    <section className="mb-6">
       <Container>
-        <h2 className="text-center">{data.title}</h2>
+        <h2>{data.title}</h2>
         {data?.items?.length > 0 ? (
           <Swiper
-            className="swiper-stories"
+            className="product-slider"
             modules={[Navigation, FreeMode]}
             speed={750}
             spaceBetween={10}
-            slidesPerView={3}
+            slidesPerView={"auto"}
             freeMode={true}
-            navigation={{
-              nextEl: ".swiper-button-next",
-              prevEl: ".swiper-button-prev",
-            }}
             breakpoints={{
               576: {
-                spaceBetween: 15,
+                slidesPerView: "auto",
               },
               768: {
-                spaceBetween: 30,
+                slidesPerView: "auto",
               },
-              1200: {
-                spaceBetween: 50,
+              992: {
+                slidesPerView: 3,
               },
             }}
           >
@@ -46,12 +40,6 @@ const WidgetPopular = memo((data) => {
                 </SwiperSlide>
               );
             })}
-            <div className="swiper-button-prev">
-              <HiOutlineArrowLeftCircle />
-            </div>
-            <div className="swiper-button-next">
-              <HiOutlineArrowRightCircle />
-            </div>
           </Swiper>
         ) : (
           <Empty mini text="Ничего нет" />

@@ -41,7 +41,7 @@ const convert = (value) => (value > 0 && value < 1 ? Math.round(Number(value) * 
 
 const customWeight = (value) => {
   if (!value) {
-    return 0;
+    return null;
   }
 
   value = convert(value);

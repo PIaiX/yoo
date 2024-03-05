@@ -92,6 +92,10 @@ const apiRoutes = {
   SALE_GET: '/sale/one',
   GIFTS_GET: '/sale/gifts',
 
+  // Blog
+  BLOGS: '/blog',
+  BLOG: '/blog/one',
+
   // Banner
   BANNERS: '/banner',
   BANNER: '/banner/one',

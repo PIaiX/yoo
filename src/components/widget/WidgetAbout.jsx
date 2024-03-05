@@ -4,7 +4,7 @@ import { getImageURL } from "../../helpers/all";
 
 const WidgetAbout = memo((data) => {
   return (
-    <section className="mb-5">
+    <section className="mb-6">
       <Container>
         <Row className="align-items-center">
           <Col md={6}>

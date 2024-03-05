@@ -15,7 +15,9 @@ import Categories from "./Categories";
 
 const Catalog = memo(({ data }) => {
   const [viewCategories, setViewCategories] = useState(false);
-
+  if (!data || data?.length === 0) {
+    return null;
+  }
   return (
     <section className="sec-3 mb-5">
       {viewCategories ? (

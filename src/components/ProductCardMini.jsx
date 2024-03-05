@@ -13,24 +13,23 @@ const ProductCardMini = memo(({ data }) => {
   const image = getImageURL({
     path: data.medias,
     type: "product",
-    size: "full",
   });
+
   return (
     <figure className="product-card-mini">
-      <Link to="/product">
+      <Link to={"/product/" + data?.id}>
         <LazyLoadImage src={image} alt={data.title} loading="lazy" />
       </Link>
       <figcaption>
         <div>
-          <h6>
-            <Link to="/product">{data.title}</Link>
+          <h6 className="mb-2">
+            <Link to={"/product/" + data?.id}>{data.title}</Link>
           </h6>
-          <p className="d-none d-lg-block gray">
+          <p className="text-muted d-none d-lg-block">
             {customWeight(data.energy.weight)}
           </p>
         </div>
-        <div className="d-flex justify-content-between align-items-center">
-          <p className="d-lg-none gray">{customWeight(data.energy.weight)}</p>
+        <div className="d-flex justify-content-md-between justify-content-center align-items-center">
           <p className="d-none d-lg-block fw-6">
             {data?.modifiers?.length > 0
               ? "от " + customPrice(price)

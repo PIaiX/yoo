@@ -5,6 +5,8 @@ import WidgetServices from "./widget/WidgetServices";
 import WidgetAbout from "./widget/WidgetAbout";
 import WidgetPopular from "./widget/WidgetPopular";
 import WidgetHello from "./widget/WidgetHello";
+import WidgetStories from "./widget/WidgetStories";
+import WidgetSales from "./widget/WidgetSales";
 
 const Widgets = memo(({ data }) => {
   return data?.length > 0
@@ -13,6 +15,8 @@ const Widgets = memo(({ data }) => {
           <WidgetServices {...e} />
         ) : e.value == "hello" ? (
           <WidgetHello {...e} />
+        ) : e.value == "stories" ? (
+          <WidgetStories {...e} />
         ) : e.value == "projects" ? (
           <WidgetProjects {...e} />
         ) : e.value == "about" ? (
@@ -21,6 +25,8 @@ const Widgets = memo(({ data }) => {
           <WidgetPopular {...e} />
         ) : e.value == "blogs" ? (
           <WidgetBlogs {...e} />
+        ) : e.value == "sales" ? (
+          <WidgetSales {...e} />
         ) : null
       )
     : null;

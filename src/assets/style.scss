@@ -55,12 +55,10 @@ $orange: #ff9d17;
 $green: #00ab55;
 $yellow: #fef8be;
 $black: #212b36;
-$dark: #373737;
+$dark: #3f3f3f;
 $dark-gray: #ddd;
 $gray: #c2c2c2;
 $grayish: #ebebeb;
-$light-gray: #f4f6f8;
-$white: #fff;
 $transition: 300ms ease-in;
 
 $bp-sm: 575.98px;
@@ -152,12 +150,12 @@ $bp-xxl: 1399.98px;
   box-shadow: 0px 2px 20px rgba(0, 0, 0, 0.04);
 }
 @mixin scrollCustomized {
-  scrollbar-color: $light-gray transparent;
+  scrollbar-color: var(--bg-btn) transparent;
   scrollbar-width: thin;
   &::-webkit-scrollbar {
     width: 5px;
     height: 5px;
-    background-color: $white;
+    background-color: var(--bg-second);
     @include shadow();
     &:hover,
     &:active {
@@ -231,7 +229,7 @@ address {
   flex: 1;
 }
 .border-top {
-  border-color: $light-gray !important;
+  border-color: var(--bg-btn) !important;
 }
 .w {
   &-xs-100 {
@@ -255,7 +253,7 @@ address {
   }
 }
 hr {
-  background-color: $gray;
+  background-color: var(--light-gray);
   height: 0.5px;
   width: 100%;
   border: none;
@@ -392,7 +390,7 @@ h6 {
   }
 }
 .white {
-  color: $white;
+  color: #fff;
 }
 .black {
   color: $black;
@@ -401,7 +399,7 @@ h6 {
   color: $dark;
 }
 .gray {
-  color: $gray;
+  color: var(--light-gray);
 }
 .red {
   color: $red;
@@ -456,15 +454,15 @@ input {
     @include no-appearance;
     width: $radius;
     height: $radius;
-    border: 1px solid var(--main-color);
-    background-color: $white;
-    background-image: url(imgs/mark.svg);
+    border: 1px solid var(--bg-btn);
+    background-color: var(--bg-second);
     background-repeat: no-repeat;
     background-size: contain;
     background-position: center;
     border-radius: calc($radius * 0.25);
     box-shadow: none;
     &:checked {
+      background-image: url(imgs/mark.svg);
       background-color: var(--main-color);
       border: 1px solid var(--main-color);
     }
@@ -472,7 +470,7 @@ input {
       cursor: pointer;
       width: $radius * 2.75;
       height: $radius * 1.45;
-      background-color: $gray;
+      background-color: var(--light-gray);
       border: none;
       border-radius: $radius;
       background-image: none;
@@ -484,7 +482,7 @@ input {
         top: $radius * 0.1;
         height: $radius * 1.25;
         width: $radius * 1.25;
-        background-color: $white;
+        background-color: var(--bg-second);
         border-radius: 50%;
         transition: left $transition;
       }
@@ -501,7 +499,7 @@ input {
     width: $radius;
     height: $radius;
     border: 1px solid var(--main-color);
-    background-color: $white;
+    background-color: var(--bg-second);
     border-radius: 50%;
     box-shadow: none;
     transition: background-color $transition;
@@ -544,7 +542,7 @@ input {
     top: 0px;
     right: 0px;
     z-index: 5;
-    color: $gray;
+    color: var(--light-gray);
     height: 100%;
     width: 2em;
     font-size: 1.6em;
@@ -561,7 +559,7 @@ input {
   @include list();
   @include flex(row, flex-start, center, nowrap);
   width: fit-content;
-  background-color: $light-gray;
+  background-color: var(--bg-btn);
   padding: 0.5em;
   border-radius: 0.75em;
   @media (max-width: $bp-md) {
@@ -581,7 +579,7 @@ input {
     input {
       display: none;
       &:checked + .text {
-        background-color: $white;
+        background-color: var(--bg-second);
       }
     }
   }
@@ -600,7 +598,7 @@ input {
         left: 0%;
         height: 80%;
         width: 0.5px;
-        background-color: $gray;
+        background-color: var(--light-gray);
       }
     }
     &:first-child {
@@ -623,9 +621,12 @@ input {
 }
 .countInput {
   width: fit-content;
-  padding: 0.5em 0;
-  &.full {
-    padding: 0.8em 0;
+  svg {
+    color: var(--font-color);
+  }
+  padding: 0.6em 0;
+  @media (max-width: $bp-sm) {
+    padding: 0.35em 0;
   }
   @include flex();
   @media (max-width: $bp-xl) {
@@ -648,12 +649,12 @@ input {
   }
   button {
     padding: 0.3em;
-    background-color: $white;
-    border: 1px solid $light-gray;
+    background-color: var(--bg-second);
+    border: 1px solid var(--bg-btn);
     border-radius: $radius;
-    color: $gray;
-    height: $radius * 1.5;
-    width: $radius * 1.5;
+    color: var(--light-gray);
+    height: $radius * 1.5 !important;
+    width: $radius * 1.5 !important;
     @include flex();
     @include lightShadow();
     transition: $transition;
@@ -666,7 +667,7 @@ input {
       color: var(--main-color);
     }
     &:active {
-      color: $white;
+      color: #fff;
       background-color: var(--main-color);
       border: 1px solid var(--main-color);
     }
@@ -708,14 +709,14 @@ button {
   border-radius: $radius * 1.5;
   &-primary {
     @extend .btn;
-    color: $white;
+    color: #fff;
     background-color: var(--main-color);
     border: 1px solid var(--main-color);
     &:hover,
     &:focus,
     &:active,
     &.active {
-      color: $white;
+      color: #fff;
       background-color: var(--main-color-active);
       border: 1px solid var(--main-color-active);
     }
@@ -723,31 +724,31 @@ button {
   &-10 {
     @extend .btn;
     color: var(--main-color);
-    background-color: $white;
+    background-color: var(--bg-second);
     border: 1px solid var(--main-color);
     &:hover,
     &:focus,
     &:active,
     &.active {
-      color: $white;
+      color: #fff;
       background-color: var(--main-color);
     }
   }
   &-2 {
     @extend .btn;
-    color: $white;
+    color: #fff;
     background-color: $red;
     &:hover,
     &:focus,
     &:active,
     &.active {
-      color: $white;
+      color: #fff;
       background-color: darken($color: $red, $amount: 5%);
     }
   }
   &-secondary {
     @extend .btn;
-    color: $white;
+    color: #fff;
     background-color: #202020;
     border: 1px solid var(--main-color);
     font-weight: 600;
@@ -755,49 +756,49 @@ button {
     &:focus,
     &:active,
     &.active {
-      color: $white;
+      color: #fff;
       background-color: var(--main-color-outline);
     }
   }
   &-30 {
     @extend .btn;
     color: $black;
-    background-color: $white;
+    background-color: var(--bg-second);
     border: 1px solid $black;
     font-weight: 600;
     &:hover,
     &:focus,
     &:active,
     &.active {
-      color: $white;
+      color: #fff;
       background-color: $black;
     }
   }
   &-4,
   &-white {
     @extend .btn;
-    color: $black;
-    background-color: $white;
+    color: var(--font-color);
+    background-color: var(--bg-second);
     &:hover,
     &:focus,
     &:active,
     &.active {
-      color: $black;
-      background-color: rgba($color: $white, $alpha: 0.87);
+      color: var(--font-color);
+      background-color: var(--bg-btn);
     }
   }
   &-40 {
     @extend .btn;
-    color: $white;
+    color: #fff;
     background-color: transparent;
-    border: 1px solid $white;
+    border: 1px solid #fff;
     &:hover,
     &:focus,
     &:active,
     &.active {
-      color: $white;
-      background-color: rgba($color: $white, $alpha: 0.1);
-      border: 1px solid $white;
+      color: #fff;
+      background-color: rgba($color: #fff, $alpha: 0.1);
+      border: 1px solid #fff;
     }
   }
   &-green {
@@ -809,21 +810,21 @@ button {
     &:focus,
     &:active,
     &.active {
-      color: $white;
+      color: #fff;
       background-color: $green;
       border: 1px solid $green;
     }
   }
   &-deepgreen {
     @extend .btn;
-    color: $white;
+    color: #fff;
     background-color: $green;
     border: 1px solid $green;
     &:hover,
     &:focus,
     &:active,
     &.active {
-      color: $white;
+      color: #fff;
       background-color: darken($color: $green, $amount: 10%);
       border: 1px solid darken($color: $green, $amount: 10%);
     }
@@ -837,7 +838,7 @@ button {
     &:focus,
     &:active,
     &.active {
-      color: $white;
+      color: #fff;
       background-color: var(--main-color);
     }
   }
@@ -863,7 +864,7 @@ button {
     @include lightShadow();
     color: var(--font-color);
     @media (max-width: $bp-lg) {
-      background-color: $light-gray;
+      background-color: var(--bg-btn);
     }
     svg {
       color: var(--main-color);
@@ -874,25 +875,23 @@ button {
     &:active,
     &.active {
       background-color: var(--main-color);
-      color: $white;
+      color: #fff;
       svg {
-        color: $white;
+        color: #fff;
       }
     }
   }
   /* серая кнопка */
   &-9 {
     @extend .btn;
-    color: $white;
-    background-color: $gray;
-    border: 1px solid $gray;
+    color: #fff;
+    background-color: var(--light-gray);
+    border: 1px solid var(--light-gray);
     &:hover,
     &:focus,
     &:active,
     &.active {
-      color: $white;
-      background-color: $black;
-      border: 1px solid $black;
+      opacity: 0.8;
     }
     svg {
       stroke-width: 1px;
@@ -902,19 +901,19 @@ button {
   &-90 {
     @extend .btn;
     color: $black;
-    background-color: $white;
-    border: 1px solid $gray;
+    background-color: var(--bg-second);
+    border: 1px solid var(--light-gray);
     font-weight: 600;
     &:hover,
     &:focus {
       color: $black;
-      background-color: $white;
-      border: 1px solid $gray;
+      background-color: var(--bg-second);
+      border: 1px solid var(--light-gray);
       @include shadow();
     }
     &:active,
     &.active {
-      color: $white;
+      color: #fff;
       background-color: var(--main-color);
       border: 1px solid var(--main-color);
     }
@@ -923,13 +922,13 @@ button {
   &-99 {
     @extend .btn;
     color: $dark;
-    background-color: $light-gray;
-    border: 1px solid $light-gray;
+    background-color: var(--bg-btn);
+    border: 1px solid var(--bg-btn);
     &:hover,
     &:focus,
     &:active,
     &.active {
-      color: $white;
+      color: #fff;
       background-color: $dark;
       border: 1px solid $dark-gray;
     }
@@ -944,7 +943,7 @@ button {
     &:focus,
     &:active,
     &.active {
-      color: $white;
+      color: #fff;
       background-color: $orange;
       border: 1px solid $orange;
     }
@@ -959,7 +958,7 @@ button {
     &:focus,
     &:active,
     &.active {
-      color: $white;
+      color: #fff;
       background-color: $red;
       border: 1px solid $red;
     }
@@ -1096,14 +1095,14 @@ select {
       padding: 0px !important;
       margin: 0px !important;
       &:not(:first-child) {
-        border-top: 1px solid $light-gray;
+        border-top: 1px solid var(--bg-btn);
       }
     }
     label {
       position: relative;
       width: 100%;
       cursor: pointer;
-      background-color: $white;
+      background-color: var(--bg-second);
       transition: background-color $transition;
       padding: 0.5em 1em;
       &.active {
@@ -1145,13 +1144,13 @@ select {
   position: relative;
   border-radius: $radius;
   transition: border-color $transition;
-  background-color: $white;
-  border: 1px solid $light-gray;
+  background-color: var(--bg-second);
+  border: 1px solid var(--bg-btn);
   position: relative;
   &:hover,
   &:focus {
     cursor: pointer;
-    border: 1px solid $gray;
+    border: 1px solid var(--light-gray);
   }
   input {
     position: absolute;
@@ -1218,10 +1217,10 @@ select {
     transform: scale(100%);
     transition: transform $transition;
     cursor: pointer;
-    color: $white;
+    color: #fff;
     svg {
       stroke-width: 1px;
-      fill: rgba($color: $white, $alpha: 0.5);
+      fill: rgba($color: #fff, $alpha: 0.5);
     }
     &:hover {
       transform: scale(120%);
@@ -1247,6 +1246,44 @@ select {
     padding-bottom: 1.75em;
     .swiper-button {
       bottom: 0.9em;
+    }
+  }
+  &-arrow {
+    @include flex();
+    position: absolute;
+    top: 50%;
+    z-index: 10;
+    font-size: 1.7em;
+    color: var(--font-color);
+    transform: translateY(-50%);
+    transition: color $transition;
+    @media (max-width: $bp-md) {
+      display: none !important;
+    }
+    &[data-locked="locked"] {
+      opacity: 0;
+    }
+    &.disabled,
+    &.locked {
+      opacity: 0;
+    }
+    &:hover,
+    &:focus {
+      color: var(--main-color);
+    }
+    &:active {
+      color: var(--main-color);
+    }
+    svg {
+      stroke-width: 1.25px;
+    }
+    &-prev {
+      @extend .swiper-arrow;
+      left: -1.25em;
+    }
+    &-next {
+      @extend .swiper-arrow;
+      right: -1.25em;
     }
   }
 }
@@ -1278,6 +1315,11 @@ select {
     @media (max-width: $bp-sm) {
       right: -0.5em;
       width: 5em;
+    }
+  }
+  &.paginated {
+    .swiper-button {
+      bottom: 0.9em;
     }
   }
 }
@@ -1332,11 +1374,11 @@ select {
         flex: 1;
         height: $radius * 0.5;
         border-radius: $radius * 0.25;
-        background-color: $light-gray;
+        background-color: var(--bg-btn);
       }
       .icon {
-        background-color: $gray;
-        color: $white;
+        background-color: var(--light-gray);
+        color: #fff;
         @include flex();
         margin-left: $radius * 0.35;
         padding: 0.33em;
@@ -1385,13 +1427,13 @@ select {
     @include flex(row, flex-start, center, wrap);
     font-size: 0.9em;
     li {
-      color: $gray;
+      color: var(--light-gray);
       &:not(:last-child) {
         color: $black;
         margin-right: 1em;
         &::after {
           content: "●";
-          color: $gray;
+          color: var(--light-gray);
           margin-left: 1em;
           font-size: 0.75em;
         }
@@ -1498,13 +1540,13 @@ header {
   .badge {
     font-size: 10px;
     background-color: var(--main-color);
-    color: $white;
+    color: #fff;
     width: 1.6em;
     height: 1.6em;
     @include flex();
   }
   .btn-menu {
-    color: $gray;
+    color: var(--light-gray);
     font-size: 2em;
     @include flex();
     transition: color $transition;
@@ -1533,7 +1575,7 @@ header {
         @include list();
         li {
           &:not(:first-child) {
-            border-top: 1px solid $light-gray;
+            border-top: 1px solid var(--bg-btn);
           }
           a,
           button {
@@ -1559,7 +1601,7 @@ header {
       }
     }
     .box {
-      background-color: $white;
+      background-color: var(--bg-second);
       @include lightShadow();
       padding: 1em;
       border-radius: $radius * 0.25;
@@ -1572,7 +1614,7 @@ header {
   right: 0px;
   top: calc(var(--h-height) * 2);
   background-color: $green;
-  color: $white;
+  color: #fff;
   font-size: 2.5em;
   border-radius: 0.25em 0px 0px 0.25em;
   width: 1.15em;
@@ -1597,7 +1639,7 @@ header {
     left: 50%;
     font-size: 1.5em;
     background-color: $black;
-    color: $white;
+    color: #fff;
     width: 1.5em;
     height: 1.5em;
     @include flex();
@@ -1633,11 +1675,14 @@ header {
     }
   }
 }
-
+path[fill="white"],
+path[fill="#fff"] {
+  fill: var(--bg-main) !important;
+}
 main {
   min-height: calc(100vh - var(--h-height));
-  padding: 3em 0px;
-  padding-top: var(--h-height);
+  padding: 60px 0px;
+  margin-top: var(--h-height);
   @media (max-width: $bp-lg) {
     min-height: 100vh;
     padding: var(--h-height) 0px calc(var(--f-height) + 30px);
@@ -1655,6 +1700,10 @@ main {
   flex-direction: column;
   justify-content: center;
   text-align: center;
+  color: #fff !important;
+  &.light {
+    color: #222 !important;
+  }
   &-box {
     max-width: 500px;
     h1 {
@@ -1704,17 +1753,18 @@ main {
   }
 }
 .story {
+  cursor: pointer;
   padding: 3px;
   img {
     display: block;
     margin: 0 auto 1em;
     @include roundedImg(var(--w));
-    background-color: $white;
+    background-color: var(--bg-second);
     padding: 2px;
     border: 3px solid var(--main-color);
     @media (max-width: $bp-md) {
       padding: 1px;
-      border: 2px solid var(--main-color);
+      border-width: 2px;
     }
   }
   figcaption {
@@ -1786,10 +1836,10 @@ main {
           left: 1em;
           width: calc(100% - 2em);
           height: 1px;
-          background-color: $white;
+          background-color: var(--bg-second);
           &-drag {
             height: 3px;
-            background-color: $white;
+            background-color: var(--bg-second);
             margin-top: -1px;
           }
         }
@@ -1799,7 +1849,7 @@ main {
         position: absolute;
         top: 0px;
         left: calc(100% + 0.25em);
-        color: $white;
+        color: #fff;
         font-size: 2em;
         @include flex();
         transition: $transition;
@@ -1815,7 +1865,7 @@ main {
         &:focus,
         &:active {
           color: $red;
-          background-color: $white;
+          background-color: var(--bg-second);
         }
       }
     }
@@ -1824,7 +1874,7 @@ main {
 
 .sec-3 {
   .box {
-    background-color: $white;
+    background-color: var(--bg-second);
     @include shadow();
     padding: $radius;
     border-radius: $radius;
@@ -1837,7 +1887,7 @@ main {
 }
 .btn-view {
   position: relative;
-  color: $gray;
+  color: var(--light-gray);
   font-size: 1.5em;
   @include flex();
   @media (max-width: $bp-lg) {
@@ -1973,28 +2023,27 @@ main {
   }
 }
 
-.sec-5 {
-  position: relative;
-  .product-slider {
-    overflow: visible;
-    padding: 1em 0px;
-    .swiper-slide {
-      width: fit-content;
-    }
+.product-slider {
+  overflow: visible !important;
+  padding: 1em 0px;
+  .swiper-slide {
+    width: fit-content;
   }
 }
+
 .product-card-mini {
-  width: 380px;
+  max-width: 380px;
+  background-color: rgba(255, 255, 255, 0.05);
   padding: 1em;
   @include shadow();
   border-radius: $radius;
   @include flex(row, flex-start, stretch, nowrap);
   @media (max-width: $bp-lg) {
     flex-direction: column;
-    width: calc(200px + 2em);
+    max-width: calc(200px + 2em);
   }
   @media (max-width: $bp-sm) {
-    width: calc(145px + 2em);
+    max-width: calc(145px + 2em);
   }
   img {
     --card-mini-w: 130px;
@@ -2006,6 +2055,7 @@ main {
     }
     @media (max-width: $bp-sm) {
       --card-mini-w: 145px;
+      margin-bottom: 10px;
     }
   }
   figcaption {
@@ -2020,6 +2070,11 @@ main {
       transition: color $transition;
       &:hover {
         color: var(--main-color);
+      }
+    }
+    @media (max-width: $bp-sm) {
+      button {
+        width: 100%;
       }
     }
   }
@@ -2154,7 +2209,7 @@ main {
     color: $dark;
     &:hover,
     &:active {
-      color: $white;
+      color: #fff;
     }
     @media (max-width: $bp-lg) {
       order: 2;
@@ -2298,7 +2353,7 @@ main {
         font-weight: 600;
         font-size: 0.9em;
         padding: 0.5em 1em;
-        background-color: rgba($color: $white, $alpha: 0.75);
+        background-color: rgba($color: #fff, $alpha: 0.75);
         border-radius: $radius;
         transform: rotate(-3.5deg);
         @media (max-width: $bp-md) {
@@ -2361,7 +2416,7 @@ main {
         position: relative;
         z-index: 1;
         background-color: $dark;
-        color: $white;
+        color: #fff;
         border-radius: $radius $radius 0px 0px;
         height: calc($radius * 2);
         @include flex();
@@ -2395,17 +2450,17 @@ main {
           }
         }
         &.active {
-          background-color: $light-gray;
+          background-color: var(--bg-btn);
           color: $black;
           z-index: 2;
           .corner {
-            color: $light-gray;
+            color: var(--bg-btn);
           }
         }
       }
     }
     .box {
-      background-color: $light-gray;
+      background-color: var(--bg-second);
       padding: 0.75em;
       border-radius: $radius;
       ul {
@@ -2464,7 +2519,7 @@ main {
 }
 .ingredient {
   @include flex(row, flex-start, center, nowrap);
-  background-color: $white;
+  background-color: var(--bg-second);
   @include shadow();
   border-radius: $radius * 0.5;
   padding: $radius * 0.5;
@@ -2582,9 +2637,9 @@ main {
     width: 800px;
     height: var(--size);
     border-radius: 1.5em;
-    border: 1px solid $gray;
+    border: 1px solid var(--light-gray);
     box-shadow: none !important;
-    background-color: $white;
+    background-color: var(--bg-second);
     transition: max-width $transition, border $transition;
     @media (max-width: $bp-md) {
       opacity: 0;
@@ -2600,10 +2655,10 @@ main {
     border-radius: 1.5em;
     padding: 0px;
     background-color: transparent;
-    color: $gray;
+    color: var(--light-gray);
     transition: color $transition;
     @media (max-width: $bp-md) {
-      border: 1px solid $gray;
+      border: 1px solid var(--light-gray);
     }
     svg {
       font-size: 1.5em;
@@ -2667,7 +2722,7 @@ main {
     }
     figcaption {
       @include absBG(10);
-      color: $white;
+      color: #fff;
       padding: 2em;
       @include flex(column, space-between, stretch, nowrap);
       @media (max-width: $bp-xl) {
@@ -2722,6 +2777,7 @@ main {
     border-radius: $radius;
   }
   .box {
+    background-color: var(--bg-second);
     @include shadow();
     padding: 2em;
     border-radius: $radius;
@@ -2789,7 +2845,7 @@ main {
     }
     &s-list {
       li:not(:first-child) {
-        border-top: 1px solid $light-gray;
+        border-top: 1px solid var(--bg-btn);
       }
     }
   }
@@ -2805,7 +2861,7 @@ main {
     overflow: auto;
     @include scrollCustomized();
     li {
-      border-bottom: 1px solid $light-gray;
+      border-bottom: 1px solid var(--bg-btn);
       padding: 1.5em 0px;
     }
   }
@@ -2843,7 +2899,7 @@ main {
   margin-bottom: 3em;
   &-filter {
     @include flex();
-    background-color: $white;
+    background-color: var(--bg-second);
     padding: 0.75em 1em;
     border-radius: $radius;
     @include lightShadow();
@@ -2853,7 +2909,7 @@ main {
     position: relative;
     @include flex(row, space-between, flex-start, nowrap);
     padding: 1.5em 1em;
-    border-bottom: 1px solid $light-gray;
+    border-bottom: 1px solid var(--bg-btn);
     @media (max-width: $bp-md) {
       flex-wrap: wrap;
     }
@@ -2942,14 +2998,14 @@ main {
     }
   }
   &-box {
-    background-color: $light-gray;
+    background-color: var(--bg-btn);
     padding: 1em;
     border-radius: $radius;
   }
 }
 .checkoutProduct {
   font-size: 0.9em;
-  background-color: $white;
+  background-color: var(--bg-second);
   padding: $radius * 0.5;
   border-radius: $radius;
   @include shadow();
@@ -2961,9 +3017,9 @@ main {
     margin-right: 1em;
   }
   &-count {
-    border: 1px solid $light-gray;
+    border: 1px solid var(--bg-btn);
     padding: 0.33em 0.8em;
-    background-color: $white;
+    background-color: var(--bg-second);
     border-radius: $radius;
     margin-left: $radius;
   }
@@ -2987,10 +3043,7 @@ footer {
     height: 100%;
     @include flex(row, space-between, center, nowrap);
     .logo {
-      width: 60px;
-      @media (max-width: $bp-xl) {
-        width: 120px;
-      }
+      width: 120px;
     }
     a {
       transition: color $transition;
@@ -3047,12 +3100,12 @@ footer {
             background-color: var(--main-color);
             max-width: 130px;
             .badge {
-              background-color: $white;
+              background-color: var(--bg-second);
               color: var(--main-color);
             }
             svg {
               // font-size: 1.2em;
-              color: $white;
+              color: #fff;
             }
             .text {
               display: block;
@@ -3088,7 +3141,7 @@ ACCOUNT
       --w: 60px;
     }
     span {
-      color: $white;
+      color: #fff;
       font-size: 3.125em;
       font-weight: 600;
     }
@@ -3104,7 +3157,7 @@ ACCOUNT
   }
   .box {
     @include lightShadow();
-    background-color: $white;
+    background-color: var(--bg-second);
     border-radius: $radius * 0.5;
     &-blue {
       @include lightShadow();
@@ -3181,7 +3234,7 @@ ACCOUNT
   }
   &-menu {
     .btn-settings {
-      background-color: $light-gray;
+      background-color: var(--bg-btn);
       color: $dark;
       font-size: 1.8em;
       @include flex();
@@ -3192,7 +3245,7 @@ ACCOUNT
       }
     }
     nav {
-      background-color: $white;
+      background-color: var(--bg-second);
       @include lightShadow();
       @include safariFix();
       overflow: hidden;
@@ -3200,7 +3253,7 @@ ACCOUNT
       ul {
         @include list();
         li {
-          border-bottom: 1px solid $light-gray;
+          border-bottom: 1px solid var(--bg-btn);
           a {
             @include flex();
             font-weight: 400;
@@ -3263,7 +3316,7 @@ ACCOUNT
     }
     &.top {
       padding: 1em;
-      background-color: $light-gray;
+      background-color: var(--bg-btn);
       grid-template-rows: 1fr;
       grid-template-areas: "num time status delivery price btn";
       color: $dark;
@@ -3298,7 +3351,7 @@ ACCOUNT
       grid-area: delivery;
       @include flex(row, flex-start, center, nowrap);
       @media (max-width: $bp-lg) {
-        color: $dark;
+        color: var(--font-color);
         padding: 0.25em 1em;
       }
     }
@@ -3307,7 +3360,7 @@ ACCOUNT
       @include flex(row, flex-start, center, nowrap);
       @media (max-width: $bp-lg) {
         padding: 0.5em 1em 0.75em;
-        border-bottom: 1px solid $light-gray;
+        border-bottom: 1px solid var(--bg-btn);
       }
     }
     &-price {
@@ -3324,7 +3377,7 @@ ACCOUNT
       @include flex(row, flex-end, center, nowrap);
       @media (max-width: $bp-lg) {
         padding: 0.5em 1em;
-        border-top: 1px solid $light-gray;
+        border-top: 1px solid var(--bg-btn);
       }
       a {
         color: var(--main-color);
@@ -3352,7 +3405,7 @@ ACCOUNT
   .order-list {
     @include list();
     & > li {
-      border-bottom: 1px solid $light-gray;
+      border-bottom: 1px solid var(--bg-btn);
       padding: 1.25em 0.5em;
       margin-bottom: 0.5em;
     }
@@ -3455,7 +3508,7 @@ ACCOUNT
           padding: 0.5em 1em;
         }
         &:not(:first-child) {
-          border-top: 1px solid $light-gray;
+          border-top: 1px solid var(--bg-btn);
         }
       }
     }
@@ -3470,7 +3523,7 @@ ACCOUNT
       @include list();
       padding: 0.75em 0em 0.5em;
       li {
-        border-bottom: 1px solid $light-gray;
+        border-bottom: 1px solid var(--bg-btn);
         padding: 0.75em 1.25em;
         display: grid;
         grid-template-columns: 30fr 20fr 50fr;
@@ -3563,7 +3616,7 @@ ACCOUNT
     }
     &-list {
       @include list();
-      background-color: $white;
+      background-color: var(--bg-second);
       @include shadow();
       overflow: hidden;
       @include safariFix();
@@ -3595,7 +3648,7 @@ ACCOUNT
           --icon: 50px;
         }
         &:not(:last-child) {
-          border-bottom: 1px solid $light-gray;
+          border-bottom: 1px solid var(--bg-btn);
         }
         .icon {
           grid-area: icon;
@@ -3663,7 +3716,7 @@ ACCOUNT
       "top top"
       "chat choose"
       "form choose";
-    background-color: $white;
+    background-color: var(--bg-second);
     border-radius: $radius;
     @include shadow();
     @media (max-width: $bp-lg) {
@@ -3674,7 +3727,7 @@ ACCOUNT
     &-top {
       grid-area: top;
       padding: 1em 1.5em;
-      border-bottom: 1px solid $light-gray;
+      border-bottom: 1px solid var(--bg-btn);
       @include flex(row, flex-start, center, nowrap);
       @media (max-width: $bp-lg) {
         display: none;
@@ -3694,8 +3747,8 @@ ACCOUNT
           width: $radius * 0.5;
           height: $radius * 0.5;
           border-radius: 50%;
-          border: 2px solid $white;
-          background-color: $gray;
+          border: 2px solid #fff;
+          background-color: var(--light-gray);
           box-sizing: content-box;
           transition: background-color $transition;
           &.active {
@@ -3709,10 +3762,10 @@ ACCOUNT
     }
     &-choose {
       grid-area: choose;
-      border-left: 1px solid $light-gray;
+      border-left: 1px solid var(--bg-btn);
       padding: 1.25em;
       .select-button {
-        border-color: $gray;
+        border-color: var(--light-gray);
       }
       ul {
         @include list();
@@ -3732,8 +3785,8 @@ ACCOUNT
             width: 10px;
             height: 10px;
             border-radius: 50%;
-            border: 2px solid $white;
-            background-color: $gray;
+            border: 2px solid #fff;
+            background-color: var(--light-gray);
             box-sizing: content-box;
             transition: background-color $transition;
             &.active {
@@ -3745,7 +3798,7 @@ ACCOUNT
     }
     &-form {
       grid-area: form;
-      border-top: 1px solid $light-gray;
+      border-top: 1px solid var(--bg-btn);
       padding: 0.5em 1em;
       @include flex(row, flex-start, center, nowrap);
       @media (max-width: $bp-lg) {
@@ -3771,7 +3824,7 @@ ACCOUNT
     margin-bottom: 2em;
     time {
       display: block;
-      color: $gray;
+      color: var(--light-gray);
       text-align: right;
       font-size: 0.9em;
     }
@@ -3796,7 +3849,7 @@ ACCOUNT
         margin-top: 0.5em;
         padding: 1em;
         border-radius: 0px $radius $radius $radius;
-        background-color: $light-gray;
+        background-color: var(--bg-btn);
       }
     }
   }
@@ -3852,7 +3905,7 @@ ACCOUNT
     background-repeat: no-repeat;
     background-size: cover;
     background-position: 100% 50%;
-    color: $white;
+    color: #fff;
     text-align: center;
     padding-top: 4em;
     .btn-40 {
@@ -3942,11 +3995,13 @@ ACCOUNT END
   box-sizing: border-box;
   padding: 13px 20px;
   box-shadow: 0px 0px 2px #919eab1f, 0px 8px 24px -4px #919eab33 !important;
-  border-radius: $radius;
-  color: #000;
-  background-color: #fff;
+  border-radius: 4px;
+  color: var(--font-color);
+  background-color: var(--bg-btn) !important;
+  border-left: 4px solid transparent;
   cursor: pointer;
-  font-size: 0.9em;
+  font-weight: 500;
+  font-size: 1em;
   position: relative;
   margin-bottom: 15px;
 }
@@ -3986,19 +4041,19 @@ ACCOUNT END
 }
 
 .notification-info {
-  color: #2f96b4;
+  border-color: #2f96b4;
 }
 
 .notification-success {
-  color: #36b37e;
+  border-color: #36b37e;
 }
 
 .notification-warning {
-  color: #f89406;
+  border-color: #f89406;
 }
 
 .notification-error {
-  color: #bd362f;
+  border-color: #bd362f;
 }
 .delivery {
   min-height: 55px;
@@ -4011,14 +4066,14 @@ ACCOUNT END
   flex-direction: column;
   border-radius: 12px;
   border: 2px solid transparent;
-  background-color: $light-gray;
+  background-color: var(--bg-btn);
   &.active {
     border-color: var(--main-color);
     background-color: var(--main-color-outline);
   }
   p {
     font-size: 13px;
-    color: rgba(0, 0, 0, 0.7);
+    color: var(--font-color);
   }
 }
 .sidebar {
@@ -4087,7 +4142,7 @@ ACCOUNT END
   z-index: 100;
   bottom: 2em;
   right: 2em;
-  background-color: $white;
+  background-color: var(--bg-second);
   color: var(--main-color);
   border: 1px solid currentColor;
   border-radius: 50%;
@@ -4112,29 +4167,39 @@ ACCOUNT END
   }
 }
 .dropdown {
+  &-menu {
+    --bs-dropdown-color: var(--font-color);
+    --bs-dropdown-bg: var(--bg-second);
+    color: var(--font-color);
+  }
   & > a {
-    border: 1px solid var(--gray);
-    border-radius: 12px;
+    border: 1px solid var(--bg-btn);
+    border-radius: 10px;
     padding: 8px 15px;
     min-height: 40px;
   }
   &-item {
     font-size: 14px;
     padding: 8px 15px;
+    color: var(--font-color);
     &:active,
     &.active {
-      color: $white !important;
+      color: var(--font-color) !important;
       background-color: var(--main-color) !important;
+    }
+    &:hover:not(.active) {
+      color: var(--font-color) !important;
+      background-color: var(--bg-btn) !important;
     }
     &:active p,
     &.active p {
-      color: $white !important;
+      color: var(--font-color) !important;
     }
   }
 }
 .custom-table {
   box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.06);
-  background-color: $white;
+  background-color: var(--bg-second);
   border-radius: 1em;
   border: none;
   overflow: hidden;
@@ -4142,21 +4207,21 @@ ACCOUNT END
     box-shadow: none !important;
   }
   .item {
-    border-bottom: 1px solid $light-gray;
+    border-bottom: 1px solid var(--bg-btn);
   }
   .card-footer:last-child {
     padding: 15px;
     border: none;
-    background-color: $white;
+    background-color: var(--bg-second);
   }
   .item:last-child {
     border: none;
   }
   .active {
-    background-color: $light-gray !important;
+    background-color: var(--bg-btn) !important;
   }
   .desc {
-    border-bottom: 1px solid $light-gray;
+    border-bottom: 1px solid var(--bg-btn);
     .row {
       border: none;
     }
@@ -4170,7 +4235,7 @@ ACCOUNT END
   }
   &.lite .head,
   .head {
-    background-color: $light-gray;
+    background-color: var(--bg-btn);
     color: $dark;
     padding: 5px;
     font-weight: 600;
@@ -4194,7 +4259,7 @@ ACCOUNT END
     color: $black;
   }
   .form-check-inpu:checked .row {
-    background-color: $light-gray;
+    background-color: var(--bg-btn);
   }
   .order.status-new {
     background-color: #00a76f14;
@@ -4221,7 +4286,7 @@ ACCOUNT END
   }
 }
 .bankcard {
-  background-color: $white;
+  background-color: var(--bg-second);
   border-radius: $radius * 0.5;
   @include shadow();
   padding: $radius * 0.5 $radius * 0.75;
@@ -4281,7 +4346,7 @@ ACCOUNT END
 }
 .payment {
   cursor: pointer;
-  background-color: $white;
+  background-color: var(--bg-second);
   border-radius: $radius * 0.5;
   border: 2px solid transparent;
   &.active {
@@ -4710,7 +4775,7 @@ ACCOUNT END
   padding-bottom: 0px;
 }
 .my-info-body {
-  background-color: #fff;
+  background-color: var(--bg-second);
   border-radius: 8px;
   box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.2);
   padding: 20px;
@@ -4732,8 +4797,8 @@ ACCOUNT END
     width: 100%;
     height: var(--f-height);
     right: 0px;
-    background-color: #fff;
-    border-top: 1px solid #d9d9d9;
+    background-color: var(--bg-second);
+    border-top: 1px solid var(--bg-btn);
     font-family: $main-font;
   }
   .box {
@@ -4802,4 +4867,7 @@ ACCOUNT END
 }
 .white-space-break {
   white-space: break-spaces;
+}
+.mb-6 {
+  margin-bottom: 4em;
 }

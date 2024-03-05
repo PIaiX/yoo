@@ -26,7 +26,7 @@ import Policy from "../pages/Policy";
 import Error from "../components/Error";
 import About from "../pages/About";
 import Blog from "../pages/Blog";
-import Article from "../pages/Article";
+import Blogs from "../pages/Blogs";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -71,8 +71,8 @@ const router = createBrowserRouter(
 
       <Route path="recovery" element={<Recovery />} />
       <Route path="login" element={<Registration />} />
-      <Route path="blogs" element={<Blog />} />
-      <Route path="blog/:blogId" element={<Article />} />
+      <Route path="blogs" element={<Blogs />} />
+      <Route path="blog/:blogId" element={<Blog />} />
     </Route>
   )
 );

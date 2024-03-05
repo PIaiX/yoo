@@ -7,30 +7,34 @@ import ArticleCard from "../ArticleCard";
 
 const WidgetBlogs = memo((data) => {
   const isMobileLG = useIsMobile("991px");
+  if (!data?.items || data?.items?.length === 0) {
+    return null;
+  }
   return (
-    <section className="sec-5 mt-5 mb-5">
+    <section className="sec-5 mb-6">
       <Container>
-        {!isMobileLG && data.length > 0 && (
+        <h2>{data.title}</h2>
+        {!isMobileLG && (
           <Row className="gx-4 gy-5">
-            {data.map((obj) => {
+            {data.items.map((e) => {
               return (
-                <Col key={obj.id} md={4} xl={3}>
-                  <ArticleCard data={obj} />
+                <Col key={e.id} md={4} xl={3}>
+                  <ArticleCard data={e} />
                 </Col>
               );
             })}
           </Row>
         )}
-        {isMobileLG && data.length > 0 && (
+        {isMobileLG && (
           <Swiper
             className="articles-slider"
             spaceBetween={20}
             slidesPerView={"auto"}
           >
-            {data.map((obj) => {
+            {data.items.map((e) => {
               return (
-                <SwiperSlide key={obj.id}>
-                  <ArticleCard data={obj} />
+                <SwiperSlide key={e.id}>
+                  <ArticleCard data={e} />
                 </SwiperSlide>
               );
             })}

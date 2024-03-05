@@ -16,10 +16,12 @@ const Contact = () => {
   const zones = useSelector((state) => state.affiliate.zones);
 
   const [mainAffiliate, setMainAffiliate] = useState(
-    affiliate?.length > 0 ? affiliate.find((e) => e.main) : false
+    affiliate?.length > 0
+      ? affiliate.find((e) => e.main) ?? affiliate[0]
+      : affiliate[0] ?? false
   );
 
-  if (!mainAffiliate) {
+  if (!mainAffiliate || !mainAffiliate?.phone?.length > 0) {
     return (
       <Empty
         text="В данный момент контактов нет"
@@ -48,7 +50,7 @@ const Contact = () => {
             <Col md={4}>
               <div className="box">
                 <div className="d-flex align-items-baseline mb-5">
-                  <h1 className="mb-0">Контакты </h1>
+                  <h1 className="mb-0">Контакты</h1>
                   <h5 className="mb-0">
                     <span className="mx-3">•</span>
                     {mainAffiliate.options.city}
@@ -56,13 +58,10 @@ const Contact = () => {
                 </div>
 
                 <h6 className="mb-3">{mainAffiliate.full}</h6>
-                {mainAffiliate?.phone && mainAffiliate?.phone[0] && (
+                {mainAffiliate?.phone[0] && (
                   <>
                     <p className="mb-3">
-                      <a
-                        href={"tel:" + mainAffiliate.phone[0]}
-                        className="d-flex"
-                      >
+                      <a href={"tel:" + mainAffiliate.phone[0]}>
                         <HiOutlineDevicePhoneMobile className="fs-15 main-color" />
                         <span className="fs-11 ms-2 main-color">
                           Горячая линия
@@ -94,38 +93,36 @@ const Contact = () => {
                 )}
 
                 <ul className="list-unstyled mt-4">
-                  {affiliate?.length > 0 &&
-                    affiliate.map((e) => (
-                      <li>
-                        <a onClick={() => setMainAffiliate(e)}>
-                          <h6 className="mb-2">{e.full}</h6>
-                          <p className="main-color mt-2 mb-1">
-                            Доставка и самовывоз
-                          </p>
-                          <p className="mb-3">
-                            {e?.options?.work &&
-                            e.options.work[moment().weekday()]?.start &&
-                            e.options.work[moment().weekday()]?.end
-                              ? `Работает с ${
-                                  e.options.work[moment().weekday()].start
-                                } до ${e.options.work[moment().weekday()].end}`
-                              : ""}
-                          </p>
+                  {affiliate.map((e) => (
+                    <li>
+                      <a onClick={() => setMainAffiliate(e)}>
+                        <h6 className="mb-2">{e.full}</h6>
 
-                          {e?.phone && e?.phone[0] && (
-                            <>
-                              <p className="main-color mt-2 mb-1">
-                                Номер телефона
-                              </p>
-                              <p className="mb-3">{e.phone[0]}</p>
-                            </>
-                          )}
-                        </a>
-                        {e?.desc && (
-                          <p className="white-space-break">{e.desc}</p>
+                        {e?.options?.work &&
+                        e.options.work[moment().weekday()]?.start &&
+                        e.options.work[moment().weekday()]?.end ? (
+                          <>
+                            <p className="main-color mt-2 mb-1">
+                              Доставка и самовывоз
+                            </p>
+                            <p className="mb-3">{`Работает с ${
+                              e.options.work[moment().weekday()].start
+                            } до ${e.options.work[moment().weekday()].end}`}</p>
+                          </>
+                        ) : null}
+
+                        {e?.phone[0] && (
+                          <>
+                            <p className="main-color mt-2 mb-1">
+                              Номер телефона
+                            </p>
+                            <p className="mb-3">{e.phone[0]}</p>
+                          </>
                         )}
-                      </li>
-                    ))}
+                      </a>
+                      {e?.desc && <p className="white-space-break">{e.desc}</p>}
+                    </li>
+                  ))}
                 </ul>
               </div>
             </Col>
@@ -173,7 +170,7 @@ const Contact = () => {
                       {zones?.length > 0 &&
                         zones.map((e) => {
                           const geodata =
-                            e?.data?.length > 0
+                            e.data.length > 0
                               ? e.data.map((geo) => [geo[1], geo[0]])
                               : false;
 
