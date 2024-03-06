@@ -50,7 +50,7 @@ const Blog = () => {
       <Container>
         <section className="article-page pt-4 pt-lg-0 mb-6">
           <img
-            className="article-page-imgMain mb-4 mb-sm-5"
+            className="mb-4 mb-sm-5 d-block m-auto"
             src={getImageURL({ path: blog.media, size: "full", type: "blog" })}
             alt={blog.title}
           />

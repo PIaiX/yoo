@@ -217,7 +217,7 @@ const Header = memo(() => {
               ) : (
                 <>
                   <li>
-                    <Link to="/">Меню</Link>
+                    <Link to="/categories">Меню</Link>
                   </li>
                   <li>
                     <Link to="/contact">Доставка и оплата</Link>
