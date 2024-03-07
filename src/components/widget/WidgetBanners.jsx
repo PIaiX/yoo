@@ -1,7 +1,9 @@
 import React, { memo } from "react";
+import { Pagination } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import "swiper/css";
 import { Swiper, SwiperSlide } from "swiper/react";
+import { getImageURL } from "../../helpers/all";
 
 const WidgetBanners = memo((data) => {
   if (!data?.items || data?.items?.length === 0) {
