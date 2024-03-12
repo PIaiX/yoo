@@ -67,7 +67,7 @@ const Categories = memo(({ className, data }) => {
           {data.map((e, index) => (
             <SwiperSlide key={index}>
               <Link
-                className="btn-8"
+                className="btn-white"
                 activeClass="active"
                 to={"category-" + e.id}
                 spy={true}

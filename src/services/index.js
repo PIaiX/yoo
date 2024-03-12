@@ -1,5 +1,5 @@
 import axios from "axios";
-import { BASE_URL, API_TOKEN } from "../config/api";
+import { BASE_URL } from "../config/api";
 import store from "../store";
 import { refreshAuth } from "./auth";
 import { ClientJS } from "clientjs";
@@ -24,7 +24,9 @@ $api.interceptors.request.use(
   async (config) => {
     const state = store.getState();
     config.headers.ip = state?.settings?.ip ?? "0.0.0.0";
-    config.headers.token = `API ${API_TOKEN}`;
+    config.headers.token = state?.settings?.token
+      ? `API ${state.settings.token}`
+      : false;
     config.headers.device = DEVICE;
     return config;
   },
@@ -40,8 +42,10 @@ $authApi.interceptors.request.use(
   async (config) => {
     const state = store.getState();
     config.headers.ip = state?.settings?.ip ?? "0.0.0.0";
-    config.headers.token = `API ${API_TOKEN}`;
-    const token = localStorage.getItem("token");
+    config.headers.token = state?.settings?.token
+      ? `API ${state.settings.token}`
+      : false;
+    const token = state?.auth?.token ?? false;
 
     if (token) {
       config.headers.authorization = `Access ${token}`;

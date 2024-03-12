@@ -363,7 +363,7 @@ const Registration = () => {
             )}
           </section>
         ) : (
-          <section className="d-none d-lg-block login">
+          <section className="d-none d-lg-flex align-items-center login">
             <div ref={block2} className="login-forms">
               {loginView ? regForm : loginForm}
             </div>

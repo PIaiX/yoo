@@ -48,7 +48,7 @@ const Catalog = memo(({ data }) => {
         </Container>
       ) : (
         <>
-          <div className="container p-0 pe-md-3 ps-md-3 sticky-box mb-3 mb-sm-4 mb-md-5">
+          <div className="container p-0 mt-5 pe-md-3 ps-md-3 sticky-box mb-3 mb-sm-4 mb-md-5">
             <Categories data={data} />
           </div>
 

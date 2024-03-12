@@ -38,16 +38,16 @@ const WidgetStories = memo((data) => {
           }}
           breakpoints={{
             576: {
-              slidesPerView: 3,
-              spaceBetween: 15,
+              slidesPerView: 4,
+              spaceBetween: 10,
             },
             768: {
-              slidesPerView: 4,
-              spaceBetween: 30,
+              slidesPerView: 5,
+              spaceBetween: 10,
             },
             1200: {
-              slidesPerView: 7,
-              spaceBetween: 50,
+              slidesPerView: 8,
+              spaceBetween: 10,
             },
           }}
         >

@@ -5,7 +5,7 @@ import { getImageURL } from "../helpers/all";
 
 const Offer = ({ data }) => {
   return (
-    <figure className="offer">
+    <div className="offer">
       {data?.medias && (
         <LazyLoadImage
           src={getImageURL({
@@ -17,31 +17,29 @@ const Offer = ({ data }) => {
           loading="lazy"
         />
       )}
-      <figcaption>
+      <div className="offer-body">
         <div>
-          {data?.title && (
-            <h4 className={data?.blackText ? "black" : ""}>{data.title}</h4>
-          )}
+          {data?.title && <h5 className="offer-body-title">{data.title}</h5>}
           {data?.desc && (
-            <h6 className={data?.blackText ? "black fw-4" : "fw-4"}>
-              {data.desc}
-            </h6>
+            <p className="fw-4 text-muted offer-body-desc mb-3">{data.desc}</p>
           )}
         </div>
-        <Link
-          to={
-            data?.options?.link
-              ? data.options.link
-              : data?.id
-              ? "/promo/" + data.id
-              : ""
-          }
-          className="btn-white"
-        >
-          Заказать
-        </Link>
-      </figcaption>
-    </figure>
+        <div className="d-flex justify-content-end">
+          <Link
+            to={
+              data?.options?.link
+                ? data.options.link
+                : data?.id
+                ? "/promo/" + data.id
+                : ""
+            }
+            className="btn btn-light"
+          >
+            Перейти
+          </Link>
+        </div>
+      </div>
+    </div>
   );
 };
 

@@ -9,10 +9,10 @@ const WidgetSales = memo((data) => {
     return null;
   }
   return (
-    <section className="sec-6 mt-6">
+    <section className="mt-6">
       <Container>
         <Swiper
-          className="sw-offers"
+          // className="sw-offers"
           spaceBetween={20}
           slidesPerView={"auto"}
           speed={750}

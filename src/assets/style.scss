@@ -19,6 +19,7 @@ html {
     --f-height: 60px;
   }
 }
+:root,
 :root[data-theme="light"] {
   --main-color: #222;
   --main-color-outline: #22222223;
@@ -32,6 +33,7 @@ html {
   --gray: #727272;
   --light-gray: #1e1e1e;
   --divider: #121212;
+  --bg-catalog-menu: #fff;
 }
 
 :root[data-theme="dark"] {
@@ -47,6 +49,7 @@ html {
   --gray: #727272;
   --light-gray: #1e1e1e;
   --divider: #121212;
+  --bg-catalog-menu: #222;
 }
 $main-font: "Open Sans";
 $radius: 1.25em;
@@ -559,7 +562,7 @@ input {
   @include list();
   @include flex(row, flex-start, center, nowrap);
   width: fit-content;
-  background-color: var(--bg-btn);
+  background-color: var(--bg-second);
   padding: 0.5em;
   border-radius: 0.75em;
   @media (max-width: $bp-md) {
@@ -715,10 +718,11 @@ button {
     &:hover,
     &:focus,
     &:active,
-    &.active {
-      color: #fff;
-      background-color: var(--main-color-active);
-      border: 1px solid var(--main-color-active);
+    &.active,
+    &:not(.btn-check) + .btn:active {
+      color: #fff !important;
+      background-color: var(--main-color-active) !important;
+      border: 1px solid var(--main-color-active) !important;
     }
   }
   &-10 {
@@ -729,9 +733,10 @@ button {
     &:hover,
     &:focus,
     &:active,
-    &.active {
-      color: #fff;
-      background-color: var(--main-color);
+    &.active,
+    &:not(.btn-check) + .btn:active {
+      color: #fff !important;
+      background-color: var(--main-color) !important;
     }
   }
   &-2 {
@@ -741,7 +746,8 @@ button {
     &:hover,
     &:focus,
     &:active,
-    &.active {
+    &.active,
+    &:not(.btn-check) + .btn:active {
       color: #fff;
       background-color: darken($color: $red, $amount: 5%);
     }
@@ -755,7 +761,8 @@ button {
     &:hover,
     &:focus,
     &:active,
-    &.active {
+    &.active,
+    &:not(.btn-check) + .btn:active {
       color: #fff;
       background-color: var(--main-color-outline);
     }
@@ -783,8 +790,8 @@ button {
     &:focus,
     &:active,
     &.active {
-      color: var(--font-color);
-      background-color: var(--bg-btn);
+      color: #fff;
+      background-color: var(--main-color);
     }
   }
   &-40 {
@@ -1464,8 +1471,8 @@ body {
 header {
   height: var(--h-height);
   --pad: 40px;
-  background-color: var(--bg-second);
-  position: fixed;
+  background-color: var(--bg-second) !important;
+  position: relative;
   top: 0px;
   left: 0px;
   width: 100%;
@@ -1686,7 +1693,6 @@ path[fill="#fff"] {
 main {
   min-height: calc(100vh - var(--h-height));
   padding: 60px 0px;
-  margin-top: var(--h-height);
   @media (max-width: $bp-lg) {
     min-height: 100vh;
     padding: var(--h-height) 0px calc(var(--f-height) + 30px);
@@ -1761,17 +1767,17 @@ main {
   padding: 3px;
   img {
     display: block;
-    margin: 0 auto 1em;
+    margin: 0 auto 0px;
     @include roundedImg(var(--w));
-    background-color: var(--bg-second);
+    background-color: var(--bg-main);
     padding: 2px;
     border: 3px solid var(--main-color);
     @media (max-width: $bp-md) {
-      padding: 1px;
       border-width: 2px;
     }
   }
   figcaption {
+    margin-top: 1em;
     font-size: 0.9em;
     text-align: center;
     @media (max-width: $bp-sm) {
@@ -1792,6 +1798,9 @@ main {
       }
     }
   }
+}
+.modal-content {
+  background-color: var(--bg-main);
 }
 .story-modal {
   .modal {
@@ -2091,11 +2100,12 @@ main {
   width: 100%;
   padding: 0.5em 0.75em;
   @include shadow();
-  background-color: var(--bg-second);
+  background-color: var(--bg-catalog-menu);
   border-radius: $radius;
   @include flex(row, space-between, center, nowrap);
   @media (max-width: $bp-lg) {
-    top: calc(var(--h-height) - 1px);
+    margin-top: 0 !important;
+    top: 0 !important;
     border-radius: 0px 0px $radius $radius;
     padding: 0em;
     box-shadow: none;
@@ -2140,7 +2150,7 @@ main {
         right: 0px;
       }
       svg {
-        fill: var(--bg-second);
+        fill: transparent;
       }
     }
     &-disabled {
@@ -2693,164 +2703,135 @@ main {
   }
 }
 
-.sec-6 {
-  --offer-w: 415px;
+.offer {
+  width: 100%;
+  border-radius: $radius;
   overflow: hidden;
-  @media (max-width: $bp-xxl) {
-    --offer-w: 355px;
+  position: relative;
+  background-color: rgba(255, 255, 255, 0.05);
+  @include shadow();
+  // @include shadowF();
+  // transition: transform 200ms linear;
+  @media (max-width: $bp-sm) {
+    font-size: 11px;
   }
+  img {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    height: 160px;
+    object-fit: cover;
+  }
+  &-body {
+    padding: 1em;
+    &-title {
+      @include clamp(2, 1.4em, true);
+    }
+    &-desc {
+      @include clamp(5, 1.4em, true);
+    }
+    @include flex(column, flex-end, stretch, nowrap);
+  }
+}
+.sw-offers {
+  overflow: hidden;
+  padding: 1em 0.5em;
+  &:hover {
+    .offer {
+      transform: rotate(0deg) !important;
+    }
+  }
+  .swiper-slide {
+    width: var(--offer-w);
+    @media (min-width: 991.98px) {
+      &:nth-child(odd) {
+        .offer {
+          transform: rotate(3deg);
+        }
+      }
+      &:nth-child(even) {
+        .offer {
+          transform: rotate(-3deg);
+        }
+      }
+    }
+  }
+}
+.offer-page-img {
+  width: 100%;
+  height: var(--offer-w);
+  border-radius: $radius;
+}
+.box {
+  background-color: var(--bg-second);
+  @include shadow();
+  padding: 2em;
+  border-radius: $radius;
+  font-size: 1.2em;
   @media (max-width: $bp-xl) {
-    --offer-w: 300px;
-  }
-  @media (max-width: $bp-lg) {
-    --offer-w: 310px;
+    font-size: 1.1em;
   }
   @media (max-width: $bp-md) {
-    --offer-w: 450px;
+    padding: 1em;
   }
-  @media (max-width: $bp-sm) {
-    --offer-w: 82vw;
+  p {
+    &:not(:first-child) {
+      margin-top: 1em;
+    }
   }
-  .offer {
-    width: 100%;
-    position: relative;
-    @include shadowF();
-    transition: transform 200ms linear;
+}
+.offer-product {
+  padding: 1.25em 0px;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 100px auto 280px;
+  grid-template-rows: auto;
+  gap: 1em;
+  grid-template-areas: "img about price";
+  @media (max-width: $bp-xxl) {
+    grid-template-columns: 100px auto 250px;
+  }
+  @media (max-width: $bp-xl) {
+    grid-template-columns: 100px auto 210px;
+  }
+  @media (max-width: $bp-md) {
+    grid-template-columns: 120px auto;
+    grid-template-rows: auto;
+    grid-template-areas: "img about" "img price";
+  }
+  &-img {
+    grid-area: img;
     img {
-      position: relative;
-      z-index: 1;
       width: 100%;
-      height: var(--offer-w);
-      object-fit: cover;
-      border-radius: $radius;
     }
-    figcaption {
-      @include absBG(10);
-      color: #fff;
-      padding: 2em;
-      @include flex(column, space-between, stretch, nowrap);
-      @media (max-width: $bp-xl) {
-        padding: 1em;
-      }
-    }
-    &:not(.full) {
-      @media (max-width: $bp-md) {
-        --offer-w: 240px;
-      }
+  }
+  &-about {
+    grid-area: about;
+    p {
+      color: $dark;
+      margin-bottom: 0.5em;
       @media (max-width: $bp-sm) {
-        --offer-w: 41vw;
-      }
-      figcaption {
-        @media (max-width: $bp-sm) {
-          font-size: 10px;
-        }
-      }
-      h6 {
-        @media (max-width: $bp-md) {
-          display: none;
-        }
+        font-size: 0.9em;
       }
     }
   }
-  .sw-offers {
-    overflow: visible;
-    &:hover {
-      .offer {
-        transform: rotate(0deg) !important;
-      }
-    }
-    .swiper-slide {
-      width: var(--offer-w);
-      @media (min-width: 991.98px) {
-        &:nth-child(odd) {
-          .offer {
-            transform: rotate(3deg);
-          }
-        }
-        &:nth-child(even) {
-          .offer {
-            transform: rotate(-3deg);
-          }
-        }
-      }
-    }
-  }
-  .offer-page-img {
-    width: 100%;
-    height: var(--offer-w);
-    border-radius: $radius;
-  }
-  .box {
-    background-color: var(--bg-second);
-    @include shadow();
-    padding: 2em;
-    border-radius: $radius;
+  &-price {
+    grid-area: price;
+    @include flex(row, flex-end, flex-start, nowrap);
     font-size: 1.2em;
-    @media (max-width: $bp-xl) {
+    @media (max-width: $bp-xxl) {
       font-size: 1.1em;
     }
     @media (max-width: $bp-md) {
-      padding: 1em;
+      justify-content: space-between;
     }
-    p {
-      &:not(:first-child) {
-        margin-top: 1em;
-      }
+    @media (max-width: $bp-sm) {
+      font-size: 1em;
     }
   }
-  .offer-product {
-    padding: 1.25em 0px;
-    width: 100%;
-    display: grid;
-    grid-template-columns: 100px auto 280px;
-    grid-template-rows: auto;
-    gap: 1em;
-    grid-template-areas: "img about price";
-    @media (max-width: $bp-xxl) {
-      grid-template-columns: 100px auto 250px;
-    }
-    @media (max-width: $bp-xl) {
-      grid-template-columns: 100px auto 210px;
-    }
-    @media (max-width: $bp-md) {
-      grid-template-columns: 120px auto;
-      grid-template-rows: auto;
-      grid-template-areas: "img about" "img price";
-    }
-    &-img {
-      grid-area: img;
-      img {
-        width: 100%;
-      }
-    }
-    &-about {
-      grid-area: about;
-      p {
-        color: $dark;
-        margin-bottom: 0.5em;
-        @media (max-width: $bp-sm) {
-          font-size: 0.9em;
-        }
-      }
-    }
-    &-price {
-      grid-area: price;
-      @include flex(row, flex-end, flex-start, nowrap);
-      font-size: 1.2em;
-      @media (max-width: $bp-xxl) {
-        font-size: 1.1em;
-      }
-      @media (max-width: $bp-md) {
-        justify-content: space-between;
-      }
-      @media (max-width: $bp-sm) {
-        font-size: 1em;
-      }
-    }
-    &s-list {
-      li:not(:first-child) {
-        border-top: 1px solid var(--bg-btn);
-      }
+  &s-list {
+    li:not(:first-child) {
+      border-top: 1px solid var(--bg-btn);
     }
   }
 }
@@ -3860,7 +3841,8 @@ ACCOUNT
 }
 .login {
   position: relative;
-  min-height: calc(100vh - var(--h-height));
+  min-height: calc(100vh - var(--h-height) - var(--f-height));
+  height: 700px;
   &-forms {
     position: relative;
     z-index: 1;
@@ -3876,7 +3858,7 @@ ACCOUNT
       padding: 1em;
     }
     form {
-      background-color: var(--bg-second);
+      background-color: var(--bg-main);
       border-radius: $radius;
       @include shadow();
       padding: 2em;
@@ -3894,22 +3876,18 @@ ACCOUNT
   }
   &-toggler {
     position: absolute;
-    top: 0px;
+    top: 60px;
     right: 0%;
     bottom: 0px;
     z-index: 10;
     width: 38%;
+    border-radius: 30px;
     background-color: var(--main-color);
-    // background-image: url(imgs/bg/fruits.png), url(imgs/bg/entrance.jpg);
-    // background-repeat: no-repeat;
-    // background-size: cover;
-    // background-position: 100% 100%, 100% 50%;
-
     background-image: url(imgs/bg/entrance.jpg);
     background-repeat: no-repeat;
     background-size: cover;
     background-position: 100% 50%;
-    color: #fff;
+    color: var(--font-color);
     text-align: center;
     padding-top: 4em;
     .btn-40 {
@@ -3948,6 +3926,7 @@ ACCOUNT
 .no-city {
   @include shadow();
   padding: 1.5em;
+  background-color: var(--bg-main);
   border-radius: $radius;
   font-size: 1.2em;
   z-index: 100;

@@ -13,7 +13,7 @@ const Categories = () => {
   const [categories, setCategories] = useState({ loading: true, items: [] });
 
   useEffect(() => {
-    getCategoriesList({ size: 50 })
+    getCategoriesList({ size: 50, parent: false })
       .then((res) => setCategories({ loading: false, items: res }))
       .catch(() => setBlogs({ loading: false, items: [] }));
   }, []);

@@ -53,8 +53,8 @@ const OfferPage = () => {
     <main>
       <section className="sec-6 pt-4 pt-lg-0 mb-5">
         <Container>
-          <Row className="flex-row flex-lg-row-reverse gx-4 gx-xxl-5">
-            <Col xs={12} md={6} lg={4} className="mb-4">
+          <Row className="flex-row gx-4 gx-xxl-5">
+            <Col xs={12} lg={8}>
               <figure className="offer full">
                 <LazyLoadImage
                   src={getImageURL({
@@ -65,18 +65,11 @@ const OfferPage = () => {
                   alt={sale?.data?.title}
                   loading="lazy"
                 />
-                <figcaption>
-                  <div>
-                    <h4>{sale.data.title}</h4>
-                    <h6 className="fw-4">{sale.data.desc}</h6>
-                  </div>
-                </figcaption>
+                <div className="p-4">
+                  <h4>{sale.data.title}</h4>
+                  <h6 className="fw-4">{sale.data.desc}</h6>
+                </div>
               </figure>
-            </Col>
-            <Col xs={12} lg={8}>
-              <h1>{sale.data.title}</h1>
-              <div className="box mb-5">{sale.data.desc}</div>
-
               {/* <h2>Товары, участвующие в акции</h2>
               <ul className="list-unstyled offer-products-list">
                 <li>

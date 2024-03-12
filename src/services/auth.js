@@ -3,7 +3,7 @@ import { $api, $authApi } from ".";
 import { apiRoutes } from "../config/api";
 import { resetAddresses, updateAddresses } from "../store/reducers/addressSlice";
 import socket from "../config/socket";
-import { setAuth, setLoadingLogin, setUser } from "../store/reducers/authSlice";
+import { setAuth, setLoadingLogin, setToken, setUser } from "../store/reducers/authSlice";
 import { resetCart } from "../store/reducers/cartSlice";
 import { resetCheckout } from "../store/reducers/checkoutSlice";
 import { NotificationManager } from "react-notifications";
@@ -14,8 +14,9 @@ const login = createAsyncThunk("auth/login", async (payloads, thunkAPI) => {
     const response = await $api.post(apiRoutes.AUTH_LOGIN, payloads);
 
     if (response?.data?.user && response?.data?.token) {
-      localStorage.setItem('token', response.data.token)
+
       thunkAPI.dispatch(setUser(response.data.user))
+      thunkAPI.dispatch(setToken(response.data.token))
 
       thunkAPI.dispatch(updateAddresses(response?.data?.user?.addresses ?? []))
 
@@ -40,12 +41,11 @@ const logout = createAsyncThunk("auth/logout", async (_, thunkAPI) => {
   try {
     socket.disconnect()
     const response = await $api.post(apiRoutes.AUTH_LOGOUT).finally(async () => {
-      localStorage.removeItem('token')
       thunkAPI.dispatch(setAuth(false))
       thunkAPI.dispatch(setUser(false))
+      thunkAPI.dispatch(setToken(false))
       thunkAPI.dispatch(resetCart())
       thunkAPI.dispatch(resetAddresses())
-      // thunkAPI.dispatch(resetFavorite())
       thunkAPI.dispatch(resetCheckout())
     });
 
@@ -68,14 +68,14 @@ const refreshAuth = createAsyncThunk("auth/refresh", async (_, thunkAPI) => {
   try {
     const response = await $authApi.post(apiRoutes.AUTH_REFRESH);
     if (response?.data && response.status === 200) {
-      localStorage.setItem('token', response.data.token)
+      thunkAPI.dispatch(setToken(response.data.token))
     }
     return response.data
   } catch (error) {
     thunkAPI.dispatch(setUser(false))
     thunkAPI.dispatch(setAuth(false))
+    thunkAPI.dispatch(setToken(false))
     socket.disconnect()
-    localStorage.removeItem('token')
     return thunkAPI.rejectWithValue(error);
   }
 });

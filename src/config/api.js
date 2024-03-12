@@ -1,5 +1,4 @@
-const API_TOKEN = "nuuxbuuc3s766e87ekzo35dqpi6imzmtr9f9c";
-const DOMAIN = "refettorio.yooapp.online";
+const DOMAIN = "refettorio.yooapp.online"; //window.location.hostname;
 const SITE_URL = "https://yooapp.ru";
 const BASE_URL = "https://api.yooapp.ru";
 const ADMIN_URL = "https://admin.yooapp.ru";
@@ -120,7 +119,6 @@ export {
   BASE_URL,
   SITE_URL,
   FILE_URL,
-  API_TOKEN,
   DADATA_URL_GEO,
   DADATA_URL_STREET,
   DADATA_URL_ADDRESS,

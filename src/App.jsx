@@ -28,20 +28,20 @@ function App() {
   const [loading, setLoading] = useState(true);
   const options = useSelector((state) => state.settings.options);
 
+  const cart = useSelector((state) => state.cart.items);
+  const address = useSelector((state) => state.address.items);
+  const delivery = useSelector((state) => state.checkout.delivery);
+  const auth = useSelector((state) => state.auth);
+
   useEffect(() => {
     if (options?.themeType) {
       document.documentElement.dataset.theme = options?.themeType;
     }
   }, [options?.themeType]);
 
-  const cart = useSelector((state) => state.cart.items);
-  const address = useSelector((state) => state.address.items);
-  const delivery = useSelector((state) => state.checkout.delivery);
-  const auth = useSelector((state) => state.auth);
-
   const updateColor = useCallback(
     (options) => {
-      if (options.colorMain) {
+      if (options?.colorMain) {
         setCssColor("--main-color", options.colorMain);
         setCssColor(
           "--main-color-active",
@@ -65,7 +65,7 @@ function App() {
       await getOptions()
         .then(async (res) => {
           if (res?.options) {
-            dispatch(updateOptions(res.options));
+            dispatch(updateOptions({ options: res.options, token: res.token }));
             updateColor(res.options);
             if (res.options.favicon) {
               let link = document.querySelector("link[rel~='icon']");
@@ -97,7 +97,7 @@ function App() {
             );
           }
 
-          if (localStorage.getItem("token")) {
+          if (auth?.token) {
             await checkAuth()
               .then(async (data) => {
                 dispatch(setAuth(true));
