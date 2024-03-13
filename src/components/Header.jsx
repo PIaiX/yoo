@@ -212,12 +212,12 @@ const Header = memo(() => {
                   (e) =>
                     e?.status && (
                       <li>
-                        <NavLink
+                        <Link
                           to={e?.link ?? e.page}
                           // className={e.type == "dark" ? "btn-primary" : ""}
                         >
                           {e.title}
-                        </NavLink>
+                        </Link>
                       </li>
                     )
                 )

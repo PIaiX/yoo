@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import { HiOutlineDevicePhoneMobile } from "react-icons/hi2";
 import { YMaps, Map, Placemark, Polygon } from "@pbe/react-yandex-maps";
 import { useSelector } from "react-redux";
 import EmptyWork from "../components/empty/work";
@@ -49,12 +48,12 @@ const Contact = () => {
           <Row>
             <Col md={4}>
               <div className="box">
-                <div className="d-flex align-items-baseline mb-3">
+                <div className="d-flex align-items-baseline mb-2">
                   <h1 className="mb-0">Контакты</h1>
                 </div>
 
-                <h6 className="mb-3">{mainAffiliate.full}</h6>
-                {mainAffiliate?.phone && mainAffiliate?.phone[0] && (
+                {/* <h6 className="mb-3">{mainAffiliate.full}</h6> */}
+                {/* {mainAffiliate?.phone && mainAffiliate?.phone[0] && (
                   <>
                     <p className="mb-3">
                       <a href={"tel:" + mainAffiliate.phone[0]}>
@@ -84,9 +83,9 @@ const Contact = () => {
                       Позвонить
                     </a>
                   </>
-                )}
+                )} */}
 
-                <ul className="list-unstyled mt-4">
+                <ul className="list-unstyled">
                   {affiliate.map((e) => (
                     <li key={e.id}>
                       <a onClick={() => setMainAffiliate(e)}>
@@ -149,15 +148,15 @@ const Contact = () => {
                               e.options.coordinates.lat,
                               e.options.coordinates.lon,
                             ]}
-                            properties={{
-                              balloonContentBody: [
-                                "<address className='my-info'>",
-                                "<div className='my-info-body'>",
-                                `<h6 className='mb-0 fw-6'>${e.full}</h6>`,
-                                "</div>",
-                                "</address>",
-                              ].join(""),
-                            }}
+                            // properties={{
+                            //   balloonContentBody: [
+                            //     "<address class='my-info'>",
+                            //     "<div class='my-info-body'>",
+                            //     `<h6 class='mb-0 fw-6'>${e.full}</h6>`,
+                            //     "</div>",
+                            //     "</address>",
+                            //   ].join(""),
+                            // }}
                           />
                         ))}
 
@@ -175,6 +174,9 @@ const Contact = () => {
 
                           return (
                             <Polygon
+                              instanceRef={(ref) => {
+                                ref && ref.balloon.open();
+                              }}
                               defaultGeometry={[geodata]}
                               options={{
                                 fillColor: colors[color],
@@ -182,12 +184,13 @@ const Contact = () => {
                                 opacity: 0.3,
                                 strokeWidth: 2,
                                 strokeStyle: "solid",
+                                visible: true,
                               }}
                               properties={{
                                 balloonContentBody: [
-                                  "<address className='my-info'>",
-                                  "<div className='my-info-body'>",
-                                  `<h6 className='mb-0 fw-6'>${e.title}</h6>`,
+                                  "<address class='my-info'>",
+                                  "<div class='my-info-body'>",
+                                  `<h6 class='mb-0 fw-6'>${e.title}</h6>`,
                                   e.desc && `<p>${e.desc}</p>`,
                                   e.minPrice > 0
                                     ? `<p>Минимальная сумма заказа ${customPrice(
