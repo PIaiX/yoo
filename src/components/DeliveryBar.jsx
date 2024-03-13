@@ -2,6 +2,7 @@ import React from "react";
 import { useSelector } from "react-redux";
 import useIsMobile from "../hooks/isMobile";
 import { useTotalCart } from "../hooks/useCart";
+import { customPrice } from "../helpers/all";
 
 const DeliveryBar = () => {
   const isMobileLG = useIsMobile("991px");
@@ -22,7 +23,7 @@ const DeliveryBar = () => {
             {price == 0
               ? "Бесплатная доставка пока не доступна"
               : price > 0 && price < zone?.data?.priceFree
-              ? "Минимальная сумма заказа 1500 руб"
+              ? `Минимальная сумма заказа ${customPrice(zone.data.priceFree)}`
               : "Бесплатная доставка"}
           </p>
           <div className="mobileBar">
@@ -120,9 +121,9 @@ const DeliveryBar = () => {
 
         <div>
           {price < zone?.data?.minPrice
-            ? "Минимальная сумма заказа 1500 руб"
+            ? `Минимальная сумма заказа ${customPrice(zone.data.minPrice)}`
             : price >= zone?.data?.minPrice && price < zone?.data?.priceFree
-            ? "Бесплатная доставка пока не доступна"
+            ? `Бесплатная доставка от ${customPrice(zone.data.priceFree)}`
             : "Бесплатная доставка"}
         </div>
       </div>
