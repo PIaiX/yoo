@@ -3,7 +3,7 @@ import Modal from "react-bootstrap/Modal";
 import Story from "./WidgetStoryItem";
 import StoryBig from "./WidgetStoryBigItem";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { FreeMode, Navigation, Scrollbar } from "swiper";
+import { FreeMode, Navigation, Scrollbar } from "swiper/modules";
 import { HiXMark } from "react-icons/hi2";
 import SwiperButtonNext from "../utils/SwiperButtonNext";
 import SwiperButtonPrev from "../utils/SwiperButtonPrev";

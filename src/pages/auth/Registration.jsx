@@ -15,12 +15,19 @@ import Meta from "../../components/Meta";
 import { Button } from "react-bootstrap";
 import { NotificationManager } from "react-notifications";
 import { isMobile } from "react-device-detect";
+import { getImageURL } from "../../helpers/all";
 
 const Registration = () => {
   const isAuth = useSelector((state) => state.auth.isAuth);
   const user = useSelector((state) => state.auth.user);
   const options = useSelector((state) => state.settings.options);
-
+  const bgImage = options.auth
+    ? getImageURL({
+        path: options.auth,
+        type: "all/web/auth",
+        size: "full",
+      })
+    : false;
   const navigate = useNavigate();
 
   const [loginView, setLoginView] = useState(true);
@@ -149,7 +156,7 @@ const Registration = () => {
 
   const regForm = useMemo(() => (
     <form className="login-form" onSubmit={handleSubmit(onSubmit)}>
-      <h4 className="main-color text-center fw-6">С возвращением!</h4>
+      <h4 className="main-color text-center fw-4">С возвращением!</h4>
       {/* <p className="text-center fs-11 mb-5">
         Вкусные роллы и пицца скучали по тебе
       </p> */}
@@ -227,7 +234,7 @@ const Registration = () => {
 
   const loginForm = useMemo(() => (
     <form className="login-form" onSubmit={handleSubmitReg(onSubmitReg)}>
-      <h4 className="main-color text-center fw-6">Привет, друг!</h4>
+      <h4 className="main-color text-center fw-4">Привет, друг!</h4>
       <p className="text-center fs-11 mb-5">
         Введи данные, чтобы зарегистрироваться
       </p>
@@ -367,7 +374,11 @@ const Registration = () => {
             <div ref={block2} className="login-forms">
               {loginView ? regForm : loginForm}
             </div>
-            <div ref={block1} className="login-toggler">
+            <div
+              ref={block1}
+              className="login-toggler"
+              style={{ backgroundImage: bgImage ? `url(${bgImage})` : null }}
+            >
               <div className="text">
                 <div ref={text1} className="text-1">
                   <h4>Это ваш первый заказ?</h4>

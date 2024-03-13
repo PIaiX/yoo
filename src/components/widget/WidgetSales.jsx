@@ -13,6 +13,7 @@ const WidgetSales = memo((data) => {
       <Container>
         <Swiper
           // className="sw-offers"
+          className="p-3"
           spaceBetween={20}
           slidesPerView={"auto"}
           speed={750}
@@ -21,7 +22,7 @@ const WidgetSales = memo((data) => {
               slidesPerView: "auto",
             },
             768: {
-              slidesPerView: "auto",
+              slidesPerView: 2,
             },
             992: {
               slidesPerView: 3,

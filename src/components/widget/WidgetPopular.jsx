@@ -1,6 +1,6 @@
 import React, { memo } from "react";
 import { Container } from "react-bootstrap";
-import { FreeMode, Navigation } from "swiper";
+import { FreeMode, Navigation } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import Empty from "../Empty";
 import ProductCardMini from "../ProductCardMini";

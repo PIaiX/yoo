@@ -8,6 +8,7 @@ import WidgetHello from "./widget/WidgetHello";
 import WidgetStories from "./widget/WidgetStories";
 import WidgetSales from "./widget/WidgetSales";
 import WidgetBanners from "./widget/WidgetBanners";
+import Catalog from "./Catalog";
 
 const Widgets = memo(({ data }) => {
   return data?.length > 0
@@ -18,6 +19,8 @@ const Widgets = memo(({ data }) => {
           <WidgetHello {...e} />
         ) : e.value == "stories" ? (
           <WidgetStories {...e} />
+        ) : e.value == "menu" ? (
+          <Catalog data={e.items} />
         ) : e.value == "projects" ? (
           <WidgetProjects {...e} />
         ) : e.value == "about" ? (

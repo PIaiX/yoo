@@ -5,7 +5,7 @@ import Col from "react-bootstrap/Col";
 import ProductCardMini from "../components/ProductCardMini";
 
 // swiper
-import { Navigation, Thumbs, FreeMode } from "swiper";
+import { Navigation, Thumbs, FreeMode } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import SwiperButtonNext from "../components/utils/SwiperButtonNext";

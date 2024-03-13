@@ -1,20 +1,17 @@
 import React from "react";
 import Container from "react-bootstrap/Container";
-import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+import "swiper/css";
 import AppStore from "../assets/imgs/appstore-black.svg";
 import GooglePlay from "../assets/imgs/googleplay-black.svg";
 import Phone from "../assets/imgs/phone.png";
-import Offer from "../components/Offer";
 import Catalog from "../components/Catalog";
-import { useSelector } from "react-redux";
-import { Pagination } from "swiper";
-import "swiper/css";
-import { Swiper, SwiperSlide } from "swiper/react";
+import Empty from "../components/Empty";
+import EmptyCatalog from "../components/empty/catalog";
 import Meta from "../components/Meta";
 import Loader from "../components/utils/Loader";
-import { getImageURL } from "../helpers/all";
-import { useGetHomeQuery } from "../services/home";
 import Widgets from "../components/Widgets";
+import { useGetHomeQuery } from "../services/home";
 
 const Home = () => {
   const home = useGetHomeQuery();
@@ -31,9 +28,17 @@ const Home = () => {
         description={options?.description}
       />
 
-      {home?.data?.widgets?.length > 0 && <Widgets data={home.data.widgets} />}
-
-      {home?.data?.categories && <Catalog data={home.data.categories} />}
+      {home?.data?.widgets?.length > 0 ? (
+        <Widgets data={home.data.widgets} />
+      ) : home?.data?.categories?.length > 0 ? (
+        <Catalog data={home.data.categories} />
+      ) : (
+        <Empty
+          text="Сайт пуст"
+          desc="Информация скоро появится"
+          image={() => <EmptyCatalog />}
+        />
+      )}
 
       {options?.appYes && (
         <Container className="overflow-hidden">

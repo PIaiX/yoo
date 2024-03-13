@@ -29,10 +29,12 @@ html {
 
 :root,
 :root[data-theme=light] {
+  --bg-header: #fff;
   --main-color: #222;
   --main-color-outline: #22222223;
   --main-color-active: #22222223;
   --font-color: #111;
+  --font-color-revers: #fff;
   --bs-secondary-color: #444;
   --bg-main: #fff;
   --bg-btn: #c5c4c4;
@@ -45,10 +47,12 @@ html {
 }
 
 :root[data-theme=dark] {
+  --bg-header: #222;
   --main-color: #222;
   --main-color-outline: #22222223;
-  --main-color-active: #22222223;
+  --main-color-active: #83545423;
   --font-color: #fff;
+  --font-color-revers: #111;
   --bs-secondary-color: #777;
   --bg-main: #131313;
   --bg-btn: #333;
@@ -562,7 +566,7 @@ input[type=number]::-webkit-outer-spin-button, input[type=number]::-webkit-inner
   left: 0%;
   height: 80%;
   width: 0.5px;
-  background-color: var(--light-gray);
+  background-color: var(--bg-btn);
 }
 .inputGroup li:first-child label .text {
   border-top-left-radius: 0.5em;
@@ -1458,7 +1462,7 @@ body {
 header {
   height: var(--h-height);
   --pad: 40px;
-  background-color: var(--bg-second) !important;
+  background-color: var(--bg-header) !important;
   position: relative;
   top: 0px;
   left: 0px;
@@ -1788,10 +1792,24 @@ main {
      object-fit: cover;
   border-radius: 1.25em;
 }
+@media (max-width: 1399.98px) {
+  .sec-1 .main-slider img {
+    height: 280px;
+  }
+}
+@media (max-width: 991.98px) {
+  .sec-1 .main-slider img {
+    height: 250px;
+  }
+}
 @media (max-width: 767.98px) {
   .sec-1 .main-slider img {
-    border-radius: 0px;
-    height: auto;
+    height: 200px;
+  }
+}
+@media (max-width: 575.98px) {
+  .sec-1 .main-slider img {
+    height: 140px;
   }
 }
 
@@ -2491,7 +2509,7 @@ main {
 .product-img {
   position: relative;
   width: 100%;
-  height: 250px;
+  height: 280px;
   -o-object-fit: cover;
      object-fit: cover;
   margin-bottom: 1em;
@@ -2518,7 +2536,7 @@ main {
 }
 .product-img img {
   width: 100%;
-  height: 250px;
+  height: 280px;
   -o-object-fit: cover;
      object-fit: cover;
   -o-object-position: center;
@@ -2962,9 +2980,42 @@ main {
   position: relative;
   z-index: 1;
   width: 100%;
-  height: 160px;
+  height: 150px;
   -o-object-fit: cover;
      object-fit: cover;
+}
+@media (max-width: 1399.98px) {
+  .offer img {
+    height: 140px;
+  }
+}
+@media (max-width: 991.98px) {
+  .offer img {
+    height: 130px;
+  }
+}
+.offer.full img {
+  height: 300px;
+}
+@media (max-width: 1399.98px) {
+  .offer.full img {
+    height: 240px;
+  }
+}
+@media (max-width: 991.98px) {
+  .offer.full img {
+    height: 200px;
+  }
+}
+@media (max-width: 767.98px) {
+  .offer.full img {
+    height: 200px;
+  }
+}
+@media (max-width: 575.98px) {
+  .offer.full img {
+    height: 180px;
+  }
 }
 .offer-body {
   padding: 1em;
@@ -3019,9 +3070,32 @@ main {
 .box {
   background-color: var(--bg-second);
   box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.06);
+  scrollbar-color: var(--bg-btn) transparent;
+  scrollbar-width: thin;
   padding: 2em;
   border-radius: 1.25em;
   font-size: 1.2em;
+}
+.box::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+  background-color: var(--bg-second);
+  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.06);
+}
+.box::-webkit-scrollbar:hover, .box::-webkit-scrollbar:active {
+  background: rgba(var(--main-color-rgb), 0.05);
+}
+.box::-webkit-scrollbar-thumb {
+  background-color: #dfe2e5;
+  border-radius: 5px;
+  -webkit-transition: background-color 0.2s;
+  transition: background-color 0.2s;
+}
+.box::-webkit-scrollbar-thumb:hover, .box::-webkit-scrollbar-thumb:active {
+  background: var(--main-color);
+}
+.box::-webkit-scrollbar-button:vertical:start:decrement, .box::-webkit-scrollbar-button:vertical:end:increment, .box::-webkit-scrollbar-button:horizontal:start:decrement, .box::-webkit-scrollbar-button:horizontal:end:increment {
+  display: none;
 }
 @media (max-width: 1199.98px) {
   .box {
@@ -3442,6 +3516,7 @@ footer .mobile ul li a .badge {
 }
 footer .mobile ul li a.active {
   background-color: var(--main-color);
+  color: var(--font-color-revers);
   max-width: 130px;
 }
 footer .mobile ul li a.active .badge {
@@ -4421,7 +4496,7 @@ ACCOUNT
   }
 }
 .login-forms form {
-  background-color: var(--bg-main);
+  background-color: var(--bg-second);
   border-radius: 1.25em;
   box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.06);
   padding: 2em;
@@ -4453,7 +4528,7 @@ ACCOUNT
   background-repeat: no-repeat;
   background-size: cover;
   background-position: 100% 50%;
-  color: var(--font-color);
+  color: var(--font-color-revers);
   text-align: center;
   padding-top: 4em;
 }
@@ -4763,15 +4838,15 @@ ACCOUNT END
   color: var(--font-color);
 }
 .dropdown-item:active, .dropdown-item.active {
-  color: var(--font-color) !important;
+  color: var(--font-color-revers) !important;
   background-color: var(--main-color) !important;
 }
 .dropdown-item:hover:not(.active) {
   color: var(--font-color) !important;
-  background-color: var(--bg-btn) !important;
+  background-color: var(--bg-second) !important;
 }
 .dropdown-item:active p, .dropdown-item.active p {
-  color: var(--font-color) !important;
+  color: var(--font-color-revers) !important;
 }
 
 .custom-table {

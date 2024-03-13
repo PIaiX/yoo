@@ -6,7 +6,7 @@ import Notice from "../components/Notice";
 import ProductCard from "../components/ProductCard";
 import Ingredient from "../components/utils/Ingredient";
 // swiper
-import { Navigation } from "swiper";
+import { Navigation } from "swiper/modules";
 import "swiper/css";
 import { Swiper, SwiperSlide } from "swiper/react";
 // icons & images
@@ -212,7 +212,7 @@ const Product = () => {
 
               <div className="productPage-price">
                 <div className="me-3">
-                  <div className="py-2 px-3 rounded-pill">
+                  <div className="py-2 px-3 fw-5 rounded-pill">
                     {customPrice(price)}
                   </div>
                   {discount > 0 && (

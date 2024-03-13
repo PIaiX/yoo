@@ -147,12 +147,12 @@ const Header = memo(() => {
             </Link>
             <ul className="text-menu">
               <li>
-                {affiliate.length > 0 && (
+                {cities.length > 0 && (
                   <Link
-                    onClick={() => affiliate?.length > 1 && setShowCity(true)}
+                    onClick={() => cities?.length > 1 && setShowCity(true)}
                     className="main-color"
                   >
-                    {affiliate?.length > 1
+                    {cities?.length > 1
                       ? defaultCityOptions?.city ?? "Выберите город"
                       : mainAffiliate?.options?.city ?? ""}
                   </Link>

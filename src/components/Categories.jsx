@@ -1,5 +1,5 @@
 import React, { useState, memo, useRef } from "react";
-import { Navigation, FreeMode, Mousewheel } from "swiper";
+import { Navigation, FreeMode, Mousewheel } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import { Link } from "react-scroll";

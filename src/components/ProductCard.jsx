@@ -61,7 +61,7 @@ const ProductCard = memo(({ data }) => {
         )}
         <div className="d-flex justify-content-between align-items-center mb-2 mb-md-0">
           <div>
-            <div className="fs-12">
+            <div className="fs-12 fw-5">
               {data?.modifiers?.length > 0
                 ? "от " + customPrice(price)
                 : customPrice(price)}

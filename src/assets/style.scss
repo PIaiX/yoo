@@ -21,10 +21,12 @@ html {
 }
 :root,
 :root[data-theme="light"] {
+  --bg-header: #fff;
   --main-color: #222;
   --main-color-outline: #22222223;
   --main-color-active: #22222223;
   --font-color: #111;
+  --font-color-revers: #fff;
   --bs-secondary-color: #444;
   --bg-main: #fff;
   --bg-btn: #c5c4c4;
@@ -37,10 +39,12 @@ html {
 }
 
 :root[data-theme="dark"] {
+  --bg-header: #222;
   --main-color: #222;
   --main-color-outline: #22222223;
-  --main-color-active: #22222223;
+  --main-color-active: #83545423;
   --font-color: #fff;
+  --font-color-revers: #111;
   --bs-secondary-color: #777;
   --bg-main: #131313;
   --bg-btn: #333;
@@ -601,7 +605,7 @@ input {
         left: 0%;
         height: 80%;
         width: 0.5px;
-        background-color: var(--light-gray);
+        background-color: var(--bg-btn);
       }
     }
     &:first-child {
@@ -1471,7 +1475,7 @@ body {
 header {
   height: var(--h-height);
   --pad: 40px;
-  background-color: var(--bg-second) !important;
+  background-color: var(--bg-header) !important;
   position: relative;
   top: 0px;
   left: 0px;
@@ -1735,9 +1739,17 @@ main {
       height: 350px;
       object-fit: cover;
       border-radius: $radius;
+      @media (max-width: $bp-xxl) {
+        height: 280px;
+      }
+      @media (max-width: $bp-lg) {
+        height: 250px;
+      }
       @media (max-width: $bp-md) {
-        border-radius: 0px;
-        height: auto;
+        height: 200px;
+      }
+      @media (max-width: $bp-sm) {
+        height: 140px;
       }
     }
   }
@@ -2288,7 +2300,7 @@ main {
   &-img {
     position: relative;
     width: 100%;
-    height: 250px;
+    height: 280px;
     object-fit: cover;
     margin-bottom: 1em;
     @media (max-width: $bp-xxl) {
@@ -2305,7 +2317,7 @@ main {
     }
     img {
       width: 100%;
-      height: 250px;
+      height: 280px;
       object-fit: cover;
       object-position: center;
       border-radius: $radius;
@@ -2719,8 +2731,31 @@ main {
     position: relative;
     z-index: 1;
     width: 100%;
-    height: 160px;
+    height: 150px;
     object-fit: cover;
+    @media (max-width: $bp-xxl) {
+      height: 140px;
+    }
+    @media (max-width: $bp-lg) {
+      height: 130px;
+    }
+  }
+  &.full {
+    img {
+      height: 300px;
+      @media (max-width: $bp-xxl) {
+        height: 240px;
+      }
+      @media (max-width: $bp-lg) {
+        height: 200px;
+      }
+      @media (max-width: $bp-md) {
+        height: 200px;
+      }
+      @media (max-width: $bp-sm) {
+        height: 180px;
+      }
+    }
   }
   &-body {
     padding: 1em;
@@ -2765,6 +2800,7 @@ main {
 .box {
   background-color: var(--bg-second);
   @include shadow();
+  @include scrollCustomized();
   padding: 2em;
   border-radius: $radius;
   font-size: 1.2em;
@@ -3083,6 +3119,7 @@ footer {
           }
           &.active {
             background-color: var(--main-color);
+            color: var(--font-color-revers);
             max-width: 130px;
             .badge {
               background-color: var(--bg-second);
@@ -3858,7 +3895,7 @@ ACCOUNT
       padding: 1em;
     }
     form {
-      background-color: var(--bg-main);
+      background-color: var(--bg-second);
       border-radius: $radius;
       @include shadow();
       padding: 2em;
@@ -3887,7 +3924,7 @@ ACCOUNT
     background-repeat: no-repeat;
     background-size: cover;
     background-position: 100% 50%;
-    color: var(--font-color);
+    color: var(--font-color-revers);
     text-align: center;
     padding-top: 4em;
     .btn-40 {
@@ -4167,16 +4204,16 @@ ACCOUNT END
     color: var(--font-color);
     &:active,
     &.active {
-      color: var(--font-color) !important;
+      color: var(--font-color-revers) !important;
       background-color: var(--main-color) !important;
     }
     &:hover:not(.active) {
       color: var(--font-color) !important;
-      background-color: var(--bg-btn) !important;
+      background-color: var(--bg-second) !important;
     }
     &:active p,
     &.active p {
-      color: var(--font-color) !important;
+      color: var(--font-color-revers) !important;
     }
   }
 }
