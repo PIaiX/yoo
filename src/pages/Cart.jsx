@@ -18,24 +18,26 @@ import { useTotalCart } from "../hooks/useCart";
 import { deleteCart } from "../services/cart";
 import { isPromo } from "../services/promo";
 import { cartDeletePromo } from "../store/reducers/cartSlice";
+import { IoTrashOutline } from "react-icons/io5";
 
 const Cart = () => {
   const user = useSelector((state) => state.auth.user);
   const cart = useSelector((state) => state.cart.items);
   const promo = useSelector((state) => state.cart.promo);
-  const checkout = useSelector((state) => state.checkout);
+  const zone = useSelector((state) => state.cart.zone);
+  const stateDelivery = useSelector((state) => state.stateDelivery);
+  const pointSwitch = useSelector((state) => state.checkout?.data?.pointSwitch);
   const address = useSelector((state) => state.address.items);
   const options = useSelector((state) => state.settings.options);
-  const pointSwitch = useSelector((state) => state.checkout.data.pointSwitch);
   const {
     total = 0,
     price = 0,
+    discount = 0,
     delivery,
     pointAccrual,
     pickupDiscount,
     pointCheckout,
   } = useTotalCart();
-
   const {
     control,
     formState: { isValid, errors },
@@ -59,7 +61,7 @@ const Cart = () => {
       (e?.promo?.length > 0 || promo?.name?.length > 0) &&
         isPromo({
           promo: e?.promo ? e.promo : promo?.name ? promo.name : "",
-          delivery: checkout.delivery,
+          delivery: stateDelivery,
         })
           .then(({ data }) => data?.promo && dispatch(cartPromo(data.promo)))
           .catch((error) => {
@@ -71,7 +73,7 @@ const Cart = () => {
             );
           });
     },
-    [promo, checkout.delivery]
+    [promo, stateDelivery]
   );
 
   useEffect(() => {
@@ -79,7 +81,7 @@ const Cart = () => {
       onPromo();
       setValue("promo", "");
     }
-  }, [checkout.delivery, promo]);
+  }, [stateDelivery, promo]);
 
   if (!Array.isArray(cart) || cart.length <= 0) {
     return (
@@ -136,40 +138,63 @@ const Cart = () => {
 
               <ul className="list-unstyled">
                 {cart.map((e) => (
-                  <li>
+                  <li key={e.id}>
                     <CartItem data={e} />
                   </li>
                 ))}
               </ul>
             </Col>
             <Col xs={12} lg={4}>
-              <div className="fs-11 mb-1">Промокод</div>
-              <div className="mb-3 d-flex">
-                <Input
-                  className="w-100"
-                  type="text"
-                  name="promo"
-                  placeholder="Введите промокод"
-                  errors={errors}
-                  register={register}
-                  maxLength={100}
-                />
-                <button
-                  type="button"
-                  disabled={!isValid}
-                  onClick={handleSubmit(onPromo)}
-                  className="btn-10 ms-2 ms-sm-4 rounded-3"
-                >
-                  Применить
-                </button>
-              </div>
+              {options?.promoVisible && (
+                <>
+                  <div className="fs-11 mb-1">Промокод</div>
+                  <div className="mb-3 d-flex">
+                    <Input
+                      className="w-100"
+                      type="text"
+                      name="promo"
+                      placeholder="Введите промокод"
+                      errors={errors}
+                      register={register}
+                      maxLength={100}
+                    />
+                    <button
+                      type="button"
+                      disabled={!isValid}
+                      onClick={handleSubmit(onPromo)}
+                      className="btn-10 ms-2 ms-sm-4 rounded-3"
+                    >
+                      Применить
+                    </button>
+                  </div>
+                </>
+              )}
 
               <div className="d-flex justify-content-between my-2">
                 <span>Стоимость товаров</span>
                 <span>{customPrice(price)}</span>
               </div>
+              {options?.promoVisible && promo && (
+                <div className="d-flex justify-content-between my-2">
+                  <span>Промокод</span>
+                  <span className="d-flex align-items-center">
+                    <span className="text-success">
+                      -{" "}
+                      {promo.procent > 0
+                        ? promo.procent + "%"
+                        : customPrice(promo.discount)}
+                    </span>
+                    <a
+                      onClick={() => dispatch(cartDeletePromo())}
+                      className="ms-2 text-danger"
+                    >
+                      <IoTrashOutline size={16} />
+                    </a>
+                  </span>
+                </div>
+              )}
 
-              {checkout.delivery == "delivery" && (
+              {stateDelivery == "delivery" && (
                 <div className="d-flex justify-content-between my-2">
                   <span>Доставка</span>
                   <span className="text-success">
@@ -208,7 +233,7 @@ const Cart = () => {
               <Link
                 to={
                   user?.id
-                    ? address?.length === 0 && checkout.delivery == "delivery"
+                    ? address?.length === 0 && stateDelivery == "delivery"
                       ? "/account/addresses/add"
                       : "/checkout"
                     : "/login"
@@ -217,7 +242,7 @@ const Cart = () => {
               >
                 <span className="fw-4">
                   {user?.id
-                    ? address?.length === 0 && checkout.delivery == "delivery"
+                    ? address?.length === 0 && stateDelivery == "delivery"
                       ? "Добавить адрес"
                       : "Далее"
                     : "Войти в профиль"}

@@ -20,7 +20,7 @@ const CartItem = memo(({ data }) => {
     : data.weight;
 
   return (
-    <div className="cart-item">
+    <div className="cart-item" key={data.id}>
       <div className="left">
         {/* <input type="checkbox" className="me-1 me-sm-3" /> */}
         <img src={getImageURL({ path: data.medias })} alt={data.title} />

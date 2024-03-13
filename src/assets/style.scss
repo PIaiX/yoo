@@ -29,9 +29,9 @@ html {
   --font-color-revers: #fff;
   --bs-secondary-color: #444;
   --bg-main: #fff;
-  --bg-btn: #c5c4c4;
+  --bg-btn: #dadada;
   --bg-second: #fbfbfb;
-  --hr-color: #2b2831;
+  --hr-color: #b9b9b9;
   --gray: #727272;
   --light-gray: #1e1e1e;
   --divider: #121212;
@@ -260,7 +260,7 @@ address {
   }
 }
 hr {
-  background-color: var(--light-gray);
+  background-color: var(--hr-color);
   height: 0.5px;
   width: 100%;
   border: none;
@@ -586,7 +586,7 @@ input {
     input {
       display: none;
       &:checked + .text {
-        background-color: var(--bg-second);
+        background-color: var(--bg-btn);
       }
     }
   }
@@ -4017,7 +4017,7 @@ ACCOUNT END
   box-shadow: 0px 0px 2px #919eab1f, 0px 8px 24px -4px #919eab33 !important;
   border-radius: 4px;
   color: var(--font-color);
-  background-color: var(--bg-btn) !important;
+  background-color: var(--bg-second) !important;
   border-left: 4px solid transparent;
   cursor: pointer;
   font-weight: 500;

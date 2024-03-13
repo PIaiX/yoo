@@ -21,7 +21,7 @@ const Contact = () => {
       : affiliate[0] ?? false
   );
 
-  if (!mainAffiliate || !mainAffiliate?.phone?.length > 0) {
+  if (!mainAffiliate) {
     return (
       <Empty
         text="В данный момент контактов нет"
@@ -49,26 +49,20 @@ const Contact = () => {
           <Row>
             <Col md={4}>
               <div className="box">
-                <div className="d-flex align-items-baseline mb-5">
+                <div className="d-flex align-items-baseline mb-3">
                   <h1 className="mb-0">Контакты</h1>
-                  <h5 className="mb-0">
-                    <span className="mx-3">•</span>
-                    {mainAffiliate.options.city}
-                  </h5>
                 </div>
 
                 <h6 className="mb-3">{mainAffiliate.full}</h6>
-                {mainAffiliate?.phone[0] && (
+                {mainAffiliate?.phone && mainAffiliate?.phone[0] && (
                   <>
                     <p className="mb-3">
                       <a href={"tel:" + mainAffiliate.phone[0]}>
-                        <HiOutlineDevicePhoneMobile className="fs-15 main-color" />
-                        <span className="fs-11 ms-2 main-color">
-                          Горячая линия
-                        </span>
-                        <span className="fs-11 ms-2">
-                          {mainAffiliate.phone[0]}
-                        </span>
+                        <p className="fs-11 ms-2 main-color">
+                          <HiOutlineDevicePhoneMobile className="fs-15 main-color me-1" />
+                          <span>Горячая линия</span>
+                        </p>
+                        <p className="fs-11 ms-2">{mainAffiliate.phone[0]}</p>
                       </a>
                     </p>
                     <p className="mb-3">
@@ -94,11 +88,11 @@ const Contact = () => {
 
                 <ul className="list-unstyled mt-4">
                   {affiliate.map((e) => (
-                    <li>
+                    <li key={e.id}>
                       <a onClick={() => setMainAffiliate(e)}>
                         <h6 className="mb-2">{e.full}</h6>
 
-                        {e?.options?.work &&
+                        {e?.options?.work?.length > 0 &&
                         e.options.work[moment().weekday()]?.start &&
                         e.options.work[moment().weekday()]?.end ? (
                           <>
@@ -111,7 +105,7 @@ const Contact = () => {
                           </>
                         ) : null}
 
-                        {e?.phone[0] && (
+                        {e?.phone && e?.phone[0] && (
                           <>
                             <p className="main-color mt-2 mb-1">
                               Номер телефона
