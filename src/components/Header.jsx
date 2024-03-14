@@ -127,86 +127,90 @@ const Header = memo(() => {
       <header>
         <Container className="h-100">
           <nav className="h-100">
-            <Link to="/">
-              <img
-                src={
-                  options?.logo
-                    ? getImageURL({
-                        path: options.logo,
-                        type: "all/web/logo",
-                        size: "full",
-                      })
-                    : "/logo.png"
-                }
-                alt={options?.title ?? "YOOAPP"}
-                className="logo"
-              />
-              {/* <span className="ms-3 logo-name">
+            <div className="d-flex align-items-center">
+              <Link to="/" className="me-5">
+                <img
+                  src={
+                    options?.logo
+                      ? getImageURL({
+                          path: options.logo,
+                          type: "all/web/logo",
+                          size: "full",
+                        })
+                      : "/logo.png"
+                  }
+                  alt={options?.title ?? "YOOAPP"}
+                  className="logo"
+                />
+                {/* <span className="ms-3 logo-name">
                 {options?.title ?? "YOOAPP"}
               </span> */}
-            </Link>
-            <ul className="text-menu">
-              <li>
-                {cities.length > 0 && (
-                  <Link
-                    onClick={() => cities?.length > 1 && setShowCity(true)}
-                    className="main-color"
-                  >
-                    {cities?.length > 1
-                      ? defaultCityOptions?.city ?? "Выберите город"
-                      : mainAffiliate?.options?.city ?? ""}
-                  </Link>
-                )}
-                {!defaultCityOptions?.citySave && defaultCityOptions?.city && (
-                  <div className="no-city">
-                    <p className="mb-3">
-                      Ваш город <b>{defaultCityOptions.city}</b> город?
-                    </p>
-                    <div className="d-flex align-items-center justify-content-center">
-                      <Link
-                        className="btn btn-sm btn-primary me-2"
-                        onClick={() => {
-                          dispatch(
-                            setUser({
-                              ...user,
-                              options: {
-                                ...user.options,
-                                citySave: true,
-                              },
-                            })
-                          );
-                        }}
-                      >
-                        Да
-                      </Link>
-                      <Link
-                        className="btn btn-sm btn-light"
-                        onClick={() => setShowCity(true)}
-                      >
-                        Нет
-                      </Link>
-                    </div>
-                  </div>
-                )}
-              </li>
-            </ul>
+              </Link>
+              <ul className="text-menu">
+                <li>
+                  {cities.length > 0 && (
+                    <Link
+                      onClick={() => cities?.length > 1 && setShowCity(true)}
+                      className="fw-6"
+                    >
+                      {cities?.length > 1
+                        ? defaultCityOptions?.city ?? "Выберите город"
+                        : mainAffiliate?.options?.city ?? ""}
+                    </Link>
+                  )}
+                  {!defaultCityOptions?.citySave &&
+                    defaultCityOptions?.city && (
+                      <div className="no-city">
+                        <p className="mb-3">
+                          Ваш город <b>{defaultCityOptions.city}</b> город?
+                        </p>
+                        <div className="d-flex align-items-center justify-content-center">
+                          <Link
+                            className="btn btn-sm btn-primary me-2"
+                            onClick={() => {
+                              dispatch(
+                                setUser({
+                                  ...user,
+                                  options: {
+                                    ...user.options,
+                                    citySave: true,
+                                  },
+                                })
+                              );
+                            }}
+                          >
+                            Да
+                          </Link>
+                          <Link
+                            className="btn btn-sm btn-light"
+                            onClick={() => setShowCity(true)}
+                          >
+                            Нет
+                          </Link>
+                        </div>
+                      </div>
+                    )}
+                </li>
+                <li>
+                  <Select
+                    className="fw-5"
+                    data={[
+                      {
+                        value: "delivery",
+                        title: "Доставка",
+                      },
+                      {
+                        value: "pickup",
+                        title: "Самовывоз",
+                      },
+                    ]}
+                    value={delivery}
+                    onClick={(e) => dispatch(editDeliveryCheckout(e.value))}
+                  />
+                </li>
+              </ul>
+            </div>
             <ul className="text-menu d-none d-lg-flex">
-              <li>
-                <Select
-                  data={[
-                    {
-                      value: "delivery",
-                      title: "Доставка",
-                    },
-                    {
-                      value: "pickup",
-                      title: "Самовывоз",
-                    },
-                  ]}
-                  value={delivery}
-                  onClick={(e) => dispatch(editDeliveryCheckout(e.value))}
-                />
-              </li>
               {options?.menu?.length > 0 ? (
                 options.menu.map(
                   (e) =>
@@ -215,6 +219,7 @@ const Header = memo(() => {
                         <Link
                           to={e?.link ?? e.page}
                           // className={e.type == "dark" ? "btn-primary" : ""}
+                          className="fw-6"
                         >
                           {e.title}
                         </Link>
@@ -223,17 +228,25 @@ const Header = memo(() => {
                 )
               ) : (
                 <>
-                  <li>
-                    <Link to="/categories">Меню</Link>
+                  {/* <li>
+                    <Link to="/categories" className="fw-6">
+                      Меню
+                    </Link>
                   </li>
                   <li>
-                    <Link to="/contact">Доставка и оплата</Link>
+                    <Link to="/contact" className="fw-6">
+                      Доставка и оплата
+                    </Link>
+                  </li> */}
+                  <li>
+                    <Link to="/contact" className="fw-6">
+                      Контакты
+                    </Link>
                   </li>
                   <li>
-                    <Link to="/contact">Контакты</Link>
-                  </li>
-                  <li>
-                    <Link to="/promo">Акции</Link>
+                    <Link to="/promo" className="fw-6">
+                      Акции
+                    </Link>
                   </li>
                 </>
               )}

@@ -12,7 +12,7 @@ const CategoryGroup = memo(({ data }) => {
     <section className="CategoryGroup" id={"category-" + data.id}>
       <div className="filterGrid mb-5">
         {/* <div className="filterGrid-search"> */}
-        <h4 className=" d-xl-block title mb-0">{data.title}</h4>
+        <h4 className="d-block fw-6 mb-0">{data.title}</h4>
         {/* <ul className="subcategories-list">
             <li>
               <button type="button" className="btn-90 rounded-pill">

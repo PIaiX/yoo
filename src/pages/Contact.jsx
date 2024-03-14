@@ -87,34 +87,36 @@ const Contact = () => {
 
                 <ul className="list-unstyled">
                   {affiliate.map((e) => (
-                    <li key={e.id}>
-                      <a onClick={() => setMainAffiliate(e)}>
+                    <a
+                      onClick={() => setMainAffiliate(e)}
+                      className={mainAffiliate.id === e.id ? "active" : ""}
+                    >
+                      <li key={e.id}>
                         <h6 className="mb-2">{e.full}</h6>
-
                         {e?.options?.work?.length > 0 &&
                         e.options.work[moment().weekday()]?.start &&
                         e.options.work[moment().weekday()]?.end ? (
                           <>
-                            <p className="main-color mt-2 mb-1">
+                            <p className="main-color m-0">
                               Доставка и самовывоз
                             </p>
-                            <p className="mb-3">{`Работает с ${
+                            <p className="mb-2">{`Работает с ${
                               e.options.work[moment().weekday()].start
                             } до ${e.options.work[moment().weekday()].end}`}</p>
                           </>
                         ) : null}
 
                         {e?.phone && e?.phone[0] && (
-                          <>
-                            <p className="main-color mt-2 mb-1">
-                              Номер телефона
-                            </p>
-                            <p className="mb-3">{e.phone[0]}</p>
-                          </>
+                          <p className="mb-2 mt-0 fw-5">{e.phone[0]}</p>
                         )}
-                      </a>
-                      {e?.desc && <p className="white-space-break">{e.desc}</p>}
-                    </li>
+
+                        {e?.desc && (
+                          <p className="white-space-break m-0 fs-08 text-muted">
+                            {e.desc}
+                          </p>
+                        )}
+                      </li>
+                    </a>
                   ))}
                 </ul>
               </div>
@@ -139,24 +141,23 @@ const Contact = () => {
                       {affiliate?.length > 0 &&
                         affiliate.map((e) => (
                           <Placemark
-                            options={{
-                              iconLayout: "default#image",
-                              iconImageHref: "imgs/marker.png",
-                              iconImageSize: [38, 54],
-                            }}
+                            options={
+                              mainAffiliate.id === e.id
+                                ? {
+                                    iconLayout: "default#image",
+                                    iconImageHref: "imgs/marker.png",
+                                    iconImageSize: [38, 54],
+                                  }
+                                : {
+                                    iconLayout: "default#image",
+                                    iconImageHref: "imgs/marker-gray.png",
+                                    iconImageSize: [38, 54],
+                                  }
+                            }
                             geometry={[
                               e.options.coordinates.lat,
                               e.options.coordinates.lon,
                             ]}
-                            // properties={{
-                            //   balloonContentBody: [
-                            //     "<address class='my-info'>",
-                            //     "<div class='my-info-body'>",
-                            //     `<h6 class='mb-0 fw-6'>${e.full}</h6>`,
-                            //     "</div>",
-                            //     "</address>",
-                            //   ].join(""),
-                            // }}
                           />
                         ))}
 
@@ -174,9 +175,6 @@ const Contact = () => {
 
                           return (
                             <Polygon
-                              instanceRef={(ref) => {
-                                ref && ref.balloon.open();
-                              }}
                               defaultGeometry={[geodata]}
                               options={{
                                 fillColor: colors[color],
@@ -187,32 +185,38 @@ const Contact = () => {
                                 visible: true,
                               }}
                               properties={{
-                                balloonContentBody: [
-                                  "<address class='my-info'>",
-                                  "<div class='my-info-body'>",
-                                  `<h6 class='mb-0 fw-6'>${e.title}</h6>`,
-                                  e.desc && `<p>${e.desc}</p>`,
-                                  e.minPrice > 0
-                                    ? `<p>Минимальная сумма заказа ${customPrice(
-                                        e.minPrice
-                                      )}</p>`
-                                    : "",
-                                  e.priceFree > 0
-                                    ? `<p>Бесплатная доставка от ${customPrice(
-                                        e.priceFree
-                                      )}</p>`
-                                    : "",
-                                  e.price > 0
-                                    ? `<p>Стоимость доставки ${customPrice(
-                                        e.price
-                                      )}</p>`
-                                    : "",
-                                  e.time > 0
-                                    ? `<p>Время доставки от ${e.time} мин</p>`
-                                    : "",
-                                  "</div>",
-                                  "</address>",
-                                ].join(""),
+                                balloonContent: `<address class='my-info'>
+                              <div class='my-info-body'>
+                              <h6 class='mb-0 fw-6'>${e.title}</h6>
+                              ${e.desc ? `<p>${e.desc}</p>` : ""}
+                              ${
+                                e.minPrice > 0
+                                  ? `<p>Минимальная сумма заказа ${customPrice(
+                                      e.minPrice
+                                    )}</p>`
+                                  : ""
+                              }
+                              ${
+                                e.priceFree > 0
+                                  ? `<p>Бесплатная доставка от ${customPrice(
+                                      e.priceFree
+                                    )}</p>`
+                                  : ""
+                              }
+                              ${
+                                e.price > 0
+                                  ? `<p>Стоимость доставки ${customPrice(
+                                      e.price
+                                    )}</p>`
+                                  : ""
+                              }
+                              ${
+                                e.time > 0
+                                  ? `<p>Время доставки от ${e.time} мин</p>`
+                                  : ""
+                              }
+                              </div>
+                              </address>`,
                               }}
                             />
                           );

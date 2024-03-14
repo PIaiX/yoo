@@ -30,7 +30,7 @@ html {
   --bs-secondary-color: #444;
   --bg-main: #fff;
   --bg-btn: #dadada;
-  --bg-second: #fbfbfb;
+  --bg-second: #f7f7f7;
   --hr-color: #b9b9b9;
   --gray: #727272;
   --light-gray: #1e1e1e;
@@ -157,26 +157,18 @@ $bp-xxl: 1399.98px;
   box-shadow: 0px 2px 20px rgba(0, 0, 0, 0.04);
 }
 @mixin scrollCustomized {
-  scrollbar-color: var(--bg-btn) transparent;
-  scrollbar-width: thin;
+  transition: 200ms;
+  &:hover::-webkit-scrollbar,
+  &:active::-webkit-scrollbar {
+    display: block;
+  }
   &::-webkit-scrollbar {
-    width: 5px;
-    height: 5px;
-    background-color: var(--bg-second);
-    @include shadow();
-    &:hover,
-    &:active {
-      background: rgba(var(--main-color-rgb), 0.05);
-    }
+    display: none;
+    width: 6px;
   }
   &::-webkit-scrollbar-thumb {
-    background-color: #dfe2e5;
-    border-radius: 5px;
-    transition: background-color 0.2s;
-    &:hover,
-    &:active {
-      background: var(--main-color);
-    }
+    background-color: var(--bg-btn);
+    border-radius: 7px;
   }
   &::-webkit-scrollbar-button:vertical:start:decrement,
   &::-webkit-scrollbar-button:vertical:end:increment,
@@ -849,6 +841,7 @@ button {
     &:focus,
     &:active,
     &.active {
+      opacity: 0.9;
       color: #fff;
       background-color: var(--main-color);
     }
@@ -863,6 +856,7 @@ button {
     &:focus,
     &:active,
     &.active {
+      opacity: 0.9;
       color: var(--main-color);
       background-color: var(--main-color-outline);
       border: 1px solid var(--main-color-outline);
@@ -1502,6 +1496,19 @@ header {
     align-items: center;
   }
   ul {
+    li > .dropdown > a {
+      border: none !important;
+      background-color: var(--bg-second);
+    }
+    li > a {
+      display: flex;
+      transition: all 200ms;
+      height: var(--h-height);
+      align-items: center;
+      &:hover {
+        color: var(--main-color);
+      }
+    }
     @include list();
     @include flex();
     &.text-menu {
@@ -1524,7 +1531,7 @@ header {
   }
 
   .logo {
-    max-height: 60px;
+    max-height: 50px;
     max-width: 200px;
     @media (max-width: $bp-xl) {
       max-height: 50px;
@@ -1559,6 +1566,7 @@ header {
     width: 1.6em;
     height: 1.6em;
     @include flex();
+    top: 45px !important;
   }
   .btn-menu {
     color: var(--light-gray);
@@ -2302,6 +2310,11 @@ main {
     width: 100%;
     height: 280px;
     object-fit: cover;
+    top: 0px;
+    transition: top 150ms ease-out 0s;
+    &:hover {
+      top: 3px;
+    }
     margin-bottom: 1em;
     @media (max-width: $bp-xxl) {
       height: 230px;
@@ -2763,7 +2776,7 @@ main {
       @include clamp(2, 1.4em, true);
     }
     &-desc {
-      @include clamp(5, 1.4em, true);
+      @include clamp(1, 1.4em, true);
     }
     @include flex(column, flex-end, stretch, nowrap);
   }
@@ -2801,7 +2814,7 @@ main {
   background-color: var(--bg-second);
   @include shadow();
   @include scrollCustomized();
-  padding: 2em;
+  padding: 1.6em;
   border-radius: $radius;
   font-size: 1.2em;
   @media (max-width: $bp-xl) {
@@ -2874,6 +2887,7 @@ main {
 
 .sec-7 {
   .box {
+    box-shadow: none;
     height: 700px;
     @include flex(column, flex-start, stretch, nowrap);
   }
@@ -2881,9 +2895,19 @@ main {
     flex: 1;
     overflow: auto;
     @include scrollCustomized();
+    .active {
+      border-radius: $radius;
+      display: block;
+      color: var(--main-color);
+
+      background-color: var(--main-color-outline);
+      padding-left: 25px;
+      li {
+        border-bottom: none !important;
+      }
+    }
     li {
-      border-bottom: 1px solid var(--bg-btn);
-      padding: 1.5em 0px;
+      padding: 1em 0px;
     }
   }
   .map {

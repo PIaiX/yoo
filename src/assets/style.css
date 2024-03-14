@@ -38,7 +38,7 @@ html {
   --bs-secondary-color: #444;
   --bg-main: #fff;
   --bg-btn: #dadada;
-  --bg-second: #fbfbfb;
+  --bg-second: #f7f7f7;
   --hr-color: #b9b9b9;
   --gray: #727272;
   --light-gray: #1e1e1e;
@@ -790,6 +790,7 @@ button {
   background-color: var(--main-color-outline);
 }
 .btn-6:hover, .btn-6:focus, .btn-6:active, .btn-6.active, .btn-light-outline:hover, .btn-light-outline:focus, .btn-light-outline:active, .btn-light-outline.active {
+  opacity: 0.9;
   color: #fff;
   background-color: var(--main-color);
 }
@@ -799,6 +800,7 @@ button {
   border: 1px solid var(--main-color-outline);
 }
 .btn-light:hover, .btn-light:focus, .btn-light:active, .btn-light.active {
+  opacity: 0.9;
   color: var(--main-color);
   background-color: var(--main-color-outline);
   border: 1px solid var(--main-color-outline);
@@ -1506,6 +1508,19 @@ header ul {
   align-items: center;
   flex-wrap: nowrap;
 }
+header ul li > .dropdown > a {
+  border: none !important;
+  background-color: var(--bg-second);
+}
+header ul li > a {
+  display: flex;
+  transition: all 200ms;
+  height: var(--h-height);
+  align-items: center;
+}
+header ul li > a:hover {
+  color: var(--main-color);
+}
 header ul.text-menu li:not(:first-child) {
   margin-left: 2.5em;
 }
@@ -1518,7 +1533,7 @@ header ul.icons-menu > li:not(:first-child) {
   margin-left: 1.25em;
 }
 header .logo {
-  max-height: 60px;
+  max-height: 50px;
   max-width: 200px;
   -o-object-fit: contain;
      object-fit: contain;
@@ -1566,6 +1581,7 @@ header .badge {
   justify-content: center;
   align-items: center;
   flex-wrap: nowrap;
+  top: 45px !important;
 }
 header .btn-menu {
   color: var(--light-gray);
@@ -2512,7 +2528,12 @@ main {
   height: 280px;
   -o-object-fit: cover;
      object-fit: cover;
+  top: 0px;
+  transition: top 150ms ease-out 0s;
   margin-bottom: 1em;
+}
+.product-img:hover {
+  top: 3px;
 }
 @media (max-width: 1399.98px) {
   .product-img {
@@ -2762,27 +2783,19 @@ main {
   padding-left: 0px;
   max-height: calc(var(--h) * 5 + var(--mt) * 4);
   overflow: auto;
-  scrollbar-color: var(--bg-btn) transparent;
-  scrollbar-width: thin;
+  transition: 200ms;
   padding-right: var(--mt);
 }
-.productPage-edit .box ul::-webkit-scrollbar {
-  width: 5px;
-  height: 5px;
-  background-color: var(--bg-second);
-  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.06);
+.productPage-edit .box ul:hover::-webkit-scrollbar, .productPage-edit .box ul:active::-webkit-scrollbar {
+  display: block;
 }
-.productPage-edit .box ul::-webkit-scrollbar:hover, .productPage-edit .box ul::-webkit-scrollbar:active {
-  background: rgba(var(--main-color-rgb), 0.05);
+.productPage-edit .box ul::-webkit-scrollbar {
+  display: none;
+  width: 6px;
 }
 .productPage-edit .box ul::-webkit-scrollbar-thumb {
-  background-color: #dfe2e5;
-  border-radius: 5px;
-  -webkit-transition: background-color 0.2s;
-  transition: background-color 0.2s;
-}
-.productPage-edit .box ul::-webkit-scrollbar-thumb:hover, .productPage-edit .box ul::-webkit-scrollbar-thumb:active {
-  background: var(--main-color);
+  background-color: var(--bg-btn);
+  border-radius: 7px;
 }
 .productPage-edit .box ul::-webkit-scrollbar-button:vertical:start:decrement, .productPage-edit .box ul::-webkit-scrollbar-button:vertical:end:increment, .productPage-edit .box ul::-webkit-scrollbar-button:horizontal:start:decrement, .productPage-edit .box ul::-webkit-scrollbar-button:horizontal:end:increment {
   display: none;
@@ -3035,11 +3048,11 @@ main {
 }
 .offer-body-desc {
   display: -webkit-box;
-  -webkit-line-clamp: 5;
+  -webkit-line-clamp: 1;
   -webkit-box-orient: vertical;
   overflow: hidden;
   line-height: 1.4em;
-  height: 7em;
+  height: 1.4em;
 }
 
 .sw-offers {
@@ -3070,29 +3083,21 @@ main {
 .box {
   background-color: var(--bg-second);
   box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.06);
-  scrollbar-color: var(--bg-btn) transparent;
-  scrollbar-width: thin;
-  padding: 2em;
+  transition: 200ms;
+  padding: 1.6em;
   border-radius: 1.25em;
   font-size: 1.2em;
 }
-.box::-webkit-scrollbar {
-  width: 5px;
-  height: 5px;
-  background-color: var(--bg-second);
-  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.06);
+.box:hover::-webkit-scrollbar, .box:active::-webkit-scrollbar {
+  display: block;
 }
-.box::-webkit-scrollbar:hover, .box::-webkit-scrollbar:active {
-  background: rgba(var(--main-color-rgb), 0.05);
+.box::-webkit-scrollbar {
+  display: none;
+  width: 6px;
 }
 .box::-webkit-scrollbar-thumb {
-  background-color: #dfe2e5;
-  border-radius: 5px;
-  -webkit-transition: background-color 0.2s;
-  transition: background-color 0.2s;
-}
-.box::-webkit-scrollbar-thumb:hover, .box::-webkit-scrollbar-thumb:active {
-  background: var(--main-color);
+  background-color: var(--bg-btn);
+  border-radius: 7px;
 }
 .box::-webkit-scrollbar-button:vertical:start:decrement, .box::-webkit-scrollbar-button:vertical:end:increment, .box::-webkit-scrollbar-button:horizontal:start:decrement, .box::-webkit-scrollbar-button:horizontal:end:increment {
   display: none;
@@ -3184,6 +3189,7 @@ main {
 }
 
 .sec-7 .box {
+  box-shadow: none;
   height: 700px;
   display: flex;
   flex-direction: column;
@@ -3194,33 +3200,34 @@ main {
 .sec-7 ul {
   flex: 1;
   overflow: auto;
-  scrollbar-color: var(--bg-btn) transparent;
-  scrollbar-width: thin;
+  transition: 200ms;
+}
+.sec-7 ul:hover::-webkit-scrollbar, .sec-7 ul:active::-webkit-scrollbar {
+  display: block;
 }
 .sec-7 ul::-webkit-scrollbar {
-  width: 5px;
-  height: 5px;
-  background-color: var(--bg-second);
-  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.06);
-}
-.sec-7 ul::-webkit-scrollbar:hover, .sec-7 ul::-webkit-scrollbar:active {
-  background: rgba(var(--main-color-rgb), 0.05);
+  display: none;
+  width: 6px;
 }
 .sec-7 ul::-webkit-scrollbar-thumb {
-  background-color: #dfe2e5;
-  border-radius: 5px;
-  -webkit-transition: background-color 0.2s;
-  transition: background-color 0.2s;
-}
-.sec-7 ul::-webkit-scrollbar-thumb:hover, .sec-7 ul::-webkit-scrollbar-thumb:active {
-  background: var(--main-color);
+  background-color: var(--bg-btn);
+  border-radius: 7px;
 }
 .sec-7 ul::-webkit-scrollbar-button:vertical:start:decrement, .sec-7 ul::-webkit-scrollbar-button:vertical:end:increment, .sec-7 ul::-webkit-scrollbar-button:horizontal:start:decrement, .sec-7 ul::-webkit-scrollbar-button:horizontal:end:increment {
   display: none;
 }
+.sec-7 ul .active {
+  border-radius: 1.25em;
+  display: block;
+  color: var(--main-color);
+  background-color: var(--main-color-outline);
+  padding-left: 25px;
+}
+.sec-7 ul .active li {
+  border-bottom: none !important;
+}
 .sec-7 ul li {
-  border-bottom: 1px solid var(--bg-btn);
-  padding: 1.5em 0px;
+  padding: 1em 0px;
 }
 .sec-7 .map {
   border-radius: 1.25em;
