@@ -1,10 +1,10 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
-import { $authApi } from "./index";
 import { apiRoutes } from "../config/api";
+import { $api } from "./index";
 
 export const homeApi = createApi({
   reducerPath: "homeApi",
-  baseQuery: $authApi,
+  baseQuery: $api,
   refetchOnReconnect: true,
   refetchOnMountOrArgChange: true,
   keepUnusedDataFor: 350,

@@ -7,13 +7,13 @@ const NavTop = memo(({ toBack = true, breadcrumbs = false }) => {
   return (
     <nav className="navTop">
       {toBack && (
-        <a onClick={() => navigate(-1)} className="navTop-back">
+        <a onClick={() => navigate(-1)} className="navTop-back mb-2">
           <HiOutlineArrowLeftCircle />
           <span>Назад</span>
         </a>
       )}
       {breadcrumbs && breadcrumbs?.length > 0 && (
-        <ul className="navTop-breadcrumbs">
+        <ul className="navTop-breadcrumbs mb-2">
           <li>
             <Link to="/">Главная</Link>
           </li>

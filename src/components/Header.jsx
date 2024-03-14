@@ -128,7 +128,7 @@ const Header = memo(() => {
         <Container className="h-100">
           <nav className="h-100">
             <div className="d-flex align-items-center">
-              <Link to="/" className="me-5">
+              <Link to="/" className="me-3 me-lg-5">
                 <img
                   src={
                     options?.logo

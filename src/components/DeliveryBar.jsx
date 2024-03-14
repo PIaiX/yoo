@@ -18,12 +18,12 @@ const DeliveryBar = () => {
   if (isMobileLG) {
     return (
       <div className="freeDeliveryBar">
-        <div className="box">
+        <div className="py-2 px-3">
           <p>
-            {price == 0
-              ? "Бесплатная доставка пока не доступна"
-              : price > 0 && price < zone?.data?.priceFree
-              ? `Минимальная сумма заказа ${customPrice(zone.data.priceFree)}`
+            {price < zone?.data?.minPrice
+              ? `Минимальная сумма заказа ${customPrice(zone.data.minPrice)}`
+              : price >= zone?.data?.minPrice && price < zone?.data?.priceFree
+              ? `Бесплатная доставка от ${customPrice(zone.data.priceFree)}`
               : "Бесплатная доставка"}
           </p>
           <div className="mobileBar">

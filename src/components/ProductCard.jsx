@@ -10,7 +10,7 @@ import { LazyLoadImage } from "react-lazy-load-image-component";
 import { useSelector } from "react-redux";
 import { customPrice, customWeight, getImageURL } from "../helpers/all";
 import ButtonCart from "./ButtonCart";
-import BtnFav from "./utils/BtnFav";
+// import BtnFav from "./utils/BtnFav";
 
 const ProductCard = memo(({ data }) => {
   const isAuth = useSelector((state) => state.auth.isAuth);
@@ -46,7 +46,7 @@ const ProductCard = memo(({ data }) => {
             <div className="new">Новинка</div>
           </li>
         </ul> */}
-        {isAuth && <BtnFav product={data} />}
+        {/* {isAuth && <BtnFav product={data} />} */}
       </div>
 
       <h6 className="title text-center text-md-start">{data.title}</h6>

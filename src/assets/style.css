@@ -1765,6 +1765,12 @@ main {
     padding: var(--h-height) 0px calc(var(--f-height) + 30px);
   }
 }
+@media (max-width: 575.98px) {
+  main {
+    min-height: 100vh;
+    padding: 0px 0px calc(var(--f-height) + 50px);
+  }
+}
 
 .hello {
   min-height: 70vh;
@@ -2772,7 +2778,7 @@ main {
   color: var(--bg-btn);
 }
 .productPage-edit .box {
-  background-color: var(--bg-second);
+  background-color: var(--bg-main);
   padding: 0.75em;
   border-radius: 1.25em;
 }
@@ -2825,12 +2831,12 @@ main {
   .productPage-price {
     font-size: 1em;
     position: fixed;
-    bottom: calc(var(--f-height) + 50px);
+    bottom: var(--f-height);
     left: 0px;
     width: 100%;
-    height: 50px;
+    height: 60px;
     z-index: 90;
-    background-color: transparent;
+    background-color: var(--bg-main);
     justify-content: center;
   }
   .productPage-price button {
@@ -2860,7 +2866,6 @@ main {
   align-items: center;
   flex-wrap: nowrap;
   background-color: var(--bg-second);
-  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.06);
   border-radius: 0.625em;
   padding: 0.625em;
   border: 2px solid transparent;
@@ -2887,7 +2892,7 @@ main {
   line-height: 100%;
 }
 .ingredient-price {
-  font-weight: 600;
+  font-weight: 500;
   margin-left: 1.25em;
   text-align: right;
 }
@@ -3008,11 +3013,11 @@ main {
   }
 }
 .offer.full img {
-  height: 300px;
+  height: 320px;
 }
 @media (max-width: 1399.98px) {
   .offer.full img {
-    height: 240px;
+    height: 270px;
   }
 }
 @media (max-width: 991.98px) {
@@ -3027,7 +3032,7 @@ main {
 }
 @media (max-width: 575.98px) {
   .offer.full img {
-    height: 180px;
+    height: 140px;
   }
 }
 .offer-body {
@@ -3409,14 +3414,14 @@ main {
   margin-right: 0.5em;
 }
 .cart-box {
-  background-color: var(--bg-btn);
+  background-color: var(--bg-second);
   padding: 1em;
   border-radius: 1.25em;
 }
 
 .checkoutProduct {
   font-size: 0.9em;
-  background-color: var(--bg-second);
+  background-color: var(--bg-main);
   padding: 0.625em;
   border-radius: 1.25em;
   box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.06);
@@ -3495,6 +3500,9 @@ footer .mobile ul li a {
   transition: 300ms ease-in;
   transition-property: background-color, max-width;
 }
+footer .mobile ul li a.active .text {
+  color: var(--font-color-revers) !important;
+}
 footer .mobile ul li a svg {
   width: 1.6em !important;
   height: 1.6em !important;
@@ -3523,7 +3531,6 @@ footer .mobile ul li a .badge {
 }
 footer .mobile ul li a.active {
   background-color: var(--main-color);
-  color: var(--font-color-revers);
   max-width: 130px;
 }
 footer .mobile ul li a.active .badge {
@@ -4503,7 +4510,7 @@ ACCOUNT
   }
 }
 .login-forms form {
-  background-color: var(--bg-second);
+  background-color: var(--bg-main);
   border-radius: 1.25em;
   box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.06);
   padding: 2em;
@@ -4729,7 +4736,7 @@ ACCOUNT END
     border-radius: 50%;
     top: unset;
     right: 0.5em;
-    bottom: calc(var(--f-height) * 2 + 1em);
+    bottom: calc(var(--f-height) * 2 + 5px);
     transform: translateY(0%);
   }
 }
@@ -5680,7 +5687,7 @@ ACCOUNT END
 
 .freeDeliveryBar {
   position: fixed;
-  z-index: 900;
+  z-index: 1;
   bottom: 2em;
   right: 1em;
   width: 100px;
@@ -5694,8 +5701,7 @@ ACCOUNT END
     width: 100%;
     height: var(--f-height);
     right: 0px;
-    background-color: var(--bg-second);
-    border-top: 1px solid var(--bg-btn);
+    background-color: var(--bg-main);
     font-family: "Open Sans";
   }
 }

@@ -145,11 +145,9 @@ const useTotalCart = () => {
                 }
             }
 
-            if (stateZone?.priceFree > price) {
+            if (stateZone?.priceFree > price && stateDelivery == 'delivery') {
                 delivery += stateZone.price
-                if (stateDelivery == 'delivery') {
-                    totalCalcul += stateZone.price
-                }
+                totalCalcul += stateZone.price
             }
 
             setData({

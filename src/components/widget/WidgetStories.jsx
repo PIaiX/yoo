@@ -22,8 +22,8 @@ const WidgetStories = memo((data) => {
     return null;
   }
   return (
-    <section className="sec-2 mb-5">
-      <Container className="position-relative">
+    <section className="sec-2 mb-3 mb-lg-5">
+      <Container className="position-relative px-0">
         <Swiper
           className="swiper-stories"
           modules={[Navigation, FreeMode]}

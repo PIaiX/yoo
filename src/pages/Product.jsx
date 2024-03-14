@@ -212,7 +212,7 @@ const Product = () => {
 
               <div className="productPage-price">
                 <div className="me-3">
-                  <div className="py-2 px-3 fw-5 rounded-pill">
+                  <div className="py-2 px-3 fw-5 fw-5 rounded-pill">
                     {customPrice(price)}
                   </div>
                   {discount > 0 && (

@@ -5,7 +5,7 @@ import Tooltip from "react-bootstrap/Tooltip";
 import { IoCaretDownOutline } from "react-icons/io5";
 import { customPrice, customWeight, getImageURL } from "../helpers/all";
 import ButtonCart from "./ButtonCart";
-import BtnFav from "./utils/BtnFav";
+// import BtnFav from "./utils/BtnFav";
 import { useSelector } from "react-redux";
 
 const CartItem = memo(({ data }) => {
@@ -78,7 +78,7 @@ const CartItem = memo(({ data }) => {
 
         <div className="order-1 order-md-2">{customPrice(price)}</div>
 
-        {isAuth && <BtnFav checked={false} />}
+        {/* {isAuth && <BtnFav checked={false} />} */}
       </div>
     </div>
   );
