@@ -110,15 +110,16 @@ const Footer = memo(() => {
               </ul>
             </div>
           )}
-
-          <div>
-            <a href="https://yooapp.ru" target="_blank">
-              <div>
-                Разработано на платформе <b>YooApp</b>
-              </div>
-              {/* <img src={LogoTextWhite} alt="yooapp" className="d-block mt-2" /> */}
-            </a>
-          </div>
+          {!options?.copyright && (
+            <div>
+              <a href="https://yooapp.ru" target="_blank">
+                <div>
+                  Разработано на платформе <b>YooApp</b>
+                </div>
+                {/* <img src={LogoTextWhite} alt="yooapp" className="d-block mt-2" /> */}
+              </a>
+            </div>
+          )}
         </div>
       </Container>
     </footer>
