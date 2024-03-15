@@ -1,4 +1,6 @@
-import React, { memo, useState, useEffect } from "react";
+import axios from "axios";
+import React, { memo, useEffect, useState } from "react";
+import { Col, Modal, Row } from "react-bootstrap";
 import Container from "react-bootstrap/Container";
 import Offcanvas from "react-bootstrap/Offcanvas";
 import {
@@ -15,8 +17,12 @@ import { Link } from "react-router-dom";
 import AppStore from "../assets/imgs/appstore-black.svg";
 import GooglePlay from "../assets/imgs/googleplay-black.svg";
 import Phone from "../assets/imgs/phone.png";
+import { DADATA_TOKEN, DADATA_URL_GEO } from "../config/api";
 import { getCount, getImageURL } from "../helpers/all";
 import { useGetBannersQuery } from "../services/home";
+import { setUser } from "../store/reducers/authSlice";
+import { editDeliveryCheckout } from "../store/reducers/checkoutSlice";
+import DeliveryBar from "./DeliveryBar";
 import ScrollToTop from "./ScrollToTop";
 import AppDownload from "./svgs/AppDownload";
 import MenuDelivery from "./svgs/MenuDelivery";
@@ -24,14 +30,7 @@ import MenuDocs from "./svgs/MenuDocs";
 import MenuIcon from "./svgs/MenuIcon";
 import MenuPhone from "./svgs/MenuPhone";
 import YooApp from "./svgs/YooApp";
-import DeliveryBar from "./DeliveryBar";
 import Select from "./utils/Select";
-import { editDeliveryCheckout } from "../store/reducers/checkoutSlice";
-import { Col, Modal, Row } from "react-bootstrap";
-import { mainAffiliateEdit } from "../store/reducers/affiliateSlice";
-import { DADATA_TOKEN, DADATA_URL_GEO } from "../config/api";
-import axios from "axios";
-import { setUser } from "../store/reducers/authSlice";
 
 const Header = memo(() => {
   const isAuth = useSelector((state) => state.auth.isAuth);

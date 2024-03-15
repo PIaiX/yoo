@@ -24,7 +24,6 @@ const WidgetBanners = memo((data) => {
               centeredSlides={true}
               speed={750}
               pagination={{ clickable: true }}
-              loopAdditionalSlides={1}
             >
               {data.items.map((e, index) => (
                 <SwiperSlide key={index}>
