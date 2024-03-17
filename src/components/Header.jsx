@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { memo, useEffect, useState } from "react";
+import React, { memo, useEffect, useState, useTransition } from "react";
 import { Col, Modal, Row } from "react-bootstrap";
 import Container from "react-bootstrap/Container";
 import Offcanvas from "react-bootstrap/Offcanvas";
@@ -30,6 +30,7 @@ import MenuDocs from "./svgs/MenuDocs";
 import MenuIcon from "./svgs/MenuIcon";
 import MenuPhone from "./svgs/MenuPhone";
 import YooApp from "./svgs/YooApp";
+import Input from "./utils/Input";
 import Select from "./utils/Select";
 
 const Header = memo(() => {
@@ -47,13 +48,7 @@ const Header = memo(() => {
   const [isContacts, setIsContacts] = useState(false);
   const [showCity, setShowCity] = useState(false);
   const count = getCount(cart);
-
-  const cities = affiliate.reduce((o, i) => {
-    if (!o.find((v) => v.options.city == i.options.city)) {
-      o.push(i);
-    }
-    return o;
-  }, []);
+  const [list, setList] = useState([]);
 
   const defaultCityOptions = user?.options ?? null;
   const mainAffiliate =
@@ -67,7 +62,50 @@ const Header = memo(() => {
         : affiliate.find((e) => e.main)
       : false;
 
+  const [searchInput, setSearchInput] = useState("");
+  const [search, setSearch] = useState();
+  const [isPending, startTransition] = useTransition();
+
+  const handleChange = (value) => {
+    setSearchInput(value);
+    startTransition(() => {
+      let searchList = [];
+      Object.values(list).forEach((e) => {
+        e.forEach(
+          (e2) =>
+            e2.options.city.toLowerCase().includes(value.toLowerCase()) &&
+            searchList.push(e2)
+        );
+      });
+      setSearch(searchList);
+    });
+  };
+
   useEffect(() => {
+    if (affiliate?.length > 0) {
+      var data = [];
+
+      affiliate.forEach((e) => {
+        let country = e.options.country.toLowerCase();
+        if (!data[country]) {
+          data[country] = [e];
+        } else {
+          data[country].push(e);
+        }
+      });
+
+      data.sort(function (a, b) {
+        if (a.options.city < b.options.city) {
+          return -1;
+        }
+        if (a.options.city > b.options.city) {
+          return 1;
+        }
+        return 0;
+      });
+
+      setList(data);
+    }
     if (
       affiliate?.length > 1 &&
       !defaultCityOptions?.city &&
@@ -147,12 +185,12 @@ const Header = memo(() => {
               </Link>
               <ul className="text-menu">
                 <li>
-                  {cities.length > 0 && (
+                  {affiliate.length > 0 && (
                     <Link
-                      onClick={() => cities?.length > 1 && setShowCity(true)}
+                      onClick={() => affiliate?.length > 1 && setShowCity(true)}
                       className="fw-6"
                     >
-                      {cities?.length > 1
+                      {affiliate?.length > 1
                         ? defaultCityOptions?.city ?? "Выберите город"
                         : mainAffiliate?.options?.city ?? ""}
                     </Link>
@@ -525,51 +563,116 @@ const Header = memo(() => {
         </Offcanvas.Body>
       </Offcanvas>
       <Modal
-        size="xl"
+        size="lg"
         centered
         className="city"
         show={showCity}
         onHide={() => setShowCity(false)}
       >
         <Modal.Body className="p-4">
-          <img src="/logo.png" className="logo mb-4" />
+          <img
+            src={
+              options?.logo
+                ? getImageURL({
+                    path: options.logo,
+                    type: "all/web/logo",
+                    size: "full",
+                  })
+                : "/logo.png"
+            }
+            alt={options?.title ?? "YOOAPP"}
+            className="logo mb-4"
+          />
+
           <button
             type="button"
             className="btn-close close"
             aria-label="Close"
             onClick={() => setShowCity(false)}
           ></button>
-          {cities?.length > 0 && (
-            <Row>
-              {cities.map((e, index) => (
-                <Col key={index}>
-                  <a
-                    onClick={() => {
-                      dispatch(
-                        setUser({
-                          ...user,
-                          options: {
-                            ...user.options,
-                            citySave: true,
-                            city: e.options.city,
-                          },
-                        })
-                      );
-                      setShowCity(false);
-                    }}
-                    className={
-                      "p-2 fw-6" +
-                      (e.options.city === defaultCityOptions?.city
-                        ? " active"
-                        : "")
-                    }
-                  >
-                    {e.options.city}
-                  </a>
-                </Col>
-              ))}
-            </Row>
-          )}
+          <div>
+            <Input
+              name="search"
+              type="search"
+              placeholder="Поиск..."
+              className="mb-3"
+              onChange={handleChange}
+              value={searchInput}
+            />
+          </div>
+          <div className="search-box">
+            {searchInput.length > 0 && search && search?.length > 0 ? (
+              <Row>
+                {search.map((e, index) => (
+                  <Col md={4} key={index} className="pb-3">
+                    <a
+                      onClick={() => {
+                        dispatch(
+                          setUser({
+                            ...user,
+                            options: {
+                              ...user.options,
+                              citySave: true,
+                              city: e.options.city,
+                            },
+                          })
+                        );
+                        setShowCity(false);
+                      }}
+                      className={
+                        "p-2 fw-6" +
+                        (e.options.city === defaultCityOptions?.city
+                          ? " active"
+                          : "")
+                      }
+                    >
+                      {e.options.city}
+                    </a>
+                  </Col>
+                ))}
+              </Row>
+            ) : (
+              Object.keys(list)?.length > 0 &&
+              Object.keys(list).map((title) => (
+                <>
+                  <h6 className="fw-7 p-2">
+                    {title[0].toUpperCase() + title.slice(1)}
+                  </h6>
+                  {list[title]?.length > 0 && (
+                    <Row>
+                      {list[title].map((e, index) => (
+                        <Col md={4} key={index} className="pb-3">
+                          <a
+                            onClick={() => {
+                              dispatch(
+                                setUser({
+                                  ...user,
+                                  options: {
+                                    ...user.options,
+                                    citySave: true,
+                                    city: e.options.city,
+                                  },
+                                })
+                              );
+                              setShowCity(false);
+                            }}
+                            className={
+                              "p-2 fw-6" +
+                              (e.options.city === defaultCityOptions?.city
+                                ? " active"
+                                : "")
+                            }
+                          >
+                            {e.options.city}
+                          </a>
+                        </Col>
+                      ))}
+                    </Row>
+                  )}
+                </>
+              ))
+            )}
+          </div>
         </Modal.Body>
       </Modal>
       <ScrollToTop count={count} />

@@ -37,7 +37,8 @@ const convertColor = (color, opacity) => {
   return color + _opacity.toString(16).toUpperCase();
 };
 
-const convert = (value) => (value > 0 && value < 1 ? Math.round(Number(value) * 1000) : value);
+const convert = (value) =>
+  value > 0 && value < 1 ? Math.round(Number(value) * 1000) : value;
 
 const customWeight = (value) => {
   if (!value) {
@@ -46,7 +47,7 @@ const customWeight = (value) => {
 
   value = convert(value);
 
-  let weight = value > 1000 ? (value / 1000) + "кг" : value + "г";
+  let weight = value > 1000 ? value / 1000 + "кг" : value + "г";
 
   return weight;
 };
@@ -110,7 +111,7 @@ const declination = (value, data, view = true) => {
 
 const setCssColor = (name, value) => {
   document.documentElement.style.setProperty(name, value);
-}
+};
 
 export {
   setCssColor,

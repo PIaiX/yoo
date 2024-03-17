@@ -7,19 +7,39 @@ const Offer = ({ data }) => {
   return (
     <div className="offer">
       {data?.medias && (
-        <LazyLoadImage
-          src={getImageURL({
-            path: data.medias,
-            type: "sale",
-            size: "full",
-          })}
-          alt={data?.title}
-          loading="lazy"
-        />
+        <Link
+          to={
+            data?.options?.link
+              ? data.options.link
+              : data?.id
+              ? "/promo/" + data.id
+              : ""
+          }
+        >
+          <LazyLoadImage
+            src={getImageURL({
+              path: data.medias,
+              type: "sale",
+              size: "full",
+            })}
+            alt={data?.title}
+            loading="lazy"
+          />
+        </Link>
       )}
       <div className="offer-body">
         <div>
-          {data?.title && <h5 className="offer-body-title">{data.title}</h5>}
+          <Link
+            to={
+              data?.options?.link
+                ? data.options.link
+                : data?.id
+                ? "/promo/" + data.id
+                : ""
+            }
+          >
+            {data?.title && <h5 className="offer-body-title">{data.title}</h5>}
+          </Link>
           {data?.desc && (
             <p className="fw-4 text-muted offer-body-desc mb-3">{data.desc}</p>
           )}

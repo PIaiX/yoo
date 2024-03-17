@@ -37,11 +37,11 @@ const CartItem = memo(({ data }) => {
               placement="bottom"
               overlay={<Tooltip>{data.description}</Tooltip>}
             >
-              <p className="consist">{data.description}</p>
+              <p className="text-muted fs-09 consist">{data.description}</p>
             </OverlayTrigger>
           )}
           {data?.cart?.data?.modifiers && (
-            <p>{data.cart.data.modifiers.title}</p>
+            <p className="fs-09">{data.cart.data.modifiers.title}</p>
           )}
 
           {/* Кнопка с разворачивающимся блоком появляются только если есть дополнительные ингредиенты */}
