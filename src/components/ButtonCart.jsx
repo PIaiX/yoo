@@ -12,6 +12,7 @@ const ButtonCart = memo(
     product,
     data,
     full = false,
+    isValid = true,
     onAddCart,
     cart = false,
     className,
@@ -39,6 +40,17 @@ const ButtonCart = memo(
     );
 
     if ((isCartData && product?.modifiers?.length === 0) || cart) {
+      if (product.type == "gift" || product.type == "promo") {
+        return (
+          <button
+            type="button"
+            className="btn-light active"
+            onClick={() => onPress(0)}
+          >
+            Удалить
+          </button>
+        );
+      }
       return (
         <CountInput
           full={full}

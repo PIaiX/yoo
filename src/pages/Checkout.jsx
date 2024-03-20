@@ -9,6 +9,7 @@ import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import { useForm, useWatch } from "react-hook-form";
+import { IoTrashOutline } from "react-icons/io5";
 import { NotificationManager } from "react-notifications";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
@@ -30,7 +31,11 @@ import { isWork } from "../hooks/all";
 import { useTotalCart } from "../hooks/useCart";
 import { checkAuth } from "../services/auth";
 import { createOrder } from "../services/order";
-import { resetCart } from "../store/reducers/cartSlice";
+import {
+  cartDeleteProduct,
+  cartDeletePromo,
+  resetCart,
+} from "../store/reducers/cartSlice";
 import {
   editDeliveryCheckout,
   resetCheckout,
@@ -625,6 +630,34 @@ const Checkout = () => {
                 <span>Стоимость товаров</span>
                 <span>{customPrice(price)}</span>
               </div>
+              {options?.promoVisible && promo && (
+                <div className="d-flex justify-content-between my-2">
+                  <div>
+                    <div className="text-muted fs-08">Промокод</div>
+                    <div className="fw-6">{promo.title.toUpperCase()}</div>
+                  </div>
+                  <span className="d-flex align-items-center">
+                    {promo.options?.discount > 0 && (
+                      <span className="text-success">
+                        -{" "}
+                        {Number.isInteger(Number(promo.options?.discount)) > 0
+                          ? customPrice(promo.options.discount)
+                          : promo.options?.discount}
+                      </span>
+                    )}
+                    <a
+                      onClick={() => {
+                        dispatch(cartDeleteProduct(promo.product));
+                        setValue("promo", "");
+                        dispatch(cartDeletePromo());
+                      }}
+                      className="ms-2 text-danger"
+                    >
+                      <IoTrashOutline size={18} />
+                    </a>
+                  </span>
+                </div>
+              )}
 
               {discount > 0 && (
                 <div className="d-flex justify-content-between my-2">

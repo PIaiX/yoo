@@ -10,7 +10,6 @@ import { useSelector } from "react-redux";
 
 const CartItem = memo(({ data }) => {
   const [open, setOpen] = useState(false);
-  const isAuth = useSelector((state) => state.auth.isAuth);
 
   const price = data?.cart?.data?.modifiers?.price
     ? data.cart.data.modifiers.price
@@ -72,7 +71,6 @@ const CartItem = memo(({ data }) => {
       </div>
       <div className="right">
         <div className="order-2 order-md-1">
-          <p className="d-none d-md-block text-center mb-2">Количество</p>
           <ButtonCart cart product={data} />
         </div>
 

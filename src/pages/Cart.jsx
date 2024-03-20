@@ -1,10 +1,10 @@
-import React, { useCallback, useEffect } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import NavTop from "../components/utils/NavTop";
 // import Gifts from "../components/utils/Gifts";
-import { useForm } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
 import { NotificationManager } from "react-notifications";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
@@ -15,10 +15,16 @@ import Meta from "../components/Meta";
 import Input from "../components/utils/Input";
 import { customPrice, declination, getCount } from "../helpers/all";
 import { useTotalCart } from "../hooks/useCart";
-import { deleteCart } from "../services/cart";
+import { deleteCart, getCart, updateCart } from "../services/cart";
 import { isPromo } from "../services/promo";
-import { cartDeletePromo } from "../store/reducers/cartSlice";
+import {
+  cartDeleteProduct,
+  cartDeletePromo,
+  cartPromo,
+} from "../store/reducers/cartSlice";
 import { IoTrashOutline } from "react-icons/io5";
+import Loader from "../components/utils/Loader";
+import Extras from "../components/utils/Extras";
 
 const Cart = () => {
   const user = useSelector((state) => state.auth.user);
@@ -29,15 +35,18 @@ const Cart = () => {
   const pointSwitch = useSelector((state) => state.checkout?.data?.pointSwitch);
   const address = useSelector((state) => state.address.items);
   const options = useSelector((state) => state.settings.options);
+  const [data, setData] = useState({ loading: true });
   const {
     total = 0,
     price = 0,
     discount = 0,
     delivery,
+    person = 0,
     pointAccrual,
     pickupDiscount,
     pointCheckout,
   } = useTotalCart();
+
   const {
     control,
     formState: { isValid, errors },
@@ -51,37 +60,55 @@ const Cart = () => {
       promo: promo?.name ? promo.name : "",
     },
   });
-
+  const form = useWatch({ control });
   const count = getCount(cart);
+
+  const isGift = cart?.length > 0 ? cart.find((e) => e.type == "gift") : false;
 
   const dispatch = useDispatch();
 
   const onPromo = useCallback(
-    (e) => {
-      (e?.promo?.length > 0 || promo?.name?.length > 0) &&
+    async (e) => {
+      if (e?.promo?.length > 0 || promo?.name?.length > 0) {
         isPromo({
           promo: e?.promo ? e.promo : promo?.name ? promo.name : "",
           delivery: stateDelivery,
+          total,
         })
-          .then(({ data }) => data?.promo && dispatch(cartPromo(data.promo)))
+          .then((res) => {
+            dispatch(cartPromo(res));
+            if (res?.product?.id) {
+              dispatch(updateCart({ ...res.product, cart: { count: 1 } }));
+            }
+          })
           .catch((error) => {
             dispatch(cartDeletePromo());
+            console.log(error);
             NotificationManager.error(
               typeof error?.response?.data?.error === "string"
-                ? err.response.data.error
+                ? error.response.data.error
                 : "Такого промокода не существует"
             );
           });
+      }
     },
-    [promo, stateDelivery]
+    [promo, stateDelivery, total]
   );
 
   useEffect(() => {
-    if (promo?.name) {
-      onPromo();
+    if (!promo) {
       setValue("promo", "");
     }
-  }, [stateDelivery, promo]);
+  }, [promo]);
+
+  useEffect(() => {
+    getCart()
+      .then((res) => setData({ loading: false, ...res }))
+      .catch((err) => {
+        console.log(err);
+        setData({ ...data, loading: false });
+      });
+  }, []);
 
   if (!Array.isArray(cart) || cart.length <= 0) {
     return (
@@ -98,6 +125,10 @@ const Cart = () => {
     );
   }
 
+  if (data?.loading) {
+    return <Loader full />;
+  }
+  console.log(data);
   return (
     <main>
       <Meta title="Корзина" />
@@ -135,7 +166,6 @@ const Cart = () => {
                   Очистить
                 </button>
               </div>
-
               <ul className="list-unstyled">
                 {cart.map((e) => (
                   <li key={e.id}>
@@ -143,14 +173,17 @@ const Cart = () => {
                   </li>
                 ))}
               </ul>
+              {options.giftVisible && !isGift && (
+                <Gifts total={total} items={data?.gifts} />
+              )}
             </Col>
             <Col xs={12} lg={4}>
-              {options?.promoVisible && (
+              {options?.promoVisible && user?.id && !promo && (
                 <>
                   <div className="fs-11 mb-1">Промокод</div>
-                  <div className="mb-3 d-flex">
+                  <div className="mb-3">
                     <Input
-                      className="w-100"
+                      className="w-100 mb-3"
                       type="text"
                       name="promo"
                       placeholder="Введите промокод"
@@ -162,7 +195,11 @@ const Cart = () => {
                       type="button"
                       disabled={!isValid}
                       onClick={handleSubmit(onPromo)}
-                      className="btn-10 ms-2 ms-sm-4 rounded-3"
+                      className={
+                        form?.promo?.length > 1
+                          ? "btn-primary w-100 rounded-3"
+                          : "btn-10 w-100 rounded-3"
+                      }
                     >
                       Применить
                     </button>
@@ -170,36 +207,53 @@ const Cart = () => {
                 </>
               )}
 
+              {person === 0 && <Extras person={person} items={data?.extras} />}
+
               <div className="d-flex justify-content-between my-2">
                 <span>Стоимость товаров</span>
                 <span>{customPrice(price)}</span>
               </div>
               {options?.promoVisible && promo && (
                 <div className="d-flex justify-content-between my-2">
-                  <span>Промокод</span>
+                  <div>
+                    <div className="text-muted fs-08">Промокод</div>
+                    <div className="fw-6">{promo.title.toUpperCase()}</div>
+                  </div>
                   <span className="d-flex align-items-center">
-                    <span className="text-success">
-                      -{" "}
-                      {promo.procent > 0
-                        ? promo.procent + "%"
-                        : customPrice(promo.discount)}
-                    </span>
+                    {promo.options?.discount > 0 && (
+                      <span className="text-success">
+                        -{" "}
+                        {Number.isInteger(Number(promo.options?.discount)) > 0
+                          ? customPrice(promo.options.discount)
+                          : promo.options?.discount}
+                      </span>
+                    )}
                     <a
-                      onClick={() => dispatch(cartDeletePromo())}
+                      onClick={() => {
+                        dispatch(cartDeleteProduct(promo.product));
+                        setValue("promo", "");
+                        dispatch(cartDeletePromo());
+                      }}
                       className="ms-2 text-danger"
                     >
-                      <IoTrashOutline size={16} />
+                      <IoTrashOutline size={18} />
                     </a>
                   </span>
                 </div>
               )}
 
-              {stateDelivery == "delivery" && (
+              {stateDelivery == "delivery" && zone?.data && (
                 <div className="d-flex justify-content-between my-2">
                   <span>Доставка</span>
                   <span className="text-success">
                     {delivery > 0 ? "+" + customPrice(delivery) : "Бесплатно"}
                   </span>
+                </div>
+              )}
+              {discount > 0 && (
+                <div className="d-flex justify-content-between my-2">
+                  <span>Скидка</span>
+                  <span className="text-success">-{customPrice(discount)}</span>
                 </div>
               )}
               {pickupDiscount > 0 && (
@@ -227,8 +281,6 @@ const Cart = () => {
                 <span className="fw-6 fs-11">Итоговая сумма</span>
                 <span className="fw-6">{customPrice(total)}</span>
               </div>
-
-              {options.giftVisible && <Gifts />}
 
               <Link
                 to={

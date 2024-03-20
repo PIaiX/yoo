@@ -75,6 +75,45 @@ const cartSlice = createSlice({
         cartDeletePromo: (state) => {
             state.promo = false
         },
+        cartDeleteProduct: (state, action) => {
+            const isCart = state.items.findIndex((e) => {
+                var view = false
+                if (e.id === action?.payload?.id) {
+                    if (e?.cart?.data?.modifiers?.id && action?.payload?.cart?.data?.modifiers?.id) {
+                        view = e.cart.data.modifiers.id == action.payload.cart.data.modifiers.id
+                    }
+                    if (action?.payload?.cart?.data?.additions?.length > 0) {
+                        if (e?.cart?.data?.additions?.length > 0) {
+                            view =
+                                JSON.stringify(e.cart.data.additions) ==
+                                JSON.stringify(action.payload.cart.data.additions)
+                        } else {
+                            view = false
+                        }
+                    } else if (
+                        action?.payload?.cart?.data?.additions?.length === 0 &&
+                        e?.cart?.data?.additions?.length > 0
+                    ) {
+                        view = false
+                    }
+
+                    if (
+                        !e?.cart?.data?.modifiers?.id &&
+                        !action?.payload?.cart?.data?.modifiers?.id &&
+                        !e?.cart?.data?.additions?.length &&
+                        !action?.payload?.cart?.data?.additions?.length
+                    ) {
+                        view = true
+                    }
+                }
+                return view
+            })
+
+            if (isCart != -1) {
+                state.items.splice(isCart, 1)
+            }
+            return state
+        },
         resetCart: (state) => {
             state.promo = false
             state.zone = false
@@ -87,8 +126,10 @@ export const {
     updateCartSync,
     cartEditOptions,
     cartZone,
+    cartPromo,
     cartDeliveryPrice,
     cartDeletePromo,
+    cartDeleteProduct,
     resetCart,
 } = cartSlice.actions
 

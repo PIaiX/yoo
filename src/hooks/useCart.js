@@ -41,17 +41,22 @@ const useTotalCart = () => {
     })
 
     useEffect(() => {
-        if (stateCart?.length) {
+        if (stateCart?.length > 0) {
             let price = 0
             let discount = 0
             let point = 0
             let delivery = 0
+            let person = 0
             let pointAccrual = 0
+
             stateCart.forEach((product) => {
                 if (!product || !product?.cart?.count) {
                     return false
                 }
 
+                if (product?.options?.person > 0) {
+                    person += Number(product.options.person)
+                }
                 if (product?.type == 'gift') {
                     point += product.price * product.cart.count
                 } else {
@@ -66,7 +71,7 @@ const useTotalCart = () => {
                         }
                     }
 
-                    if (product?.cart?.data?.additions?.length) {
+                    if (product?.cart?.data?.additions?.length > 0) {
                         product.cart.data.additions.map((e) => {
                             let count = e.count ? e.count : 1
                             price += e.price * count * product.cart.count
@@ -89,17 +94,17 @@ const useTotalCart = () => {
                     totalCalcul = totalCalcul - statePromo.discount
                 }
             }
-            let pickupDiscount = affiliateActive?.options?.discountPickup > 0 && stateDelivery == 'pickup' ? (totalCalcul / 100) * Number(affiliateActive.options.discountPickup) : 0
-
+            let pickupDiscount = affiliateActive?.options?.discountPickup > 0 && stateDelivery == 'pickup' ? Math.floor((totalCalcul / 100) * Number(affiliateActive.options.discountPickup)) : 0
 
             if (pickupDiscount > 0) {
                 totalCalcul = totalCalcul - pickupDiscount
             }
 
-            let pointCheckout = pointOptions?.writing?.value > 0 ? (totalCalcul / 100) * Number(pointOptions.writing.value) : 0
+            let pointCheckout = pointOptions?.writing?.value > 0 ? Math.floor((totalCalcul / 100) * Number(pointOptions.writing.value)) : 0
             if (pointCheckout > 0 && pointCheckout > userPoint) {
                 pointCheckout = userPoint
             }
+
             if (pointCheckout > 0 && pointSwitch) {
 
                 let is = true
@@ -141,7 +146,7 @@ const useTotalCart = () => {
                     is = false
                 }
                 if (is) {
-                    pointAccrual = Math.round((totalCalcul / 100) * Number(pointOptions.accrual.value))
+                    pointAccrual = Math.floor((totalCalcul / 100) * Number(pointOptions.accrual.value))
                 }
             }
 
@@ -159,10 +164,11 @@ const useTotalCart = () => {
                 delivery: parseInt(delivery),
                 pointAccrual: parseInt(pointAccrual),
                 pickupDiscount: parseInt(pickupDiscount),
-                pointCheckout: parseInt(pointCheckout)
+                pointCheckout: parseInt(pointCheckout),
+                person: parseInt(person)
             })
         } else {
-            setData({ ...data, price: 0, total: 0, discount: 0, point: 0, pointAccrual: 0, delivery: 0, pickupDiscount: 0, pointCheckout: 0 })
+            setData({ ...data, price: 0, total: 0, discount: 0, point: 0, pointAccrual: 0, delivery: 0, pickupDiscount: 0, pointCheckout: 0, person: 0 })
         }
     }, [stateCart, statePromo, stateDelivery, stateZone, pointSwitch])
 
