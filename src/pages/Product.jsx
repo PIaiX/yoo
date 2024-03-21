@@ -7,7 +7,6 @@ import ProductCard from "../components/ProductCard";
 import Ingredient from "../components/utils/Ingredient";
 // swiper
 import { Navigation } from "swiper/modules";
-import "swiper/css";
 import { Swiper, SwiperSlide } from "swiper/react";
 // icons & images
 import {

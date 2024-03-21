@@ -1,8 +1,9 @@
+import moment from "moment";
 import React, { useCallback, useLayoutEffect } from "react";
 import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
-import { useForm, useWatch } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { NotificationManager } from "react-notifications";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -12,10 +13,12 @@ import Input from "../../components/utils/Input";
 import NavBreadcrumbs from "../../components/utils/NavBreadcrumbs";
 import { editAccount } from "../../services/account";
 import { setUser } from "../../store/reducers/authSlice";
-import moment from "moment";
 
 const Settings = () => {
   const user = useSelector((state) => state.auth.user);
+  const profilePointVisible = useSelector(
+    (state) => state.settings.options.profilePointVisible
+  );
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -99,15 +102,17 @@ const Settings = () => {
                   </div>
                 </div>
               </Col>
-              <Col xs={12} sm={6} md={3} className="d-none d-sm-block">
-                <div className="box p-3 w-100 h-100 d-flex flex-column justify-content-between text-center">
-                  <p className="fs-09 fw-6">Вы можете потратить</p>
-                  <p className="main-color">
-                    <span className="fs-18">{user.point}</span>&nbsp;
-                    <span className="fw-6 fs-18">Б</span>
-                  </p>
-                </div>
-              </Col>
+              {profilePointVisible && (
+                <Col xs={12} sm={6} md={3} className="d-none d-sm-block">
+                  <div className="box p-3 w-100 h-100 d-flex flex-column justify-content-between text-center">
+                    <p className="fs-09 fw-6">Вы можете потратить</p>
+                    <p className="main-color">
+                      <span className="fs-18">{user.point}</span>&nbsp;
+                      <span className="fw-6 fs-18">Б</span>
+                    </p>
+                  </div>
+                </Col>
+              )}
               <Col xs={12} md={5}>
                 <label className="mb-3">
                   <span className="me-1 me-sm-3">Включить пуш-уведомления</span>
@@ -180,7 +185,7 @@ const Settings = () => {
                       type="submit"
                       disabled={!isValid}
                       onClick={handleSubmit(onSubmit)}
-                      className="btn-green mt-4 d-block d-md-flex w-xs-100"
+                      className="btn-primary mt-4 d-block d-md-flex w-xs-100"
                     >
                       Сохранить изменения
                     </button>

@@ -1,21 +1,15 @@
 import React, { useEffect, useState } from "react";
+import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
-import ProductCardMini from "../components/ProductCardMini";
 
 // swiper
-import { Navigation, Thumbs, FreeMode } from "swiper/modules";
-import { Swiper, SwiperSlide } from "swiper/react";
-import "swiper/css";
-import SwiperButtonNext from "../components/utils/SwiperButtonNext";
-import SwiperButtonPrev from "../components/utils/SwiperButtonPrev";
 import { Link, useParams } from "react-router-dom";
-import { getBlog } from "../services/blog";
-import Loader from "../components/utils/Loader";
 import Empty from "../components/Empty";
 import EmptyCatalog from "../components/empty/catalog";
+import Loader from "../components/utils/Loader";
 import { getImageURL } from "../helpers/all";
+import { getBlog } from "../services/blog";
 
 const Blog = () => {
   const { blogId } = useParams();

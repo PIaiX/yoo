@@ -10,7 +10,9 @@ import { useSelector } from "react-redux";
 
 const AccountLayout = ({ isMobile }) => {
   const user = useSelector((state) => state.auth.user);
-
+  const profilePointVisible = useSelector(
+    (state) => state.settings.options.profilePointVisible
+  );
   return (
     <main className="account mb-2 mb-sm-3 mb-md-4 mb-xl-5">
       <Container className="pt-4 pt-lg-0">
@@ -57,15 +59,17 @@ const AccountLayout = ({ isMobile }) => {
                   </div>
                 </div>
               </Col>
-              <Col lg={2}>
-                <div className="box w-100 h-100 d-flex flex-column justify-content-between text-center">
-                  <p className="fs-09 fw-6">Вы можете потратить</p>
-                  <p className="main-color">
-                    <span className="fs-18">{user.point}</span>&nbsp;
-                    <span className="fw-6 fs-18">Б</span>
-                  </p>
-                </div>
-              </Col>
+              {profilePointVisible && (
+                <Col lg={2}>
+                  <div className="box w-100 h-100 d-flex flex-column justify-content-between text-center">
+                    <p className="fs-09 fw-6">Вы можете потратить</p>
+                    <p className="main-color">
+                      <span className="fs-18">{user.point}</span>&nbsp;
+                      <span className="fw-6 fs-18">Б</span>
+                    </p>
+                  </div>
+                </Col>
+              )}
               <Col lg={7}>
                 <div className="h-100 row row-cols-2 gx-3 gx-xl-4">
                   <div>

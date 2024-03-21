@@ -7,7 +7,6 @@ import ProductCardMini from "../components/ProductCardMini";
 // swiper
 import { Navigation, Thumbs, FreeMode } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
-import "swiper/css";
 import SwiperButtonNext from "../components/utils/SwiperButtonNext";
 import SwiperButtonPrev from "../components/utils/SwiperButtonPrev";
 

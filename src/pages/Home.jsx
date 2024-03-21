@@ -1,7 +1,6 @@
 import React from "react";
 import Container from "react-bootstrap/Container";
 import { useSelector } from "react-redux";
-import "swiper/css";
 import AppStore from "../assets/imgs/appstore-black.svg";
 import GooglePlay from "../assets/imgs/googleplay-black.svg";
 import Phone from "../assets/imgs/phone.png";

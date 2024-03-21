@@ -3,10 +3,8 @@ import Modal from "react-bootstrap/Modal";
 import Story from "./WidgetStoryItem";
 import StoryBig from "./WidgetStoryBigItem";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { FreeMode, Navigation, Scrollbar } from "swiper/modules";
+import { Navigation, Scrollbar } from "swiper/modules";
 import { HiXMark } from "react-icons/hi2";
-import SwiperButtonNext from "../utils/SwiperButtonNext";
-import SwiperButtonPrev from "../utils/SwiperButtonPrev";
 import { Container } from "react-bootstrap";
 
 const WidgetStories = memo((data) => {
@@ -21,57 +19,60 @@ const WidgetStories = memo((data) => {
   if (!data?.items || data?.items?.length === 0) {
     return null;
   }
+
   return (
-    <section className="sec-2 mb-3 mb-lg-5">
-      <Container className="position-relative px-0">
+    <section className="sec-2 my-4">
+      <Container className="px-0">
         <Swiper
-          className="swiper-stories"
-          modules={[Navigation, FreeMode]}
+          className={
+            "swiper-stories px-2 px-md-0" +
+            (data?.count > 0 ? " story-col-" + data.count : "")
+          }
           speed={750}
-          spaceBetween={10}
-          slidesPerView={"auto"}
-          watchOverflow={true}
-          freeMode={true}
-          navigation={{
-            nextEl: ".swiper-button-next",
-            prevEl: ".swiper-button-prev",
-          }}
+          spaceBetween={16}
+          navigation={true}
+          slidesPerGroup={7}
+          slidesPerView="auto"
+          modules={[Navigation]}
           breakpoints={{
             576: {
               slidesPerView: 4,
-              spaceBetween: 10,
+              spaceBetween: 8,
             },
             768: {
               slidesPerView: 5,
-              spaceBetween: 10,
+              spaceBetween: 12,
             },
             1200: {
-              slidesPerView: 8,
-              spaceBetween: 10,
+              slidesPerView: 7,
+              spaceBetween: 16,
             },
           }}
         >
           {data.items.map((e, index) => (
-            <SwiperSlide>
-              <Story onClick={() => showStory(index)} data={e} />
+            <SwiperSlide key={e?.id}>
+              <Story
+                onClick={() => showStory(index)}
+                data={e}
+                type={data.type}
+              />
             </SwiperSlide>
           ))}
-
-          <SwiperButtonPrev />
-          <SwiperButtonNext />
         </Swiper>
 
-        <Modal show={story} onHide={closeStory} className="story-modal">
+        <Modal
+          show={story}
+          onHide={closeStory}
+          className="story-modal"
+          centered
+        >
           <Modal.Body>
             <Swiper
               className="swiper-stories-modal"
               modules={[Scrollbar, Navigation]}
               slidesPerView={1}
               scrollbar={{ draggable: true }}
-              navigation={{
-                nextEl: ".swiper-button-next",
-                prevEl: ".swiper-button-prev",
-              }}
+              navigation={true}
               onSwiper={(swiper) =>
                 activeSlide && swiper.slideTo(activeSlide, 50)
               }
@@ -81,9 +82,6 @@ const WidgetStories = memo((data) => {
                   <StoryBig onClick={() => showStory(index)} data={e} />
                 </SwiperSlide>
               ))}
-
-              <SwiperButtonPrev />
-              <SwiperButtonNext />
             </Swiper>
             <button className="close" onClick={closeStory}>
               <HiXMark />

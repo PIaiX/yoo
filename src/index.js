@@ -2,6 +2,8 @@ import { createRoot } from "react-dom/client";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 import store, { persistor } from "./store";
+import "swiper/css";
+import "swiper/css/navigation";
 import App from "./App";
 import moment from "moment";
 import momentRu from "moment/locale/ru";

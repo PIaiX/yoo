@@ -37,6 +37,7 @@ html {
   --light-gray: #1e1e1e;
   --divider: #121212;
   --bg-catalog-menu: #fff;
+  --modal-close: #ddd;
 }
 
 :root[data-theme="dark"] {
@@ -53,9 +54,11 @@ html {
   --bg-second: #222;
   --hr-color: #2b2831;
   --gray: #727272;
-  --light-gray: #1e1e1e;
+  --light-gray: #555;
   --divider: #121212;
   --bg-catalog-menu: #222;
+  --modal-close: invert(1) grayscale(100%) brightness(200%);
+  --bs-border-color: #222;
 }
 $main-font: "Open Sans";
 $radius: 1.25em;
@@ -1229,18 +1232,13 @@ select {
       stroke-width: 1px;
       fill: rgba($color: #fff, $alpha: 0.5);
     }
-    &:hover {
-      transform: scale(120%);
-    }
     &-prev {
       @extend .swiper-button;
       left: 10px;
-      height: 100%;
     }
     &-next {
       @extend .swiper-button;
       right: 10px;
-      height: 100%;
     }
     &-disabled {
       opacity: 0;
@@ -1438,9 +1436,9 @@ select {
     @include flex(row, flex-start, center, wrap);
     font-size: 0.9em;
     li {
-      color: var(--light-gray);
+      color: var(--font-color);
       &:not(:last-child) {
-        color: $black;
+        color: var(--font-color);
         margin-right: 1em;
         &::after {
           content: "●";
@@ -1571,7 +1569,7 @@ header {
     top: 45px !important;
   }
   .btn-menu {
-    color: var(--light-gray);
+    color: var(--font-color);
     font-size: 2em;
     @include flex();
     transition: color $transition;
@@ -1769,32 +1767,57 @@ main {
   }
 }
 
-.sec-2 {
-  --w: 130px;
-  @media (max-width: $bp-md) {
-    position: relative;
-  }
-  @media (max-width: $bp-sm) {
-    --w: 80px;
-  }
-  .swiper-stories {
-    .swiper-slide {
-      width: calc(var(--w) + 1em);
+.swiper-stories {
+  .swiper-slide {
+    @media (max-width: $bp-md) {
+      position: relative;
     }
-    .swiper-button {
-      bottom: 50%;
-      transform: translateY(50%);
-      color: var(--main-color);
+    @media (max-width: $bp-sm) {
+      --w: 21.5%;
     }
+    width: var(--w);
+  }
+  .swiper-button-next,
+  .swiper-button-prev {
+    color: hsla(0, 0%, 100%, 0.87);
+    top: 15px;
+    bottom: 0px;
+    height: 100%;
+    width: 8%;
+    &::after {
+      font-size: 25px;
+    }
+  }
+  .swiper-button-disabled {
+    display: none;
+  }
+  .swiper-button-next {
+    background: linear-gradient(
+      270deg,
+      var(--bg-main) 20%,
+      transparent
+    ) !important;
+    right: 0 !important;
+  }
+  .swiper-button-prev {
+    background: linear-gradient(
+      90deg,
+      var(--bg-main) 20%,
+      transparent
+    ) !important;
+    left: 0 !important;
   }
 }
+
 .story {
   cursor: pointer;
-  padding: 3px;
   img {
     display: block;
     margin: 0 auto 0px;
-    @include roundedImg(var(--w));
+    width: 100%;
+    height: 100%;
+    border-radius: 100%;
+    object-fit: cover;
     background-color: var(--bg-main);
     padding: 2px;
     border: 3px solid var(--main-color);
@@ -1802,6 +1825,33 @@ main {
       border-width: 2px;
     }
   }
+  &.square {
+    img {
+      border-radius: 16px;
+    }
+  }
+  &.rectangle {
+    img {
+      border-radius: 16px;
+      height: 220px;
+      @media (max-width: $bp-xxl) {
+        height: 180px;
+      }
+      @media (max-width: $bp-xl) {
+        height: 230px;
+      }
+      @media (max-width: $bp-lg) {
+        height: 160px;
+      }
+      @media (max-width: $bp-md) {
+        height: 165px;
+      }
+      @media (max-width: $bp-sm) {
+        height: 100px;
+      }
+    }
+  }
+
   figcaption {
     margin-top: 1em;
     font-size: 0.9em;
@@ -1816,31 +1866,81 @@ main {
       width: 450px;
       height: 800px;
       object-fit: cover;
-      border-radius: $radius * 0.5;
       @media (max-width: $bp-sm) {
         width: 100%;
-        height: calc(100vh - 4em);
+        height: 100vh;
         border-radius: 0px;
       }
     }
   }
 }
+
+// .story-col-4 {
+//   .swiper-slide {
+//     width: 270px !important;
+//     @media (max-width: $bp-xxl) {
+//       width: 250px !important;
+//     }
+//     @media (max-width: $bp-xl) {
+//       width: 230px !important;
+//     }
+//     @media (max-width: $bp-lg) {
+//       width: 200px !important;
+//     }
+//     @media (max-width: $bp-md) {
+//       width: 180px !important;
+//     }
+//     @media (max-width: $bp-sm) {
+//       width: 78px !important;
+//     }
+//     .rectangle {
+//       img {
+//         border-radius: 25px;
+//         height: 340px;
+//         @media (max-width: $bp-xxl) {
+//           height: 300px !important;
+//         }
+//         @media (max-width: $bp-xl) {
+//           height: 280px !important;
+//         }
+//         @media (max-width: $bp-lg) {
+//           height: 260px !important;
+//         }
+//         @media (max-width: $bp-md) {
+//           height: 240px !important;
+//         }
+//         @media (max-width: $bp-sm) {
+//           border-radius: 16px;
+//           height: 100px !important;
+//         }
+//       }
+//     }
+//   }
+// }
+
 .modal-content {
-  background-color: var(--bg-main);
+  background-color: var(--bg-main) !important;
+  border-radius: $radius * 0.5 !important;
+  overflow: hidden;
 }
 .story-modal {
+  backdrop-filter: blur(10px);
   .modal {
     &-dialog {
       max-width: 450px;
       @media (max-width: $bp-sm) {
         max-width: 100%;
-        margin: 2em 1em;
+        margin: 0px !important;
       }
     }
     &-content {
       background-color: transparent;
       border: none;
       border-radius: unset;
+      @media (max-width: $bp-sm) {
+        max-width: 100%;
+        height: 100vh;
+      }
     }
     &-body {
       padding: 0px;
@@ -1858,15 +1958,15 @@ main {
           @media (max-width: $bp-md) {
             display: none;
           }
-          svg {
-            fill: transparent;
+          &::after {
+            font-size: 20px;
           }
-          &-prev {
-            left: -1.25em;
-          }
-          &-next {
-            right: -1.25em;
-          }
+          // &-prev {
+          //   left: -1.25em;
+          // }
+          // &-next {
+          //   right: -1.25em;
+          // }
         }
         .swiper-scrollbar {
           position: absolute;
@@ -1874,12 +1974,11 @@ main {
           top: 1em;
           left: 1em;
           width: calc(100% - 2em);
-          height: 1px;
+          height: 3px;
           background-color: var(--bg-second);
           &-drag {
             height: 3px;
-            background-color: var(--bg-second);
-            margin-top: -1px;
+            background-color: #fff;
           }
         }
       }
@@ -2132,7 +2231,6 @@ main {
   @media (max-width: $bp-lg) {
     margin-top: 0 !important;
     top: 0 !important;
-    border-radius: 0px 0px $radius $radius;
     padding: 0em;
     box-shadow: none;
   }
@@ -2163,20 +2261,21 @@ main {
       width: fit-content;
     }
     .swiper-button {
-      color: var(--main-color);
-      bottom: 50%;
-      transform: translateY(50%);
+      color: var(--font-color);
       @media (max-width: $bp-lg) {
         display: none;
       }
       &-prev {
         left: 0px;
+        &::after {
+          font-size: 20px;
+        }
       }
       &-next {
         right: 0px;
-      }
-      svg {
-        fill: transparent;
+        &::after {
+          font-size: 20px;
+        }
       }
     }
     &-disabled {
@@ -2959,13 +3058,16 @@ main {
   &-item {
     position: relative;
     @include flex(row, space-between, flex-start, nowrap);
-    padding: 1.5em 1em;
-    border-bottom: 1px solid var(--bg-btn);
+    padding: 0.8em;
+    // border-bottom: 1px solid var(--bg-btn);
     @media (max-width: $bp-md) {
       flex-wrap: wrap;
     }
     @media (max-width: $bp-sm) {
       padding: 1em 0em;
+    }
+    .order-1 {
+      padding: 0.9em 0;
     }
     .left {
       @include flex(row, flex-start, flex-start, nowrap);
@@ -2980,6 +3082,7 @@ main {
       .text {
         flex: 1;
         h6 {
+          font-size: 16px;
           width: fit-content;
           .tag {
             float: right;
@@ -3026,8 +3129,8 @@ main {
     img {
       width: 100px;
       height: 100px;
-      object-fit: contain;
-      border-radius: $radius * 0.25;
+      object-fit: cover;
+      border-radius: $radius;
       margin-right: 1em;
     }
     &-ingredients {
@@ -3049,7 +3152,7 @@ main {
   }
   &-box {
     background-color: var(--bg-second);
-    padding: 1em;
+    padding: 0.8em;
     border-radius: $radius;
   }
 }
@@ -3120,7 +3223,7 @@ footer {
           transition: $transition;
           transition-property: background-color, max-width;
           &.active .text {
-            color: var(--font-color-revers) !important;
+            color: #fff !important;
           }
           svg {
             width: 1.6em !important;
@@ -3130,7 +3233,7 @@ footer {
           }
           .text {
             color: var(--font-color);
-            // padding: 0 .5em;
+            margin-left: 3px;
             overflow: hidden;
             max-width: 0px;
             // display: none;
@@ -3253,7 +3356,7 @@ ACCOUNT
           }
         }
         a {
-          color: $dark;
+          color: var(--font-color);
           @include flex(row, flex-start, center, nowrap);
           padding: 0.75em 1em;
           border-radius: $radius;
@@ -3993,7 +4096,7 @@ ACCOUNT
     max-height: 80px;
     max-width: 200px;
   }
-  .search-box{
+  .search-box {
     @include scrollCustomized();
     max-height: 400px;
     overflow-x: hidden;
@@ -4252,7 +4355,7 @@ ACCOUNT END
     }
     &:active p,
     &.active p {
-      color: var(--font-color-revers) !important;
+      color: #fff !important;
     }
   }
 }
@@ -4260,6 +4363,7 @@ ACCOUNT END
   box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.06);
   background-color: var(--bg-second);
   border-radius: 1em;
+  color: var(--font-color);
   border: none;
   overflow: hidden;
   &.lite {
@@ -4295,7 +4399,7 @@ ACCOUNT END
   &.lite .head,
   .head {
     background-color: var(--bg-btn);
-    color: $dark;
+    color: var(--font-color);
     padding: 5px;
     font-weight: 600;
     border-top-left-radius: 1em;
@@ -4315,7 +4419,7 @@ ACCOUNT END
   }
 
   a svg {
-    color: $black;
+    color: var(--font-color);
   }
   .form-check-inpu:checked .row {
     background-color: var(--bg-btn);
@@ -4400,7 +4504,7 @@ ACCOUNT END
   }
   button {
     font-size: 1.25em;
-    color: $dark;
+    color: var(--font-color);
   }
 }
 .payment {
@@ -4836,6 +4940,7 @@ ACCOUNT END
 .my-info-body {
   background-color: var(--bg-second);
   border-radius: 8px;
+  color: var(--font-color);
   box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.2);
   padding: 20px;
   padding-right: 30px;
@@ -4875,9 +4980,9 @@ ACCOUNT END
     @include flex();
     position: relative;
     .bar {
-      height: 10px;
+      height: 8px;
       width: 100%;
-      border-radius: 5px;
+      border-radius: 20px;
       background-color: #eeeeee;
       position: relative;
       z-index: 1;
@@ -4889,7 +4994,7 @@ ACCOUNT END
           left: 0px;
           height: 100%;
           width: 55%;
-          border-radius: 5px;
+          border-radius: 20px;
           background: linear-gradient(to right, #038036 9%, #02b54c 90%);
         }
       }
@@ -4929,13 +5034,16 @@ ACCOUNT END
 .mb-6 {
   margin-bottom: 4em;
 }
-.article{
-  &-card{
-    img{
+.article {
+  &-card {
+    img {
       border-radius: $radius;
     }
-    figcaption{
+    figcaption {
       @include clamp(3, 1.3em, true);
     }
   }
+}
+.btn-close {
+  filter: var(--modal-close);
 }

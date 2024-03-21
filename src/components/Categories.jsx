@@ -1,15 +1,9 @@
-import React, { useState, memo, useRef } from "react";
-import { Navigation, FreeMode, Mousewheel } from "swiper/modules";
-import { Swiper, SwiperSlide } from "swiper/react";
-import "swiper/css";
+import React, { memo, useRef, useState } from "react";
 import { Link } from "react-scroll";
+import { FreeMode, Mousewheel, Navigation } from "swiper/modules";
+import { Swiper, SwiperSlide } from "swiper/react";
 
-import {
-  HiOutlineArrowRightCircle,
-  HiOutlineArrowLeftCircle,
-  HiOutlineArrowUturnDown,
-  HiArrowUturnUp,
-} from "react-icons/hi2";
+import { HiArrowUturnUp, HiOutlineArrowUturnDown } from "react-icons/hi2";
 
 const Categories = memo(({ className, data }) => {
   const [isFull, setIsFull] = useState(false);
@@ -51,10 +45,7 @@ const Categories = memo(({ className, data }) => {
           observer={true}
           observeSlideChildren={true}
           watchSlidesProgress={true}
-          navigation={{
-            nextEl: ".swiper-button-next",
-            prevEl: ".swiper-button-prev",
-          }}
+          navigation={true}
           breakpoints={{
             576: {
               spaceBetween: 15,
@@ -80,12 +71,6 @@ const Categories = memo(({ className, data }) => {
               </Link>
             </SwiperSlide>
           ))}
-          <div className="swiper-button-prev">
-            <HiOutlineArrowLeftCircle />
-          </div>
-          <div className="swiper-button-next">
-            <HiOutlineArrowRightCircle />
-          </div>
         </Swiper>
       </div>
       {isFull ? (

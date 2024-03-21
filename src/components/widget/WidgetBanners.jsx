@@ -1,6 +1,5 @@
 import React, { memo } from "react";
 import { Pagination } from "swiper/modules";
-import "swiper/css";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { getImageURL } from "../../helpers/all";
 
@@ -9,7 +8,7 @@ const WidgetBanners = memo((data) => {
     return null;
   }
   return (
-    <section className="sec-1 my-4">
+    <section className="sec-1 my-3">
       <div className="container">
         <div className="row justify-content-center">
           <div className="col-12 col-md-11 col-lg-9 col-xl-8">

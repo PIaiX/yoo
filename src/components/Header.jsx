@@ -61,7 +61,7 @@ const Header = memo(() => {
           )
         : affiliate.find((e) => e.main)
       : false;
-
+  console.log(mainAffiliate);
   const [searchInput, setSearchInput] = useState("");
   const [search, setSearch] = useState();
   const [isPending, startTransition] = useTransition();
@@ -90,15 +90,21 @@ const Header = memo(() => {
         if (!data[country]) {
           data[country] = [e];
         } else {
-          data[country].push(e);
+          let isCity = data[country].find(
+            (item) =>
+              item.options.city.toLowerCase() === e.options.city.toLowerCase()
+          );
+          if (!isCity) {
+            data[country].push(e);
+          }
         }
       });
 
       data.sort(function (a, b) {
-        if (a.options.city < b.options.city) {
+        if (a.options.city.toLowerCase() < b.options.city.toLowerCase()) {
           return -1;
         }
-        if (a.options.city > b.options.city) {
+        if (a.options.city.toLowerCase() > b.options.city.toLowerCase()) {
           return 1;
         }
         return 0;
@@ -191,7 +197,9 @@ const Header = memo(() => {
                       className="fw-6"
                     >
                       {affiliate?.length > 1
-                        ? defaultCityOptions?.city ?? "Выберите город"
+                        ? defaultCityOptions?.city ??
+                          mainAffiliate?.options?.city ??
+                          "Выберите город"
                         : mainAffiliate?.options?.city ?? ""}
                     </Link>
                   )}
@@ -228,7 +236,7 @@ const Header = memo(() => {
                       </div>
                     )}
                 </li>
-                <li>
+                <li className="d-none d-sm-inline-flex">
                   <Select
                     className="fw-5"
                     data={[

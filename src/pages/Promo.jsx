@@ -2,7 +2,6 @@ import React from "react";
 import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
-import "swiper/css";
 import Empty from "../components/Empty";
 import EmptySale from "../components/empty/sale";
 import Offer from "../components/Offer";

@@ -1,6 +1,5 @@
 import React, { memo } from "react";
 import { Col, Container, Row } from "react-bootstrap";
-import "swiper/css";
 import { Swiper, SwiperSlide } from "swiper/react";
 import useIsMobile from "../../hooks/isMobile";
 import ArticleCard from "../ArticleCard";

@@ -6,7 +6,7 @@ import { IoCaretDownOutline } from "react-icons/io5";
 import { customPrice, customWeight, getImageURL } from "../helpers/all";
 import ButtonCart from "./ButtonCart";
 // import BtnFav from "./utils/BtnFav";
-import { useSelector } from "react-redux";
+// import { useSelector } from "react-redux";
 
 const CartItem = memo(({ data }) => {
   const [open, setOpen] = useState(false);
@@ -42,8 +42,6 @@ const CartItem = memo(({ data }) => {
           {data?.cart?.data?.modifiers && (
             <p className="fs-09">{data.cart.data.modifiers.title}</p>
           )}
-
-          {/* Кнопка с разворачивающимся блоком появляются только если есть дополнительные ингредиенты */}
 
           {data?.cart?.data?.additions?.length > 0 && (
             <>

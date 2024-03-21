@@ -55,7 +55,7 @@ const ButtonCart = memo(
         <CountInput
           full={full}
           onChange={onPress}
-          value={isCartData?.cart?.count > 0 ? isCartData.cart.count : 1}
+          value={isCartData?.cart?.count > 0 ? isCartData.cart.count : 0}
         />
       );
     }

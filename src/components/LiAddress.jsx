@@ -1,5 +1,10 @@
 import React, { memo, useState } from "react";
-import { HiOutlineMap, HiXMark, HiOutlineTrash } from "react-icons/hi2";
+import {
+  HiOutlineMap,
+  HiXMark,
+  HiOutlineTrash,
+  HiPencil,
+} from "react-icons/hi2";
 import { Link } from "react-router-dom";
 import Modal from "react-bootstrap/Modal";
 import { useDispatch } from "react-redux";
@@ -26,12 +31,12 @@ const LiAddress = memo(({ data }) => {
           </div>
         </div>
         <div className="d-flex align-items-center justify-content-end mt-2 mt-sm-0 ms-sm-4">
-          <Link to={"/account/address/" + data.id} className="green fs-09">
-            Изменить
+          <Link to={"/account/address/" + data.id} className="fs-09">
+            <HiPencil />
           </Link>
           <button
             type="button"
-            className="dark-gray fs-12 ms-4"
+            className="text-danger fs-12 ms-4"
             onClick={() => setShowDelConfirmation(true)}
           >
             <HiOutlineTrash />
