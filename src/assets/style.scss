@@ -1625,7 +1625,6 @@ header {
     }
     .box {
       background-color: var(--bg-second);
-      @include lightShadow();
       padding: 1em;
       border-radius: $radius * 0.25;
     }
@@ -2013,7 +2012,6 @@ main {
 .sec-3 {
   .box {
     background-color: var(--bg-second);
-    @include shadow();
     padding: $radius;
     border-radius: $radius;
     @media (max-width: $bp-md) {
@@ -3314,11 +3312,9 @@ ACCOUNT
     min-height: 125px;
   }
   .box {
-    @include lightShadow();
     background-color: var(--bg-second);
     border-radius: $radius * 0.5;
     &-blue {
-      @include lightShadow();
       background-color: var(--main-color-outline);
       border-radius: $radius * 0.5;
     }
@@ -3569,7 +3565,6 @@ ACCOUNT
     }
   }
   .order-item {
-    --w: 100px;
     display: grid;
     grid-template-columns: var(--w) auto 110px 50px;
     grid-template-rows: auto;
@@ -3583,9 +3578,6 @@ ACCOUNT
       grid-template-columns: var(--w) auto 50px 50px;
       gap: 0.5em 0.75em;
     }
-    @media (max-width: $bp-xl) {
-      --w: 80px;
-    }
     @media (max-width: $bp-lg) {
       gap: 1em 1.5em;
     }
@@ -3593,7 +3585,6 @@ ACCOUNT
       gap: 0.5em 1em;
     }
     @media (max-width: $bp-sm) {
-      --w: 60px;
       gap: 0.25em 0.5em;
       grid-template-areas:
         "img data data data"
@@ -4371,6 +4362,9 @@ ACCOUNT END
   }
   .item {
     border-bottom: 1px solid var(--bg-btn);
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.06);
+    }
   }
   .card-footer:last-child {
     padding: 15px;
@@ -4381,7 +4375,7 @@ ACCOUNT END
     border: none;
   }
   .active {
-    background-color: var(--bg-btn) !important;
+    background-color: var(--bg-btn);
   }
   .desc {
     border-bottom: 1px solid var(--bg-btn);
@@ -5046,4 +5040,36 @@ ACCOUNT END
 }
 .btn-close {
   filter: var(--modal-close);
+}
+.status {
+  border-radius: 30px;
+  padding: 0px 10px;
+  height: 33px;
+  font-size: 13px;
+  vertical-align: middle;
+  display: flex;
+  color: #fff;
+  align-items: center;
+  .img,
+  svg {
+    width: 33px;
+    height: 33px;
+    display: block;
+    padding: 2px;
+    border-radius: 30px;
+    margin-right: 3px;
+    stroke: #fff;
+    color: #fff;
+    path,
+    circle {
+      stroke: #fff;
+      color: #fff;
+    }
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 30px;
+    }
+  }
 }

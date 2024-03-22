@@ -8,6 +8,8 @@ import { Link, useParams } from "react-router-dom";
 import Empty from "../../components/Empty";
 import EmptyOrders from "../../components/empty/orders";
 import OrderItem from "../../components/OrderItem";
+import Status from "../../components/Status";
+import Loader from "../../components/utils/Loader";
 import socket from "../../config/socket";
 import { customPrice, deliveryData, paymentData } from "../../helpers/all";
 import { getOrder } from "../../services/order";
@@ -31,11 +33,6 @@ const Order = () => {
   const deliveryText = deliveryData[order.item.delivery];
   const paymentText = paymentData[order.item.payment];
 
-  const status =
-    order?.item?.statuses?.length > 0
-      ? order.item.statuses.find((e) => e.end === null)?.status
-      : false;
-
   useLayoutEffect(() => {
     getOrder(orderId)
       .then((res) => setOrder({ loading: false, item: res }))
@@ -53,6 +50,10 @@ const Order = () => {
     };
   }, []);
 
+  if (order?.loading) {
+    return <Loader full />;
+  }
+
   if (!order?.item?.id) {
     return (
       <Empty
@@ -68,7 +69,7 @@ const Order = () => {
       />
     );
   }
-
+  console.log(order.item);
   return (
     <section>
       <div className="d-flex align-items-center mb-4">
@@ -76,7 +77,9 @@ const Order = () => {
           <HiOutlineArrowLeftCircle />
           <span>Назад</span>
         </Link>
-        <h5 className="fw-6 mb-0">Заказ #{order.item.id}</h5>
+        <h5 className="fw-6 mb-0">
+          Заказ #{order.item.uid ? order.item.uid : order.item.id}
+        </h5>
       </div>
 
       <Row>
@@ -90,85 +93,88 @@ const Order = () => {
           </ul>
         </Col>
         <Col lg={4}>
-          <div className="box">
+          <div className="box p-2">
             <div className="p-2 p-xl-3">
-              <p className="fs-09 d-flex align-items-center mb-3">
-                <span>Время заказа</span>
-                <span className="ms-3">
-                  {moment(order.item.createdAt).format("DD.MM.YYYY HH:mm")}
-                </span>
+              <p className="mb-3">
+                <Status {...order.item} />
+              </p>
+              <p className="fs-09 mb-3">
+                <div className="text-muted fs-08">Идентификатор</div>
+                <div className="fw-6">
+                  #{order.item.uid ? order.item.uid : order.item.id}
+                </div>
+              </p>
+
+              <p className="fs-09 mb-3">
+                <div className="text-muted fs-08">Время заказа</div>
+                <div>
+                  {moment(order.item.createdAt).format("DD MMM YYYY kk:mm")}
+                </div>
               </p>
               {order.item.serving && (
-                <p className="fs-09 d-flex align-items-center mb-3">
-                  <span>Ко времени</span>
-                  <span className="ms-3">
-                    {moment(order.item.serving).format("DD.MM.YYYY HH:mm")}
-                  </span>
+                <p className="fs-09 mb-3">
+                  <div className="text-muted fs-08">Ко времени</div>
+                  <div>
+                    {moment(order.item.serving).format("DD MMM YYYY kk:mm")}
+                  </div>
                 </p>
               )}
-              <div className="btn-green fs-09 rounded-3 mb-3">
-                {status?.name ?? "Принят"}
-              </div>
-              <div className="order-card-delivery">
-                {deliveryText} <span className="dark-gray ms-1">•</span>
-              </div>
-              {order.item.delivery == "delivery" ? (
-                <address className="d-block fs-09 dark-gray">
-                  {`${order.item.street} ${order.item.home}${
-                    order.item.block ? " (корпус " + order.item.block + ")" : ""
-                  }, подъезд ${order.item.apartment}, этаж ${
-                    order.item.floor
-                  }, кв ${order.item.apartment}`}
-                </address>
-              ) : (
-                <address className="d-block fs-09 dark-gray">
-                  {affiliate && affiliate?.full
-                    ? affiliate.full
-                    : "Нет информации"}
-                  {affiliate && affiliate?.comment
-                    ? "(" + affiliate.comment + ")"
-                    : ""}
-                </address>
-              )}
-              {order.item.description && (
-                <>
-                  <div className="main-color mt-4 mt-xxl-5 mb-1">
-                    Комментарий
+
+              <p className="fs-09 mb-3">
+                <div className="text-muted fs-08">{deliveryText}</div>
+                {order.item.delivery == "delivery" ? (
+                  <div>
+                    {`${order.item.street} ${order.item.home}${
+                      order.item.block
+                        ? " (корпус " + order.item.block + ")"
+                        : ""
+                    }, подъезд ${order.item.apartment}, этаж ${
+                      order.item.floor
+                    }, кв ${order.item.apartment}`}
                   </div>
-                  <textarea
-                    disabled
-                    className="fs-09"
-                    value={order.item.description}
-                  />
-                </>
+                ) : (
+                  <div>
+                    {affiliate && affiliate?.full
+                      ? affiliate.full
+                      : "Нет информации"}
+                    {affiliate && affiliate?.comment
+                      ? "(" + affiliate.comment + ")"
+                      : ""}
+                  </div>
+                )}
+              </p>
+              <p className="d-flex justify-content-between fs-09 align-items-center mb-3">
+                <p>Кол-во персон</p>
+                <div className="fs-09">{order.item.person}</div>
+              </p>
+              {order.item.description && (
+                <p className="fs-09 mb-3">
+                  <div className="text-muted fs-08">{deliveryText}</div>
+                  <div>{order.item.description}</div>
+                </p>
               )}
-              <div className="d-flex justify-content-between align-items-center mt-3">
-                <p>Количество персон</p>
-                <div className="input w-50p py-1 px-2 rounded-4 w-fit text-center">
-                  {order.item.person}
+              {order.item.pointAccrual > 0 && (
+                <div className="d-flex justify-content-between fs-09 fw-5 mb-2">
+                  <div>Начисление</div>
+                  <div>{customPrice(order.item.pointAccrual)}</div>
                 </div>
+              )}
+              {order.item.pointWriting > 0 && (
+                <div className="d-flex justify-content-between fs-09 fw-5 mb-2">
+                  <div>Списание</div>
+                  <div>{customPrice(order.item.pointAccrual)}</div>
+                </div>
+              )}
+              {order.item.pickupDiscount > 0 && (
+                <div className="d-flex justify-content-between fs-09 fw-5 mb-2">
+                  <div>Самовывоз</div>
+                  <div>{customPrice(order.item.pickupDiscount)}</div>
+                </div>
+              )}
+              <div className="d-flex justify-content-between fw-6">
+                <div className="fs-11">Итого</div>
+                <div>{customPrice(order.item.total)}</div>
               </div>
-
-              {/* <div className="d-flex justify-content-between mt-3">
-                <p>Доставка</p>
-                <p className="main-color">бесплатно</p>
-              </div> */}
-
-              <div className="d-flex justify-content-between fw-6 mt-4">
-                <p className="fs-11">Итоговая сумма</p>
-                <p>{customPrice(order.item.total)}</p>
-              </div>
-            </div>
-            {/* <div className="btn-green rounded-0 w-100 justify-content-start">
-              Списано 33 бонуса
-            </div> */}
-            <div className="p-2 p-xl-3">
-              {/* <p className="fs-09 main-color">
-                34 бонуса будут начислены за этот заказ
-              </p> */}
-              <button type="submit" disabled className="btn-red w-100 mt-3">
-                Отменить заказ
-              </button>
             </div>
           </div>
         </Col>

@@ -207,7 +207,7 @@ const Cart = () => {
                 </>
               )}
 
-              {person === 0 && <Extras person={person} items={data?.extras} />}
+              {person > 0 && <Extras person={person} items={data?.extras} />}
 
               <div className="d-flex justify-content-between my-2">
                 <span>Стоимость товаров</span>

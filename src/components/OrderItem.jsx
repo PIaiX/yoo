@@ -16,7 +16,6 @@ const OrderItem = memo(({ data }) => {
 
   return (
     <div className="order-item">
-      <img src={getImageURL({ path: data.medias })} alt={data.title} />
       <div className="text">
         <h6>
           {data.title}
@@ -30,7 +29,7 @@ const OrderItem = memo(({ data }) => {
             placement="bottom"
             overlay={<Tooltip>{data.description}</Tooltip>}
           >
-            <p className="consist">{data.description}</p>
+            <p className="consist text-muted">{data.description}</p>
           </OverlayTrigger>
         )}
         {data?.cart?.data?.modifiers && <p>{data.cart.data.modifiers.title}</p>}

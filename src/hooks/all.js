@@ -15,4 +15,5 @@ const isWork = (start, end) => {
     return moment().isBetween(startTime, endTime, null, '[]')
 }
 
-export {keyGenerator, isWork}
+
+export { keyGenerator, isWork }

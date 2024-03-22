@@ -1,25 +1,38 @@
 import moment from "moment";
-import React, { useLayoutEffect, useState } from "react";
-import { Badge } from "react-bootstrap";
+import React, { useEffect, useLayoutEffect, useState } from "react";
 import { HiOutlineArrowLeftCircle } from "react-icons/hi2";
-import { IoCreateOutline, IoEye, IoEyeOutline } from "react-icons/io5";
-import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
 import DataTable from "../../components/DataTable";
 import Empty from "../../components/Empty";
 import EmptyOrders from "../../components/empty/orders";
 import Meta from "../../components/Meta";
+import Status from "../../components/Status";
 import Loader from "../../components/utils/Loader";
+import socket from "../../config/socket";
 import { customPrice, deliveryData, paymentData } from "../../helpers/all";
 import { getOrders } from "../../services/order";
 
 const Orders = () => {
+  const user = useSelector((state) => state.auth.user);
   const [orders, setOrders] = useState({
     loading: true,
     items: [],
     pagination: {},
   });
+  const navigate = useNavigate();
 
   const orderColumns = [
+    {
+      name: "id",
+      selector: "id",
+      width: 110,
+      cell: (row) => (
+        <span className="fw-6">
+          #{row.uid ? row.uid.toUpperCase() : row.id}
+        </span>
+      ),
+    },
     {
       name: "Дата",
       selector: "createdAt",
@@ -28,12 +41,17 @@ const Orders = () => {
     {
       name: "Статус",
       selector: "status",
-      cell: (row) => <Badge bg="success">Принят</Badge>,
+      cell: (row) => <Status {...row} />,
     },
     {
-      name: "Способ",
+      name: "Способ доставки",
       selector: "deliveryType",
       cell: (row) => deliveryData[row.delivery],
+    },
+    {
+      name: "Способ оплаты",
+      selector: "payment",
+      cell: (row) => paymentData[row.payment],
     },
     {
       name: "Итого",
@@ -46,16 +64,6 @@ const Orders = () => {
         </div>
       ),
     },
-    {
-      width: "50px",
-      selector: "action",
-      align: "right",
-      cell: (row) => (
-        <Link to={"/account/orders/" + row.id}>
-          <IoEyeOutline size={20} />
-        </Link>
-      ),
-    },
   ];
 
   useLayoutEffect(() => {
@@ -63,6 +71,25 @@ const Orders = () => {
       .then((res) => setOrders((data) => ({ ...data, loading: false, ...res })))
       .catch(() => setOrders((data) => ({ ...data, loading: false })));
   }, []);
+
+  useEffect(() => {
+    socket.on("orders/" + user.id, (data) => {
+      if (data?.statuses?.length > 0) {
+        let newOrders = orders.items.map((e) => {
+          if (e.id === data.id) {
+            return data;
+          }
+          return e;
+        });
+        if (newOrders) {
+          setOrders({ loading: false, items: newOrders });
+        }
+      }
+    });
+    return () => {
+      socket.off("orders/" + user.id);
+    };
+  }, [orders.items]);
 
   if (orders?.loading) {
     return <Loader full />;
@@ -94,8 +121,8 @@ const Orders = () => {
         </Link>
         <h6 className="fs-12 mb-0">Заказы</h6>
       </div>
-
       <DataTable
+        onClick={(e) => navigate("/account/orders/" + e.id)}
         columns={orderColumns}
         data={orders.items}
         pagination={orders.pagination}

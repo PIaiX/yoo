@@ -24,6 +24,7 @@ const DataTable = React.memo(
     lite,
     headClassName = "",
     paramsValue,
+    onClick,
   }) => {
     const [selected, setSelected] = useState([]);
     const [searchParams, setSearchParams] = useSearchParams(paramsValue);
@@ -85,7 +86,7 @@ const DataTable = React.memo(
               <Col
                 style={width && { maxWidth: width }}
                 md={size}
-                className={['px-2', size == "auto" && "col-auto", optionAlign]}
+                className={["px-2", size == "auto" && "col-auto", optionAlign]}
                 key={index}
               >
                 {name}
@@ -109,7 +110,11 @@ const DataTable = React.memo(
         index++;
         const [open, setOpen] = useState({ show: false, data: false });
         return (
-          <div key={index} className="item">
+          <a
+            key={index}
+            className="item d-block"
+            onClick={() => onClick && onClick(item)}
+          >
             <Row
               className={[
                 "gx-0",
@@ -139,7 +144,11 @@ const DataTable = React.memo(
                     <Col
                       md={size}
                       style={width && { maxWidth: width }}
-                      className={['px-2', size == "auto" && "col-auto", optionAlign]}
+                      className={[
+                        "px-2",
+                        size == "auto" && "col-auto",
+                        optionAlign,
+                      ]}
                     >
                       {openDesc ? (
                         <a
@@ -169,7 +178,7 @@ const DataTable = React.memo(
               )}
             </Row>
             {open.show && open.data && open.data(item)}
-          </div>
+          </a>
         );
       });
 

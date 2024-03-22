@@ -1660,7 +1660,6 @@ header .btn-menu:hover, header .btn-menu:focus, header .btn-menu:active {
 }
 .offcanvas-menu .offcanvas-body .box {
   background-color: var(--bg-second);
-  box-shadow: 0px 2px 20px rgba(0, 0, 0, 0.04);
   padding: 1em;
   border-radius: 0.3125em;
 }
@@ -2049,7 +2048,6 @@ main {
 
 .sec-3 .box {
   background-color: var(--bg-second);
-  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.06);
   padding: 1.25em;
   border-radius: 1.25em;
 }
@@ -3655,12 +3653,10 @@ ACCOUNT
   min-height: 125px;
 }
 .account .box {
-  box-shadow: 0px 2px 20px rgba(0, 0, 0, 0.04);
   background-color: var(--bg-second);
   border-radius: 0.625em;
 }
 .account .box-blue {
-  box-shadow: 0px 2px 20px rgba(0, 0, 0, 0.04);
   background-color: var(--main-color-outline);
   border-radius: 0.625em;
 }
@@ -3985,7 +3981,6 @@ ACCOUNT
   margin-bottom: 0.5em;
 }
 .account .order-item {
-  --w: 100px;
   display: grid;
   grid-template-columns: var(--w) auto 110px 50px;
   grid-template-rows: auto;
@@ -3996,11 +3991,6 @@ ACCOUNT
   .account .order-item {
     grid-template-columns: var(--w) auto 50px 50px;
     gap: 0.5em 0.75em;
-  }
-}
-@media (max-width: 1199.98px) {
-  .account .order-item {
-    --w: 80px;
   }
 }
 @media (max-width: 991.98px) {
@@ -4015,7 +4005,6 @@ ACCOUNT
 }
 @media (max-width: 575.98px) {
   .account .order-item {
-    --w: 60px;
     gap: 0.25em 0.5em;
     grid-template-areas: "img data data data" "img info price quantity" "img show show show" "extra extra extra extra";
   }
@@ -4952,6 +4941,9 @@ ACCOUNT END
 .custom-table .item {
   border-bottom: 1px solid var(--bg-btn);
 }
+.custom-table .item:hover {
+  background-color: rgba(0, 0, 0, 0.06);
+}
 .custom-table .card-footer:last-child {
   padding: 15px;
   border: none;
@@ -4961,7 +4953,7 @@ ACCOUNT END
   border: none;
 }
 .custom-table .active {
-  background-color: var(--bg-btn) !important;
+  background-color: var(--bg-btn);
 }
 .custom-table .desc {
   border-bottom: 1px solid var(--bg-btn);
@@ -5875,4 +5867,41 @@ ACCOUNT END
 
 .btn-close {
   filter: var(--modal-close);
+}
+
+.status {
+  border-radius: 30px;
+  padding: 0px 10px;
+  height: 33px;
+  font-size: 13px;
+  vertical-align: middle;
+  display: flex;
+  color: #fff;
+  align-items: center;
+}
+.status .img,
+.status svg {
+  width: 33px;
+  height: 33px;
+  display: block;
+  padding: 2px;
+  border-radius: 30px;
+  margin-right: 3px;
+  stroke: #fff;
+  color: #fff;
+}
+.status .img path,
+.status .img circle,
+.status svg path,
+.status svg circle {
+  stroke: #fff;
+  color: #fff;
+}
+.status .img img,
+.status svg img {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+  border-radius: 30px;
 }/*# sourceMappingURL=style.css.map */
