@@ -31,6 +31,7 @@ import { isWork } from "../hooks/all";
 import { useTotalCart } from "../hooks/useCart";
 import { checkAuth } from "../services/auth";
 import { createOrder } from "../services/order";
+import { mainAffiliateEdit } from "../store/reducers/affiliateSlice";
 import {
   cartDeleteProduct,
   cartDeletePromo,
@@ -93,6 +94,7 @@ const Checkout = () => {
   const checkout = useSelector((state) => state.checkout);
   const address = useSelector((state) => state.address.items);
   const affiliate = useSelector((state) => state.affiliate.items);
+  const selectedAffiliate = useSelector((state) => state.affiliate.active);
   const options = useSelector((state) => state.settings.options);
 
   const {
@@ -105,15 +107,15 @@ const Checkout = () => {
     pointCheckout,
   } = useTotalCart();
 
-  const selectedAffiliate =
-    affiliate?.length > 0
-      ? affiliate.find(
-          (e) =>
-            (checkout.delivery == "delivery" &&
-              e.id == zone?.data?.affiliateId) ||
-            (checkout.delivery == "pickup" && e.main)
-        )
-      : false;
+  // const selectedAffiliate =
+  //   affiliate?.length > 0
+  //     ? affiliate.find(
+  //         (e) =>
+  //           (checkout.delivery == "delivery" &&
+  //             e.id == zone?.data?.affiliateId) ||
+  //           (checkout.delivery == "pickup" && e.main)
+  //       )
+  //     : false;
 
   const [end, setEnd] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -264,6 +266,12 @@ const Checkout = () => {
       setValue("address", address.find((e) => e.main) ?? false);
     }
   }, [address]);
+
+  useEffect(() => {
+    if (selectedAffiliate?.id && checkout.delivery == "pickup") {
+      setValue("affiliateId", selectedAffiliate.id);
+    }
+  }, [selectedAffiliate]);
 
   const onSubmit = useCallback(
     (data) => {
@@ -482,7 +490,13 @@ const Checkout = () => {
                             desc: e?.title?.length > 0 ? e.full : false,
                             value: e.id,
                           }))}
-                          onClick={(e) => setValue("affiliateId", e.value)}
+                          onClick={(e) =>
+                            dispatch(
+                              mainAffiliateEdit(
+                                affiliate.find((item) => item.id === e.value)
+                              )
+                            )
+                          }
                         />
                       )
                     )}

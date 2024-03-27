@@ -13,12 +13,24 @@ import ButtonCart from "./ButtonCart";
 // import BtnFav from "./utils/BtnFav";
 
 const ProductCard = memo(({ data }) => {
-  const isAuth = useSelector((state) => state.auth.isAuth);
+  const modifiers =
+    data?.modifiers?.length > 0
+      ? [...data.modifiers].sort((a, b) => a?.price - b?.price)
+      : [];
 
-  var price = data?.price ?? 0;
-  if (Array.isArray(data?.modifiers) && data?.modifiers?.length > 0) {
-    var price = Math.min(...data.modifiers.map((item) => item.price));
-  }
+  const price =
+    modifiers?.length > 0
+      ? data.options.modifierPriceSum
+        ? modifiers[0].price + data.price
+        : modifiers[0].price
+      : data.price;
+
+  // const discount =
+  //   modifiers?.length > 0
+  //     ? data.options.modifierPriceSum
+  //       ? modifiers[0].discount + data.discount
+  //       : modifiers[0].discount
+  //     : data.discount;
 
   return (
     <div className="product" key={data?.id}>
@@ -56,15 +68,18 @@ const ProductCard = memo(({ data }) => {
       <div className="d-flex flex-column flex-md-row justify-content-between align-items-center">
         {data.energy.weight > 0 && (
           <div className="text-muted d-none d-md-block">
-            {customWeight(data.energy.weight)}
+            {customWeight({
+              value: data.energy.weight,
+              type: data.energy?.weightType,
+            })}
           </div>
         )}
         <div className="d-flex justify-content-between align-items-center mb-2 mb-md-0">
           <div>
             <div className="fs-12 fw-5">
-              {data?.modifiers?.length > 0
-                ? "от " + customPrice(price)
-                : customPrice(price)}
+              {modifiers?.length > 0 && Array.isArray(modifiers)
+                ? "от " + customPrice(price > 0 ? price : data.price)
+                : customPrice(data.price)}
             </div>
             {/* <div className="gray fs-09 text-decoration-line-through">
               {data?.modifiers?.length > 0

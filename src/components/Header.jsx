@@ -61,7 +61,7 @@ const Header = memo(() => {
           )
         : affiliate.find((e) => e.main)
       : false;
-  console.log(mainAffiliate);
+
   const [searchInput, setSearchInput] = useState("");
   const [search, setSearch] = useState();
   const [isPending, startTransition] = useTransition();
@@ -192,7 +192,7 @@ const Header = memo(() => {
               <ul className="text-menu">
                 <li>
                   {affiliate.length > 0 && (
-                    <Link
+                    <a
                       onClick={() => affiliate?.length > 1 && setShowCity(true)}
                       className="fw-6"
                     >
@@ -201,7 +201,7 @@ const Header = memo(() => {
                           mainAffiliate?.options?.city ??
                           "Выберите город"
                         : mainAffiliate?.options?.city ?? ""}
-                    </Link>
+                    </a>
                   )}
                   {!defaultCityOptions?.citySave &&
                     defaultCityOptions?.city && (

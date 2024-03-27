@@ -36,19 +36,29 @@ const convertColor = (color, opacity) => {
   return color + _opacity.toString(16).toUpperCase();
 };
 
-const convert = (value) =>
-  value > 0 && value < 1 ? Math.round(Number(value) * 1000) : value;
+const weightTypes = [
+  { title: "мл", value: "мл" },
+  { title: "л", value: "л" },
+  { title: "гр", value: "гр" },
+  { title: "кг", value: "кг" },
+  { title: "т", value: "т" },
+  { title: "шт", value: "шт" },
+  { title: "м", value: "м" },
+  { title: "см", value: "см" },
+  { title: "мм", value: "мм" },
+  { title: "м2", value: "м2" },
+  { title: "м3", value: "м3" },
+]
 
-const customWeight = (value) => {
+const customWeight = ({ value, type = 'г' }) => {
   if (!value) {
-    return null;
+    return 0
   }
+  let typeData = weightTypes.find(e => e.value == type)?.title ?? 'г'
 
-  value = convert(value);
+  value = value + typeData
 
-  let weight = value > 1000 ? value / 1000 + "кг" : value + "г";
-
-  return weight;
+  return value
 };
 
 const statusData = {

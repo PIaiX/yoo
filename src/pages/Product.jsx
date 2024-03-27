@@ -1,7 +1,5 @@
 import React, { useLayoutEffect, useState } from "react";
-import Col from "react-bootstrap/Col";
-import Container from "react-bootstrap/Container";
-import Row from "react-bootstrap/Row";
+import { Col, Row, Container } from "react-bootstrap";
 import Notice from "../components/Notice";
 import ProductCard from "../components/ProductCard";
 import Ingredient from "../components/utils/Ingredient";
@@ -22,29 +20,53 @@ import Loader from "../components/utils/Loader";
 import NavTop from "../components/utils/NavTop";
 import { customPrice, customWeight, getImageURL } from "../helpers/all";
 import { getProduct, getProducts } from "../services/product";
+import { isCart } from "../hooks/useCart";
+import { useDispatch, useSelector } from "react-redux";
 
 const Product = () => {
-  const [isRemove, setIsRemove] = useState(false);
   const { productId } = useParams();
+  const [isRemove, setIsRemove] = useState(false);
 
+  const productEnergyVisible = useSelector(
+    (state) => state.settings.options.productEnergyVisible
+  );
   const [product, setProduct] = useState({
     loading: true,
     item: {},
   });
+
   const [recommends, setRecommends] = useState({
     loading: true,
     data: [],
   });
 
-  var [data, setData] = useState({
+  const modifiers =
+    product.item?.modifiers?.length > 0
+      ? [...product.item.modifiers].sort((a, b) => a?.price - b?.price)
+      : [];
+
+  const [data, setData] = useState({
     cart: {
       data: {
-        modifiers: {},
+        modifiers:
+          modifiers?.length > 0 ? modifiers.find((e) => e.main) : false,
         additions: [],
         wishes: [],
       },
     },
   });
+
+  const price = data.cart.data?.modifiers?.id
+    ? product.item.options.modifierPriceSum
+      ? data.cart.data.modifiers.price + product.item.price
+      : data.cart.data.modifiers.price
+    : product.item.price;
+
+  const discount = data.cart.data?.modifiers?.id
+    ? product.item.options.modifierPriceSum
+      ? data.cart.data?.modifiers.discount + product.item.discount
+      : data.cart.data?.modifiers.discount
+    : product.item.discount;
 
   useLayoutEffect(() => {
     getProduct(productId)
@@ -80,19 +102,6 @@ const Product = () => {
       />
     );
   }
-  const price = data?.cart?.data?.modifiers?.price
-    ? data.cart.data.modifiers.price
-    : product?.item?.modifiers?.length > 0 &&
-      Array.isArray(product.item.modifiers)
-    ? Math.min(...product.item.modifiers.map((item) => item.price))
-    : product?.item?.modifiers?.price ?? product?.item?.price ?? 0;
-
-  const discount = data?.cart?.data?.modifiers?.discount
-    ? data.cart.data.modifiers.discount
-    : product?.item?.modifiers?.length > 0 &&
-      Array.isArray(product.item.modifiers)
-    ? Math.min(...product.item.modifiers.map((item) => item.discount))
-    : product?.item?.modifiers?.discount ?? product?.item?.discount ?? 0;
 
   return (
     <main>
@@ -128,7 +137,10 @@ const Product = () => {
                 {product.item.energy.weight > 0 && (
                   <>
                     <h6 className="text-muted mb-0 ms-3">
-                      {customWeight(product.item.energy.weight)}
+                      {customWeight({
+                        value: product.item.energy.weight,
+                        type: product.item.energy?.weightType,
+                      })}
                     </h6>
                     {/* <HiOutlineInformationCircle className="dark-gray fs-15 ms-2" /> */}
                   </>

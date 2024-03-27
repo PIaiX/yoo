@@ -83,7 +83,6 @@ const Cart = () => {
           })
           .catch((error) => {
             dispatch(cartDeletePromo());
-            console.log(error);
             NotificationManager.error(
               typeof error?.response?.data?.error === "string"
                 ? error.response.data.error
@@ -105,7 +104,6 @@ const Cart = () => {
     getCart()
       .then((res) => setData({ loading: false, ...res }))
       .catch((err) => {
-        console.log(err);
         setData({ ...data, loading: false });
       });
   }, []);
@@ -128,7 +126,7 @@ const Cart = () => {
   if (data?.loading) {
     return <Loader full />;
   }
-  console.log(data);
+
   return (
     <main>
       <Meta title="Корзина" />
@@ -173,9 +171,9 @@ const Cart = () => {
                   </li>
                 ))}
               </ul>
-              {options.giftVisible && !isGift && (
+              {/* {options.giftVisible && !isGift && (
                 <Gifts total={total} items={data?.gifts} />
-              )}
+              )} */}
             </Col>
             <Col xs={12} lg={4}>
               {options?.promoVisible && user?.id && !promo && (

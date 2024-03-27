@@ -11,13 +11,6 @@ import ButtonCart from "./ButtonCart";
 const CartItem = memo(({ data }) => {
   const [open, setOpen] = useState(false);
 
-  const price = data?.cart?.data?.modifiers?.price
-    ? data.cart.data.modifiers.price
-    : data.price;
-  const weight = data?.cart?.data?.modifiers?.energy?.weight
-    ? data.cart.data.modifiers.energy.weight
-    : data.weight;
-
   return (
     <div className="cart-item" key={data.id}>
       <div className="left">
@@ -28,8 +21,13 @@ const CartItem = memo(({ data }) => {
             {data.title}
             {/* <span className="tag">Подарок</span> */}
           </h6>
-          {weight > 0 && (
-            <p className="text-muted fs-09">{customWeight(weight)}</p>
+          {data?.energy?.weight > 0 && (
+            <p className="text-muted fs-09">
+              {customWeight({
+                value: data.energy.weight,
+                type: data.energy?.weightType,
+              })}
+            </p>
           )}
           {data?.description && (
             <OverlayTrigger
@@ -72,7 +70,17 @@ const CartItem = memo(({ data }) => {
           <ButtonCart cart product={data} />
         </div>
 
-        <div className="order-1 order-md-2">{customPrice(price)}</div>
+        <div className="order-1 order-md-2">
+          {data.type == "gift"
+            ? "Бесплатно"
+            : customPrice(
+                data?.cart?.data?.modifiers?.price
+                  ? data.options.modifierPriceSum
+                    ? data.cart.data.modifiers.price + data.price
+                    : data.cart.data.modifiers.price
+                  : data.price
+              )}
+        </div>
 
         {/* {isAuth && <BtnFav checked={false} />} */}
       </div>

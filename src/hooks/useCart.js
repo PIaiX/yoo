@@ -2,11 +2,7 @@ import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 
 const isCart = (product) => {
-    if (!product) {
-        return false
-    }
-
-    const item = useSelector(state => state.cart.items?.length
+    const item = product?.id ? useSelector(state => state?.cart && state?.cart?.items?.length > 0 && product?.id
         ? state.cart.items.find((e) => {
             if (e?.id === product?.id) {
                 if (e?.cart?.data && product?.cart?.data) {
@@ -15,29 +11,35 @@ const isCart = (product) => {
                 return true
             }
         })
-        : false)
+        : false) : false
+
+    if (!product) {
+        return false
+    }
     return item
 }
 
 const useTotalCart = () => {
-    const stateDelivery = useSelector(state => state.checkout.delivery)
-    const statePayment = useSelector(state => state.checkout.data?.payment)
-    const pointSwitch = useSelector(state => state.checkout.data?.pointSwitch)
+    const stateDelivery = useSelector(state => state.checkout?.delivery)
+    const statePayment = useSelector(state => state.checkout?.data?.payment)
+    const pointSwitch = useSelector(state => state.checkout?.data?.pointSwitch)
     const stateCart = useSelector(state => state.cart.items)
-    const statePromo = useSelector(state => state.cart.promo)
-    const stateZone = useSelector(state => state.cart.zone.data)
-    const pointOptions = useSelector(state => state.settings.options.point)
-    const userPoint = useSelector(state => state.auth.user.point)
-
-    const affiliateActive = useSelector(state => state?.affiliate?.items?.length > 0 && state.affiliate.items.find(e => e.main))
+    const statePromo = useSelector(state => state.cart?.promo)
+    const stateZone = useSelector(state => state.cart?.zone?.data)
+    const pointOptions = useSelector(state => state.settings?.options?.point)
+    const userPoint = useSelector(state => state.auth.user?.point)
+    const affiliateActive = useSelector(state => state.affiliate.active)
 
     const [data, setData] = useState({
         total: 0,
         price: 0,
+        point: 0,
         discount: 0,
         delivery: 0,
-        point: 0,
-        pointCheckout: 0
+        pointAccrual: 0,
+        pickupDiscount: 0,
+        pointCheckout: 0,
+        person: 0
     })
 
     useEffect(() => {
@@ -60,8 +62,13 @@ const useTotalCart = () => {
                 if (product?.type == 'gift') {
                     point += product.price * product.cart.count
                 } else {
+
                     if (product?.cart?.data?.modifiers?.price) {
-                        price += product.cart.data.modifiers.price * product.cart.count
+                        if (product?.options?.modifierPriceSum) {
+                            price += (product.price * product.cart.count) + (product.cart.data.modifiers.price * product.cart.count)
+                        } else {
+                            price += product.cart.data.modifiers.price * product.cart.count
+                        }
                     } else {
                         price += product.price * product.cart.count
 

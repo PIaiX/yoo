@@ -1,9 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
-    isLoading: false,
-    error: null,
+    active: false,
+    view: false,
     items: [],
+    zones: []
 }
 
 const affiliateSlice = createSlice({
@@ -11,13 +12,31 @@ const affiliateSlice = createSlice({
     initialState,
     reducers: {
         mainAffiliateEdit: (state, action) => {
-            state.items = state.items.map((e) => {
-                e.main = e.id === action?.payload?.id
-                return e
-            })
+            if (action?.payload && state?.items?.length > 0) {
+                state.items = state.items.map((e) => {
+                    e.main = e.id === action?.payload?.id
+                    return e
+                })
+                state.active = action?.payload
+                state.view = true
+            }
         },
         updateAffiliate: (state, action) => {
-            state.items = action.payload
+            if (!state.active && action.payload?.length > 0) {
+                state.active = action.payload.find(e => e.main)
+                state.items = action.payload.map((e) => {
+                    e.main = e.id === state.active.id
+                    return e
+                })
+            } else {
+                state.items = action.payload.map((e) => {
+                    e.main = e.id === state.active.id
+                    return e
+                })
+            }
+        },
+        updateViewAffiliate: (state, action) => {
+            state.view = !!action.payload
         },
         updateZone: (state, action) => {
             state.zones = action.payload
@@ -25,6 +44,6 @@ const affiliateSlice = createSlice({
     },
 })
 
-export const { mainAffiliateEdit, updateAffiliate, updateZone } = affiliateSlice.actions
+export const { mainAffiliateEdit, updateAffiliate, updateZone, updateViewAffiliate } = affiliateSlice.actions
 
 export default affiliateSlice.reducer
