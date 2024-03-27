@@ -7,12 +7,6 @@ import { customPrice, customWeight, getImageURL } from "../helpers/all";
 
 const OrderItem = memo(({ data }) => {
   const [open, setOpen] = useState(false);
-  const price = data?.data?.modifiers?.price
-    ? data.data.modifiers.price
-    : data.price;
-  const weight = data?.data?.modifiers?.energy?.weight
-    ? data.data.modifiers.energy.weight
-    : data.weight;
 
   return (
     <div className="order-item">
@@ -21,8 +15,13 @@ const OrderItem = memo(({ data }) => {
           {data.title}
           {/* <span className="tag">Подарок</span> */}
         </h6>
-        {weight > 0 && (
-          <p className="text-muted fs-09">{customWeight(weight)}</p>
+        {data?.energy?.weight > 0 && (
+          <p className="text-muted fs-09">
+            {customWeight({
+              value: data.energy.weight,
+              type: data.energy?.weightType,
+            })}
+          </p>
         )}
         {data?.description && (
           <OverlayTrigger
@@ -32,7 +31,7 @@ const OrderItem = memo(({ data }) => {
             <p className="consist text-muted">{data.description}</p>
           </OverlayTrigger>
         )}
-        {data?.cart?.data?.modifiers && <p>{data.cart.data.modifiers.title}</p>}
+        {data?.modifiers && <p>{data.modifiers.title}</p>}
       </div>
 
       <div className="quantity">
@@ -40,8 +39,18 @@ const OrderItem = memo(({ data }) => {
           x{data.count}
         </div>
       </div>
-      <div className="price">{customPrice(price)}</div>
-      {data?.cart?.data?.additions?.length > 0 && (
+      <div className="price">
+        {data.type == "gift"
+          ? "Бесплатно"
+          : customPrice(
+              data?.modifiers?.price
+                ? data.options.modifierPriceSum
+                  ? (data.modifiers.price + data.price) * data.cart.count
+                  : data.modifiers.price * data.cart.count
+                : data.price * data.cart.count
+            )}
+      </div>
+      {data?.additions?.length > 0 && (
         <>
           <button
             type="button"
@@ -54,7 +63,7 @@ const OrderItem = memo(({ data }) => {
           </button>
           <Collapse in={open}>
             <ul className="cart-item-ingredients">
-              {data.cart.data.additions.map((e) => (
+              {data.additions.map((e) => (
                 <li>
                   {e.title} +{customPrice(e.price)}
                 </li>

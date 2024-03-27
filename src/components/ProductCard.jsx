@@ -7,7 +7,6 @@ import { Link } from "react-router-dom";
 // import Spicy from '../assets/imgs/pepper.png';
 // import Vegetarian from '../assets/imgs/vegetarian.png';
 import { LazyLoadImage } from "react-lazy-load-image-component";
-import { useSelector } from "react-redux";
 import { customPrice, customWeight, getImageURL } from "../helpers/all";
 import ButtonCart from "./ButtonCart";
 // import BtnFav from "./utils/BtnFav";
