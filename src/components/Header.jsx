@@ -236,23 +236,25 @@ const Header = memo(() => {
                       </div>
                     )}
                 </li>
-                <li className="d-none d-sm-inline-flex">
-                  <Select
-                    className="fw-5"
-                    data={[
-                      {
-                        value: "delivery",
-                        title: "Доставка",
-                      },
-                      {
-                        value: "pickup",
-                        title: "Самовывоз",
-                      },
-                    ]}
-                    value={delivery}
-                    onClick={(e) => dispatch(editDeliveryCheckout(e.value))}
-                  />
-                </li>
+                {options?.deliveryView && (
+                  <li className="d-none d-sm-inline-flex">
+                    <Select
+                      className="fw-5"
+                      data={[
+                        {
+                          value: "delivery",
+                          title: "Доставка",
+                        },
+                        {
+                          value: "pickup",
+                          title: "Самовывоз",
+                        },
+                      ]}
+                      value={delivery}
+                      onClick={(e) => dispatch(editDeliveryCheckout(e.value))}
+                    />
+                  </li>
+                )}
               </ul>
             </div>
             <ul className="text-menu d-none d-lg-flex">
@@ -273,16 +275,6 @@ const Header = memo(() => {
                 )
               ) : (
                 <>
-                  {/* <li>
-                    <Link to="/categories" className="fw-6">
-                      Меню
-                    </Link>
-                  </li>
-                  <li>
-                    <Link to="/contact" className="fw-6">
-                      Доставка и оплата
-                    </Link>
-                  </li> */}
                   <li>
                     <Link to="/contact" className="fw-6">
                       Контакты
@@ -322,16 +314,18 @@ const Header = memo(() => {
                   <HiOutlineUserCircle size={25} />
                 </Link>
               </li>
-              <li className="d-none d-lg-block">
-                <Link to="/cart" className="position-relative">
-                  <HiOutlineShoppingBag size={25} />
-                  {count > 0 && (
-                    <span className="position-absolute top-100 start-100 translate-middle badge rounded-pill">
-                      {count}
-                    </span>
-                  )}
-                </Link>
-              </li>
+              {options?.cart && (
+                <li className="d-none d-lg-block">
+                  <Link to="/cart" className="position-relative">
+                    <HiOutlineShoppingBag size={25} />
+                    {count > 0 && (
+                      <span className="position-absolute top-100 start-100 translate-middle badge rounded-pill">
+                        {count}
+                      </span>
+                    )}
+                  </Link>
+                </li>
+              )}
               {isAuth && (
                 <li className="d-none d-lg-block">
                   <Link to="/account/favorites" className="position-relative">
@@ -375,7 +369,7 @@ const Header = memo(() => {
         </Container>
       </header>
 
-      <DeliveryBar sum={2500} />
+      <DeliveryBar />
 
       <Offcanvas
         className="offcanvas-menu"
