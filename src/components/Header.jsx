@@ -1,4 +1,5 @@
 import axios from "axios";
+import moment from "moment";
 import React, { memo, useEffect, useState, useTransition } from "react";
 import { Col, Modal, Row } from "react-bootstrap";
 import Container from "react-bootstrap/Container";
@@ -19,8 +20,11 @@ import GooglePlay from "../assets/imgs/googleplay-black.svg";
 import Phone from "../assets/imgs/phone.png";
 import { DADATA_TOKEN, DADATA_URL_GEO } from "../config/api";
 import { getCount, getImageURL } from "../helpers/all";
+import { isWork } from "../hooks/all";
 import { useGetBannersQuery } from "../services/home";
+import { mainAffiliateEdit } from "../store/reducers/affiliateSlice";
 import { setUser } from "../store/reducers/authSlice";
+import { resetCart } from "../store/reducers/cartSlice";
 import { editDeliveryCheckout } from "../store/reducers/checkoutSlice";
 import DeliveryBar from "./DeliveryBar";
 import ScrollToTop from "./ScrollToTop";
@@ -39,6 +43,7 @@ const Header = memo(() => {
   const cart = useSelector((state) => state.cart.items);
   const favorite = useSelector((state) => state.favorite.items);
   const affiliate = useSelector((state) => state.affiliate.items);
+  const selectedAffiliate = useSelector((state) => state.affiliate.active);
   const options = useSelector((state) => state.settings.options);
   const delivery = useSelector((state) => state.checkout.delivery);
   const banners = useGetBannersQuery();
@@ -47,6 +52,7 @@ const Header = memo(() => {
   const [showApp, setShowApp] = useState(false);
   const [isContacts, setIsContacts] = useState(false);
   const [showCity, setShowCity] = useState(false);
+  const [showBrand, setShowBrand] = useState(false);
   const count = getCount(cart);
   const [list, setList] = useState([]);
 
@@ -174,7 +180,13 @@ const Header = memo(() => {
               <Link to="/" className="me-3 me-lg-5">
                 <img
                   src={
-                    options?.logo
+                    options?.multiBrand
+                      ? getImageURL({
+                          path: selectedAffiliate.media,
+                          type: "affiliate",
+                          size: "full",
+                        })
+                      : options?.logo
                       ? getImageURL({
                           path: options.logo,
                           type: "all/web/logo",
@@ -191,7 +203,7 @@ const Header = memo(() => {
               </Link>
               <ul className="text-menu">
                 <li>
-                  {affiliate.length > 0 && (
+                  {!options?.multiBrand && affiliate.length > 0 && (
                     <a
                       onClick={() => affiliate?.length > 1 && setShowCity(true)}
                       className="fw-6"
@@ -201,6 +213,13 @@ const Header = memo(() => {
                           mainAffiliate?.options?.city ??
                           "Выберите город"
                         : mainAffiliate?.options?.city ?? ""}
+                    </a>
+                  )}
+                  {options?.multiBrand && affiliate.length > 0 && (
+                    <a onClick={() => setShowBrand(true)} className="fw-6">
+                      {selectedAffiliate?.title ??
+                        selectedAffiliate?.full ??
+                        "Выберите бренд"}
                     </a>
                   )}
                   {!defaultCityOptions?.citySave &&
@@ -673,6 +692,91 @@ const Header = memo(() => {
                   )}
                 </>
               ))
+            )}
+          </div>
+        </Modal.Body>
+      </Modal>
+      <Modal
+        size="lg"
+        centered
+        className="brand"
+        show={showBrand}
+        onHide={() => setShowBrand(false)}
+      >
+        <Modal.Body className="p-4">
+          <button
+            type="button"
+            className="btn-close close"
+            aria-label="Close"
+            onClick={() => setShowCity(false)}
+          ></button>
+          <h5 className="fw-7 mb-4">Выберите заведение</h5>
+          <div className="search-box">
+            {affiliate.length > 0 && (
+              <Row>
+                {affiliate.map((e, index) => (
+                  <Col md={6} key={index} className="pb-3">
+                    <a
+                      onClick={() => {
+                        dispatch(mainAffiliateEdit(e));
+                        dispatch(resetCart());
+                        setShowBrand(false);
+                      }}
+                      className={
+                        "brand-item" +
+                        (e.id === selectedAffiliate?.id ? " active" : "")
+                      }
+                    >
+                      <Row className="align-items-center">
+                        {e.media && (
+                          <Col xs="auto">
+                            <img
+                              src={getImageURL({
+                                path: e.media,
+                                type: "affiliate",
+                                size: "full",
+                              })}
+                              alt={options?.title ?? "YOOAPP"}
+                              className="logo"
+                            />
+                          </Col>
+                        )}
+                        <Col>
+                          <div className="fw-7 mb-1">
+                            {e?.title ? e.title : e.full}
+                          </div>
+                          <div>
+                            {e.status === 0 ? (
+                              <span className="text-danger">
+                                Сейчас закрыто
+                              </span>
+                            ) : e?.options?.work &&
+                              e?.options?.work[moment().weekday()].start &&
+                              e?.options?.work[moment().weekday()].end ? (
+                              isWork(
+                                e?.options?.work[moment().weekday()].start,
+                                e?.options?.work[moment().weekday()].end
+                              ) ? (
+                                <span className="text-muted">
+                                  Работает c{" "}
+                                  {e?.options?.work[moment().weekday()].start}{" "}
+                                  до {e?.options?.work[moment().weekday()].end}
+                                </span>
+                              ) : (
+                                <span className="text-danger">
+                                  Сейчас закрыто
+                                </span>
+                              )
+                            ) : e?.desc ? (
+                              <span className="text-muted">{e.desc}</span>
+                            ) : null}
+                          </div>
+                        </Col>
+                      </Row>
+                    </a>
+                  </Col>
+                ))}
+              </Row>
             )}
           </div>
         </Modal.Body>

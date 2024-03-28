@@ -10,13 +10,23 @@ export const homeApi = createApi({
   keepUnusedDataFor: 350,
   endpoints: (build) => ({
     getHome: build.query({
-      query: () => apiRoutes.HOME,
+      query: (params) => {
+        return {
+          url: apiRoutes.HOME,
+          params
+        }
+      },
     }),
     getBanners: build.query({
       query: () => apiRoutes.BANNERS,
     }),
     getCategories: build.query({
-      query: () => apiRoutes.CATEGORY_ALL,
+      query: (params) => {
+        return {
+          url: apiRoutes.CATEGORY_ALL,
+          params
+        }
+      },
     }),
     getSales: build.query({
       query: () => apiRoutes.SALES_GET,

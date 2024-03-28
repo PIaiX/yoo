@@ -14,7 +14,7 @@ const WidgetPopular = memo((data) => {
     <section className="mb-6">
       <Container>
         <div className="d-flex justify-content-between align-items-center mb-4">
-          <h2 className="mb-0">{data.title}</h2>
+          <div>{data.title && <h2 className="mb-0">{data.title}</h2>}</div>
           <div>
             <Link to="/categories" className="btn btn-sm btn-40">
               В меню

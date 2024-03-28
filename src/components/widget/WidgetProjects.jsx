@@ -8,7 +8,7 @@ const WidgetProjects = memo((data) => {
   return (
     <section className="sec-catalog mb-6">
       <Container>
-        <h2 className="text-center">{data.title}</h2>
+        {data.title && <h2 className="text-center">{data.title}</h2>}
         {data?.items?.length > 0 ? (
           <>
             <Row

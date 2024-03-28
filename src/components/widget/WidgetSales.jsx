@@ -11,6 +11,7 @@ const WidgetSales = memo((data) => {
   return (
     <section className="mt-6">
       <Container>
+        {data.title && <h2 className="mb-3">{data.title}</h2>}
         <Swiper
           // className="sw-offers"
           className="p-3"

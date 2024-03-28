@@ -1,4 +1,5 @@
 import React, { useCallback, useLayoutEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
 import CategoryGroup from "../components/CategoryGroup";
 import Empty from "../components/Empty";
@@ -9,13 +10,21 @@ import { getCategory } from "../services/category";
 
 const Category = () => {
   const { categoryId } = useParams();
+  const multiBrand = useSelector((state) => state.settings.options.multiBrand);
+  const selectedAffiliate = useSelector((state) => state.affiliate.active);
+
   const [category, setCategory] = useState({
     loading: true,
     item: {},
   });
 
   const onLoad = useCallback(() => {
-    getCategory(categoryId)
+    getCategory({
+      id: categoryId,
+      affiliateId: selectedAffiliate?.id ?? false,
+      view: multiBrand,
+      type: "site",
+    })
       .then((res) => setCategory({ loading: false, item: res }))
       .catch(() => setCategory((data) => ({ ...data, loading: false })));
   }, [categoryId]);

@@ -30,6 +30,7 @@ function App() {
 
   const cart = useSelector((state) => state.cart.items);
   const address = useSelector((state) => state.address.items);
+  const selectedAffiliate = useSelector((state) => state.affiliate.active);
   const delivery = useSelector((state) => state.checkout.delivery);
   const auth = useSelector((state) => state.auth);
 
@@ -56,6 +57,29 @@ function App() {
     [options]
   );
 
+  const updateFavicon = useCallback(
+    (options) => {
+      let link = document.querySelector("link[rel~='icon']");
+      if (!link) {
+        link = document.createElement("link");
+        link.rel = "icon";
+        document.getElementsByTagName("head")[0].appendChild(link);
+      }
+      link.href = getImageURL(options);
+    },
+    [selectedAffiliate]
+  );
+
+  useLayoutEffect(() => {
+    if (selectedAffiliate?.media) {
+      updateFavicon({
+        path: selectedAffiliate?.media,
+        type: "affiliate",
+        size: "full",
+      });
+    }
+  }, [selectedAffiliate]);
+
   useLayoutEffect(() => {
     (async () => {
       updateColor(options);
@@ -68,17 +92,19 @@ function App() {
             dispatch(updateOptions({ options: res.options, token: res.token }));
             updateColor(res.options);
             if (res.options.favicon) {
-              let link = document.querySelector("link[rel~='icon']");
-              if (!link) {
-                link = document.createElement("link");
-                link.rel = "icon";
-                document.getElementsByTagName("head")[0].appendChild(link);
-              }
-              link.href = getImageURL({
-                path: res.options.favicon,
-                type: "all/web/favicon",
-                size: "full",
-              });
+              updateFavicon(
+                selectedAffiliate?.media
+                  ? {
+                      path: selectedAffiliate?.media,
+                      type: "affiliate",
+                      size: "full",
+                    }
+                  : {
+                      path: res.options.favicon,
+                      type: "all/web/favicon",
+                      size: "full",
+                    }
+              );
             }
           }
 

@@ -9,6 +9,7 @@ const initialState = {
         title: "YooApp",
         authType: "email",
         qrType: "phone",
+        multiBrand: false,
         supportVisible: false,
         colorBtn: "#009640",
         payments: {

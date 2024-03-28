@@ -32,6 +32,7 @@ html {
   --bg-main: #fff;
   --bg-btn: #dadada;
   --bg-second: #f7f7f7;
+  --bg-second-hover: #eeeeee;
   --hr-color: #b9b9b9;
   --gray: #727272;
   --light-gray: #1e1e1e;
@@ -52,6 +53,7 @@ html {
   --bg-main: #131313;
   --bg-btn: #333;
   --bg-second: #222;
+  --bg-second-hover: #2e2e2e;
   --hr-color: #2b2831;
   --gray: #727272;
   --light-gray: #555;
@@ -5040,6 +5042,7 @@ ACCOUNT END
 }
 .btn-close {
   filter: var(--modal-close);
+  margin: 8px;
 }
 .status {
   border-radius: 30px;
@@ -5071,5 +5074,22 @@ ACCOUNT END
       object-fit: cover;
       border-radius: 30px;
     }
+  }
+}
+.brand-item {
+  padding: 0.9em;
+  display: block;
+  border-radius: $radius;
+  &.active {
+    background-color: var(--bg-second-hover);
+  }
+  &:hover {
+    background-color: var(--bg-second);
+  }
+  .logo {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 100%;
   }
 }

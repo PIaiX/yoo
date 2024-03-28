@@ -1,9 +1,9 @@
 import { apiRoutes } from "../config/api";
 import { $api, $authApi } from "./index";
 
-const getProduct = async (id) => {
+const getProduct = async (data) => {
   const response = await $api.get(apiRoutes.PRODUCT, {
-    params: { id },
+    params: data,
   });
   return response?.data;
 };

@@ -13,7 +13,13 @@ import Widgets from "../components/Widgets";
 import { useGetHomeQuery } from "../services/home";
 
 const Home = () => {
-  const home = useGetHomeQuery();
+  const multiBrand = useSelector((state) => state.settings.options.multiBrand);
+  const selectedAffiliate = useSelector((state) => state.affiliate.active);
+  const home = useGetHomeQuery({
+    affiliateId: selectedAffiliate?.id ?? false,
+    view: multiBrand,
+    type: "site",
+  });
   const options = useSelector((state) => state.settings.options);
 
   if (home?.isLoading) {
@@ -23,7 +29,7 @@ const Home = () => {
   return (
     <main className="mt-0 pt-0">
       <Meta
-        title={options?.title ?? "Главная"}
+        title={selectedAffiliate?.title ?? options?.title ?? "Главная"}
         description={options?.description}
       />
 

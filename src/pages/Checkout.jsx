@@ -107,16 +107,6 @@ const Checkout = () => {
     pointCheckout,
   } = useTotalCart();
 
-  // const selectedAffiliate =
-  //   affiliate?.length > 0
-  //     ? affiliate.find(
-  //         (e) =>
-  //           (checkout.delivery == "delivery" &&
-  //             e.id == zone?.data?.affiliateId) ||
-  //           (checkout.delivery == "pickup" && e.main)
-  //       )
-  //     : false;
-
   const [end, setEnd] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -145,7 +135,9 @@ const Checkout = () => {
       comment: checkout?.data?.comment ?? "",
 
       address: address ? address.find((e) => e.main) : false,
-      affiliateId: affiliate ? affiliate.find((e) => e.main)?.id : false,
+      affiliateId: selectedAffiliate.active
+        ? selectedAffiliate.active.id
+        : false,
 
       // Сохранение адреса по умолчанию
       save: checkout?.data?.save ?? false,
@@ -481,6 +473,7 @@ const Checkout = () => {
                         </p>
                       </>
                     ) : (
+                      !options?.multiBrand &&
                       affiliate?.length > 0 && (
                         <Select
                           label="Адрес"

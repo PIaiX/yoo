@@ -26,6 +26,8 @@ import { useDispatch, useSelector } from "react-redux";
 const Product = () => {
   const { productId } = useParams();
   const [isRemove, setIsRemove] = useState(false);
+  const multiBrand = useSelector((state) => state.settings.options.multiBrand);
+  const selectedAffiliate = useSelector((state) => state.affiliate.active);
 
   const productEnergyVisible = useSelector(
     (state) => state.settings.options.productEnergyVisible
@@ -33,11 +35,6 @@ const Product = () => {
   const [product, setProduct] = useState({
     loading: true,
     item: {},
-  });
-
-  const [recommends, setRecommends] = useState({
-    loading: true,
-    data: [],
   });
 
   const modifiers =
@@ -69,7 +66,12 @@ const Product = () => {
     : product.item.discount;
 
   useLayoutEffect(() => {
-    getProduct(productId)
+    getProduct({
+      id: productId,
+      affiliateId: selectedAffiliate?.id ?? false,
+      view: multiBrand,
+      type: "site",
+    })
       .then((res) => {
         setProduct({ loading: false, item: res });
         data.cart.data.modifiers =
@@ -77,9 +79,6 @@ const Product = () => {
             ? res.modifiers.find((e) => e.main)
             : false;
         setData(data);
-        getProducts({ productId: res.id, categoryId: res.categoryId })
-          .then((res) => setRecommends({ loading: false, data: res }))
-          .catch(() => setRecommends((data) => ({ ...data, loading: false })));
       })
       .catch(() => setProduct((data) => ({ ...data, loading: false })));
   }, [productId]);
@@ -142,7 +141,6 @@ const Product = () => {
                         type: product.item.energy?.weightType,
                       })}
                     </h6>
-                    {/* <HiOutlineInformationCircle className="dark-gray fs-15 ms-2" /> */}
                   </>
                 )}
               </div>
@@ -154,7 +152,6 @@ const Product = () => {
               )}
               {product?.item?.modifiers?.length > 0 && (
                 <>
-                  {/* <h6 className="mt-4">Тесто</h6> */}
                   <div className="d-xxl-flex mb-4">
                     <ul className="inputGroup">
                       {product.item.modifiers
@@ -180,57 +177,20 @@ const Product = () => {
                           </li>
                         ))}
                     </ul>
-                    {/* <ul className="inputGroup mt-2 mt-xxl-0 ms-xxl-5">
-                  <li>
-                    <label>
-                      <input type="radio" name="param2" defaultChecked={true} />
-                      <div className="text">25см</div>
-                    </label>
-                  </li>
-                  <li>
-                    <label>
-                      <input type="radio" name="param2" />
-                      <div className="text">30см</div>
-                    </label>
-                  </li>
-                  <li>
-                    <label>
-                      <input type="radio" name="param2" />
-                      <div className="text">36см</div>
-                    </label>
-                  </li>
-                </ul> */}
                   </div>
                 </>
               )}
-
-              {/* <SelectImitation
-                boxClass={"main-color w-fit mb-4"}
-                btnClass={"rounded-pill"}
-                optionsArr={[
-                  {
-                    value: 1,
-                    label: "Сливочный соус",
-                    defaultChecked: true,
-                  },
-                  {
-                    value: 2,
-                    label: "Красный соус",
-                    defaultChecked: false,
-                  },
-                ]}
-              /> */}
 
               <div className="productPage-price">
                 <div className="me-3">
                   <div className="py-2 px-3 fw-5 fw-5 rounded-pill">
                     {customPrice(price)}
+                    {discount > 0 && (
+                      <div className="fs-08 text-muted text-decoration-line-through">
+                        {customPrice(discount)}
+                      </div>
+                    )}
                   </div>
-                  {discount > 0 && (
-                    <div className="fs-09 text-decoration-line-through">
-                      {customPrice(discount)}
-                    </div>
-                  )}
                 </div>
                 <ButtonCart
                   full
@@ -248,41 +208,8 @@ const Product = () => {
                 <>
                   <h6>Изменить по вкусу</h6>
                   <div className="productPage-edit mb-3">
-                    {/* <div className="top">
-                      <button
-                        type="button"
-                        className={isRemove ? "" : "active"}
-                        onClick={() => setIsRemove(false)}
-                      >
-                        <HiPlus />
-                        <span>Добавить</span>
-                        <Corner className="corner-right" />
-                      </button>
-                      <button
-                        type="button"
-                        className={isRemove ? "active" : ""}
-                        onClick={() => setIsRemove(true)}
-                      >
-                        <HiMinus />
-                        <span>Убрать</span>
-                        <Corner className="corner-left" />
-                        <Corner className="corner-right" />
-                      </button>
-                    </div> */}
                     {isRemove ? (
-                      <div className="box">
-                        {/* <ul>
-                      <li>
-                        <Ingredient />
-                      </li>
-                      <li>
-                        <Ingredient />
-                      </li>
-                      <li>
-                        <Ingredient />
-                      </li>
-                    </ul> */}
-                      </div>
+                      <div className="box"></div>
                     ) : (
                       <div className="box">
                         <ul>
@@ -326,9 +253,9 @@ const Product = () => {
             </Col>
           </Row>
         </form>
-        {recommends?.data?.length > 0 && (
+        {product?.item?.recommends?.length > 0 && (
           <section className="d-none d-md-block mb-5">
-            <h2>Товары из этой категории</h2>
+            <h2>Вам может понравится</h2>
             <Swiper
               className=""
               modules={[Navigation]}
@@ -353,7 +280,7 @@ const Product = () => {
                 },
               }}
             >
-              {recommends.data.map((e) => (
+              {product.item.recommends.map((e) => (
                 <SwiperSlide>
                   <ProductCard data={e} />
                 </SwiperSlide>
