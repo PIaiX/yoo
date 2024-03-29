@@ -36,18 +36,18 @@ const OrderItem = memo(({ data }) => {
 
       <div className="quantity">
         <div className="d-xxl-none input w-50p py-1 px-2 rounded-4 text-center">
-          x{data.count}
+          x{data?.count ?? 1}
         </div>
       </div>
       <div className="price">
-        {data.type == "gift"
+        {data?.type == "gift"
           ? "Бесплатно"
           : customPrice(
               data?.modifiers?.price
                 ? data.options.modifierPriceSum
-                  ? (data.modifiers.price + data.price) * data.cart.count
-                  : data.modifiers.price * data.cart.count
-                : data.price * data.cart.count
+                  ? (data.modifiers.price + data.price) * data.count
+                  : data.modifiers.price * data.count
+                : data.price * data.count
             )}
       </div>
       {data?.additions?.length > 0 && (

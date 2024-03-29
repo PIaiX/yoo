@@ -267,6 +267,19 @@ const Checkout = () => {
 
   const onSubmit = useCallback(
     (data) => {
+      if (data.serving) {
+        if (
+          !isWork(
+            selectedAffiliate.options.work[moment(data.serving).weekday()]
+              .start,
+            selectedAffiliate.options.work[moment(data.serving).weekday()].end,
+            data.serving
+          )
+        ) {
+          NotificationManager.error("Нельзя заказать на данное время");
+        }
+      }
+
       if (data.delivery == "delivery") {
         if (!data.address) {
           return NotificationManager.error("Добавьте адрес доставки");

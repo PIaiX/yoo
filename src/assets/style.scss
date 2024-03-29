@@ -33,7 +33,7 @@ html {
   --bg-btn: #dadada;
   --bg-second: #f7f7f7;
   --bg-second-hover: #eeeeee;
-  --hr-color: #b9b9b9;
+  --hr-color: #dbdbdb;
   --gray: #727272;
   --light-gray: #1e1e1e;
   --divider: #121212;
@@ -434,7 +434,7 @@ input,
 textarea,
 .input {
   background-color: var(--bg-main);
-  border: 1px solid var(--bg-second);
+  border: 1px solid var(--bg-btn);
   color: var(--font-color);
   border-radius: $radius * 0.5;
   padding: 0.7em 1.2em;
@@ -443,7 +443,7 @@ textarea,
   display: block;
   transition: border $transition;
   @include placeholder($gray, 400);
-  @include lightShadow();
+
   &:hover,
   &:focus,
   &:active {
@@ -731,7 +731,7 @@ button {
   &-10 {
     @extend .btn;
     color: var(--main-color);
-    background-color: var(--bg-second);
+    background-color: var(--bg-main);
     border: 1px solid var(--main-color);
     &:hover,
     &:focus,
@@ -2917,7 +2917,6 @@ main {
 }
 .box {
   background-color: var(--bg-second);
-  @include shadow();
   @include scrollCustomized();
   padding: 1.6em;
   border-radius: $radius;
@@ -3052,7 +3051,6 @@ main {
     background-color: var(--bg-second);
     padding: 0.75em 1em;
     border-radius: $radius;
-    @include lightShadow();
     margin-bottom: 0.5em;
   }
   &-item {
@@ -3335,7 +3333,6 @@ ACCOUNT
   &-top {
     margin-bottom: 2em;
     .box {
-      @include shadow();
       border-radius: $radius;
       padding: 1em;
       @media (max-width: $bp-xxl) {
@@ -4221,7 +4218,7 @@ ACCOUNT END
   flex-direction: column;
   border-radius: 12px;
   border: 2px solid transparent;
-  background-color: var(--bg-btn);
+  background-color: var(--bg-second);
   &.active {
     border-color: var(--main-color);
     background-color: var(--main-color-outline);
@@ -4512,7 +4509,6 @@ ACCOUNT END
     border-color: var(--main-color);
     background-color: var(--main-color-outline);
   }
-  @include shadow();
   padding: $radius * 0.5 $radius * 0.75;
   height: 60px;
   @include flex();

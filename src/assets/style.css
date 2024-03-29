@@ -41,7 +41,7 @@ html {
   --bg-btn: #dadada;
   --bg-second: #f7f7f7;
   --bg-second-hover: #eeeeee;
-  --hr-color: #b9b9b9;
+  --hr-color: #dbdbdb;
   --gray: #727272;
   --light-gray: #1e1e1e;
   --divider: #121212;
@@ -352,7 +352,7 @@ input,
 textarea,
 .input {
   background-color: var(--bg-main);
-  border: 1px solid var(--bg-second);
+  border: 1px solid var(--bg-btn);
   color: var(--font-color);
   border-radius: 0.625em;
   padding: 0.7em 1.2em;
@@ -360,7 +360,6 @@ textarea,
   outline: none;
   display: block;
   transition: border 300ms ease-in;
-  box-shadow: 0px 2px 20px rgba(0, 0, 0, 0.04);
 }
 input::-moz-placeholder, textarea::-moz-placeholder, .input::-moz-placeholder {
   color: #c2c2c2;
@@ -719,7 +718,7 @@ button {
 }
 .btn-10 {
   color: var(--main-color);
-  background-color: var(--bg-second);
+  background-color: var(--bg-main);
   border: 1px solid var(--main-color);
 }
 .btn-10:hover, .btn-10:focus, .btn-10:active, .btn-10.active, .btn-10:not(.btn-check) + .btn:active, .btn-10:not(.btn-check) + .btn-red:active, .btn-10:not(.btn-check) + .btn-orange:active, .btn-10:not(.btn-check) + .btn-99:active, .btn-10:not(.btn-check) + .btn-90:active, .btn-10:not(.btn-check) + .btn-9:active, .btn-10:not(.btn-check) + .btn-8:active, .btn-10:not(.btn-check) + .btn-light:active, .btn-10:not(.btn-check) + .btn-6:active, .btn-10:not(.btn-check) + .btn-light-outline:active, .btn-10:not(.btn-check) + .btn-deepgreen:active, .btn-10:not(.btn-check) + .btn-green:active, .btn-10:not(.btn-check) + .btn-40:active, .btn-10:not(.btn-check) + .btn-4:active, .btn-10:not(.btn-check) + .btn-white:active, .btn-10:not(.btn-check) + .btn-30:active, .btn-10:not(.btn-check) + .btn-secondary:active, .btn-10:not(.btn-check) + .btn-2:active, .btn-10:not(.btn-check) + .btn-primary:active {
@@ -3138,7 +3137,6 @@ main {
 
 .box {
   background-color: var(--bg-second);
-  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.06);
   transition: 200ms;
   padding: 1.6em;
   border-radius: 1.25em;
@@ -3334,7 +3332,6 @@ main {
   background-color: var(--bg-second);
   padding: 0.75em 1em;
   border-radius: 1.25em;
-  box-shadow: 0px 2px 20px rgba(0, 0, 0, 0.04);
   margin-bottom: 0.5em;
 }
 .cart-item {
@@ -3681,7 +3678,6 @@ ACCOUNT
   margin-bottom: 2em;
 }
 .account-top .box {
-  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.06);
   border-radius: 1.25em;
   padding: 1em;
 }
@@ -4774,7 +4770,7 @@ ACCOUNT END
   flex-direction: column;
   border-radius: 12px;
   border: 2px solid transparent;
-  background-color: var(--bg-btn);
+  background-color: var(--bg-second);
 }
 .delivery.active {
   border-color: var(--main-color);
@@ -5113,7 +5109,6 @@ ACCOUNT END
   background-color: var(--bg-second);
   border-radius: 0.625em;
   border: 2px solid transparent;
-  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.06);
   padding: 0.625em 0.9375em;
   height: 60px;
   display: flex;
