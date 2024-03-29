@@ -5093,3 +5093,33 @@ ACCOUNT END
     border-radius: 100%;
   }
 }
+.popover {
+  --bs-popover-bg: var(--bg-second);
+  --bs-popover-border-color: var(--bg-second-hover);
+  --bs-popover-header-color: var(--font-color);
+  --bs-popover-header-bg: var(--bg-second-hover);
+  --bs-popover-body-color: var(--font-color);
+  .popover-arrow {
+    --bs-popover-bg: var(--bg-second-hover);
+  }
+}
+.tag {
+  display: inline-flex;
+  margin-right: 10px;
+  img {
+    width: 35px;
+    height: 35px;
+    border: 2px solid transparent;
+    box-shadow: 0px 0px 0px 2px #00a76f;
+    object-fit: cover;
+    border-radius: 100%;
+  }
+  &.mini {
+    margin-right: 4px;
+    img {
+      width: 25px;
+      height: 25px;
+      box-shadow: none;
+    }
+  }
+}

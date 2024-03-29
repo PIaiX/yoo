@@ -50,12 +50,22 @@ const weightTypes = [
   { title: "м3", value: "м3" },
 ]
 
+const tagsData = [
+  { name: "chicken", value: "/imgs/tags/chicken.png" },
+  { name: "fish", value: "/imgs/tags/fish.png" },
+  { name: "halal", value: "/imgs/tags/halal.png" },
+  { name: "meat", value: "/imgs/tags/meat.png" },
+  { name: "pepper", value: "/imgs/tags/pepper.png" },
+  { name: "vegetarian", value: "/imgs/tags/vegetarian.png" },
+]
+
 const customWeight = ({ value, type = 'г' }) => {
   if (!value) {
     return 0
   }
   let typeData = weightTypes.find(e => e.value == type)?.title ?? 'г'
 
+  value = Math.round(value) > 0 ? Math.round(value) : Math.pow(10, value.toString().split(".")[1].length) * value
   value = value + typeData
 
   return value
@@ -189,4 +199,5 @@ export {
   paymentData,
   getCount,
   declination,
+  tagsData
 };

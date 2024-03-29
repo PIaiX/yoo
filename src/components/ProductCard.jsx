@@ -1,14 +1,9 @@
 import React, { memo } from "react";
 import { Link } from "react-router-dom";
-// import Fish from "../assets/imgs/fish.png";
-// import Halal from "../assets/imgs/halal.png";
-// import Chicken from '../assets/imgs/chicken.png';
-// import Meat from '../assets/imgs/meat.png';
-// import Spicy from '../assets/imgs/pepper.png';
-// import Vegetarian from '../assets/imgs/vegetarian.png';
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import { customPrice, customWeight, getImageURL } from "../helpers/all";
 import ButtonCart from "./ButtonCart";
+import Tags from "./Tags";
 // import BtnFav from "./utils/BtnFav";
 
 const ProductCard = memo(({ data }) => {
@@ -35,29 +30,17 @@ const ProductCard = memo(({ data }) => {
     <div className="product" key={data?.id}>
       <div className="product-img">
         <Link to={"/product/" + data?.id}>
+          {data?.tags?.length > 0 && (
+            <div className="p-2 position-absolute">
+              <Tags data={data.tags} mini />
+            </div>
+          )}
           <LazyLoadImage
             src={getImageURL({ path: data?.medias })}
             alt={data.title}
             loading="lazy"
           />
         </Link>
-        {/* <ul className="product-stickers">
-          <li>
-            <img src={Fish} alt="рыба" />
-          </li>
-          <li>
-            <img src={Halal} alt="халяль" />
-          </li>
-        </ul> */}
-        {/* <ul className="product-tags">
-          <li>
-            <div className="hit">Хит!</div>
-          </li>
-          <li>
-            <div className="new">Новинка</div>
-          </li>
-        </ul> */}
-        {/* {isAuth && <BtnFav product={data} />} */}
       </div>
 
       <h6 className="title text-center text-md-start">{data.title}</h6>

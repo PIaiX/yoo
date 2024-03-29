@@ -1,5 +1,5 @@
 import React, { useLayoutEffect, useState } from "react";
-import { Col, Row, Container } from "react-bootstrap";
+import { Col, Row, Container, OverlayTrigger, Popover } from "react-bootstrap";
 import Notice from "../components/Notice";
 import ProductCard from "../components/ProductCard";
 import Ingredient from "../components/utils/Ingredient";
@@ -22,6 +22,7 @@ import { customPrice, customWeight, getImageURL } from "../helpers/all";
 import { getProduct, getProducts } from "../services/product";
 import { isCart } from "../hooks/useCart";
 import { useDispatch, useSelector } from "react-redux";
+import Tags from "../components/Tags";
 
 const Product = () => {
   const { productId } = useParams();
@@ -134,19 +135,52 @@ const Product = () => {
               <div className="d-flex align-items-center justify-content-between justify-content-md-start mb-4">
                 <h1 className="mb-0">{product.item.title}</h1>
                 {product.item.energy.weight > 0 && (
-                  <>
-                    <h6 className="text-muted mb-0 ms-3">
-                      {customWeight({
-                        value: product.item.energy.weight,
-                        type: product.item.energy?.weightType,
-                      })}
-                    </h6>
-                  </>
+                  <span className="text-muted fw-6 ms-3">
+                    {customWeight({
+                      value: product.item.energy.weight,
+                      type: product.item.energy?.weightType,
+                    })}
+                  </span>
+                )}
+                {productEnergyVisible && product.item?.energy?.kkal > 0 && (
+                  <OverlayTrigger
+                    trigger={["hover"]}
+                    className="ms-2"
+                    key="bottom"
+                    placement="bottom"
+                    overlay={
+                      <Popover id="popover-positioned-bottom">
+                        <Popover.Header className="fs-09 fw-6">
+                          Энергетическая&nbsp;ценность&nbsp;
+                          {Math.round(product.item.energy.kkal)}&nbsp;ккал
+                        </Popover.Header>
+                        <Popover.Body>
+                          <div>
+                            Белки: {Math.round(product.item.energy.protein)}г
+                          </div>
+                          <div>
+                            Жиры: {Math.round(product.item.energy.protein)}г
+                          </div>
+                          <div>
+                            Углеводы: {Math.round(product.item.energy.protein)}г
+                          </div>
+                        </Popover.Body>
+                      </Popover>
+                    }
+                  >
+                    <a className="ms-2">
+                      <HiOutlineInformationCircle size={23} />
+                    </a>
+                  </OverlayTrigger>
+                )}
+              </div>
+              <div className="mb-2">
+                {product.item?.tags?.length > 0 && (
+                  <Tags data={product.item.tags} />
                 )}
               </div>
               {product.item.description && (
                 <div className="mb-4">
-                  <p className="mb-2">Состав:</p>
                   <p>{product.item.description}</p>
                 </div>
               )}
@@ -182,15 +216,13 @@ const Product = () => {
               )}
 
               <div className="productPage-price">
-                <div className="me-3">
-                  <div className="py-2 px-3 fw-5 fw-5 rounded-pill">
-                    {customPrice(price)}
-                    {discount > 0 && (
-                      <div className="fs-08 text-muted text-decoration-line-through">
-                        {customPrice(discount)}
-                      </div>
-                    )}
-                  </div>
+                <div className="py-2 fw-5 me-4 fw-5 rounded-pill">
+                  {customPrice(price)}
+                  {discount > 0 && (
+                    <div className="fs-08 text-muted text-decoration-line-through">
+                      {customPrice(discount)}
+                    </div>
+                  )}
                 </div>
                 <ButtonCart
                   full
