@@ -63,11 +63,11 @@ const useTotalCart = () => {
                     point += product.price * product.cart.count
                 } else {
 
-                    if (product?.cart?.data?.modifiers?.price) {
+                    if (product?.cart?.data?.modifiers?.length > 0) {
                         if (product?.options?.modifierPriceSum) {
-                            price += (product.price * product.cart.count) + (product.cart.data.modifiers.price * product.cart.count)
+                            price += (product.price * product.cart.count) + (product.cart.data.modifiers.reduce((sum, item) => sum + item.price, 0) * product.cart.count)
                         } else {
-                            price += product.cart.data.modifiers.price * product.cart.count
+                            price += product.cart.data.modifiers.reduce((sum, item) => sum + item.price, 0) * product.cart.count
                         }
                     } else {
                         price += product.price * product.cart.count

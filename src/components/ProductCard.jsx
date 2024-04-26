@@ -7,24 +7,45 @@ import Tags from "./Tags";
 // import BtnFav from "./utils/BtnFav";
 
 const ProductCard = memo(({ data }) => {
-  const modifiers =
+  const modifiersData =
     data?.modifiers?.length > 0
-      ? [...data.modifiers].sort((a, b) => a?.price - b?.price)
+      ? [...data.modifiers]
+          .sort((a, b) => a?.price - b?.price)
+          .reduce((acc, item) => {
+            const categoryId = item.categoryId;
+            if (!acc[categoryId]) {
+              acc[categoryId] = [];
+            }
+            acc[categoryId].push(item);
+            return acc;
+          }, [])
       : [];
+
+  var modifiers = [];
+
+  if (modifiersData?.length > 0) {
+    modifiersData.forEach((e1) => {
+      let is = e1.find((e2) => e2?.main);
+      if (is) {
+        modifiers.push(is);
+      }
+    });
+  }
 
   const price =
     modifiers?.length > 0
       ? data.options.modifierPriceSum
-        ? modifiers[0].price + data.price
-        : modifiers[0].price
+        ? modifiers.reduce((sum, item) => sum + item.price, 0) + data.price
+        : modifiers.reduce((sum, item) => sum + item.price, 0)
       : data.price;
 
-  // const discount =
-  //   modifiers?.length > 0
-  //     ? data.options.modifierPriceSum
-  //       ? modifiers[0].discount + data.discount
-  //       : modifiers[0].discount
-  //     : data.discount;
+  const discount =
+    modifiers?.length > 0
+      ? data.options.modifierPriceSum
+        ? modifiers.reduce((sum, item) => sum + item.discount, 0) +
+          data.discount
+        : modifiers.reduce((sum, item) => sum + item.discount, 0)
+      : data.discount;
 
   return (
     <div className="product" key={data?.id}>

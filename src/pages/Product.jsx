@@ -1,5 +1,5 @@
 import React, { useLayoutEffect, useState } from "react";
-import { Col, Row, Container, OverlayTrigger, Popover } from "react-bootstrap";
+import { Col, Container, OverlayTrigger, Popover, Row } from "react-bootstrap";
 import Notice from "../components/Notice";
 import ProductCard from "../components/ProductCard";
 import Ingredient from "../components/utils/Ingredient";
@@ -11,18 +11,17 @@ import {
   HiOutlineInformationCircle,
   HiOutlineShoppingBag,
 } from "react-icons/hi2";
+import { useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
 import ButtonCart from "../components/ButtonCart";
 import Empty from "../components/Empty";
 import EmptyCatalog from "../components/empty/catalog";
 import Meta from "../components/Meta";
+import Tags from "../components/Tags";
 import Loader from "../components/utils/Loader";
 import NavTop from "../components/utils/NavTop";
 import { customPrice, customWeight, getImageURL } from "../helpers/all";
-import { getProduct, getProducts } from "../services/product";
-import { isCart } from "../hooks/useCart";
-import { useDispatch, useSelector } from "react-redux";
-import Tags from "../components/Tags";
+import { getProduct } from "../services/product";
 
 const Product = () => {
   const { productId } = useParams();
@@ -38,33 +37,33 @@ const Product = () => {
     item: {},
   });
 
-  const modifiers =
-    product.item?.modifiers?.length > 0
-      ? [...product.item.modifiers].sort((a, b) => a?.price - b?.price)
-      : [];
-
   const [data, setData] = useState({
     cart: {
       data: {
-        modifiers:
-          modifiers?.length > 0 ? modifiers.find((e) => e.main) : false,
+        modifiers: [],
         additions: [],
         wishes: [],
       },
     },
   });
 
-  const price = data.cart.data?.modifiers?.id
-    ? product.item.options.modifierPriceSum
-      ? data.cart.data.modifiers.price + product.item.price
-      : data.cart.data.modifiers.price
-    : product.item.price;
+  const price =
+    data.cart.data?.modifiers?.length > 0
+      ? product.item.options.modifierPriceSum
+        ? data.cart.data.modifiers.reduce((sum, item) => sum + item.price, 0) +
+          product.item.price
+        : data.cart.data.modifiers.reduce((sum, item) => sum + item.price, 0)
+      : product.item.price;
 
-  const discount = data.cart.data?.modifiers?.id
-    ? product.item.options.modifierPriceSum
-      ? data.cart.data?.modifiers.discount + product.item.discount
-      : data.cart.data?.modifiers.discount
-    : product.item.discount;
+  const discount =
+    data.cart.data?.modifiers?.length > 0
+      ? product.item.options.modifierPriceSum
+        ? data.cart.data.modifiers.reduce(
+            (sum, item) => sum + item.discount,
+            0
+          ) + product.item.discount
+        : data.cart.data.modifiers.reduce((sum, item) => sum + item.discount, 0)
+      : product.item.discount;
 
   useLayoutEffect(() => {
     getProduct({
@@ -74,11 +73,33 @@ const Product = () => {
       type: "site",
     })
       .then((res) => {
-        setProduct({ loading: false, item: res });
-        data.cart.data.modifiers =
+        const modifiers =
           res?.modifiers?.length > 0
-            ? res.modifiers.find((e) => e.main)
-            : false;
+            ? [...res.modifiers]
+                .sort((a, b) => a?.price - b?.price)
+                .reduce((acc, item) => {
+                  const categoryId = item.categoryId;
+                  if (!acc[categoryId]) {
+                    acc[categoryId] = [];
+                  }
+                  acc[categoryId].push(item);
+                  return acc;
+                }, [])
+            : [];
+
+        data.cart.data.modifiers = [];
+        if (modifiers?.length > 0) {
+          modifiers.forEach((e1) => {
+            let is = e1.find((e2) => e2?.main);
+            if (is) {
+              data.cart.data.modifiers.push(is);
+            }
+          });
+        }
+        res.modifiers = modifiers;
+
+        setProduct({ loading: false, item: res });
+
         setData(data);
       })
       .catch(() => setProduct((data) => ({ ...data, loading: false })));
@@ -184,25 +205,32 @@ const Product = () => {
                   <p>{product.item.description}</p>
                 </div>
               )}
-              {product?.item?.modifiers?.length > 0 && (
-                <>
-                  <div className="d-xxl-flex mb-4">
-                    <ul className="inputGroup">
-                      {product.item.modifiers
-                        .slice()
-                        .sort((a, b) => a.price - b.price)
-                        .map((e, index) => (
+              {product?.item?.modifiers?.length > 0 &&
+                product.item.modifiers.map((modifier, index) => (
+                  <>
+                    <div className="d-xxl-flex mb-4">
+                      <ul className="inputGroup">
+                        {modifier.map((e, index) => (
                           <li>
                             <label>
                               <input
                                 type="radio"
-                                name="modifiers"
+                                name={e.categoryId}
                                 defaultChecked={index === 0}
                                 onChange={() => {
                                   let newData = { ...data };
-
-                                  newData.cart.data.modifiers = e;
-
+                                  let isModifierIndex =
+                                    newData.cart.data.modifiers.findIndex(
+                                      (item) =>
+                                        item?.categoryId === e.categoryId
+                                    );
+                                  if (isModifierIndex != -1) {
+                                    newData.cart.data.modifiers[
+                                      isModifierIndex
+                                    ] = e;
+                                  } else {
+                                    newData.cart.data.modifiers.push(e);
+                                  }
                                   setData(newData);
                                 }}
                               />
@@ -210,10 +238,10 @@ const Product = () => {
                             </label>
                           </li>
                         ))}
-                    </ul>
-                  </div>
-                </>
-              )}
+                      </ul>
+                    </div>
+                  </>
+                ))}
 
               <div className="productPage-price">
                 <div className="py-2 fw-5 me-4 fw-5 rounded-pill">

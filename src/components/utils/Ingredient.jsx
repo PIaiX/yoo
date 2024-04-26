@@ -15,7 +15,7 @@ const Ingredient = memo(({ data, active, onChange }) => {
     >
       {addition?.media && (
         <img
-          src={getImageURL({ path: addition.media })}
+          src={getImageURL({ path: addition.media, type: "addition" })}
           alt={addition?.title}
           className="ingredient-img"
         />

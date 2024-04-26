@@ -11,6 +11,14 @@ import ButtonCart from "./ButtonCart";
 const CartItem = memo(({ data }) => {
   const [open, setOpen] = useState(false);
 
+  const price =
+    data?.cart?.data?.modifiers?.length > 0
+      ? data.options.modifierPriceSum
+        ? data.cart.data.modifiers.reduce((sum, item) => sum + item.price, 0) +
+          data.price
+        : data.cart.data.modifiers.reduce((sum, item) => sum + item.price, 0)
+      : data.price;
+
   return (
     <div className="cart-item" key={data.id}>
       <div className="left">
@@ -37,9 +45,10 @@ const CartItem = memo(({ data }) => {
               <p className="text-muted fs-09 consist">{data.description}</p>
             </OverlayTrigger>
           )}
-          {data?.cart?.data?.modifiers && (
-            <p className="fs-09">{data.cart.data.modifiers.title}</p>
-          )}
+          {data?.cart?.data?.modifiers?.length > 0 &&
+            data.cart.data.modifiers.map((e) => (
+              <p className="fs-09 fw-6">{e.title}</p>
+            ))}
 
           {data?.cart?.data?.additions?.length > 0 && (
             <>
@@ -71,15 +80,7 @@ const CartItem = memo(({ data }) => {
         </div>
 
         <div className="order-1 order-md-2">
-          {data.type == "gift"
-            ? "Бесплатно"
-            : customPrice(
-                data?.cart?.data?.modifiers?.price
-                  ? data.options.modifierPriceSum
-                    ? data.cart.data.modifiers.price + data.price
-                    : data.cart.data.modifiers.price
-                  : data.price
-              )}
+          {data.type == "gift" ? "Бесплатно" : customPrice(price)}
         </div>
 
         {/* {isAuth && <BtnFav checked={false} />} */}
