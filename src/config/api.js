@@ -1,4 +1,4 @@
-const DOMAIN = 'new.totospizza.ru'; //window.location.hostname;
+const DOMAIN = false; //window.location.hostname;
 const SITE_URL = "https://yooapp.ru";
 const BASE_URL = "https://api.yooapp.ru";
 const ADMIN_URL = "https://admin.yooapp.ru";

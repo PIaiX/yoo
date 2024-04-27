@@ -12,7 +12,7 @@ const ProductCard = memo(({ data }) => {
       ? [...data.modifiers]
           .sort((a, b) => a?.price - b?.price)
           .reduce((acc, item) => {
-            const categoryId = item.categoryId;
+            const categoryId = item.categoryId ?? 0;
             if (!acc[categoryId]) {
               acc[categoryId] = [];
             }

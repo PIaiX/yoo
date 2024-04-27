@@ -78,7 +78,7 @@ const Product = () => {
             ? [...res.modifiers]
                 .sort((a, b) => a?.price - b?.price)
                 .reduce((acc, item) => {
-                  const categoryId = item.categoryId;
+                  const categoryId = item.categoryId ?? 0;
                   if (!acc[categoryId]) {
                     acc[categoryId] = [];
                   }
@@ -215,14 +215,15 @@ const Product = () => {
                             <label>
                               <input
                                 type="radio"
-                                name={e.categoryId}
+                                name={e.categoryId ?? 0}
                                 defaultChecked={index === 0}
                                 onChange={() => {
                                   let newData = { ...data };
                                   let isModifierIndex =
                                     newData.cart.data.modifiers.findIndex(
                                       (item) =>
-                                        item?.categoryId === e.categoryId
+                                        item?.categoryId === e.categoryId ||
+                                        item?.categoryId === 0
                                     );
                                   if (isModifierIndex != -1) {
                                     newData.cart.data.modifiers[
