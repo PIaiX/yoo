@@ -1,15 +1,10 @@
-import React, { memo, useState } from "react";
-import Collapse from "react-bootstrap/Collapse";
-import OverlayTrigger from "react-bootstrap/OverlayTrigger";
-import Tooltip from "react-bootstrap/Tooltip";
-import { IoCaretDownOutline } from "react-icons/io5";
+import React, { memo } from "react";
 import { customPrice, customWeight, getImageURL } from "../helpers/all";
 import ButtonCart from "./ButtonCart";
 // import BtnFav from "./utils/BtnFav";
 // import { useSelector } from "react-redux";
 
 const CartItem = memo(({ data }) => {
-  const [open, setOpen] = useState(false);
 
   const price =
     data?.cart?.data?.modifiers?.length > 0
@@ -38,12 +33,7 @@ const CartItem = memo(({ data }) => {
             </p>
           )}
           {data?.description && (
-            <OverlayTrigger
-              placement="bottom"
-              overlay={<Tooltip>{data.description}</Tooltip>}
-            >
-              <p className="text-muted fs-09 consist">{data.description}</p>
-            </OverlayTrigger>
+            <p className="text-muted fs-09 consist">{data.description}</p>
           )}
           {data?.cart?.data?.modifiers?.length > 0 &&
             data.cart.data.modifiers.map((e) => (
@@ -52,24 +42,14 @@ const CartItem = memo(({ data }) => {
 
           {data?.cart?.data?.additions?.length > 0 && (
             <>
-              <button
-                type="button"
-                onClick={() => setOpen(!open)}
-                aria-expanded={open}
-                className="d-flex align-items-center"
-              >
-                <span>Показать ещё</span>
-                <IoCaretDownOutline className="fs-08 ms-2" />
-              </button>
-              <Collapse in={open}>
-                <ul className="cart-item-ingredients">
-                  {data.cart.data.additions.map((e) => (
-                    <li>
-                      {e.title} +{customPrice(e.price)}
-                    </li>
-                  ))}
-                </ul>
-              </Collapse>
+              <ul className="cart-item-ingredients">
+                {data.cart.data.additions.map((e) => (
+                  <li>
+                    {e.title}{" "}
+                    <span className="fw-7">+{customPrice(e.price)}</span>
+                  </li>
+                ))}
+              </ul>
             </>
           )}
         </div>
@@ -79,7 +59,7 @@ const CartItem = memo(({ data }) => {
           <ButtonCart cart product={data} />
         </div>
 
-        <div className="order-1 order-md-2">
+        <div className="order-1 order-md-2 fw-7">
           {data.type == "gift" ? "Бесплатно" : customPrice(price)}
         </div>
 

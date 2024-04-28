@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useState } from "react";
+import React, { useEffect, useLayoutEffect, useState } from "react";
 import { Col, Container, OverlayTrigger, Popover, Row } from "react-bootstrap";
 import Notice from "../components/Notice";
 import ProductCard from "../components/ProductCard";
@@ -25,7 +25,6 @@ import { getProduct } from "../services/product";
 
 const Product = () => {
   const { productId } = useParams();
-  const [isRemove, setIsRemove] = useState(false);
   const multiBrand = useSelector((state) => state.settings.options.multiBrand);
   const selectedAffiliate = useSelector((state) => state.affiliate.active);
 
@@ -47,23 +46,10 @@ const Product = () => {
     },
   });
 
-  const price =
-    data.cart.data?.modifiers?.length > 0
-      ? product.item.options.modifierPriceSum
-        ? data.cart.data.modifiers.reduce((sum, item) => sum + item.price, 0) +
-          product.item.price
-        : data.cart.data.modifiers.reduce((sum, item) => sum + item.price, 0)
-      : product.item.price;
-
-  const discount =
-    data.cart.data?.modifiers?.length > 0
-      ? product.item.options.modifierPriceSum
-        ? data.cart.data.modifiers.reduce(
-            (sum, item) => sum + item.discount,
-            0
-          ) + product.item.discount
-        : data.cart.data.modifiers.reduce((sum, item) => sum + item.discount, 0)
-      : product.item.discount;
+  const [prices, setPrices] = useState({
+    price: 0,
+    discount: 0,
+  });
 
   useLayoutEffect(() => {
     getProduct({
@@ -104,6 +90,56 @@ const Product = () => {
       })
       .catch(() => setProduct((data) => ({ ...data, loading: false })));
   }, [productId]);
+
+  useEffect(() => {
+    if (product.item) {
+      let price = 0;
+      let discount = 0;
+
+      if (data.cart.data?.modifiers?.length > 0) {
+        if (product.item.options.modifierPriceSum) {
+          price +=
+            data.cart.data.modifiers.reduce(
+              (sum, item) => sum + item.price,
+              0
+            ) + product.item.price;
+        } else {
+          price += data.cart.data.modifiers.reduce(
+            (sum, item) => sum + item.price,
+            0
+          );
+        }
+      } else {
+        price += product.item.price;
+      }
+
+      if (data.cart.data?.modifiers?.length > 0) {
+        if (product.item.options.modifierPriceSum) {
+          discount +=
+            data.cart.data.modifiers.reduce(
+              (sum, item) => sum + item.discount,
+              0
+            ) + product.item.discount;
+        } else {
+          discount += data.cart.data.modifiers.reduce(
+            (sum, item) => sum + item.discount,
+            0
+          );
+        }
+      } else {
+        discount += product.item.discount;
+      }
+
+      if (data.cart.data?.additions?.length > 0) {
+        price += data.cart.data.additions.reduce(
+          (sum, item) => sum + item.price,
+          0
+        );
+      }
+
+      setPrices({ price, discount });
+    }
+  }, [data, product.item]);
 
   if (product?.loading) {
     return <Loader full />;
@@ -246,10 +282,10 @@ const Product = () => {
 
               <div className="productPage-price">
                 <div className="py-2 fw-5 me-4 fw-5 rounded-pill">
-                  {customPrice(price)}
-                  {discount > 0 && (
+                  {customPrice(prices.price)}
+                  {prices.discount > 0 && (
                     <div className="fs-08 text-muted text-decoration-line-through">
-                      {customPrice(discount)}
+                      {customPrice(prices.discount)}
                     </div>
                   )}
                 </div>
@@ -269,48 +305,44 @@ const Product = () => {
                 <>
                   <h6>Изменить по вкусу</h6>
                   <div className="productPage-edit mb-3">
-                    {isRemove ? (
-                      <div className="box"></div>
-                    ) : (
-                      <div className="box">
-                        <ul>
-                          {product.item.additions.map((e) => {
-                            const isAddition = () =>
-                              !!data?.cart?.data?.additions.find(
-                                (addition) => addition.id === e.addition.id
-                              );
-                            const onPressAddition = () => {
-                              if (isAddition()) {
-                                let newAdditions =
-                                  data.cart.data.additions.filter(
-                                    (addition) => addition.id != e.addition.id
-                                  );
-                                let newData = { ...data };
-                                newData.cart.data.additions = newAdditions;
-                                setData(newData);
-                              } else {
-                                let newData = { ...data };
-                                newData.cart.data.additions.push(e.addition);
-                                setData(newData);
-                              }
-                            };
-                            return (
-                              <li>
-                                <Ingredient
-                                  data={e}
-                                  active={isAddition()}
-                                  onChange={onPressAddition}
-                                />
-                              </li>
+                    <div className="box">
+                      <ul>
+                        {product.item.additions.map((e) => {
+                          const isAddition = () =>
+                            !!data?.cart?.data?.additions.find(
+                              (addition) => addition.id === e.addition.id
                             );
-                          })}
-                        </ul>
-                      </div>
-                    )}
+                          const onPressAddition = () => {
+                            if (isAddition()) {
+                              let newAdditions =
+                                data.cart.data.additions.filter(
+                                  (addition) => addition.id != e.addition.id
+                                );
+                              let newData = { ...data };
+                              newData.cart.data.additions = newAdditions;
+                              setData(newData);
+                            } else {
+                              let newData = { ...data };
+                              newData.cart.data.additions.push(e.addition);
+                              setData(newData);
+                            }
+                          };
+                          return (
+                            <li>
+                              <Ingredient
+                                data={e}
+                                active={isAddition()}
+                                onChange={onPressAddition}
+                              />
+                            </li>
+                          );
+                        })}
+                      </ul>
+                    </div>
                   </div>
                 </>
               )}
-              <Notice />
+              {/* <Notice /> */}
             </Col>
           </Row>
         </form>

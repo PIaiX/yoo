@@ -631,7 +631,7 @@ const Checkout = () => {
                       <b>
                         Потратить {customPrice(pointCheckout, false)} баллов
                       </b>
-                      <p>У вас всего {customPrice(user.point, false)} баллов</p>
+                      <p className="fs-09 text-muted">У вас всего {customPrice(user.point, false)} баллов</p>
                     </a>
                   </div>
                   <div>
@@ -715,8 +715,8 @@ const Checkout = () => {
               )}
               <hr className="my-3" />
               <div className="d-flex justify-content-between mb-5">
-                <span className="fw-6 fs-11">Итоговая сумма</span>
-                <span className="fw-6">{customPrice(total)}</span>
+                <span className="fw-7 fs-11">Итоговая сумма</span>
+                <span className="fw-7">{customPrice(total)}</span>
               </div>
               {checkout.delivery == "delivery" &&
                 zone?.data?.minPrice > price && (

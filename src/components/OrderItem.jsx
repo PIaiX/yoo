@@ -24,18 +24,12 @@ const OrderItem = memo(({ data }) => {
           </p>
         )}
         {data?.description && (
-          <OverlayTrigger
-            placement="bottom"
-            overlay={<Tooltip>{data.description}</Tooltip>}
-          >
-            <p className="consist text-muted">{data.description}</p>
-          </OverlayTrigger>
+          <p className="fs-09 mb-2 text-muted">{data.description}</p>
         )}
-        {data?.modifiers && <p>{data.modifiers.title}</p>}
+        <p className="fw-6">{data?.modifiers?.title ? <p>{data.modifiers.title}</p> : data.modifiers[0]?.title ? data.modifiers[0].title : null}</p>
       </div>
-
       <div className="quantity">
-        <div className="d-xxl-none input w-50p py-1 px-2 rounded-4 text-center">
+        <div className="checkoutProduct-count">
           x{data?.count ?? 1}
         </div>
       </div>

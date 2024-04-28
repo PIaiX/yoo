@@ -276,8 +276,8 @@ const Cart = () => {
               )}
               <hr className="my-3" />
               <div className="d-flex justify-content-between mb-5">
-                <span className="fw-6 fs-11">Итоговая сумма</span>
-                <span className="fw-6">{customPrice(total)}</span>
+                <span className="fw-7 fs-11">Итоговая сумма</span>
+                <span className="fw-7">{customPrice(total)}</span>
               </div>
 
               <Link

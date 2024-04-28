@@ -64,13 +64,13 @@ const AccountLayout = ({ isMobile }) => {
                   <div className="box w-100 h-100 d-flex flex-column justify-content-between text-center">
                     <p className="fs-09 fw-6">Вы можете потратить</p>
                     <p className="main-color">
-                      <span className="fs-18">{user.point}</span>&nbsp;
-                      <span className="fw-6 fs-18">Б</span>
+                      <span className="fw-6 fs-13">{user.point}</span>&nbsp;
+                      <span className="fw-6 fs-13">Б</span>
                     </p>
                   </div>
                 </Col>
               )}
-              <Col lg={7}>
+              {/* <Col lg={7}>
                 <div className="h-100 row row-cols-2 gx-3 gx-xl-4">
                   <div>
                     <div className="gradient-block"></div>
@@ -79,7 +79,7 @@ const AccountLayout = ({ isMobile }) => {
                     <div className="gradient-block"></div>
                   </div>
                 </div>
-              </Col>
+              </Col> */}
             </Row>
 
             <div className="row gx-3 gx-xl-4">

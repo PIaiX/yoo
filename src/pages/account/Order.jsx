@@ -171,7 +171,7 @@ const Order = () => {
                   <div>{customPrice(order.item.pickupDiscount)}</div>
                 </div>
               )}
-              <div className="d-flex justify-content-between fw-6">
+              <div className="d-flex justify-content-between fw-7">
                 <div className="fs-11">Итого</div>
                 <div>{customPrice(order.item.total)}</div>
               </div>

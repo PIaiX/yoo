@@ -2,12 +2,19 @@ import React, { memo } from "react";
 import { customPrice, customWeight, getImageURL } from "../helpers/all";
 
 const CheckoutProduct = memo(({ data }) => {
+  const price =
+    data?.cart?.data?.modifiers?.length > 0
+      ? data.options.modifierPriceSum
+        ? data.cart.data.modifiers.reduce((sum, item) => sum + item.price, 0) +
+          data.price
+        : data.cart.data.modifiers.reduce((sum, item) => sum + item.price, 0)
+      : data.price;
   return (
     <div className="checkoutProduct d-flex align-items-start">
       <img src={getImageURL({ path: data.medias })} alt={data.title} />
       <div className="flex-1">
         <h6>{data.title}</h6>
-        <div className="d-flex align-items-center">
+        <div className="d-flex justify-content-between align-items-center">
           {data?.energy?.weight > 0 && (
             <p>
               {customWeight({
@@ -16,16 +23,8 @@ const CheckoutProduct = memo(({ data }) => {
               })}
             </p>
           )}
-          <p className="ms-auto">
-            {data.type == "gift"
-              ? "Бесплатно"
-              : customPrice(
-                  data?.cart?.data?.modifiers?.price
-                    ? data.options.modifierPriceSum
-                      ? data.cart.data.modifiers.price + data.price
-                      : data.cart.data.modifiers.price
-                    : data.price
-                )}
+          <p className="fw-7">
+            {data.type == "gift" ? "Бесплатно" : customPrice(price)}
           </p>
           <p className="checkoutProduct-count">x{data?.cart?.count ?? 1}</p>
         </div>
@@ -33,7 +32,7 @@ const CheckoutProduct = memo(({ data }) => {
           <ul className="cart-item-ingredients border-top mt-2 pt-2">
             {data.cart.data.additions.map((e) => (
               <li>
-                {e.title} +{customPrice(e.price)}
+                {e.title} <span className="fw-7">+{customPrice(e.price)}</span>
               </li>
             ))}
           </ul>

@@ -1,10 +1,8 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import CategoryGroup from "../../components/CategoryGroup";
 import Empty from "../../components/Empty";
 import EmptyFavorite from "../../components/empty/favorite";
-import Notice from "../../components/Notice";
 import ProductCard from "../../components/ProductCard";
 
 const Favorites = () => {

@@ -1976,7 +1976,7 @@ main {
           left: 1em;
           width: calc(100% - 2em);
           height: 3px;
-          background-color: var(--bg-second);
+          background-color: rgba(0,0,0,0.3);
           &-drag {
             height: 3px;
             background-color: #fff;
@@ -3168,11 +3168,12 @@ main {
     margin-right: 1em;
   }
   &-count {
+    display: inline-block;
     border: 1px solid var(--bg-btn);
-    padding: 0.33em 0.8em;
+    padding: 0.2em 0.6em;
+    font-size: 13px;
     background-color: var(--bg-second);
     border-radius: $radius;
-    margin-left: $radius;
   }
 }
 
@@ -3565,26 +3566,20 @@ ACCOUNT
   }
   .order-item {
     display: grid;
-    grid-template-columns: var(--w) auto 110px 50px;
+    // grid-template-columns: var(--w) auto 110px 50px;
     grid-template-rows: auto;
     grid-template-areas:
       "img data quantity price"
       "img info quantity price"
       "img show . ."
       ". extra . .";
-    gap: 0.5em 1em;
+    // gap: 0.5em 1em;
     @media (max-width: $bp-xxl) {
-      grid-template-columns: var(--w) auto 50px 50px;
-      gap: 0.5em 0.75em;
-    }
-    @media (max-width: $bp-lg) {
-      gap: 1em 1.5em;
-    }
-    @media (max-width: $bp-md) {
-      gap: 0.5em 1em;
+      // grid-template-columns: var(--w) auto 50px 50px;
+      // gap: 0.5em 0.75em;
     }
     @media (max-width: $bp-sm) {
-      gap: 0.25em 0.5em;
+      // gap: 0.25em 0.5em;
       grid-template-areas:
         "img data data data"
         "img info price quantity"
@@ -3596,7 +3591,6 @@ ACCOUNT
       grid-area: img;
     }
     .text {
-      grid-area: data;
       .consist {
         color: $dark;
         @include clamp(2, 1.2em, true);
@@ -3626,9 +3620,6 @@ ACCOUNT
     .extra {
       grid-area: extra;
       color: $dark;
-    }
-    .quantity {
-      grid-area: quantity;
     }
     .price {
       grid-area: price;
@@ -4023,7 +4014,6 @@ ACCOUNT
     form {
       background-color: var(--bg-second);
       border-radius: $radius;
-      @include shadow();
       padding: 2em;
       &.login-form {
         width: 80%;
@@ -4334,6 +4324,7 @@ ACCOUNT END
     font-size: 14px;
     padding: 8px 15px;
     color: var(--font-color);
+    background-color: var(--bg-main) !important;
     &:active,
     &.active {
       color: var(--font-color-revers) !important;
@@ -4343,14 +4334,13 @@ ACCOUNT END
       color: var(--font-color) !important;
       background-color: var(--bg-second) !important;
     }
-    &:active p,
-    &.active p {
-      color: #fff !important;
-    }
+    // &:active p,
+    // &.active p {
+    //   color: var(--font-color-revers) !important;
+    // }
   }
 }
 .custom-table {
-  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.06);
   background-color: var(--bg-second);
   border-radius: 1em;
   color: var(--font-color);
@@ -5118,4 +5108,7 @@ ACCOUNT END
       box-shadow: none;
     }
   }
+}
+.text-muted{
+  color: #777 !important;
 }
