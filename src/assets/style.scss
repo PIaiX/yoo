@@ -1976,7 +1976,7 @@ main {
           left: 1em;
           width: calc(100% - 2em);
           height: 3px;
-          background-color: rgba(0,0,0,0.3);
+          background-color: rgba(0, 0, 0, 0.3);
           &-drag {
             height: 3px;
             background-color: #fff;
@@ -2536,7 +2536,7 @@ main {
   }
   &-img {
     width: 100%;
-    height: 290px;
+    max-height: 320px;
     object-fit: scale-down;
     border-radius: $radius;
     @media (max-width: $bp-xxl) {
@@ -2546,7 +2546,7 @@ main {
       height: 215px;
     }
     @media (max-width: $bp-lg) {
-      height: 500px;
+      height: auto;
       margin-bottom: 1em;
     }
     @media (max-width: $bp-sm) {
@@ -5109,6 +5109,6 @@ ACCOUNT END
     }
   }
 }
-.text-muted{
+.text-muted {
   color: #777 !important;
 }

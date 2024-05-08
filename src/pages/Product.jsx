@@ -181,14 +181,18 @@ const Product = () => {
 
         <form className="productPage mb-5">
           <Row className="gx-4 gx-xxl-5">
-            <Col xs={12} lg={3}>
+            <Col xs={12} md={4} lg={product?.item?.additions?.length ? 3 : 5}>
               <img
                 src={getImageURL({ path: product.item.medias, size: "full" })}
                 alt={product.item.title}
                 className="productPage-img"
               />
             </Col>
-            <Col xs={12} md={6} lg={5}>
+            <Col
+              xs={12}
+              md={product?.item?.additions?.length > 0 ? 4 : 7}
+              lg={product?.item?.additions?.length > 0 ? 5 : 7}
+            >
               <div className="d-flex align-items-center justify-content-between justify-content-md-start mb-4">
                 <h1 className="mb-0">{product.item.title}</h1>
                 {product.item.energy.weight > 0 && (
@@ -300,8 +304,8 @@ const Product = () => {
                 </ButtonCart>
               </div>
             </Col>
-            <Col xs={12} md={6} lg={4} className="mt-3 mt-sm-4 mt-md-0">
-              {product?.item?.additions?.length > 0 && (
+            {product?.item?.additions?.length > 0 && (
+              <Col xs={12} md={5} lg={4} className="mt-3 mt-sm-4 mt-md-0">
                 <>
                   <h6>Изменить по вкусу</h6>
                   <div className="productPage-edit mb-3">
@@ -341,9 +345,10 @@ const Product = () => {
                     </div>
                   </div>
                 </>
-              )}
-              {/* <Notice /> */}
-            </Col>
+
+                {/* <Notice /> */}
+              </Col>
+            )}
           </Row>
         </form>
         {product?.item?.recommends?.length > 0 && (
