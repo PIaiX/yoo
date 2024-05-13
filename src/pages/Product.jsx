@@ -1,6 +1,7 @@
 import React, { useEffect, useLayoutEffect, useState } from "react";
 import { Col, Container, OverlayTrigger, Popover, Row } from "react-bootstrap";
-import Notice from "../components/Notice";
+// import Notice from "../components/Notice";
+import Corner from "../components/svgs/Corner";
 import ProductCard from "../components/ProductCard";
 import Ingredient from "../components/utils/Ingredient";
 // swiper
@@ -8,8 +9,10 @@ import { Navigation } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 // icons & images
 import {
+  HiMinus,
   HiOutlineInformationCircle,
   HiOutlineShoppingBag,
+  HiPlus,
 } from "react-icons/hi2";
 import { useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
@@ -27,6 +30,7 @@ const Product = () => {
   const { productId } = useParams();
   const multiBrand = useSelector((state) => state.settings.options.multiBrand);
   const selectedAffiliate = useSelector((state) => state.affiliate.active);
+  const [isRemove, setIsRemove] = useState(false);
 
   const productEnergyVisible = useSelector(
     (state) => state.settings.options.productEnergyVisible
@@ -181,7 +185,16 @@ const Product = () => {
 
         <form className="productPage mb-5">
           <Row className="gx-4 gx-xxl-5">
-            <Col xs={12} md={4} lg={product?.item?.additions?.length ? 3 : 5}>
+            <Col
+              xs={12}
+              md={4}
+              lg={
+                product?.item?.additions?.length > 0 ||
+                product?.item?.wishes?.length > 0
+                  ? 3
+                  : 5
+              }
+            >
               <img
                 src={getImageURL({ path: product.item.medias, size: "full" })}
                 alt={product.item.title}
@@ -190,8 +203,18 @@ const Product = () => {
             </Col>
             <Col
               xs={12}
-              md={product?.item?.additions?.length > 0 ? 4 : 7}
-              lg={product?.item?.additions?.length > 0 ? 5 : 7}
+              md={
+                product?.item?.additions?.length > 0 ||
+                product?.item?.wishes?.length > 0
+                  ? 4
+                  : 7
+              }
+              lg={
+                product?.item?.additions?.length > 0 ||
+                product?.item?.wishes?.length > 0
+                  ? 5
+                  : 7
+              }
             >
               <div className="d-flex align-items-center justify-content-between justify-content-md-start mb-4">
                 <h1 className="mb-0">{product.item.title}</h1>
@@ -246,12 +269,12 @@ const Product = () => {
                 </div>
               )}
               {product?.item?.modifiers?.length > 0 &&
-                product.item.modifiers.map((modifier, index) => (
+                product.item.modifiers.map((modifier) => (
                   <>
                     <div className="d-xxl-flex mb-4">
-                      <ul className="inputGroup">
+                      <ul className="inputGroup d-flex w-100">
                         {modifier.map((e, index) => (
-                          <li>
+                          <li className="d-flex text-center w-100">
                             <label>
                               <input
                                 type="radio"
@@ -285,7 +308,7 @@ const Product = () => {
                 ))}
 
               <div className="productPage-price">
-                <div className="py-2 fw-5 me-4 fw-5 rounded-pill">
+                <div className="py-2 fw-5 me-4 fs-12 rounded-pill">
                   {customPrice(prices.price)}
                   {prices.discount > 0 && (
                     <div className="fs-08 text-muted text-decoration-line-through">
@@ -304,43 +327,118 @@ const Product = () => {
                 </ButtonCart>
               </div>
             </Col>
-            {product?.item?.additions?.length > 0 && (
+            {(product?.item?.additions?.length > 0 ||
+              product?.item?.wishes?.length > 0) && (
               <Col xs={12} md={5} lg={4} className="mt-3 mt-sm-4 mt-md-0">
                 <>
                   <h6>Изменить по вкусу</h6>
                   <div className="productPage-edit mb-3">
-                    <div className="box">
-                      <ul>
-                        {product.item.additions.map((e) => {
-                          const isAddition = () =>
-                            !!data?.cart?.data?.additions.find(
-                              (addition) => addition.id === e.addition.id
+                    <div className="top">
+                      {product.item?.additions?.length > 0 && (
+                        <button
+                          type="button"
+                          className={isRemove ? "" : "active"}
+                          onClick={() => setIsRemove(false)}
+                        >
+                          <HiPlus />
+                          <span>Добавить</span>
+                          <Corner className="corner-right" />
+                        </button>
+                      )}
+                      {product.item?.wishes?.length > 0 && (
+                        <button
+                          type="button"
+                          className={
+                            isRemove
+                              ? "active"
+                              : product.item?.additions?.length === 0
+                              ? "active"
+                              : ""
+                          }
+                          onClick={() => setIsRemove(true)}
+                        >
+                          <HiMinus />
+                          <span>Убрать</span>
+                          {product.item?.additions?.length > 0 && (
+                            <Corner className="corner-left" />
+                          )}
+                          <Corner className="corner-right" />
+                        </button>
+                      )}
+                    </div>
+                    <div className="box bg-gray">
+                      <ul className={isRemove ? "d-none" : "d-block"}>
+                        {product.item?.additions?.length > 0 &&
+                          product.item.additions.map((e) => {
+                            const isAddition = () =>
+                              !!data?.cart?.data?.additions.find(
+                                (addition) => addition.id === e.id
+                              );
+                            const onPressAddition = () => {
+                              if (isAddition()) {
+                                let newAdditions =
+                                  data.cart.data.additions.filter(
+                                    (addition) => addition.id != e.id
+                                  );
+                                let newData = { ...data };
+                                newData.cart.data.additions = newAdditions;
+                                setData(newData);
+                              } else {
+                                let newData = { ...data };
+                                newData.cart.data.additions.push(e);
+                                setData(newData);
+                              }
+                            };
+                            return (
+                              <li>
+                                <Ingredient
+                                  data={e}
+                                  active={isAddition()}
+                                  onChange={onPressAddition}
+                                />
+                              </li>
                             );
-                          const onPressAddition = () => {
-                            if (isAddition()) {
-                              let newAdditions =
-                                data.cart.data.additions.filter(
-                                  (addition) => addition.id != e.addition.id
+                          })}
+                      </ul>
+                      <ul
+                        className={
+                          isRemove
+                            ? "d-block"
+                            : product.item?.additions?.length === 0
+                            ? "d-block"
+                            : "d-none"
+                        }
+                      >
+                        {product.item?.wishes?.length > 0 &&
+                          product.item.wishes.map((e) => {
+                            const isAddition = () =>
+                              !!data?.cart?.data?.wishes.find(
+                                (addition) => addition.id === e.id
+                              );
+                            const onPressAddition = () => {
+                              if (isAddition()) {
+                                let newAdditions = data.cart.data.wishes.filter(
+                                  (addition) => addition.id != e.id
                                 );
-                              let newData = { ...data };
-                              newData.cart.data.additions = newAdditions;
-                              setData(newData);
-                            } else {
-                              let newData = { ...data };
-                              newData.cart.data.additions.push(e.addition);
-                              setData(newData);
-                            }
-                          };
-                          return (
-                            <li>
-                              <Ingredient
-                                data={e}
-                                active={isAddition()}
-                                onChange={onPressAddition}
-                              />
-                            </li>
-                          );
-                        })}
+                                let newData = { ...data };
+                                newData.cart.data.wishes = newAdditions;
+                                setData(newData);
+                              } else {
+                                let newData = { ...data };
+                                newData.cart.data.wishes.push(e);
+                                setData(newData);
+                              }
+                            };
+                            return (
+                              <li>
+                                <Ingredient
+                                  data={e}
+                                  active={isAddition()}
+                                  onChange={onPressAddition}
+                                />
+                              </li>
+                            );
+                          })}
                       </ul>
                     </div>
                   </div>
@@ -379,7 +477,7 @@ const Product = () => {
               }}
             >
               {product.item.recommends.map((e) => (
-                <SwiperSlide>
+                <SwiperSlide key={e.id}>
                   <ProductCard data={e} />
                 </SwiperSlide>
               ))}

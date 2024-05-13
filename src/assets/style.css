@@ -528,7 +528,7 @@ input[type=number]::-webkit-outer-spin-button, input[type=number]::-webkit-inner
   width: fit-content;
   background-color: var(--bg-second);
   padding: 0.5em;
-  border-radius: 0.75em;
+  border-radius: 1em;
 }
 @media (max-width: 767.98px) {
   .inputGroup {
@@ -542,8 +542,10 @@ input[type=number]::-webkit-outer-spin-button, input[type=number]::-webkit-inner
 .inputGroup label .text {
   width: 100%;
   background-color: transparent;
-  border-radius: 0.25em;
+  border-radius: 0.5em;
+  font-weight: 500;
   padding: 0.7em 1em;
+  font-size: 0.9em;
   transition: background-color 300ms ease-in;
   text-align: center;
 }
@@ -551,7 +553,9 @@ input[type=number]::-webkit-outer-spin-button, input[type=number]::-webkit-inner
   display: none;
 }
 .inputGroup label input:checked + .text {
-  background-color: var(--bg-btn);
+  background-color: var(--bg-main);
+  font-weight: 600;
+  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.06);
 }
 .inputGroup li {
   position: relative;
@@ -2796,7 +2800,7 @@ main {
 .productPage-edit .top button:first-child {
   padding: 0em 2.5em 0em 1.5em;
 }
-.productPage-edit .top button:last-child {
+.productPage-edit .top button:nth-child(2) {
   padding: 0em 2.5em;
   margin-left: -2em;
 }
@@ -2819,17 +2823,17 @@ main {
   transform: rotateY(180deg);
 }
 .productPage-edit .top button.active {
-  background-color: var(--bg-btn);
+  background-color: var(--bg-second);
   color: #212b36;
   z-index: 2;
 }
 .productPage-edit .top button.active .corner, .productPage-edit .top button.active .corner-right, .productPage-edit .top button.active .corner-left {
-  color: var(--bg-btn);
+  color: var(--bg-second);
 }
 .productPage-edit .box {
-  background-color: var(--bg-main);
+  background-color: var(--bg-second);
   padding: 0.75em;
-  border-radius: 1.25em;
+  border-radius: 0px 1.25em 1.25em 1.25em;
 }
 .productPage-edit .box ul {
   --mt: 5px;
@@ -2841,11 +2845,8 @@ main {
   transition: 200ms;
   padding-right: var(--mt);
 }
-.productPage-edit .box ul:hover::-webkit-scrollbar, .productPage-edit .box ul:active::-webkit-scrollbar {
-  display: block;
-}
 .productPage-edit .box ul::-webkit-scrollbar {
-  display: none;
+  display: block;
   width: 6px;
 }
 .productPage-edit .box ul::-webkit-scrollbar-thumb {
@@ -2914,23 +2915,19 @@ main {
   justify-content: flex-start;
   align-items: center;
   flex-wrap: nowrap;
-  background-color: var(--bg-second);
+  background-color: var(--bg-main);
   border-radius: 0.625em;
-  padding: 0.625em;
+  padding: 5px;
   border: 2px solid transparent;
-}
-@media (max-width: 1399.98px) {
-  .ingredient {
-    font-size: 0.9em;
-  }
+  font-size: 0.8em;
 }
 .ingredient.active {
   background-color: var(--main-color-outline);
   border-color: var(--main-color);
 }
 .ingredient-img {
-  width: 2.5em;
-  height: 2.5em;
+  width: 2.3em;
+  height: 2.3em;
   -o-object-fit: cover;
      object-fit: cover;
   border-radius: 0.3125em;
@@ -2941,7 +2938,8 @@ main {
   line-height: 100%;
 }
 .ingredient-price {
-  font-weight: 500;
+  font-weight: 700;
+  font-size: 0.9em;
   margin-left: 1.25em;
   text-align: right;
 }
@@ -3142,11 +3140,8 @@ main {
   border-radius: 1.25em;
   font-size: 1.2em;
 }
-.box:hover::-webkit-scrollbar, .box:active::-webkit-scrollbar {
-  display: block;
-}
 .box::-webkit-scrollbar {
-  display: none;
+  display: block;
   width: 6px;
 }
 .box::-webkit-scrollbar-thumb {
@@ -3256,11 +3251,8 @@ main {
   overflow: auto;
   transition: 200ms;
 }
-.sec-7 ul:hover::-webkit-scrollbar, .sec-7 ul:active::-webkit-scrollbar {
-  display: block;
-}
 .sec-7 ul::-webkit-scrollbar {
-  display: none;
+  display: block;
   width: 6px;
 }
 .sec-7 ul::-webkit-scrollbar-thumb {
@@ -4603,11 +4595,8 @@ ACCOUNT
   max-height: 400px;
   overflow-x: hidden;
 }
-.city .search-box:hover::-webkit-scrollbar, .city .search-box:active::-webkit-scrollbar {
-  display: block;
-}
 .city .search-box::-webkit-scrollbar {
-  display: none;
+  display: block;
   width: 6px;
 }
 .city .search-box::-webkit-scrollbar-thumb {

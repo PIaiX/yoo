@@ -165,12 +165,8 @@ $bp-xxl: 1399.98px;
 }
 @mixin scrollCustomized {
   transition: 200ms;
-  &:hover::-webkit-scrollbar,
-  &:active::-webkit-scrollbar {
-    display: block;
-  }
   &::-webkit-scrollbar {
-    display: none;
+    display: block;
     width: 6px;
   }
   &::-webkit-scrollbar-thumb {
@@ -567,7 +563,7 @@ input {
   width: fit-content;
   background-color: var(--bg-second);
   padding: 0.5em;
-  border-radius: 0.75em;
+  border-radius: 1em;
   @media (max-width: $bp-md) {
     width: 100%;
   }
@@ -577,15 +573,19 @@ input {
     .text {
       width: 100%;
       background-color: transparent;
-      border-radius: 0.25em;
+      border-radius: 0.5em;
+      font-weight: 500;
       padding: 0.7em 1em;
+      font-size: 0.9em;
       transition: background-color $transition;
       text-align: center;
     }
     input {
       display: none;
       &:checked + .text {
-        background-color: var(--bg-btn);
+        background-color: var(--bg-main);
+        font-weight: 600;
+        @include shadow();
       }
     }
   }
@@ -2569,7 +2569,7 @@ main {
         &:first-child {
           padding: 0em 2.5em 0em 1.5em;
         }
-        &:last-child {
+        &:nth-child(2) {
           padding: 0em 2.5em;
           margin-left: -2em;
         }
@@ -2594,19 +2594,19 @@ main {
           }
         }
         &.active {
-          background-color: var(--bg-btn);
+          background-color: var(--bg-second);
           color: $black;
           z-index: 2;
           .corner {
-            color: var(--bg-btn);
+            color: var(--bg-second);
           }
         }
       }
     }
     .box {
-      background-color: var(--bg-main);
+      background-color: var(--bg-second);
       padding: 0.75em;
-      border-radius: $radius;
+      border-radius: 0px $radius $radius $radius;
       ul {
         --mt: 5px;
         --h: 60px;
@@ -2663,20 +2663,18 @@ main {
 }
 .ingredient {
   @include flex(row, flex-start, center, nowrap);
-  background-color: var(--bg-second);
+  background-color: var(--bg-main);
   border-radius: $radius * 0.5;
-  padding: $radius * 0.5;
+  padding: 5px;
   border: 2px solid transparent;
-  @media (max-width: $bp-xxl) {
-    font-size: 0.9em;
-  }
+  font-size: 0.8em;
   &.active {
     background-color: var(--main-color-outline);
     border-color: var(--main-color);
   }
   &-img {
-    width: 2.5em;
-    height: 2.5em;
+    width: 2.3em;
+    height: 2.3em;
     object-fit: cover;
     border-radius: $radius * 0.25;
     margin-right: $radius * 0.5;
@@ -2686,7 +2684,8 @@ main {
     line-height: 100%;
   }
   &-price {
-    font-weight: 500;
+    font-weight: 700;
+    font-size: 0.9em;
     margin-left: $radius;
     text-align: right;
     @media (max-width: $bp-xxl) {

@@ -279,9 +279,9 @@ const Header = memo(() => {
             <ul className="text-menu d-none d-lg-flex">
               {options?.menu?.length > 0 ? (
                 options.menu.map(
-                  (e) =>
+                  (e, index) =>
                     e?.status && (
-                      <li>
+                      <li key={index}>
                         <Link
                           to={e?.link ?? e.page}
                           // className={e.type == "dark" ? "btn-primary" : ""}

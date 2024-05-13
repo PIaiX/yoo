@@ -17,8 +17,8 @@ const NavTop = memo(({ toBack = true, breadcrumbs = false }) => {
           <li>
             <Link to="/">Главная</Link>
           </li>
-          {breadcrumbs.map((e) => (
-            <li>
+          {breadcrumbs.map((e, index) => (
+            <li key={index}>
               <Link to={e.link}>{e.title}</Link>
             </li>
           ))}

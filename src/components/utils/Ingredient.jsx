@@ -2,7 +2,7 @@ import React, { memo } from "react";
 import { customPrice, getImageURL } from "../../helpers/all";
 
 const Ingredient = memo(({ data, active, onChange }) => {
-  const addition = data?.addition;
+  const addition = data;
 
   if (!addition) {
     return null;
@@ -21,13 +21,9 @@ const Ingredient = memo(({ data, active, onChange }) => {
         />
       )}
       <div className="ingredient-title">{addition?.title}</div>
-      {/* <button type="button" className="btn-90">
-        x1
-      </button>
-      <button type="button" className="btn-90">
-        x2
-      </button> */}
-      <div className="ingredient-price">{customPrice(addition.price)}</div>
+      {addition?.price > 0 && (
+        <div className="ingredient-price">{customPrice(addition.price)}</div>
+      )}
     </a>
   );
 });
