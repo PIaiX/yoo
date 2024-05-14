@@ -6,7 +6,7 @@ const IO_URL = "https://io.yooapp.ru";
 const DADATA_URL_STREET =
   "https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/address";
 const DADATA_URL_GEO =
-  "http://suggestions.dadata.ru/suggestions/api/4_1/rs/geolocate/address";
+  "https://suggestions.dadata.ru/suggestions/api/4_1/rs/geolocate/address";
 const DADATA_URL_ADDRESS =
   "https://suggestions.dadata.ru/suggestions/api/4_1/rs/findById/address";
 const DADATA_TOKEN = "6487a33dcdff42183e8f0c4aa3ad43acdc5a7b62";

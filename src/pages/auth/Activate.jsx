@@ -159,13 +159,10 @@ const Activate = () => {
             Подтвердить{" "}
             {options.authType == "email" ? "почту" : "номер телефона"}
           </button>
+          <button className="w-100 mt-4" onClick={() => dispatch(logout())}>
+            Выйти из аккаунта
+          </button>
         </Form>
-        <button
-          className="btn-white text-danger w-100 mt-4"
-          onClick={() => dispatch(logout())}
-        >
-          Выйти из аккаунта
-        </button>
       </div>
     </main>
   );

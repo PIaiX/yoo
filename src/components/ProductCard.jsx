@@ -11,36 +11,17 @@ const ProductCard = memo(({ data }) => {
   const themeProductImage = useSelector(
     (state) => state.settings?.options?.themeProductImage
   );
-  const modifiersData =
-    data?.modifiers?.length > 0
-      ? [...data.modifiers]
-          .sort((a, b) => a?.price - b?.price)
-          .reduce((acc, item) => {
-            const categoryId = item.categoryId ?? 0;
-            if (!acc[categoryId]) {
-              acc[categoryId] = [];
-            }
-            acc[categoryId].push(item);
-            return acc;
-          }, [])
+
+  const modifiers =
+    Array.isArray(data.modifiers) && data?.modifiers?.length > 0
+      ? [...data.modifiers].sort((a, b) => a?.price - b?.price)
       : [];
 
-  var modifiers = [];
-
-  if (modifiersData?.length > 0) {
-    modifiersData.forEach((e1) => {
-      let is = e1.find((e2) => e2?.main);
-      if (is) {
-        modifiers.push(is);
-      }
-    });
-  }
-
   const price =
-    modifiers?.length > 0
-      ? data.options.modifierPriceSum
-        ? modifiers.reduce((sum, item) => sum + item.price, 0) + data.price
-        : modifiers.reduce((sum, item) => sum + item.price, 0)
+    Array.isArray(modifiers) && modifiers?.length > 0 && modifiers[0]?.price
+      ? data?.options?.modifierPriceSum
+        ? modifiers[0].price + data.price
+        : modifiers[0].price
       : data.price;
 
   // const discount =
@@ -58,7 +39,7 @@ const ProductCard = memo(({ data }) => {
           themeProductImage == 1 ? "product-img rectangle" : "product-img"
         }
       >
-        <Link to={"/product/" + data?.id}>
+        <Link to={"/product/" + data?.id} state={data}>
           {data?.tags?.length > 0 && (
             <div className="p-2 position-absolute">
               <Tags data={data.tags} mini />
@@ -77,14 +58,6 @@ const ProductCard = memo(({ data }) => {
       <hr className="d-none d-md-block" />
 
       <div className="d-flex flex-column flex-md-row justify-content-between align-items-center">
-        {data?.energy?.weight > 0 && (
-          <div className="text-muted d-none d-md-block">
-            {customWeight({
-              value: data.energy.weight,
-              type: data.energy?.weightType,
-            })}
-          </div>
-        )}
         <div className="d-flex justify-content-between align-items-center mb-2 mb-md-0">
           <div>
             <div className="fs-12 fw-5">
@@ -99,6 +72,14 @@ const ProductCard = memo(({ data }) => {
             </div> */}
           </div>
         </div>
+        {data?.energy?.weight > 0 && (
+          <div className="text-muted d-none d-md-block">
+            {customWeight({
+              value: data.energy.weight,
+              type: data.energy?.weightType,
+            })}
+          </div>
+        )}
         <ButtonCart product={data} />
       </div>
     </div>

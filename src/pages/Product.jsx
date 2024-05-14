@@ -3,7 +3,8 @@ import { Col, Container, OverlayTrigger, Popover, Row } from "react-bootstrap";
 // import Notice from "../components/Notice";
 import Corner from "../components/svgs/Corner";
 import ProductCard from "../components/ProductCard";
-import Ingredient from "../components/utils/Ingredient";
+import Addition from "../components/utils/Addition";
+import Wish from "../components/utils/Wish";
 // swiper
 import { Navigation } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -25,8 +26,11 @@ import Loader from "../components/utils/Loader";
 import NavTop from "../components/utils/NavTop";
 import { customPrice, customWeight, getImageURL } from "../helpers/all";
 import { getProduct } from "../services/product";
+import { useLocation } from "react-router-dom";
 
 const Product = () => {
+  const { state } = useLocation();
+
   const { productId } = useParams();
   const multiBrand = useSelector((state) => state.settings.options.multiBrand);
   const selectedAffiliate = useSelector((state) => state.affiliate.active);
@@ -49,11 +53,43 @@ const Product = () => {
       },
     },
   });
-  console.log(data.cart.data.modifiers);
+
   const [prices, setPrices] = useState({
     price: 0,
     discount: 0,
   });
+
+  const updateProduct = (res) => {
+    const modifiers =
+      Array.isArray(res?.modifiers) && res?.modifiers?.length > 0
+        ? [...res.modifiers]
+            .sort((a, b) => a?.price - b?.price)
+            .reduce((acc, item) => {
+              const categoryId = item?.categoryId ?? 0;
+              if (!acc[categoryId]) {
+                acc[categoryId] = [];
+              }
+              acc[categoryId].push(item);
+              return acc;
+            }, [])
+        : [];
+
+    data.cart.data.modifiers = [];
+    if (Array.isArray(modifiers) && modifiers?.length > 0) {
+      modifiers.forEach((e1) => {
+        let is = e1.find((e2) => e2?.main);
+        if (is) {
+          data.cart.data.modifiers.push(is);
+        }
+      });
+    }
+    if (res?.modifiers?.length > 0) {
+      res.modifiers = modifiers;
+    }
+
+    setProduct((data) => ({ ...data, item: res }));
+    setData(data);
+  };
 
   useLayoutEffect(() => {
     getProduct({
@@ -63,34 +99,8 @@ const Product = () => {
       type: "site",
     })
       .then((res) => {
-        const modifiers =
-          res?.modifiers?.length > 0
-            ? [...res.modifiers]
-                .sort((a, b) => a?.price - b?.price)
-                .reduce((acc, item) => {
-                  const categoryId = item.categoryId ?? 0;
-                  if (!acc[categoryId]) {
-                    acc[categoryId] = [];
-                  }
-                  acc[categoryId].push(item);
-                  return acc;
-                }, [])
-            : [];
-
-        data.cart.data.modifiers = [];
-        if (modifiers?.length > 0) {
-          modifiers.forEach((e1) => {
-            let is = e1.find((e2) => e2?.main);
-            if (is) {
-              data.cart.data.modifiers.push(is);
-            }
-          });
-        }
-        res.modifiers = modifiers;
-
-        setProduct({ loading: false, item: res });
-
-        setData(data);
+        updateProduct(res);
+        setProduct((data) => ({ ...data, loading: false }));
       })
       .catch(() => setProduct((data) => ({ ...data, loading: false })));
   }, [productId]);
@@ -101,7 +111,7 @@ const Product = () => {
       let discount = 0;
 
       if (data.cart.data?.modifiers?.length > 0) {
-        if (product.item.options.modifierPriceSum) {
+        if (product.item?.options?.modifierPriceSum) {
           price +=
             data.cart.data.modifiers.reduce(
               (sum, item) => sum + item.price,
@@ -118,7 +128,7 @@ const Product = () => {
       }
 
       if (data.cart.data?.modifiers?.length > 0) {
-        if (product.item.options.modifierPriceSum) {
+        if (product.item?.options?.modifierPriceSum) {
           discount +=
             data.cart.data.modifiers.reduce(
               (sum, item) => sum + item.discount,
@@ -374,7 +384,7 @@ const Product = () => {
                         sm={3}
                         lg={3}
                         xl={4}
-                        className={isRemove ? "d-none" : "d-block"}
+                        className={isRemove ? "d-none" : "d-flex"}
                       >
                         {product.item?.additions?.length > 0 &&
                           product.item.additions.map((e) => {
@@ -399,7 +409,7 @@ const Product = () => {
                             };
                             return (
                               <Col>
-                                <Ingredient
+                                <Addition
                                   key={e.id}
                                   data={e}
                                   active={isAddition()}
@@ -440,7 +450,7 @@ const Product = () => {
                             };
                             return (
                               <li>
-                                <Ingredient
+                                <Wish
                                   data={e}
                                   active={isAddition()}
                                   onChange={onPressAddition}

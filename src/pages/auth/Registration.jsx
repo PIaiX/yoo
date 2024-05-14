@@ -2,7 +2,7 @@ import React, {
   useState,
   useRef,
   useCallback,
-  useLayoutEffect,
+  useEffect,
   useMemo,
 } from "react";
 import Container from "react-bootstrap/Container";
@@ -43,7 +43,7 @@ const Registration = () => {
     fill: "forwards",
   };
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     if (isAuth) {
       if (user?.id && user?.status === 0) {
         return navigate("/activate");
@@ -74,14 +74,17 @@ const Registration = () => {
   const onSubmitReg = useCallback(
     (data) => {
       authRegister(data)
-        .then((res) => {
+        .then(async (res) => {
           NotificationManager.success(
-            "Завершите регистрацию, подтвердив почту"
+            "Завершите регистрацию " +
+              (options.authType == "email"
+                ? "подтвердив почту"
+                : "подтвердив номер телефона")
           );
           if (res?.id) {
-            dispatch(login(data));
+            await dispatch(login(data));
+            navigate("/activate");
           }
-          navigate("/activate");
         })
         .catch((error) =>
           NotificationManager.error(

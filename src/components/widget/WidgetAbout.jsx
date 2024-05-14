@@ -14,6 +14,7 @@ const WidgetAbout = memo((data) => {
           {data?.media && (
             <Col md={6}>
               <img
+                className="rounded-3"
                 width="100%"
                 src={getImageURL({
                   path: data.media,

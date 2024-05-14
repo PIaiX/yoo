@@ -1,7 +1,7 @@
 import React, { memo } from "react";
 import { customPrice, getImageURL } from "../../helpers/all";
 
-const Ingredient = memo(({ data, active, onChange }) => {
+const Addition = memo(({ data, active, onChange }) => {
   const addition = data;
 
   if (!addition) {
@@ -27,4 +27,4 @@ const Ingredient = memo(({ data, active, onChange }) => {
   );
 });
 
-export default Ingredient;
+export default Addition;

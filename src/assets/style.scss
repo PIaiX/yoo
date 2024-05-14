@@ -1765,6 +1765,21 @@ main {
         height: 140px;
       }
     }
+    .big {
+      height: 520px;
+      @media (max-width: $bp-xxl) {
+        height: 420px;
+      }
+      @media (max-width: $bp-lg) {
+        height: 280px;
+      }
+      @media (max-width: $bp-md) {
+        height: 220px;
+      }
+      @media (max-width: $bp-sm) {
+        height: 200px;
+      }
+    }
   }
 }
 
@@ -2569,11 +2584,11 @@ main {
     position: sticky;
     top: 10px;
     width: 100%;
-    max-height: 400px;
+    max-height: 450px;
     object-fit: contain;
     border-radius: $radius;
     @media (max-width: $bp-xxl) {
-      height: 400px;
+      height: 450px;
     }
     @media (max-width: $bp-xl) {
       height: 215px;
@@ -2702,6 +2717,7 @@ main {
   background-color: var(--bg-main);
   border-radius: $radius * 0.5;
   padding: 7px;
+  margin-bottom: 10px;
   border: 2px solid transparent;
   font-size: 0.8em;
   &.active {
@@ -2719,6 +2735,33 @@ main {
     flex: 1;
     line-height: 100%;
     margin-bottom: 7px;
+    font-size: 13px;
+  }
+  &-price {
+    font-weight: 700;
+    font-size: 0.9em;
+  }
+  button {
+    padding: 0.33em 0.6em;
+    margin-left: $radius * 0.5;
+  }
+}
+
+.wish {
+  @include flex(row, flex-start, center, nowrap);
+  @include shadow();
+  background-color: var(--bg-main);
+  border-radius: $radius * 0.5;
+  padding: 12px;
+  border: 2px solid transparent;
+  font-size: 0.8em;
+  &.active {
+    background-color: var(--main-color-outline);
+    border-color: var(--main-color);
+  }
+  &-title {
+    flex: 1;
+    line-height: 100%;
     font-size: 13px;
   }
   &-price {

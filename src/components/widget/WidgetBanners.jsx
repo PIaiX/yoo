@@ -7,11 +7,18 @@ const WidgetBanners = memo((data) => {
   if (!data?.items || data?.items?.length === 0) {
     return null;
   }
+
   return (
     <section className="sec-1 my-3">
       <div className="container">
         <div className="row justify-content-center">
-          <div className="col-12 col-md-11 col-lg-9 col-xl-8">
+          <div
+            className={
+              data?.size === "big"
+                ? "col-12"
+                : "col-12 col-md-11 col-lg-9 col-xl-8"
+            }
+          >
             <Swiper
               className="main-slider paginated"
               modules={[Pagination]}
@@ -33,7 +40,9 @@ const WidgetBanners = memo((data) => {
                       size: "full",
                     })}
                     alt={e?.title}
-                    className="img-fluid"
+                    className={
+                      data?.size === "big" ? "img-fluid big" : "img-fluid"
+                    }
                   />
                 </SwiperSlide>
               ))}
