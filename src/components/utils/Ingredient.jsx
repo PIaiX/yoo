@@ -13,13 +13,12 @@ const Ingredient = memo(({ data, active, onChange }) => {
       className={"ingredient" + (active ? " active" : "")}
       onClick={() => onChange(addition)}
     >
-      {addition?.media && (
-        <img
-          src={getImageURL({ path: addition.media, type: "addition" })}
-          alt={addition?.title}
-          className="ingredient-img"
-        />
-      )}
+      <img
+        src={getImageURL({ path: addition?.media, type: "addition" })}
+        alt={addition?.title}
+        className="ingredient-img"
+      />
+
       <div className="ingredient-title">{addition?.title}</div>
       {addition?.price > 0 && (
         <div className="ingredient-price">{customPrice(addition.price)}</div>

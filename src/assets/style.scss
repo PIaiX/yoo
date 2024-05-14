@@ -2422,7 +2422,7 @@ main {
     }
     margin-bottom: 1em;
     @media (max-width: $bp-xxl) {
-      height: 230px;
+      height: 280px;
     }
     @media (max-width: $bp-xl) {
       height: 210px;
@@ -2440,7 +2440,7 @@ main {
       object-position: center;
       border-radius: $radius;
       @media (max-width: $bp-xxl) {
-        height: 230px;
+        height: 280px;
       }
       @media (max-width: $bp-xl) {
         height: 210px;
@@ -2450,6 +2450,37 @@ main {
       }
       @media (max-width: $bp-sm) {
         height: 43vw;
+      }
+    }
+
+    &.rectangle {
+      height: 200px;
+      @media (max-width: $bp-xxl) {
+        height: 200px;
+      }
+      @media (max-width: $bp-xl) {
+        height: 160px;
+      }
+      @media (max-width: $bp-md) {
+        height: 120px;
+      }
+      @media (max-width: $bp-sm) {
+        height: 32vw;
+      }
+      img {
+        height: 200px;
+        @media (max-width: $bp-xxl) {
+          height: 200px;
+        }
+        @media (max-width: $bp-xl) {
+          height: 160px;
+        }
+        @media (max-width: $bp-md) {
+          height: 120px;
+        }
+        @media (max-width: $bp-sm) {
+          height: 32vw;
+        }
       }
     }
   }
@@ -2535,12 +2566,14 @@ main {
     }
   }
   &-img {
+    position: sticky;
+    top: 10px;
     width: 100%;
-    max-height: 320px;
-    object-fit: scale-down;
+    max-height: 400px;
+    object-fit: contain;
     border-radius: $radius;
     @media (max-width: $bp-xxl) {
-      height: 260px;
+      height: 400px;
     }
     @media (max-width: $bp-xl) {
       height: 215px;
@@ -2662,10 +2695,13 @@ main {
   }
 }
 .ingredient {
-  @include flex(row, flex-start, center, nowrap);
+  @include flex(column, center, center, nowrap);
+  @include shadow();
+  text-align: center;
+  align-self: center;
   background-color: var(--bg-main);
   border-radius: $radius * 0.5;
-  padding: 5px;
+  padding: 7px;
   border: 2px solid transparent;
   font-size: 0.8em;
   &.active {
@@ -2673,24 +2709,21 @@ main {
     border-color: var(--main-color);
   }
   &-img {
-    width: 2.3em;
-    height: 2.3em;
-    object-fit: cover;
+    width: 5em;
+    height: 5em;
+    object-fit: contain;
+    align-self: center;
     border-radius: $radius * 0.25;
-    margin-right: $radius * 0.5;
   }
   &-title {
     flex: 1;
     line-height: 100%;
+    margin-bottom: 7px;
+    font-size: 13px;
   }
   &-price {
     font-weight: 700;
     font-size: 0.9em;
-    margin-left: $radius;
-    text-align: right;
-    @media (max-width: $bp-xxl) {
-      margin-left: $radius * 0.5;
-    }
   }
   button {
     padding: 0.33em 0.6em;

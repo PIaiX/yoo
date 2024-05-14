@@ -1,5 +1,6 @@
 import React, { memo } from "react";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import { customPrice, customWeight, getImageURL } from "../helpers/all";
 import ButtonCart from "./ButtonCart";
@@ -7,6 +8,9 @@ import Tags from "./Tags";
 // import BtnFav from "./utils/BtnFav";
 
 const ProductCard = memo(({ data }) => {
+  const themeProductImage = useSelector(
+    (state) => state.settings?.options?.themeProductImage
+  );
   const modifiersData =
     data?.modifiers?.length > 0
       ? [...data.modifiers]
@@ -39,17 +43,21 @@ const ProductCard = memo(({ data }) => {
         : modifiers.reduce((sum, item) => sum + item.price, 0)
       : data.price;
 
-  const discount =
-    modifiers?.length > 0
-      ? data.options.modifierPriceSum
-        ? modifiers.reduce((sum, item) => sum + item.discount, 0) +
-          data.discount
-        : modifiers.reduce((sum, item) => sum + item.discount, 0)
-      : data.discount;
+  // const discount =
+  //   modifiers?.length > 0
+  //     ? data.options.modifierPriceSum
+  //       ? modifiers.reduce((sum, item) => sum + item.discount, 0) +
+  //         data.discount
+  //       : modifiers.reduce((sum, item) => sum + item.discount, 0)
+  //     : data.discount;
 
   return (
     <div className="product" key={data?.id}>
-      <div className="product-img">
+      <div
+        className={
+          themeProductImage == 1 ? "product-img rectangle" : "product-img"
+        }
+      >
         <Link to={"/product/" + data?.id}>
           {data?.tags?.length > 0 && (
             <div className="p-2 position-absolute">
@@ -69,7 +77,7 @@ const ProductCard = memo(({ data }) => {
       <hr className="d-none d-md-block" />
 
       <div className="d-flex flex-column flex-md-row justify-content-between align-items-center">
-        {data.energy.weight > 0 && (
+        {data?.energy?.weight > 0 && (
           <div className="text-muted d-none d-md-block">
             {customWeight({
               value: data.energy.weight,

@@ -6,6 +6,7 @@ import Input from "./Input";
 const Select = memo(
   ({ value, title, search, data, label, className, onClick, disabled }) => {
     const [searchData, setSearchData] = useState([]);
+    const [localValue, setLocalValue] = useState(value ?? null);
 
     const onSearch = useCallback(
       (text) => {
@@ -28,7 +29,13 @@ const Select = memo(
     );
 
     const CustomToggle = React.forwardRef(({ onClick }, ref) => {
-      let item = data.find((e) => e.value === value || e.title === value);
+      let item = localValue?.id
+        ? data.find(
+            (e) => e.value.id === localValue?.id || e.id === localValue?.id
+          )
+        : localValue &&
+          data.find((e) => e.value === localValue || e.title === localValue);
+
       let titleFind = item?.title ?? title ?? "Выберите элемент";
 
       return (
@@ -49,9 +56,7 @@ const Select = memo(
             <span
               className={
                 "d-flex align-items-center flex-row " +
-                (!data.find((e) => e.value === value || e.title === value)
-                  ? "text-muted"
-                  : "")
+                (!item ? "text-muted" : "")
               }
             >
               {item?.image && (
@@ -84,8 +89,17 @@ const Select = memo(
             ? searchData.map((e, index) => (
                 <Dropdown.Item
                   key={index}
-                  active={e.value === value ?? e.title === value ?? e.main}
-                  onClick={() => onClick && onClick(e)}
+                  active={
+                    localValue?.id && e.value?.id
+                      ? e.value.id === localValue.id
+                      : e.value === localValue ??
+                        e.title === localValue ??
+                        e.main
+                  }
+                  onClick={() => {
+                    onClick && onClick(e);
+                    setLocalValue(e?.value ?? e);
+                  }}
                   className="d-flex align-items-center flex-row"
                 >
                   {image && (
@@ -103,8 +117,17 @@ const Select = memo(
               data.map((e, index) => (
                 <Dropdown.Item
                   key={index}
-                  active={e.value === value ?? e.title === value ?? e.main}
-                  onClick={() => onClick && onClick(e)}
+                  active={
+                    localValue?.id && e.value?.id
+                      ? e.value.id === localValue.id
+                      : e.value === localValue ??
+                        e.title === localValue ??
+                        e.main
+                  }
+                  onClick={() => {
+                    onClick && onClick(e);
+                    setLocalValue(e?.value ?? e);
+                  }}
                   className="d-flex align-items-center flex-row"
                 >
                   {e?.image && (

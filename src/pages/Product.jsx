@@ -7,7 +7,7 @@ import Ingredient from "../components/utils/Ingredient";
 // swiper
 import { Navigation } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
-// icons & images
+import Select from "../components/utils/Select";
 import {
   HiMinus,
   HiOutlineInformationCircle,
@@ -49,7 +49,7 @@ const Product = () => {
       },
     },
   });
-
+  console.log(data.cart.data.modifiers);
   const [prices, setPrices] = useState({
     price: 0,
     discount: 0,
@@ -185,37 +185,14 @@ const Product = () => {
 
         <form className="productPage mb-5">
           <Row className="gx-4 gx-xxl-5">
-            <Col
-              xs={12}
-              md={4}
-              lg={
-                product?.item?.additions?.length > 0 ||
-                product?.item?.wishes?.length > 0
-                  ? 3
-                  : 5
-              }
-            >
+            <Col xs={12} md={5} lg={6}>
               <img
                 src={getImageURL({ path: product.item.medias, size: "full" })}
                 alt={product.item.title}
                 className="productPage-img"
               />
             </Col>
-            <Col
-              xs={12}
-              md={
-                product?.item?.additions?.length > 0 ||
-                product?.item?.wishes?.length > 0
-                  ? 4
-                  : 7
-              }
-              lg={
-                product?.item?.additions?.length > 0 ||
-                product?.item?.wishes?.length > 0
-                  ? 5
-                  : 7
-              }
-            >
+            <Col xs={12} md={7} lg={6}>
               <div className="d-flex align-items-center justify-content-between justify-content-md-start mb-4">
                 <h1 className="mb-0">{product.item.title}</h1>
                 {product.item.energy.weight > 0 && (
@@ -272,37 +249,64 @@ const Product = () => {
                 product.item.modifiers.map((modifier) => (
                   <>
                     <div className="d-xxl-flex mb-4">
-                      <ul className="inputGroup d-flex w-100">
-                        {modifier.map((e, index) => (
-                          <li className="d-flex text-center w-100">
-                            <label>
-                              <input
-                                type="radio"
-                                name={e.categoryId ?? 0}
-                                defaultChecked={index === 0}
-                                onChange={() => {
-                                  let newData = { ...data };
-                                  let isModifierIndex =
-                                    newData.cart.data.modifiers.findIndex(
-                                      (item) =>
-                                        item?.categoryId === e.categoryId ||
-                                        item?.categoryId === 0
-                                    );
-                                  if (isModifierIndex != -1) {
-                                    newData.cart.data.modifiers[
-                                      isModifierIndex
-                                    ] = e;
-                                  } else {
-                                    newData.cart.data.modifiers.push(e);
-                                  }
-                                  setData(newData);
-                                }}
-                              />
-                              <div className="text">{e.title}</div>
-                            </label>
-                          </li>
-                        ))}
-                      </ul>
+                      {modifier?.length > 3 ? (
+                        <Select
+                          data={modifier.map((e) => ({
+                            title: e.title,
+                            value: e,
+                          }))}
+                          onClick={(e) => {
+                            let newData = { ...data };
+                            let isModifierIndex =
+                              newData.cart.data.modifiers.findIndex(
+                                (item) =>
+                                  item?.categoryId === e.value.categoryId ||
+                                  item?.categoryId === 0
+                              );
+                            if (isModifierIndex != -1) {
+                              newData.cart.data.modifiers[isModifierIndex] =
+                                e.value;
+                            } else {
+                              newData.cart.data.modifiers.push(e.value);
+                            }
+                            setData(newData);
+                          }}
+                        />
+                      ) : (
+                        modifier?.length > 0 && (
+                          <ul className="inputGroup d-flex w-100">
+                            {modifier.map((e, index) => (
+                              <li className="d-flex text-center w-100">
+                                <label>
+                                  <input
+                                    type="radio"
+                                    name={e.categoryId ?? 0}
+                                    defaultChecked={index === 0}
+                                    onChange={() => {
+                                      let newData = { ...data };
+                                      let isModifierIndex =
+                                        newData.cart.data.modifiers.findIndex(
+                                          (item) =>
+                                            item?.categoryId === e.categoryId ||
+                                            item?.categoryId === 0
+                                        );
+                                      if (isModifierIndex != -1) {
+                                        newData.cart.data.modifiers[
+                                          isModifierIndex
+                                        ] = e;
+                                      } else {
+                                        newData.cart.data.modifiers.push(e);
+                                      }
+                                      setData(newData);
+                                    }}
+                                  />
+                                  <div className="text">{e.title}</div>
+                                </label>
+                              </li>
+                            ))}
+                          </ul>
+                        )
+                      )}
                     </div>
                   </>
                 ))}
@@ -326,12 +330,11 @@ const Product = () => {
                   <HiOutlineShoppingBag className="fs-15 ms-2" />
                 </ButtonCart>
               </div>
-            </Col>
-            {(product?.item?.additions?.length > 0 ||
-              product?.item?.wishes?.length > 0) && (
-              <Col xs={12} md={5} lg={4} className="mt-3 mt-sm-4 mt-md-0">
-                <>
-                  <h6>Изменить по вкусу</h6>
+
+              {(product?.item?.additions?.length > 0 ||
+                product?.item?.wishes?.length > 0) && (
+                <div className="mt-5">
+                  {/* <h6>Изменить по вкусу</h6> */}
                   <div className="productPage-edit mb-3">
                     <div className="top">
                       {product.item?.additions?.length > 0 && (
@@ -367,7 +370,12 @@ const Product = () => {
                       )}
                     </div>
                     <div className="box bg-gray">
-                      <ul className={isRemove ? "d-none" : "d-block"}>
+                      <Row
+                        sm={3}
+                        lg={3}
+                        xl={4}
+                        className={isRemove ? "d-none" : "d-block"}
+                      >
                         {product.item?.additions?.length > 0 &&
                           product.item.additions.map((e) => {
                             const isAddition = () =>
@@ -390,21 +398,22 @@ const Product = () => {
                               }
                             };
                             return (
-                              <li>
+                              <Col>
                                 <Ingredient
+                                  key={e.id}
                                   data={e}
                                   active={isAddition()}
                                   onChange={onPressAddition}
                                 />
-                              </li>
+                              </Col>
                             );
                           })}
-                      </ul>
+                      </Row>
                       <ul
                         className={
                           isRemove
                             ? "d-block"
-                            : product.item?.additions?.length === 0
+                            : product.item?.wishes?.length === 0
                             ? "d-block"
                             : "d-none"
                         }
@@ -442,11 +451,9 @@ const Product = () => {
                       </ul>
                     </div>
                   </div>
-                </>
-
-                {/* <Notice /> */}
-              </Col>
-            )}
+                </div>
+              )}
+            </Col>
           </Row>
         </form>
         {product?.item?.recommends?.length > 0 && (

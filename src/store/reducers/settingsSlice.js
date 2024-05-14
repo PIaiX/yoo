@@ -23,6 +23,7 @@ const initialState = {
         colorMainBg: "#4caf50",
         giftVisible: false,
         promoVisible: true,
+        themeProductImage: 0,
         themeProduct: 0,
         themeAddition: 0,
         profilePointVisible: true,
