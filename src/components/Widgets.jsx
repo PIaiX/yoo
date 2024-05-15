@@ -13,25 +13,25 @@ import Catalog from "./Catalog";
 const Widgets = memo(({ data }) => {
   return data?.length > 0
     ? data.map((e) =>
-        e.value == "services" ? (
+        e?.value == "services" ? (
           <WidgetServices {...e} />
-        ) : e.value == "hello" ? (
+        ) : e?.value == "hello" ? (
           <WidgetHello {...e} />
-        ) : e.value == "stories" ? (
+        ) : e?.value == "stories" ? (
           <WidgetStories {...e} />
-        ) : e.value == "menu" ? (
+        ) : e?.value == "menu" ? (
           <Catalog data={e.items} />
-        ) : e.value == "projects" ? (
+        ) : e?.value == "projects" ? (
           <WidgetProjects {...e} />
-        ) : e.value == "about" ? (
+        ) : e?.value == "about" ? (
           <WidgetAbout {...e} />
-        ) : e.value == "popular" ? (
+        ) : e?.value == "popular" ? (
           <WidgetPopular {...e} />
-        ) : e.value == "blogs" ? (
+        ) : e?.value == "blogs" ? (
           <WidgetBlogs {...e} />
-        ) : e.value == "banners" ? (
+        ) : e?.value == "banners" ? (
           <WidgetBanners {...e} />
-        ) : e.value == "sales" ? (
+        ) : e?.value == "sales" ? (
           <WidgetSales {...e} />
         ) : null
       )
