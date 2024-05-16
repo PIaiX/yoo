@@ -136,11 +136,7 @@ const Checkout = () => {
       comment: checkout?.data?.comment ?? "",
 
       address: address ? address.find((e) => e.main) : false,
-      affiliateId: checkout?.data?.affiliateId
-        ? checkout.data.affiliateId
-        : selectedAffiliate?.id
-        ? selectedAffiliate.id
-        : false,
+      affiliateId: selectedAffiliate?.id ? selectedAffiliate.id : false,
 
       // Сохранение адреса по умолчанию
       save: checkout?.data?.save ?? false,
