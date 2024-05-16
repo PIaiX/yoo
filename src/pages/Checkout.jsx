@@ -5,6 +5,7 @@ import React, {
   useLayoutEffect,
   useState,
 } from "react";
+import { Button } from "react-bootstrap";
 import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
@@ -96,7 +97,7 @@ const Checkout = () => {
   const affiliate = useSelector((state) => state.affiliate.items);
   const selectedAffiliate = useSelector((state) => state.affiliate.active);
   const options = useSelector((state) => state.settings.options);
-
+  console.log(selectedAffiliate.options);
   const {
     total = 0,
     price = 0,
@@ -135,8 +136,10 @@ const Checkout = () => {
       comment: checkout?.data?.comment ?? "",
 
       address: address ? address.find((e) => e.main) : false,
-      affiliateId: selectedAffiliate.active
-        ? selectedAffiliate.active.id
+      affiliateId: checkout?.data?.affiliateId
+        ? checkout.data.affiliateId
+        : selectedAffiliate?.id
+        ? selectedAffiliate.id
         : false,
 
       // Сохранение адреса по умолчанию
@@ -178,6 +181,7 @@ const Checkout = () => {
   const data = useWatch({ control });
 
   const isValidBtn = () =>
+    isLoading ||
     !isValid ||
     !user?.id ||
     (checkout.delivery === "delivery" && zone?.data?.minPrice > price);
@@ -559,16 +563,25 @@ const Checkout = () => {
                       validation={{
                         min: {
                           value: moment()
-                            .add(2, "hours")
+                            .add(
+                              selectedAffiliate?.options?.preorderMin ?? 90,
+                              "minutes"
+                            )
                             .format("YYYY-MM-DDTkk:mm"),
-                          message:
-                            "Время подачи заказа не менее чем через 2 часа",
+                          message: `Время подачи заказа не менее чем через ${
+                            selectedAffiliate?.options?.preorderMin ?? 90
+                          } мин`,
                         },
                         max: {
                           value: moment()
-                            .add(1, "year")
+                            .add(
+                              selectedAffiliate?.options?.preorderMax ?? 30,
+                              "days"
+                            )
                             .format("YYYY-MM-DDTkk:mm"),
-                          message: "Максимальное время подачи не более 1 года",
+                          message: `Максимальное время подачи не более ${
+                            selectedAffiliate?.options?.preorderMax ?? 30
+                          } д`,
                         },
                       }}
                     />
@@ -631,7 +644,9 @@ const Checkout = () => {
                       <b>
                         Потратить {customPrice(pointCheckout, false)} баллов
                       </b>
-                      <p className="fs-09 text-muted">У вас всего {customPrice(user.point, false)} баллов</p>
+                      <p className="fs-09 text-muted">
+                        У вас всего {customPrice(user.point, false)} баллов
+                      </p>
                     </a>
                   </div>
                   <div>
@@ -725,14 +740,14 @@ const Checkout = () => {
                     {customPrice(zone?.data.minPrice)}
                   </div>
                 )}
-              <button
+              <Button
                 type="submit"
                 disabled={isValidBtn()}
-                className="btn-primary mt-3 w-100"
+                className="btn-primary mt-3 fw-6 w-100"
                 onClick={handleSubmit(onSubmit)}
               >
-                <span className="fw-4">Оформить заказ</span>
-              </button>
+                Оформить заказ
+              </Button>
             </Col>
           </Row>
         </form>

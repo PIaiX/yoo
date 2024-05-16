@@ -46,9 +46,11 @@ const ProductCard = memo(({ data }) => {
             </div>
           )}
           <LazyLoadImage
+            wrapperClassName="d-flex"
             src={getImageURL({ path: data?.medias })}
             alt={data.title}
             loading="lazy"
+            effect="blur"
           />
         </Link>
       </div>

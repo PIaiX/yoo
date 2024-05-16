@@ -140,7 +140,21 @@ const Select = memo(
                   )}
                   <div>
                     <p className={e.desc ? "fw-6" : ""}>{e.title}</p>
-                    {e.desc && <p className="text-muted fs-08">{e.desc}</p>}
+                    {e.desc && (
+                      <p
+                        className={
+                          localValue?.id && e.value?.id
+                            ? e.value.id === localValue.id
+                            : e.value === localValue ??
+                              e.title === localValue ??
+                              e.main
+                            ? "fs-08"
+                            : "text-muted fs-08"
+                        }
+                      >
+                        {e.desc}
+                      </p>
+                    )}
                   </div>
                 </Dropdown.Item>
               ))}

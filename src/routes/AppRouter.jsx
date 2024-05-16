@@ -28,6 +28,7 @@ import About from "../pages/About";
 import Blog from "../pages/Blog";
 import Blogs from "../pages/Blogs";
 import Categories from "../pages/Categories";
+import Search from "../pages/Search";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -39,6 +40,7 @@ const router = createBrowserRouter(
       <Route path="product/:productId" element={<Product />} />
       <Route path="cart" element={<Cart />} errorElement={<Error />} />
       <Route path="checkout" element={<Checkout />} errorElement={<Error />} />
+      <Route path="search" element={<Search />} />
       <Route path="promo" element={<Promo />} />
       <Route path="promo/:saleId" element={<OfferPage />} />
       <Route path="contact" element={<Contact />} />

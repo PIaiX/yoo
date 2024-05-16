@@ -290,7 +290,7 @@ const Cart = () => {
                 }
                 className="btn-primary w-100"
               >
-                <span className="fw-4">
+                <span className="fw-6">
                   {user?.id
                     ? address?.length === 0 && stateDelivery == "delivery"
                       ? "Добавить адрес"

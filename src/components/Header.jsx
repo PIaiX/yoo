@@ -5,9 +5,11 @@ import { Col, Modal, Row } from "react-bootstrap";
 import Container from "react-bootstrap/Container";
 import Offcanvas from "react-bootstrap/Offcanvas";
 import {
+  HiMagnifyingGlassCircle,
   HiOutlineArrowLeftCircle,
   HiOutlineDevicePhoneMobile,
   HiOutlineHeart,
+  HiOutlineMagnifyingGlass,
   HiOutlineShoppingBag,
   HiOutlineUserCircle,
 } from "react-icons/hi2";
@@ -321,6 +323,11 @@ const Header = memo(() => {
 
             <ul className="icons-menu">
               <li className="d-none d-lg-block">
+                <Link to="/search">
+                  <HiOutlineMagnifyingGlass size={25} />
+                </Link>
+              </li>
+              <li className="d-none d-lg-block">
                 <Link
                   to={
                     isAuth
@@ -398,121 +405,63 @@ const Header = memo(() => {
       >
         <Offcanvas.Body>
           <Container className="h-100">
-            {isContacts ? (
-              <div className="h-100 d-flex flex-column justify-content-between">
-                <div>
-                  <div className="d-flex mb-4">
-                    <button
-                      type="button"
-                      onClick={() => setIsContacts(false)}
-                      className="main-color-60 fs-12 d-flex align-items-center"
-                    >
-                      <HiOutlineArrowLeftCircle className="fs-14" />
-                      <span className="ms-1">Назад</span>
-                    </button>
-                    <h5 className="flex-1 text-center fs-12 fw-6 mb-0 me-5">
-                      Контакты
-                    </h5>
-                  </div>
-                  <h5 className="fs-12 fw-6 mb-4">
-                    ООО “Вкусные решения”, г. Казань
-                  </h5>
-                  <div className="box fs-12">
-                    <ul className="list-unstyled">
-                      <li className="mb-4">
-                        <h6 className="mb-2">Авиастроительный</h6>
-                        <address className="mb-2">
-                          <span className="main-color">•</span> ул. Белинского,
-                          1
-                        </address>
-                        <p className="main-color mt-2">Доставка и самовывоз</p>
-                        <p>08:00 — 00:00</p>
-                        <p className="main-color mt-2">Ресторан</p>
-                        <p>08:00 — 00:00</p>
-                      </li>
-                    </ul>
-                    <button type="button" className="btn-green rounded w-100">
-                      Посмотреть на карте
-                    </button>
-                  </div>
-                </div>
-
-                <div>
-                  <button
-                    type="button"
-                    className="fs-12 btn-6 w-100 rounded justify-content-start mt-3"
-                  >
-                    <IoCall className="fs-15 me-2" />
-                    <span>Позвонить</span>
-                  </button>
-                  <button
-                    type="button"
-                    className="fs-12 btn-secondary w-100 rounded justify-content-start mt-2"
-                  >
-                    <IoLogoWhatsapp className="fs-15 me-2" />
-                    <span>Написать в WhatsApp</span>
-                  </button>
-                </div>
-              </div>
-            ) : (
-              <>
-                {banners?.data?.items?.length > 0 && (
-                  <img
-                    src={getImageURL({
-                      path: banners.data.items[0].medias,
-                      type: "banner",
-                      size: "full",
-                    })}
-                    alt="Большие пиццы"
-                    className="menu-offer"
-                  />
-                )}
-                <Select
-                  className="my-3"
-                  data={[
-                    {
-                      value: "delivery",
-                      title: "Доставка",
-                    },
-                    {
-                      value: "pickup",
-                      title: "Самовывоз",
-                    },
-                  ]}
-                  value={delivery}
-                  onClick={(e) => dispatch(editDeliveryCheckout(e.value))}
-                />
-                <nav>
-                  <ul>
-                    <li>
-                      <Link to="/contact" onClick={() => setShowMenu(false)}>
-                        <MenuPhone />
-                        <span>Контакты</span>
-                      </Link>
-                    </li>
-                    <li>
-                      <Link to="/contact" onClick={() => setShowMenu(false)}>
-                        <MenuDelivery />
-                        <span>Оплата и доставка</span>
-                      </Link>
-                    </li>
-                    <li>
-                      <Link to="/policy" onClick={() => setShowMenu(false)}>
-                        <MenuDocs />
-                        <span>Политика конфиденциальности</span>
-                      </Link>
-                    </li>
-                  </ul>
-                </nav>
-                <a href="https://yooapp.ru/" target="_blank">
-                  <p className="gray text-center mt-4 mt-md-5">
-                    Разработано на платформе
-                  </p>
-                  <p className="text-center mt-2">
-                    <YooApp />
-                  </p>
-                </a>
-              </>
+            {banners?.data?.items?.length > 0 && (
+              <img
+                src={getImageURL({
+                  path: banners.data.items[0].medias,
+                  type: "banner",
+                  size: "full",
+                })}
+                alt="Большие пиццы"
+                className="menu-offer"
+              />
+            )}
+            <Select
+              className="my-3"
+              data={[
+                {
+                  value: "delivery",
+                  title: "Доставка",
+                },
+                {
+                  value: "pickup",
+                  title: "Самовывоз",
+                },
+              ]}
+              value={delivery}
+              onClick={(e) => dispatch(editDeliveryCheckout(e.value))}
+            />
+            <nav>
+              <ul>
+                <li>
+                  <Link to="/contact" onClick={() => setShowMenu(false)}>
+                    <MenuPhone />
+                    <span>Контакты</span>
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/contact" onClick={() => setShowMenu(false)}>
+                    <MenuDelivery />
+                    <span>Оплата и доставка</span>
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/policy" onClick={() => setShowMenu(false)}>
+                    <MenuDocs />
+                    <span>Политика конфиденциальности</span>
+                  </Link>
+                </li>
+              </ul>
+            </nav>
+            {!options?.copyright && (
+              <a href="https://yooapp.ru/" target="_blank">
+                <p className="gray text-center mt-4 mt-md-5">
+                  Разработано на платформе
+                </p>
+                <p className="text-center mt-2">
+                  <YooApp />
+                </p>
+              </a>
             )}
           </Container>
         </Offcanvas.Body>

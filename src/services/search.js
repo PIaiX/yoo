@@ -1,9 +1,9 @@
-import {apiRoutes} from '../config/api'
-import {$authApi} from '.'
+import { apiRoutes } from '../config/api'
+import { $authApi } from '.'
 
-const getSearch = async (text) => {
-    const response = await $authApi.get(apiRoutes.SEARCH_GET, {params: {text}})
+const getSearch = async (data) => {
+    const response = await $authApi.get(apiRoutes.SEARCH_GET, { params: data })
     return response?.data
 }
 
-export {getSearch}
+export { getSearch }

@@ -26,6 +26,8 @@ const getImageURL = ({ path = "", size = "mini", type = "product" }) => {
     }
   } else if (!type || type == "product" || type == "sale" || type == 'addition') {
     return "/imgs/empty-product-image.png";
+  } else if (type == "story") {
+    return "/imgs/story.jpg";
   } else if (type == "user") {
     return "/imgs/avatar-full.png";
   }
