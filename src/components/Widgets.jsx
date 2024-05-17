@@ -11,7 +11,6 @@ import WidgetBanners from "./widget/WidgetBanners";
 import Catalog from "./Catalog";
 
 const Widgets = memo(({ data }) => {
-  console.log(data);
   return data?.length > 0
     ? data.map((e) =>
         e?.value == "services" ? (

@@ -688,7 +688,7 @@ button {
   color: inherit;
 }
 
-.btn, .btn-red, .btn-orange, .btn-99, .btn-90, .btn-9, .btn-8, .btn-light, .btn-6, .btn-light-outline, .btn-deepgreen, .btn-green, .btn-40, .btn-4, .btn-white, .btn-30, .btn-secondary, .btn-2, .btn-10, .btn-primary {
+.btn, .btn-red, .btn-orange, .btn-99, .btn-90, .btn-9, .btn-8, .btn-light, .btn-6, .btn-light-outline, .btn-deepgreen, .btn-green, .btn-40, .btn-40-light, .btn-4, .btn-white, .btn-30, .btn-secondary, .btn-2, .btn-10, .btn-primary {
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -715,7 +715,7 @@ button {
   background-color: var(--main-color);
   border: 1px solid var(--main-color);
 }
-.btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary.active, .btn-primary:not(.btn-check) + .btn:active, .btn-primary:not(.btn-check) + .btn-red:active, .btn-primary:not(.btn-check) + .btn-orange:active, .btn-primary:not(.btn-check) + .btn-99:active, .btn-primary:not(.btn-check) + .btn-90:active, .btn-primary:not(.btn-check) + .btn-9:active, .btn-primary:not(.btn-check) + .btn-8:active, .btn-primary:not(.btn-check) + .btn-light:active, .btn-primary:not(.btn-check) + .btn-6:active, .btn-primary:not(.btn-check) + .btn-light-outline:active, .btn-primary:not(.btn-check) + .btn-deepgreen:active, .btn-primary:not(.btn-check) + .btn-green:active, .btn-primary:not(.btn-check) + .btn-40:active, .btn-primary:not(.btn-check) + .btn-4:active, .btn-primary:not(.btn-check) + .btn-white:active, .btn-primary:not(.btn-check) + .btn-30:active, .btn-primary:not(.btn-check) + .btn-secondary:active, .btn-primary:not(.btn-check) + .btn-2:active, .btn-primary:not(.btn-check) + .btn-10:active {
+.btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary.active, .btn-primary:not(.btn-check) + .btn:active, .btn-primary:not(.btn-check) + .btn-red:active, .btn-primary:not(.btn-check) + .btn-orange:active, .btn-primary:not(.btn-check) + .btn-99:active, .btn-primary:not(.btn-check) + .btn-90:active, .btn-primary:not(.btn-check) + .btn-9:active, .btn-primary:not(.btn-check) + .btn-8:active, .btn-primary:not(.btn-check) + .btn-light:active, .btn-primary:not(.btn-check) + .btn-6:active, .btn-primary:not(.btn-check) + .btn-light-outline:active, .btn-primary:not(.btn-check) + .btn-deepgreen:active, .btn-primary:not(.btn-check) + .btn-green:active, .btn-primary:not(.btn-check) + .btn-40:active, .btn-primary:not(.btn-check) + .btn-40-light:active, .btn-primary:not(.btn-check) + .btn-4:active, .btn-primary:not(.btn-check) + .btn-white:active, .btn-primary:not(.btn-check) + .btn-30:active, .btn-primary:not(.btn-check) + .btn-secondary:active, .btn-primary:not(.btn-check) + .btn-2:active, .btn-primary:not(.btn-check) + .btn-10:active {
   color: #fff !important;
   background-color: var(--main-color-active) !important;
   border: 1px solid var(--main-color-active) !important;
@@ -725,7 +725,7 @@ button {
   background-color: var(--bg-main);
   border: 1px solid var(--main-color);
 }
-.btn-10:hover, .btn-10:focus, .btn-10:active, .btn-10.active, .btn-10:not(.btn-check) + .btn:active, .btn-10:not(.btn-check) + .btn-red:active, .btn-10:not(.btn-check) + .btn-orange:active, .btn-10:not(.btn-check) + .btn-99:active, .btn-10:not(.btn-check) + .btn-90:active, .btn-10:not(.btn-check) + .btn-9:active, .btn-10:not(.btn-check) + .btn-8:active, .btn-10:not(.btn-check) + .btn-light:active, .btn-10:not(.btn-check) + .btn-6:active, .btn-10:not(.btn-check) + .btn-light-outline:active, .btn-10:not(.btn-check) + .btn-deepgreen:active, .btn-10:not(.btn-check) + .btn-green:active, .btn-10:not(.btn-check) + .btn-40:active, .btn-10:not(.btn-check) + .btn-4:active, .btn-10:not(.btn-check) + .btn-white:active, .btn-10:not(.btn-check) + .btn-30:active, .btn-10:not(.btn-check) + .btn-secondary:active, .btn-10:not(.btn-check) + .btn-2:active, .btn-10:not(.btn-check) + .btn-primary:active {
+.btn-10:hover, .btn-10:focus, .btn-10:active, .btn-10.active, .btn-10:not(.btn-check) + .btn:active, .btn-10:not(.btn-check) + .btn-red:active, .btn-10:not(.btn-check) + .btn-orange:active, .btn-10:not(.btn-check) + .btn-99:active, .btn-10:not(.btn-check) + .btn-90:active, .btn-10:not(.btn-check) + .btn-9:active, .btn-10:not(.btn-check) + .btn-8:active, .btn-10:not(.btn-check) + .btn-light:active, .btn-10:not(.btn-check) + .btn-6:active, .btn-10:not(.btn-check) + .btn-light-outline:active, .btn-10:not(.btn-check) + .btn-deepgreen:active, .btn-10:not(.btn-check) + .btn-green:active, .btn-10:not(.btn-check) + .btn-40:active, .btn-10:not(.btn-check) + .btn-40-light:active, .btn-10:not(.btn-check) + .btn-4:active, .btn-10:not(.btn-check) + .btn-white:active, .btn-10:not(.btn-check) + .btn-30:active, .btn-10:not(.btn-check) + .btn-secondary:active, .btn-10:not(.btn-check) + .btn-2:active, .btn-10:not(.btn-check) + .btn-primary:active {
   color: #fff !important;
   background-color: var(--main-color) !important;
 }
@@ -733,7 +733,7 @@ button {
   color: #fff;
   background-color: #e01e00;
 }
-.btn-2:hover, .btn-2:focus, .btn-2:active, .btn-2.active, .btn-2:not(.btn-check) + .btn:active, .btn-2:not(.btn-check) + .btn-red:active, .btn-2:not(.btn-check) + .btn-orange:active, .btn-2:not(.btn-check) + .btn-99:active, .btn-2:not(.btn-check) + .btn-90:active, .btn-2:not(.btn-check) + .btn-9:active, .btn-2:not(.btn-check) + .btn-8:active, .btn-2:not(.btn-check) + .btn-light:active, .btn-2:not(.btn-check) + .btn-6:active, .btn-2:not(.btn-check) + .btn-light-outline:active, .btn-2:not(.btn-check) + .btn-deepgreen:active, .btn-2:not(.btn-check) + .btn-green:active, .btn-2:not(.btn-check) + .btn-40:active, .btn-2:not(.btn-check) + .btn-4:active, .btn-2:not(.btn-check) + .btn-white:active, .btn-2:not(.btn-check) + .btn-30:active, .btn-2:not(.btn-check) + .btn-secondary:active, .btn-2:not(.btn-check) + .btn-primary:active, .btn-2:not(.btn-check) + .btn-10:active {
+.btn-2:hover, .btn-2:focus, .btn-2:active, .btn-2.active, .btn-2:not(.btn-check) + .btn:active, .btn-2:not(.btn-check) + .btn-red:active, .btn-2:not(.btn-check) + .btn-orange:active, .btn-2:not(.btn-check) + .btn-99:active, .btn-2:not(.btn-check) + .btn-90:active, .btn-2:not(.btn-check) + .btn-9:active, .btn-2:not(.btn-check) + .btn-8:active, .btn-2:not(.btn-check) + .btn-light:active, .btn-2:not(.btn-check) + .btn-6:active, .btn-2:not(.btn-check) + .btn-light-outline:active, .btn-2:not(.btn-check) + .btn-deepgreen:active, .btn-2:not(.btn-check) + .btn-green:active, .btn-2:not(.btn-check) + .btn-40:active, .btn-2:not(.btn-check) + .btn-40-light:active, .btn-2:not(.btn-check) + .btn-4:active, .btn-2:not(.btn-check) + .btn-white:active, .btn-2:not(.btn-check) + .btn-30:active, .btn-2:not(.btn-check) + .btn-secondary:active, .btn-2:not(.btn-check) + .btn-primary:active, .btn-2:not(.btn-check) + .btn-10:active {
   color: #fff;
   background-color: #c71b00;
 }
@@ -743,7 +743,7 @@ button {
   border: 1px solid var(--main-color);
   font-weight: 600;
 }
-.btn-secondary:hover, .btn-secondary:focus, .btn-secondary:active, .btn-secondary.active, .btn-secondary:not(.btn-check) + .btn:active, .btn-secondary:not(.btn-check) + .btn-red:active, .btn-secondary:not(.btn-check) + .btn-orange:active, .btn-secondary:not(.btn-check) + .btn-99:active, .btn-secondary:not(.btn-check) + .btn-90:active, .btn-secondary:not(.btn-check) + .btn-9:active, .btn-secondary:not(.btn-check) + .btn-8:active, .btn-secondary:not(.btn-check) + .btn-light:active, .btn-secondary:not(.btn-check) + .btn-6:active, .btn-secondary:not(.btn-check) + .btn-light-outline:active, .btn-secondary:not(.btn-check) + .btn-deepgreen:active, .btn-secondary:not(.btn-check) + .btn-green:active, .btn-secondary:not(.btn-check) + .btn-40:active, .btn-secondary:not(.btn-check) + .btn-4:active, .btn-secondary:not(.btn-check) + .btn-white:active, .btn-secondary:not(.btn-check) + .btn-30:active, .btn-secondary:not(.btn-check) + .btn-primary:active, .btn-secondary:not(.btn-check) + .btn-10:active, .btn-secondary:not(.btn-check) + .btn-2:active {
+.btn-secondary:hover, .btn-secondary:focus, .btn-secondary:active, .btn-secondary.active, .btn-secondary:not(.btn-check) + .btn:active, .btn-secondary:not(.btn-check) + .btn-red:active, .btn-secondary:not(.btn-check) + .btn-orange:active, .btn-secondary:not(.btn-check) + .btn-99:active, .btn-secondary:not(.btn-check) + .btn-90:active, .btn-secondary:not(.btn-check) + .btn-9:active, .btn-secondary:not(.btn-check) + .btn-8:active, .btn-secondary:not(.btn-check) + .btn-light:active, .btn-secondary:not(.btn-check) + .btn-6:active, .btn-secondary:not(.btn-check) + .btn-light-outline:active, .btn-secondary:not(.btn-check) + .btn-deepgreen:active, .btn-secondary:not(.btn-check) + .btn-green:active, .btn-secondary:not(.btn-check) + .btn-40:active, .btn-secondary:not(.btn-check) + .btn-40-light:active, .btn-secondary:not(.btn-check) + .btn-4:active, .btn-secondary:not(.btn-check) + .btn-white:active, .btn-secondary:not(.btn-check) + .btn-30:active, .btn-secondary:not(.btn-check) + .btn-primary:active, .btn-secondary:not(.btn-check) + .btn-10:active, .btn-secondary:not(.btn-check) + .btn-2:active {
   color: #fff;
   background-color: var(--main-color-outline);
 }
@@ -765,15 +765,26 @@ button {
   color: #fff;
   background-color: var(--main-color);
 }
-.btn-40 {
+.btn-40-light {
   color: #fff;
   background-color: transparent;
   border: 1px solid #fff;
 }
-.btn-40:hover, .btn-40:focus, .btn-40:active, .btn-40.active {
+.btn-40-light:hover, .btn-40-light:focus, .btn-40-light:active, .btn-40-light.active {
   color: #fff;
   background-color: rgba(255, 255, 255, 0.1);
   border: 1px solid #fff;
+}
+.btn-40 {
+  color: var(--main-color);
+  background-color: transparent;
+  border: 1px solid var(--main-color);
+}
+.btn-40:hover, .btn-40:focus, .btn-40:active, .btn-40.active {
+  opacity: 0.9;
+  color: var(--main-color);
+  background-color: transparent;
+  border: 1px solid var(--main-color);
 }
 .btn-green {
   color: #00ab55;
@@ -894,7 +905,7 @@ button {
   background-color: #e01e00;
   border: 1px solid #e01e00;
 }
-.btn[disabled], [disabled].btn-primary, [disabled].btn-10, [disabled].btn-2, [disabled].btn-secondary, [disabled].btn-30, [disabled].btn-4, [disabled].btn-white, [disabled].btn-40, [disabled].btn-green, [disabled].btn-deepgreen, [disabled].btn-6, [disabled].btn-light-outline, [disabled].btn-light, [disabled].btn-8, [disabled].btn-9, [disabled].btn-90, [disabled].btn-99, [disabled].btn-orange, [disabled].btn-red {
+.btn[disabled], [disabled].btn-primary, [disabled].btn-10, [disabled].btn-2, [disabled].btn-secondary, [disabled].btn-30, [disabled].btn-4, [disabled].btn-white, [disabled].btn-40-light, [disabled].btn-40, [disabled].btn-green, [disabled].btn-deepgreen, [disabled].btn-6, [disabled].btn-light-outline, [disabled].btn-light, [disabled].btn-8, [disabled].btn-9, [disabled].btn-90, [disabled].btn-99, [disabled].btn-orange, [disabled].btn-red {
   background-color: var(--bg-btn);
   border: 1px solid var(--bg-btn);
   color: var(--bs-secondary-color);
@@ -931,13 +942,13 @@ button {
   stroke: var(--main-color);
   fill: var(--main-color);
 }
-.btn.loading, .loading.btn-primary, .loading.btn-10, .loading.btn-2, .loading.btn-secondary, .loading.btn-30, .loading.btn-4, .loading.btn-white, .loading.btn-40, .loading.btn-green, .loading.btn-deepgreen, .loading.btn-6, .loading.btn-light-outline, .loading.btn-light, .loading.btn-8, .loading.btn-9, .loading.btn-90, .loading.btn-99, .loading.btn-orange, .loading.btn-red {
+.btn.loading, .loading.btn-primary, .loading.btn-10, .loading.btn-2, .loading.btn-secondary, .loading.btn-30, .loading.btn-4, .loading.btn-white, .loading.btn-40-light, .loading.btn-40, .loading.btn-green, .loading.btn-deepgreen, .loading.btn-6, .loading.btn-light-outline, .loading.btn-light, .loading.btn-8, .loading.btn-9, .loading.btn-90, .loading.btn-99, .loading.btn-orange, .loading.btn-red {
   position: relative;
 }
-.btn.loading > *, .loading.btn-primary > *, .loading.btn-10 > *, .loading.btn-2 > *, .loading.btn-secondary > *, .loading.btn-30 > *, .loading.btn-4 > *, .loading.btn-white > *, .loading.btn-40 > *, .loading.btn-green > *, .loading.btn-deepgreen > *, .loading.btn-6 > *, .loading.btn-light-outline > *, .loading.btn-light > *, .loading.btn-8 > *, .loading.btn-9 > *, .loading.btn-90 > *, .loading.btn-99 > *, .loading.btn-orange > *, .loading.btn-red > * {
+.btn.loading > *, .loading.btn-primary > *, .loading.btn-10 > *, .loading.btn-2 > *, .loading.btn-secondary > *, .loading.btn-30 > *, .loading.btn-4 > *, .loading.btn-white > *, .loading.btn-40-light > *, .loading.btn-40 > *, .loading.btn-green > *, .loading.btn-deepgreen > *, .loading.btn-6 > *, .loading.btn-light-outline > *, .loading.btn-light > *, .loading.btn-8 > *, .loading.btn-9 > *, .loading.btn-90 > *, .loading.btn-99 > *, .loading.btn-orange > *, .loading.btn-red > * {
   opacity: 0;
 }
-.btn.loading::after, .loading.btn-primary::after, .loading.btn-10::after, .loading.btn-2::after, .loading.btn-secondary::after, .loading.btn-30::after, .loading.btn-4::after, .loading.btn-white::after, .loading.btn-40::after, .loading.btn-green::after, .loading.btn-deepgreen::after, .loading.btn-6::after, .loading.btn-light-outline::after, .loading.btn-light::after, .loading.btn-8::after, .loading.btn-9::after, .loading.btn-90::after, .loading.btn-99::after, .loading.btn-orange::after, .loading.btn-red::after {
+.btn.loading::after, .loading.btn-primary::after, .loading.btn-10::after, .loading.btn-2::after, .loading.btn-secondary::after, .loading.btn-30::after, .loading.btn-4::after, .loading.btn-white::after, .loading.btn-40-light::after, .loading.btn-40::after, .loading.btn-green::after, .loading.btn-deepgreen::after, .loading.btn-6::after, .loading.btn-light-outline::after, .loading.btn-light::after, .loading.btn-8::after, .loading.btn-9::after, .loading.btn-90::after, .loading.btn-99::after, .loading.btn-orange::after, .loading.btn-red::after {
   content: "";
   position: absolute;
   z-index: 1;

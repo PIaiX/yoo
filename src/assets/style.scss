@@ -797,7 +797,7 @@ button {
       background-color: var(--main-color);
     }
   }
-  &-40 {
+  &-40-light {
     @extend .btn;
     color: #fff;
     background-color: transparent;
@@ -809,6 +809,21 @@ button {
       color: #fff;
       background-color: rgba($color: #fff, $alpha: 0.1);
       border: 1px solid #fff;
+    }
+  }
+  &-40 {
+    @extend .btn;
+    color: var(--main-color);
+    background-color: transparent;
+    border: 1px solid var(--main-color);
+    &:hover,
+    &:focus,
+    &:active,
+    &.active {
+      opacity: 0.9;
+      color: var(--main-color);
+      background-color: transparent;
+      border: 1px solid var(--main-color);
     }
   }
   &-green {

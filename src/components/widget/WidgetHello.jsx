@@ -21,7 +21,7 @@ const WidgetHello = memo((data) => {
         {data?.desc && <p>{data.desc}</p>}
         {data?.btnText && data?.btnLink && (
           <div className="d-flex mt-5 justify-content-center">
-            <Link className="btn btn-40" to={data.btnLink}>
+            <Link className="btn btn-40-light" to={data.btnLink}>
               {data.btnText}
             </Link>
           </div>
