@@ -63,7 +63,7 @@ const Search = () => {
           }}
         />
       </Container>
-      {search.loading && <Loader />}
+      {search.loading && <Loader full />}
       {Array.isArray(search.items) && search.items.length > 0 ? (
         <Catalog data={search.items} />
       ) : (

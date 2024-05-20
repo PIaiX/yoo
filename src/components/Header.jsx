@@ -587,6 +587,7 @@ const Header = memo(() => {
                             },
                           })
                         );
+                        dispatch(mainAffiliateEdit(e));
                         setShowCity(false);
                       }}
                       className={
@@ -624,6 +625,7 @@ const Header = memo(() => {
                                   },
                                 })
                               );
+                              dispatch(mainAffiliateEdit(e));
                               setShowCity(false);
                             }}
                             className={

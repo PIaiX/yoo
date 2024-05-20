@@ -29,11 +29,11 @@ const Category = () => {
     })
       .then((res) => setCategory({ loading: false, item: res }))
       .catch(() => setCategory((data) => ({ ...data, loading: false })));
-  }, [categoryId]);
+  }, [categoryId, selectedAffiliate]);
 
   useLayoutEffect(() => {
     onLoad();
-  }, [categoryId]);
+  }, [categoryId, selectedAffiliate]);
 
   if (category?.loading) {
     return <Loader full />;

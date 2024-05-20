@@ -1,14 +1,11 @@
 import React, { useEffect, useLayoutEffect, useState } from "react";
 import { Col, Container, OverlayTrigger, Popover, Row } from "react-bootstrap";
 // import Notice from "../components/Notice";
-import Corner from "../components/svgs/Corner";
 import ProductCard from "../components/ProductCard";
+import Corner from "../components/svgs/Corner";
 import Addition from "../components/utils/Addition";
 import Wish from "../components/utils/Wish";
 // swiper
-import { Navigation } from "swiper/modules";
-import { Swiper, SwiperSlide } from "swiper/react";
-import Select from "../components/utils/Select";
 import {
   HiMinus,
   HiOutlineInformationCircle,
@@ -17,6 +14,8 @@ import {
 } from "react-icons/hi2";
 import { useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
+import { Navigation } from "swiper/modules";
+import { Swiper, SwiperSlide } from "swiper/react";
 import ButtonCart from "../components/ButtonCart";
 import Empty from "../components/Empty";
 import EmptyCatalog from "../components/empty/catalog";
@@ -24,13 +23,11 @@ import Meta from "../components/Meta";
 import Tags from "../components/Tags";
 import Loader from "../components/utils/Loader";
 import NavTop from "../components/utils/NavTop";
+import Select from "../components/utils/Select";
 import { customPrice, customWeight, getImageURL } from "../helpers/all";
 import { getProduct } from "../services/product";
-import { useLocation } from "react-router-dom";
 
 const Product = () => {
-  const { state } = useLocation();
-
   const { productId } = useParams();
   const multiBrand = useSelector((state) => state.settings.options.multiBrand);
   const selectedAffiliate = useSelector((state) => state.affiliate.active);
@@ -103,7 +100,7 @@ const Product = () => {
         setProduct((data) => ({ ...data, loading: false }));
       })
       .catch(() => setProduct((data) => ({ ...data, loading: false })));
-  }, [productId]);
+  }, [productId, selectedAffiliate]);
 
   useEffect(() => {
     if (product.item) {
