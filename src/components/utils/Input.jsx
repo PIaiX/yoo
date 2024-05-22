@@ -18,12 +18,12 @@ const Input = memo(
     placeholder,
     name,
     autoFocus,
-    control, // Используем control из useForm
+    register,
     readOnly,
     validation,
     minLength = 0,
     maxLength = 250,
-    errors, // Передаем errors из useForm
+    errors,
   }) => {
     const [visible, setVisibility] = useState(false);
     return (
@@ -58,7 +58,7 @@ const Input = memo(
                 onChange={(e) =>
                   onChange && !register && onChange(e.target.value)
                 }
-                {...(control && { ...control.getFieldState(name) })}
+                {...(register && { ...register(name, validation) })}
               />
               <button type="button" onClick={() => setVisibility(!visible)}>
                 {visible ? <Eye /> : <CloseEye />}
@@ -78,7 +78,7 @@ const Input = memo(
               onChange={(e) =>
                 onChange && !register && onChange(e.target.value)
               }
-              {...(control && { ...control.getFieldState(name) })}
+              {...(register && { ...register(name, validation) })}
             />
           ) : (
             <input
@@ -95,7 +95,7 @@ const Input = memo(
               onChange={(e) =>
                 onChange && !register && onChange(e.target.value)
               }
-              {...(control && { ...control.getFieldState(name) })}
+              {...(register && { ...register(name, validation) })}
             />
           )}
         </div>

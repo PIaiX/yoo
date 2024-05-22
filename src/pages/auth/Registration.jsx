@@ -82,7 +82,7 @@ const Registration = () => {
                 : "подтвердив номер телефона")
           );
           if (res?.id) {
-            await dispatch(login(data));
+            dispatch(login(data));
             navigate("/activate");
           }
         })

@@ -8,10 +8,10 @@ import { resetCart } from "../store/reducers/cartSlice";
 import { resetCheckout } from "../store/reducers/checkoutSlice";
 import { NotificationManager } from "react-notifications";
 
-const login = createAsyncThunk("auth/login", async (payloads, thunkAPI) => {
+const login = createAsyncThunk("auth/login", async (data, thunkAPI) => {
   thunkAPI.dispatch(setLoadingLogin(true))
   try {
-    const response = await $api.post(apiRoutes.AUTH_LOGIN, payloads);
+    const response = await $api.post(apiRoutes.AUTH_LOGIN, data);
 
     if (response?.data?.user && response?.data?.token) {
 
