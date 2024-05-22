@@ -25,6 +25,7 @@ import {
 import { IoTrashOutline } from "react-icons/io5";
 import Loader from "../components/utils/Loader";
 import Extras from "../components/utils/Extras";
+import { keyGenerator } from "../hooks/all";
 
 const Cart = () => {
   const user = useSelector((state) => state.auth.user);
@@ -38,6 +39,7 @@ const Cart = () => {
   const [data, setData] = useState({ loading: true });
   const {
     total = 0,
+    totalNoDelivery = 0,
     price = 0,
     discount = 0,
     delivery,
@@ -166,7 +168,7 @@ const Cart = () => {
               </div>
               <ul className="list-unstyled">
                 {cart.map((e) => (
-                  <li key={e.id}>
+                  <li key={e?.modifiers?.length > 0 ? keyGenerator(e) : e.id}>
                     <CartItem data={e} />
                   </li>
                 ))}
@@ -240,14 +242,6 @@ const Cart = () => {
                 </div>
               )}
 
-              {stateDelivery == "delivery" && zone?.data && (
-                <div className="d-flex justify-content-between my-2">
-                  <span>Доставка</span>
-                  <span className="text-success">
-                    {delivery > 0 ? "+" + customPrice(delivery) : "Бесплатно"}
-                  </span>
-                </div>
-              )}
               {discount > 0 && (
                 <div className="d-flex justify-content-between my-2">
                   <span>Скидка</span>
@@ -277,7 +271,7 @@ const Cart = () => {
               <hr className="my-3" />
               <div className="d-flex justify-content-between mb-5">
                 <span className="fw-7 fs-11">Итоговая сумма</span>
-                <span className="fw-7">{customPrice(total)}</span>
+                <span className="fw-7">{customPrice(totalNoDelivery)}</span>
               </div>
 
               <Link

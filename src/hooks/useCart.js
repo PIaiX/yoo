@@ -1,170 +1,160 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useSelector } from 'react-redux'
+import { createSelector } from 'reselect'
+import { isEqual } from 'lodash'
 
-const isCart = (product) => {
-    const item = product?.id ? useSelector(state => state?.cart && state?.cart?.items?.length > 0 && product?.id
-        ? state.cart.items.find((e) => {
-            if (e?.id === product?.id) {
-                if (e?.cart?.data && product?.cart?.data) {
-                    return JSON.stringify(e.cart.data) === JSON.stringify(product.cart.data)
-                }
-                return true
+const selectProduct = (state) => state.product
+const selectCartItems = (state) => state.items
+
+const makeSelectIsCart = () =>
+    createSelector([selectProduct, selectCartItems], (product, items) => {
+        if (!product || !product.id || !items || items.length === 0) {
+            return false
+        }
+
+        return items.find((cartItem) => {
+            if (cartItem.id !== product.id) {
+                return false
             }
+            return isEqual(cartItem.cart?.data?.modifiers, product?.cart?.data?.modifiers) && isEqual(cartItem.cart?.data?.additions, product?.cart?.data?.additions)
         })
-        : false) : false
+    })
 
-    if (!product) {
-        return false
-    }
-    return item
+const isCart = (product = false) => {
+    const selectIsCart = makeSelectIsCart()
+    const items = useSelector((state) => selectIsCart({ product, items: state?.cart?.items ?? [] }))
+    return items
 }
 
 const useTotalCart = () => {
-    const stateDelivery = useSelector(state => state.checkout?.delivery)
-    const statePayment = useSelector(state => state.checkout?.data?.payment)
-    const pointSwitch = useSelector(state => state.checkout?.data?.pointSwitch)
-    const stateCart = useSelector(state => state.cart.items)
-    const statePromo = useSelector(state => state.cart?.promo)
-    const stateZone = useSelector(state => state.cart?.zone?.data)
-    const pointOptions = useSelector(state => state.settings?.options?.point)
-    const userPoint = useSelector(state => state.auth.user?.point)
-    const affiliateActive = useSelector(state => state.affiliate.active)
+    const stateDelivery = useSelector((state) => state?.checkout?.delivery)
+    const statePayment = useSelector((state) => state?.checkout?.data?.payment)
+    const pointSwitch = useSelector((state) => state?.checkout?.data?.pointSwitch)
+    const stateCart = useSelector((state) => state.cart?.items)
+    const statePromo = useSelector((state) => state.cart?.promo)
+    const stateZone = useSelector((state) => state.cart?.zone?.data)
+    const pointOptions = useSelector((state) => state?.settings?.options?.point)
+    const userPoint = useSelector((state) => state.auth?.user?.point)
+    const affiliateActive = useSelector((state) => state?.affiliate?.active)
 
-    const [data, setData] = useState({
-        total: 0,
-        price: 0,
-        point: 0,
-        discount: 0,
-        delivery: 0,
-        pointAccrual: 0,
-        pickupDiscount: 0,
-        pointCheckout: 0,
-        person: 0
-    })
+    const calculateCart = useMemo(() => {
+        var price = 0,
+            discount = 0,
+            point = 0,
+            delivery = 0,
+            person = 0,
+            pointAccrual = 0,
+            totalNoDelivery = 0
 
-    useEffect(() => {
         if (stateCart?.length > 0) {
-            let price = 0
-            let discount = 0
-            let point = 0
-            let delivery = 0
-            let person = 0
-            let pointAccrual = 0
-
             stateCart.forEach((product) => {
-                if (!product || !product?.cart?.count) {
-                    return false
+                if (!product || !product?.cart?.count) return
+
+                person += product?.options?.person > 0 ? Number(product.options.person) : 0
+                point +=
+                    product?.type === 'gift' && product?.cart?.count > 0 && product?.price > 0
+                        ? Number(product.price) * Number(product.cart.count)
+                        : 0
+
+                const modifiersPrice =
+                    product?.cart?.count > 0 &&
+                    product?.cart?.data?.modifiers?.length > 0 &&
+                    product.cart?.data.modifiers.reduce((sum, item) => sum + Number(item?.price ?? 0), 0) *
+                    Number(product.cart.count)
+
+                const basePrice =
+                    product?.price > 0 && product?.cart?.count > 0 ? product.price * product.cart.count : 0
+                const productPrice = product?.options?.modifierPriceSum
+                    ? basePrice + modifiersPrice
+                    : modifiersPrice || basePrice
+
+                price += productPrice
+
+                if (product?.priceSale > 0 && product?.cart?.count > 0 && product?.price > 0) {
+                    const saleDiscount = product.priceSale * product.cart.count - product.price * product.cart.count
+                    discount += saleDiscount
+                    price += saleDiscount
                 }
 
-                if (product?.options?.person > 0) {
-                    person += Number(product.options.person)
-                }
-                if (product?.type == 'gift') {
-                    point += product.price * product.cart.count
-                } else {
+                if (product?.cart?.data?.additions?.length > 0) {
+                    product.cart.data.additions.forEach((e) => {
+                        const count = e?.count || 1
+                        const additionPrice =
+                            e?.price > 0 && product?.cart?.count > 0 ? e.price * count * product.cart.count : 0
+                        price += additionPrice
 
-                    if (product?.cart?.data?.modifiers?.length > 0) {
-                        if (product?.options?.modifierPriceSum) {
-                            price += (product.price * product.cart.count) + (product.cart.data.modifiers.reduce((sum, item) => sum + item.price, 0) * product.cart.count)
-                        } else {
-                            price += product.cart.data.modifiers.reduce((sum, item) => sum + item.price, 0) * product.cart.count
+                        if (e?.priceSale > 0 && product?.cart?.count > 0) {
+                            const additionDiscount =
+                                e.priceSale * count * product.cart.count - e.price * count * product.cart.count
+                            discount += additionDiscount
+                            price += additionDiscount
                         }
-                    } else {
-                        price += product.price * product.cart.count
-
-                        if (product?.priceSale > 0) {
-                            discount += product.priceSale * product.cart.count - product.price * product.cart.count
-                            price += discount
-                        }
-                    }
-
-                    if (product?.cart?.data?.additions?.length > 0) {
-                        product.cart.data.additions.map((e) => {
-                            let count = e.count ? e.count : 1
-                            price += e.price * count * product.cart.count
-                            if (e.priceSale > 0) {
-                                discount +=
-                                    e.priceSale * count * product.cart.count - e.price * count * product.cart.count
-                                price += discount
-                            }
-                        })
-                    }
+                    })
                 }
             })
 
-            var totalCalcul = discount > 0 ? price - discount : price
+            let totalCalcul = discount > 0 && price > 0 ? price - discount : price ?? 0
+            totalNoDelivery += totalCalcul
 
-            if (statePromo) {
-                if (statePromo.procent > 0) {
-                    totalCalcul = totalCalcul - (totalCalcul / 100) * statePromo.procent
-                } else if (statePromo.discount > 0) {
-                    totalCalcul = totalCalcul - statePromo.discount
-                }
-            }
-            let pickupDiscount = affiliateActive?.options?.discountPickup > 0 && stateDelivery == 'pickup' ? Math.floor((totalCalcul / 100) * Number(affiliateActive.options.discountPickup)) : 0
-
-            if (pickupDiscount > 0) {
-                totalCalcul = totalCalcul - pickupDiscount
-            }
-
-            let pointCheckout = pointOptions?.writing?.value > 0 ? Math.floor((totalCalcul / 100) * Number(pointOptions.writing.value)) : 0
-            if (pointCheckout > 0 && pointCheckout > userPoint) {
-                pointCheckout = userPoint
+            if (statePromo?.options) {
+                totalNoDelivery -=
+                    Number(statePromo?.options?.percent) > 0
+                        ? (totalCalcul / 100) * Number(statePromo.options.percent)
+                        : 0
+                totalNoDelivery -= Number(statePromo?.options?.sum) > 0 ? Number(statePromo.options.sum) : 0
+                totalCalcul -=
+                    Number(statePromo?.options?.percent) > 0
+                        ? (totalCalcul / 100) * Number(statePromo.options.percent)
+                        : 0
+                totalCalcul -= Number(statePromo?.options?.sum) > 0 ? Number(statePromo.options.sum) : 0
             }
 
-            if (pointCheckout > 0 && pointSwitch) {
+            const pickupDiscount =
+                Number(affiliateActive?.options?.discountPickup) > 0 && stateDelivery === 'pickup'
+                    ? Math.floor((totalCalcul / 100) * Number(affiliateActive.options.discountPickup))
+                    : 0
+            totalCalcul -= pickupDiscount
 
-                let is = true
-                if (!pointOptions?.writing?.delivery && stateDelivery == 'delivery') {
-                    is = false
-                }
-                if (!pointOptions?.writing?.pickup && stateDelivery == 'pickup') {
-                    is = false
-                }
-                if (!pointOptions?.writing?.card && statePayment == 'card') {
-                    is = false
-                }
-                if (!pointOptions?.writing?.cash && statePayment == 'cash') {
-                    is = false
-                }
-                if (!pointOptions?.writing?.online && statePayment == 'online') {
-                    is = false
-                }
-                if (is) {
-                    totalCalcul = totalCalcul - pointCheckout
-                }
-            }
+            let pointCheckout =
+                Number(pointOptions?.writing?.value) > 0
+                    ? Math.floor((totalCalcul / 100) * Number(pointOptions.writing.value))
+                    : 0
+            pointCheckout = userPoint && pointCheckout > userPoint ? userPoint : pointCheckout
 
-            if (pointOptions?.accrual?.value > 0) {
-                let is = true
-                if (!pointOptions?.accrual?.delivery && stateDelivery == 'delivery') {
-                    is = false
-                }
-                if (!pointOptions?.accrual?.pickup && stateDelivery == 'pickup') {
-                    is = false
-                }
-                if (!pointOptions?.accrual?.card && statePayment == 'card') {
-                    is = false
-                }
-                if (!pointOptions?.accrual?.cash && statePayment == 'cash') {
-                    is = false
-                }
-                if (!pointOptions?.accrual?.online && statePayment == 'online') {
-                    is = false
-                }
-                if (is) {
-                    pointAccrual = Math.floor((totalCalcul / 100) * Number(pointOptions.accrual.value))
+            if (pointCheckout > 0 && pointSwitch && stateDelivery) {
+                const isEligible =
+                    (pointOptions?.writing?.delivery && stateDelivery === 'delivery') ||
+                    (pointOptions?.writing?.pickup && stateDelivery === 'pickup') ||
+                    (pointOptions?.writing?.card && statePayment === 'card') ||
+                    (pointOptions?.writing?.cash && statePayment === 'cash') ||
+                    (pointOptions?.writing?.online && statePayment === 'online')
+
+                if (!isEligible) {
+                    pointCheckout = 0
+                } else {
+                    totalNoDelivery -= pointCheckout
+                    totalCalcul -= pointCheckout
                 }
             }
 
-            if (stateZone?.priceFree > price && stateDelivery == 'delivery') {
+            if (Number(pointOptions?.accrual?.value) > 0 && stateDelivery && totalCalcul) {
+                const isEligible =
+                    (pointOptions?.accrual?.delivery && stateDelivery === 'delivery') ||
+                    (pointOptions?.accrual?.pickup && stateDelivery === 'pickup') ||
+                    (pointOptions?.accrual?.card && statePayment === 'card') ||
+                    (pointOptions?.accrual?.cash && statePayment === 'cash') ||
+                    (pointOptions?.accrual?.online && statePayment === 'online')
+                pointAccrual = isEligible ? Math.floor((totalCalcul / 100) * Number(pointOptions.accrual.value)) : 0
+            }
+
+            if (stateZone?.priceFree > totalCalcul && stateDelivery === 'delivery' && stateZone?.price) {
                 delivery += stateZone.price
                 totalCalcul += stateZone.price
             }
 
-            setData({
-                ...data,
+            return {
                 total: parseInt(totalCalcul),
+                totalNoDelivery: parseInt(totalNoDelivery),
                 price: parseInt(price),
                 point: parseInt(point),
                 discount: parseInt(discount),
@@ -172,14 +162,41 @@ const useTotalCart = () => {
                 pointAccrual: parseInt(pointAccrual),
                 pickupDiscount: parseInt(pickupDiscount),
                 pointCheckout: parseInt(pointCheckout),
-                person: parseInt(person)
-            })
+                person: parseInt(person),
+            }
         } else {
-            setData({ ...data, price: 0, total: 0, discount: 0, point: 0, pointAccrual: 0, delivery: 0, pickupDiscount: 0, pointCheckout: 0, person: 0 })
+            return {
+                total: 0,
+                totalNoDelivery: 0,
+                price: 0,
+                point: 0,
+                discount: 0,
+                delivery: 0,
+                pointAccrual: 0,
+                pickupDiscount: 0,
+                pointCheckout: 0,
+                person: 0,
+            }
         }
-    }, [stateCart, statePromo, stateDelivery, stateZone, pointSwitch])
+    }, [
+        stateCart,
+        statePromo,
+        stateDelivery,
+        stateZone,
+        pointSwitch,
+        statePayment,
+        pointOptions,
+        userPoint,
+        affiliateActive,
+    ])
+
+    const [data, setData] = useState(calculateCart)
+
+    useEffect(() => {
+        setData(calculateCart)
+    }, [calculateCart])
 
     return data
 }
 
-export { isCart, useTotalCart }
+export { isCart, useTotalCart, makeSelectIsCart }

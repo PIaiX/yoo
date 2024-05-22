@@ -5,7 +5,6 @@ import ButtonCart from "./ButtonCart";
 // import { useSelector } from "react-redux";
 
 const CartItem = memo(({ data }) => {
-
   const price =
     data?.cart?.data?.modifiers?.length > 0
       ? data.options.modifierPriceSum

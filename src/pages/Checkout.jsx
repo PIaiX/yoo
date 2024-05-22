@@ -90,14 +90,14 @@ const Checkout = () => {
   const isAuth = useSelector((state) => state.auth.isAuth);
   const user = useSelector((state) => state.auth.user);
   const cart = useSelector((state) => state.cart.items);
-  const promo = useSelector((state) => state.cart.promo);
-  const zone = useSelector((state) => state.cart.zone);
+  const promo = useSelector((state) => state.cart?.promo);
+  const zone = useSelector((state) => state.cart?.zone);
   const checkout = useSelector((state) => state.checkout);
   const address = useSelector((state) => state.address.items);
   const affiliate = useSelector((state) => state.affiliate.items);
-  const selectedAffiliate = useSelector((state) => state.affiliate.active);
+  const selectedAffiliate = useSelector((state) => state.affiliate?.active);
   const options = useSelector((state) => state.settings.options);
-  console.log(selectedAffiliate.options);
+
   const {
     total = 0,
     price = 0,
@@ -106,6 +106,7 @@ const Checkout = () => {
     pointAccrual,
     pickupDiscount,
     pointCheckout,
+    totalNoDelivery = 0,
   } = useTotalCart();
 
   const [end, setEnd] = useState(false);
@@ -180,7 +181,8 @@ const Checkout = () => {
     isLoading ||
     !isValid ||
     !user?.id ||
-    (checkout.delivery === "delivery" && zone?.data?.minPrice > price);
+    (checkout.delivery === "delivery" &&
+      zone?.data?.minPrice > totalNoDelivery);
 
   useLayoutEffect(() => {
     if (isAuth && user?.status === 0) {
@@ -657,51 +659,11 @@ const Checkout = () => {
                   </div>
                 </div>
               )}
-              <div className="d-flex justify-content-between my-2">
-                <span>Стоимость товаров</span>
-                <span>{customPrice(price)}</span>
-              </div>
-              {options?.promoVisible && promo && (
-                <div className="d-flex justify-content-between my-2">
-                  <div>
-                    <div className="text-muted fs-08">Промокод</div>
-                    <div className="fw-6">{promo.title.toUpperCase()}</div>
-                  </div>
-                  <span className="d-flex align-items-center">
-                    {promo.options?.discount > 0 && (
-                      <span className="text-success">
-                        -{" "}
-                        {Number.isInteger(Number(promo.options?.discount)) > 0
-                          ? customPrice(promo.options.discount)
-                          : promo.options?.discount}
-                      </span>
-                    )}
-                    <a
-                      onClick={() => {
-                        dispatch(cartDeleteProduct(promo.product));
-                        setValue("promo", "");
-                        dispatch(cartDeletePromo());
-                      }}
-                      className="ms-2 text-danger"
-                    >
-                      <IoTrashOutline size={18} />
-                    </a>
-                  </span>
-                </div>
-              )}
 
               {discount > 0 && (
                 <div className="d-flex justify-content-between my-2">
                   <span>Скидка</span>
                   <span>-{customPrice(discount)}</span>
-                </div>
-              )}
-              {data.delivery == "delivery" && (
-                <div className="d-flex justify-content-between my-2">
-                  <span>Доставка</span>
-                  <span className="text-success">
-                    {delivery > 0 ? "+" + customPrice(delivery) : "Бесплатно"}
-                  </span>
                 </div>
               )}
               {pickupDiscount > 0 && (
@@ -712,25 +674,28 @@ const Checkout = () => {
                   </span>
                 </div>
               )}
-              {pointCheckout > 0 && data.pointSwitch && (
-                <div className="d-flex justify-content-between my-2">
-                  <span>Списание баллов</span>
-                  <span>-{customPrice(pointCheckout)}</span>
-                </div>
-              )}
-              {pointAccrual > 0 && (
-                <div className="d-flex justify-content-between my-2">
-                  <span>Начислится баллов</span>
-                  <span>+{customPrice(pointAccrual)}</span>
-                </div>
-              )}
+
               <hr className="my-3" />
-              <div className="d-flex justify-content-between mb-5">
-                <span className="fw-7 fs-11">Итоговая сумма</span>
-                <span className="fw-7">{customPrice(total)}</span>
+              <div className="mb-5">
+                <div className="d-flex justify-content-between mb-2">
+                  <span className="fw-6 fs-10">Сумма заказа</span>
+                  <span className="fw-6">{customPrice(totalNoDelivery)}</span>
+                </div>
+                {data.delivery == "delivery" && (
+                  <div className="d-flex justify-content-between mb-2">
+                    <span className="fw-6 fs-10">Доставка</span>
+                    <span className="text-success fw-6">
+                      {delivery > 0 ? "+" + customPrice(delivery) : "Бесплатно"}
+                    </span>
+                  </div>
+                )}
+                <div className="d-flex justify-content-between">
+                  <span className="fw-7 fs-11">Итого</span>
+                  <span className="fw-7">{customPrice(total)}</span>
+                </div>
               </div>
               {checkout.delivery == "delivery" &&
-                zone?.data?.minPrice > price && (
+                zone?.data?.minPrice > totalNoDelivery && (
                   <div className="text-danger text-center">
                     Минимальная сумма для доставки{" "}
                     {customPrice(zone?.data.minPrice)}

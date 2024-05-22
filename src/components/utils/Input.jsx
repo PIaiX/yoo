@@ -18,12 +18,12 @@ const Input = memo(
     placeholder,
     name,
     autoFocus,
-    register,
+    control, // Используем control из useForm
     readOnly,
     validation,
     minLength = 0,
     maxLength = 250,
-    errors,
+    errors, // Передаем errors из useForm
   }) => {
     const [visible, setVisibility] = useState(false);
     return (
@@ -58,7 +58,7 @@ const Input = memo(
                 onChange={(e) =>
                   onChange && !register && onChange(e.target.value)
                 }
-                {...(register && { ...register(name, validation) })}
+                {...(control && { ...control.getFieldState(name) })}
               />
               <button type="button" onClick={() => setVisibility(!visible)}>
                 {visible ? <Eye /> : <CloseEye />}
@@ -78,7 +78,7 @@ const Input = memo(
               onChange={(e) =>
                 onChange && !register && onChange(e.target.value)
               }
-              {...(register && { ...register(name, validation) })}
+              {...(control && { ...control.getFieldState(name) })}
             />
           ) : (
             <input
@@ -95,11 +95,11 @@ const Input = memo(
               onChange={(e) =>
                 onChange && !register && onChange(e.target.value)
               }
-              {...(register && { ...register(name, validation) })}
+              {...(control && { ...control.getFieldState(name) })}
             />
           )}
         </div>
-        {errors && (
+        {name && errors && errors[name]?.message && (
           <p className="text-danger mt-1 fs-08">{errors[name]?.message}</p>
         )}
       </>

@@ -12,7 +12,6 @@ const ButtonCart = memo(
     product,
     data,
     full = false,
-    isValid = true,
     onAddCart,
     cart = false,
     className,
@@ -24,12 +23,19 @@ const ButtonCart = memo(
 
     const onPress = useCallback(
       (newCount) => {
-        let newdata = { ...product };
-        if (data?.cart?.data) {
-          newdata.cart = data.cart;
+        let newProduct = { data: { ...product }, plus: false };
+        if (product?.modifiers?.length > 0 && data?.cart?.data) {
+          newProduct.data.cart = { ...newProduct.data.cart, ...data.cart };
         }
-        newdata.cart = { ...newdata.cart, count: newCount ?? 0, full };
-        dispatch(updateCart(newdata));
+        newProduct.data.cart = {
+          ...newProduct.data.cart,
+          count: newCount ?? 0,
+        };
+        if (full) {
+          newProduct.plus = true;
+        }
+
+        dispatch(updateCart(newProduct));
         if (full && product?.modifiers?.length > 0 && newCount <= 1) {
           NotificationManager.success("Товар успешно добавлен в корзину");
           navigate(-1);

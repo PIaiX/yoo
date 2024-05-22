@@ -27,6 +27,22 @@ import Select from "../components/utils/Select";
 import { customPrice, customWeight, getImageURL } from "../helpers/all";
 import { getProduct } from "../services/product";
 
+const groupByCategoryIdToArray = (modifiers) => {
+  const grouped = modifiers.reduce((acc, modifier) => {
+    const { categoryId } = modifier;
+    if (!acc[categoryId]) {
+      acc[categoryId] = [];
+    }
+    acc[categoryId].push(modifier);
+    return acc;
+  }, {});
+
+  return Object.keys(grouped).map((key, index) => ({
+    categoryId: key ?? index,
+    modifiers: grouped[key].sort((a, b) => a?.price - b?.price),
+  }));
+};
+
 const Product = () => {
   const { productId } = useParams();
   const multiBrand = useSelector((state) => state.settings.options.multiBrand);
@@ -36,6 +52,7 @@ const Product = () => {
   const productEnergyVisible = useSelector(
     (state) => state.settings.options.productEnergyVisible
   );
+
   const [product, setProduct] = useState({
     loading: true,
     item: {},
@@ -56,39 +73,7 @@ const Product = () => {
     discount: 0,
   });
 
-  const updateProduct = (res) => {
-    const modifiers =
-      Array.isArray(res?.modifiers) && res?.modifiers?.length > 0
-        ? [...res.modifiers]
-            .sort((a, b) => a?.price - b?.price)
-            .reduce((acc, item) => {
-              const categoryId = item?.categoryId ?? 0;
-              if (!acc[categoryId]) {
-                acc[categoryId] = [];
-              }
-              acc[categoryId].push(item);
-              return acc;
-            }, [])
-        : [];
-
-    data.cart.data.modifiers = [];
-    if (Array.isArray(modifiers) && modifiers?.length > 0) {
-      modifiers.forEach((e1) => {
-        let is = e1.find((e2) => e2?.main);
-        if (is) {
-          data.cart.data.modifiers.push(is);
-        }
-      });
-    }
-    if (res?.modifiers?.length > 0) {
-      res.modifiers = modifiers;
-    }
-
-    setProduct((data) => ({ ...data, item: res }));
-    setData(data);
-  };
-
-  useLayoutEffect(() => {
+  const onLoad = () => {
     getProduct({
       id: productId,
       affiliateId: selectedAffiliate?.id ?? false,
@@ -96,19 +81,35 @@ const Product = () => {
       type: "site",
     })
       .then((res) => {
-        updateProduct(res);
-        setProduct((data) => ({ ...data, loading: false }));
+        const modifiers =
+          res?.modifiers?.length > 0
+            ? groupByCategoryIdToArray(res.modifiers)
+            : [];
+        setProduct({
+          loading: false,
+          item: {
+            ...res,
+            modifiers: modifiers,
+          },
+        });
+
+        data.cart.data.modifiers =
+          modifiers?.length > 0 ? modifiers.map((e) => e.modifiers[0]) : [];
+        setData(data);
       })
       .catch(() => setProduct((data) => ({ ...data, loading: false })));
+  };
+
+  useLayoutEffect(() => {
+    onLoad();
   }, [productId, selectedAffiliate]);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (product.item) {
       let price = 0;
       let discount = 0;
-
       if (data.cart.data?.modifiers?.length > 0) {
-        if (product.item?.options?.modifierPriceSum) {
+        if (product.item.options.modifierPriceSum) {
           price +=
             data.cart.data.modifiers.reduce(
               (sum, item) => sum + item.price,
@@ -125,7 +126,7 @@ const Product = () => {
       }
 
       if (data.cart.data?.modifiers?.length > 0) {
-        if (product.item?.options?.modifierPriceSum) {
+        if (product.item.options.modifierPriceSum) {
           discount +=
             data.cart.data.modifiers.reduce(
               (sum, item) => sum + item.discount,
@@ -147,7 +148,6 @@ const Product = () => {
           0
         );
       }
-
       setPrices({ price, discount });
     }
   }, [data, product.item]);
@@ -256,9 +256,9 @@ const Product = () => {
                 product.item.modifiers.map((modifier) => (
                   <>
                     <div className="d-xxl-flex mb-4">
-                      {modifier?.length > 3 ? (
+                      {modifier.modifiers?.length > 3 ? (
                         <Select
-                          data={modifier.map((e) => ({
+                          data={modifier.modifiers.map((e) => ({
                             title: e.title,
                             value: e,
                           }))}
@@ -280,9 +280,9 @@ const Product = () => {
                           }}
                         />
                       ) : (
-                        modifier?.length > 0 && (
+                        modifier?.modifiers?.length > 0 && (
                           <ul className="inputGroup d-flex w-100">
-                            {modifier.map((e, index) => (
+                            {modifier.modifiers.map((e, index) => (
                               <li className="d-flex text-center w-100">
                                 <label>
                                   <input

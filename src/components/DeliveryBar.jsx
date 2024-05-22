@@ -9,7 +9,7 @@ const DeliveryBar = () => {
   const delivery = useSelector((state) => state.checkout.delivery);
   const isAuth = useSelector((state) => state.auth.isAuth);
   const zone = useSelector((state) => state.cart.zone);
-  const { price = 0 } = useTotalCart();
+  const { totalNoDelivery = 0 } = useTotalCart();
 
   if (delivery != "delivery" || !isAuth || !zone?.data) {
     return null;
@@ -20,9 +20,10 @@ const DeliveryBar = () => {
       <div className="freeDeliveryBar">
         <div className="py-2 px-3">
           <p>
-            {price < zone?.data?.minPrice
+            {totalNoDelivery < zone?.data?.minPrice
               ? `Минимальная сумма заказа ${customPrice(zone.data.minPrice)}`
-              : price >= zone?.data?.minPrice && price < zone?.data?.priceFree
+              : totalNoDelivery >= zone?.data?.minPrice &&
+                totalNoDelivery < zone?.data?.priceFree
               ? `Бесплатная доставка от ${customPrice(zone.data.priceFree)}`
               : "Бесплатная доставка"}
           </p>
@@ -30,9 +31,10 @@ const DeliveryBar = () => {
             <div
               className="bar"
               data-state={
-                price == 0
+                totalNoDelivery == 0
                   ? "none"
-                  : price > 0 && price < zone?.data?.priceFree
+                  : totalNoDelivery > 0 &&
+                    totalNoDelivery < zone?.data?.priceFree
                   ? "half"
                   : "full"
               }
@@ -63,7 +65,7 @@ const DeliveryBar = () => {
             fillOpacity="0.2"
           />
 
-          {price == 0 ? (
+          {totalNoDelivery == 0 ? (
             <path
               fillRule="evenodd"
               clipRule="evenodd"
@@ -71,7 +73,7 @@ const DeliveryBar = () => {
               fill="#637381"
               fillOpacity="0.4"
             />
-          ) : price > 0 && price < zone?.data?.priceFree ? (
+          ) : totalNoDelivery > 0 && totalNoDelivery < zone?.data?.priceFree ? (
             <>
               <path
                 fillRule="evenodd"
@@ -120,9 +122,10 @@ const DeliveryBar = () => {
         </svg>
 
         <div>
-          {price < zone?.data?.minPrice
+          {totalNoDelivery < zone?.data?.minPrice
             ? `Минимальная сумма заказа ${customPrice(zone.data.minPrice)}`
-            : price >= zone?.data?.minPrice && price < zone?.data?.priceFree
+            : totalNoDelivery >= zone?.data?.minPrice &&
+              totalNoDelivery < zone?.data?.priceFree
             ? `Бесплатная доставка от ${customPrice(zone.data.priceFree)}`
             : "Бесплатная доставка"}
         </div>

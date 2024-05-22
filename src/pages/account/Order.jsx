@@ -24,14 +24,19 @@ const Order = () => {
   });
 
   const affiliate =
-    order.item.delivery === "pickup" &&
-    order.item.affilateId &&
+    order?.item?.delivery === "pickup" &&
+    order?.item?.affilateId &&
     affiliates?.length > 0
       ? affiliates.find((e) => e.id === order.item.affilateId)
       : false;
 
-  const deliveryText = deliveryData[order.item.delivery];
-  const paymentText = paymentData[order.item.payment];
+  const deliveryText = order?.item?.delivery
+    ? deliveryData[order.item.delivery]
+    : null;
+
+  const paymentText = order?.item?.payment
+    ? paymentData[order.item.payment]
+    : null;
 
   useLayoutEffect(() => {
     getOrder(orderId)
@@ -85,11 +90,12 @@ const Order = () => {
       <Row>
         <Col lg={8} className="mb-4 mb-lg-0">
           <ul className="order-list">
-            {order.item.products.map((e) => (
-              <li>
-                <OrderItem data={e} />
-              </li>
-            ))}
+            {order.item?.products?.length > 0 &&
+              order.item?.products.map((e) => (
+                <li>
+                  <OrderItem data={e} />
+                </li>
+              ))}
           </ul>
         </Col>
         <Col lg={4}>
@@ -101,7 +107,7 @@ const Order = () => {
               <p className="fs-09 mb-3">
                 <div className="text-muted fs-08">Идентификатор</div>
                 <div className="fw-6">
-                  #{order.item.uid ? order.item.uid : order.item.id}
+                  #{order.item?.uid ? order.item.uid : order.item.id}
                 </div>
               </p>
 
@@ -111,7 +117,7 @@ const Order = () => {
                   {moment(order.item.createdAt).format("DD MMM YYYY kk:mm")}
                 </div>
               </p>
-              {order.item.serving && (
+              {order.item?.serving && (
                 <p className="fs-09 mb-3">
                   <div className="text-muted fs-08">Ко времени</div>
                   <div>
@@ -122,7 +128,7 @@ const Order = () => {
 
               <p className="fs-09 mb-3">
                 <div className="text-muted fs-08">{deliveryText}</div>
-                {order.item.delivery == "delivery" ? (
+                {order?.item?.delivery == "delivery" ? (
                   <div>
                     {`${order.item.street} ${order.item.home}${
                       order.item.block
@@ -142,6 +148,10 @@ const Order = () => {
                       : ""}
                   </div>
                 )}
+              </p>
+              <p className="fs-09 mb-3">
+                <div className="text-muted fs-08">Тип оплаты</div>
+                <div>{paymentText}</div>
               </p>
               <p className="d-flex justify-content-between fs-09 align-items-center mb-3">
                 <p>Кол-во персон</p>

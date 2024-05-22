@@ -11,20 +11,20 @@ const getCart = async () => {
 const updateCart = createAsyncThunk(
   "cart/update",
   async (payloads, thunkAPI) => {
-    const isAuth = thunkAPI.getState()?.auth?.isAuth;
+    // const isAuth = thunkAPI.getState()?.auth?.isAuth;
 
     thunkAPI.dispatch(updateCartSync(payloads));
 
-    if (isAuth) {
-      try {
-        const response = await $authApi.put(apiRoutes.CART, {
-          product: payloads,
-        });
-        return response?.data;
-      } catch (error) {
-        return thunkAPI.rejectWithValue(error);
-      }
-    }
+    // if (isAuth) {
+    //   try {
+    //     const response = await $authApi.put(apiRoutes.CART, {
+    //       product: payloads,
+    //     });
+    //     return response?.data;
+    //   } catch (error) {
+    //     return thunkAPI.rejectWithValue(error);
+    //   }
+    // }
   }
 );
 

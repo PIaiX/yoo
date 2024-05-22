@@ -7,7 +7,9 @@ const Status = memo((props) => {
       ? props.statuses.find((e) => e.end === null) ?? props?.statuses[0]
       : false;
 
-  let status = statusData[active.status.value] ?? false;
+  let status = active?.status?.value
+    ? statusData[active.status.value] ?? false
+    : false;
 
   const statusImage = status?.image;
   const statusIcon = status?.icon;
