@@ -1,11 +1,7 @@
-import React, { memo, useState } from "react";
-import Collapse from "react-bootstrap/Collapse";
-import { IoCaretDownOutline } from "react-icons/io5";
+import React, { memo } from "react";
 import { customPrice, customWeight } from "../helpers/all";
 
 const OrderItem = memo(({ data }) => {
-  const [open, setOpen] = useState(false);
-
   return (
     <div className="order-item d-flex justify-content-between">
       <div className="text">

@@ -331,10 +331,10 @@ const Product = () => {
                   full
                   product={product.item}
                   data={data}
-                  className="btn-light py-2"
+                  className="py-2"
                 >
                   <span className="fw-4">В корзину</span>
-                  <HiOutlineShoppingBag className="fs-15 ms-2" />
+                  <HiOutlineShoppingBag className="fs-12 ms-2" />
                 </ButtonCart>
               </div>
 

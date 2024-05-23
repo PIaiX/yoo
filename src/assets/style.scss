@@ -708,9 +708,8 @@ button {
 .btn {
   @include flex(row, center, center, nowrap);
   padding: 0.7em 1.2em;
+  transition: opacity 0.3s;
   text-align: center;
-  transition: $transition;
-  transition-property: color, background-color, border;
   width: fit-content;
   border-radius: $radius * 1.5;
   &-primary {
@@ -724,8 +723,9 @@ button {
     &.active,
     &:not(.btn-check) + .btn:active {
       color: #fff !important;
-      background-color: var(--main-color-active) !important;
-      border: 1px solid var(--main-color-active) !important;
+      opacity: 0.8;
+      background-color: var(--main-color) !important;
+      border: 1px solid var(--main-color) !important;
     }
   }
   &-10 {

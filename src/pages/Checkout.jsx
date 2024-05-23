@@ -704,7 +704,7 @@ const Checkout = () => {
               <Button
                 type="submit"
                 disabled={isValidBtn()}
-                className="btn-primary mt-3 fw-6 w-100"
+                className="mt-3 fw-6 w-100"
                 onClick={handleSubmit(onSubmit)}
               >
                 Оформить заказ

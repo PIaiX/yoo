@@ -147,7 +147,8 @@ const useTotalCart = () => {
                 pointAccrual = isEligible ? Math.floor((totalCalcul / 100) * Number(pointOptions.accrual.value)) : 0
             }
 
-            if (stateZone?.priceFree > totalCalcul && stateDelivery === 'delivery' && stateZone?.price) {
+            console.log(stateZone)
+            if (stateDelivery === 'delivery' && stateZone?.price > 0 && (!stateZone.options.freeStatus || stateZone?.priceFree > totalCalcul)) {
                 delivery += stateZone.price
                 totalCalcul += stateZone.price
             }

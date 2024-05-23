@@ -77,7 +77,7 @@ const ButtonCart = memo(
         }
         type="button"
         className={`${className} ${
-          isCartData ? "btn-light active" : "btn-light"
+          isCartData ? "btn-primary active" : "btn-primary"
         }`}
       >
         {children ?? (

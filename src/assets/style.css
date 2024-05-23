@@ -695,9 +695,8 @@ button {
   align-items: center;
   flex-wrap: nowrap;
   padding: 0.7em 1.2em;
+  transition: opacity 0.3s;
   text-align: center;
-  transition: 300ms ease-in;
-  transition-property: color, background-color, border;
   width: -webkit-fit-content;
   width: -moz-fit-content;
   width: fit-content;
@@ -717,8 +716,9 @@ button {
 }
 .btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary.active, .btn-primary:not(.btn-check) + .btn:active, .btn-primary:not(.btn-check) + .btn-red:active, .btn-primary:not(.btn-check) + .btn-orange:active, .btn-primary:not(.btn-check) + .btn-99:active, .btn-primary:not(.btn-check) + .btn-90:active, .btn-primary:not(.btn-check) + .btn-9:active, .btn-primary:not(.btn-check) + .btn-8:active, .btn-primary:not(.btn-check) + .btn-light:active, .btn-primary:not(.btn-check) + .btn-6:active, .btn-primary:not(.btn-check) + .btn-light-outline:active, .btn-primary:not(.btn-check) + .btn-deepgreen:active, .btn-primary:not(.btn-check) + .btn-green:active, .btn-primary:not(.btn-check) + .btn-40:active, .btn-primary:not(.btn-check) + .btn-40-light:active, .btn-primary:not(.btn-check) + .btn-4:active, .btn-primary:not(.btn-check) + .btn-white:active, .btn-primary:not(.btn-check) + .btn-30:active, .btn-primary:not(.btn-check) + .btn-secondary:active, .btn-primary:not(.btn-check) + .btn-2:active, .btn-primary:not(.btn-check) + .btn-10:active {
   color: #fff !important;
-  background-color: var(--main-color-active) !important;
-  border: 1px solid var(--main-color-active) !important;
+  opacity: 0.8;
+  background-color: var(--main-color) !important;
+  border: 1px solid var(--main-color) !important;
 }
 .btn-10 {
   color: var(--main-color);
