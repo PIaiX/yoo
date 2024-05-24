@@ -3414,8 +3414,8 @@ main {
 .sec-7 ul .active {
   border-radius: 1.25em;
   display: block;
-  color: var(--main-color);
-  background-color: var(--main-color-outline);
+  color: var(--main-color) !important;
+  background-color: var(--main-color-outline) !important;
   padding-left: 25px;
 }
 .sec-7 ul .active li {

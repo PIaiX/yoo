@@ -3116,9 +3116,9 @@ main {
     .active {
       border-radius: $radius;
       display: block;
-      color: var(--main-color);
+      color: var(--main-color) !important;
 
-      background-color: var(--main-color-outline);
+      background-color: var(--main-color-outline) !important;
       padding-left: 25px;
       li {
         border-bottom: none !important;
