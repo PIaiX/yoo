@@ -255,8 +255,8 @@ const Product = () => {
               {product?.item?.modifiers?.length > 0 &&
                 product.item.modifiers.map((modifier) => (
                   <>
-                    <div className="d-xxl-flex mb-4">
-                      {modifier.modifiers?.length > 3 ? (
+                    {modifier.modifiers?.length > 3 ? (
+                      <div className="mb-4">
                         <Select
                           data={modifier.modifiers.map((e) => ({
                             title: e.title,
@@ -279,8 +279,10 @@ const Product = () => {
                             setData(newData);
                           }}
                         />
-                      ) : (
-                        modifier?.modifiers?.length > 0 && (
+                      </div>
+                    ) : (
+                      modifier?.modifiers?.length > 0 && (
+                        <div className="d-xxl-flex mb-4">
                           <ul className="inputGroup d-flex w-100">
                             {modifier.modifiers.map((e, index) => (
                               <li className="d-flex text-center w-100">
@@ -312,9 +314,9 @@ const Product = () => {
                               </li>
                             ))}
                           </ul>
-                        )
-                      )}
-                    </div>
+                        </div>
+                      )
+                    )}
                   </>
                 ))}
 
