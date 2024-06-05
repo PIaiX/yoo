@@ -31,7 +31,6 @@ const Cart = () => {
   const user = useSelector((state) => state.auth.user);
   const cart = useSelector((state) => state.cart.items);
   const promo = useSelector((state) => state.cart.promo);
-  const zone = useSelector((state) => state.cart.zone);
   const stateDelivery = useSelector((state) => state.stateDelivery);
   const pointSwitch = useSelector((state) => state.checkout?.data?.pointSwitch);
   const address = useSelector((state) => state.address.items);
@@ -42,7 +41,6 @@ const Cart = () => {
     totalNoDelivery = 0,
     price = 0,
     discount = 0,
-    delivery,
     person = 0,
     pointAccrual,
     pickupDiscount,
@@ -64,8 +62,6 @@ const Cart = () => {
   });
   const form = useWatch({ control });
   const count = getCount(cart);
-
-  const isGift = cart?.length > 0 ? cart.find((e) => e.type == "gift") : false;
 
   const dispatch = useDispatch();
 

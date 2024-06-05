@@ -21,6 +21,10 @@ const OrderItem = memo(({ data }) => {
           data.cart.data.modifiers.map((e) => (
             <p className="fs-09 fw-6">{e.title}</p>
           ))}
+        {data?.cart?.data?.wishes?.length > 0 &&
+          data.cart.data.wishes.map((e) => (
+            <p className="fs-09 fw-6">{e.title}</p>
+          ))}
 
         {data?.cart?.data?.additions?.length > 0 && (
           <>
