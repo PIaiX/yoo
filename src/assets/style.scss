@@ -3257,6 +3257,22 @@ main {
         }
       }
     }
+    &-ingredients-minus {
+      padding-top: 0.25em;
+      @include list();
+      font-size: 0.9em;
+      li {
+        &:not(:last-child) {
+          margin-bottom: 0.25em;
+        }
+        &::before {
+          content: "-";
+          font-weight: 600;
+          color: $red;
+          margin-right: 0.5em;
+        }
+      }
+    }
   }
   &-box {
     background-color: var(--bg-second);

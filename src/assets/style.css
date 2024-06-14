@@ -3598,6 +3598,21 @@ main {
   color: #00ab55;
   margin-right: 0.5em;
 }
+.cart-item-ingredients-minus {
+  padding-top: 0.25em;
+  list-style: none;
+  padding-left: 0px;
+  font-size: 0.9em;
+}
+.cart-item-ingredients-minus li:not(:last-child) {
+  margin-bottom: 0.25em;
+}
+.cart-item-ingredients-minus li::before {
+  content: "-";
+  font-weight: 600;
+  color: #e01e00;
+  margin-right: 0.5em;
+}
 .cart-box {
   background-color: var(--bg-second);
   padding: 0.8em;
