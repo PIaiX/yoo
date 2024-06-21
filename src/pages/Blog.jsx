@@ -10,6 +10,7 @@ import EmptyCatalog from "../components/empty/catalog";
 import Loader from "../components/utils/Loader";
 import { getImageURL } from "../helpers/all";
 import { getBlog } from "../services/blog";
+import Meta from "../components/Meta";
 
 const Blog = () => {
   const { blogId } = useParams();
@@ -41,6 +42,7 @@ const Blog = () => {
   }
   return (
     <main>
+      <Meta title={blog.title} description={blog.content} />
       <Container>
         <section className="article-page pt-4 pt-lg-0 mb-6">
           <div className="position-relative">

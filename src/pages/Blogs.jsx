@@ -8,9 +8,13 @@ import Empty from "../components/Empty";
 import EmptyCatalog from "../components/empty/catalog";
 import Loader from "../components/utils/Loader";
 import { getBlogs } from "../services/blog";
+import Meta from "../components/Meta";
+import { useSelector } from "react-redux";
 
 const Blogs = () => {
   const [blogs, setBlogs] = useState({ loading: true, items: [] });
+  const selectedAffiliate = useSelector((state) => state.affiliate.active);
+  const options = useSelector((state) => state.settings.options);
 
   useEffect(() => {
     getBlogs({ size: 5 })
@@ -38,6 +42,10 @@ const Blogs = () => {
 
   return (
     <main className="inner">
+      <Meta
+        title={`${selectedAffiliate?.title ?? options?.title} — Новости`}
+        description={`${selectedAffiliate?.title ?? options?.title} — Новости`}
+      />
       <Container>
         <section className="sec-6 pt-4 pt-lg-0 mb-5">
           <h1 className="inner mb-4">Новости и статьи</h1>

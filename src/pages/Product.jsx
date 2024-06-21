@@ -173,7 +173,14 @@ const Product = () => {
 
   return (
     <main>
-      <Meta title={product?.item?.title ?? "Товар"} />
+      <Meta
+        title={`${selectedAffiliate?.title ?? options?.title} — ${
+          product?.item?.title
+        }`}
+        description={`${selectedAffiliate?.title ?? options?.title} — ${
+          product?.item?.title
+        }`}
+      />
       <Container>
         <NavTop
           toBack={true}

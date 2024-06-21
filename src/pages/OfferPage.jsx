@@ -9,6 +9,7 @@ import EmptyCatalog from "../components/empty/catalog";
 import Loader from "../components/utils/Loader";
 import { getImageURL } from "../helpers/all";
 import { getSale } from "../services/sales";
+import Meta from "../components/Meta";
 
 const OfferPage = () => {
   const { saleId } = useParams();
@@ -51,6 +52,7 @@ const OfferPage = () => {
 
   return (
     <main>
+      <Meta title={sale.data.title} description={sale.data.desc} />
       <section className="sec-6 pt-4 pt-lg-0 mb-5">
         <Container>
           <Row className="flex-row gx-4 gx-xxl-5 justify-content-center">

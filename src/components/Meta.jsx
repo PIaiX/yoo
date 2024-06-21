@@ -1,17 +1,43 @@
+import { ClientJS } from "clientjs";
 import { Helmet } from "react-helmet";
 
-const Meta = ({ title, description, image }) => {
-  return (
-    <Helmet>
-      <title>{title}</title>
-      <meta property="title" content={title} />
-      <meta property="og:title" content={title} />
-      <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-      <meta name="language" content="ru" />
+const Meta = ({
+  title = null,
+  description = null,
+  image = null,
+  type = "website",
+}) => {
+  const client = new ClientJS();
 
-      {image && <meta property="og:image" content={image} />}
-      {description && <meta property="description" content={description} />}
-      {description && <meta property="og:description" content={description} />}
+  return (
+    <Helmet
+      htmlAttributes={{ lang: client.getLanguage() }}
+      encodeSpecialCharacters={true}
+    >
+      <title>{title ?? process.env.REACT_APP_SITE_NAME}</title>
+      <meta name="og:type" content={type} />
+      <meta name="twitter:card" content="summary" />
+      <meta
+        name="twitter:title"
+        content={title ?? process.env.REACT_APP_SITE_NAME}
+      />
+      <meta
+        name="og:title"
+        content={title ?? process.env.REACT_APP_SITE_NAME}
+      />
+      <meta
+        name="description"
+        content={description ? description.slice(0, 160) : null}
+      />
+      <meta
+        name="og:description"
+        content={description ? description.slice(0, 160) : null}
+      />
+      <meta
+        name="twitter:description"
+        content={description ? description.slice(0, 160) : null}
+      />
+      <meta name="og:image" content={image ?? null} />
     </Helmet>
   );
 };

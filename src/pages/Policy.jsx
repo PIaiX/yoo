@@ -4,9 +4,13 @@ import Empty from "../components/Empty";
 import EmptyWork from "../components/empty/work";
 import Loader from "../components/utils/Loader";
 import { getDocument } from "../services/document";
+import { useSelector } from "react-redux";
+import Meta from "../components/Meta";
 
 const Policy = () => {
   const [document, setDocument] = useState({ loading: true, data: false });
+  const selectedAffiliate = useSelector((state) => state.affiliate.active);
+  const options = useSelector((state) => state.settings.options);
 
   useLayoutEffect(() => {
     getDocument("policy")
@@ -20,27 +24,45 @@ const Policy = () => {
 
   if (!document || !document?.data?.content) {
     return (
-      <Empty
-        text="В данный момент страница недоступна"
-        desc="Вернитесь на эту страницу чуть позже"
-        image={() => <EmptyWork />}
-        button={
-          <a
-            className="btn-primary"
-            onClick={() => {
-              location.reload();
-              return false;
-            }}
-          >
-            Обновить страницу
-          </a>
-        }
-      />
+      <>
+        <Meta
+          title={`${
+            selectedAffiliate?.title ?? options?.title
+          } — Политика конфиденциальности`}
+          description={`${
+            selectedAffiliate?.title ?? options?.title
+          } — Политика конфиденциальности`}
+        />
+        <Empty
+          text="В данный момент страница недоступна"
+          desc="Вернитесь на эту страницу чуть позже"
+          image={() => <EmptyWork />}
+          button={
+            <a
+              className="btn-primary"
+              onClick={() => {
+                location.reload();
+                return false;
+              }}
+            >
+              Обновить страницу
+            </a>
+          }
+        />
+      </>
     );
   }
 
   return (
     <main>
+      <Meta
+        title={`${
+          selectedAffiliate?.title ?? options?.title
+        } — Политика конфиденциальности`}
+        description={`${
+          selectedAffiliate?.title ?? options?.title
+        } — Политика конфиденциальности`}
+      />
       <section className="sec-7 mb-5">
         <Container>
           {document?.data?.content && (

@@ -6,10 +6,10 @@ import GooglePlay from "../assets/imgs/googleplay-black.svg";
 import Phone from "../assets/imgs/phone.png";
 import Catalog from "../components/Catalog";
 import Empty from "../components/Empty";
-import EmptyCatalog from "../components/empty/catalog";
 import Meta from "../components/Meta";
-import Loader from "../components/utils/Loader";
 import Widgets from "../components/Widgets";
+import EmptyCatalog from "../components/empty/catalog";
+import Loader from "../components/utils/Loader";
 import { useGetHomeQuery } from "../services/home";
 
 const Home = () => {
@@ -29,8 +29,15 @@ const Home = () => {
   return (
     <main className="mt-0 pt-0">
       <Meta
-        title={selectedAffiliate?.title ?? options?.title ?? "Главная"}
-        description={options?.description}
+        title={`${
+          selectedAffiliate?.title ?? options?.title ?? "Главная"
+        } — доставка еды на дом, офис`}
+        description={
+          options?.description ??
+          `Быстрая доставка еды ${
+            selectedAffiliate?.title ?? options?.title
+          }. Заказывайте прямо сейчас.`
+        }
       />
 
       {home?.data?.widgets?.length > 0 ? (

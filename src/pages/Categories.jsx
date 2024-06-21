@@ -8,9 +8,13 @@ import Loader from "../components/utils/Loader";
 import EmptyCatalog from "../components/empty/catalog";
 import { Link } from "react-router-dom";
 import Empty from "../components/Empty";
+import Meta from "../components/Meta";
+import { useSelector } from "react-redux";
 
 const Categories = () => {
   const [categories, setCategories] = useState({ loading: true, items: [] });
+  const selectedAffiliate = useSelector((state) => state.affiliate.active);
+  const options = useSelector((state) => state.settings.options);
 
   useEffect(() => {
     getCategoriesList({ size: 50, parent: false })
@@ -24,21 +28,33 @@ const Categories = () => {
 
   if (categories?.items?.length === 0) {
     return (
-      <Empty
-        text="Каталога нет"
-        desc="Каталог уже скоро появится"
-        image={() => <EmptyCatalog />}
-        button={
-          <Link className="btn-primary" to="/">
-            Перейти на главную
-          </Link>
-        }
-      />
+      <>
+        <Meta
+          title={`${selectedAffiliate?.title ?? options?.title} — Каталог`}
+          description={`${
+            selectedAffiliate?.title ?? options?.title
+          } — Каталог`}
+        />
+        <Empty
+          text="Каталога нет"
+          desc="Каталог уже скоро появится"
+          image={() => <EmptyCatalog />}
+          button={
+            <Link className="btn-primary" to="/">
+              Перейти на главную
+            </Link>
+          }
+        />
+      </>
     );
   }
 
   return (
     <main>
+      <Meta
+        title={`${selectedAffiliate?.title ?? options?.title} — Каталог`}
+        description={`${selectedAffiliate?.title ?? options?.title} — Каталог`}
+      />
       <section className="page-catalog mb-6">
         <Container>
           <h1 className="text-center mb-4">Каталог</h1>

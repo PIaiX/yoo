@@ -8,11 +8,14 @@ import EmptyWork from "../components/empty/work";
 import Empty from "../components/Empty";
 import { customPrice } from "../helpers/all";
 import moment from "moment";
+import Meta from "../components/Meta";
 
 const Contact = () => {
   const affiliate = useSelector((state) => state.affiliate.items);
   const colors = ["#f56057", "#007aff", "#222222"];
   const zones = useSelector((state) => state.affiliate.zones);
+  const selectedAffiliate = useSelector((state) => state.affiliate.active);
+  const options = useSelector((state) => state.settings.options);
 
   const [mainAffiliate, setMainAffiliate] = useState(
     affiliate?.length > 0
@@ -43,6 +46,10 @@ const Contact = () => {
 
   return (
     <main>
+      <Meta
+        title={`${selectedAffiliate?.title ?? options?.title} — Контакты`}
+        description={`${selectedAffiliate?.title ?? options?.title} — Контакты`}
+      />
       <section className="sec-7 mb-5">
         <Container>
           <Row>

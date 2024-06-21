@@ -9,12 +9,13 @@ import Loader from "../components/utils/Loader";
 import { getCategory } from "../services/category";
 import { HiOutlineArrowLeftCircle } from "react-icons/hi2";
 import NavTop from "../components/utils/NavTop";
+import Meta from "../components/Meta";
 
 const Category = () => {
   const { categoryId } = useParams();
   const multiBrand = useSelector((state) => state.settings.options.multiBrand);
   const selectedAffiliate = useSelector((state) => state.affiliate.active);
-  const navigate = useNavigate();
+
   const [category, setCategory] = useState({
     loading: true,
     item: {},
@@ -59,6 +60,14 @@ const Category = () => {
 
   return (
     <main>
+      <Meta
+        title={`${selectedAffiliate?.title ?? options?.title} — ${
+          category.item.title
+        }`}
+        description={`${selectedAffiliate?.title ?? options?.title} — ${
+          category.item.title
+        }`}
+      />
       <section className="container">
         <NavTop breadcrumbs={false} />
         {/* <Notice /> */}

@@ -108,16 +108,19 @@ const Cart = () => {
 
   if (!Array.isArray(cart) || cart.length <= 0) {
     return (
-      <Empty
-        text="Корзина пуста"
-        desc="Перейдите к меню, чтобы сделать первый заказ"
-        image={() => <EmptyCart />}
-        button={
-          <Link className="btn-primary" to="/">
-            Перейти в меню
-          </Link>
-        }
-      />
+      <>
+        <Meta title="Корзина" />
+        <Empty
+          text="Корзина пуста"
+          desc="Перейдите к меню, чтобы сделать первый заказ"
+          image={() => <EmptyCart />}
+          button={
+            <Link className="btn-primary" to="/">
+              Перейти в меню
+            </Link>
+          }
+        />
+      </>
     );
   }
 

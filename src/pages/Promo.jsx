@@ -2,14 +2,18 @@ import React from "react";
 import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
+import { useSelector } from "react-redux";
 import Empty from "../components/Empty";
-import EmptySale from "../components/empty/sale";
+import Meta from "../components/Meta";
 import Offer from "../components/Offer";
+import EmptySale from "../components/empty/sale";
 import Loader from "../components/utils/Loader";
 import { useGetSalesQuery } from "../services/home";
 
 const Promo = () => {
   const sales = useGetSalesQuery();
+  const selectedAffiliate = useSelector((state) => state.affiliate.active);
+  const options = useSelector((state) => state.settings.options);
 
   if (sales?.isLoading) {
     return <Loader full />;
@@ -37,6 +41,10 @@ const Promo = () => {
   }
   return (
     <main>
+      <Meta
+        title={`${selectedAffiliate?.title ?? options?.title} — Акции`}
+        description={`${selectedAffiliate?.title ?? options?.title} — Акции`}
+      />
       <section className="sec-6 pt-4 pt-lg-0 mb-5">
         <Container>
           <Row
