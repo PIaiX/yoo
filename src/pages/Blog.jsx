@@ -43,14 +43,31 @@ const Blog = () => {
     <main>
       <Container>
         <section className="article-page pt-4 pt-lg-0 mb-6">
-          <img
-            className="mb-4 mb-sm-5 d-block m-auto"
-            src={getImageURL({ path: blog.media, size: "full", type: "blog" })}
-            alt={blog.title}
-          />
-          <Row className="justify-content-between">
+          <div className="position-relative">
+            <div
+              className="blog-post-background"
+              style={{
+                backgroundImage: `url(${getImageURL({
+                  path: blog.media,
+                  size: "full",
+                  type: "blog",
+                })})`,
+              }}
+            ></div>
+            <img
+              className="mb-4 mb-sm-5 d-block m-auto"
+              src={getImageURL({
+                path: blog.media,
+                size: "full",
+                type: "blog",
+              })}
+              alt={blog.title}
+            />
+          </div>
+
+          <Row className="justify-content-center">
             <Col lg={9} xxl={8}>
-              <h1 className="mb-3 mb-sm-4">{blog.title}</h1>
+              <h1 className="mb-3 mb-sm-4 text-center">{blog.title}</h1>
               <div dangerouslySetInnerHTML={{ __html: blog.content }} />
             </Col>
             {/* <Col lg={3} className="d-none d-lg-block">

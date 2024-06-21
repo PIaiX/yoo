@@ -40,9 +40,9 @@ const Offer = ({ data }) => {
           >
             {data?.title && <h5 className="offer-body-title">{data.title}</h5>}
           </Link>
-          {data?.desc && (
+          {/* {data?.desc && (
             <p className="fw-4 text-muted offer-body-desc mb-3">{data.desc}</p>
-          )}
+          )} */}
         </div>
         <div className="d-flex justify-content-end">
           <Link

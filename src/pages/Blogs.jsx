@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from "react";
+import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
-import Offer from "../components/Offer";
-import ArticlePreview from "../components/ArticlePreview";
-import { getBlogs } from "../services/blog";
-import EmptyCatalog from "../components/empty/catalog";
 import { Link } from "react-router-dom";
+import ArticlePreview from "../components/ArticlePreview";
 import Empty from "../components/Empty";
+import EmptyCatalog from "../components/empty/catalog";
 import Loader from "../components/utils/Loader";
+import { getBlogs } from "../services/blog";
 
 const Blogs = () => {
   const [blogs, setBlogs] = useState({ loading: true, items: [] });
@@ -27,7 +26,6 @@ const Blogs = () => {
     return (
       <Empty
         text="Новостей нет"
-        desc="Новости скоро появится"
         image={() => <EmptyCatalog />}
         button={
           <Link className="btn-primary" to="/">

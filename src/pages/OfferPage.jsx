@@ -53,7 +53,7 @@ const OfferPage = () => {
     <main>
       <section className="sec-6 pt-4 pt-lg-0 mb-5">
         <Container>
-          <Row className="flex-row gx-4 gx-xxl-5">
+          <Row className="flex-row gx-4 gx-xxl-5 justify-content-center">
             <Col xs={12} lg={8}>
               <figure className="offer full">
                 <LazyLoadImage
