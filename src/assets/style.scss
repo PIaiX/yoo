@@ -456,17 +456,22 @@ input {
     @include no-appearance;
     width: $radius;
     height: $radius;
-    border: 1px solid var(--bg-btn);
+    border: none !important;
     background-color: var(--bg-second);
     background-repeat: no-repeat;
     background-size: contain;
     background-position: center;
     border-radius: calc($radius * 0.25);
     box-shadow: none;
+    &:focus, &:active, &:hover, &.active{
+      box-shadow: none !important;
+      outline: none !important;
+      border-color: transparent !important;
+    }
     &:checked {
       background-image: url(imgs/mark.svg);
       background-color: var(--main-color);
-      border: 1px solid var(--main-color);
+      border: none !important;
     }
     &[role="switch"] {
       cursor: pointer;
@@ -3309,13 +3314,11 @@ footer {
 
   @media (max-width: $bp-lg) {
     background-color: var(--bg-second);
-    @include shadow();
     position: fixed;
     bottom: -1px;
     left: 0px;
     width: 100%;
     z-index: 900;
-    @include shadow();
   }
   .desktop {
     height: 100%;
@@ -3325,7 +3328,7 @@ footer {
       max-height: 90px;
     }
     a {
-      transition: color $transition;
+      // transition: color $transition;
       &:hover {
         color: var(--main-color);
       }
@@ -3342,11 +3345,10 @@ footer {
           padding: 0.5em;
           border-radius: $radius * 0.5;
           background-color: transparent;
-          max-width: 2.6em;
-          height: 2.6em;
+       
           overflow: hidden;
-          transition: $transition;
-          transition-property: background-color, max-width;
+          // transition: $transition;
+          // transition-property: background-color, max-width;
           &.active .text {
             color: #fff !important;
           }
@@ -3354,7 +3356,7 @@ footer {
             width: 1.6em !important;
             height: 1.6em !important;
             color: var(--font-color);
-            transition: color $transition;
+            // transition: color $transition;
           }
           .text {
             color: var(--font-color);
@@ -3362,15 +3364,16 @@ footer {
             overflow: hidden;
             max-width: 0px;
             // display: none;
-            transition: max-width $transition;
+            // transition: max-width $transition;
           }
           .badge {
-            bottom: -3px;
-            left: 18px;
+            bottom: -4px;
+            right: -4px;
             font-size: 9px;
             background-color: var(--main-color);
+            padding: 0px;
             color: #fff;
-            width: 1.5em;
+            min-width: 1.5em;
             height: 1.5em;
             display: flex;
             flex-direction: row;
@@ -4242,6 +4245,8 @@ ACCOUNT END
       &:focus,
       &:active {
         opacity: 1;
+        box-shadow: none;
+        outline: none;
       }
     }
   }
@@ -5153,17 +5158,17 @@ ACCOUNT END
       @include clamp(3, 1.3em, true);
     }
   }
-  &-page{
+  &-page {
     img {
       border-radius: $radius;
       height: 500px;
       object-fit: contain;
     }
   }
-  &-preview{
+  &-preview {
     display: flex;
     flex-direction: row;
-    img{
+    img {
       width: 180px;
       height: 180px;
       object-fit: cover;

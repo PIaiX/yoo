@@ -3,7 +3,7 @@ import React, { useCallback, useLayoutEffect } from "react";
 import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
-import { useForm } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
 import { NotificationManager } from "react-notifications";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -14,9 +14,11 @@ import NavBreadcrumbs from "../../components/utils/NavBreadcrumbs";
 import { editAccount } from "../../services/account";
 import { setUser } from "../../store/reducers/authSlice";
 import { useTranslation } from "react-i18next";
+import Select from "../../components/utils/Select";
+import { localeData } from "../../helpers/all";
 
 const Settings = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   const user = useSelector((state) => state.auth.user);
   const profilePointVisible = useSelector(
@@ -32,9 +34,11 @@ const Settings = () => {
   }, [user]);
 
   const {
+    control,
     register,
     formState: { errors, isValid },
     handleSubmit,
+    setValue,
   } = useForm({
     mode: "onChange",
     reValidateMode: "onSubmit",
@@ -45,6 +49,19 @@ const Settings = () => {
         : null,
     },
   });
+
+  const data = useWatch({ control });
+
+  const editLang = useCallback(
+    (lang) => {
+      lang = Array.isArray(lang) ? lang[0].trim() : lang.trim();
+      editAccount({ ...data, lang });
+      i18n.changeLanguage(lang);
+      moment.locale(lang);
+      setValue("lang", lang);
+    },
+    [i18n, data]
+  );
 
   const onSubmit = useCallback(
     async (data) => {
@@ -138,70 +155,87 @@ const Settings = () => {
               </Col> */}
               <Col xs={12}>
                 <div className="box p-3 p-sm-4">
-                  <form action="">
-                    <h6 className="mb-3">{t("Настройки")}</h6>
-                    <Row className="fs-11 g-4">
-                      <Col md={4}>
-                        <Input
-                          label={t("Имя")}
-                          name="firstName"
-                          errors={errors}
-                          register={register}
-                        />
-                      </Col>
-                      <Col md={4}>
-                        <Input
-                          label={t("Фамилия")}
-                          name="lastName"
-                          errors={errors}
-                          register={register}
-                        />
-                      </Col>
-                      <Col md={4}>
-                        <Input
-                          type="date"
-                          label={t("День рождения")}
-                          name="birthday"
-                          readOnly={!!user?.birthday}
-                          errors={errors}
-                          register={register}
-                        />
-                      </Col>
-                      <Col md={6}>
-                        <Input
-                          mask="7(999)999-99-99"
-                          label={t("Номер телефона")}
-                          name="phone"
-                          errors={errors}
-                          register={register}
-                          validation={{ required: t("Обязательное поле") }}
-                        />
-                      </Col>
-                      <Col md={6}>
-                        <Input
-                          label="Email"
-                          name="email"
-                          errors={errors}
-                          register={register}
-                        />
-                      </Col>
-                    </Row>
-                    <button
-                      type="submit"
-                      disabled={!isValid}
-                      onClick={handleSubmit(onSubmit)}
-                      className="btn-primary mt-4 d-block d-md-flex w-xs-100"
-                    >
-                      {t("Сохранить изменения")}
-                    </button>
-                  </form>
+                  <h6 className="mb-3">{t("Настройки")}</h6>
+                  <Row className="g-4">
+                    <Col md={4}>
+                      <Input
+                        errors={errors}
+                        label={t("Имя")}
+                        name="firstName"
+                        placeholder={t("Введите имя")}
+                        register={register}
+                        validation={{
+                          maxLength: {
+                            value: 30,
+                            message: t("Максимум 30 символов"),
+                          },
+                        }}
+                      />
+                    </Col>
+                    <Col md={4}>
+                      <Input
+                        label={t("Фамилия")}
+                        name="lastName"
+                        errors={errors}
+                        register={register}
+                      />
+                    </Col>
+                    <Col md={4}>
+                      <Input
+                        type="date"
+                        label={t("День рождения")}
+                        name="birthday"
+                        readOnly={!!user?.birthday}
+                        errors={errors}
+                        register={register}
+                      />
+                    </Col>
+                    <Col md={6}>
+                      <Input
+                        mask="7(999)999-99-99"
+                        label={t("Номер телефона")}
+                        name="phone"
+                        errors={errors}
+                        register={register}
+                        validation={{ required: t("Обязательное поле") }}
+                      />
+                    </Col>
+                    <Col md={6}>
+                      <Input
+                        label="Email"
+                        name="email"
+                        errors={errors}
+                        register={register}
+                      />
+                    </Col>
+                    <Col md={6}>
+                      <Select
+                        className="form-control p-3"
+                        data={localeData.map((e) => ({
+                          title: e.title,
+                          image: e.image,
+                          value: e.lang[0],
+                        }))}
+                        value={data.lang}
+                        onClick={(e) => editLang(e.value)}
+                      />
+                    </Col>
+                  </Row>
+                  <button
+                    type="submit"
+                    disabled={!isValid}
+                    onClick={handleSubmit(onSubmit)}
+                    className="btn-primary mt-4 d-block d-md-flex w-xs-100"
+                  >
+                    {t("Сохранить изменения")}
+                  </button>
                 </div>
               </Col>
             </Row>
           </Col>
-          <Col lg={4} className="d-none d-lg-block">
+          {/* <Col lg={4} className="d-none d-lg-block">
             <div className="gradient-block"></div>
-          </Col>
+          </Col> */}
         </Row>
       </Container>
     </main>

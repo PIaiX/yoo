@@ -10,6 +10,7 @@ import FlameIcon from "./svgs/FlameIcon";
 import HomeIcon from "./svgs/HomeIcon";
 import UserIcon from "./svgs/UserIcon";
 import { useTranslation } from "react-i18next";
+import { IoCartOutline, IoHomeOutline, IoPeopleOutline, IoPerson, IoPersonOutline } from "react-icons/io5";
 
 const Footer = memo(() => {
   const { t } = useTranslation();
@@ -26,10 +27,10 @@ const Footer = memo(() => {
           <ul>
             <li>
               <NavLink to="/">
-                <HomeIcon />
-                <div className="text fs-09">
+                <IoHomeOutline />
+                {/* <div className="text fs-09">
                   <span>{t("Главная")}</span>
-                </div>
+                </div> */}
               </NavLink>
             </li>
             {/* <li>
@@ -43,17 +44,17 @@ const Footer = memo(() => {
             <li>
               <NavLink to="/promo">
                 <FlameIcon />
-                <div className="text fs-09">
+                {/* <div className="text fs-09">
                   <span>{t("Акции")}</span>
-                </div>
+                </div> */}
               </NavLink>
             </li>
             <li>
               <NavLink to="/cart" className="position-relative">
-                <CartIcon />
-                <div className="text fs-09">
+                <IoCartOutline />
+                {/* <div className="text fs-09">
                   <span>{t("Корзина")}</span>
-                </div>
+                </div> */}
                 {count > 0 && (
                   <span className="position-absolute translate-middle badge rounded-pill">
                     {count}
@@ -63,10 +64,10 @@ const Footer = memo(() => {
             </li>
             <li>
               <NavLink to={isAuth ? "/account" : "/login"}>
-                <UserIcon size={50} />
-                <div className="text fs-09">
+                <IoPersonOutline />
+                {/* <div className="text fs-09">
                   <span>{t("Аккаунт")}</span>
-                </div>
+                </div> */}
               </NavLink>
             </li>
           </ul>

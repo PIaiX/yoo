@@ -3,8 +3,8 @@ import {initReactI18next} from 'react-i18next'
 import { ClientJS } from 'clientjs';
 
 const client = new ClientJS();
-// const language = client.getLanguage();
-const language = 'kk_KZ'
+const language = client.getLanguage();
+
 const languageDetector = {
     type: 'languageDetector',
     async: true,

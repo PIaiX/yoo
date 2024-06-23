@@ -216,12 +216,37 @@ const setCssColor = (name, value) => {
   document.documentElement.style.setProperty(name, value);
 };
 
+const localeData = [
+  {
+    title: "Русский",
+    image: require("../assets/imgs/country/russia.png"),
+    lang: ["ru_RU", "ru-RU", "ru"],
+  },
+  {
+    title: "Казахский",
+    image: require("../assets/imgs/country/kazakhstan.png"),
+    lang: ["kk_KZ", "kk-KZ", "kz", "kk"],
+  },
+  {
+    title: "Английский",
+    image: require("../assets/imgs/country/united-states.png"),
+    lang: ["en_US", "en-US", "en"],
+  },
+];
+
+const getLang = (value) => {
+  let lang = localeData.find((e) => e.lang.includes(value ?? "ru"));
+  return lang?.title;
+};
+
 export {
   setCssColor,
   customPrice,
   getImageURL,
   convertColor,
   customWeight,
+  getLang,
+  localeData,
   statusData,
   deliveryData,
   paymentData,

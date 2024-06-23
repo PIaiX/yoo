@@ -25,6 +25,7 @@ import { updateStatus } from "./store/reducers/statusSlice";
 
 import moment from "moment";
 import { useTranslation } from "react-i18next";
+import { setAuth, setUser } from "./store/reducers/authSlice";
 
 function App() {
   const { i18n } = useTranslation();
@@ -133,10 +134,11 @@ function App() {
 
           if (auth?.token) {
             await checkAuth()
-              .then(async (data) => {
+              .then((data) => {
+        
                 dispatch(setAuth(true));
                 dispatch(setUser(data));
-
+             
                 if (data?.lang) {
                   i18n.changeLanguage(data.lang);
                   moment.locale(data.lang);
@@ -146,7 +148,7 @@ function App() {
 
                 dispatch(getFavorites());
               })
-              .catch(async (err) => {
+              .catch((err) => {
                 err?.response?.status === 404 && dispatch(logout());
               });
           }

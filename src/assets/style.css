@@ -394,7 +394,7 @@ input[type=checkbox] {
   margin: 0px;
   width: 1.25em;
   height: 1.25em;
-  border: 1px solid var(--bg-btn);
+  border: none !important;
   background-color: var(--bg-second);
   background-repeat: no-repeat;
   background-size: contain;
@@ -402,10 +402,15 @@ input[type=checkbox] {
   border-radius: 0.3125em;
   box-shadow: none;
 }
+input[type=checkbox]:focus, input[type=checkbox]:active, input[type=checkbox]:hover, input[type=checkbox].active {
+  box-shadow: none !important;
+  outline: none !important;
+  border-color: transparent !important;
+}
 input[type=checkbox]:checked {
   background-image: url(imgs/mark.svg);
   background-color: var(--main-color);
-  border: 1px solid var(--main-color);
+  border: none !important;
 }
 input[type=checkbox][role=switch] {
   cursor: pointer;
@@ -3626,13 +3631,11 @@ footer {
 @media (max-width: 991.98px) {
   footer {
     background-color: var(--bg-second);
-    box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.06);
     position: fixed;
     bottom: -1px;
     left: 0px;
     width: 100%;
     z-index: 900;
-    box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.06);
   }
 }
 footer .desktop {
@@ -3646,9 +3649,6 @@ footer .desktop {
 footer .desktop .logo {
   max-width: 120px;
   max-height: 90px;
-}
-footer .desktop a {
-  transition: color 300ms ease-in;
 }
 footer .desktop a:hover {
   color: var(--main-color);
@@ -3672,11 +3672,7 @@ footer .mobile ul li a {
   padding: 0.5em;
   border-radius: 0.625em;
   background-color: transparent;
-  max-width: 2.6em;
-  height: 2.6em;
   overflow: hidden;
-  transition: 300ms ease-in;
-  transition-property: background-color, max-width;
 }
 footer .mobile ul li a.active .text {
   color: #fff !important;
@@ -3685,22 +3681,21 @@ footer .mobile ul li a svg {
   width: 1.6em !important;
   height: 1.6em !important;
   color: var(--font-color);
-  transition: color 300ms ease-in;
 }
 footer .mobile ul li a .text {
   color: var(--font-color);
   margin-left: 3px;
   overflow: hidden;
   max-width: 0px;
-  transition: max-width 300ms ease-in;
 }
 footer .mobile ul li a .badge {
-  bottom: -3px;
-  left: 18px;
+  bottom: -4px;
+  right: -4px;
   font-size: 9px;
   background-color: var(--main-color);
+  padding: 0px;
   color: #fff;
-  width: 1.5em;
+  min-width: 1.5em;
   height: 1.5em;
   display: flex;
   flex-direction: row;
@@ -4775,6 +4770,8 @@ ACCOUNT END
 }
 .modal-body .close:hover, .modal-body .close:focus, .modal-body .close:active {
   opacity: 1;
+  box-shadow: none;
+  outline: none;
 }
 
 .notification-container {

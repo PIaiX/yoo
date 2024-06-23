@@ -100,17 +100,27 @@ const Orders = () => {
 
   if (!Array.isArray(orders.items) || orders.items.length <= 0) {
     return (
-      <Empty
-        mini
-        text={t("Заказов пока нет")}
-        desc={t("Перейдите к меню, чтобы сделать первый заказ")}
-        image={() => <EmptyOrders />}
-        button={
-          <Link className="btn-primary" to="/">
-            {t('Перейти в меню')}
+      <>
+        <Meta title={t("Заказы")} />
+        <div className="d-flex d-lg-none align-items-center mb-4">
+          <Link to="/account" className="link-return">
+            <HiOutlineArrowLeftCircle />
+            <span>{t("Назад")}</span>
           </Link>
-        }
-      />
+          <h6 className="fs-12 mb-0">{t("Заказы")}</h6>
+        </div>
+        <Empty
+          mini
+          text={t("Заказов пока нет")}
+          desc={t("Перейдите к меню, чтобы сделать первый заказ")}
+          image={() => <EmptyOrders />}
+          button={
+            <Link className="btn-primary" to="/">
+              {t("Перейти в меню")}
+            </Link>
+          }
+        />
+      </>
     );
   }
 
@@ -120,9 +130,9 @@ const Orders = () => {
       <div className="d-flex d-lg-none align-items-center mb-4">
         <Link to="/account" className="link-return">
           <HiOutlineArrowLeftCircle />
-          <span>{t('Назад')}</span>
+          <span>{t("Назад")}</span>
         </Link>
-        <h6 className="fs-12 mb-0">{t('Заказы')}</h6>
+        <h6 className="fs-12 mb-0">{t("Заказы")}</h6>
       </div>
       <DataTable
         onClick={(e) => navigate("/account/orders/" + e.id)}
