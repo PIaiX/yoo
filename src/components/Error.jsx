@@ -1,10 +1,12 @@
 import { memo } from "react";
+import { useTranslation } from "react-i18next";
 
 const Error = memo(() => {
   const onClear = () => {
     localStorage.removeItem("persist:root");
     window.location.reload();
   };
+  const { t } = useTranslation();
 
   return (
     <main
@@ -13,13 +15,13 @@ const Error = memo(() => {
       }
     >
       <div>
-        <p className="text-center h4">Произошла ошибка</p>
+        <p className="text-center h4">{t("Произошла ошибка")}</p>
         <p className="text-center text-muted">
-          У вас старая версия сайта. Очистите кеш чтобы обновить данные.
+          {t("У вас старая версия сайта. Очистите кеш чтобы обновить данные.")}
         </p>
 
         <div className="d-flex justify-content-center mt-4">
-          <button onClick={() => onClear()}>Очистить кеш</button>
+          <button onClick={() => onClear()}>{t("Очистить кеш")}</button>
         </div>
       </div>
     </main>

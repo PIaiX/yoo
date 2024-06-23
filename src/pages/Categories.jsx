@@ -10,11 +10,13 @@ import { Link } from "react-router-dom";
 import Empty from "../components/Empty";
 import Meta from "../components/Meta";
 import { useSelector } from "react-redux";
+import { useTranslation } from "react-i18next";
 
 const Categories = () => {
   const [categories, setCategories] = useState({ loading: true, items: [] });
   const selectedAffiliate = useSelector((state) => state.affiliate.active);
   const options = useSelector((state) => state.settings.options);
+  const { t } = useTranslation();
 
   useEffect(() => {
     getCategoriesList({ size: 50, parent: false })
@@ -30,18 +32,18 @@ const Categories = () => {
     return (
       <>
         <Meta
-          title={`${selectedAffiliate?.title ?? options?.title} — Каталог`}
+          title={`${selectedAffiliate?.title ?? options?.title} — ${t("Каталог")}`}
           description={`${
             selectedAffiliate?.title ?? options?.title
-          } — Каталог`}
+          } — ${t("Каталог")}`}
         />
         <Empty
-          text="Каталога нет"
-          desc="Каталог уже скоро появится"
+          text={t("Каталога нет")}
+          desc={t("Каталог уже скоро появится")}
           image={() => <EmptyCatalog />}
           button={
             <Link className="btn-primary" to="/">
-              Перейти на главную
+              {t("Перейти на главную")}
             </Link>
           }
         />
@@ -52,12 +54,12 @@ const Categories = () => {
   return (
     <main>
       <Meta
-        title={`${selectedAffiliate?.title ?? options?.title} — Каталог`}
-        description={`${selectedAffiliate?.title ?? options?.title} — Каталог`}
+        title={`${selectedAffiliate?.title ?? options?.title} — ${t("Каталог")}`}
+        description={`${selectedAffiliate?.title ?? options?.title} — ${t("Каталог")}`}
       />
       <section className="page-catalog mb-6">
         <Container>
-          <h1 className="text-center mb-4">Каталог</h1>
+          <h1 className="text-center mb-4">{t("Каталог")}</h1>
           <Row
             xs={2}
             md={3}

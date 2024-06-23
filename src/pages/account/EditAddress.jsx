@@ -20,8 +20,11 @@ import useDebounce from "../../hooks/useDebounce";
 import { editAddress, getAddress } from "../../services/address";
 import { getDadataStreets } from "../../services/dadata";
 import { updateAddress } from "../../store/reducers/addressSlice";
+import { useTranslation } from "react-i18next";
 
 const EditAddress = () => {
+  const { t } = useTranslation();
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { addressId } = useParams();
@@ -113,7 +116,7 @@ const EditAddress = () => {
   const onSubmit = useCallback((data) => {
     editAddress(data)
       .then((res) => {
-        NotificationManager.success("Адрес успешно обновлен");
+        NotificationManager.success(t("Адрес успешно обновлен"));
         if (res) {
           dispatch(updateAddress(res));
         }
@@ -123,7 +126,7 @@ const EditAddress = () => {
         NotificationManager.error(
           typeof error?.response?.data?.error === "string"
             ? error.response.data.error
-            : "Неизвестная ошибка"
+            : t("Неизвестная ошибка")
         );
       });
   }, []);
@@ -136,12 +139,12 @@ const EditAddress = () => {
     return (
       <Empty
         mini
-        text="Такого адреса не существует"
-        desc="Попробуйте обновить страницу или добавьте новый адрес"
+        text={t("Такого адреса не существует")}
+        desc={t("Попробуйте обновить страницу или добавьте новый адрес")}
         image={() => <EmptyAddresses />}
         button={
           <Link className="btn-primary" to="/account/addresses/add">
-            Добавить адрес
+            {t("Добавить адрес")}
           </Link>
         }
       />
@@ -150,25 +153,25 @@ const EditAddress = () => {
 
   return (
     <section className="addresses">
-      <Meta title="Редактировать адрес" />
+      <Meta title={t("Редактировать адрес")} />
       <AccountTitleReturn
         link="/account/addresses"
-        title="Редактировать адрес"
+        title={t("Редактировать адрес")}
       />
       <div className="mb-4 position-relative">
         <Input
           required
           errors={errors}
-          label="Адрес"
+          label={t("Адрес")}
           onKeyDown={(e) => onKeyDown(e)}
           onClick={() => setShowDropdown(true)}
           type="search"
           autoComplete="off"
           name="full"
-          placeholder="Введите адрес"
+          placeholder={t("Введите адрес")}
           register={register}
           validation={{
-            required: "Обязательное поле",
+            required: t("Обязательное поле"),
             maxLength: { value: 250, message: "Максимум 250 символов" },
           }}
         />
@@ -195,13 +198,13 @@ const EditAddress = () => {
             <Input
               required
               errors={errors}
-              label="Дом"
+              label={t("Дом")}
               name="home"
-              placeholder="Введите дом"
+              placeholder={t("Введите дом")}
               register={register}
               validation={{
-                required: "Обязательное поле",
-                maxLength: { value: 20, message: "Максимум 20 символов" },
+                required: t("Обязательное поле"),
+                maxLength: { value: 20, message: t("Максимум 20 символов") },
               }}
             />
           </div>
@@ -210,12 +213,12 @@ const EditAddress = () => {
           <div className="mb-4">
             <Input
               errors={errors}
-              label="Корпус"
+              label={t("Корпус")}
               name="block"
-              placeholder="Введите корпус"
+              placeholder={t("Введите корпус")}
               register={register}
               validation={{
-                maxLength: { value: 20, message: "Максимум 20 символов" },
+                maxLength: { value: 20, message: t("Максимум 20 символов") },
               }}
             />
           </div>
@@ -225,13 +228,13 @@ const EditAddress = () => {
             <Input
               required
               errors={errors}
-              label="Подъезд"
+              label={t("Подъезд")}
               name="entrance"
-              placeholder="Введите подъезд"
+              placeholder={t("Введите подъезд")}
               register={register}
               validation={{
-                required: "Обязательное поле",
-                maxLength: { value: 20, message: "Максимум 20 символов" },
+                required: t("Обязательное поле"),
+                maxLength: { value: 20, message: t("Максимум 20 символов") },
               }}
             />
           </div>
@@ -241,13 +244,13 @@ const EditAddress = () => {
             <Input
               required
               errors={errors}
-              label="Квартира"
+              label={t("Квартира")}
               name="apartment"
-              placeholder="Введите квартиру"
+              placeholder={t("Введите квартиру")}
               register={register}
               validation={{
-                required: "Обязательное поле",
-                maxLength: { value: 20, message: "Максимум 20 символов" },
+                required: t("Обязательное поле"),
+                maxLength: { value: 20, message: t("Максимум 20 символов") },
               }}
             />
           </div>
@@ -257,14 +260,14 @@ const EditAddress = () => {
             <Input
               required
               errors={errors}
-              label="Этаж"
+              label={t("Этаж")}
               type="number"
               name="floor"
-              placeholder="Введите этаж"
+              placeholder={t("Введите этаж")}
               register={register}
               validation={{
-                required: "Обязательное поле",
-                maxLength: { value: 20, message: "Максимум 20 символов" },
+                required: t("Обязательное поле"),
+                maxLength: { value: 20, message: t("Максимум 20 символов") },
               }}
             />
           </div>
@@ -273,12 +276,12 @@ const EditAddress = () => {
           <div className="mb-4">
             <Input
               errors={errors}
-              label="Код домофона"
+              label={t("Код домофона")}
               name="code"
-              placeholder="Введите код"
+              placeholder={t("Введите код")}
               register={register}
               validation={{
-                maxLength: { value: 30, message: "Максимум 30 символов" },
+                maxLength: { value: 30, message: t("Максимум 30 символов") },
               }}
             />
           </div>
@@ -287,12 +290,12 @@ const EditAddress = () => {
           <div className="mb-4">
             <Input
               errors={errors}
-              label="Название адреса"
+              label={t("Название адреса")}
               name="title"
-              placeholder="Например 'Дом'"
+              placeholder={t("Например 'Дом'")}
               register={register}
               validation={{
-                maxLength: { value: 150, message: "Максимум 150 символов" },
+                maxLength: { value: 150, message: t("Максимум 150 символов") },
               }}
             />
           </div>
@@ -300,13 +303,13 @@ const EditAddress = () => {
       </Row>
       <div className="mb-4">
         <Textarea
-          label="комментарий"
+          label={t("Комментарий")}
           name="comment"
-          placeholder="Введите комментарий (Необязательно)"
+          placeholder={t("Введите комментарий (Необязательно)")}
           errors={errors}
           register={register}
           validation={{
-            maxLength: { value: 1500, message: "Максимум 1500 символов" },
+            maxLength: { value: 1500, message: t("Максимум 1500 символов") },
           }}
         />
       </div>
@@ -319,7 +322,7 @@ const EditAddress = () => {
           {...register("main")}
         />
         <Form.Check.Label htmlFor="main" className="ms-2">
-          Адрес по умолчанию
+          {t("Адрес по умолчанию")}
         </Form.Check.Label>
       </Form.Check>
       <div className="d-flex align-items-center">
@@ -329,13 +332,12 @@ const EditAddress = () => {
             onClick={handleSubmit(onSubmit)}
             className="btn-deepgreen w-xs-100"
           >
-            Сохранить адрес
+            {t("Сохранить адрес")}
           </button>
         </div>
         <div>
           <p className="fs-09 ms-3">
-            <span className="text-danger">*</span> - обязательные поля для
-            заполнения
+            <span className="text-danger">*</span> - {t("обязательные поля для заполнения")}
           </p>
         </div>
       </div>

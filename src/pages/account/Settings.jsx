@@ -13,8 +13,11 @@ import Input from "../../components/utils/Input";
 import NavBreadcrumbs from "../../components/utils/NavBreadcrumbs";
 import { editAccount } from "../../services/account";
 import { setUser } from "../../store/reducers/authSlice";
+import { useTranslation } from "react-i18next";
 
 const Settings = () => {
+  const { t } = useTranslation();
+
   const user = useSelector((state) => state.auth.user);
   const profilePointVisible = useSelector(
     (state) => state.settings.options.profilePointVisible
@@ -52,7 +55,7 @@ const Settings = () => {
           if (data.email != user.email || !user.email) {
             navigate("email", { state: { email: data.email } });
           } else {
-            NotificationManager.success("Данные успешно обновлены");
+            NotificationManager.success(t("Данные успешно обновлены"));
             navigate(-1);
           }
         })
@@ -60,7 +63,7 @@ const Settings = () => {
           NotificationManager.error(
             typeof error?.response?.data?.error === "string"
               ? error.response.data.error
-              : "Неизвестная ошибка"
+              : t("Неизвестная ошибка")
           );
         });
     },
@@ -69,43 +72,45 @@ const Settings = () => {
 
   return (
     <main className="account mb-2 mb-sm-3 mb-md-0">
-      <Meta title="Настройки" />
+      <Meta title={t("Настройки")} />
       <Container className="pt-4 pt-lg-0">
         <AccountTitleReturn
           className="d-lg-none"
           link="/account"
-          title="Внесите изменения"
+          title="Настройки"
         />
-        <h1 className="d-none d-lg-block mb-2">Личный кабинет</h1>
+        <h1 className="d-none d-lg-block mb-2">{t("Личный кабинет")}</h1>
         <NavBreadcrumbs
           className="d-none d-lg-block"
           breadcrumbs={[
-            { title: "Аккаунт", link: "/account" },
-            { title: "Настройки", link: "/account/settings" },
+            { title: t("Аккаунт"), link: "/account" },
+            { title: t("Настройки"), link: "/account/settings" },
           ]}
         />
 
         <Row className="gx-3 gx-xl-4">
           <Col lg={8}>
             <Row className="g-3 g-xl-4">
-              <Col xs={12} sm={6} md={4}>
+              <Col xs={12} sm={6} md={6}>
                 <div className="box w-100 d-flex align-items-center p-3 h-100">
                   <div className="icon d-none d-sm-none d-md-none d-xxl-flex">
                     <span>
-                      {user.firstName
-                        ? user.firstName.slice(0, 1).toUpperCase()
-                        : "A"}
+                      {t(
+                        user.firstName
+                          ? user.firstName.slice(0, 1).toUpperCase()
+                          : "A"
+                      )}
                     </span>
                   </div>
                   <div>
-                    <h6>{user.firstName ?? "Имя"}</h6>
+                    <h6>{t(user.firstName ?? "Имя")}</h6>
                   </div>
                 </div>
               </Col>
               {profilePointVisible && (
-                <Col xs={12} sm={6} md={3} className="d-none d-sm-block">
+                <Col xs={12} sm={6} md={6} className="d-none d-sm-block">
                   <div className="box p-3 w-100 h-100 d-flex flex-column justify-content-between text-center">
-                    <p className="fs-09 fw-6">Вы можете потратить</p>
+                    <p className="fs-09 fw-6">{t("Вы можете потратить")}</p>
                     <p className="main-color">
                       <span className="fw-6 fs-13">{user.point}</span>&nbsp;
                       <span className="fw-6 fs-13">Б</span>
@@ -113,7 +118,7 @@ const Settings = () => {
                   </div>
                 </Col>
               )}
-              <Col xs={12} md={5}>
+              {/* <Col xs={12} md={5}>
                 <label className="mb-3">
                   <span className="me-1 me-sm-3">Включить пуш-уведомления</span>
                   <input
@@ -130,15 +135,15 @@ const Settings = () => {
                     {...register("followEmail")}
                   />
                 </label>
-              </Col>
+              </Col> */}
               <Col xs={12}>
                 <div className="box p-3 p-sm-4">
                   <form action="">
-                    <h6 className="mb-3">Внесите изменения</h6>
+                    <h6 className="mb-3">{t("Настройки")}</h6>
                     <Row className="fs-11 g-4">
                       <Col md={4}>
                         <Input
-                          label="Имя"
+                          label={t("Имя")}
                           name="firstName"
                           errors={errors}
                           register={register}
@@ -146,7 +151,7 @@ const Settings = () => {
                       </Col>
                       <Col md={4}>
                         <Input
-                          label="Фамилия"
+                          label={t("Фамилия")}
                           name="lastName"
                           errors={errors}
                           register={register}
@@ -155,7 +160,7 @@ const Settings = () => {
                       <Col md={4}>
                         <Input
                           type="date"
-                          label="День рождения"
+                          label={t("День рождения")}
                           name="birthday"
                           readOnly={!!user?.birthday}
                           errors={errors}
@@ -165,11 +170,11 @@ const Settings = () => {
                       <Col md={6}>
                         <Input
                           mask="7(999)999-99-99"
-                          label="Номер телефона"
+                          label={t("Номер телефона")}
                           name="phone"
                           errors={errors}
                           register={register}
-                          validation={{ required: "Обязательное поле" }}
+                          validation={{ required: t("Обязательное поле") }}
                         />
                       </Col>
                       <Col md={6}>
@@ -187,7 +192,7 @@ const Settings = () => {
                       onClick={handleSubmit(onSubmit)}
                       className="btn-primary mt-4 d-block d-md-flex w-xs-100"
                     >
-                      Сохранить изменения
+                      {t("Сохранить изменения")}
                     </button>
                   </form>
                 </div>

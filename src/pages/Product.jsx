@@ -26,6 +26,7 @@ import NavTop from "../components/utils/NavTop";
 import Select from "../components/utils/Select";
 import { customPrice, customWeight, getImageURL } from "../helpers/all";
 import { getProduct } from "../services/product";
+import { useTranslation } from "react-i18next";
 
 const groupByCategoryIdToArray = (modifiers) => {
   const grouped = modifiers.reduce((acc, modifier) => {
@@ -44,6 +45,7 @@ const groupByCategoryIdToArray = (modifiers) => {
 };
 
 const Product = () => {
+  const { t } = useTranslation();
   const { productId } = useParams();
   const multiBrand = useSelector((state) => state.settings.options.multiBrand);
   const selectedAffiliate = useSelector((state) => state.affiliate.active);
@@ -159,12 +161,12 @@ const Product = () => {
   if (!product?.item?.id) {
     return (
       <Empty
-        text="Такого товара нет"
-        desc="Возможно вы перепутали ссылку"
+        text={t("Такого товара нет")}
+        desc={t("Возможно вы перепутали ссылку")}
         image={() => <EmptyCatalog />}
         button={
           <Link className="btn-primary" to="/">
-            Перейти в меню
+            {t("Перейти в меню")}
           </Link>
         }
       />
@@ -186,13 +188,13 @@ const Product = () => {
           toBack={true}
           breadcrumbs={[
             {
-              title: product?.item?.category?.title ?? "Нет категории",
+              title: product?.item?.category?.title ?? t("Нет категории"),
               link: product?.item?.category?.id
                 ? "/category/" + product.item.category.id
                 : "/menu",
             },
             {
-              title: product?.item?.title ?? "Не названия",
+              title: product?.item?.title ?? t("Не названия"),
             },
           ]}
         />
@@ -226,18 +228,22 @@ const Product = () => {
                     overlay={
                       <Popover id="popover-positioned-bottom">
                         <Popover.Header className="fs-09 fw-6">
-                          Энергетическая&nbsp;ценность&nbsp;
-                          {Math.round(product.item.energy.kkal)}&nbsp;ккал
+                          {t("Энергетическая ценность")}
+                          {Math.round(product.item.energy.kkal)}&nbsp;
+                          {t("ккал")}
                         </Popover.Header>
                         <Popover.Body>
                           <div>
-                            Белки: {Math.round(product.item.energy.protein)}г
+                            {t("Белки")}:{" "}
+                            {Math.round(product.item.energy.protein)}г
                           </div>
                           <div>
-                            Жиры: {Math.round(product.item.energy.protein)}г
+                            {t("Жиры")}:{" "}
+                            {Math.round(product.item.energy.protein)}г
                           </div>
                           <div>
-                            Углеводы: {Math.round(product.item.energy.protein)}г
+                            {t("Углеводы")}:{" "}
+                            {Math.round(product.item.energy.protein)}г
                           </div>
                         </Popover.Body>
                       </Popover>
@@ -342,7 +348,7 @@ const Product = () => {
                   data={data}
                   className="py-2"
                 >
-                  <span className="fw-4">В корзину</span>
+                  <span className="fw-4">{t("В корзину")}</span>
                   <HiOutlineShoppingBag className="fs-12 ms-2" />
                 </ButtonCart>
               </div>
@@ -360,7 +366,7 @@ const Product = () => {
                           onClick={() => setIsRemove(false)}
                         >
                           <HiPlus />
-                          <span>Добавить</span>
+                          <span>{t("Добавить")}</span>
                           <Corner className="corner-right" />
                         </button>
                       )}
@@ -377,7 +383,7 @@ const Product = () => {
                           onClick={() => setIsRemove(true)}
                         >
                           <HiMinus />
-                          <span>Убрать</span>
+                          <span>{t("Убрать")}</span>
                           {product.item?.additions?.length > 0 && (
                             <Corner className="corner-left" />
                           )}
@@ -474,7 +480,7 @@ const Product = () => {
         </form>
         {product?.item?.recommends?.length > 0 && (
           <section className="d-none d-md-block mb-5">
-            <h2>Вам может понравится</h2>
+            <h2>{t("Вам может понравится")}</h2>
             <Swiper
               className=""
               modules={[Navigation]}

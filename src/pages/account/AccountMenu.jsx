@@ -5,18 +5,15 @@ import {
   HiOutlineMapPin,
   HiOutlineArrowRightOnRectangle,
   HiOutlineHeart,
-  // HiOutlineStar,
-  // HiOutlineCreditCard,
-  // HiOutlineBellAlert,
-  // HiOutlineBolt,
-  // HiOutlineLifebuoy,
 } from "react-icons/hi2";
 import { useDispatch } from "react-redux";
 import { logout } from "../../services/auth";
+import { useTranslation } from "react-i18next";
 
-const AccountMenu = (props) => {
+const AccountMenu = () => {
   const dispatch = useDispatch();
   const navigaion = useNavigate();
+  const { t } = useTranslation();
 
   return (
     <nav className="account-nav">
@@ -24,19 +21,19 @@ const AccountMenu = (props) => {
         <li>
           <NavLink to="orders">
             <HiOutlineShoppingBag />
-            <div>Заказы</div>
+            <div>{t('Заказы')}</div>
           </NavLink>
         </li>
         <li>
           <NavLink to="addresses">
             <HiOutlineMapPin />
-            <div>Адреса</div>
+            <div>{t('Адреса')}</div>
           </NavLink>
         </li>
         <li>
           <NavLink to="favorites">
             <HiOutlineHeart />
-            <div>Избранное</div>
+            <div>{t('Избранное')}</div>
           </NavLink>
         </li>
         <li>
@@ -47,7 +44,7 @@ const AccountMenu = (props) => {
             }}
           >
             <HiOutlineArrowRightOnRectangle />
-            <div>Выйти</div>
+            <div>{t('Выйти')}</div>
           </a>
         </li>
         {/* <li>

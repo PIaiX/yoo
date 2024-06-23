@@ -2,8 +2,11 @@ import React from "react";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import { Link } from "react-router-dom";
 import { getImageURL } from "../helpers/all";
+import { useTranslation } from "react-i18next";
 
 const Offer = ({ data }) => {
+  const { t } = useTranslation();
+
   return (
     <div className="offer">
       {data?.medias && (
@@ -55,7 +58,7 @@ const Offer = ({ data }) => {
             }
             className="btn btn-light"
           >
-            Перейти
+            {t("Перейти")}
           </Link>
         </div>
       </div>

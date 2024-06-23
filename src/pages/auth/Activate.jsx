@@ -11,8 +11,11 @@ import InputCode from "../../components/utils/InputCode";
 import { authActivate, authNewKeyActivate, logout } from "../../services/auth";
 import { setUser } from "../../store/reducers/authSlice";
 import { Timer } from "../../helpers/timer";
+import { useTranslation } from "react-i18next";
 
 const Activate = () => {
+  const { t } = useTranslation();
+
   const user = useSelector((state) => state.auth.user);
   const isAuth = useSelector((state) => state.auth.isAuth);
   const options = useSelector((state) => state.settings.options);
@@ -45,7 +48,7 @@ const Activate = () => {
           NotificationManager.error(
             typeof error?.response?.data?.error === "string"
               ? error.response.data.error
-              : "Неизвестная ошибка"
+              : t("Неизвестная ошибка")
           );
           setStatus(false);
         });
@@ -57,13 +60,13 @@ const Activate = () => {
     setEndTimer(false);
     authNewKeyActivate(user)
       .then(() => {
-        NotificationManager.success("Код подтверждения отправлен повторно");
+        NotificationManager.success(t("Код подтверждения отправлен повторно"));
       })
       .catch((error) => {
         NotificationManager.error(
           typeof error?.response?.data?.error === "string"
             ? error.response.data.error
-            : "Неизвестная ошибка"
+            : t("Неизвестная ошибка")
         );
       });
   };
@@ -73,23 +76,23 @@ const Activate = () => {
       <>
         <Meta
           title={
-            "Подтверждение " +
+            t("Подтверждение " +
             (options.authType == "email"
               ? "электронной почты"
-              : "номера телефона")
+              : "номера телефона"))
           }
         />
         <Empty
           text={
-            options.authType == "email"
+            t(options.authType == "email"
               ? "Электронная почта успешно подтверждена"
-              : "Номер телефона успешно подтвержден"
+              : "Номер телефона успешно подтвержден")
           }
-          desc="Теперь вы можете перейти в меню для заказов"
+          desc={t("Теперь вы можете перейти в меню для заказов")}
           image={() => <EmptyActivate />}
           button={
             <Link to="/" className="btn btn-primary">
-              Перейти в меню
+              {t('Перейти в меню')}
             </Link>
           }
         />
@@ -100,10 +103,10 @@ const Activate = () => {
     <main className="d-flex align-items-center justify-content-center">
       <Meta
         title={
-          "Подтверждение " +
+          t("Подтверждение " +
           (options.authType == "email"
             ? "электронной почты"
-            : "номера телефона")
+            : "номера телефона"))
         }
       />
       <div className="login-forms p-2 p-md-3 w-xs-100">
@@ -112,23 +115,19 @@ const Activate = () => {
           onSubmit={handleSubmit(onSubmit)}
         >
           <h5 className="mb-3 fw-6 text-center">
-            Подтвердите{" "}
-            {options.authType == "email"
+           {t(`Подтвердите ${options.authType == "email"
               ? "электронную почту"
-              : "номер телефона"}
+              : "номер телефона"}`)}
           </h5>
           <p className="mb-4 text-center text-muted fs-09">
             {options.authType == "email" ? (
               <span>
-                Мы отправили 4-значный код подтверждения на указанную
-                электронную почту. <br />
-                Пожалуйста, введите код в поле ниже, чтобы подтвердить свой
-                адрес электронной почты.
+                {t('Мы отправили 4-значный код подтверждения на указанную электронную почту.')} <br />
+                {t('Пожалуйста, введите код в поле ниже, чтобы подтвердить свой адрес электронной почты.')}
               </span>
             ) : (
               <span>
-                Мы отправили 4-значный код подтверждения на указанный номер
-                телефона. Введите полученный код в поле ниже.
+                {t('Мы отправили 4-значный код подтверждения на указанный номер телефона. Введите полученный код в поле ниже.')}
               </span>
             )}
           </p>
@@ -142,11 +141,11 @@ const Activate = () => {
           <p className="fs-09 text-muted text-center">
             {endTimer ? (
               <a onClick={() => onNewKey()}>
-                Отправить повторно код подтверждения
+                {t('Отправить повторно код подтверждения')}
               </a>
             ) : (
               <p>
-                Повторить отправку кода подтверждения через{" "}
+                {t('Повторить отправку кода подтверждения через')}{" "}
                 <Timer onEnd={() => setEndTimer(true)} /> сек
               </p>
             )}
@@ -156,11 +155,10 @@ const Activate = () => {
             disabled={!data?.key || data?.key?.length != 4}
             className="btn-primary w-100 mt-4"
           >
-            Подтвердить{" "}
-            {options.authType == "email" ? "почту" : "номер телефона"}
+            {t(`Подтвердить ${options.authType == "email" ? "почту" : "номер телефона"}`)}
           </button>
           <button className="w-100 mt-4" onClick={() => dispatch(logout())}>
-            Выйти из аккаунта
+            {t('Выйти из аккаунта')}
           </button>
         </Form>
       </div>

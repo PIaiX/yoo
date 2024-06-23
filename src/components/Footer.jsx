@@ -4,14 +4,16 @@ import { useSelector } from "react-redux";
 import { Link, NavLink } from "react-router-dom";
 import AppStore from "../assets/imgs/appstore.svg";
 import GooglePlay from "../assets/imgs/googleplay.svg";
-import LogoTextWhite from "../assets/imgs/logo-text-white.svg";
 import { getCount, getImageURL } from "../helpers/all";
 import CartIcon from "./svgs/CartIcon";
 import FlameIcon from "./svgs/FlameIcon";
 import HomeIcon from "./svgs/HomeIcon";
 import UserIcon from "./svgs/UserIcon";
+import { useTranslation } from "react-i18next";
 
 const Footer = memo(() => {
+  const { t } = useTranslation();
+
   const isAuth = useSelector((state) => state.auth.isAuth);
   const cart = useSelector((state) => state.cart.items);
   const options = useSelector((state) => state.settings.options);
@@ -26,7 +28,7 @@ const Footer = memo(() => {
               <NavLink to="/">
                 <HomeIcon />
                 <div className="text fs-09">
-                  <span>&nbsp;Главная</span>
+                  <span>{t("Главная")}</span>
                 </div>
               </NavLink>
             </li>
@@ -42,7 +44,7 @@ const Footer = memo(() => {
               <NavLink to="/promo">
                 <FlameIcon />
                 <div className="text fs-09">
-                  <span>&nbsp;Акции</span>
+                  <span>{t("Акции")}</span>
                 </div>
               </NavLink>
             </li>
@@ -50,7 +52,7 @@ const Footer = memo(() => {
               <NavLink to="/cart" className="position-relative">
                 <CartIcon />
                 <div className="text fs-09">
-                  <span>&nbsp;Корзина</span>
+                  <span>{t("Корзина")}</span>
                 </div>
                 {count > 0 && (
                   <span className="position-absolute translate-middle badge rounded-pill">
@@ -63,7 +65,7 @@ const Footer = memo(() => {
               <NavLink to={isAuth ? "/account" : "/login"}>
                 <UserIcon size={50} />
                 <div className="text fs-09">
-                  <span>&nbsp;Аккаунт</span>
+                  <span>{t("Аккаунт")}</span>
                 </div>
               </NavLink>
             </li>
@@ -86,16 +88,16 @@ const Footer = memo(() => {
           <nav>
             <ul className="list-unstyled d-flex">
               <li className="me-4">
-                <Link to="/contact">Контакты</Link>
+                <Link to="/contact">{t("Контакты")}</Link>
               </li>
               <li>
-                <Link to="/policy">Политика конфиденциальности</Link>
+                <Link to="/policy">{t("Политика конфиденциальности")}</Link>
               </li>
             </ul>
           </nav>
           {options?.appYes && (
             <div>
-              <p>Заказывать через приложение ещё удобнее</p>
+              <p>{t("Заказывать через приложение ещё удобнее")}</p>
               <ul className="list-unstyled d-flex mt-2">
                 <li>
                   <a href="/">
@@ -114,7 +116,7 @@ const Footer = memo(() => {
             <div>
               <a href="https://yooapp.ru" target="_blank">
                 <div>
-                  Разработано на платформе <b>YooApp</b>
+                  {t("Разработано на платформе")} <b>YooApp</b>
                 </div>
                 {/* <img src={LogoTextWhite} alt="yooapp" className="d-block mt-2" /> */}
               </a>

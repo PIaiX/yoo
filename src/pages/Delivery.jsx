@@ -4,8 +4,11 @@ import Empty from "../components/Empty";
 import EmptyWork from "../components/empty/work";
 import Loader from "../components/utils/Loader";
 import { getDocument } from "../services/document";
+import { useTranslation } from "react-i18next";
 
 const Delivery = () => {
+  const { t } = useTranslation();
+
   const [document, setDocument] = useState({ loading: true, data: false });
 
   useLayoutEffect(() => {
@@ -21,8 +24,8 @@ const Delivery = () => {
   if (!document || !document?.data?.content) {
     return (
       <Empty
-        text="В данный момент страница недоступна"
-        desc="Вернитесь на эту страницу чуть позже"
+        text={t("В данный момент страница недоступна")}
+        desc={t("Вернитесь на эту страницу чуть позже")}
         image={() => <EmptyWork />}
         button={
           <a
@@ -32,7 +35,7 @@ const Delivery = () => {
               return false;
             }}
           >
-            Обновить страницу
+            {t("Обновить страницу")}
           </a>
         }
       />

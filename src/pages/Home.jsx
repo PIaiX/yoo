@@ -11,8 +11,11 @@ import Widgets from "../components/Widgets";
 import EmptyCatalog from "../components/empty/catalog";
 import Loader from "../components/utils/Loader";
 import { useGetHomeQuery } from "../services/home";
+import { useTranslation } from "react-i18next";
 
 const Home = () => {
+  const { t } = useTranslation();
+
   const multiBrand = useSelector((state) => state.settings.options.multiBrand);
   const selectedAffiliate = useSelector((state) => state.affiliate.active);
   const home = useGetHomeQuery({
@@ -30,7 +33,7 @@ const Home = () => {
     <main className="mt-0 pt-0">
       <Meta
         title={`${
-          selectedAffiliate?.title ?? options?.title ?? "Главная"
+          selectedAffiliate?.title ?? options?.title ?? t("Главная")
         } — доставка еды на дом, офис`}
         description={
           options?.description ??
@@ -46,8 +49,8 @@ const Home = () => {
         <Catalog data={home.data.categories} />
       ) : (
         <Empty
-          text="Сайт пуст"
-          desc="Информация скоро появится"
+          text={t("Сайт пуст")}
+          desc={t("Информация скоро появится")}
           image={() => <EmptyCatalog />}
         />
       )}

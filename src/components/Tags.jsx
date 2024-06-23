@@ -1,7 +1,7 @@
 import { memo } from "react";
 import { tagsData } from "../helpers/all";
 
-const Tags = memo(({ data, mini = false, count = 6 }) => {
+const Tags = memo(({ data, mini = false}) => {
   return data.map((item) => {
     let img = tagsData.find((e) => e.name === item);
     return img ? (

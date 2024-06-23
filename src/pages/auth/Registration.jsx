@@ -16,8 +16,10 @@ import { Button } from "react-bootstrap";
 import { NotificationManager } from "react-notifications";
 import { isMobile } from "react-device-detect";
 import { getImageURL } from "../../helpers/all";
+import { useTranslation } from "react-i18next";
 
 const Registration = () => {
+  const { t } = useTranslation();
   const isAuth = useSelector((state) => state.auth.isAuth);
   const user = useSelector((state) => state.auth.user);
   const options = useSelector((state) => state.settings.options);
@@ -159,7 +161,7 @@ const Registration = () => {
 
   const regForm = useMemo(() => (
     <form className="login-form" onSubmit={handleSubmit(onSubmit)}>
-      <h4 className="main-color text-center fw-4">С возвращением!</h4>
+      <h4 className="main-color text-center fw-4">{t('С возвращением!')}</h4>
       {/* <p className="text-center fs-11 mb-5">
         Вкусные роллы и пицца скучали по тебе
       </p> */}
@@ -169,11 +171,11 @@ const Registration = () => {
             type="email"
             label="Email"
             name="email"
-            placeholder="Введите email"
+            placeholder={t("Введите email")}
             errors={errors}
             register={register}
             validation={{
-              required: "Введите email",
+              required: t("Введите email"),
               maxLength: {
                 value: 250,
                 message: "Максимально 250 символов",
@@ -187,7 +189,7 @@ const Registration = () => {
         ) : (
           <Input
             type="custom"
-            label="Номер телефона"
+            label={t("Номер телефона")}
             name="phone"
             placeholder="+7(900)000-00-00"
             mask="+7(999)999-99-99"
@@ -195,7 +197,7 @@ const Registration = () => {
             register={register}
             maxLength={16}
             validation={{
-              required: "Введите номер телефона",
+              required: t("Введите номер телефона"),
               maxLength: {
                 value: 16,
                 message: "Максимально 16 символов",
@@ -206,14 +208,14 @@ const Registration = () => {
       </div>
       <div className="mb-3">
         <Input
-          label="Пароль"
+          label={t("Пароль")}
           type="password"
           name="password"
           errors={errors}
-          placeholder="Введите пароль"
+          placeholder={t("Введите пароль")}
           register={register}
           validation={{
-            required: "Введите пароль",
+            required: t("Введите пароль"),
             minLength: {
               value: 6,
               message: "Минимальный пароль должен состоять из 6 символов",
@@ -227,19 +229,19 @@ const Registration = () => {
         disabled={!isValid}
         className="w-100 rounded-3"
       >
-        Войти
+        {t('Войти')}
       </Button>
       <div className="mt-4 text-center text-muted fs-09">
-        <Link to="/recovery">Забыли пароль?</Link>
+        <Link to="/recovery">{t('Забыли пароль?')}</Link>
       </div>
     </form>
   ));
 
   const loginForm = useMemo(() => (
     <form className="login-form" onSubmit={handleSubmitReg(onSubmitReg)}>
-      <h4 className="main-color text-center fw-4">Привет, друг!</h4>
+      <h4 className="main-color text-center fw-4">{t('Привет, друг!')}</h4>
       <p className="text-center fs-11 mb-5">
-        Введи данные, чтобы зарегистрироваться
+        {t('Введи данные, чтобы зарегистрироваться')}
       </p>
       <div className="mb-3">
         {!options.authType || options.authType === "email" ? (
@@ -247,11 +249,11 @@ const Registration = () => {
             type="email"
             label="Email"
             name="email"
-            placeholder="Введите email"
+            placeholder={t("Введите email")}
             errors={errorsReg}
             register={registerReg}
             validation={{
-              required: "Введите email",
+              required: t("Введите email"),
               maxLength: {
                 value: 250,
                 message: "Максимально 250 символов",
@@ -265,7 +267,7 @@ const Registration = () => {
         ) : (
           <Input
             type="custom"
-            label="Номер телефона"
+            label={t("Номер телефона")}
             name="phone"
             placeholder="+7(900)000-00-00"
             mask="+7(999)999-99-99"
@@ -273,7 +275,7 @@ const Registration = () => {
             register={registerReg}
             maxLength={16}
             validation={{
-              required: "Введите номер телефона",
+              required: t("Введите номер телефона"),
               maxLength: {
                 value: 16,
                 message: "Максимально 16 символов",
@@ -285,13 +287,13 @@ const Registration = () => {
       <div className="mb-3">
         <Input
           type="password"
-          label="Пароль"
-          placeholder="Придумайте пароль"
+          label={t("Пароль")}
+          placeholder={t("Придумайте пароль")}
           name="password"
           errors={errorsReg}
           register={registerReg}
           validation={{
-            required: "Введите пароль",
+            required: t("Введите пароль"),
             minLength: {
               value: 6,
               message: "Минимальное кол-во символов 6",
@@ -306,13 +308,13 @@ const Registration = () => {
       <div className="mb-3">
         <Input
           type="password"
-          label="Подтверждение пароля"
-          placeholder="Повторите пароль"
+          label={t("Подтверждение пароля")}
+          placeholder={t("Повторите пароль")}
           name="passwordConfirm"
           errors={errorsReg}
           register={registerReg}
           validation={{
-            required: "Введите повторный пароль",
+            required: t("Введите повторный пароль"),
             minLength: {
               value: 6,
               message: "Минимальное кол-во символов 6",
@@ -329,11 +331,11 @@ const Registration = () => {
           type="checkbox"
           className="checkbox me-2"
           {...registerReg("accept", {
-            required: "Примите условия пользовательского соглашения",
+            required: t("Примите условия пользовательского соглашения"),
           })}
         />
         <span className="fs-09">
-          Принять условия Пользовательского соглашения
+          {t('Принять условия Пользовательского соглашения')}
         </span>
       </label>
       <Button
@@ -342,14 +344,14 @@ const Registration = () => {
         disabled={!isValidReg}
         className="w-100 rounded-3"
       >
-        Зарегистрироваться
+        {t('Зарегистрироваться')}
       </Button>
     </form>
   ));
 
   return (
     <main className="py-lg-0">
-      <Meta title={loginView ? "Вход" : "Регистрация"} />
+      <Meta title={t(loginView ? "Вход" : "Регистрация")} />
       <Container>
         {isMobile ? (
           <section className="d-lg-none login-mobile">
@@ -360,7 +362,7 @@ const Registration = () => {
                 onClick={() => setLoginView(false)}
                 className="main-color fs-13 mx-auto mt-4 text-decoration-underline"
               >
-                Зарегистрироваться
+                {t('Зарегистрироваться')}
               </button>
             ) : (
               <button
@@ -368,7 +370,7 @@ const Registration = () => {
                 onClick={() => setLoginView(true)}
                 className="main-color fs-13 mx-auto mt-4 text-decoration-underline"
               >
-                Войти
+                {t('Войти')}
               </button>
             )}
           </section>
@@ -384,12 +386,12 @@ const Registration = () => {
             >
               <div className="text">
                 <div ref={text1} className="text-1">
-                  <h4>Это ваш первый заказ?</h4>
-                  <p>Пройдите регистрацию</p>
+                  <h4>{t('Это ваш первый заказ?')}</h4>
+                  <p>{t('Пройдите регистрацию')}</p>
                 </div>
                 <div ref={text2} className="text-2">
-                  <h4>Уже есть аккаунт?</h4>
-                  <p>Войди в личный кабинет</p>
+                  <h4>{t('Уже есть аккаунт?')}</h4>
+                  <p>{t('Войти в личный кабинет')}</p>
                 </div>
               </div>
               <button
@@ -397,7 +399,7 @@ const Registration = () => {
                 onClick={handleClick}
                 className="btn-40 rounded-3 mx-auto mt-4"
               >
-                {loginView ? <span>Регистрация</span> : <span>Войти</span>}
+                {loginView ? <span>{t('Регистрация')}</span> : <span>{t('Войти')}</span>}
               </button>
             </div>
           </section>

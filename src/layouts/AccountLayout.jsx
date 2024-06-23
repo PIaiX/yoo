@@ -7,12 +7,15 @@ import AccountMenu from "../pages/account/AccountMenu";
 import { Link } from "react-router-dom";
 import NavBreadcrumbs from "../components/utils/NavBreadcrumbs";
 import { useSelector } from "react-redux";
+import { useTranslation } from "react-i18next";
 
 const AccountLayout = ({ isMobile }) => {
   const user = useSelector((state) => state.auth.user);
   const profilePointVisible = useSelector(
     (state) => state.settings.options.profilePointVisible
   );
+  const { t } = useTranslation();
+
   return (
     <main className="account mb-2 mb-sm-3 mb-md-4 mb-xl-5">
       <Container className="pt-4 pt-lg-0">
@@ -20,9 +23,9 @@ const AccountLayout = ({ isMobile }) => {
           <Outlet />
         ) : (
           <div>
-            <h1 className="mb-2">Личный кабинет</h1>
+            <h1 className="mb-2">{t("Личный кабинет")}</h1>
             <NavBreadcrumbs
-              breadcrumbs={[{ title: "Аккаунт", link: "/account" }]}
+              breadcrumbs={[{ title: t("Аккаунт"), link: "/account" }]}
             />
             <Row className="account-top gx-3 gx-xl-4">
               <Col lg={3}>
@@ -35,7 +38,7 @@ const AccountLayout = ({ isMobile }) => {
                     </span>
                   </div>
                   <div>
-                    <h6>{user?.firstName ?? "Имя"}</h6>
+                    <h6>{t(user?.firstName ?? "Имя")}</h6>
                     {user?.phone ||
                       (user?.email && (
                         <>
@@ -53,7 +56,7 @@ const AccountLayout = ({ isMobile }) => {
                       ))}
                     <p className="mt-2">
                       <Link to="/account/settings" className="main-color">
-                        Изменить
+                        {t("Изменить")}
                       </Link>
                     </p>
                   </div>
@@ -62,7 +65,7 @@ const AccountLayout = ({ isMobile }) => {
               {profilePointVisible && (
                 <Col lg={2}>
                   <div className="box w-100 h-100 d-flex flex-column justify-content-between text-center">
-                    <p className="fs-09 fw-6">Вы можете потратить</p>
+                    <p className="fs-09 fw-6">{t("Вы можете потратить")}</p>
                     <p className="main-color">
                       <span className="fw-6 fs-13">{user.point}</span>&nbsp;
                       <span className="fw-6 fs-13">Б</span>

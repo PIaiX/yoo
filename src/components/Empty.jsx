@@ -1,6 +1,9 @@
 import { memo } from "react";
+import { useTranslation } from "react-i18next";
 
 const Empty = memo(({ text, mini, desc, image = false, button }) => {
+  const { t } = useTranslation();
+
   return (
     <main
       className={
@@ -10,7 +13,7 @@ const Empty = memo(({ text, mini, desc, image = false, button }) => {
     >
       {image && <div className="mb-4">{image()}</div>}
       <div>
-        <p className="text-center h4">{text ?? "Ничего нет"}</p>
+        <p className="text-center h4">{t(text ?? "Ничего нет")}</p>
         {desc && <p className="text-center text-muted">{desc}</p>}
         {button && (
           <div className="d-flex justify-content-center mt-4">{button}</div>

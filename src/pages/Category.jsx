@@ -1,20 +1,21 @@
 import React, { useCallback, useLayoutEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import CategoryGroup from "../components/CategoryGroup";
 import Empty from "../components/Empty";
 import EmptyCatalog from "../components/empty/catalog";
 // import Notice from "../components/Notice";
-import Loader from "../components/utils/Loader";
-import { getCategory } from "../services/category";
-import { HiOutlineArrowLeftCircle } from "react-icons/hi2";
-import NavTop from "../components/utils/NavTop";
+import { useTranslation } from "react-i18next";
 import Meta from "../components/Meta";
+import Loader from "../components/utils/Loader";
+import NavTop from "../components/utils/NavTop";
+import { getCategory } from "../services/category";
 
 const Category = () => {
   const { categoryId } = useParams();
   const multiBrand = useSelector((state) => state.settings.options.multiBrand);
   const selectedAffiliate = useSelector((state) => state.affiliate.active);
+  const { t } = useTranslation();
 
   const [category, setCategory] = useState({
     loading: true,
@@ -46,12 +47,12 @@ const Category = () => {
   ) {
     return (
       <Empty
-        text="Товаров нет"
-        desc="Меню уже скоро появится"
+        text={t("Товаров нет")}
+        desc={t("Меню уже скоро появится")}
         image={() => <EmptyCatalog />}
         button={
           <Link className="btn-primary" to="/">
-            Перейти в меню
+            {t("Перейти в меню")}
           </Link>
         }
       />

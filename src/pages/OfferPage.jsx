@@ -10,9 +10,11 @@ import Loader from "../components/utils/Loader";
 import { getImageURL } from "../helpers/all";
 import { getSale } from "../services/sales";
 import Meta from "../components/Meta";
+import { useTranslation } from "react-i18next";
 
 const OfferPage = () => {
   const { saleId } = useParams();
+  const { t } = useTranslation();
 
   const [sale, setSale] = useState({
     loading: true,
@@ -32,8 +34,8 @@ const OfferPage = () => {
   if (!sale?.data?.id) {
     return (
       <Empty
-        text="Такой акции не существует"
-        desc="Возможно акция была удалена или вы ввели неверную ссылку"
+        text={t("Такой акции не существует")}
+        desc={t("Возможно акция была удалена или вы ввели неверную ссылку")}
         image={() => <EmptyCatalog />}
         button={
           <a
@@ -43,7 +45,7 @@ const OfferPage = () => {
               return false;
             }}
           >
-            Обновить страницу
+            {t('Обновить страницу')}
           </a>
         }
       />

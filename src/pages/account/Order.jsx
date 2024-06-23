@@ -13,10 +13,12 @@ import Loader from "../../components/utils/Loader";
 import socket from "../../config/socket";
 import { customPrice, deliveryData, paymentData } from "../../helpers/all";
 import { getOrder } from "../../services/order";
+import { useTranslation } from "react-i18next";
 
 const Order = () => {
   const { orderId } = useParams();
   const affiliates = useSelector((state) => state.affiliate.items);
+  const { t } = useTranslation();
 
   const [order, setOrder] = useState({
     loading: true,
@@ -44,16 +46,16 @@ const Order = () => {
       .catch(() => setOrder((data) => ({ ...data, loading: false })));
   }, [orderId]);
 
-  useEffect(() => {
-    socket.on("order/" + order.item.id, (data) => {
-      if (data?.statuses?.length > 0) {
-        setStatus(data.statuses[0]);
-      }
-    });
-    return () => {
-      socket.off("order/" + order.item.id);
-    };
-  }, []);
+  // useEffect(() => {
+  //   socket.on("order/" + order.item.id, (data) => {
+  //     if (data?.statuses?.length > 0) {
+  //       setStatus(data.statuses[0]);
+  //     }
+  //   });
+  //   return () => {
+  //     socket.off("order/" + order.item.id);
+  //   };
+  // }, []);
 
   if (order?.loading) {
     return <Loader full />;
@@ -63,12 +65,12 @@ const Order = () => {
     return (
       <Empty
         mini
-        text="Такого заказа нет"
-        desc="Возможно вы перепутали ссылку"
+        text={t("Такого заказа нет")}
+        desc={t("Возможно вы перепутали ссылку")}
         image={() => <EmptyOrders />}
         button={
           <Link className="btn-primary" to="/">
-            Перейти в меню
+            {t("Перейти в меню")}
           </Link>
         }
       />
@@ -80,10 +82,10 @@ const Order = () => {
       <div className="d-flex align-items-center mb-4">
         <Link to="/account/orders" className="link-return">
           <HiOutlineArrowLeftCircle />
-          <span>Назад</span>
+          <span>{t("Назад")}</span>
         </Link>
         <h5 className="fw-6 mb-0">
-          Заказ #{order.item.uid ? order.item.uid : order.item.id}
+          {t("Заказ")} #{order.item.uid ? order.item.uid : order.item.id}
         </h5>
       </div>
 
@@ -105,21 +107,21 @@ const Order = () => {
                 <Status {...order.item} />
               </p>
               <p className="fs-09 mb-3">
-                <div className="text-muted fs-08">Идентификатор</div>
+                <div className="text-muted fs-08">{t("Идентификатор")}</div>
                 <div className="fw-6">
                   #{order.item?.uid ? order.item.uid : order.item.id}
                 </div>
               </p>
 
               <p className="fs-09 mb-3">
-                <div className="text-muted fs-08">Время заказа</div>
+                <div className="text-muted fs-08">{t("Время заказа")}</div>
                 <div>
                   {moment(order.item.createdAt).format("DD MMM YYYY kk:mm")}
                 </div>
               </p>
               {order.item?.serving && (
                 <p className="fs-09 mb-3">
-                  <div className="text-muted fs-08">Ко времени</div>
+                  <div className="text-muted fs-08">{t("Ко времени")}</div>
                   <div>
                     {moment(order.item.serving).format("DD MMM YYYY kk:mm")}
                   </div>
@@ -142,7 +144,7 @@ const Order = () => {
                   <div>
                     {affiliate && affiliate?.full
                       ? affiliate.full
-                      : "Нет информации"}
+                      : t("Нет информации")}
                     {affiliate && affiliate?.comment
                       ? "(" + affiliate.comment + ")"
                       : ""}
@@ -150,39 +152,39 @@ const Order = () => {
                 )}
               </p>
               <p className="fs-09 mb-3">
-                <div className="text-muted fs-08">Тип оплаты</div>
+                <div className="text-muted fs-08">{t("Тип оплаты")}</div>
                 <div>{paymentText}</div>
               </p>
               <p className="d-flex justify-content-between fs-09 align-items-center mb-3">
-                <p>Кол-во персон</p>
+                <p>{t("Кол-во персон")}</p>
                 <div className="fs-09">{order.item.person}</div>
               </p>
               {order.item.description && (
                 <p className="fs-09 mb-3">
-                  <div className="text-muted fs-08">{deliveryText}</div>
+                  <div className="text-muted fs-08">{t(deliveryText)}</div>
                   <div>{order.item.description}</div>
                 </p>
               )}
               {order.item.pointAccrual > 0 && (
                 <div className="d-flex justify-content-between fs-09 fw-5 mb-2">
-                  <div>Начисление</div>
+                  <div>{t("Начисление")}</div>
                   <div>{customPrice(order.item.pointAccrual)}</div>
                 </div>
               )}
               {order.item.pointWriting > 0 && (
                 <div className="d-flex justify-content-between fs-09 fw-5 mb-2">
-                  <div>Списание</div>
+                  <div>{t("Списание")}</div>
                   <div>{customPrice(order.item.pointAccrual)}</div>
                 </div>
               )}
               {order.item.pickupDiscount > 0 && (
                 <div className="d-flex justify-content-between fs-09 fw-5 mb-2">
-                  <div>Самовывоз</div>
+                  <div>{t("Самовывоз")}</div>
                   <div>{customPrice(order.item.pickupDiscount)}</div>
                 </div>
               )}
               <div className="d-flex justify-content-between fw-7">
-                <div className="fs-11">Итого</div>
+                <div className="fs-11">{t("Итого")}</div>
                 <div>{customPrice(order.item.total)}</div>
               </div>
             </div>

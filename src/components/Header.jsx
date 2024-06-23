@@ -5,16 +5,13 @@ import { Col, Modal, Row } from "react-bootstrap";
 import Container from "react-bootstrap/Container";
 import Offcanvas from "react-bootstrap/Offcanvas";
 import {
-  HiMagnifyingGlassCircle,
-  HiOutlineArrowLeftCircle,
   HiOutlineDevicePhoneMobile,
   HiOutlineHeart,
   HiOutlineMagnifyingGlass,
   HiOutlineShoppingBag,
   HiOutlineUserCircle,
 } from "react-icons/hi2";
-import { IoLogoWhatsapp } from "react-icons/io";
-import { IoCall, IoClose, IoCloseOutline } from "react-icons/io5";
+import { IoClose, IoCloseOutline } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import AppStore from "../assets/imgs/appstore-black.svg";
@@ -38,8 +35,11 @@ import MenuPhone from "./svgs/MenuPhone";
 import YooApp from "./svgs/YooApp";
 import Input from "./utils/Input";
 import Select from "./utils/Select";
+import { useTranslation } from "react-i18next";
 
 const Header = memo(() => {
+  const { t } = useTranslation();
+
   const isAuth = useSelector((state) => state.auth.isAuth);
   const user = useSelector((state) => state.auth.user);
   const cart = useSelector((state) => state.cart.items);
@@ -52,7 +52,6 @@ const Header = memo(() => {
   const dispatch = useDispatch();
   const [showMenu, setShowMenu] = useState(false);
   const [showApp, setShowApp] = useState(false);
-  const [isContacts, setIsContacts] = useState(false);
   const [showCity, setShowCity] = useState(false);
   const [showBrand, setShowBrand] = useState(false);
   const count = getCount(cart);
@@ -210,25 +209,30 @@ const Header = memo(() => {
                       onClick={() => affiliate?.length > 1 && setShowCity(true)}
                       className="fw-6"
                     >
-                      {affiliate?.length > 1
-                        ? defaultCityOptions?.city ??
-                          mainAffiliate?.options?.city ??
-                          "Выберите город"
-                        : mainAffiliate?.options?.city ?? ""}
+                      {t(
+                        affiliate?.length > 1
+                          ? defaultCityOptions?.city ??
+                              mainAffiliate?.options?.city ??
+                              "Выберите город"
+                          : mainAffiliate?.options?.city ?? ""
+                      )}
                     </a>
                   )}
                   {options?.multiBrand && affiliate.length > 0 && (
                     <a onClick={() => setShowBrand(true)} className="fw-6">
-                      {selectedAffiliate?.title ??
-                        selectedAffiliate?.full ??
-                        "Выберите бренд"}
+                      {t(
+                        selectedAffiliate?.title ??
+                          selectedAffiliate?.full ??
+                          "Выберите бренд"
+                      )}
                     </a>
                   )}
                   {!defaultCityOptions?.citySave &&
                     defaultCityOptions?.city && (
                       <div className="no-city">
                         <p className="mb-3">
-                          Ваш город <b>{defaultCityOptions.city}</b> город?
+                          {t("Ваш город")} <b>{defaultCityOptions.city}</b>{" "}
+                          {t("город")}?
                         </p>
                         <div className="d-flex align-items-center justify-content-center">
                           <Link
@@ -245,13 +249,13 @@ const Header = memo(() => {
                               );
                             }}
                           >
-                            Да
+                            {t("Да")}
                           </Link>
                           <Link
                             className="btn btn-sm btn-light"
                             onClick={() => setShowCity(true)}
                           >
-                            Нет
+                            {t("Нет")}
                           </Link>
                         </div>
                       </div>
@@ -264,11 +268,11 @@ const Header = memo(() => {
                       data={[
                         {
                           value: "delivery",
-                          title: "Доставка",
+                          title: t("Доставка"),
                         },
                         {
                           value: "pickup",
-                          title: "Самовывоз",
+                          title: t("Самовывоз"),
                         },
                       ]}
                       value={delivery}
@@ -289,7 +293,7 @@ const Header = memo(() => {
                           // className={e.type == "dark" ? "btn-primary" : ""}
                           className="fw-6"
                         >
-                          {e.title}
+                          {t(e.title)}
                         </Link>
                       </li>
                     )
@@ -298,12 +302,12 @@ const Header = memo(() => {
                 <>
                   <li>
                     <Link to="/contact" className="fw-6">
-                      Контакты
+                      {t("Контакты")}
                     </Link>
                   </li>
                   <li>
                     <Link to="/promo" className="fw-6">
-                      Акции
+                      {t("Акции")}
                     </Link>
                   </li>
                 </>
@@ -412,7 +416,6 @@ const Header = memo(() => {
                   type: "banner",
                   size: "full",
                 })}
-                alt="Большие пиццы"
                 className="menu-offer"
               />
             )}
@@ -421,11 +424,11 @@ const Header = memo(() => {
               data={[
                 {
                   value: "delivery",
-                  title: "Доставка",
+                  title: t("Доставка"),
                 },
                 {
                   value: "pickup",
-                  title: "Самовывоз",
+                  title: t("Самовывоз"),
                 },
               ]}
               value={delivery}
@@ -436,19 +439,19 @@ const Header = memo(() => {
                 <li>
                   <Link to="/contact" onClick={() => setShowMenu(false)}>
                     <MenuPhone />
-                    <span>Контакты</span>
+                    <span>{t("Контакты")}</span>
                   </Link>
                 </li>
                 <li>
                   <Link to="/contact" onClick={() => setShowMenu(false)}>
                     <MenuDelivery />
-                    <span>Оплата и доставка</span>
+                    <span>{t("Оплата и доставка")}</span>
                   </Link>
                 </li>
                 <li>
                   <Link to="/policy" onClick={() => setShowMenu(false)}>
                     <MenuDocs />
-                    <span>Политика конфиденциальности</span>
+                    <span>{t("Политика конфиденциальности")}</span>
                   </Link>
                 </li>
               </ul>
@@ -456,7 +459,7 @@ const Header = memo(() => {
             {!options?.copyright && (
               <a href="https://yooapp.ru/" target="_blank">
                 <p className="gray text-center mt-4 mt-md-5">
-                  Разработано на платформе
+                  {t("Разработано на платформе")}
                 </p>
                 <p className="text-center mt-2">
                   <YooApp />
@@ -564,7 +567,7 @@ const Header = memo(() => {
             <Input
               name="search"
               type="search"
-              placeholder="Поиск..."
+              placeholder={t("Поиск...")}
               className="mb-3"
               onChange={handleChange}
               value={searchInput}
@@ -661,7 +664,7 @@ const Header = memo(() => {
             aria-label="Close"
             onClick={() => setShowCity(false)}
           ></button>
-          <h5 className="fw-7 mb-4">Выберите заведение</h5>
+          <h5 className="fw-7 mb-4">{t("Выберите заведение")}</h5>
           <div className="search-box">
             {affiliate.length > 0 && (
               <Row>
@@ -699,7 +702,7 @@ const Header = memo(() => {
                           <div>
                             {e.status === 0 ? (
                               <span className="text-danger">
-                                Сейчас закрыто
+                                {t("Сейчас закрыто")}
                               </span>
                             ) : e?.options?.work &&
                               e?.options?.work[moment().weekday()].start &&
@@ -709,13 +712,14 @@ const Header = memo(() => {
                                 e?.options?.work[moment().weekday()].end
                               ) ? (
                                 <span className="text-muted">
-                                  Работает c{" "}
+                                  {t("Работает c")}{" "}
                                   {e?.options?.work[moment().weekday()].start}{" "}
-                                  до {e?.options?.work[moment().weekday()].end}
+                                  {t("до")}{" "}
+                                  {e?.options?.work[moment().weekday()].end}
                                 </span>
                               ) : (
                                 <span className="text-danger">
-                                  Сейчас закрыто
+                                  {t("Сейчас закрыто")}
                                 </span>
                               )
                             ) : e?.desc ? (

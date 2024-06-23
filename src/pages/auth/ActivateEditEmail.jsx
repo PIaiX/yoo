@@ -5,8 +5,11 @@ import { Link, useParams } from "react-router-dom";
 import Meta from "../../components/Meta";
 import Loader from "../../components/utils/Loader";
 import { authActivateEmail } from "../../services/auth";
+import { useTranslation } from "react-i18next";
 
 const ActivateEditEmail = () => {
+  const { t } = useTranslation();
+
   const { key } = useParams();
   const auth = useSelector((state) => state?.auth);
 
@@ -31,16 +34,16 @@ const ActivateEditEmail = () => {
 
   return (
     <main>
-      <Meta title="Подтверждение смены почты" />
+      <Meta title={t("Подтверждение смены почты")} />
       <Container>
         <section className="hv-100 sec-login d-flex flex-column align-items-center justify-content-center">
           <h1 className="h2 text-center">
-            {status
+            {t(status
               ? "Вы успешно изменили почту"
-              : "Ошибка при изменении почты"}
+              : "Ошибка при изменении почты")}
           </h1>
           <Link to="/account" className="btn btn-primary">
-            Перейти в профиль
+            {t('Перейти в профиль')}
           </Link>
         </section>
       </Container>

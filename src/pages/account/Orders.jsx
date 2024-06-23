@@ -12,8 +12,11 @@ import Loader from "../../components/utils/Loader";
 import socket from "../../config/socket";
 import { customPrice, deliveryData, paymentData } from "../../helpers/all";
 import { getOrders } from "../../services/order";
+import { useTranslation } from "react-i18next";
 
 const Orders = () => {
+  const { t } = useTranslation();
+
   const user = useSelector((state) => state.auth.user);
   const [orders, setOrders] = useState({
     loading: true,
@@ -34,27 +37,27 @@ const Orders = () => {
       ),
     },
     {
-      name: "Дата",
+      name: t("Дата"),
       selector: "createdAt",
       cell: (row) => moment(row.createdAt).format("DD MMM YYYY kk:mm"),
     },
     {
-      name: "Статус",
+      name: t("Статус"),
       selector: "status",
       cell: (row) => <Status {...row} />,
     },
     {
-      name: "Способ доставки",
+      name: t("Способ доставки"),
       selector: "deliveryType",
       cell: (row) => deliveryData[row.delivery],
     },
     {
-      name: "Способ оплаты",
+      name: t("Способ оплаты"),
       selector: "payment",
       cell: (row) => paymentData[row.payment],
     },
     {
-      name: "Итого",
+      name: t("Итого"),
       width: "150px",
       align: "right",
       selector: "total",
@@ -99,12 +102,12 @@ const Orders = () => {
     return (
       <Empty
         mini
-        text="Заказов пока нет"
-        desc="Перейдите к меню, чтобы сделать первый заказ"
+        text={t("Заказов пока нет")}
+        desc={t("Перейдите к меню, чтобы сделать первый заказ")}
         image={() => <EmptyOrders />}
         button={
           <Link className="btn-primary" to="/">
-            Перейти в меню
+            {t('Перейти в меню')}
           </Link>
         }
       />
@@ -113,13 +116,13 @@ const Orders = () => {
 
   return (
     <section className="sec-orders">
-      <Meta title="Заказы" />
+      <Meta title={t("Заказы")} />
       <div className="d-flex d-lg-none align-items-center mb-4">
         <Link to="/account" className="link-return">
           <HiOutlineArrowLeftCircle />
-          <span>Назад</span>
+          <span>{t('Назад')}</span>
         </Link>
-        <h6 className="fs-12 mb-0">Заказы</h6>
+        <h6 className="fs-12 mb-0">{t('Заказы')}</h6>
       </div>
       <DataTable
         onClick={(e) => navigate("/account/orders/" + e.id)}

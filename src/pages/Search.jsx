@@ -10,8 +10,10 @@ import Input from "../components/utils/Input";
 import Loader from "../components/utils/Loader";
 import useDebounce from "../hooks/useDebounce";
 import { getSearch } from "../services/search";
+import { useTranslation } from "react-i18next";
 
 const Search = () => {
+  const { t } = useTranslation();
   const multiBrand = useSelector((state) => state.settings.options.multiBrand);
   const selectedAffiliate = useSelector((state) => state.affiliate.active);
   const [search, setSearch] = useState({
@@ -49,17 +51,17 @@ const Search = () => {
 
   return (
     <main className="mt-0 pt-0">
-      <Meta title="Поиск" />
+      <Meta title={t("Поиск")} />
       <Container className="box p-2 mt-3">
         <Input
           type="search"
           name="text"
           errors={errors}
-          placeholder="Поиск..."
+          placeholder={t("Поиск...")}
           register={register}
           validation={{
-            required: "Обязательное поле",
-            maxLength: { value: 250, message: "Максимум 250 символов" },
+            required: t("Обязательное поле"),
+            maxLength: { value: 250, message: t("Максимум 250 символов") },
           }}
         />
       </Container>
@@ -68,8 +70,8 @@ const Search = () => {
         <Catalog data={search.items} />
       ) : (
         <Empty
-          text="Ничего не найдено"
-          desc="Попробуйте найти что-то другое"
+          text={t("Ничего не найдено")}
+          desc={t("Попробуйте найти что-то другое")}
           image={() => <EmptyCatalog />}
         />
       )}

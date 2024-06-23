@@ -4,20 +4,22 @@ import { Link } from "react-router-dom";
 import Empty from "../../components/Empty";
 import EmptyFavorite from "../../components/empty/favorite";
 import ProductCard from "../../components/ProductCard";
+import { useTranslation } from "react-i18next";
 
 const Favorites = () => {
   const data = useSelector((state) => state.favorite.items);
+  const { t } = useTranslation();
 
   if (!Array.isArray(data) || data.length <= 0) {
     return (
       <Empty
         mini
-        text="Избранных товаров нет"
-        desc="Вернитесь в меню и добавляйте интересующие товары в этот список"
+        text={t("Избранных товаров нет")}
+        desc={t("Вернитесь в меню и добавляйте интересующие товары в этот список")}
         image={() => <EmptyFavorite />}
         button={
           <Link className="btn-primary" to="/">
-            Перейти в меню
+            {t("Перейти в меню")}
           </Link>
         }
       />

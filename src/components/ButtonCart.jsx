@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { updateCart } from "../services/cart";
 import CountInput from "./utils/CountInput";
 import { NotificationManager } from "react-notifications";
+import { useTranslation } from "react-i18next";
 
 const ButtonCart = memo(
   ({
@@ -20,6 +21,7 @@ const ButtonCart = memo(
     const isCartData = isCart(product);
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const { t } = useTranslation();
 
     const onPress = useCallback(
       (newCount) => {
@@ -37,7 +39,7 @@ const ButtonCart = memo(
 
         dispatch(updateCart(newProduct));
         if (full && product?.modifiers?.length > 0 && newCount <= 1) {
-          NotificationManager.success("Товар успешно добавлен в корзину");
+          NotificationManager.success(t("Товар успешно добавлен в корзину"));
           navigate(-1);
         }
         onAddCart && onAddCart();
@@ -53,7 +55,7 @@ const ButtonCart = memo(
             className="btn-light active"
             onClick={() => onPress(0)}
           >
-            Удалить
+            {t('Удалить')}
           </button>
         );
       }
@@ -82,7 +84,7 @@ const ButtonCart = memo(
       >
         {children ?? (
           <>
-            <span className="d-md-none me-2">Добавить</span>
+            <span className="d-md-none me-2">{t('Добавить')}</span>
             <HiOutlineShoppingBag className="fs-15" />
           </>
         )}

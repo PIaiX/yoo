@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import useIsMobile from "../hooks/isMobile";
 import { useTotalCart } from "../hooks/useCart";
 import { customPrice } from "../helpers/all";
+import { useTranslation } from "react-i18next";
 
 const DeliveryBar = () => {
   const isMobileLG = useIsMobile("991px");
@@ -10,6 +11,7 @@ const DeliveryBar = () => {
   const isAuth = useSelector((state) => state.auth.isAuth);
   const zone = useSelector((state) => state.cart.zone);
   const { totalNoDelivery = 0 } = useTotalCart();
+  const { t } = useTranslation();
 
   if (delivery != "delivery" || !isAuth || !zone?.data) {
     return null;
@@ -21,11 +23,15 @@ const DeliveryBar = () => {
         <div className="py-2 px-3">
           <p>
             {totalNoDelivery < zone?.data?.minPrice
-              ? `Минимальная сумма заказа ${customPrice(zone.data.minPrice)}`
+              ? `${t("Минимальная сумма заказа")} ${customPrice(
+                  zone.data.minPrice
+                )}`
               : totalNoDelivery >= zone?.data?.minPrice &&
                 totalNoDelivery < zone?.data?.priceFree
-              ? `Бесплатная доставка от ${customPrice(zone.data.priceFree)}`
-              : "Бесплатная доставка"}
+              ? `${t("Бесплатная доставка от")} ${customPrice(
+                  zone.data.priceFree
+                )}`
+              : t("Бесплатная доставка")}
           </p>
           <div className="mobileBar">
             <div
@@ -123,11 +129,15 @@ const DeliveryBar = () => {
 
         <div>
           {totalNoDelivery < zone?.data?.minPrice
-            ? `Минимальная сумма заказа ${customPrice(zone.data.minPrice)}`
+            ? `${t("Минимальная сумма заказа")} ${customPrice(
+                zone.data.minPrice
+              )}`
             : totalNoDelivery >= zone?.data?.minPrice &&
               totalNoDelivery < zone?.data?.priceFree
-            ? `Бесплатная доставка от ${customPrice(zone.data.priceFree)}`
-            : "Бесплатная доставка"}
+            ? `${t("Бесплатная доставка от")} ${customPrice(
+                zone.data.priceFree
+              )}`
+            : t("Бесплатная доставка")}
         </div>
       </div>
     );

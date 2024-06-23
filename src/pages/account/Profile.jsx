@@ -6,11 +6,13 @@ import { FiMessageCircle, FiEdit } from "react-icons/fi";
 import { Link } from "react-router-dom";
 
 const Profile = () => {
+  const { t } = useTranslation();
+
   return (
     <section className="mb-3 mb-sm-5">
       <div className="d-lg-none d-flex align-items-center mb-4 mb-lg-0">
         <Link to="/account" className="d-flex return-icon me-2 me-sm-4"></Link>
-        <h1 className="h2 mb-0">Профиль</h1>
+        <h1 className="h2 mb-0">{t("Профиль")}</h1>
       </div>
       <Row className="mb-5">
         <Col xl={9} xxl={8}>
@@ -73,7 +75,7 @@ const Profile = () => {
       </Row>
       <Row className="gy-5 mb-md-5">
         <Col xs={12} xxl={9}>
-          <h3 className="mb-4 mb-sm-5">Основное</h3>
+          <h3 className="mb-4 mb-sm-5">{t("Основное")}</h3>
           <form action="">
             <Row xs={1} md={2} className="gx-xl-5 gy-5 gy-lg-0">
               <Col>
@@ -97,15 +99,15 @@ const Profile = () => {
               </Col>
             </Row>
             <Link to="email" className="btn-primary mt-4">
-              Сохранить изменения
+              {t("Сохранить изменения")}
             </Link>
           </form>
         </Col>
         <Col xs={12} xxl={10}>
-          <h3 className="mb-4 mb-sm-5">Изменить пароль</h3>
+          <h3 className="mb-4 mb-sm-5">{t("Изменить пароль")}</h3>
           <form action="">
             <button type="submit" className="btn-primary mt-4">
-              Изменить
+              {t("Изменить")}
             </button>
           </form>
         </Col>

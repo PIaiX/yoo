@@ -1,6 +1,7 @@
 import React, { useCallback, useState } from "react";
 import Container from "react-bootstrap/Container";
 import { useForm, useWatch } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 import { NotificationManager } from "react-notifications";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
@@ -13,6 +14,7 @@ import { authNewKeyRecovery, authPasswordRecovery } from "../../services/auth";
 const Recovery = () => {
   const authType = useSelector((state) => state.settings.options.authType);
   const [endTimer, setEndTimer] = useState(false);
+  const { t } = useTranslation();
 
   const {
     control,
@@ -37,15 +39,15 @@ const Recovery = () => {
           (data.step == 3 &&
             NotificationManager.success(
               data.step == 1
-                ? "Код подтверждения отправлен"
-                : data.step == 3 && "Пароль успешно изменен"
+                ? t("Код подтверждения отправлен")
+                : data.step == 3 && t("Пароль успешно изменен")
             ));
       })
       .catch((error) =>
         NotificationManager.error(
           typeof error?.response?.data?.error === "string"
             ? error.response.data.error
-            : "Неизвестная ошибка"
+            : t("Неизвестная ошибка")
         )
       );
   }, []);
@@ -57,39 +59,41 @@ const Recovery = () => {
 
   return (
     <main>
-      <Meta title="Восстановление пароля" />
+      <Meta title={t("Восстановление пароля")} />
       <Container>
         <section className="sec-password mb-6 d-flex flex-column align-items-center justify-content-center">
           <div className="wrap login-forms">
             <form className="login-form" onSubmit={handleSubmit(onSubmit)}>
               {!data.step || data.step === 1 ? (
                 <>
-                  <h1 className="h4 text-center mb-4">Восстановление пароля</h1>
+                  <h1 className="h4 text-center mb-4">
+                    {t("Восстановление пароля")}
+                  </h1>
                   <div className="mb-3">
                     {!authType || authType === "email" ? (
                       <Input
                         type="email"
                         label="Email"
                         name="email"
-                        placeholder="Введите email"
+                        placeholder={t("Введите email")}
                         errors={errors}
                         register={register}
                         validation={{
-                          required: "Введите email",
+                          required: t("Введите email"),
                           maxLength: {
                             value: 250,
-                            message: "Максимально 250 символов",
+                            message: t("Максимально 250 символов"),
                           },
                           pattern: {
                             value: /\S+@\S+\.\S+/,
-                            message: "Неверный формат Email",
+                            message: t("Неверный формат Email"),
                           },
                         }}
                       />
                     ) : (
                       <Input
                         type="custom"
-                        label="Номер телефона"
+                        label={t("Номер телефона")}
                         name="phone"
                         placeholder="+7(900)000-00-00"
                         mask="+7(999)999-99-99"
@@ -97,10 +101,10 @@ const Recovery = () => {
                         register={register}
                         maxLength={16}
                         validation={{
-                          required: "Введите номер телефона",
+                          required: t("Введите номер телефона"),
                           maxLength: {
                             value: 16,
-                            message: "Максимально 16 символов",
+                            message: t("Максимально 16 символов"),
                           },
                         }}
                       />
@@ -111,23 +115,25 @@ const Recovery = () => {
                     className="btn btn-primary w-100 mx-auto mt-4"
                     disabled={!isValid}
                   >
-                    Отправить
+                    {t("Отправить")}
                   </button>
                 </>
               ) : data.step === 2 ? (
                 <>
                   <h1 className="h4 text-center mb-4">
-                    Введите код подтверждения
+                    {t("Введите код подтверждения")}
                   </h1>
                   <p className="mb-4 text-center text-muted">
                     {!authType || authType === "email" ? (
                       <>
-                        Код подтверждения отправлен на указанную почту{" "}
+                        {t("Код подтверждения отправлен на указанную почту")}{" "}
                         <b>{data.email}</b>
                       </>
                     ) : (
                       <>
-                        Код подтверждения отправлен на указанный номер телефона{" "}
+                        {t(
+                          "Код подтверждения отправлен на указанный номер телефона"
+                        )}{" "}
                         <b>{data.phone}</b>
                       </>
                     )}
@@ -142,11 +148,11 @@ const Recovery = () => {
                   <p className="fs-09 text-muted text-center">
                     {endTimer ? (
                       <a onClick={() => onNewKey()}>
-                        Отправить повторно код подтверждения
+                        {t("Отправить повторно код подтверждения")}
                       </a>
                     ) : (
                       <p>
-                        Повторить отправку кода подтверждения через{" "}
+                        {t("Повторить отправку кода подтверждения через")}{" "}
                         <Timer onEnd={() => setEndTimer(true)} /> сек
                       </p>
                     )}
@@ -156,35 +162,35 @@ const Recovery = () => {
                     disabled={!data?.key || data?.key?.length < 4}
                     className="btn btn-primary w-100 mx-auto mt-4"
                   >
-                    Подтвердить
+                    {t("Подтвердить")}
                   </button>
                 </>
               ) : data.step === 3 ? (
                 <>
                   <h1 className="h4 text-center mb-4">
-                    Придумайте новый пароль
+                    {t("Придумайте новый пароль")}
                   </h1>
                   <p className="mb-4 text-center text-muted">
-                    Минимальный пароль должен состоять из 6 символов
+                    {t("Минимальный пароль должен состоять из 6 символов")}
                   </p>
                   <div className="mb-3">
                     <Input
                       type="password"
-                      label="Пароль"
+                      label={t("Пароль")}
                       autoFocus={true}
-                      placeholder="Придумайте пароль"
+                      placeholder={t("Придумайте пароль")}
                       name="password"
                       errors={errors}
                       register={register}
                       validation={{
-                        required: "Введите пароль",
+                        required: t("Введите пароль"),
                         minLength: {
                           value: 6,
-                          message: "Минимальное кол-во символов 6",
+                          message: t("Минимальное кол-во символов 6"),
                         },
                         maxLength: {
                           value: 250,
-                          message: "Максимальное кол-во символов 250",
+                          message: t("Максимальное кол-во символов 250"),
                         },
                       }}
                     />
@@ -198,14 +204,14 @@ const Recovery = () => {
                       errors={errors}
                       register={register}
                       validation={{
-                        required: "Введите повторный пароль",
+                        required: t("Введите повторный пароль"),
                         minLength: {
                           value: 6,
-                          message: "Минимальное кол-во символов 6",
+                          message: t("Минимальное кол-во символов 6"),
                         },
                         maxLength: {
                           value: 250,
-                          message: "Максимальное кол-во символов 250",
+                          message: t("Максимальное кол-во символов 250"),
                         },
                       }}
                     />
@@ -215,19 +221,21 @@ const Recovery = () => {
                     disabled={!isValid}
                     className="btn btn-primary w-100 mx-auto"
                   >
-                    Сохранить новый пароль
+                    {t("Сохранить новый пароль")}
                   </button>
                 </>
               ) : (
                 <>
                   <h1 className="h4 text-center mb-4">
-                    Пароль успешно изменен
+                    {t("Пароль успешно изменен")}
                   </h1>
                   <p className="mb-4 text-center text-muted">
-                    Теперь войдите в свой профиль через форму авторизации.
+                    {t(
+                      "Теперь войдите в свой профиль через форму авторизации."
+                    )}
                   </p>
                   <Link className="btn btn-primary mx-auto mt-4" to="/login">
-                    Перейти ко входу
+                    {t("Перейти ко входу")}
                   </Link>
                 </>
               )}

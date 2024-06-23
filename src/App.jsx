@@ -23,7 +23,11 @@ import { updateNotification } from "./store/reducers/notificationSlice";
 import { updateIp, updateOptions } from "./store/reducers/settingsSlice";
 import { updateStatus } from "./store/reducers/statusSlice";
 
+import moment from "moment";
+import { useTranslation } from "react-i18next";
+
 function App() {
+  const { i18n } = useTranslation();
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
   const options = useSelector((state) => state.settings.options);
@@ -89,6 +93,10 @@ function App() {
       await getOptions()
         .then(async (res) => {
           if (res?.options) {
+            if (res?.options?.lang) {
+              i18n.changeLanguage(res.options.lang);
+              moment.locale(res.options.lang);
+            }
             dispatch(updateOptions({ options: res.options, token: res.token }));
             updateColor(res.options);
             if (res.options.favicon) {
@@ -128,6 +136,11 @@ function App() {
               .then(async (data) => {
                 dispatch(setAuth(true));
                 dispatch(setUser(data));
+
+                if (data?.lang) {
+                  i18n.changeLanguage(data.lang);
+                  moment.locale(data.lang);
+                }
 
                 dispatch(updateAddresses(data?.addresses ?? []));
 

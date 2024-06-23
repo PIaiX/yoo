@@ -10,8 +10,11 @@ import Loader from "../components/utils/Loader";
 import { getBlogs } from "../services/blog";
 import Meta from "../components/Meta";
 import { useSelector } from "react-redux";
+import { useTranslation } from "react-i18next";
 
 const Blogs = () => {
+  const { t } = useTranslation();
+
   const [blogs, setBlogs] = useState({ loading: true, items: [] });
   const selectedAffiliate = useSelector((state) => state.affiliate.active);
   const options = useSelector((state) => state.settings.options);
@@ -29,11 +32,11 @@ const Blogs = () => {
   if (!blogs?.items || blogs?.items?.length === 0) {
     return (
       <Empty
-        text="Новостей нет"
+        text={t("Новостей нет")}
         image={() => <EmptyCatalog />}
         button={
           <Link className="btn-primary" to="/">
-            Перейти на главную
+            {t('Перейти на главную')}
           </Link>
         }
       />
@@ -43,12 +46,12 @@ const Blogs = () => {
   return (
     <main className="inner">
       <Meta
-        title={`${selectedAffiliate?.title ?? options?.title} — Новости`}
-        description={`${selectedAffiliate?.title ?? options?.title} — Новости`}
+        title={`${selectedAffiliate?.title ?? options?.title} — ${t('Новости')}`}
+        description={`${selectedAffiliate?.title ?? options?.title} — ${t('Новости')}`}
       />
       <Container>
         <section className="sec-6 pt-4 pt-lg-0 mb-5">
-          <h1 className="inner mb-4">Новости и статьи</h1>
+          <h1 className="inner mb-4">{t('Новости и статьи')}</h1>
           <Row className="gx-4 gx-lg-5">
             {/* flex-lg-row-reverse <Col lg={4}>
               <h5 className="fs-12">Новости по категориям</h5>

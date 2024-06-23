@@ -26,8 +26,11 @@ import { IoTrashOutline } from "react-icons/io5";
 import Loader from "../components/utils/Loader";
 import Extras from "../components/utils/Extras";
 import { keyGenerator } from "../hooks/all";
+import { useTranslation } from "react-i18next";
 
 const Cart = () => {
+  const { t } = useTranslation();
+
   const user = useSelector((state) => state.auth.user);
   const cart = useSelector((state) => state.cart.items);
   const promo = useSelector((state) => state.cart.promo);
@@ -111,12 +114,12 @@ const Cart = () => {
       <>
         <Meta title="Корзина" />
         <Empty
-          text="Корзина пуста"
-          desc="Перейдите к меню, чтобы сделать первый заказ"
+          text={t("Корзина пуста")}
+          desc={t("Перейдите к меню, чтобы сделать первый заказ")}
           image={() => <EmptyCart />}
           button={
             <Link className="btn-primary" to="/">
-              Перейти в меню
+              {t("Перейти в меню")}
             </Link>
           }
         />
@@ -130,7 +133,7 @@ const Cart = () => {
 
   return (
     <main>
-      <Meta title="Корзина" />
+      <Meta title={t("Корзина")} />
       <Container>
         <NavTop breadcrumbs={false} />
         <div className="cart">
@@ -154,15 +157,18 @@ const Cart = () => {
                   </span>
                 </button> */}
                 <h6 className="mb-0">
-                  Вы добавили{" "}
-                  {declination(count, ["товар", "товара", "товаров"])}
+                  {t("Вы добавили")}{" "}
+                  {declination(
+                    count,
+                    ["товар", "товара", "товаров"].map((e) => t(e))
+                  )}
                 </h6>
                 <button
                   type="button"
                   className="btn-9 py-1 ms-4 ms-sm-5"
                   onClick={() => dispatch(deleteCart())}
                 >
-                  Очистить
+                  {t('Очистить')}
                 </button>
               </div>
               <ul className="list-unstyled">
@@ -179,13 +185,13 @@ const Cart = () => {
             <Col xs={12} lg={4}>
               {options?.promoVisible && user?.id && !promo && (
                 <>
-                  <div className="fs-11 mb-1">Промокод</div>
+                  <div className="fs-11 mb-1">{t('Промокод')}</div>
                   <div className="mb-3">
                     <Input
                       className="w-100 mb-3"
                       type="text"
                       name="promo"
-                      placeholder="Введите промокод"
+                      placeholder={t("Введите промокод")}
                       errors={errors}
                       register={register}
                       maxLength={100}
@@ -200,7 +206,7 @@ const Cart = () => {
                           : "btn-10 w-100 rounded-3"
                       }
                     >
-                      Применить
+                      {t('Применить')}
                     </button>
                   </div>
                 </>
@@ -209,13 +215,13 @@ const Cart = () => {
               {person > 0 && <Extras person={person} items={data?.extras} />}
 
               <div className="d-flex justify-content-between my-2">
-                <span>Стоимость товаров</span>
+                <span>{t('Стоимость товаров')}</span>
                 <span>{customPrice(price)}</span>
               </div>
               {options?.promoVisible && promo && (
                 <div className="d-flex justify-content-between my-2">
                   <div>
-                    <div className="text-muted fs-08">Промокод</div>
+                    <div className="text-muted fs-08">{t('Промокод')}</div>
                     <div className="fw-6">{promo.title.toUpperCase()}</div>
                   </div>
                   <span className="d-flex align-items-center">
@@ -243,13 +249,13 @@ const Cart = () => {
 
               {discount > 0 && (
                 <div className="d-flex justify-content-between my-2">
-                  <span>Скидка</span>
+                  <span>{t('Скидка')}</span>
                   <span className="text-success">-{customPrice(discount)}</span>
                 </div>
               )}
               {pickupDiscount > 0 && (
                 <div className="d-flex justify-content-between my-2">
-                  <span>Скидка за самовывоз</span>
+                  <span>{t('Скидка за самовывоз')}</span>
                   <span className="text-success">
                     -{customPrice(pickupDiscount)}
                   </span>
@@ -257,19 +263,19 @@ const Cart = () => {
               )}
               {pointCheckout > 0 && pointSwitch && (
                 <div className="d-flex justify-content-between my-2">
-                  <span>Списание баллов</span>
+                  <span>{t('Списание баллов')}</span>
                   <span>-{customPrice(pointCheckout)}</span>
                 </div>
               )}
               {pointAccrual > 0 && (
                 <div className="d-flex justify-content-between my-2">
-                  <span>Начислится баллов</span>
+                  <span>{t('Начислится баллов')}</span>
                   <span>+{customPrice(pointAccrual)}</span>
                 </div>
               )}
               <hr className="my-3" />
               <div className="d-flex justify-content-between mb-5">
-                <span className="fw-7 fs-11">Итоговая сумма</span>
+                <span className="fw-7 fs-11">{t('Итоговая сумма')}</span>
                 <span className="fw-7">{customPrice(totalNoDelivery)}</span>
               </div>
 
@@ -284,11 +290,11 @@ const Cart = () => {
                 className="btn-primary w-100"
               >
                 <span className="fw-6">
-                  {user?.id
+                  {t(user?.id
                     ? address?.length === 0 && stateDelivery == "delivery"
                       ? "Добавить адрес"
                       : "Далее"
-                    : "Войти в профиль"}
+                    : "Войти в профиль")}
                 </span>
               </Link>
             </Col>

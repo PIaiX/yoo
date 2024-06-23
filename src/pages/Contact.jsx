@@ -9,8 +9,11 @@ import Empty from "../components/Empty";
 import { customPrice } from "../helpers/all";
 import moment from "moment";
 import Meta from "../components/Meta";
+import { useTranslation } from "react-i18next";
 
 const Contact = () => {
+  const { t } = useTranslation();
+
   const affiliate = useSelector((state) => state.affiliate.items);
   const colors = ["#f56057", "#007aff", "#222222"];
   const zones = useSelector((state) => state.affiliate.zones);
@@ -26,8 +29,8 @@ const Contact = () => {
   if (!mainAffiliate) {
     return (
       <Empty
-        text="В данный момент контактов нет"
-        desc="Вернитесь на эту страницу чуть позже"
+        text={t("В данный момент контактов нет")}
+        desc={t("Вернитесь на эту страницу чуть позже")}
         image={() => <EmptyWork />}
         button={
           <a
@@ -37,7 +40,7 @@ const Contact = () => {
               return false;
             }}
           >
-            Обновить страницу
+            {t("Обновить страницу")}
           </a>
         }
       />
@@ -47,8 +50,12 @@ const Contact = () => {
   return (
     <main>
       <Meta
-        title={`${selectedAffiliate?.title ?? options?.title} — Контакты`}
-        description={`${selectedAffiliate?.title ?? options?.title} — Контакты`}
+        title={`${selectedAffiliate?.title ?? options?.title} — ${t(
+          "Контакты"
+        )}`}
+        description={`${selectedAffiliate?.title ?? options?.title} — ${t(
+          "Контакты"
+        )}`}
       />
       <section className="sec-7 mb-5">
         <Container>
@@ -56,7 +63,7 @@ const Contact = () => {
             <Col md={4}>
               <div className="box">
                 <div className="d-flex align-items-baseline mb-2">
-                  <h1 className="mb-0">Контакты</h1>
+                  <h1 className="mb-0">{t("Контакты")}</h1>
                 </div>
 
                 {/* <h6 className="mb-3">{mainAffiliate.full}</h6> */}
@@ -105,11 +112,11 @@ const Contact = () => {
                         e.options.work[moment().weekday()]?.end ? (
                           <>
                             <p className="main-color m-0">
-                              Доставка и самовывоз
+                              {t("Доставка и самовывоз")}
                             </p>
-                            <p className="mb-2">{`Работает с ${
+                            <p className="mb-2">{`${t('Работает с')} ${
                               e.options.work[moment().weekday()].start
-                            } до ${e.options.work[moment().weekday()].end}`}</p>
+                            } ${t('до')} ${e.options.work[moment().weekday()].end}`}</p>
                           </>
                         ) : null}
 
@@ -198,28 +205,28 @@ const Contact = () => {
                               ${e.desc ? `<p>${e.desc}</p>` : ""}
                               ${
                                 e.minPrice > 0
-                                  ? `<p>Минимальная сумма заказа ${customPrice(
+                                  ? `<p>${t('Минимальная сумма заказа')} ${customPrice(
                                       e.minPrice
                                     )}</p>`
                                   : ""
                               }
                               ${
                                 e.priceFree > 0
-                                  ? `<p>Бесплатная доставка от ${customPrice(
+                                  ? `<p>${t('Бесплатная доставка от')} ${customPrice(
                                       e.priceFree
                                     )}</p>`
                                   : ""
                               }
                               ${
                                 e.price > 0
-                                  ? `<p>Стоимость доставки ${customPrice(
+                                  ? `<p>${t('Стоимость доставки')} ${customPrice(
                                       e.price
                                     )}</p>`
                                   : ""
                               }
                               ${
                                 e.time > 0
-                                  ? `<p>Время доставки от ${e.time} мин</p>`
+                                  ? `<p>${t('Время доставки от')} ${e.time} ${t('мин')}</p>`
                                   : ""
                               }
                               </div>
