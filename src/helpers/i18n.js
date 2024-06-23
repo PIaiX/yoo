@@ -18,6 +18,8 @@ i18n.use(languageDetector)
         resources: {
             "kk_KZ": {
                 "translations": {
+                    "Далее":"Әрі қарай",
+                    "Код домофона": "Интерком коды",
                     "Название адреса": "Мекенжай аты",
                     "Добавить адреса": "Мекенжай қосу",
                     "Введите адрес": "Мекенжайды енгізіңіз",
@@ -358,6 +360,7 @@ i18n.use(languageDetector)
             },
             "en": {
                 "translations": {
+                    "Код домофона": "Intercom code",
                     "В корзину":"Add to cart",
                     "Перейти на главную":"Go to Main page",
                     "Итоговая сумма":"Total amount",
