@@ -22,7 +22,6 @@ import { cartZone } from "./store/reducers/cartSlice";
 import { updateNotification } from "./store/reducers/notificationSlice";
 import { updateIp, updateOptions } from "./store/reducers/settingsSlice";
 import { updateStatus } from "./store/reducers/statusSlice";
-
 import moment from "moment";
 import { useTranslation } from "react-i18next";
 import { setAuth, setUser } from "./store/reducers/authSlice";
@@ -135,10 +134,9 @@ function App() {
           if (auth?.token) {
             await checkAuth()
               .then((data) => {
-        
                 dispatch(setAuth(true));
                 dispatch(setUser(data));
-             
+
                 if (data?.lang) {
                   i18n.changeLanguage(data.lang);
                   moment.locale(data.lang);
