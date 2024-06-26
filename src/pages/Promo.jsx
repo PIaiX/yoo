@@ -42,8 +42,12 @@ const Promo = () => {
   return (
     <main>
       <Meta
-        title={`${selectedAffiliate?.title ?? options?.title} — Акции`}
-        description={`${selectedAffiliate?.title ?? options?.title} — Акции`}
+        title={`${
+          selectedAffiliate?.title ? selectedAffiliate?.title : options?.title
+        } — Акции`}
+        description={`${
+          selectedAffiliate?.title ? selectedAffiliate?.title : options?.title
+        } — Акции`}
       />
       <section className="sec-6 pt-4 pt-lg-0 mb-5">
         <Container>

@@ -40,13 +40,14 @@ const Settings = () => {
     handleSubmit,
     setValue,
   } = useForm({
-    mode: "onChange",
+    mode: "all",
     reValidateMode: "onSubmit",
     defaultValues: {
       ...user,
       birthday: user?.birthday
         ? moment(user?.birthday).format("YYYY-MM-DD")
         : null,
+      phone: user?.phone ?? "",
     },
   });
 
@@ -185,32 +186,39 @@ const Settings = () => {
                         type="date"
                         label={t("День рождения")}
                         name="birthday"
-                        readOnly={!!user?.birthday}
+                        readOnly={user?.birthday ? true : false}
                         errors={errors}
                         register={register}
                       />
                     </Col>
                     <Col md={6}>
                       <Input
-                        mask="7(999)999-99-99"
                         label={t("Номер телефона")}
+                        type="custom"
                         name="phone"
+                        mask="+7(999)999-99-99"
+                        readOnly={user?.phone ? true : false}
+                        keyboardType="phone-pad"
+                        control={control}
+                        placeholder={t("Введите номер телефона")}
+                        autoCapitalize="none"
+                        leftIcon="call-outline"
                         errors={errors}
                         register={register}
-                        validation={{ required: t("Обязательное поле") }}
                       />
                     </Col>
                     <Col md={6}>
                       <Input
                         label="Email"
                         name="email"
+                        readOnly={user?.email ? true : false}
                         errors={errors}
                         register={register}
                       />
                     </Col>
                     <Col md={6}>
                       <Select
-                        className="form-control p-3"
+                        className="p-3 fs-09 fw-6"
                         data={localeData.map((e) => ({
                           title: e.title,
                           image: e.image,

@@ -29,11 +29,11 @@ const Policy = () => {
       <>
         <Meta
           title={`${
-            selectedAffiliate?.title ?? options?.title
-          } — ${t('Политика конфиденциальности')}`}
+            selectedAffiliate?.title ? selectedAffiliate?.title : options?.title
+          } — ${t("Политика конфиденциальности")}`}
           description={`${
-            selectedAffiliate?.title ?? options?.title
-          } — ${t('Политика конфиденциальности')}`}
+            selectedAffiliate?.title ? selectedAffiliate?.title : options?.title
+          } — ${t("Политика конфиденциальности")}`}
         />
         <Empty
           text={t("В данный момент страница недоступна")}
@@ -59,11 +59,11 @@ const Policy = () => {
     <main>
       <Meta
         title={`${
-          selectedAffiliate?.title ?? options?.title
-        } — ${t('Политика конфиденциальности')}`}
+          selectedAffiliate?.title ? selectedAffiliate?.title : options?.title
+        } — ${t("Политика конфиденциальности")}`}
         description={`${
-          selectedAffiliate?.title ?? options?.title
-        } — ${t('Политика конфиденциальности')}`}
+          selectedAffiliate?.title ? selectedAffiliate?.title : options?.title
+        } — ${t("Политика конфиденциальности")}`}
       />
       <section className="sec-7 mb-5">
         <Container>

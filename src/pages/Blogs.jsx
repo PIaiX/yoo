@@ -36,7 +36,7 @@ const Blogs = () => {
         image={() => <EmptyCatalog />}
         button={
           <Link className="btn-primary" to="/">
-            {t('Перейти на главную')}
+            {t("Перейти на главную")}
           </Link>
         }
       />
@@ -46,12 +46,16 @@ const Blogs = () => {
   return (
     <main className="inner">
       <Meta
-        title={`${selectedAffiliate?.title ?? options?.title} — ${t('Новости')}`}
-        description={`${selectedAffiliate?.title ?? options?.title} — ${t('Новости')}`}
+        title={`${
+          selectedAffiliate?.title ? selectedAffiliate?.title : options?.title
+        } — ${t("Новости")}`}
+        description={`${
+          selectedAffiliate?.title ? selectedAffiliate?.title : options?.title
+        } — ${t("Новости")}`}
       />
       <Container>
         <section className="sec-6 pt-4 pt-lg-0 mb-5">
-          <h1 className="inner mb-4">{t('Новости и статьи')}</h1>
+          <h1 className="inner mb-4">{t("Новости и статьи")}</h1>
           <Row className="gx-4 gx-lg-5">
             {/* flex-lg-row-reverse <Col lg={4}>
               <h5 className="fs-12">Новости по категориям</h5>

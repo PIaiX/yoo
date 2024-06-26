@@ -28,17 +28,25 @@ const Home = () => {
   if (home?.isLoading) {
     return <Loader full />;
   }
-
+  console.log(selectedAffiliate?.title);
   return (
     <main className="mt-0 pt-0">
       <Meta
         title={`${
-          selectedAffiliate?.title ?? options?.title ?? t("Главная")
+          selectedAffiliate?.title
+            ? selectedAffiliate?.title
+            : options?.title
+            ? options?.title
+            : t("Главная")
         } — доставка еды на дом, офис`}
         description={
           options?.description ??
           `Быстрая доставка еды ${
-            selectedAffiliate?.title ?? options?.title
+            selectedAffiliate?.title
+              ? selectedAffiliate?.title
+              : options?.title
+              ? options?.title
+              : t("Главная")
           }. Заказывайте прямо сейчас.`
         }
       />

@@ -32,9 +32,11 @@ const Categories = () => {
     return (
       <>
         <Meta
-          title={`${selectedAffiliate?.title ?? options?.title} — ${t("Каталог")}`}
+          title={`${
+            selectedAffiliate?.title ? selectedAffiliate?.title : options?.title
+          } — ${t("Каталог")}`}
           description={`${
-            selectedAffiliate?.title ?? options?.title
+            selectedAffiliate?.title ? selectedAffiliate?.title : options?.title
           } — ${t("Каталог")}`}
         />
         <Empty
@@ -54,8 +56,12 @@ const Categories = () => {
   return (
     <main>
       <Meta
-        title={`${selectedAffiliate?.title ?? options?.title} — ${t("Каталог")}`}
-        description={`${selectedAffiliate?.title ?? options?.title} — ${t("Каталог")}`}
+        title={`${
+          selectedAffiliate?.title ? selectedAffiliate?.title : options?.title
+        } — ${t("Каталог")}`}
+        description={`${
+          selectedAffiliate?.title ? selectedAffiliate?.title : options?.title
+        } — ${t("Каталог")}`}
       />
       <section className="page-catalog mb-6">
         <Container>

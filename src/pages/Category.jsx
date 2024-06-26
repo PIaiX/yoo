@@ -14,6 +14,7 @@ import { getCategory } from "../services/category";
 const Category = () => {
   const { categoryId } = useParams();
   const multiBrand = useSelector((state) => state.settings.options.multiBrand);
+  const title = useSelector((state) => state.settings.options?.title);
   const selectedAffiliate = useSelector((state) => state.affiliate.active);
   const { t } = useTranslation();
 
@@ -62,12 +63,12 @@ const Category = () => {
   return (
     <main>
       <Meta
-        title={`${selectedAffiliate?.title ?? options?.title} — ${
-          category.item.title
-        }`}
-        description={`${selectedAffiliate?.title ?? options?.title} — ${
-          category.item.title
-        }`}
+        title={`${
+          selectedAffiliate?.title ? selectedAffiliate?.title : title
+        } — ${category.item.title}`}
+        description={`${
+          selectedAffiliate?.title ? selectedAffiliate?.title : title
+        } — ${category.item.title}`}
       />
       <section className="container">
         <NavTop breadcrumbs={false} />

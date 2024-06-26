@@ -48,6 +48,7 @@ const Product = () => {
   const { t } = useTranslation();
   const { productId } = useParams();
   const multiBrand = useSelector((state) => state.settings.options.multiBrand);
+  const title = useSelector((state) => state.settings.options?.title);
   const selectedAffiliate = useSelector((state) => state.affiliate.active);
   const [isRemove, setIsRemove] = useState(false);
 
@@ -111,7 +112,7 @@ const Product = () => {
       let price = 0;
       let discount = 0;
       if (data.cart.data?.modifiers?.length > 0) {
-        if (product.item.options.modifierPriceSum) {
+        if (product.item?.options?.modifierPriceSum) {
           price +=
             data.cart.data.modifiers.reduce(
               (sum, item) => sum + item.price,
@@ -128,7 +129,7 @@ const Product = () => {
       }
 
       if (data.cart.data?.modifiers?.length > 0) {
-        if (product.item.options.modifierPriceSum) {
+        if (product.item?.options?.modifierPriceSum) {
           discount +=
             data.cart.data.modifiers.reduce(
               (sum, item) => sum + item.discount,
@@ -176,12 +177,12 @@ const Product = () => {
   return (
     <main>
       <Meta
-        title={`${selectedAffiliate?.title ?? options?.title} — ${
-          product?.item?.title
-        }`}
-        description={`${selectedAffiliate?.title ?? options?.title} — ${
-          product?.item?.title
-        }`}
+        title={`${
+          selectedAffiliate?.title ? selectedAffiliate?.title : title
+        } — ${product?.item?.title}`}
+        description={`${
+          selectedAffiliate?.title ? selectedAffiliate?.title : title
+        } — ${product?.item?.title}`}
       />
       <Container>
         <NavTop

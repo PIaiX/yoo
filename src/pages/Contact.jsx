@@ -50,12 +50,12 @@ const Contact = () => {
   return (
     <main>
       <Meta
-        title={`${selectedAffiliate?.title ?? options?.title} — ${t(
-          "Контакты"
-        )}`}
-        description={`${selectedAffiliate?.title ?? options?.title} — ${t(
-          "Контакты"
-        )}`}
+        title={`${
+          selectedAffiliate?.title ? selectedAffiliate?.title : options?.title
+        } — ${t("Контакты")}`}
+        description={`${
+          selectedAffiliate?.title ? selectedAffiliate?.title : options?.title
+        } — ${t("Контакты")}`}
       />
       <section className="sec-7 mb-5">
         <Container>
@@ -114,9 +114,11 @@ const Contact = () => {
                             <p className="main-color m-0">
                               {t("Доставка и самовывоз")}
                             </p>
-                            <p className="mb-2">{`${t('Работает с')} ${
+                            <p className="mb-2">{`${t("Работает с")} ${
                               e.options.work[moment().weekday()].start
-                            } ${t('до')} ${e.options.work[moment().weekday()].end}`}</p>
+                            } ${t("до")} ${
+                              e.options.work[moment().weekday()].end
+                            }`}</p>
                           </>
                         ) : null}
 
@@ -205,28 +207,30 @@ const Contact = () => {
                               ${e.desc ? `<p>${e.desc}</p>` : ""}
                               ${
                                 e.minPrice > 0
-                                  ? `<p>${t('Минимальная сумма заказа')} ${customPrice(
-                                      e.minPrice
-                                    )}</p>`
+                                  ? `<p>${t(
+                                      "Минимальная сумма заказа"
+                                    )} ${customPrice(e.minPrice)}</p>`
                                   : ""
                               }
                               ${
                                 e.priceFree > 0
-                                  ? `<p>${t('Бесплатная доставка от')} ${customPrice(
-                                      e.priceFree
-                                    )}</p>`
+                                  ? `<p>${t(
+                                      "Бесплатная доставка от"
+                                    )} ${customPrice(e.priceFree)}</p>`
                                   : ""
                               }
                               ${
                                 e.price > 0
-                                  ? `<p>${t('Стоимость доставки')} ${customPrice(
-                                      e.price
-                                    )}</p>`
+                                  ? `<p>${t(
+                                      "Стоимость доставки"
+                                    )} ${customPrice(e.price)}</p>`
                                   : ""
                               }
                               ${
                                 e.time > 0
-                                  ? `<p>${t('Время доставки от')} ${e.time} ${t('мин')}</p>`
+                                  ? `<p>${t("Время доставки от")} ${e.time} ${t(
+                                      "мин"
+                                    )}</p>`
                                   : ""
                               }
                               </div>

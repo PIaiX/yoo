@@ -33,6 +33,7 @@ html {
   --bg-btn: #dadada;
   --bg-second: #f7f7f7;
   --bg-second-hover: #eeeeee;
+  --bg-checkbox: #999;
   --hr-color: #dbdbdb;
   --gray: #727272;
   --light-gray: #1e1e1e;
@@ -54,6 +55,7 @@ html {
   --bg-btn: #333;
   --bg-second: #222;
   --bg-second-hover: #2e2e2e;
+  --bg-checkbox: #2e2e2e;
   --hr-color: #2b2831;
   --gray: #727272;
   --light-gray: #555;
@@ -457,13 +459,16 @@ input {
     width: $radius;
     height: $radius;
     border: none !important;
-    background-color: var(--bg-second);
+    background-color: var(--bg-checkbox);
     background-repeat: no-repeat;
     background-size: contain;
     background-position: center;
     border-radius: calc($radius * 0.25);
     box-shadow: none;
-    &:focus, &:active, &:hover, &.active{
+    &:focus,
+    &:active,
+    &:hover,
+    &.active {
       box-shadow: none !important;
       outline: none !important;
       border-color: transparent !important;
@@ -2274,7 +2279,7 @@ main {
 .sticky-box {
   position: sticky;
   z-index: 1000;
-  top: 0px;
+  top: var(--h-height);
   left: 0px;
   width: 100%;
   padding: 0.5em 0.75em;
@@ -2284,7 +2289,7 @@ main {
   @include flex(row, space-between, center, nowrap);
   @media (max-width: $bp-lg) {
     margin-top: 0 !important;
-    top: 0 !important;
+    top: var(--h-height) !important;
     padding: 0em;
     box-shadow: none;
   }
@@ -3345,7 +3350,7 @@ footer {
           padding: 0.5em;
           border-radius: $radius * 0.5;
           background-color: transparent;
-       
+
           overflow: hidden;
           // transition: $transition;
           // transition-property: background-color, max-width;
@@ -4445,11 +4450,13 @@ ACCOUNT END
     --bs-dropdown-bg: var(--bg-second);
     color: var(--font-color);
   }
+
   & > a {
     border: 1px solid var(--bg-btn);
     border-radius: 10px;
     padding: 8px 15px;
     min-height: 40px;
+    background-color: var(--bg-header-active);
   }
   &-item {
     font-size: 14px;

@@ -65,7 +65,11 @@ const Registration = () => {
     register: registerReg,
     formState: { errors: errorsReg, isValid: isValidReg },
     handleSubmit: handleSubmitReg,
-  } = useForm({ mode: "all", reValidateMode: "onChange" });
+  } = useForm({
+    mode: "all",
+    reValidateMode: "onChange",
+    defaultValues: { accept: true },
+  });
 
   const dispatch = useDispatch();
 
@@ -161,7 +165,7 @@ const Registration = () => {
 
   const regForm = useMemo(() => (
     <form className="login-form" onSubmit={handleSubmit(onSubmit)}>
-      <h4 className="main-color text-center fw-4">{t('С возвращением!')}</h4>
+      <h4 className="main-color text-center fw-4">{t("С возвращением!")}</h4>
       {/* <p className="text-center fs-11 mb-5">
         Вкусные роллы и пицца скучали по тебе
       </p> */}
@@ -229,19 +233,19 @@ const Registration = () => {
         disabled={!isValid}
         className="w-100 rounded-3"
       >
-        {t('Войти')}
+        {t("Войти")}
       </Button>
       <div className="mt-4 text-center text-muted fs-09">
-        <Link to="/recovery">{t('Забыли пароль?')}</Link>
+        <Link to="/recovery">{t("Забыли пароль?")}</Link>
       </div>
     </form>
   ));
 
   const loginForm = useMemo(() => (
     <form className="login-form" onSubmit={handleSubmitReg(onSubmitReg)}>
-      <h4 className="main-color text-center fw-4">{t('Привет, друг!')}</h4>
+      <h4 className="main-color text-center fw-4">{t("Привет, друг!")}</h4>
       <p className="text-center fs-11 mb-5">
-        {t('Введи данные, чтобы зарегистрироваться')}
+        {t("Введи данные, чтобы зарегистрироваться")}
       </p>
       <div className="mb-3">
         {!options.authType || options.authType === "email" ? (
@@ -335,7 +339,7 @@ const Registration = () => {
           })}
         />
         <span className="fs-09">
-          {t('Принять условия Пользовательского соглашения')}
+          {t("Принять условия Пользовательского соглашения")}
         </span>
       </label>
       <Button
@@ -344,7 +348,7 @@ const Registration = () => {
         disabled={!isValidReg}
         className="w-100 rounded-3"
       >
-        {t('Зарегистрироваться')}
+        {t("Зарегистрироваться")}
       </Button>
     </form>
   ));
@@ -362,7 +366,7 @@ const Registration = () => {
                 onClick={() => setLoginView(false)}
                 className="main-color fs-13 mx-auto mt-4 text-decoration-underline"
               >
-                {t('Зарегистрироваться')}
+                {t("Зарегистрироваться")}
               </button>
             ) : (
               <button
@@ -370,7 +374,7 @@ const Registration = () => {
                 onClick={() => setLoginView(true)}
                 className="main-color fs-13 mx-auto mt-4 text-decoration-underline"
               >
-                {t('Войти')}
+                {t("Войти")}
               </button>
             )}
           </section>
@@ -386,12 +390,12 @@ const Registration = () => {
             >
               <div className="text">
                 <div ref={text1} className="text-1">
-                  <h4>{t('Это ваш первый заказ?')}</h4>
-                  <p>{t('Пройдите регистрацию')}</p>
+                  <h4>{t("Это ваш первый заказ?")}</h4>
+                  <p>{t("Пройдите регистрацию")}</p>
                 </div>
                 <div ref={text2} className="text-2">
-                  <h4>{t('Уже есть аккаунт?')}</h4>
-                  <p>{t('Войти в личный кабинет')}</p>
+                  <h4>{t("Уже есть аккаунт?")}</h4>
+                  <p>{t("Войти в личный кабинет")}</p>
                 </div>
               </div>
               <button
@@ -399,7 +403,11 @@ const Registration = () => {
                 onClick={handleClick}
                 className="btn-40 rounded-3 mx-auto mt-4"
               >
-                {loginView ? <span>{t('Регистрация')}</span> : <span>{t('Войти')}</span>}
+                {loginView ? (
+                  <span>{t("Регистрация")}</span>
+                ) : (
+                  <span>{t("Войти")}</span>
+                )}
               </button>
             </div>
           </section>

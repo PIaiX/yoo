@@ -202,8 +202,10 @@ const Checkout = () => {
   useEffect(() => {
     if (!end && isAuth) {
       setValue("name", user.firstName);
-      setValue("phone", user.phone);
-      setValue("phoneReg", user.phone);
+      if (user.phone) {
+        setValue("phone", user.phone);
+        setValue("phoneReg", user.phone);
+      }
       trigger();
     }
   }, [user, end]);
@@ -428,7 +430,9 @@ const Checkout = () => {
         <form className="cart">
           <Row className="g-4 g-xxl-5 d-flex justify-content-between">
             <Col xs={12} xl={6}>
-              <h1 className="text-center text-md-start">{t("Оформление заказа")}</h1>
+              <h1 className="text-center text-md-start">
+                {t("Оформление заказа")}
+              </h1>
               <Row>
                 <Col md={12}>
                   <div className="d-flex align-items-center mb-4">
@@ -564,7 +568,9 @@ const Checkout = () => {
                               "minutes"
                             )
                             .format("YYYY-MM-DDTkk:mm"),
-                          message: `${t("Время подачи заказа не менее чем через")} ${
+                          message: `${t(
+                            "Время подачи заказа не менее чем через"
+                          )} ${
                             selectedAffiliate?.options?.preorderMin ?? 90
                           } ${t("мин")}`,
                         },
@@ -575,7 +581,9 @@ const Checkout = () => {
                               "days"
                             )
                             .format("YYYY-MM-DDTkk:mm"),
-                          message: `${t("Максимальное время подачи не более")} ${
+                          message: `${t(
+                            "Максимальное время подачи не более"
+                          )} ${
                             selectedAffiliate?.options?.preorderMax ?? 30
                           } ${t("д")}`,
                         },
@@ -638,10 +646,12 @@ const Checkout = () => {
                   <div>
                     <a>
                       <b>
-                        {t("Потратить")} {customPrice(pointCheckout, false)} {t("баллов")}
+                        {t("Потратить")} {customPrice(pointCheckout, false)}{" "}
+                        {t("баллов")}
                       </b>
                       <p className="fs-09 text-muted">
-                        {t("У вас всего")} {customPrice(user.point, false)} {t("баллов")}
+                        {t("У вас всего")} {customPrice(user.point, false)}{" "}
+                        {t("баллов")}
                       </p>
                     </a>
                   </div>
@@ -683,7 +693,9 @@ const Checkout = () => {
                   <div className="d-flex justify-content-between mb-2">
                     <span className="fw-6 fs-10">{t("Доставка")}</span>
                     <span className="text-success fw-6">
-                      {delivery > 0 ? "+" + customPrice(delivery) : t("Бесплатно")}
+                      {delivery > 0
+                        ? "+" + customPrice(delivery)
+                        : t("Бесплатно")}
                     </span>
                   </div>
                 )}
