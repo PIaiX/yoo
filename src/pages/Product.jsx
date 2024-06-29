@@ -183,6 +183,15 @@ const Product = () => {
         description={`${
           selectedAffiliate?.title ? selectedAffiliate?.title : title
         } — ${product?.item?.title}`}
+        image={
+          product?.medias[0]?.media
+            ? getImageURL({
+                path: product.medias[0].media,
+                size: "full",
+                type: "product",
+              })
+            : false
+        }
       />
       <Container>
         <NavTop
