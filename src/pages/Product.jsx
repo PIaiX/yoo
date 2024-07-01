@@ -184,9 +184,9 @@ const Product = () => {
           selectedAffiliate?.title ? selectedAffiliate?.title : title
         } — ${product?.item?.title}`}
         image={
-          product?.medias[0]?.media
+          product?.item?.medias[0]?.media
             ? getImageURL({
-                path: product.medias[0].media,
+                path: product.item.medias[0].media,
                 size: "full",
                 type: "product",
               })

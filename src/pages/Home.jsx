@@ -28,7 +28,7 @@ const Home = () => {
   if (home?.isLoading) {
     return <Loader full />;
   }
-  console.log(selectedAffiliate?.title);
+
   return (
     <main className="mt-0 pt-0">
       <Meta

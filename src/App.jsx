@@ -25,6 +25,7 @@ import { updateStatus } from "./store/reducers/statusSlice";
 import moment from "moment";
 import { useTranslation } from "react-i18next";
 import { setAuth, setUser } from "./store/reducers/authSlice";
+import YandexMetrika from "./components/YandexMetrika";
 
 function App() {
   const { i18n } = useTranslation();
@@ -114,14 +115,6 @@ function App() {
                     }
               );
             }
-            if (res?.options?.metrikaId) {
-              const script = document.createElement("script");
-              script.async = true;
-              script.src = `https://mc.yandex.ru/metrika/tag.js?id=${res.options.metrikaId}&clickncall=true&clickncall-confirm=true&clickncall-events=clickncall:clickncall,clickncall:confirm,clickncall:cancel,clickncall:request,clickncall:complete&clickncall-timeout=300000&clickncall-web-template=new`;
-
-              const head = document.getElementsByTagName("head")[0];
-              head.appendChild(script);
-            }
           }
 
           res?.affiliates && dispatch(updateAffiliate(res.affiliates));
@@ -193,7 +186,12 @@ function App() {
     return <Loader full />;
   }
 
-  return <AppRouter />;
+  return (
+    <>
+      <YandexMetrika />
+      <AppRouter />
+    </>
+  );
 }
 
 export default App;
