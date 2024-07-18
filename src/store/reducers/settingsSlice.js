@@ -40,7 +40,8 @@ const settingsSlice = createSlice({
             state.isConnected = action.payload;
         },
         updateOptions: (state, action) => {
-            state = { ...state, ...action.payload };
+            state = state ? { ...state, ...action.payload } : { ...initialState, ...action.payload };
+            return state
         },
         updateIp: (state, action) => {
             state.ip = action.payload;
