@@ -1,4 +1,4 @@
-import moment from 'moment'
+import moment from 'moment-timezone'
 
 const keyGenerator = (data) => {
     let key = data.id + '_'
@@ -11,23 +11,32 @@ const keyGenerator = (data) => {
     return key
 }
 const isWork = (start, end, now) => {
-    if (!start || !end) {
+    try {
+        const timezone = moment.tz.guess()
+
+        if (!now) {
+            now = moment.tz()
+        }
+        if (!start || !end) {
+            return false
+        }
+        if (end === "00:00") {
+            end = "23:59";
+        }
+
+        const startTime = moment.tz(start, 'HH:mm', timezone).utc();
+        const endTime = moment.tz(end, 'HH:mm', timezone).utc();
+        const isEndNextDay = endTime.isSameOrBefore(startTime)
+        if (isEndNextDay) {
+            endTime.add(1, 'day')
+        }
+        const nowTime = moment.tz(now, 'HH:mm', timezone).utc();
+
+        return nowTime.isBetween(startTime, endTime, null, '()');
+    } catch (err) {
+        console.log(err)
         return false
     }
-    // const startTime = moment(start, 'kk:mm')
-    // const endTime = moment(end, 'kk:mm')
-    // const isEndNextDay = endTime.isSameOrBefore(startTime)
-    // if (isEndNextDay) {
-    //     endTime.add(1, 'day')
-    // }
-    const startTime = moment(start, 'kk:mm')
-    const endTime = moment(end, 'kk:mm')
-    const isEndNextDay = endTime.isSameOrBefore(startTime)
-    if (isEndNextDay) {
-        endTime.add(1, 'day')
-    }
-
-    return moment(now).isBetween(startTime, endTime, null, '[]')
 }
 
 

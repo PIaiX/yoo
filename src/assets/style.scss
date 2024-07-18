@@ -40,6 +40,7 @@ html {
   --divider: #121212;
   --bg-catalog-menu: #fff;
   --modal-close: #ddd;
+  --bg-card: #fff;
 }
 
 :root[data-theme="dark"] {
@@ -63,6 +64,7 @@ html {
   --bg-catalog-menu: #222;
   --modal-close: invert(1) grayscale(100%) brightness(200%);
   --bs-border-color: #222;
+  --bg-card: #222;
 }
 $main-font: "Open Sans";
 $radius: 1.25em;
@@ -5247,6 +5249,10 @@ ACCOUNT END
     object-fit: cover;
     border-radius: 100%;
   }
+}
+.card {
+  background-color: var(--bg-card);
+  color: var(--font-color)
 }
 .popover {
   --bs-popover-bg: var(--bg-second);

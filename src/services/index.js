@@ -10,15 +10,16 @@ const $api = axios.create({
 });
 
 const client = new ClientJS();
-const browser = client.getBrowser();
+
 const language = client.getLanguage();
 
 const DEVICE = JSON.stringify({
-  brand: browser?.browser?.name ?? "",
-  osName: browser?.os?.name ?? "",
-  osVersion: browser?.os?.version ?? "",
+  brand: client.getBrowser() ?? "",
+  osName: client.getOS() ?? "",
+  osVersion: client.getOSVersion() ?? "",
   language: language ?? "ru-RU",
 });
+
 
 $api.interceptors.request.use(
   async (config) => {
@@ -51,6 +52,7 @@ $authApi.interceptors.request.use(
       config.headers.authorization = `Access ${token}`;
     }
     config.headers.device = DEVICE;
+    console.log(config.headers)
     return config;
   },
   (error) => Promise.reject(error)
