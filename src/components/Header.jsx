@@ -21,7 +21,12 @@ import { DADATA_TOKEN, DADATA_URL_GEO } from "../config/api";
 import { getCount, getImageURL } from "../helpers/all";
 import { isWork } from "../hooks/all";
 import { useGetBannersQuery } from "../services/home";
-import { mainAffiliateEdit } from "../store/reducers/affiliateSlice";
+import {
+  mainAffiliateEdit,
+  updateAffiliate,
+  updateCity,
+  updateGps,
+} from "../store/reducers/affiliateSlice";
 import { setUser } from "../store/reducers/authSlice";
 import { resetCart } from "../store/reducers/cartSlice";
 import { editDeliveryCheckout } from "../store/reducers/checkoutSlice";
@@ -44,7 +49,10 @@ const Header = memo(() => {
   const user = useSelector((state) => state.auth.user);
   const cart = useSelector((state) => state.cart.items);
   const favorite = useSelector((state) => state.favorite.items);
+  const city = useSelector((state) => state.affiliate.city);
+  const gps = useSelector((state) => state.affiliate.city);
   const affiliate = useSelector((state) => state.affiliate.items);
+  const cities = useSelector((state) => state.affiliate.cities);
   const selectedAffiliate = useSelector((state) => state.affiliate.active);
   const options = useSelector((state) => state.settings.options);
   const delivery = useSelector((state) => state.checkout.delivery);
@@ -57,18 +65,6 @@ const Header = memo(() => {
   const count = getCount(cart);
   const [list, setList] = useState([]);
 
-  const defaultCityOptions = user?.options ?? null;
-  const mainAffiliate =
-    affiliate?.length > 0
-      ? defaultCityOptions?.city && defaultCityOptions?.citySave
-        ? affiliate.find(
-            (e) =>
-              e.options.city.toLowerCase() ===
-              defaultCityOptions.city.toLowerCase()
-          )
-        : affiliate.find((e) => e.main)
-      : false;
-
   const [searchInput, setSearchInput] = useState("");
   const [search, setSearch] = useState();
   const [isPending, startTransition] = useTransition();
@@ -77,10 +73,10 @@ const Header = memo(() => {
     setSearchInput(value);
     startTransition(() => {
       let searchList = [];
-      Object.values(list).forEach((e) => {
-        e.forEach(
+      list.forEach((e) => {
+        e.cities.forEach(
           (e2) =>
-            e2.options.city.toLowerCase().includes(value.toLowerCase()) &&
+            e2.title.toLowerCase().includes(value.toLowerCase()) &&
             searchList.push(e2)
         );
       });
@@ -89,41 +85,35 @@ const Header = memo(() => {
   };
 
   useEffect(() => {
-    if (affiliate?.length > 0) {
-      var data = [];
-
-      affiliate.forEach((e) => {
-        let country = e.options.country.toLowerCase();
-        if (!data[country]) {
-          data[country] = [e];
-        } else {
-          let isCity = data[country].find(
-            (item) =>
-              item.options.city.toLowerCase() === e.options.city.toLowerCase()
-          );
-          if (!isCity) {
-            data[country].push(e);
-          }
+    // Сортируем города по алфавиту
+    if (cities?.length > 0) {
+      let citiesData = [...cities];
+      // Группируем города по странам
+      const groupedCities = citiesData.reduce((acc, city) => {
+        const country = city.country;
+        if (!acc[country]) {
+          acc[country] = [];
         }
-      });
+        acc[country].push(city);
+        return acc;
+      }, {});
 
-      data.sort(function (a, b) {
-        if (a.options.city.toLowerCase() < b.options.city.toLowerCase()) {
-          return -1;
-        }
-        if (a.options.city.toLowerCase() > b.options.city.toLowerCase()) {
-          return 1;
-        }
-        return 0;
-      });
+      // Сортируем страны по алфавиту
+      const sortedCountries = Object.entries(groupedCities)
+        .sort(([countryA, citiesA], [countryB, citiesB]) =>
+          countryA.localeCompare(countryB)
+        )
+        .map(([country, cities]) => ({ country, cities }));
 
-      setList(data);
+      // Сортируем города внутри каждой страны
+      const resultArray = sortedCountries.map(({ country, cities }) => ({
+        country,
+        cities: cities.sort((a, b) => a.title.localeCompare(b.title)),
+      }));
+      setList(resultArray);
     }
-    if (
-      affiliate?.length > 1 &&
-      !defaultCityOptions?.city &&
-      "geolocation" in navigator
-    ) {
+
+    if (affiliate?.length > 1 && !city?.title && "geolocation" in navigator) {
       navigator.geolocation.getCurrentPosition(async (position) => {
         if (
           position?.coords?.latitude &&
@@ -170,7 +160,7 @@ const Header = memo(() => {
         }
       });
     }
-  }, []);
+  }, [cities]);
 
   return (
     <>
@@ -204,17 +194,15 @@ const Header = memo(() => {
               </Link>
               <ul className="text-menu">
                 <li>
-                  {!options?.multiBrand && affiliate.length > 0 && (
+                  {!options?.multiBrand && cities.length > 0 && (
                     <a
-                      onClick={() => affiliate?.length > 1 && setShowCity(true)}
+                      onClick={() => cities?.length > 1 && setShowCity(true)}
                       className="fw-6"
                     >
                       {t(
-                        affiliate?.length > 1
-                          ? defaultCityOptions?.city ??
-                              mainAffiliate?.options?.city ??
-                              "Выберите город"
-                          : mainAffiliate?.options?.city ?? ""
+                        cities?.length > 1
+                          ? city?.title ?? "Выберите город"
+                          : selectedAffiliate?.city ?? ""
                       )}
                     </a>
                   )}
@@ -227,39 +215,29 @@ const Header = memo(() => {
                       )}
                     </a>
                   )}
-                  {!defaultCityOptions?.citySave &&
-                    defaultCityOptions?.city && (
-                      <div className="no-city">
-                        <p className="mb-3">
-                          {t("Ваш город")} <b>{defaultCityOptions.city}</b>{" "}
-                          {t("город")}?
-                        </p>
-                        <div className="d-flex align-items-center justify-content-center">
-                          <Link
-                            className="btn btn-sm btn-primary me-2"
-                            onClick={() => {
-                              dispatch(
-                                setUser({
-                                  ...user,
-                                  options: {
-                                    ...user.options,
-                                    citySave: true,
-                                  },
-                                })
-                              );
-                            }}
-                          >
-                            {t("Да")}
-                          </Link>
-                          <Link
-                            className="btn btn-sm btn-light"
-                            onClick={() => setShowCity(true)}
-                          >
-                            {t("Нет")}
-                          </Link>
-                        </div>
+                  {!gps && city?.title && (
+                    <div className="no-city">
+                      <p className="mb-3">
+                        {t("Ваш город")} <b>{city.title}</b> {t("город")}?
+                      </p>
+                      <div className="d-flex align-items-center justify-content-center">
+                        <Link
+                          className="btn btn-sm btn-primary me-2"
+                          onClick={() => {
+                            dispatch(updateGps(true));
+                          }}
+                        >
+                          {t("Да")}
+                        </Link>
+                        <Link
+                          className="btn btn-sm btn-light"
+                          onClick={() => setShowCity(true)}
+                        >
+                          {t("Нет")}
+                        </Link>
                       </div>
-                    )}
+                    </div>
+                  )}
                 </li>
                 {options?.deliveryView && (
                   <li className="d-none d-sm-inline-flex">
@@ -313,15 +291,17 @@ const Header = memo(() => {
                 </>
               )}
             </ul>
-            {mainAffiliate &&
-              mainAffiliate?.options?.phone &&
-              mainAffiliate?.options?.phone[0] && (
+            {selectedAffiliate &&
+              selectedAffiliate?.options?.phone &&
+              selectedAffiliate?.options?.phone[0] && (
                 <a
-                  href={"tel:" + mainAffiliate.options.phone[0]}
+                  href={"tel:" + selectedAffiliate.options.phone[0]}
                   className="phone"
                 >
                   <HiOutlineDevicePhoneMobile className="fs-12" />
-                  <span className="ms-1">{mainAffiliate.options.phone[0]}</span>
+                  <span className="ms-1">
+                    {selectedAffiliate.options.phone[0]}
+                  </span>
                 </a>
               )}
 
@@ -574,79 +554,101 @@ const Header = memo(() => {
             />
           </div>
           <div className="search-box">
-            {searchInput.length > 0 && search && search?.length > 0 ? (
-              <Row>
-                {search.map((e, index) => (
-                  <Col md={4} key={index} className="pb-3">
-                    <a
-                      onClick={() => {
-                        dispatch(
-                          setUser({
-                            ...user,
-                            options: {
-                              ...user.options,
-                              citySave: true,
-                              city: e.options.city,
-                            },
-                          })
-                        );
-                        dispatch(mainAffiliateEdit(e));
-                        setShowCity(false);
-                      }}
-                      className={
-                        "p-2 fw-6" +
-                        (e.options.city === defaultCityOptions?.city
-                          ? " active"
-                          : "")
-                      }
-                    >
-                      {e.options.city}
-                    </a>
-                  </Col>
+            {searchInput.length > 0 && search && search?.length > 0
+              ? search?.length > 0 && (
+                  <div className="cities">
+                    {Object.entries(
+                      search
+                        .sort((a, b) => a.title.localeCompare(b.title))
+                        .reduce((acc, city) => {
+                          const firstLetter = city.title[0].toUpperCase();
+                          if (!acc[firstLetter]) {
+                            acc[firstLetter] = [];
+                          }
+                          acc[firstLetter].push(city);
+                          return acc;
+                        }, {})
+                    ).map(([letter, cities]) => (
+                      <div key={letter} className="cities-box">
+                        <b className="d-block cities-box-letter text-main">
+                          {letter}
+                        </b>
+                        <Row>
+                          {cities.map((e, index) => (
+                            <Col md={12} key={index} className="pb-2">
+                              <a
+                                onClick={() => {
+                                  dispatch(updateAffiliate(e.affiliates));
+                                  dispatch(updateCity(e));
+                                  dispatch(updateGps(false));
+
+                                  setShowCity(false);
+                                }}
+                                className={
+                                  "p-2 fw-6" +
+                                  (e.title === city?.title ? " active" : "")
+                                }
+                              >
+                                {e.title}
+                              </a>
+                            </Col>
+                          ))}
+                        </Row>
+                      </div>
+                    ))}
+                  </div>
+                )
+              : list?.length > 0 &&
+                list.map((item) => (
+                  <>
+                    {item?.country && (
+                      <h6 className="fw-7 p-2">{item.country}</h6>
+                    )}
+                    {item?.cities?.length > 0 && (
+                      <div className="cities">
+                        {Object.entries(
+                          item.cities
+                            .sort((a, b) => a.title.localeCompare(b.title))
+                            .reduce((acc, city) => {
+                              const firstLetter = city.title[0].toUpperCase();
+                              if (!acc[firstLetter]) {
+                                acc[firstLetter] = [];
+                              }
+                              acc[firstLetter].push(city);
+                              return acc;
+                            }, {})
+                        ).map(([letter, cities]) => (
+                          <div key={letter} className="cities-box">
+                            <b className="d-block cities-box-letter text-main">
+                              {letter}
+                            </b>
+                            <Row>
+                              {cities.map((e, index) => (
+                                <Col md={12} key={index} className="pb-2">
+                                  <a
+                                    onClick={() => {
+                                      dispatch(updateAffiliate(e.affiliates));
+                                      dispatch(updateCity(e));
+                                      dispatch(updateGps(false));
+
+                                      setShowCity(false);
+                                    }}
+                                    className={
+                                      "p-2 fw-6" +
+                                      (e.title === city?.title ? " active" : "")
+                                    }
+                                  >
+                                    {e.title}
+                                  </a>
+                                </Col>
+                              ))}
+                            </Row>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </>
                 ))}
-              </Row>
-            ) : (
-              Object.keys(list)?.length > 0 &&
-              Object.keys(list).map((title) => (
-                <>
-                  <h6 className="fw-7 p-2">
-                    {title[0].toUpperCase() + title.slice(1)}
-                  </h6>
-                  {list[title]?.length > 0 && (
-                    <Row>
-                      {list[title].map((e, index) => (
-                        <Col md={4} key={index} className="pb-3">
-                          <a
-                            onClick={() => {
-                              dispatch(
-                                setUser({
-                                  ...user,
-                                  options: {
-                                    ...user.options,
-                                    citySave: true,
-                                    city: e.options.city,
-                                  },
-                                })
-                              );
-                              dispatch(mainAffiliateEdit(e));
-                              setShowCity(false);
-                            }}
-                            className={
-                              "p-2 fw-6" +
-                              (e.options.city === defaultCityOptions?.city
-                                ? " active"
-                                : "")
-                            }
-                          >
-                            {e.options.city}
-                          </a>
-                        </Col>
-                      ))}
-                    </Row>
-                  )}
-                </>
-              ))
-            )}
           </div>
         </Modal.Body>
       </Modal>

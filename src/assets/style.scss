@@ -4212,11 +4212,6 @@ ACCOUNT
     max-height: 80px;
     max-width: 200px;
   }
-  .search-box {
-    @include scrollCustomized();
-    max-height: 400px;
-    overflow-x: hidden;
-  }
 }
 .no-city {
   @include shadow();
@@ -5252,7 +5247,7 @@ ACCOUNT END
 }
 .card {
   background-color: var(--bg-card);
-  color: var(--font-color)
+  color: var(--font-color);
 }
 .popover {
   --bs-popover-bg: var(--bg-second);
@@ -5286,4 +5281,28 @@ ACCOUNT END
 }
 .text-muted {
   color: #777 !important;
+}
+.text-main {
+  color: var(--main-color);
+}
+.cities {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  @include scrollCustomized();
+  max-height: 600px;
+  overflow-x: hidden;
+}
+.cities-box {
+  padding-left: 25px;
+  margin-bottom: 10px;
+  position: relative;
+  page-break-inside: avoid;
+  break-inside: avoid;
+  max-width: 33%;
+  .cities-box-letter {
+    position: absolute;
+    left: 7px;
+    top: 0px;
+  }
 }

@@ -1,4 +1,4 @@
-import React, { useCallback, useState, memo } from "react";
+import React, { useCallback, useState, useLayoutEffect, memo } from "react";
 import { Dropdown } from "react-bootstrap";
 import { IoChevronDownOutline } from "react-icons/io5";
 import Input from "./Input";
@@ -7,6 +7,12 @@ const Select = memo(
   ({ value, title, search, data, label, className, onClick, disabled }) => {
     const [searchData, setSearchData] = useState([]);
     const [localValue, setLocalValue] = useState(value ?? null);
+
+    useLayoutEffect(() => {
+      if (localValue != value) {
+        setLocalValue(value);
+      }
+    }, [value]);
 
     const onSearch = useCallback(
       (text) => {
@@ -98,7 +104,7 @@ const Select = memo(
                   }
                   onClick={() => {
                     onClick && onClick(e);
-                    setLocalValue(e?.value ?? e);
+                    // setLocalValue(e?.value ?? e);
                   }}
                   className="d-flex align-items-center flex-row"
                 >
@@ -126,7 +132,7 @@ const Select = memo(
                   }
                   onClick={() => {
                     onClick && onClick(e);
-                    setLocalValue(e?.value ?? e);
+                    // setLocalValue(e?.value ?? e);
                   }}
                   className="d-flex align-items-center flex-row"
                 >

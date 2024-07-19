@@ -39,6 +39,9 @@ const Cart = () => {
   const address = useSelector((state) => state.address.items);
   const options = useSelector((state) => state.settings.options);
   const [data, setData] = useState({ loading: true });
+  const checkout = useSelector((state) => state.checkout);
+  const selectedAffiliate = useSelector((state) => state.affiliate?.active);
+
   const {
     total = 0,
     totalNoDelivery = 0,
@@ -48,6 +51,7 @@ const Cart = () => {
     pointAccrual,
     pickupDiscount,
     pointCheckout,
+    delivery,
   } = useTotalCart();
 
   const {
@@ -102,12 +106,62 @@ const Cart = () => {
   }, [promo]);
 
   useEffect(() => {
-    getCart()
-      .then((res) => setData({ loading: false, ...res }))
-      .catch((err) => {
-        setData({ ...data, loading: false });
-      });
-  }, []);
+    if (user?.id && user?.phone && selectedAffiliate?.id) {
+      getCart({
+        name: user.firstName ?? "",
+        phone: checkout?.data?.phone ?? user.phone ?? "",
+        phoneReg: user.phoneReg ?? "",
+        serving: checkout?.data?.serving ?? "",
+        delivery: checkout.delivery ?? "delivery",
+        payment: checkout?.data?.payment ?? "cash",
+        person: checkout?.data?.person ?? 1,
+        comment: checkout?.data?.comment ?? "",
+
+        address: address ? address.find((e) => e.main) : false,
+        affiliateId: selectedAffiliate?.id ? selectedAffiliate.id : false,
+
+        // Сохранение адреса по умолчанию
+        save: checkout?.data?.save ?? false,
+
+        products: cart ?? [],
+
+        promo: promo ?? false,
+
+        // Списание баллов
+        pointWriting:
+          checkout?.data?.pointSwitch && checkout?.data?.pointWriting
+            ? checkout.data.pointWriting
+            : 0,
+        pointSwitch: checkout?.data?.pointSwitch,
+
+        //Скидка за самовывоз
+        pickupDiscount: checkout?.data?.pickupDiscount ?? 0,
+
+        // Начисление баллов
+        pointAccrual: checkout?.data?.pointAccrual ?? 0,
+
+        // Сумма товаров
+        price: price,
+
+        //Сумма доставки
+        deliveryPrice: delivery,
+
+        // Сумма скидки
+        discount: discount,
+
+        // Итоговая сумма
+        total: total,
+
+        type: "app",
+      })
+        .then((res) => setData({ loading: false, ...res }))
+        .catch((err) => {
+          setData({ ...data, loading: false });
+        });
+    } else {
+      setData({ ...data, loading: false });
+    }
+  }, [user?.id]);
 
   if (!Array.isArray(cart) || cart.length <= 0) {
     return (
@@ -168,7 +222,7 @@ const Cart = () => {
                   className="btn-9 py-1 ms-4 ms-sm-5"
                   onClick={() => dispatch(deleteCart())}
                 >
-                  {t('Очистить')}
+                  {t("Очистить")}
                 </button>
               </div>
               <ul className="list-unstyled">
@@ -185,7 +239,7 @@ const Cart = () => {
             <Col xs={12} lg={4}>
               {options?.promoVisible && user?.id && !promo && (
                 <>
-                  <div className="fs-11 mb-1">{t('Промокод')}</div>
+                  <div className="fs-11 mb-1">{t("Промокод")}</div>
                   <div className="mb-3">
                     <Input
                       className="w-100 mb-3"
@@ -206,7 +260,7 @@ const Cart = () => {
                           : "btn-10 w-100 rounded-3"
                       }
                     >
-                      {t('Применить')}
+                      {t("Применить")}
                     </button>
                   </div>
                 </>
@@ -215,13 +269,13 @@ const Cart = () => {
               {person > 0 && <Extras person={person} items={data?.extras} />}
 
               <div className="d-flex justify-content-between my-2">
-                <span>{t('Стоимость товаров')}</span>
+                <span>{t("Стоимость товаров")}</span>
                 <span>{customPrice(price)}</span>
               </div>
               {options?.promoVisible && promo && (
                 <div className="d-flex justify-content-between my-2">
                   <div>
-                    <div className="text-muted fs-08">{t('Промокод')}</div>
+                    <div className="text-muted fs-08">{t("Промокод")}</div>
                     <div className="fw-6">{promo.title.toUpperCase()}</div>
                   </div>
                   <span className="d-flex align-items-center">
@@ -249,13 +303,13 @@ const Cart = () => {
 
               {discount > 0 && (
                 <div className="d-flex justify-content-between my-2">
-                  <span>{t('Скидка')}</span>
+                  <span>{t("Скидка")}</span>
                   <span className="text-success">-{customPrice(discount)}</span>
                 </div>
               )}
               {pickupDiscount > 0 && (
                 <div className="d-flex justify-content-between my-2">
-                  <span>{t('Скидка за самовывоз')}</span>
+                  <span>{t("Скидка за самовывоз")}</span>
                   <span className="text-success">
                     -{customPrice(pickupDiscount)}
                   </span>
@@ -263,19 +317,19 @@ const Cart = () => {
               )}
               {pointCheckout > 0 && pointSwitch && (
                 <div className="d-flex justify-content-between my-2">
-                  <span>{t('Списание баллов')}</span>
+                  <span>{t("Списание баллов")}</span>
                   <span>-{customPrice(pointCheckout)}</span>
                 </div>
               )}
               {pointAccrual > 0 && (
                 <div className="d-flex justify-content-between my-2">
-                  <span>{t('Начислится баллов')}</span>
+                  <span>{t("Начислится баллов")}</span>
                   <span>+{customPrice(pointAccrual)}</span>
                 </div>
               )}
               <hr className="my-3" />
               <div className="d-flex justify-content-between mb-5">
-                <span className="fw-7 fs-11">{t('Итоговая сумма')}</span>
+                <span className="fw-7 fs-11">{t("Итоговая сумма")}</span>
                 <span className="fw-7">{customPrice(totalNoDelivery)}</span>
               </div>
 
@@ -290,11 +344,13 @@ const Cart = () => {
                 className="btn-primary w-100"
               >
                 <span className="fw-6">
-                  {t(user?.id
-                    ? address?.length === 0 && stateDelivery == "delivery"
-                      ? "Добавить адрес"
-                      : "Далее"
-                    : "Войти в профиль")}
+                  {t(
+                    user?.id
+                      ? address?.length === 0 && stateDelivery == "delivery"
+                        ? "Добавить адрес"
+                        : "Далее"
+                      : "Войти в профиль"
+                  )}
                 </span>
               </Link>
             </Col>

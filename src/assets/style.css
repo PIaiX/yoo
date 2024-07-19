@@ -4749,22 +4749,6 @@ ACCOUNT
   max-height: 80px;
   max-width: 200px;
 }
-.city .search-box {
-  transition: 200ms;
-  max-height: 400px;
-  overflow-x: hidden;
-}
-.city .search-box::-webkit-scrollbar {
-  display: block;
-  width: 6px;
-}
-.city .search-box::-webkit-scrollbar-thumb {
-  background-color: var(--bg-btn);
-  border-radius: 7px;
-}
-.city .search-box::-webkit-scrollbar-button:vertical:start:decrement, .city .search-box::-webkit-scrollbar-button:vertical:end:increment, .city .search-box::-webkit-scrollbar-button:horizontal:start:decrement, .city .search-box::-webkit-scrollbar-button:horizontal:end:increment {
-  display: none;
-}
 
 .no-city {
   box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.06);
@@ -6119,4 +6103,43 @@ ACCOUNT END
 
 .text-muted {
   color: #777 !important;
+}
+
+.text-main {
+  color: var(--main-color);
+}
+
+.cities {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  transition: 200ms;
+  max-height: 600px;
+  overflow-x: hidden;
+}
+.cities::-webkit-scrollbar {
+  display: block;
+  width: 6px;
+}
+.cities::-webkit-scrollbar-thumb {
+  background-color: var(--bg-btn);
+  border-radius: 7px;
+}
+.cities::-webkit-scrollbar-button:vertical:start:decrement, .cities::-webkit-scrollbar-button:vertical:end:increment, .cities::-webkit-scrollbar-button:horizontal:start:decrement, .cities::-webkit-scrollbar-button:horizontal:end:increment {
+  display: none;
+}
+
+.cities-box {
+  padding-left: 25px;
+  margin-bottom: 10px;
+  position: relative;
+  page-break-inside: avoid;
+  -moz-column-break-inside: avoid;
+       break-inside: avoid;
+  max-width: 33%;
+}
+.cities-box .cities-box-letter {
+  position: absolute;
+  left: 7px;
+  top: 0px;
 }/*# sourceMappingURL=style.css.map */

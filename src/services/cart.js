@@ -3,8 +3,8 @@ import { $authApi, $api } from "./index";
 import { apiRoutes } from "../config/api";
 import { resetCart, updateCartSync } from "../store/reducers/cartSlice";
 
-const getCart = async () => {
-  const response = await $api.get(apiRoutes.CART)
+const getCart = async (data) => {
+  const response = await $api.post(apiRoutes.CART, data)
   return response?.data
 }
 

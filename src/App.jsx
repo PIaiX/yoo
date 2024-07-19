@@ -17,7 +17,11 @@ import { getFavorites } from "./services/favorite";
 import { getOptions } from "./services/option";
 import { getDelivery } from "./services/order";
 import { updateAddresses } from "./store/reducers/addressSlice";
-import { updateAffiliate, updateZone } from "./store/reducers/affiliateSlice";
+import {
+  updateAffiliate,
+  updateCities,
+  updateZone,
+} from "./store/reducers/affiliateSlice";
 import { cartZone } from "./store/reducers/cartSlice";
 import { updateNotification } from "./store/reducers/notificationSlice";
 import { updateIp, updateOptions } from "./store/reducers/settingsSlice";
@@ -117,7 +121,7 @@ function App() {
             }
           }
 
-          res?.affiliates && dispatch(updateAffiliate(res.affiliates));
+          res?.cities && dispatch(updateCities(res.cities));
           res?.zones && dispatch(updateZone(res.zones));
 
           if (res?.statuses?.length > 0) {
