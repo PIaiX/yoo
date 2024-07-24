@@ -1,14 +1,17 @@
 import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
+import moment from "moment";
 import React, {
   useCallback,
-  useLayoutEffect,
   useEffect,
+  useLayoutEffect,
   useState,
 } from "react";
+import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import "./assets/style.min.css";
 import Loader from "./components/utils/Loader";
+import YandexMetrika from "./components/YandexMetrika";
 import socket from "./config/socket";
 import { convertColor, getImageURL, setCssColor } from "./helpers/all";
 import AppRouter from "./routes/AppRouter";
@@ -22,14 +25,11 @@ import {
   updateCities,
   updateZone,
 } from "./store/reducers/affiliateSlice";
+import { setAuth, setUser } from "./store/reducers/authSlice";
 import { cartZone } from "./store/reducers/cartSlice";
 import { updateNotification } from "./store/reducers/notificationSlice";
 import { updateIp, updateOptions } from "./store/reducers/settingsSlice";
 import { updateStatus } from "./store/reducers/statusSlice";
-import moment from "moment";
-import { useTranslation } from "react-i18next";
-import { setAuth, setUser } from "./store/reducers/authSlice";
-import YandexMetrika from "./components/YandexMetrika";
 
 function App() {
   const { i18n } = useTranslation();
@@ -121,7 +121,24 @@ function App() {
             }
           }
 
-          res?.cities && dispatch(updateCities(res.cities));
+          if (res?.cities?.length > 0) {
+            const transformedData = res.cities.map((city) => {
+              const { relationCities, ...rest } = city;
+              return {
+                ...rest,
+                affiliates: relationCities.map((relation) => {
+                  return relation.affiliate;
+                }),
+              };
+            });
+
+            dispatch(updateCities(transformedData));
+
+            if (transformedData?.length === 1) {
+              dispatch(updateAffiliate(transformedData[0].affiliates));
+            }
+          }
+
           res?.zones && dispatch(updateZone(res.zones));
 
           if (res?.statuses?.length > 0) {

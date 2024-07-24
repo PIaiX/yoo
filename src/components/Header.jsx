@@ -202,7 +202,7 @@ const Header = memo(() => {
                       {t(
                         cities?.length > 1
                           ? city?.title ?? "Выберите город"
-                          : selectedAffiliate?.city ?? ""
+                          : selectedAffiliate?.options?.city ?? "Выберите город"
                       )}
                     </a>
                   )}

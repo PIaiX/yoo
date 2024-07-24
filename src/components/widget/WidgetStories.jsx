@@ -16,38 +16,79 @@ const WidgetStories = memo((data) => {
     setStory(true);
     setActiveSlide(index);
   };
+
   if (!data?.items || data?.items?.length === 0) {
     return null;
   }
+
+  const size = data.size === "big" ? "big" : "middle";
 
   return (
     <section className="sec-2 my-4">
       <Container className="px-0">
         <Swiper
-          className={
-            "swiper-stories px-2 px-md-0" +
-            (data?.count > 0 ? " story-col-" + data.count : "")
-          }
+          className={`swiper-stories px-2 px-md-0 story-items-${size}`}
           speed={750}
-          spaceBetween={16}
+          spaceBetween={14}
           navigation={true}
-          slidesPerGroup={7}
+          slidesPerGroup={1}
           slidesPerView="auto"
           modules={[Navigation]}
-          breakpoints={{
-            576: {
-              slidesPerView: 4,
-              spaceBetween: 8,
-            },
-            768: {
-              slidesPerView: 5,
-              spaceBetween: 12,
-            },
-            1200: {
-              slidesPerView: 7,
-              spaceBetween: 16,
-            },
-          }}
+          breakpoints={
+            size === "big"
+              ? {
+                  320: {
+                    slidesPerView: 4,
+                    slidesPerGroup: 4,
+                  },
+                  480: {
+                    slidesPerView: 5,
+                    slidesPerGroup: 5,
+                  },
+                  768: {
+                    slidesPerView: 6,
+                    slidesPerGroup: 6,
+                  },
+                  1024: {
+                    slidesPerView: 5,
+                    slidesPerGroup: 5,
+                  },
+                  1280: {
+                    slidesPerView: 5,
+                    slidesPerGroup: 5,
+                  },
+                  1440: {
+                    slidesPerView: 5,
+                    slidesPerGroup: 5,
+                  },
+                }
+              : {
+                  320: {
+                    slidesPerView: 4,
+                    slidesPerGroup: 4,
+                  },
+                  480: {
+                    slidesPerView: 5,
+                    slidesPerGroup: 5,
+                  },
+                  768: {
+                    slidesPerView: 6,
+                    slidesPerGroup: 6,
+                  },
+                  1024: {
+                    slidesPerView: 7,
+                    slidesPerGroup: 7,
+                  },
+                  1280: {
+                    slidesPerView: 7,
+                    slidesPerGroup: 7,
+                  },
+                  1440: {
+                    slidesPerView: 7,
+                    slidesPerGroup: 7,
+                  },
+                }
+          }
         >
           {data.items.map((e, index) => (
             <SwiperSlide key={e?.id}>

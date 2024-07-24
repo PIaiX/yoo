@@ -101,6 +101,7 @@ const Checkout = () => {
     price = 0,
     discount = 0,
     delivery,
+    person = 0,
     pointAccrual,
     pickupDiscount,
     pointCheckout,
@@ -131,7 +132,7 @@ const Checkout = () => {
       serving: checkout?.data?.serving ?? "",
       delivery: checkout.delivery ?? "delivery",
       payment: checkout?.data?.payment ?? "cash",
-      person: checkout?.data?.person ?? 1,
+      person: person > 0 ? person : checkout?.data?.person ?? 1,
       comment: checkout?.data?.comment ?? "",
 
       address: address ? address.find((e) => e.main) : false,
@@ -544,7 +545,7 @@ const Checkout = () => {
                   <div className="mb-4">
                     <p className="mb-2 fs-09">{t("Кол-во персон")}</p>
                     <CountInput
-                      dis={false}
+                      dis={person > 0}
                       value={data.person}
                       onChange={(e) => setValue("person", e)}
                     />

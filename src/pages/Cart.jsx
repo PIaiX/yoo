@@ -106,61 +106,59 @@ const Cart = () => {
   }, [promo]);
 
   useEffect(() => {
-    if (user?.id && user?.phone && selectedAffiliate?.id) {
-      getCart({
-        name: user.firstName ?? "",
-        phone: checkout?.data?.phone ?? user.phone ?? "",
-        phoneReg: user.phoneReg ?? "",
-        serving: checkout?.data?.serving ?? "",
-        delivery: checkout.delivery ?? "delivery",
-        payment: checkout?.data?.payment ?? "cash",
-        person: checkout?.data?.person ?? 1,
-        comment: checkout?.data?.comment ?? "",
+    getCart({
+      name: user?.firstName ?? "",
+      phone: checkout?.data?.phone ?? user.phone ?? "",
+      phoneReg: user?.phoneReg ?? "",
+      serving: checkout?.data?.serving ?? "",
+      delivery: checkout.delivery ?? "delivery",
+      payment: checkout?.data?.payment ?? "cash",
+      person: person > 0 ? person : checkout?.data?.person ?? 1,
+      comment: checkout?.data?.comment ?? "",
 
-        address: address ? address.find((e) => e.main) : false,
-        affiliateId: selectedAffiliate?.id ? selectedAffiliate.id : false,
+      address: address ? address.find((e) => e.main) : false,
+      affiliateId: selectedAffiliate?.id ? selectedAffiliate.id : false,
 
-        // Сохранение адреса по умолчанию
-        save: checkout?.data?.save ?? false,
+      // Сохранение адреса по умолчанию
+      save: checkout?.data?.save ?? false,
 
-        products: cart ?? [],
+      products: cart ?? [],
 
-        promo: promo ?? false,
+      promo: promo ?? false,
 
-        // Списание баллов
-        pointWriting:
-          checkout?.data?.pointSwitch && checkout?.data?.pointWriting
-            ? checkout.data.pointWriting
-            : 0,
-        pointSwitch: checkout?.data?.pointSwitch,
+      // Списание баллов
+      pointWriting:
+        checkout?.data?.pointSwitch && checkout?.data?.pointWriting
+          ? checkout.data.pointWriting
+          : 0,
+      pointSwitch: checkout?.data?.pointSwitch,
 
-        //Скидка за самовывоз
-        pickupDiscount: checkout?.data?.pickupDiscount ?? 0,
+      //Скидка за самовывоз
+      pickupDiscount: checkout?.data?.pickupDiscount ?? 0,
 
-        // Начисление баллов
-        pointAccrual: checkout?.data?.pointAccrual ?? 0,
+      // Начисление баллов
+      pointAccrual: checkout?.data?.pointAccrual ?? 0,
 
-        // Сумма товаров
-        price: price,
+      // Сумма товаров
+      price: price,
 
-        //Сумма доставки
-        deliveryPrice: delivery,
+      //Сумма доставки
+      deliveryPrice: delivery,
 
-        // Сумма скидки
-        discount: discount,
+      // Сумма скидки
+      discount: discount,
 
-        // Итоговая сумма
-        total: total,
+      // Итоговая сумма
+      total: total,
 
-        type: "app",
+      type: "site",
+    })
+      .then((res) => {
+        setData({ loading: false, ...res });
       })
-        .then((res) => setData({ loading: false, ...res }))
-        .catch((err) => {
-          setData({ ...data, loading: false });
-        });
-    } else {
-      setData({ ...data, loading: false });
-    }
+      .catch((err) => {
+        setData({ ...data, loading: false });
+      });
   }, [user?.id]);
 
   if (!Array.isArray(cart) || cart.length <= 0) {

@@ -1,10 +1,9 @@
-import { Modal, Row, Col } from "react-bootstrap";
 import React, { memo, useState } from "react";
-import Empty from "../Empty";
-import ProductCard from "../ProductCard";
+import { Col, Modal, Row } from "react-bootstrap";
 import { IoAddCircleOutline, IoRestaurantOutline } from "react-icons/io5";
-import EmptyCatalog from "../empty/catalog";
 import CartItem from "../CartItem";
+import Empty from "../Empty";
+import EmptyCatalog from "../empty/catalog";
 
 const Extras = memo(({ person = 0, items }) => {
   const [show, setShow] = useState(false);

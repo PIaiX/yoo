@@ -19,13 +19,17 @@ const CountInput = memo(
           (dis ? " disabled" : "")
         }
       >
-        <button type="button" onClick={() => onCount(Number(value) - 1)}>
-          <HiMinus />
-        </button>
+        {!dis && (
+          <button type="button" onClick={() => onCount(Number(value) - 1)}>
+            <HiMinus />
+          </button>
+        )}
         <input type="number" value={Number(value)} readOnly={false} />
-        <button type="button" onClick={() => onCount(Number(value) + 1)}>
-          <HiPlus />
-        </button>
+        {!dis && (
+          <button type="button" onClick={() => onCount(Number(value) + 1)}>
+            <HiPlus />
+          </button>
+        )}
       </div>
     );
   }
