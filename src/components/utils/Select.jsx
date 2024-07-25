@@ -51,8 +51,10 @@ const Select = memo(
             disabled={disabled}
             ref={ref}
             onClick={(e) => {
-              e.preventDefault();
-              onClick(e);
+              if (data?.length > 1) {
+                e.preventDefault();
+                onClick(e);
+              }
             }}
             className={
               "d-flex align-items-center justify-content-between" +
@@ -70,9 +72,11 @@ const Select = memo(
               )}
               {titleFind}
             </span>
-            <span className="ms-2">
-              <IoChevronDownOutline size={18} />
-            </span>
+            {data?.length > 1 && (
+              <span className="ms-2">
+                <IoChevronDownOutline size={18} />
+              </span>
+            )}
           </a>
         </>
       );

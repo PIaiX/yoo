@@ -7,7 +7,9 @@ const initialState = {
     zones: [],
     cities: [],
     city: false,
-    gps: false
+    gps: false,
+    tables: [],
+    table: false
 }
 
 const affiliateSlice = createSlice({
@@ -62,9 +64,19 @@ const affiliateSlice = createSlice({
         updateCities: (state, action) => {
             state.cities = action.payload
         },
+        updateTable: (state, action) => {
+            state.tables = action.payload
+            state.table = state.table?.id && state.tables?.length > 0 && state.tables.find(e => e.id === state.table.id) ? state.table : action.payload[0]
+            return state
+        },
+        mainTableEdit: (state, action) => {
+            if (action?.payload && state?.tables?.length > 0) {
+                state.table = action?.payload
+            }
+        },
     },
 })
 
-export const { mainAffiliateEdit, updateAffiliate, updateCities, updateCity, updateGps, updateZone, updateViewAffiliate } = affiliateSlice.actions
+export const { mainAffiliateEdit, mainTableEdit, updateTable, updateAffiliate, updateCities, updateCity, updateGps, updateZone, updateViewAffiliate } = affiliateSlice.actions
 
 export default affiliateSlice.reducer

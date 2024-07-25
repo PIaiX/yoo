@@ -23,6 +23,7 @@ import { updateAddresses } from "./store/reducers/addressSlice";
 import {
   updateAffiliate,
   updateCities,
+  updateTable,
   updateZone,
 } from "./store/reducers/affiliateSlice";
 import { setAuth, setUser } from "./store/reducers/authSlice";
@@ -126,19 +127,26 @@ function App() {
               const { relationCities, ...rest } = city;
               return {
                 ...rest,
-                affiliates: relationCities.map((relation) => {
-                  return relation.affiliate;
-                }),
+                affiliates:
+                  relationCities?.length > 0
+                    ? relationCities.map((relation) => {
+                        return relation.affiliate;
+                      })
+                    : [],
               };
             });
 
             dispatch(updateCities(transformedData));
 
-            if (transformedData?.length === 1) {
+            if (
+              transformedData?.length === 1 &&
+              transformedData[0]?.affiliates?.length > 0
+            ) {
               dispatch(updateAffiliate(transformedData[0].affiliates));
             }
           }
 
+          res?.tables && dispatch(updateTable(res.tables));
           res?.zones && dispatch(updateZone(res.zones));
 
           if (res?.statuses?.length > 0) {

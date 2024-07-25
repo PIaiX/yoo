@@ -170,7 +170,6 @@ $bp-xxl: 1399px;
   box-shadow: 0px 2px 20px rgba(0, 0, 0, 0.04);
 }
 @mixin scrollCustomized {
-  transition: 200ms;
   &::-webkit-scrollbar {
     display: block;
     width: 6px;
@@ -1118,13 +1117,16 @@ select {
     }
   }
   &-options {
+    @include scrollCustomized();
     @include list();
     min-width: 160px;
     width: 100%;
     @include shadow();
     border-radius: $radius * 0.5;
     border: none;
-    overflow: hidden;
+    overflow-x: hidden;
+    overflow-y: auto;
+    max-height: 400px;
     padding: 0px;
     @include safariFix();
     @media (max-width: $bp-lg) {

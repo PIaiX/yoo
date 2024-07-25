@@ -68,6 +68,15 @@ const Header = memo(() => {
   const [searchInput, setSearchInput] = useState("");
   const [search, setSearch] = useState();
   const [isPending, startTransition] = useTransition();
+  const deliveryArray = [
+    ...(options?.delivery?.status
+      ? [{ title: t("Доставка"), value: "delivery" }]
+      : []),
+    ...(options?.pickup?.status
+      ? [{ title: t("Самовывоз"), value: "pickup" }]
+      : []),
+    ...(options?.hall?.status ? [{ title: t("В зале"), value: "hall" }] : []),
+  ];
 
   const handleChange = (value) => {
     setSearchInput(value);
@@ -239,25 +248,14 @@ const Header = memo(() => {
                     </div>
                   )}
                 </li>
-                {options?.deliveryView && (
-                  <li className="d-none d-sm-inline-flex">
-                    <Select
-                      className="fw-5"
-                      data={[
-                        {
-                          value: "delivery",
-                          title: t("Доставка"),
-                        },
-                        {
-                          value: "pickup",
-                          title: t("Самовывоз"),
-                        },
-                      ]}
-                      value={delivery}
-                      onClick={(e) => dispatch(editDeliveryCheckout(e.value))}
-                    />
-                  </li>
-                )}
+                <li className="d-none d-sm-inline-flex">
+                  <Select
+                    className="fw-5"
+                    data={deliveryArray}
+                    value={delivery}
+                    onClick={(e) => dispatch(editDeliveryCheckout(e.value))}
+                  />
+                </li>
               </ul>
             </div>
             <ul className="text-menu d-none d-lg-flex">
@@ -401,16 +399,7 @@ const Header = memo(() => {
             )}
             <Select
               className="my-3"
-              data={[
-                {
-                  value: "delivery",
-                  title: t("Доставка"),
-                },
-                {
-                  value: "pickup",
-                  title: t("Самовывоз"),
-                },
-              ]}
+              data={deliveryArray}
               value={delivery}
               onClick={(e) => dispatch(editDeliveryCheckout(e.value))}
             />

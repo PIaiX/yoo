@@ -16,14 +16,14 @@ import { useTranslation } from "react-i18next";
 const Home = () => {
   const { t } = useTranslation();
 
-  const multiBrand = useSelector((state) => state.settings.options.multiBrand);
+  const options = useSelector((state) => state.settings.options);
   const selectedAffiliate = useSelector((state) => state.affiliate.active);
+
   const home = useGetHomeQuery({
     affiliateId: selectedAffiliate?.id ?? false,
-    view: multiBrand,
+    multiBrand: options?.multiBrand,
     type: "site",
   });
-  const options = useSelector((state) => state.settings.options);
 
   if (home?.isLoading) {
     return <Loader full />;

@@ -31,7 +31,10 @@ import { isWork } from "../hooks/all";
 import { useTotalCart } from "../hooks/useCart";
 import { checkAuth } from "../services/auth";
 import { createOrder } from "../services/order";
-import { mainAffiliateEdit } from "../store/reducers/affiliateSlice";
+import {
+  mainAffiliateEdit,
+  mainTableEdit,
+} from "../store/reducers/affiliateSlice";
 import { resetCart } from "../store/reducers/cartSlice";
 import {
   editDeliveryCheckout,
@@ -93,7 +96,9 @@ const Checkout = () => {
   const checkout = useSelector((state) => state.checkout);
   const address = useSelector((state) => state.address.items);
   const affiliate = useSelector((state) => state.affiliate.items);
+  const tables = useSelector((state) => state.affiliate.tables);
   const selectedAffiliate = useSelector((state) => state.affiliate?.active);
+  const selectedTable = useSelector((state) => state.affiliate.table);
   const options = useSelector((state) => state.settings.options);
 
   const {
@@ -137,6 +142,7 @@ const Checkout = () => {
 
       address: address ? address.find((e) => e.main) : false,
       affiliateId: selectedAffiliate?.id ? selectedAffiliate.id : false,
+      tableId: selectedTable?.id ? selectedTable.id : false,
 
       // Сохранение адреса по умолчанию
       save: checkout?.data?.save ?? false,
@@ -168,7 +174,7 @@ const Checkout = () => {
       discount: discount,
 
       // Итоговая сумма
-      total: total,
+      total: totalNoDelivery,
 
       type: "site",
     },
@@ -190,15 +196,23 @@ const Checkout = () => {
   }, [isAuth]);
 
   useEffect(() => {
-    if (!end && total > 0) {
-      setValue("total", total);
+    if (!end && totalNoDelivery > 0) {
+      setValue("total", totalNoDelivery);
       setValue("price", price);
       setValue("discount", discount);
       setValue("deliveryPrice", delivery);
       setValue("pointAccrual", pointAccrual);
       setValue("pickupDiscount", pickupDiscount);
     }
-  }, [total, price, discount, delivery, pointAccrual, pickupDiscount, end]);
+  }, [
+    totalNoDelivery,
+    price,
+    discount,
+    delivery,
+    pointAccrual,
+    pickupDiscount,
+    end,
+  ]);
 
   useEffect(() => {
     if (!end && isAuth) {
@@ -267,6 +281,12 @@ const Checkout = () => {
       setValue("affiliateId", selectedAffiliate.id);
     }
   }, [selectedAffiliate]);
+
+  useEffect(() => {
+    if (selectedTable?.id && checkout.delivery == "hall") {
+      setValue("tableId", selectedTable.id);
+    }
+  }, [selectedTable]);
 
   const onSubmit = useCallback(
     (data) => {
@@ -437,28 +457,48 @@ const Checkout = () => {
               <Row>
                 <Col md={12}>
                   <div className="d-flex align-items-center mb-4">
-                    <a
-                      className={
-                        "delivery" +
-                        (data.delivery === "delivery" ? " active" : "")
-                      }
-                      onClick={() => dispatch(editDeliveryCheckout("delivery"))}
-                    >
-                      <b>{t("Доставка")}</b>
-                      <p>
-                        {delivery > 0 ? customPrice(delivery) : t("Бесплатно")}
-                      </p>
-                    </a>
-                    <a
-                      className={
-                        "delivery" +
-                        (data.delivery === "pickup" ? " active" : "")
-                      }
-                      onClick={() => dispatch(editDeliveryCheckout("pickup"))}
-                    >
-                      <b>{t("Самовывоз")}</b>
-                      <p>{selectedAffiliate?.full ?? t("Адреса нет")}</p>
-                    </a>
+                    {options?.delivery?.status && (
+                      <a
+                        className={
+                          "delivery" +
+                          (data.delivery === "delivery" ? " active" : "")
+                        }
+                        onClick={() =>
+                          dispatch(editDeliveryCheckout("delivery"))
+                        }
+                      >
+                        <b>{t("Доставка")}</b>
+                        <p>
+                          {delivery > 0
+                            ? customPrice(delivery)
+                            : t("Бесплатно")}
+                        </p>
+                      </a>
+                    )}
+                    {options?.pickup?.status && (
+                      <a
+                        className={
+                          "delivery" +
+                          (data.delivery === "pickup" ? " active" : "")
+                        }
+                        onClick={() => dispatch(editDeliveryCheckout("pickup"))}
+                      >
+                        <b>{t("Самовывоз")}</b>
+                        <p>{selectedAffiliate?.full ?? t("Адреса нет")}</p>
+                      </a>
+                    )}
+                    {options?.hall?.status && (
+                      <a
+                        className={
+                          "delivery" +
+                          (data.delivery === "hall" ? " active" : "")
+                        }
+                        onClick={() => dispatch(editDeliveryCheckout("hall"))}
+                      >
+                        <b>{t("В зале")}</b>
+                        <p>{selectedTable?.title ?? t("Нет стола")}</p>
+                      </a>
+                    )}
                   </div>
                 </Col>
                 <Col md={12}>
@@ -490,7 +530,7 @@ const Checkout = () => {
                           </Link>
                         </p>
                       </>
-                    ) : (
+                    ) : data.delivery == "pickup" ? (
                       !options?.multiBrand &&
                       affiliate?.length > 0 && (
                         <Select
@@ -505,6 +545,24 @@ const Checkout = () => {
                             dispatch(
                               mainAffiliateEdit(
                                 affiliate.find((item) => item.id === e.value)
+                              )
+                            )
+                          }
+                        />
+                      )
+                    ) : (
+                      data.delivery == "hall" && (
+                        <Select
+                          label={t("Стол")}
+                          value={data?.tableId}
+                          data={tables.map((e) => ({
+                            title: e.title,
+                            value: e.id,
+                          }))}
+                          onClick={(e) =>
+                            dispatch(
+                              mainTableEdit(
+                                tables.find((item) => item.id === e.value)
                               )
                             )
                           }

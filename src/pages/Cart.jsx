@@ -78,7 +78,7 @@ const Cart = () => {
         isPromo({
           promo: e?.promo ? e.promo : promo?.name ? promo.name : "",
           delivery: stateDelivery,
-          total,
+          total: totalNoDelivery,
         })
           .then((res) => {
             dispatch(cartPromo(res));
@@ -96,7 +96,7 @@ const Cart = () => {
           });
       }
     },
-    [promo, stateDelivery, total]
+    [promo, stateDelivery, totalNoDelivery, total]
   );
 
   useEffect(() => {
@@ -149,7 +149,7 @@ const Cart = () => {
       discount: discount,
 
       // Итоговая сумма
-      total: total,
+      total: totalNoDelivery,
 
       type: "site",
     })

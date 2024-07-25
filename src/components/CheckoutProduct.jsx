@@ -33,7 +33,10 @@ const CheckoutProduct = memo(({ data }) => {
           </p>
           <p className="checkoutProduct-count">x{data?.cart?.count ?? 1}</p>
         </div>
-        <div className="border-bottom my-2" />
+        {(data?.cart?.data?.additions?.length > 0 ||
+          data?.cart?.data?.wishes?.length > 0) && (
+          <div className="border-bottom my-2" />
+        )}
         {data?.cart?.data?.additions?.length > 0 && (
           <p className="mb-1">
             <a
