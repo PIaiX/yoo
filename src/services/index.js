@@ -52,7 +52,6 @@ $authApi.interceptors.request.use(
       config.headers.authorization = `Access ${token}`;
     }
     config.headers.device = DEVICE;
-    console.log(config.headers)
     return config;
   },
   (error) => Promise.reject(error)

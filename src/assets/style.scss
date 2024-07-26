@@ -79,10 +79,10 @@ $gray: #c2c2c2;
 $grayish: #ebebeb;
 $transition: 300ms ease-in;
 
-$bp-xxs: 330px;
-$bp-xs: 410px;
-$bp-sm: 575px;
-$bp-md: 767px;
+$bp-xxs: 440px;
+$bp-xs: 510px;
+$bp-sm: 580px;
+$bp-md: 770px;
 $bp-lg: 991px;
 $bp-xl: 1199px;
 $bp-xxl: 1399px;
@@ -1858,7 +1858,7 @@ main {
 .story {
   cursor: pointer;
   position: relative;
-
+  overflow: hidden;
   img {
     display: block;
     margin: 0 auto 0px;
@@ -1869,12 +1869,6 @@ main {
     background-color: var(--bg-main);
     padding: 2px;
     border: 3px solid var(--main-color);
-  }
-
-  &.square {
-    img {
-      border-radius: 16px;
-    }
   }
 
   figcaption {
@@ -1897,17 +1891,39 @@ main {
     position: absolute;
     font-size: 18px;
     font-weight: 500;
-    bottom: 5px;
-    left: 5px;
-    right: 5px;
-    top: 5px;
-    border-radius: 20px;
-
-    @media (max-width: $bp-sm) {
-      font-size: 0.75em;
+    bottom: 4px;
+    left: 4px;
+    right: 4px;
+    top: 4px;
+    border-radius: 50%;
+    text-align: center;
+  }
+  &.square {
+    img {
+      border-radius: 20px;
+    }
+    figcaption {
+      border-radius: 18px;
+      text-align: left !important;
     }
   }
 
+  &.rectangle {
+    img {
+      border-radius: 20px;
+    }
+    figcaption {
+      border-radius: 18px;
+      text-align: left !important;
+    }
+  }
+  @media (max-width: $bp-lg) {
+    figcaption {
+      font-size: 0.8em;
+      padding: 0.8em;
+      text-align: center;
+    }
+  }
   &-big {
     img {
       display: block;
@@ -1929,29 +1945,29 @@ main {
       height: 230px;
 
       @media (max-width: $bp-xxl) {
-        height: 200px;
+        height: 200px !important;
       }
       @media (max-width: $bp-xl) {
-        height: 170px;
+        height: 180px !important;
       }
       @media (max-width: $bp-lg) {
-        height: 150px;
+        height: 150px !important;
       }
       @media (max-width: $bp-md) {
         border-radius: 15px;
-        height: 120px;
+        height: 120px !important;
       }
       @media (max-width: $bp-sm) {
         border-radius: 15px;
-        height: 120px;
+        height: 120px !important;
       }
       @media (max-width: $bp-xs) {
         border-radius: 12px;
-        height: 100px;
+        height: 22vw !important;
       }
       @media (max-width: $bp-xxs) {
         border-radius: 12px;
-        height: 80px;
+        height: 26vw !important;
       }
     }
   }
@@ -1965,17 +1981,26 @@ main {
         height: 300px !important;
       }
       @media (max-width: $bp-xl) {
-        height: 280px !important;
+        height: 250px !important;
       }
       @media (max-width: $bp-lg) {
-        height: 260px !important;
+        height: 185px !important;
       }
       @media (max-width: $bp-md) {
-        height: 240px !important;
+        border-radius: 20px;
+        height: 170px !important;
       }
       @media (max-width: $bp-sm) {
-        border-radius: 16px;
-        height: 100px !important;
+        border-radius: 20px;
+        height: 160px !important;
+      }
+      @media (max-width: $bp-xs) {
+        border-radius: 18px;
+        height: 26vw !important;
+      }
+      @media (max-width: $bp-xxs) {
+        border-radius: 18px;
+        height: 26vw !important;
       }
     }
   }
@@ -2484,7 +2509,7 @@ main {
     }
     margin-bottom: 1em;
     @media (max-width: $bp-xxl) {
-      height: 280px;
+      height: 240px;
     }
     @media (max-width: $bp-xl) {
       height: 210px;
@@ -2502,7 +2527,7 @@ main {
       object-position: center;
       border-radius: $radius;
       @media (max-width: $bp-xxl) {
-        height: 280px;
+        height: 240px;
       }
       @media (max-width: $bp-xl) {
         height: 210px;

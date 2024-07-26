@@ -51,7 +51,7 @@ const Product = () => {
   const title = useSelector((state) => state.settings.options?.title);
   const selectedAffiliate = useSelector((state) => state.affiliate.active);
   const [isRemove, setIsRemove] = useState(false);
-  console.log(selectedAffiliate);
+
   const productEnergyVisible = useSelector(
     (state) => state.settings.options.productEnergyVisible
   );

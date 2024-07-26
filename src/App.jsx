@@ -28,6 +28,7 @@ import {
 } from "./store/reducers/affiliateSlice";
 import { setAuth, setUser } from "./store/reducers/authSlice";
 import { cartZone } from "./store/reducers/cartSlice";
+import { editDeliveryCheckout } from "./store/reducers/checkoutSlice";
 import { updateNotification } from "./store/reducers/notificationSlice";
 import { updateIp, updateOptions } from "./store/reducers/settingsSlice";
 import { updateStatus } from "./store/reducers/statusSlice";
@@ -186,6 +187,11 @@ function App() {
   }, []);
 
   useEffect(() => {
+    if (delivery == "delivery" && !options?.delivery?.status) {
+      dispatch(editDeliveryCheckout("pickup"));
+    } else if (delivery == "pickup" && !options?.pickup?.status) {
+      dispatch(editDeliveryCheckout("hall"));
+    }
     if (delivery == "delivery" && auth?.user?.id) {
       const selectedAddress = address ? address.find((e) => e.main) : false;
       if (selectedAddress) {

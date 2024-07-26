@@ -34,7 +34,6 @@ const isWork = (start, end, now) => {
 
         return nowTime.isBetween(startTime, endTime, null, '()');
     } catch (err) {
-        console.log(err)
         return false
     }
 }
