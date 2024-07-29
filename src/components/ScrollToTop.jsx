@@ -1,7 +1,7 @@
 import React, { memo, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import {
-  HiOutlineHeart,
+  // HiOutlineHeart,
   HiOutlineShoppingCart,
   HiOutlineChevronDoubleUp,
 } from "react-icons/hi2";
@@ -41,11 +41,11 @@ const ScrollToTop = memo(({ count = 0 }) => {
               {count > 0 && <span className="badge">{count}</span>}
             </Link>
           </li>
-          <li className="d-none d-lg-block">
+          {/* <li className="d-none d-lg-block">
             <Link to="/account/favorites">
               <HiOutlineHeart />
             </Link>
-          </li>
+          </li> */}
           <li>
             <button type="button" onClick={toTop}>
               <HiOutlineChevronDoubleUp />

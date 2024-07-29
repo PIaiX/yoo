@@ -21,21 +21,21 @@ const AccountMenu = () => {
         <li>
           <NavLink to="orders">
             <HiOutlineShoppingBag />
-            <div>{t('Заказы')}</div>
+            <div>{t("Заказы")}</div>
           </NavLink>
         </li>
         <li>
           <NavLink to="addresses">
             <HiOutlineMapPin />
-            <div>{t('Адреса')}</div>
+            <div>{t("Адреса")}</div>
           </NavLink>
         </li>
-        <li>
+        {/* <li>
           <NavLink to="favorites">
             <HiOutlineHeart />
             <div>{t('Избранное')}</div>
           </NavLink>
-        </li>
+        </li> */}
         <li>
           <a
             onClick={() => {
@@ -44,7 +44,7 @@ const AccountMenu = () => {
             }}
           >
             <HiOutlineArrowRightOnRectangle />
-            <div>{t('Выйти')}</div>
+            <div>{t("Выйти")}</div>
           </a>
         </li>
         {/* <li>

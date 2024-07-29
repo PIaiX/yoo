@@ -107,7 +107,7 @@ const Order = () => {
                 <Status {...order.item} />
               </p>
               <p className="fs-09 mb-3">
-                <div className="text-muted fs-08">{t("Идентификатор")}</div>
+                <div className="text-muted fs-08">{t("Номер заказа")}</div>
                 <div className="fw-6">
                   #{order.item?.uid ? order.item.uid : order.item.id}
                 </div>
@@ -129,7 +129,9 @@ const Order = () => {
               )}
 
               <p className="fs-09 mb-3">
-                <div className="text-muted fs-08">{deliveryText}</div>
+                <div className="text-muted fs-08">
+                  {affiliate?.options?.hall ?? deliveryText}
+                </div>
                 {order?.item?.delivery == "delivery" ? (
                   <div>
                     {`${order.item.street} ${order.item.home}${
@@ -140,10 +142,23 @@ const Order = () => {
                       order.item.floor
                     }, кв ${order.item.apartment}`}
                   </div>
+                ) : order?.item?.delivery == "pickup" ? (
+                  <div>
+                    {affiliate && affiliate?.full
+                      ? affiliate.full
+                      : affiliate.title
+                      ? affiliate.title
+                      : t("Нет информации")}
+                    {affiliate && affiliate?.comment
+                      ? "(" + affiliate.comment + ")"
+                      : ""}
+                  </div>
                 ) : (
                   <div>
                     {affiliate && affiliate?.full
                       ? affiliate.full
+                      : affiliate.title
+                      ? affiliate.title
                       : t("Нет информации")}
                     {affiliate && affiliate?.comment
                       ? "(" + affiliate.comment + ")"
@@ -152,14 +167,20 @@ const Order = () => {
                 )}
               </p>
               <p className="fs-09 mb-3">
-                <div className="text-muted fs-08">{t("Тип оплаты")}</div>
+                <div className="text-muted fs-08">{t("Способ оплаты")}</div>
                 <div>{paymentText}</div>
               </p>
               <p className="d-flex justify-content-between fs-09 align-items-center mb-3">
-                <p>{t("Кол-во персон")}</p>
+                <p>{t("Приборов")}</p>
                 <div className="fs-09">{order.item.person}</div>
               </p>
-              {order.item.description && (
+              {order.item?.comment && (
+                <p className="fs-09 mb-3">
+                  <div className="text-muted fs-08">{t("Комментарий")}</div>
+                  <div>{order.item.comment}</div>
+                </p>
+              )}
+              {order.item?.description && (
                 <p className="fs-09 mb-3">
                   <div className="text-muted fs-08">{t(deliveryText)}</div>
                   <div>{order.item.description}</div>

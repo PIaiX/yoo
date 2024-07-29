@@ -330,14 +330,15 @@ const EditAddress = () => {
           <button
             disabled={!isValid}
             onClick={handleSubmit(onSubmit)}
-            className="btn-deepgreen w-xs-100 mb-3"
+            className="btn-primary w-xs-100 mb-3"
           >
             {t("Сохранить адрес")}
           </button>
         </div>
         <div>
           <p className="fs-09 ms-3 mb-3">
-            <span className="text-danger">*</span> - {t("обязательные поля для заполнения")}
+            <span className="text-danger">*</span> -{" "}
+            {t("обязательные поля для заполнения")}
           </p>
         </div>
       </div>

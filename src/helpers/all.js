@@ -187,6 +187,7 @@ const statusData = {
 const deliveryData = {
   delivery: "Доставка",
   pickup: "Самовывоз",
+  hall: "В зале",
 };
 
 const paymentData = {

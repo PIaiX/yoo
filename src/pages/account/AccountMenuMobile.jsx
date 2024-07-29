@@ -19,7 +19,7 @@ const AccountMenu = () => {
 
   return (
     <div className="account-menu">
-      <div className="box p-3 p-sm-4 d-flex align-items-center mb-2 mb-sm-3">
+      <div className="box p-3 p-sm-3 d-flex align-items-center mb-2 mb-sm-2">
         <div className="icon">
           <span>
             {user.firstName ? user.firstName.slice(0, 1).toUpperCase() : "A"}
@@ -35,9 +35,9 @@ const AccountMenu = () => {
           <HiOutlineCog8Tooth />
         </Link>
       </div>
-      <ul className="list-unstyled row row-cols-3 gx-2 gx-sm-3 gx-md-4 mb-3">
+      <ul className="list-unstyled row row-cols-3 gx-2 gx-sm-2 gx-md-2 mb-2">
         <li>
-          <div className="box main-color text-center p-2 p-sm-3 h-100">
+          <div className="box main-color text-center p-2 p-sm-2 h-100">
             <span className="fs-18">{user.point}</span>&nbsp;
             <span className="fw-6 fs-18">Б</span>
           </div>
@@ -45,33 +45,33 @@ const AccountMenu = () => {
         <li>
           <NavLink
             to="orders"
-            className="box-blue d-flex flex-column align-items-center justify-content-center p-2 p-sm-3 h-100"
+            className="box-blue d-flex flex-column align-items-center justify-content-center p-2 p-sm-2 h-100"
           >
             <HiOutlineShoppingBag className="main-color fs-18 mb-1 mb-sm-2" />
-            <div className="main-color fw-6">{t('Заказы')}</div>
+            <div className="main-color fw-6">{t("Заказы")}</div>
           </NavLink>
         </li>
         <li>
           <NavLink
             to="addresses"
-            className="box-blue d-flex flex-column align-items-center justify-content-center p-2 p-sm-3 h-100"
+            className="box-blue d-flex flex-column align-items-center justify-content-center p-2 p-sm-2 h-100"
           >
             <HiOutlineMapPin className="main-color fs-18 mb-1 mb-sm-2" />
-            <div className="main-color fw-6">{t('Адреса')}</div>
+            <div className="main-color fw-6">{t("Адреса")}</div>
           </NavLink>
         </li>
       </ul>
       <a
-        className="box-blue d-flex flex-column align-items-center justify-content-center p-2 p-sm-3 h-100 mb-3"
+        className="box-blue d-flex flex-column align-items-center justify-content-center p-2 p-sm-2 h-100 mb-2"
         onClick={() => {
           dispatch(logout());
           navigaion("/login");
         }}
       >
         <HiOutlineArrowRightOnRectangle className="main-color fs-18 mb-1 mb-sm-2" />
-        <div className="main-color fw-6">{t('Выйти')}</div>
+        <div className="main-color fw-6">{t("Выйти")}</div>
       </a>
-      <div className="gradient-block mb-3"></div>
+      {/* <div className="gradient-block mb-3"></div> */}
       {/* <nav className="mb-3">
         <ul>
           <li>

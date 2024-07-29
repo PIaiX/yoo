@@ -44,7 +44,7 @@ function App() {
   const selectedAffiliate = useSelector((state) => state.affiliate.active);
   const delivery = useSelector((state) => state.checkout.delivery);
   const auth = useSelector((state) => state.auth);
-
+  console.log(delivery);
   useEffect(() => {
     if (options?.themeType) {
       document.documentElement.dataset.theme = options?.themeType;
@@ -103,6 +103,13 @@ function App() {
             if (res?.options?.lang) {
               i18n.changeLanguage(res.options.lang);
               moment.locale(res.options.lang);
+            }
+            if (res.options && delivery) {
+              if (delivery == "delivery" && !res.options?.delivery?.status) {
+                dispatch(editDeliveryCheckout("pickup"));
+              } else if (delivery == "pickup" && !res.options?.pickup?.status) {
+                dispatch(editDeliveryCheckout("hall"));
+              }
             }
             dispatch(updateOptions({ options: res.options, token: res.token }));
             updateColor(res.options);
@@ -187,11 +194,6 @@ function App() {
   }, []);
 
   useEffect(() => {
-    if (delivery == "delivery" && !options?.delivery?.status) {
-      dispatch(editDeliveryCheckout("pickup"));
-    } else if (delivery == "pickup" && !options?.pickup?.status) {
-      dispatch(editDeliveryCheckout("hall"));
-    }
     if (delivery == "delivery" && auth?.user?.id) {
       const selectedAddress = address ? address.find((e) => e.main) : false;
       if (selectedAddress) {
@@ -202,7 +204,7 @@ function App() {
         );
       }
     }
-  }, [address, delivery, cart, auth?.user?.id]);
+  }, [address, delivery, options, cart, auth?.user?.id]);
 
   useEffect(() => {
     if (auth.isAuth) {

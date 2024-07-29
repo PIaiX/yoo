@@ -25,7 +25,7 @@ const Contact = () => {
       ? affiliate.find((e) => e.main) ?? affiliate[0]
       : affiliate[0] ?? false
   );
-
+  console.log(affiliate);
   if (!mainAffiliate) {
     return (
       <Empty
@@ -62,8 +62,8 @@ const Contact = () => {
           <Row>
             <Col md={4}>
               <div className="box">
-                <div className="d-flex align-items-baseline mb-2">
-                  <h1 className="mb-0">{t("Контакты")}</h1>
+                <div className="d-flex align-items-baseline mb-3">
+                  <h1 className="mb-0 h3">{t("Контакты")}</h1>
                 </div>
 
                 {/* <h6 className="mb-3">{mainAffiliate.full}</h6> */}
@@ -100,21 +100,19 @@ const Contact = () => {
                 )} */}
 
                 <ul className="list-unstyled">
-                  {affiliate.map((e) => (
+                  {affiliate.map((e, index) => (
                     <a
                       onClick={() => setMainAffiliate(e)}
                       className={mainAffiliate.id === e.id ? "active" : ""}
+                      style={{ backgroundColor: colors[index] }}
                     >
                       <li key={e.id}>
-                        <h6 className="mb-2">{e.full}</h6>
+                        <h6>{e.full}</h6>
                         {e?.options?.work?.length > 0 &&
                         e.options.work[moment().weekday()]?.start &&
                         e.options.work[moment().weekday()]?.end ? (
                           <>
-                            <p className="main-color m-0">
-                              {t("Доставка и самовывоз")}
-                            </p>
-                            <p className="mb-2">{`${t("Работает с")} ${
+                            <p className="mt-2">{`${t("Работает с")} ${
                               e.options.work[moment().weekday()].start
                             } ${t("до")} ${
                               e.options.work[moment().weekday()].end
@@ -123,11 +121,11 @@ const Contact = () => {
                         ) : null}
 
                         {e?.phone && e?.phone[0] && (
-                          <p className="mb-2 mt-0 fw-5">{e.phone[0]}</p>
+                          <p className="mt-2 mt-0 fw-5">{e.phone[0]}</p>
                         )}
 
                         {e?.desc && (
-                          <p className="white-space-break m-0 fs-08 text-muted">
+                          <p className="white-space-break m-0 mt-2 fs-08 text-muted">
                             {e.desc}
                           </p>
                         )}
@@ -148,7 +146,7 @@ const Contact = () => {
                           mainAffiliate.options.coordinates.lat,
                           mainAffiliate.options.coordinates.lon,
                         ],
-                        zoom: 12,
+                        zoom: 10,
                       }}
                       width="100%"
                       height="100%"

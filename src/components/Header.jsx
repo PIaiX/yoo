@@ -48,7 +48,7 @@ const Header = memo(() => {
   const isAuth = useSelector((state) => state.auth.isAuth);
   const user = useSelector((state) => state.auth.user);
   const cart = useSelector((state) => state.cart.items);
-  const favorite = useSelector((state) => state.favorite.items);
+  // const favorite = useSelector((state) => state.favorite.items);
   const city = useSelector((state) => state.affiliate.city);
   const gps = useSelector((state) => state.affiliate.city);
   const affiliate = useSelector((state) => state.affiliate.items);
@@ -170,7 +170,7 @@ const Header = memo(() => {
       });
     }
   }, [cities]);
-
+  console.log(selectedAffiliate);
   return (
     <>
       <header>
@@ -290,17 +290,29 @@ const Header = memo(() => {
               )}
             </ul>
             {selectedAffiliate &&
-              selectedAffiliate?.options?.phone &&
-              selectedAffiliate?.options?.phone[0] && (
-                <a
-                  href={"tel:" + selectedAffiliate.options.phone[0]}
-                  className="phone"
-                >
-                  <HiOutlineDevicePhoneMobile className="fs-12" />
-                  <span className="ms-1">
-                    {selectedAffiliate.options.phone[0]}
-                  </span>
-                </a>
+              selectedAffiliate?.phone &&
+              selectedAffiliate?.phone[0] && (
+                <div>
+                  <a
+                    href={"tel:" + selectedAffiliate.phone[0]}
+                    className={
+                      "phone" +
+                      (selectedAffiliate.phone[1] ? " mb-2 fs-09" : "")
+                    }
+                  >
+                    <HiOutlineDevicePhoneMobile className="fs-12" />
+                    <span className="ms-1">{selectedAffiliate.phone[0]}</span>
+                  </a>
+                  {selectedAffiliate.phone[1] && (
+                    <a
+                      href={"tel:" + selectedAffiliate.phone[1]}
+                      className="phone fs-09"
+                    >
+                      <HiOutlineDevicePhoneMobile className="fs-12" />
+                      <span className="ms-1">{selectedAffiliate.phone[1]}</span>
+                    </a>
+                  )}
+                </div>
               )}
 
             <ul className="icons-menu">
@@ -334,7 +346,7 @@ const Header = memo(() => {
                   </Link>
                 </li>
               )}
-              {isAuth && (
+              {/* {isAuth && (
                 <li className="d-none d-lg-block">
                   <Link to="/account/favorites" className="position-relative">
                     <HiOutlineHeart size={25} />
@@ -345,7 +357,7 @@ const Header = memo(() => {
                     )}
                   </Link>
                 </li>
-              )}
+              )} */}
               <li className="d-lg-none">
                 <button
                   type="button"
