@@ -2004,9 +2004,56 @@ main {
   }
 }
 
+.story-items-middle img {
+  height: 170px;
+  width: 170px;
+}
+@media (max-width: 1399px) {
+  .story-items-middle img {
+    height: 150px !important;
+    width: 150px !important;
+  }
+}
+@media (max-width: 1199px) {
+  .story-items-middle img {
+    height: 130px !important;
+    width: 130px !important;
+  }
+}
+@media (max-width: 991px) {
+  .story-items-middle img {
+    height: 110px !important;
+    width: 110px !important;
+  }
+}
+@media (max-width: 770px) {
+  .story-items-middle img {
+    height: 95px !important;
+    width: 95px !important;
+  }
+}
+@media (max-width: 580px) {
+  .story-items-middle img {
+    height: 85px !important;
+    width: 85px !important;
+  }
+}
+@media (max-width: 510px) {
+  .story-items-middle img {
+    height: 17vw !important;
+    width: 17vw !important;
+  }
+}
+@media (max-width: 440px) {
+  .story-items-middle img {
+    height: 20vw !important;
+    width: 20vw !important;
+  }
+}
 .story-items-middle .rectangle img {
   border-radius: 20px;
   height: 230px;
+  width: 100%;
 }
 @media (max-width: 1399px) {
   .story-items-middle .rectangle img {
@@ -2048,9 +2095,56 @@ main {
   }
 }
 
+.story-items-big img {
+  height: 240px;
+  width: 240px;
+}
+@media (max-width: 1399px) {
+  .story-items-big img {
+    height: 210px !important;
+    width: 210px !important;
+  }
+}
+@media (max-width: 1199px) {
+  .story-items-big img {
+    height: 175px !important;
+    width: 175px !important;
+  }
+}
+@media (max-width: 991px) {
+  .story-items-big img {
+    height: 130px !important;
+    width: 130px !important;
+  }
+}
+@media (max-width: 770px) {
+  .story-items-big img {
+    height: 120px !important;
+    width: 120px !important;
+  }
+}
+@media (max-width: 580px) {
+  .story-items-big img {
+    height: 115px !important;
+    width: 115px !important;
+  }
+}
+@media (max-width: 510px) {
+  .story-items-big img {
+    height: 20vw !important;
+    width: 20vw !important;
+  }
+}
+@media (max-width: 440px) {
+  .story-items-big img {
+    height: 20vw !important;
+    width: 20vw !important;
+  }
+}
 .story-items-big .rectangle img {
   border-radius: 25px;
   height: 340px;
+  width: 100%;
 }
 @media (max-width: 1399px) {
   .story-items-big .rectangle img {
