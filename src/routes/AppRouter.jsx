@@ -24,7 +24,7 @@ import AccountRouter from "./AccountRouter";
 import AuthRoute from "./AuthRoute";
 import Policy from "../pages/Policy";
 import Error from "../components/Error";
-import About from "../pages/About";
+// import About from "../pages/About";
 import Blog from "../pages/Blog";
 import Blogs from "../pages/Blogs";
 import Categories from "../pages/Categories";
@@ -34,7 +34,7 @@ const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<AppLayout />}>
       <Route index element={<Home />} errorElement={<Error />} />
-      <Route path="about" element={<About />} />
+      {/* <Route path="about" element={<About />} /> */}
       <Route path="categories" element={<Categories />} />
       <Route path="category/:categoryId" element={<Category />} />
       <Route path="product/:productId" element={<Product />} />

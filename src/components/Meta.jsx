@@ -1,5 +1,6 @@
 import { ClientJS } from "clientjs";
 import { Helmet } from "react-helmet";
+import { useSelector } from "react-redux";
 
 const Meta = ({
   title = null,
@@ -8,6 +9,7 @@ const Meta = ({
   type = "website",
 }) => {
   const client = new ClientJS();
+  const options = useSelector((state) => state.settings.options);
 
   return (
     <Helmet
@@ -15,6 +17,9 @@ const Meta = ({
       encodeSpecialCharacters={true}
     >
       <title>{title ?? process.env.REACT_APP_SITE_NAME}</title>
+      {options.yandexVerifyId && (
+        <meta name="yandex-verification" content={options.yandexVerifyId} />
+      )}
       <meta name="og:type" content={type} />
       <meta name="twitter:card" content="summary" />
       <meta

@@ -7,6 +7,7 @@ import {
   IoCartOutline,
   IoPersonOutline,
   IoCallOutline,
+  IoFlameOutline,
 } from "react-icons/io5";
 import { useSelector } from "react-redux";
 import { Link, NavLink } from "react-router-dom";
@@ -17,6 +18,7 @@ import FlameIcon from "./svgs/FlameIcon";
 
 const iconComponents = {
   "/contact": IoCallOutline,
+  "/promo": IoFlameOutline,
 };
 
 const Footer = memo(() => {

@@ -25,7 +25,7 @@ const Contact = () => {
       ? affiliate.find((e) => e.main) ?? affiliate[0]
       : affiliate[0] ?? false
   );
-  console.log(affiliate);
+
   if (!mainAffiliate) {
     return (
       <Empty
@@ -125,8 +125,8 @@ const Contact = () => {
                         )}
 
                         {e?.desc && (
-                          <p className="white-space-break m-0 mt-2 fs-08 text-muted">
-                            {e.desc}
+                          <p className="white-space-break m-0 mt-2 fs-08">
+                            {e.desc.trim()}
                           </p>
                         )}
                       </li>

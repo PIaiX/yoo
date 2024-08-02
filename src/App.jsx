@@ -38,13 +38,12 @@ function App() {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
   const options = useSelector((state) => state.settings.options);
-
   const cart = useSelector((state) => state.cart.items);
   const address = useSelector((state) => state.address.items);
   const selectedAffiliate = useSelector((state) => state.affiliate.active);
   const delivery = useSelector((state) => state.checkout.delivery);
   const auth = useSelector((state) => state.auth);
-  console.log(delivery);
+
   useEffect(() => {
     if (options?.themeType) {
       document.documentElement.dataset.theme = options?.themeType;

@@ -1779,20 +1779,27 @@ main {
     overflow: visible;
     img {
       width: 100%;
-      height: 350px;
+      height: 345px;
+      background-color: #ddd;
       object-fit: cover;
       border-radius: $radius;
       @media (max-width: $bp-xxl) {
-        height: 280px;
+        height: 295px;
       }
       @media (max-width: $bp-lg) {
-        height: 250px;
+        height: 255px;
       }
       @media (max-width: $bp-md) {
-        height: 200px;
+        height: 208px;
       }
       @media (max-width: $bp-sm) {
-        height: 140px;
+        height: 190px;
+      }
+      @media (max-width: $bp-xs) {
+        height: 160px;
+      }
+      @media (max-width: $bp-xxs) {
+        height: 150px;
       }
     }
     .big {

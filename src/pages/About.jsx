@@ -2,25 +2,12 @@ import React from "react";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import ProductCardMini from "../components/ProductCardMini";
-
-// swiper
-import { Navigation, Thumbs, FreeMode } from "swiper/modules";
-import { Swiper, SwiperSlide } from "swiper/react";
-import SwiperButtonNext from "../components/utils/SwiperButtonNext";
-import SwiperButtonPrev from "../components/utils/SwiperButtonPrev";
 
 const About = () => {
   return (
     <main>
       <Container>
         <section className="article-page pt-4 pt-lg-0 mb-6">
-          <img
-            src="/images/img1.jpg"
-            alt="Заголовок новости"
-            className="article-page-imgMain mb-4 mb-sm-5"
-          />
-
           <Row className="justify-content-between">
             <Col lg={9} xxl={8}>
               <h1 className="mb-3 mb-sm-4">Заголовок новости</h1>
@@ -110,64 +97,8 @@ const About = () => {
           </Row>
         </section>
 
-        <section className="sec-5 mb-5">
-          <Container>
-            <h2>Обратите внимание</h2>
-            <div className="position-relative">
-              <Swiper
-                className="product-slider position-static"
-                modules={[Navigation, FreeMode]}
-                spaceBetween={20}
-                slidesPerView={"auto"}
-                speed={750}
-                navigation
-                freeMode={true}
-                breakpoints={{
-                  576: {
-                    slidesPerView: 2,
-                    spaceBetween: 10,
-                    freeMode: false,
-                  },
-                  768: {
-                    slidesPerView: 2,
-                    spaceBetween: 20,
-                  },
-                  992: {
-                    slidesPerView: 3,
-                    spaceBetween: 20,
-                  },
-                }}
-              >
-                <SwiperSlide>
-                  <ProductCardMini />
-                </SwiperSlide>
-                <SwiperSlide>
-                  <ProductCardMini />
-                </SwiperSlide>
-                <SwiperSlide>
-                  <ProductCardMini />
-                </SwiperSlide>
-                <SwiperSlide>
-                  <ProductCardMini />
-                </SwiperSlide>
-                <SwiperSlide>
-                  <ProductCardMini />
-                </SwiperSlide>
-                <SwiperSlide>
-                  <ProductCardMini />
-                </SwiperSlide>
-                <SwiperSlide>
-                  <ProductCardMini />
-                </SwiperSlide>
-                <SwiperSlide>
-                  <ProductCardMini />
-                </SwiperSlide>
-                <SwiperButtonPrev />
-                <SwiperButtonNext />
-              </Swiper>
-            </div>
-          </Container>
-        </section>
+      
+      
       </Container>
     </main>
   );
