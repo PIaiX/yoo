@@ -4,9 +4,9 @@ import React, { memo, useEffect, useState, useTransition } from "react";
 import { Col, Modal, Row } from "react-bootstrap";
 import Container from "react-bootstrap/Container";
 import Offcanvas from "react-bootstrap/Offcanvas";
+import { useTranslation } from "react-i18next";
 import {
   HiOutlineDevicePhoneMobile,
-  HiOutlineHeart,
   HiOutlineMagnifyingGlass,
   HiOutlineShoppingBag,
   HiOutlineUserCircle,
@@ -27,7 +27,6 @@ import {
   updateCity,
   updateGps,
 } from "../store/reducers/affiliateSlice";
-import { setUser } from "../store/reducers/authSlice";
 import { resetCart } from "../store/reducers/cartSlice";
 import { editDeliveryCheckout } from "../store/reducers/checkoutSlice";
 import DeliveryBar from "./DeliveryBar";
@@ -40,7 +39,6 @@ import MenuPhone from "./svgs/MenuPhone";
 import YooApp from "./svgs/YooApp";
 import Input from "./utils/Input";
 import Select from "./utils/Select";
-import { useTranslation } from "react-i18next";
 
 const Header = memo(() => {
   const { t } = useTranslation();
@@ -50,7 +48,7 @@ const Header = memo(() => {
   const cart = useSelector((state) => state.cart.items);
   // const favorite = useSelector((state) => state.favorite.items);
   const city = useSelector((state) => state.affiliate.city);
-  const gps = useSelector((state) => state.affiliate.city);
+  const gps = useSelector((state) => state.affiliate.gps);
   const affiliate = useSelector((state) => state.affiliate.items);
   const cities = useSelector((state) => state.affiliate.cities);
   const selectedAffiliate = useSelector((state) => state.affiliate.active);
@@ -122,7 +120,7 @@ const Header = memo(() => {
       setList(resultArray);
     }
 
-    if (affiliate?.length > 1 && !city?.title && "geolocation" in navigator) {
+    if (cities?.length > 1 && !gps && "geolocation" in navigator) {
       navigator.geolocation.getCurrentPosition(async (position) => {
         if (
           position?.coords?.latitude &&
@@ -147,30 +145,23 @@ const Header = memo(() => {
           if (
             geo?.data?.suggestions &&
             geo?.data?.suggestions[0]?.data?.city &&
-            affiliate?.length > 0
+            cities?.length > 0
           ) {
-            let city = affiliate.find(
+            let city = cities.find(
               (e) =>
-                e.options.city.toLowerCase() ===
+                e.title.toLowerCase() ===
                 geo.data.suggestions[0].data.city.toLowerCase()
             );
+
             if (city) {
-              dispatch(
-                setUser({
-                  ...user,
-                  options: {
-                    ...user.options,
-                    city: city.options.city,
-                  },
-                })
-              );
+              dispatch(updateCity(city));
             }
           }
         }
       });
     }
   }, [cities]);
-  console.log(selectedAffiliate);
+
   return (
     <>
       <header>
@@ -581,7 +572,7 @@ const Header = memo(() => {
                                 onClick={() => {
                                   dispatch(updateAffiliate(e.affiliates));
                                   dispatch(updateCity(e));
-                                  dispatch(updateGps(false));
+                                  dispatch(updateGps(true));
 
                                   setShowCity(false);
                                 }}
@@ -630,7 +621,7 @@ const Header = memo(() => {
                                     onClick={() => {
                                       dispatch(updateAffiliate(e.affiliates));
                                       dispatch(updateCity(e));
-                                      dispatch(updateGps(false));
+                                      dispatch(updateGps(true));
 
                                       setShowCity(false);
                                     }}
