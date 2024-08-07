@@ -1779,27 +1779,27 @@ main {
     overflow: visible;
     img {
       width: 100%;
-      height: 345px;
-      background-color: #ddd;
+      height: 370px;
+      background-color: rgba(0, 0, 0, 0.08);
       object-fit: cover;
       border-radius: $radius;
       @media (max-width: $bp-xxl) {
-        height: 295px;
+        height: 320px;
       }
       @media (max-width: $bp-lg) {
-        height: 255px;
+        height: 275px;
       }
       @media (max-width: $bp-md) {
-        height: 208px;
+        height: 225px;
       }
       @media (max-width: $bp-sm) {
-        height: 190px;
+        height: 230px;
       }
       @media (max-width: $bp-xs) {
-        height: 160px;
+        height: 195px;
       }
       @media (max-width: $bp-xxs) {
-        height: 150px;
+        height: 160px;
       }
     }
     .big {
@@ -3075,29 +3075,50 @@ main {
     position: relative;
     z-index: 1;
     width: 100%;
-    height: 230px;
+    height: 180px;
     object-fit: cover;
     @media (max-width: $bp-xxl) {
-      height: 190px;
+      height: 155px !important;
+    }
+    @media (max-width: $bp-xl) {
+      height: 130px !important;
     }
     @media (max-width: $bp-lg) {
-      height: 190px;
+      height: 145px !important;
+    }
+    @media (max-width: $bp-md) {
+      height: 220px !important;
+    }
+    @media (max-width: $bp-sm) {
+      height: 210px !important;
+    }
+    @media (max-width: $bp-xs) {
+      height: 175px !important;
+    }
+    @media (max-width: $bp-xxs) {
+      height: 145px !important;
     }
   }
   &.full {
     img {
-      height: 420px;
+      height: 370px;
       @media (max-width: $bp-xxl) {
-        height: 350px;
+        height: 335px !important;
       }
       @media (max-width: $bp-lg) {
-        height: 300px;
+        height: 300px !important;
       }
       @media (max-width: $bp-md) {
-        height: 230px;
+        height: 230px !important;
       }
       @media (max-width: $bp-sm) {
-        height: 180px;
+        height: 220px !important;
+      }
+      @media (max-width: $bp-xs) {
+        height: 180px !important;
+      }
+      @media (max-width: $bp-xxs) {
+        height: 145px !important;
       }
     }
   }
