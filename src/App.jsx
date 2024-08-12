@@ -132,13 +132,12 @@ function App() {
           if (res?.cities?.length > 0) {
             const transformedData = res.cities.map((city) => {
               const { relationCities, ...rest } = city;
+              console.log(relationCities)
               return {
                 ...rest,
                 affiliates:
-                  relationCities?.length > 0
-                    ? relationCities.map((relation) => {
-                        return relation.affiliate;
-                      })
+                  relationCities && relationCities.length > 0
+                    ? relationCities.map((relation) => relation.affiliate)
                     : [],
               };
             });
@@ -153,7 +152,7 @@ function App() {
             }
           }
 
-          res?.tables && dispatch(updateTable(res.tables));
+          // res?.tables && dispatch(updateTable(res.tables));
           res?.zones && dispatch(updateZone(res.zones));
 
           if (res?.statuses?.length > 0) {

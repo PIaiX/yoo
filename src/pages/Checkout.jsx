@@ -502,37 +502,37 @@ const Checkout = () => {
                   </div>
                 </Col>
                 <Col md={12}>
-                  <div className="mb-4">
-                    {data.delivery == "delivery" ? (
-                      <>
-                        <Select
-                          label={t("Адрес")}
-                          value={data?.address?.id}
-                          data={address.map((e) => ({
-                            title: e?.title?.length > 0 ? e.title : e.full,
-                            desc: e?.title?.length > 0 ? e.full : false,
-                            value: e.id,
-                          }))}
-                          onClick={(e) =>
-                            setValue(
-                              "address",
-                              address.find((a) => a.id === e.value)
-                            )
-                          }
-                        />
-                        <p className="text-muted fs-09 mt-2">
-                          {t("Нет нужного адреса?")}{" "}
-                          <Link
-                            to="/account/addresses/add"
-                            className="text-success"
-                          >
-                            {t("Добавить новый адрес")}
-                          </Link>
-                        </p>
-                      </>
-                    ) : data.delivery == "pickup" ? (
-                      !options?.multiBrand &&
-                      affiliate?.length > 0 && (
+                  {data.delivery == "delivery" ? (
+                    <div className="mb-4">
+                      <Select
+                        label={t("Адрес")}
+                        value={data?.address?.id}
+                        data={address.map((e) => ({
+                          title: e?.title?.length > 0 ? e.title : e.full,
+                          desc: e?.title?.length > 0 ? e.full : false,
+                          value: e.id,
+                        }))}
+                        onClick={(e) =>
+                          setValue(
+                            "address",
+                            address.find((a) => a.id === e.value)
+                          )
+                        }
+                      />
+                      <p className="text-muted fs-09 mt-2">
+                        {t("Нет нужного адреса?")}{" "}
+                        <Link
+                          to="/account/addresses/add"
+                          className="text-success"
+                        >
+                          {t("Добавить новый адрес")}
+                        </Link>
+                      </p>
+                    </div>
+                  ) : data.delivery == "pickup" ? (
+                    !options?.multiBrand &&
+                    affiliate?.length > 1 && (
+                      <div className="mb-4">
                         <Select
                           label={t("Адрес")}
                           value={data?.affiliateId}
@@ -549,9 +549,30 @@ const Checkout = () => {
                             )
                           }
                         />
-                      )
-                    ) : (
-                      data.delivery == "hall" && (
+                      </div>
+                    )
+                  ) : (
+                    data.delivery == "hall" && (
+                      <div className="mb-4">
+                        {!options?.multiBrand && affiliate?.length > 1 && (
+                          <Select
+                            label={t("Филиал")}
+                            className="mb-3"
+                            value={data?.affiliateId}
+                            data={affiliate.map((e) => ({
+                              title: e?.title?.length > 0 ? e.title : e.full,
+                              desc: e?.title?.length > 0 ? e.full : false,
+                              value: e.id,
+                            }))}
+                            onClick={(e) =>
+                              dispatch(
+                                mainAffiliateEdit(
+                                  affiliate.find((item) => item.id === e.value)
+                                )
+                              )
+                            }
+                          />
+                        )}
                         <Select
                           label={t("Стол")}
                           value={data?.tableId}
@@ -567,9 +588,9 @@ const Checkout = () => {
                             )
                           }
                         />
-                      )
-                    )}
-                  </div>
+                      </div>
+                    )
+                  )}
                 </Col>
                 <Col md={6}>
                   <div className="mb-4">

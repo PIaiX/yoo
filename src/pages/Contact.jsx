@@ -153,27 +153,31 @@ const Contact = () => {
                       modules={["geoObject.addon.balloon"]}
                     >
                       {affiliate?.length > 0 &&
-                        affiliate.map((e) => (
-                          <Placemark
-                            options={
-                              mainAffiliate.id === e.id
-                                ? {
-                                    iconLayout: "default#image",
-                                    iconImageHref: "imgs/marker.png",
-                                    iconImageSize: [38, 54],
-                                  }
-                                : {
-                                    iconLayout: "default#image",
-                                    iconImageHref: "imgs/marker-gray.png",
-                                    iconImageSize: [38, 54],
-                                  }
-                            }
-                            geometry={[
-                              e.options.coordinates.lat,
-                              e.options.coordinates.lon,
-                            ]}
-                          />
-                        ))}
+                        affiliate.map(
+                          (e) =>
+                            e?.options?.coordinates?.lat &&
+                            e?.options?.coordinates?.lon && (
+                              <Placemark
+                                options={
+                                  mainAffiliate.id === e.id
+                                    ? {
+                                        iconLayout: "default#image",
+                                        iconImageHref: "imgs/marker.png",
+                                        iconImageSize: [38, 54],
+                                      }
+                                    : {
+                                        iconLayout: "default#image",
+                                        iconImageHref: "imgs/marker-gray.png",
+                                        iconImageSize: [38, 54],
+                                      }
+                                }
+                                geometry={[
+                                  e.options.coordinates.lat,
+                                  e.options.coordinates.lon,
+                                ]}
+                              />
+                            )
+                        )}
 
                       {zones?.length > 0 &&
                         zones.map((e) => {
