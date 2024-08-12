@@ -1063,6 +1063,51 @@ button {
     transform: translate(-50%, -50%) rotate(360deg);
   }
 }
+.loading-indicator {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  transition: opacity 0.3s ease-in-out;
+  opacity: 1;
+}
+
+.loading-indicator.active {
+  opacity: 1;
+}
+
+.loading-indicator.inactive {
+  opacity: 0;
+}
+.delivery-loader{
+  position: absolute;
+  top: 23%;
+  left: 0px;
+  right: 0px;
+  margin: 0px auto;
+  text-align: center;
+  justify-content: center;
+  display: flex;
+}
+.spinner {
+  display: inline-block;
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  border: 3px solid var(--main-color);
+  border-color: var(--main-color) transparent var(--main-color) transparent;
+  animation: spin 1.2s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
 
 select {
   @include no-appearance();
