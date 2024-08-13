@@ -22,7 +22,7 @@ const WidgetStories = memo((data) => {
   }
 
   const size = data.size === "big" ? "big" : "middle";
-  console.log(size);
+
   return (
     <section className="sec-2 my-4">
       <Container className="px-0">

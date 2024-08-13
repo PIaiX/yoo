@@ -10,6 +10,7 @@ import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import { useForm, useWatch } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 import { NotificationManager } from "react-notifications";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
@@ -29,6 +30,7 @@ import Textarea from "../components/utils/Textarea";
 import { customPrice } from "../helpers/all";
 import { isWork } from "../hooks/all";
 import { useTotalCart } from "../hooks/useCart";
+import { mainAddress } from "../services/address";
 import { checkAuth } from "../services/auth";
 import { createOrder } from "../services/order";
 import {
@@ -41,7 +43,6 @@ import {
   resetCheckout,
   setCheckout,
 } from "../store/reducers/checkoutSlice";
-import { useTranslation } from "react-i18next";
 
 const Checkout = () => {
   const { t } = useTranslation();
@@ -274,13 +275,13 @@ const Checkout = () => {
     if (address?.length > 0) {
       setValue("address", address.find((e) => e.main) ?? false);
     }
-  }, [address]);
 
-  useEffect(() => {
-    if (selectedAffiliate?.id && checkout.delivery == "pickup") {
+    if (zone?.data?.affiliateId && checkout.delivery === "delivery") {
+      setValue("affiliateId", zone.data.affiliateId);
+    } else if (selectedAffiliate?.id && checkout.delivery == "pickup") {
       setValue("affiliateId", selectedAffiliate.id);
     }
-  }, [selectedAffiliate]);
+  }, [address, zone, checkout.delivery, selectedAffiliate]);
 
   useEffect(() => {
     if (selectedTable?.id && checkout.delivery == "hall") {
@@ -290,6 +291,8 @@ const Checkout = () => {
 
   const onSubmit = useCallback(
     (data) => {
+      console.log(data);
+      return false;
       if (data.serving) {
         if (
           !isWork(
@@ -513,9 +516,8 @@ const Checkout = () => {
                           value: e.id,
                         }))}
                         onClick={(e) =>
-                          setValue(
-                            "address",
-                            address.find((a) => a.id === e.value)
+                          dispatch(
+                            mainAddress(address.find((a) => a.id === e.value))
                           )
                         }
                       />

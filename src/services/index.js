@@ -12,7 +12,7 @@ const $api = axios.create({
 const client = new ClientJS();
 
 const language = client.getLanguage();
-console.log(language)
+
 const DEVICE = JSON.stringify({
   brand: client.getBrowser() ?? "",
   osName: client.getOS() ?? "",

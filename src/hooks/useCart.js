@@ -50,7 +50,7 @@ const useTotalCart = () => {
             stateCart.forEach((product) => {
                 if (!product || !product?.cart?.count) return
 
-                person += product?.options?.person > 0 ? Number(product.options.person) : 0
+                person += product?.options?.person > 0 ? Number(product.options.person) * (product?.cart?.count ?? 0) : 0
                 point +=
                     product?.type === 'gift' && product?.cart?.count > 0 && product?.price > 0
                         ? Number(product.price) * Number(product.cart.count)

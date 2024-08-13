@@ -132,7 +132,6 @@ function App() {
           if (res?.cities?.length > 0) {
             const transformedData = res.cities.map((city) => {
               const { relationCities, ...rest } = city;
-              console.log(relationCities)
               return {
                 ...rest,
                 affiliates:
@@ -196,9 +195,10 @@ function App() {
       const selectedAddress = address ? address.find((e) => e.main) : false;
       if (selectedAddress) {
         getDelivery({ distance: true, addressId: selectedAddress.id }).then(
-          (res) =>
+          (res) => {
             res &&
-            dispatch(cartZone({ data: res?.zone, distance: res?.distance }))
+              dispatch(cartZone({ data: res?.zone, distance: res?.distance }));
+          }
         );
       }
     }

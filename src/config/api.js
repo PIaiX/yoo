@@ -1,9 +1,9 @@
-const DOMAIN = false; //window.location.hostname;
+const DOMAIN = 'dream.yooapp.online'; //window.location.hostname;
 const SITE_URL = "https://yooapp.ru";
 const BASE_URL = "https://api.yooapp.ru";
 const ADMIN_URL = "https://admin.yooapp.ru";
 const IO_URL = "https://io.yooapp.ru";
-const DADATA_URL_STREET = 
+const DADATA_URL_STREET =
   "https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/address";
 const DADATA_URL_GEO =
   "https://suggestions.dadata.ru/suggestions/api/4_1/rs/geolocate/address";
