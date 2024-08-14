@@ -32,6 +32,17 @@ const cartSlice = createSlice({
                 state.items.push(action.payload.data)
             }
         },
+        updateCartChecking: (state, action) => {
+            let discounts = action.payload[0]?.discounts
+
+            if (discounts?.length > 0) {
+                state.items = [...state.items.map((cartItem, index) => {
+                    return { ...cartItem, discount: cartItem.price + (discounts[index].discountSum / cartItem.cart.count) }
+                })];
+            }
+
+            return state
+        },
         cartEditOptions: (state, action) => {
             let isCart = action.payload?.index >= 0 ? state.items[action.payload.index] : false
             if (action.payload?.item) {
@@ -77,6 +88,7 @@ const cartSlice = createSlice({
 
 export const {
     updateCartSync,
+    updateCartChecking,
     cartEditOptions,
     cartZone,
     cartPromo,

@@ -21,6 +21,7 @@ import {
   cartDeleteProduct,
   cartDeletePromo,
   cartPromo,
+  updateCartChecking,
 } from "../store/reducers/cartSlice";
 import { IoTrashOutline } from "react-icons/io5";
 import Loader from "../components/utils/Loader";
@@ -154,7 +155,14 @@ const Cart = () => {
       type: "site",
     })
       .then((res) => {
-        setData({ loading: false, ...res });
+        setData({
+          loading: false,
+          extras: res?.extras ?? [],
+          gifts: res?.gifts ?? [],
+        });
+        if (res?.checking?.length > 0) {
+          dispatch(updateCartChecking(res.checking));
+        }
       })
       .catch((err) => {
         setData({ ...data, loading: false });

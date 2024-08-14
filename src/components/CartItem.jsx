@@ -122,6 +122,7 @@ const CartItem = memo(({ data }) => {
 
         <div className="order-1 order-md-2 fw-7">
           {data.type == "gift" ? "Бесплатно" : customPrice(price)}
+          {data.discount > 0 && <span>{data.price - data.discount}</span>}
         </div>
 
         {/* {isAuth && <BtnFav checked={false} />} */}

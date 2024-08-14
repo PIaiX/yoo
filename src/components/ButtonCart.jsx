@@ -25,14 +25,35 @@ const ButtonCart = memo(
 
     const onPress = useCallback(
       (newCount) => {
-        let newProduct = { data: { ...product }, plus: false };
+        let newProduct = {
+          data: {
+            cart: product.cart,
+            id: product.id,
+            options: product.options,
+            title: product.title,
+            description: product.description,
+            type: product.type,
+            enegry: product.enegry,
+            price: product.price,
+            discount: product.discount,
+            code: product.code,
+            medias: product.medias,
+            modifiers: product?.modifiers ?? [],
+            additions: product?.additions ?? [],
+            wishes: product?.wishes ?? [],
+          },
+          plus: false,
+        };
+
         if (product?.modifiers?.length > 0 && data?.cart?.data) {
           newProduct.data.cart = { ...newProduct.data.cart, ...data.cart };
         }
+
         newProduct.data.cart = {
           ...newProduct.data.cart,
           count: newCount ?? 0,
         };
+
         if (full) {
           newProduct.plus = true;
         }
@@ -55,7 +76,7 @@ const ButtonCart = memo(
             className="btn-light active"
             onClick={() => onPress(0)}
           >
-            {t('Удалить')}
+            {t("Удалить")}
           </button>
         );
       }
@@ -84,7 +105,7 @@ const ButtonCart = memo(
       >
         {children ?? (
           <>
-            <span className="d-md-none me-2">{t('Добавить')}</span>
+            <span className="d-md-none me-2">{t("Добавить")}</span>
             <HiOutlineShoppingBag className="fs-15" />
           </>
         )}

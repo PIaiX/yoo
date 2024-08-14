@@ -1,4 +1,4 @@
-const DOMAIN = 'dream.yooapp.online'; //window.location.hostname;
+const DOMAIN = 'parfe.yooapp.online'; //window.location.hostname;
 const SITE_URL = "https://yooapp.ru";
 const BASE_URL = "https://api.yooapp.ru";
 const ADMIN_URL = "https://admin.yooapp.ru";
