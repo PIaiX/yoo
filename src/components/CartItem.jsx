@@ -1,63 +1,156 @@
-import React, { useState } from 'react';
-import Collapse from 'react-bootstrap/Collapse';
-import BtnFav from './utils/BtnFav';
-import { IoCaretDownOutline } from "react-icons/io5";
-import CountInput from './utils/CountInput';
-import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
-import Tooltip from 'react-bootstrap/Tooltip';
+import React, { memo, useState } from "react";
+import { Badge, Collapse } from "react-bootstrap";
+import { IoChevronDown, IoChevronUp } from "react-icons/io5";
+import { customPrice, customWeight, getImageURL } from "../helpers/all";
+import ButtonCart from "./ButtonCart";
+// import BtnFav from "./utils/BtnFav";
+// import { useSelector } from "react-redux";
 
-const CartItem = () => {
-  const [open, setOpen] = useState(false);
+const CartItem = memo(({ data }) => {
+  const price =
+    data?.cart?.data?.modifiers?.length > 0
+      ? data.options.modifierPriceSum
+        ? data.cart.data.modifiers.reduce((sum, item) => sum + item.price, 0) +
+          data.price
+        : data.cart.data.modifiers.reduce((sum, item) => sum + item.price, 0)
+      : data.price;
+
+  const [open, setOpen] = useState({ additions: false, wishes: false });
 
   return (
-    <div className='cart-item'>
+    <div className="cart-item" key={data.id}>
       <div className="left">
-        <input type="checkbox" className='me-1 me-sm-3'/>
-        <img src="/imgs/img3.png" alt="Пепперони" />
-        <div className='text'>
-          <h6>Пепперони <span className="tag">Подарок</span></h6>
-          <OverlayTrigger
-            placement={'bottom'}
-            overlay={
-              <Tooltip>
-                Пикантная пепперони, увеличенная порция моцареллы, томаты, фирменный томатный соус
-              </Tooltip>
-            }
-          >
-            <p className='consist'>Пикантная пепперони, увеличенная порция моцареллы, томаты, фирменный томатный соус</p>
-          </OverlayTrigger>
-          <p>36 см</p>
+        <img
+          src={getImageURL({ path: data.medias })}
+          alt={data.title}
+          className={
+            !data?.cart?.data?.additions &&
+            !data?.cart?.data?.modifiers &&
+            !data?.cart?.data?.wishes
+              ? "mini-img-cart-item"
+              : ""
+          }
+        />
+        <div className="text">
+          <h6>{data.title}</h6>
+          {data?.energy?.weight > 0 && (
+            <p className="text-muted fs-09">
+              {customWeight({
+                value: data.energy.weight,
+                type: data.energy?.weightType,
+              })}
+            </p>
+          )}
+          {data?.description && (
+            <p className="text-muted fs-08 consist pe-3">{data.description}</p>
+          )}
+          {data?.cart?.data?.modifiers?.length > 0 &&
+            data.cart.data.modifiers.map((e) => (
+              <span className="fs-09 fw-7 card d-inline-block p-1 px-2 mb-3 me-2">
+                {e.title}
+              </span>
+            ))}
 
-          {/* Кнопка с разворачивающимся блоком появляются только если есть дополнительные ингредиенты */}
-          <button 
-            type='button' 
-            onClick={() => setOpen(!open)} 
-            aria-expanded={open} 
-            className='d-flex align-items-center'
-          >
-            <span>Показать ещё</span>
-            <IoCaretDownOutline className='fs-08 ms-2'/>
-          </button>
-          <Collapse in={open}>
-            <ul className='cart-item-ingredients'>
-              <li>Сыр +45 ₽</li>
-              <li>Оливки +45 ₽</li>
-            </ul>
-          </Collapse>
+          {data?.cart?.data?.additions?.length > 0 && (
+            <p>
+              <a
+                className="fs-09 fw-6 d-flex align-items-center mb-0"
+                onClick={() =>
+                  setOpen((prev) => ({ ...prev, additions: !open.additions }))
+                }
+                aria-controls="collapse-additions"
+                aria-expanded={open}
+              >
+                <span>Добавки</span>{" "}
+                <Badge bg="secondary" className="mx-2">
+                  {data?.cart?.data?.additions?.length}
+                </Badge>
+                {open.additions ? (
+                  <IoChevronUp color="#666" />
+                ) : (
+                  <IoChevronDown color="#666" />
+                )}
+              </a>
+              <Collapse in={open.additions}>
+                <div id="collapse-additions">
+                  <ul className="cart-item-ingredients">
+                    {data.cart.data.additions.map((e) => (
+                      <li>
+                        {e.title}{" "}
+                        <span className="fw-7">+{customPrice(e.price)}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </Collapse>
+            </p>
+          )}
+          {data?.cart?.data?.wishes?.length > 0 && (
+            <p>
+              <a
+                className="fs-09 fw-6 d-flex align-items-center mb-0"
+                onClick={() =>
+                  setOpen((prev) => ({ ...prev, wishes: !open.wishes }))
+                }
+                aria-controls="collapse-wishes"
+                aria-expanded={open}
+              >
+                <span>Пожелания</span>{" "}
+                <Badge bg="secondary" className="mx-2">
+                  {data?.cart?.data?.wishes?.length}
+                </Badge>
+                {open.wishes ? (
+                  <IoChevronUp color="#666" />
+                ) : (
+                  <IoChevronDown color="#666" />
+                )}
+              </a>
+              <Collapse in={open.wishes}>
+                <div id="collapse-wishes">
+                  <ul className="cart-item-ingredients-minus">
+                    {data.cart.data.wishes.map((e) => (
+                      <li>
+                        {e.title}{" "}
+                        <span className="fw-7">+{customPrice(e.price)}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </Collapse>
+            </p>
+          )}
         </div>
       </div>
-      <div className="right">
-        <div className='order-2 order-md-1'>
-          <p className='d-none d-md-block text-center mb-2'>Количество</p>
-          <CountInput dis={false}/>
+      <div className="right d-flex justify-content-between flex-row align-items-end">
+        {!data?.noCount && (
+          <div className="order-2 order-md-1">
+            <ButtonCart cart product={data} />
+          </div>
+        )}
+
+        <div className="order-md-2 fw-7 d-flex justify-content-center flex-column align-items-end align-self-end w-100">
+          {data.type == "gift" ? (
+            "Бесплатно"
+          ) : data?.discount > 0 ? (
+            <>
+              <div className="text-right">
+                {customPrice(price * data.cart.count - data.discount)}
+              </div>
+              <div className="text-right">
+                <s class="text-muted fw-4 fs-08">
+                  {customPrice(price * data.cart.count)}
+                </s>
+              </div>
+            </>
+          ) : (
+            customPrice(price)
+          )}
         </div>
 
-        <div className='order-1 order-md-2'>640 ₽</div>
-
-        <BtnFav checked={false}/>
+        {/* {isAuth && <BtnFav checked={false} />} */}
       </div>
     </div>
   );
-};
+});
 
 export default CartItem;

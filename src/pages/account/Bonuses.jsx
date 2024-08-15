@@ -7,7 +7,7 @@ const Bonuses = () => {
   
   return (
     <section className='bonus-program'>
-      <AccountTitleReturn link={'/account'} title={'История начисления и списания бонусов'}/>
+      <AccountTitleReturn link={'/account'} title={'История начисления и списания бонусов'}/>
       <div className="box">
         <ul>
           <LiBonus gift={false} income={150} spending={90}/>

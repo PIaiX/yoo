@@ -1,21 +1,41 @@
 {
-  "name": "yoo",
-  "version": "0.1.0",
+  "name": "yakinori-frontend",
+  "version": "0.0.1",
   "private": true,
-
   "dependencies": {
-    "@testing-library/jest-dom": "^5.16.5",
-    "@testing-library/react": "^13.4.0",
-    "@testing-library/user-event": "^13.5.0",
-    "bootstrap": "^5.3.1",
+    "@pbe/react-yandex-maps": "^1.2.5",
+    "@reduxjs/toolkit": "^1.9.1",
+    "axios": "^1.7.2",
+    "bootstrap": "^5.3.0-alpha3",
+    "clientjs": "^0.2.1",
     "gh-pages": "^5.0.0",
+    "i18next": "^23.11.5",
+    "lodash": "^4.17.21",
+    "moment": "^2.29.4",
+    "moment-timezone": "^0.5.45",
     "react": "^18.2.0",
-    "react-bootstrap": "^2.7.4",
+    "react-bootstrap": "^2.7.2",
+    "react-device-detect": "^2.2.3",
     "react-dom": "^18.2.0",
-    "react-icons": "^4.9.0",
-    "react-router-dom": "^6.11.2",
+    "react-helmet": "^6.1.0",
+    "react-hook-form": "^7.39.5",
+    "react-i18next": "^14.1.2",
+    "react-icons": "^4.10.1",
+    "react-input-mask": "^2.0.4",
+    "react-lazy-load-image-component": "^1.6.0",
+    "react-native-svg": "^13.10.0",
+    "react-notifications": "^1.7.4",
+    "react-qr-code": "^2.0.11",
+    "react-redux": "^8.0.5",
+    "react-router-dom": "^6.10.0",
     "react-scripts": "5.0.1",
-    "swiper": "^9.3.2",
+    "react-scroll": "^1.8.9",
+    "react-ui-scrollspy": "^2.3.0",
+    "redux-persist": "^6.0.0",
+    "redux-persist-transform-encrypt": "^5.0.0",
+    "reselect": "^5.1.0",
+    "socket.io-client": "^4.6.1",
+    "swiper": "^11.0.7",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
@@ -25,12 +45,6 @@
     "eject": "react-scripts eject",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build"
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
   },
   "browserslist": {
     "production": [
@@ -43,5 +57,12 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "eslint": "^8.26.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-react": "^7.31.10",
+    "prettier": "^2.7.1"
   }
 }

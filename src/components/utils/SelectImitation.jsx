@@ -18,7 +18,7 @@ const SelectImitation = (props) => {
   }
 
   return (
-    <Dropdown as="div" className='select' autoClose={true}>
+    <Dropdown as="div" className={'select '+props.boxClass} autoClose={true}>
       <Dropdown.Toggle as="button" className={(props.btnClass) ? 'select-button ' + props.btnClass : 'select-button'} >
         <div className="select-button-value">
           {

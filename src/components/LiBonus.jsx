@@ -12,7 +12,7 @@ const LiBonus = (props) => {
         </div>
         : <div className='title'>
           <HiOutlineShoppingBag className='d-none d-md-block fs-15 main-color me-2'/>
-          <p>Заказ № 3471</p>
+          <p>Заказ № 3471</p>
         </div>
       }
       <div className='date'>

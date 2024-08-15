@@ -1,28 +1,34 @@
-import React from 'react';
-import {Link} from 'react-router-dom';
+import React, { memo } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { HiOutlineArrowLeftCircle } from "react-icons/hi2";
+import { useTranslation } from "react-i18next";
 
-const NavTop = (props) => {
+const NavTop = memo(({ toBack = true, breadcrumbs = false }) => {
+  const navigate = useNavigate();
+  const { t } = useTranslation();
+
   return (
-    <nav className='navTop'>
-      {
-        (props.toBack) &&
-        <Link to="/" className='navTop-back'>
-          <HiOutlineArrowLeftCircle/>
-          <span>Назад</span>
-        </Link>
-      }
-      {
-        (props.breadcrumbs) &&
-        <ul className='navTop-breadcrumbs'>
-          <li><Link to='/'>Главная</Link></li>
-          <li><Link to='/menu'>Меню</Link></li>
-          <li><Link to='/menu'>Пиццы</Link></li>
-          <li><Link to='/menu/product'>Четыре сыра</Link></li>
+    <nav className="navTop">
+      {toBack && (
+        <a onClick={() => navigate(-1)} className="navTop-back mb-2">
+          <HiOutlineArrowLeftCircle />
+          <span>{t("Назад")}</span>
+        </a>
+      )}
+      {breadcrumbs && breadcrumbs?.length > 0 && (
+        <ul className="navTop-breadcrumbs mb-2">
+          <li>
+            <Link to="/">{t("Главная")}</Link>
+          </li>
+          {breadcrumbs.map((e, index) => (
+            <li key={index}>
+              <Link to={e.link}>{e.title}</Link>
+            </li>
+          ))}
         </ul>
-      }
+      )}
     </nav>
   );
-};
+});
 
 export default NavTop;

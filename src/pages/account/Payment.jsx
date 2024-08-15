@@ -8,7 +8,7 @@ import { HiOutlinePlus } from "react-icons/hi2";
 const Payment = () => {
   return (
     <section>
-      <AccountTitleReturn link={'/account'} title={'Мои карты'}/>
+      <AccountTitleReturn link={'/account'} title={'Мои карты'}/>
       <Row xs={2} sm={2} md={3} xxl={4} className='gx-2 gy-4'>
         <Col>
           <BankCard />

@@ -1,147 +1,133 @@
-import React, {useState} from 'react';
-import { Navigation, FreeMode } from 'swiper';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import 'swiper/css';
-import FoodRolls from '../components/svgs/FoodRolls';
-import FoodSets from '../components/svgs/FoodSets';
-import FoodPizza from '../components/svgs/FoodPizza';
-import FoodCombo from '../components/svgs/FoodCombo';
-import FoodPoke from '../components/svgs/FoodPoke';
-import FoodDesserts from '../components/svgs/FoodDesserts';
-import { HiOutlineArrowRightCircle, HiOutlineArrowLeftCircle,HiOutlineArrowUturnDown, HiArrowUturnUp } from "react-icons/hi2";
+import React, { memo, useEffect, useRef, useState } from "react";
+import { Link } from "react-scroll";
+import { FreeMode, Mousewheel, Navigation } from "swiper/modules";
+import { Swiper, SwiperSlide } from "swiper/react";
 
-const Categories = (props) => {
+import { HiArrowUturnUp, HiOutlineArrowUturnDown } from "react-icons/hi2";
+
+const Categories = memo(({ className, data }) => {
   const [isFull, setIsFull] = useState(false);
-  const [swiper, setSwiper] = useState(null);
+  const swiperRef = useRef(null);
+  const [isShowMenu, setIsShowMenu] = useState(false);
+  const menuRef = useRef(null);
+
   const handleExpand = () => {
-    swiper.disable();
+    swiperRef.current.swiper.disable();
     setIsFull(true);
   };
+
   const handleСollapse = () => {
-    swiper.enable();
+    swiperRef.current.swiper.enable();
     setIsFull(false);
   };
-  
-  return (
-    <div className={"categories "+props.className}>
-      <div className="categories-wrap">
-        <Swiper
-          className={(isFull) ? "categories-slider categories-slider-disabled" : "categories-slider"}
-          modules={[Navigation, FreeMode]}
-          speed={750}
-          spaceBetween={10}
-          slidesPerView={'auto'}
-          freeMode={true}
-          observer={true}
-          observeSlideChildren={true}
-          watchSlidesProgress={true}
-          navigation={{
-            nextEl: '.swiper-button-next',
-            prevEl: '.swiper-button-prev',
-          }}
-          onSwiper={setSwiper}
-          breakpoints={{
-            576: {
-              spaceBetween: 15,
-            },
-            1200: {
-              spaceBetween: 30,
-            },
-          }}
-        >
-          <SwiperSlide>
-            <button type='button' className='btn-8'>
-              <FoodRolls className="fs-15"/>
-              <span className='ms-2'>Роллы</span>
-            </button>
-          </SwiperSlide>
-          <SwiperSlide>
-            <button type='button' className='btn-8'>
-              <FoodSets className="fs-15"/>
-              <span className='ms-2'>Сеты</span>
-            </button>
-          </SwiperSlide>
-          <SwiperSlide>
-            <button type='button' className='btn-8'>
-              <FoodPizza/>
-              <span className='ms-2'>Пицца</span>
-            </button>
-          </SwiperSlide>
-          <SwiperSlide>
-            <button type='button' className='btn-8'>
-              <FoodCombo/>
-              <span className='ms-2'>Комбо</span>
-            </button>
-          </SwiperSlide>
-          <SwiperSlide>
-            <button type='button' className='btn-8'>
-              <FoodDesserts/>
-              <span className='ms-2'>Десерты</span>
-            </button>
-          </SwiperSlide>
-          <SwiperSlide>
-            <button type='button' className='btn-8'>
-              <FoodPoke/>
-              <span className='ms-2'>Поке</span>
-            </button>
-          </SwiperSlide>
-          <SwiperSlide>
-            <button type='button' className='btn-8'>
-              <FoodRolls className="fs-15"/>
-              <span className='ms-2'>Роллы</span>
-            </button>
-          </SwiperSlide>
-          <SwiperSlide>
-            <button type='button' className='btn-8'>
-              <FoodSets className="fs-15"/>
-              <span className='ms-2'>Сеты</span>
-            </button>
-          </SwiperSlide>
-          <SwiperSlide>
-            <button type='button' className='btn-8'>
-              <FoodPizza/>
-              <span className='ms-2'>Пицца</span>
-            </button>
-          </SwiperSlide>
-          <SwiperSlide>
-            <button type='button' className='btn-8'>
-              <FoodCombo/>
-              <span className='ms-2'>Комбо</span>
-            </button>
-          </SwiperSlide>
-          <SwiperSlide>
-            <button type='button' className='btn-8'>
-              <FoodDesserts/>
-              <span className='ms-2'>Десерты</span>
-            </button>
-          </SwiperSlide>
-          <SwiperSlide>
-            <button type='button' className='btn-8'>
-              <FoodPoke/>
-              <span className='ms-2'>Поке</span>
-            </button>
-          </SwiperSlide>
-          <div className="swiper-button-prev">
-            <HiOutlineArrowLeftCircle/>
-          </div>
-          <div className="swiper-button-next">
-            <HiOutlineArrowRightCircle/>
-          </div>
-        </Swiper>
-      </div>
-      {
-        (isFull)
-        ? <button type='button' onClick={handleСollapse} className='categories-btn'>
-          <span>свернуть</span>
-          <HiArrowUturnUp className='fs-15 ms-3 main-color'/>
-        </button>
-        : <button type='button' onClick={handleExpand} className='categories-btn'>
-          <span>показать все</span>
-          <HiOutlineArrowUturnDown className='fs-15 ms-3 main-color rotateY-180'/>
-        </button>
+
+  const updateSlider = (i) => {
+    swiperRef?.current?.swiper && swiperRef.current.swiper.slideTo(i);
+  };
+
+  useEffect(() => {
+    function updateView() {
+      const menuNode = menuRef.current;
+
+      if (menuNode) {
+        const rect = menuNode.getBoundingClientRect();
+        const offsetElem = rect.top + window.pageYOffset;
+        const scrollTop = window.pageYOffset;
+
+        if (scrollTop > offsetElem) {
+          setIsShowMenu(true);
+        } else {
+          setIsShowMenu(false);
+        }
       }
-    </div>
-  );
-};
+    }
+    window.addEventListener("scroll", updateView);
+    updateView();
+    return () => window.removeEventListener("scroll", updateView);
+  }, []);
+
+  return data?.length > 0 ? (
+    <>
+      <div ref={menuRef} />
+      <div
+        className={
+          "sticky-box container p-0 mt-5 pe-md-3 ps-md-3 mb-3 mb-sm-4 mb-md-5 " +
+          (isShowMenu ? " h-fixed show" : " h-fixed")
+        }
+      >
+        <div className="container p-0">
+          <div className={"categories" + (className ? " " + className : "")}>
+            <div className="categories-wrap">
+              <Swiper
+                ref={swiperRef}
+                loop={false}
+                freeMode={{
+                  enabled: true,
+                  sticky: true,
+                }}
+                mousewheel={true}
+                className={
+                  isFull
+                    ? "categories-slider categories-slider-disabled"
+                    : "categories-slider"
+                }
+                modules={[Navigation, FreeMode, Mousewheel]}
+                speed={750}
+                spaceBetween={10}
+                slidesPerView="auto"
+                observer={true}
+                observeSlideChildren={true}
+                watchSlidesProgress={true}
+                navigation={true}
+                breakpoints={{
+                  576: {
+                    spaceBetween: 15,
+                  },
+                  1200: {
+                    spaceBetween: 30,
+                  },
+                }}
+              >
+                {data.map((e, index) => (
+                  <SwiperSlide key={index}>
+                    <Link
+                      className="btn-white"
+                      activeClass="active"
+                      to={"category-" + e.id}
+                      spy={true}
+                      smooth={true}
+                      offset={-100}
+                      duration={100}
+                      onSetActive={() => updateSlider(index)}
+                    >
+                      {e.title}
+                    </Link>
+                  </SwiperSlide>
+                ))}
+              </Swiper>
+            </div>
+            {isFull ? (
+              <button
+                type="button"
+                onClick={handleСollapse}
+                className="categories-btn ms-auto"
+              >
+                <HiArrowUturnUp className="fs-15 main-color" />
+              </button>
+            ) : (
+              <button
+                type="button"
+                onClick={handleExpand}
+                className="categories-btn ms-auto"
+              >
+                <HiOutlineArrowUturnDown className="fs-15 main-color rotateY-180" />
+              </button>
+            )}
+          </div>
+        </div>
+      </div>
+    </>
+  ) : null;
+});
 
 export default Categories;

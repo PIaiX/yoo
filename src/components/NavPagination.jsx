@@ -24,7 +24,7 @@ const NavPagination = () => {
         </select>
       </div>
       
-      <span className='mx-4'>6–10 из 11</span>
+      <span className='mx-4'>6–10 из 11</span>
       
       <div className="d-flex align-items-center">
         <button type='button' disabled className='fs-14 p-2 d-flex'>

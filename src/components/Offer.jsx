@@ -1,18 +1,68 @@
-import React from 'react';
-import {Link} from 'react-router-dom';
+import React from "react";
+import { LazyLoadImage } from "react-lazy-load-image-component";
+import { Link } from "react-router-dom";
+import { getImageURL } from "../helpers/all";
+import { useTranslation } from "react-i18next";
 
-const Offer = (props) => {
+const Offer = ({ data }) => {
+  const { t } = useTranslation();
+
   return (
-    <figure className='offer'>
-      <img src={props.img} alt={props.title} />
-      <figcaption>
+    <div className="offer">
+      {data?.medias && (
+        <Link
+          to={
+            data?.options?.link
+              ? data.options.link
+              : data?.id
+              ? "/promo/" + data.id
+              : ""
+          }
+        >
+          <LazyLoadImage
+            src={getImageURL({
+              path: data.medias,
+              type: "sale",
+              size: "full",
+            })}
+            alt={data?.title}
+            loading="lazy"
+          />
+        </Link>
+      )}
+      <div className="offer-body">
         <div>
-          <h4 className={(props.blackText) ? 'black' : ''}>{props.title}</h4>
-          <h6 className={(props.blackText) ? 'black fw-4' : 'fw-4'}>{props.subtitle}</h6>
+          <Link
+            to={
+              data?.options?.link
+                ? data.options.link
+                : data?.id
+                ? "/promo/" + data.id
+                : ""
+            }
+          >
+            {data?.title && <h5 className="offer-body-title">{data.title}</h5>}
+          </Link>
+          {/* {data?.desc && (
+            <p className="fw-4 text-muted offer-body-desc mb-3">{data.desc}</p>
+          )} */}
         </div>
-        <Link to='/promo/1' className='btn-4'>Заказать</Link>
-      </figcaption>
-    </figure>
+        <div className="d-flex justify-content-end">
+          <Link
+            to={
+              data?.options?.link
+                ? data.options.link
+                : data?.id
+                ? "/promo/" + data.id
+                : ""
+            }
+            className="btn btn-light"
+          >
+            {t("Перейти")}
+          </Link>
+        </div>
+      </div>
+    </div>
   );
 };
 
