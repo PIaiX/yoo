@@ -722,6 +722,7 @@ button {
 .btn {
   @include flex(row, center, center, nowrap);
   padding: 0.7em 1.2em;
+  min-height: 50px;
   transition: opacity 0.3s;
   text-align: center;
   width: fit-content;
@@ -1037,6 +1038,7 @@ button {
   }
   &.loading {
     position: relative;
+    color: transparent !important;
     & > * {
       opacity: 0;
     }
@@ -1044,10 +1046,10 @@ button {
       content: "";
       position: absolute;
       z-index: 1;
-      top: 50%;
+      top: 33%;
       left: 50%;
-      width: 1em;
-      height: 1em;
+      width: 1.2em;
+      height: 1.2em;
       background: url(imgs/spin.png) no-repeat;
       background-size: contain;
       opacity: 1;
@@ -1085,7 +1087,7 @@ button {
 .loading-indicator.inactive {
   opacity: 0;
 }
-.delivery-loader{
+.delivery-loader {
   position: absolute;
   top: 23%;
   left: 0px;
@@ -1106,8 +1108,12 @@ button {
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 select {
@@ -3440,7 +3446,7 @@ main {
       object-fit: cover;
       border-radius: $radius;
       margin-right: 1em;
-      &.mini-img-cart-item{
+      &.mini-img-cart-item {
         width: 60px !important;
         height: 60px !important;
         border-radius: $radius-sm;

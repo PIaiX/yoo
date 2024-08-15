@@ -107,67 +107,69 @@ const Cart = () => {
   }, [promo]);
 
   useEffect(() => {
-    getCart({
-      name: user?.firstName ?? "",
-      phone: checkout?.data?.phone ?? user.phone ?? "",
-      phoneReg: user?.phoneReg ?? "",
-      serving: checkout?.data?.serving ?? "",
-      delivery: checkout.delivery ?? "delivery",
-      payment: checkout?.data?.payment ?? "cash",
-      person: person > 0 ? person : checkout?.data?.person ?? 1,
-      comment: checkout?.data?.comment ?? "",
+    if (count > 0 && user?.id) {
+      getCart({
+        name: user?.firstName ?? "",
+        phone: checkout?.data?.phone ?? user.phone ?? "",
+        phoneReg: user?.phoneReg ?? "",
+        serving: checkout?.data?.serving ?? "",
+        delivery: checkout.delivery ?? "delivery",
+        payment: checkout?.data?.payment ?? "cash",
+        person: person > 0 ? person : checkout?.data?.person ?? 1,
+        comment: checkout?.data?.comment ?? "",
 
-      address: address ? address.find((e) => e.main) : false,
-      affiliateId: selectedAffiliate?.id ? selectedAffiliate.id : false,
+        address: address ? address.find((e) => e.main) : false,
+        affiliateId: selectedAffiliate?.id ? selectedAffiliate.id : false,
 
-      // Сохранение адреса по умолчанию
-      save: checkout?.data?.save ?? false,
+        // Сохранение адреса по умолчанию
+        save: checkout?.data?.save ?? false,
 
-      products: cart ?? [],
+        products: cart ?? [],
 
-      promo: promo ?? false,
+        promo: promo ?? false,
 
-      // Списание баллов
-      pointWriting:
-        checkout?.data?.pointSwitch && checkout?.data?.pointWriting
-          ? checkout.data.pointWriting
-          : 0,
-      pointSwitch: checkout?.data?.pointSwitch,
+        // Списание баллов
+        pointWriting:
+          checkout?.data?.pointSwitch && checkout?.data?.pointWriting
+            ? checkout.data.pointWriting
+            : 0,
+        pointSwitch: checkout?.data?.pointSwitch,
 
-      //Скидка за самовывоз
-      pickupDiscount: checkout?.data?.pickupDiscount ?? 0,
+        //Скидка за самовывоз
+        pickupDiscount: checkout?.data?.pickupDiscount ?? 0,
 
-      // Начисление баллов
-      pointAccrual: checkout?.data?.pointAccrual ?? 0,
+        // Начисление баллов
+        pointAccrual: checkout?.data?.pointAccrual ?? 0,
 
-      // Сумма товаров
-      price: price,
+        // Сумма товаров
+        price: price,
 
-      //Сумма доставки
-      deliveryPrice: delivery,
+        //Сумма доставки
+        deliveryPrice: delivery,
 
-      // Сумма скидки
-      discount: discount,
+        // Сумма скидки
+        discount: discount,
 
-      // Итоговая сумма
-      total: totalNoDelivery,
+        // Итоговая сумма
+        total: totalNoDelivery,
 
-      type: "site",
-    })
-      .then((res) => {
-        setData({
-          loading: false,
-          extras: res?.extras ?? [],
-          gifts: res?.gifts ?? [],
-        });
-        if (res?.checking?.length > 0) {
-          dispatch(updateCartChecking(res.checking));
-        }
+        type: "site",
       })
-      .catch((err) => {
-        setData({ ...data, loading: false });
-      });
-  }, [user?.id]);
+        .then((res) => {
+          setData({
+            loading: false,
+            extras: res?.extras ?? [],
+            gifts: res?.gifts ?? [],
+          });
+          if (res?.checking?.length > 0) {
+            dispatch(updateCartChecking(res.checking));
+          }
+        })
+        .catch((err) => {
+          setData({ ...data, loading: false });
+        });
+    }
+  }, [user?.id, count]);
 
   if (!Array.isArray(cart) || cart.length <= 0) {
     return (
@@ -323,7 +325,7 @@ const Cart = () => {
               )}
               {pointCheckout > 0 && pointSwitch && (
                 <div className="d-flex justify-content-between my-2">
-                  <span >{t("Списание баллов")}</span>
+                  <span>{t("Списание баллов")}</span>
                   <span>-{customPrice(pointCheckout)}</span>
                 </div>
               )}

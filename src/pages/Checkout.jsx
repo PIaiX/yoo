@@ -5,7 +5,7 @@ import React, {
   useLayoutEffect,
   useState,
 } from "react";
-import { Button, Modal } from "react-bootstrap";
+import { Button, Modal, Spinner } from "react-bootstrap";
 import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
@@ -27,7 +27,7 @@ import NavTop from "../components/utils/NavTop";
 import PaymentItem from "../components/utils/PaymentItem";
 import Select from "../components/utils/Select";
 import Textarea from "../components/utils/Textarea";
-import { customPrice } from "../helpers/all";
+import { customPrice, deliveryData, paymentData } from "../helpers/all";
 import { isWork } from "../hooks/all";
 import { useTotalCart } from "../hooks/useCart";
 import { mainAddress } from "../services/address";
@@ -94,6 +94,7 @@ const Checkout = () => {
   const isAuth = useSelector((state) => state.auth.isAuth);
   const user = useSelector((state) => state.auth.user);
   const cart = useSelector((state) => state.cart.items);
+  const checking = useSelector((state) => state.cart.checking);
   const promo = useSelector((state) => state.cart?.promo);
   const zone = useSelector((state) => state.cart?.zone);
   const checkout = useSelector((state) => state.checkout);
@@ -151,7 +152,7 @@ const Checkout = () => {
       save: checkout?.data?.save ?? false,
 
       products: cart ?? [],
-
+      checking: checking ?? [],
       promo: promo ?? false,
 
       // Списание баллов
@@ -184,6 +185,10 @@ const Checkout = () => {
   });
 
   const data = useWatch({ control });
+  console.log(data);
+  const deliveryText = data?.delivery ? deliveryData[data.delivery] : null;
+
+  const paymentText = data?.payment ? paymentData[data.payment] : null;
 
   const isValidBtn = () =>
     isLoading ||
@@ -252,6 +257,12 @@ const Checkout = () => {
   }, [checkout.delivery, end]);
 
   useEffect(() => {
+    if (checking) {
+      setValue("checking", checking);
+    }
+  }, [checking]);
+
+  useEffect(() => {
     let pay =
       checkout.delivery == "delivery"
         ? options?.delivery ?? []
@@ -293,8 +304,6 @@ const Checkout = () => {
 
   const onSubmit = useCallback(
     (data) => {
-      console.log(data);
-      return false;
       if (data.serving) {
         if (
           !isWork(
@@ -819,27 +828,99 @@ const Checkout = () => {
             show={confirmation}
             onHide={setConfirmation}
             centered
+            closeButton
           >
-            <Modal.Header closeButton className="fw-7">
-              Подтвердите заказ
-            </Modal.Header>
             <Modal.Body>
+              <h5 className="fw-7 h5 mt-2 mb-4 text-center">
+                {t("Подтвердите заказ")}
+              </h5>
               {!cart || cart?.length === 0 ? (
-                <Empty mini text="Ничего нет" image={() => <EmptyCatalog />} />
+                <Empty
+                  mini
+                  text={t("Ничего нет")}
+                  image={() => <EmptyCatalog />}
+                />
               ) : (
-                cart.map((item) => (
-                  <CartItem data={{ ...item, themeProduct: 0, noCount: true }} />
-                ))
+                <>
+                  <div className="box p-3 mb-3">
+                    <div className="fs-09">
+                      <div className="text-muted fs-08">
+                        {selectedAffiliate?.options?.hall ?? deliveryText}
+                      </div>
+                      {data?.delivery == "delivery" ? (
+                        <div>
+                          {`${data.street} ${data.home}${
+                            data.block ? " (корпус " + data.block + ")" : ""
+                          }, подъезд ${data.apartment}, этаж ${
+                            data.floor
+                          }, кв ${data.apartment}`}
+                        </div>
+                      ) : data?.delivery == "pickup" ? (
+                        <div>
+                          {selectedAffiliate && selectedAffiliate?.full
+                            ? selectedAffiliate.full
+                            : selectedAffiliate.title
+                            ? selectedAffiliate.title
+                            : t("Нет информации")}
+                          {selectedAffiliate && selectedAffiliate?.comment
+                            ? "(" + selectedAffiliate.comment + ")"
+                            : ""}
+                        </div>
+                      ) : (
+                        <div>
+                          {selectedAffiliate && selectedAffiliate?.full
+                            ? selectedAffiliate.full
+                            : selectedAffiliate.title
+                            ? selectedAffiliate.title
+                            : t("Нет информации")}
+                          {selectedAffiliate && selectedAffiliate?.comment
+                            ? "(" + selectedAffiliate.comment + ")"
+                            : ""}
+                        </div>
+                      )}
+                    </div>
+                    <div className="fs-09 mt-3">
+                      <div className="text-muted fs-08">
+                        {t("Способ оплаты")}
+                      </div>
+                      <div>{paymentText}</div>
+                    </div>
+                    <div className="d-flex fs-09 align-items-center mt-3">
+                      <p>{t("Приборов")}:</p>
+                      <div className="fs-09 ms-1">{data.person}</div>
+                    </div>
+                    {data.comment && (
+                      <div className="fs-09 mt-3">
+                        <div className="text-muted fs-08">
+                          {t("Комментарий")}
+                        </div>
+                        <div>{data.comment}</div>
+                      </div>
+                    )}
+                  </div>
+                  <p className="fw-7 px-3">Товары</p>
+                  {cart.map((item) => (
+                    <CartItem
+                      data={{ ...item, themeProduct: 0, noCount: true }}
+                    />
+                  ))}
+                </>
               )}
             </Modal.Body>
             <Modal.Footer closeButton className="fw-7">
               <Button
                 type="submit"
-                disabled={isValidBtn()}
-                className="mt-3 fw-6 w-100"
+                disabled={isLoading || isValidBtn()}
+                className={"fw-6 w-100 " + (isLoading ? "loading" : "")}
                 onClick={handleSubmit(onSubmit)}
               >
-                {t("Подтвердить")}
+                {t("Подтвердить заказ")}
+              </Button>
+              <Button
+                className="mt-3 fw-6 w-100 btn-light"
+                onClick={() => setConfirmation(false)}
+              >
+                {t("Отмена")}
               </Button>
             </Modal.Footer>
           </Modal>

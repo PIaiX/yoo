@@ -128,16 +128,18 @@ const CartItem = memo(({ data }) => {
           </div>
         )}
 
-        <div className="order-md-2 fw-7 d-flex justify-content-center flex-column align-items-end">
+        <div className="order-md-2 fw-7 d-flex justify-content-center flex-column align-items-end align-self-end w-100">
           {data.type == "gift" ? (
             "Бесплатно"
           ) : data?.discount > 0 ? (
             <>
               <div className="text-right">
-                {customPrice(price - data.discount)}
+                {customPrice(price * data.cart.count - data.discount)}
               </div>
               <div className="text-right">
-                <s class="text-muted fw-4 fs-08">{customPrice(price)}</s>
+                <s class="text-muted fw-4 fs-08">
+                  {customPrice(price * data.cart.count)}
+                </s>
               </div>
             </>
           ) : (

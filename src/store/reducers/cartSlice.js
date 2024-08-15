@@ -6,6 +6,7 @@ const initialState = {
   deliveryPrice: 0,
   items: [],
   zone: false,
+  checking: []
 };
 
 const cartSlice = createSlice({
@@ -42,14 +43,18 @@ const cartSlice = createSlice({
       }
     },
     updateCartChecking: (state, action) => {
-      let discounts = action.payload[0]?.discounts;
+      let discounts = action.payload[0]?.discounts ?? state.checking[0]?.discounts ?? [];
+
+      if (action.payload) {
+        state.checking = action.payload
+      }
 
       if (discounts?.length > 0) {
         state.items = [
           ...state.items.map((cartItem, index) => {
             return {
               ...cartItem,
-              discount: discounts[index].discountSum / discounts[index].amount,
+              discount: discounts[index].discountSum,
             };
           }),
         ];
