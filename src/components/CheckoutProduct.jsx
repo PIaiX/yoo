@@ -15,10 +15,10 @@ const CheckoutProduct = memo(({ data }) => {
   const [open, setOpen] = useState({ additions: false, wishes: false });
 
   return (
-    <div className="checkoutProduct d-flex align-items-start">
+    <div className="checkoutProduct d-flex align-items-start ">
       <img src={getImageURL({ path: data.medias })} alt={data.title} />
       <div className="flex-1">
-        <h6>{data.title}</h6>
+        <h6 className="fs-09">{data.title}</h6>
         <div className="d-flex justify-content-between align-items-center">
           {data?.energy?.weight > 0 && (
             <p>
@@ -31,7 +31,9 @@ const CheckoutProduct = memo(({ data }) => {
           <p className="fw-7">
             {data.type == "gift" ? "Бесплатно" : customPrice(price)}
           </p>
-          <p className="checkoutProduct-count">x{data?.cart?.count ?? 1}</p>
+          <p className="checkoutProduct-count fs-08">
+            x{data?.cart?.count ?? 1}
+          </p>
         </div>
         {(data?.cart?.data?.additions?.length > 0 ||
           data?.cart?.data?.wishes?.length > 0) && (

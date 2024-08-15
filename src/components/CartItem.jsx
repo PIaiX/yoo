@@ -20,13 +20,19 @@ const CartItem = memo(({ data }) => {
   return (
     <div className="cart-item" key={data.id}>
       <div className="left">
-        {/* <input type="checkbox" className="me-1 me-sm-3" /> */}
-        <img src={getImageURL({ path: data.medias })} alt={data.title} />
+        <img
+          src={getImageURL({ path: data.medias })}
+          alt={data.title}
+          className={
+            !data?.cart?.data?.additions &&
+            !data?.cart?.data?.modifiers &&
+            !data?.cart?.data?.wishes
+              ? "mini-img-cart-item"
+              : ""
+          }
+        />
         <div className="text">
-          <h6>
-            {data.title}
-            {/* <span className="tag">Подарок</span> */}
-          </h6>
+          <h6>{data.title}</h6>
           {data?.energy?.weight > 0 && (
             <p className="text-muted fs-09">
               {customWeight({
@@ -36,7 +42,7 @@ const CartItem = memo(({ data }) => {
             </p>
           )}
           {data?.description && (
-            <p className="text-muted fs-09 consist">{data.description}</p>
+            <p className="text-muted fs-08 consist pe-3">{data.description}</p>
           )}
           {data?.cart?.data?.modifiers?.length > 0 &&
             data.cart.data.modifiers.map((e) => (
@@ -115,14 +121,28 @@ const CartItem = memo(({ data }) => {
           )}
         </div>
       </div>
-      <div className="right">
-        <div className="order-2 order-md-1">
-          <ButtonCart cart product={data} />
-        </div>
+      <div className="right d-flex justify-content-between flex-row align-items-end">
+        {!data?.noCount && (
+          <div className="order-2 order-md-1">
+            <ButtonCart cart product={data} />
+          </div>
+        )}
 
-        <div className="order-1 order-md-2 fw-7">
-          {data.type == "gift" ? "Бесплатно" : customPrice(price)}
-          {data.discount > 0 && <span>{data.price - data.discount}</span>}
+        <div className="order-md-2 fw-7 d-flex justify-content-center flex-column align-items-end">
+          {data.type == "gift" ? (
+            "Бесплатно"
+          ) : data?.discount > 0 ? (
+            <>
+              <div className="text-right">
+                {customPrice(price - data.discount)}
+              </div>
+              <div className="text-right">
+                <s class="text-muted fw-4 fs-08">{customPrice(price)}</s>
+              </div>
+            </>
+          ) : (
+            customPrice(price)
+          )}
         </div>
 
         {/* {isAuth && <BtnFav checked={false} />} */}

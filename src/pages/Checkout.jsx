@@ -5,7 +5,7 @@ import React, {
   useLayoutEffect,
   useState,
 } from "react";
-import { Button } from "react-bootstrap";
+import { Button, Modal } from "react-bootstrap";
 import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
@@ -43,6 +43,7 @@ import {
   resetCheckout,
   setCheckout,
 } from "../store/reducers/checkoutSlice";
+import CartItem from "../components/CartItem";
 
 const Checkout = () => {
   const { t } = useTranslation();
@@ -89,6 +90,7 @@ const Checkout = () => {
   const profilePointVisible = useSelector(
     (state) => state.settings.options.profilePointVisible
   );
+  const pointSwitch = useSelector((state) => state.checkout?.data?.pointSwitch);
   const isAuth = useSelector((state) => state.auth.isAuth);
   const user = useSelector((state) => state.auth.user);
   const cart = useSelector((state) => state.cart.items);
@@ -101,7 +103,7 @@ const Checkout = () => {
   const selectedAffiliate = useSelector((state) => state.affiliate?.active);
   const selectedTable = useSelector((state) => state.affiliate.table);
   const options = useSelector((state) => state.settings.options);
-
+  const [confirmation, setConfirmation] = useState(false);
   const {
     total = 0,
     price = 0,
@@ -717,7 +719,7 @@ const Checkout = () => {
 
                 <ul className="list-unstyled">
                   {cart.map((e) => (
-                    <li className="mb-4">
+                    <li className="mb-2">
                       <CheckoutProduct data={e} />
                     </li>
                   ))}
@@ -749,11 +751,14 @@ const Checkout = () => {
                   </div>
                 </div>
               )}
-
+              <div className="d-flex justify-content-between my-2">
+                <span>{t("Стоимость товаров")}</span>
+                <span>{customPrice(price)}</span>
+              </div>
               {discount > 0 && (
                 <div className="d-flex justify-content-between my-2">
                   <span>{t("Скидка")}</span>
-                  <span>-{customPrice(discount)}</span>
+                  <span className="text-success">-{customPrice(discount)}</span>
                 </div>
               )}
               {pickupDiscount > 0 && (
@@ -764,13 +769,20 @@ const Checkout = () => {
                   </span>
                 </div>
               )}
-
+              {pointCheckout > 0 && pointSwitch && (
+                <div className="d-flex justify-content-between my-2">
+                  <span>{t("Списание баллов")}</span>
+                  <span>-{customPrice(pointCheckout)}</span>
+                </div>
+              )}
               <hr className="my-3" />
               <div className="mb-5">
-                <div className="d-flex justify-content-between mb-2">
-                  <span className="fw-6 fs-10">{t("Сумма заказа")}</span>
-                  <span className="fw-6">{customPrice(totalNoDelivery)}</span>
-                </div>
+                {totalNoDelivery != total && (
+                  <div className="d-flex justify-content-between mb-2">
+                    <span className="fw-6 fs-10">{t("Сумма заказа")}</span>
+                    <span className="fw-6">{customPrice(totalNoDelivery)}</span>
+                  </div>
+                )}
                 {data.delivery == "delivery" && (
                   <div className="d-flex justify-content-between mb-2">
                     <span className="fw-6 fs-10">{t("Доставка")}</span>
@@ -794,15 +806,43 @@ const Checkout = () => {
                   </div>
                 )}
               <Button
-                type="submit"
                 disabled={isValidBtn()}
                 className="mt-3 fw-6 w-100"
-                onClick={handleSubmit(onSubmit)}
+                onClick={() => setConfirmation(true)}
               >
                 {t("Оформить заказ")}
               </Button>
             </Col>
           </Row>
+          <Modal
+            size="md"
+            show={confirmation}
+            onHide={setConfirmation}
+            centered
+          >
+            <Modal.Header closeButton className="fw-7">
+              Подтвердите заказ
+            </Modal.Header>
+            <Modal.Body>
+              {!cart || cart?.length === 0 ? (
+                <Empty mini text="Ничего нет" image={() => <EmptyCatalog />} />
+              ) : (
+                cart.map((item) => (
+                  <CartItem data={{ ...item, themeProduct: 0, noCount: true }} />
+                ))
+              )}
+            </Modal.Body>
+            <Modal.Footer closeButton className="fw-7">
+              <Button
+                type="submit"
+                disabled={isValidBtn()}
+                className="mt-3 fw-6 w-100"
+                onClick={handleSubmit(onSubmit)}
+              >
+                {t("Подтвердить")}
+              </Button>
+            </Modal.Footer>
+          </Modal>
         </form>
       </Container>
     </main>

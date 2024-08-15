@@ -323,7 +323,7 @@ const Cart = () => {
               )}
               {pointCheckout > 0 && pointSwitch && (
                 <div className="d-flex justify-content-between my-2">
-                  <span>{t("Списание баллов")}</span>
+                  <span >{t("Списание баллов")}</span>
                   <span>-{customPrice(pointCheckout)}</span>
                 </div>
               )}
