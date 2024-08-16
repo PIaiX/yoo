@@ -165,9 +165,11 @@ const Cart = () => {
             dispatch(updateCartChecking(res.checking));
           }
         })
-        .catch((err) => {
+        .catch(() => {
           setData({ ...data, loading: false });
         });
+    } else {
+      setData({ ...data, loading: false });
     }
   }, [user?.id, count]);
 
