@@ -99,12 +99,11 @@ const Contact = () => {
                   </>
                 )} */}
 
-                <ul className="list-unstyled">
+                <ul className="list-unstyled pe-3">
                   {affiliate.map((e, index) => (
                     <a
                       onClick={() => setMainAffiliate(e)}
                       className={mainAffiliate.id === e.id ? "active" : ""}
-                      style={{ backgroundColor: colors[index] }}
                     >
                       <li key={e.id}>
                         <h6>{e.full}</h6>
@@ -146,7 +145,7 @@ const Contact = () => {
                           mainAffiliate.options.coordinates.lat,
                           mainAffiliate.options.coordinates.lon,
                         ],
-                        zoom: 10,
+                        zoom: 12,
                       }}
                       width="100%"
                       height="100%"
