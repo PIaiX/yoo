@@ -703,7 +703,7 @@ button {
   align-items: center;
   flex-wrap: nowrap;
   padding: 0.7em 1.2em;
-  min-height: 50px;
+  min-height: 40px;
   transition: opacity 0.3s;
   text-align: center;
   width: -webkit-fit-content;
@@ -3800,7 +3800,6 @@ main {
 @media (max-width: 770px) {
   .cart-item .left {
     width: 100%;
-    align-items: center;
   }
 }
 .cart-item .left .text {
@@ -3841,13 +3840,8 @@ main {
   line-height: 1.2em;
   height: 2.4em;
 }
-@media (max-width: 580px) {
-  .cart-item .left .text p.consist {
-    display: none;
-  }
-}
 .cart-item .right {
-  min-width: 30%;
+  max-width: 240px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -3863,6 +3857,8 @@ main {
 @media (max-width: 580px) {
   .cart-item .right {
     margin-top: 0.5em;
+    min-width: 100% !important;
+    flex: 1;
   }
 }
 .cart-item .right .btn-fav {

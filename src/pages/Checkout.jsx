@@ -185,7 +185,7 @@ const Checkout = () => {
   });
 
   const data = useWatch({ control });
-  console.log(data);
+
   const deliveryText = data?.delivery ? deliveryData[data.delivery] : null;
 
   const paymentText = data?.payment ? paymentData[data.payment] : null;
@@ -849,11 +849,13 @@ const Checkout = () => {
                       </div>
                       {data?.delivery == "delivery" ? (
                         <div>
-                          {`${data.street} ${data.home}${
-                            data.block ? " (корпус " + data.block + ")" : ""
-                          }, подъезд ${data.apartment}, этаж ${
-                            data.floor
-                          }, кв ${data.apartment}`}
+                          {`${data.address.street} ${data.address.home}${
+                            data.address.block
+                              ? " (корпус " + data.address.block + ")"
+                              : ""
+                          }, подъезд ${data.address.apartment}, этаж ${
+                            data.address.floor
+                          }, кв ${data.address.apartment}`}
                         </div>
                       ) : data?.delivery == "pickup" ? (
                         <div>
@@ -898,12 +900,26 @@ const Checkout = () => {
                       </div>
                     )}
                   </div>
-                  <p className="fw-7 px-3">Товары</p>
+                  <p className="fw-7 px-md-3">Товары</p>
                   {cart.map((item) => (
                     <CartItem
                       data={{ ...item, themeProduct: 0, noCount: true }}
                     />
                   ))}
+                  {data.delivery == "delivery" && (
+                    <div className="px-md-3 d-flex justify-content-between mb-2">
+                      <span className="fw-6 fs-10">{t("Доставка")}</span>
+                      <span className="text-success fw-6">
+                        {delivery > 0
+                          ? "+" + customPrice(delivery)
+                          : t("Бесплатно")}
+                      </span>
+                    </div>
+                  )}
+                  <div className="px-md-3 d-flex justify-content-between">
+                    <span className="fw-7 fs-11">{t("Итого")}</span>
+                    <span className="fw-7">{customPrice(total)}</span>
+                  </div>
                 </>
               )}
             </Modal.Body>

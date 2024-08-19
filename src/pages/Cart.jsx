@@ -107,7 +107,7 @@ const Cart = () => {
   }, [promo]);
 
   useEffect(() => {
-    if (count > 0 && user?.id) {
+    if (count > 0) {
       getCart({
         name: user?.firstName ?? "",
         phone: checkout?.data?.phone ?? user.phone ?? "",
@@ -168,8 +168,6 @@ const Cart = () => {
         .catch(() => {
           setData({ ...data, loading: false });
         });
-    } else {
-      setData({ ...data, loading: false });
     }
   }, [user?.id, count]);
 

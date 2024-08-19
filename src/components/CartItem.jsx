@@ -121,14 +121,20 @@ const CartItem = memo(({ data }) => {
           )}
         </div>
       </div>
-      <div className="right d-flex justify-content-between flex-row align-items-end">
-        {!data?.noCount && (
-          <div className="order-2 order-md-1">
+      <div className="right d-flex justify-content-between flex-row">
+        {!data?.noCount ? (
+          <div className="order-2 order-md-1 me-3">
             <ButtonCart cart product={data} />
+          </div>
+        ) : (
+          <div className="d-flex flex-1 w-100 me-3">
+            <div className="checkoutProduct-count fs-08">
+              x{data?.cart?.count ?? 1}
+            </div>
           </div>
         )}
 
-        <div className="order-md-2 fw-7 d-flex justify-content-center flex-column align-items-end align-self-end w-100">
+        <div className="order-md-2 fw-7 d-flex justify-content-center flex-column align-items-md-end align-self-center">
           {data.type == "gift" ? (
             "Бесплатно"
           ) : data?.discount > 0 ? (

@@ -722,7 +722,7 @@ button {
 .btn {
   @include flex(row, center, center, nowrap);
   padding: 0.7em 1.2em;
-  min-height: 50px;
+  min-height: 40px;
   transition: opacity 0.3s;
   text-align: center;
   width: fit-content;
@@ -3391,7 +3391,6 @@ main {
       }
       @media (max-width: $bp-md) {
         width: 100%;
-        align-items: center;
       }
       .text {
         max-width: 80%;
@@ -3419,15 +3418,15 @@ main {
           margin-bottom: 0.5em;
           &.consist {
             @include clamp(2, 1.2em, true);
-            @media (max-width: $bp-sm) {
-              display: none;
-            }
+            // @media (max-width: $bp-sm) {
+            //   display: none;
+            // }
           }
         }
       }
     }
     .right {
-      min-width: 30%;
+      max-width: 240px;
       @include flex(row, space-between, flex-start, nowrap);
       @media (max-width: $bp-md) {
         margin-top: 1em;
@@ -3435,6 +3434,8 @@ main {
       }
       @media (max-width: $bp-sm) {
         margin-top: 0.5em;
+        min-width: 100% !important;
+        flex: 1;
       }
       .btn-fav {
         order: 3;
