@@ -32,12 +32,22 @@ const Categories = () => {
     return (
       <>
         <Meta
-          title={`${
-            selectedAffiliate?.title ? selectedAffiliate?.title : options?.title
-          } — ${t("Каталог")}`}
-          description={`${
-            selectedAffiliate?.title ? selectedAffiliate?.title : options?.title
-          } — ${t("Каталог")}`}
+          title={
+            options?.seo?.categories?.title
+              ? options.seo.categories.title
+              : selectedAffiliate?.title
+              ? selectedAffiliate?.title + " - Каталог"
+              : options?.title
+              ? options.title + " - Каталог"
+              : t("Каталог")
+          }
+          description={
+            options?.seo?.categories?.description
+              ? options.seo.categories.description
+              : t(
+                  "Ищите вкусную и свежую еду? Выберите подходящую категорию и найдите любимые блюда."
+                )
+          }
         />
         <Empty
           text={t("Каталога нет")}
@@ -56,12 +66,22 @@ const Categories = () => {
   return (
     <main>
       <Meta
-        title={`${
-          selectedAffiliate?.title ? selectedAffiliate?.title : options?.title
-        } — ${t("Каталог")}`}
-        description={`${
-          selectedAffiliate?.title ? selectedAffiliate?.title : options?.title
-        } — ${t("Каталог")}`}
+        title={
+          options?.seo?.categories?.title
+            ? options.seo.categories.title
+            : selectedAffiliate?.title
+            ? selectedAffiliate?.title + " - Каталог"
+            : options?.title
+            ? options.title + " - Каталог"
+            : t("Каталог")
+        }
+        description={
+          options?.seo?.categories?.description
+            ? options.seo.categories.description
+            : t(
+                "Ищите вкусную и свежую еду? Выберите подходящую категорию и найдите любимые блюда."
+              )
+        }
       />
       <section className="page-catalog mb-6">
         <Container>

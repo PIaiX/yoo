@@ -65,10 +65,10 @@ const Category = () => {
       <Meta
         title={`${
           selectedAffiliate?.title ? selectedAffiliate?.title : title
-        } — ${category.item.title}`}
+        } - ${category.item.title}`}
         description={`${
           selectedAffiliate?.title ? selectedAffiliate?.title : title
-        } — ${category.item.title}`}
+        } - ${category.item.title}`}
       />
       <section className="container">
         <NavTop breadcrumbs={false} />

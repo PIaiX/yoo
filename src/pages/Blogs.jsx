@@ -31,27 +31,53 @@ const Blogs = () => {
 
   if (!blogs?.items || blogs?.items?.length === 0) {
     return (
-      <Empty
-        text={t("Новостей нет")}
-        image={() => <EmptyCatalog />}
-        button={
-          <Link className="btn-primary" to="/">
-            {t("Перейти на главную")}
-          </Link>
-        }
-      />
+      <>
+        <Meta
+          title={
+            options?.seo?.blogs?.title
+              ? options.seo.blogs.title
+              : selectedAffiliate?.title
+              ? selectedAffiliate?.title + " - Новости"
+              : options?.title
+              ? options.title + " - Новости"
+              : t("Новости")
+          }
+          description={
+            options?.seo?.blogs?.description
+              ? options.seo.blogs.description
+              : t("Узнайте свежие новости о нашей службе доставки, новых ресторанах, акциях и специальных предложениях.")
+          }
+        />
+        <Empty
+          text={t("Новостей нет")}
+          image={() => <EmptyCatalog />}
+          button={
+            <Link className="btn-primary" to="/">
+              {t("Перейти на главную")}
+            </Link>
+          }
+        />
+      </>
     );
   }
 
   return (
     <main className="inner">
       <Meta
-        title={`${
-          selectedAffiliate?.title ? selectedAffiliate?.title : options?.title
-        } — ${t("Новости")}`}
-        description={`${
-          selectedAffiliate?.title ? selectedAffiliate?.title : options?.title
-        } — ${t("Новости")}`}
+        title={
+          options?.seo?.blogs?.title
+            ? options.seo.blogs.title
+            : selectedAffiliate?.title
+            ? selectedAffiliate?.title + " - Новости"
+            : options?.title
+            ? options.title + " - Новости"
+            : t("Новости")
+        }
+        description={
+          options?.seo?.blogs?.description
+            ? options.seo.blogs.description
+            : t("Следите каждый день за новостями в нашей ленте.")
+        }
       />
       <Container>
         <section className="sec-6 pt-4 pt-lg-0 mb-5">

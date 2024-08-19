@@ -176,7 +176,24 @@ const Cart = () => {
   if (!Array.isArray(cart) || cart.length <= 0) {
     return (
       <>
-        <Meta title="Корзина" />
+        <Meta
+          title={
+            options?.seo?.cart?.title
+              ? options.seo.cart.title
+              : selectedAffiliate?.title
+              ? selectedAffiliate?.title + " - Корзина"
+              : options?.title
+              ? options.title + " - Корзина"
+              : t("Корзина")
+          }
+          description={
+            options?.seo?.cart?.description
+              ? options.seo.cart.description
+              : t(
+                  "Оформить заказ легко и удобно. Просмотрите свою корзину, добавьте или удалите блюда, и сделайте заказ в несколько кликов."
+                )
+          }
+        />
         <Empty
           text={t("Корзина пуста")}
           desc={t("Перейдите к меню, чтобы сделать первый заказ")}
@@ -197,7 +214,24 @@ const Cart = () => {
 
   return (
     <main>
-      <Meta title={t("Корзина")} />
+      <Meta
+        title={
+          options?.seo?.cart?.title
+            ? options.seo.cart.title
+            : selectedAffiliate?.title
+            ? selectedAffiliate?.title + " - Корзина"
+            : options?.title
+            ? options.title + " - Корзина"
+            : t("Корзина")
+        }
+        description={
+          options?.seo?.cart?.description
+            ? options.seo.cart.description
+            : t(
+                "Оформить заказ легко и удобно. Просмотрите свою корзину, добавьте или удалите блюда, и сделайте заказ в несколько кликов."
+              )
+        }
+      />
       <Container>
         <NavTop breadcrumbs={false} />
         <div className="cart">

@@ -9,8 +9,10 @@ import Offer from "../components/Offer";
 import EmptySale from "../components/empty/sale";
 import Loader from "../components/utils/Loader";
 import { useGetSalesQuery } from "../services/home";
+import { useTranslation } from "react-i18next";
 
 const Promo = () => {
+  const {t} = useTranslation()
   const sales = useGetSalesQuery();
   const selectedAffiliate = useSelector((state) => state.affiliate.active);
   const options = useSelector((state) => state.settings.options);
@@ -21,33 +23,63 @@ const Promo = () => {
 
   if (!Array.isArray(sales.data.items) || sales.data.items.length <= 0) {
     return (
-      <Empty
-        text="Нет акций"
-        desc="Временно акции отсуствуют"
-        image={() => <EmptySale />}
-        button={
-          <a
-            className="btn-primary"
-            onClick={() => {
-              location.reload();
-              return false;
-            }}
-          >
-            Обновить страницу
-          </a>
-        }
-      />
+      <>
+        <Meta
+          title={
+            options?.seo?.sales?.title
+              ? options.seo.sales.title
+              : selectedAffiliate?.title
+              ? selectedAffiliate?.title + " - Акции"
+              : options?.title
+              ? options.title + " - Акции"
+              : t("Акции")
+          }
+          description={
+            options?.seo?.sales?.description
+              ? options.seo.sales.description
+              : t(
+                  "Закажите любимую еду со скидкой! У нас всегда действуют выгодные акции и специальные предложения."
+                )
+          }
+        />
+        <Empty
+          text="Нет акций"
+          desc="Временно акции отсуствуют"
+          image={() => <EmptySale />}
+          button={
+            <a
+              className="btn-primary"
+              onClick={() => {
+                location.reload();
+                return false;
+              }}
+            >
+              Обновить страницу
+            </a>
+          }
+        />
+      </>
     );
   }
   return (
     <main>
       <Meta
-        title={`${
-          selectedAffiliate?.title ? selectedAffiliate?.title : options?.title
-        } — Акции`}
-        description={`${
-          selectedAffiliate?.title ? selectedAffiliate?.title : options?.title
-        } — Акции`}
+        title={
+          options?.seo?.sale?.title
+            ? options.seo.sale.title
+            : selectedAffiliate?.title
+            ? selectedAffiliate?.title + " - Акции"
+            : options?.title
+            ? options.title + " - Акции"
+            : t("Акции")
+        }
+        description={
+          options?.seo?.sale?.description
+            ? options.seo.sale.description
+            : t(
+                "Закажите любимую еду со скидкой! У нас всегда действуют выгодные акции и специальные предложения.  "
+              )
+        }
       />
       <section className="sec-6 pt-4 pt-lg-0 mb-5">
         <Container>

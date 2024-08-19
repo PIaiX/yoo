@@ -28,34 +28,64 @@ const Contact = () => {
 
   if (!mainAffiliate) {
     return (
-      <Empty
-        text={t("В данный момент контактов нет")}
-        desc={t("Вернитесь на эту страницу чуть позже")}
-        image={() => <EmptyWork />}
-        button={
-          <a
-            className="btn-primary"
-            onClick={() => {
-              location.reload();
-              return false;
-            }}
-          >
-            {t("Обновить страницу")}
-          </a>
-        }
-      />
+      <>
+        <Meta
+          title={
+            options?.seo?.contact?.title
+              ? options.seo.contact.title
+              : selectedAffiliate?.title
+              ? selectedAffiliate?.title + " - Контакты"
+              : options?.title
+              ? options.title + " - Контакты"
+              : t("Контакты")
+          }
+          description={
+            options?.seo?.contact?.description
+              ? options.seo.contact.description
+              : t(
+                  "Хотите связаться с нами? Найдите все необходимые контактные данные, чтобы задать вопрос или оставить отзыв о нашей службе доставки еды."
+                )
+          }
+        />
+        <Empty
+          text={t("В данный момент контактов нет")}
+          desc={t("Вернитесь на эту страницу чуть позже")}
+          image={() => <EmptyWork />}
+          button={
+            <a
+              className="btn-primary"
+              onClick={() => {
+                location.reload();
+                return false;
+              }}
+            >
+              {t("Обновить страницу")}
+            </a>
+          }
+        />
+      </>
     );
   }
 
   return (
     <main>
       <Meta
-        title={`${
-          selectedAffiliate?.title ? selectedAffiliate?.title : options?.title
-        } — ${t("Контакты")}`}
-        description={`${
-          selectedAffiliate?.title ? selectedAffiliate?.title : options?.title
-        } — ${t("Контакты")}`}
+        title={
+          options?.seo?.contact?.title
+            ? options.seo.contact.title
+            : selectedAffiliate?.title
+            ? selectedAffiliate?.title + " - Контакты"
+            : options?.title
+            ? options.title + " - Контакты"
+            : t("Контакты")
+        }
+        description={
+          options?.seo?.contact?.description
+            ? options.seo.contact.description
+            : t(
+                "Хотите связаться с нами? Найдите все необходимые контактные данные, чтобы задать вопрос или оставить отзыв о нашей службе доставки еды."
+              )
+        }
       />
       <section className="sec-7 mb-5">
         <Container>

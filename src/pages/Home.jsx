@@ -32,22 +32,19 @@ const Home = () => {
   return (
     <main className="mt-0 pt-0">
       <Meta
-        title={`${
-          selectedAffiliate?.title
-            ? selectedAffiliate?.title
+        title={
+          options?.seo?.home?.title
+            ? options.seo.home.title
+            : selectedAffiliate?.title
+            ? selectedAffiliate?.title + " - доставка еды на дом, офис"
             : options?.title
-            ? options?.title
+            ? options.title + " - доставка еды на дом, офис"
             : t("Главная")
-        } — доставка еды на дом, офис`}
+        }
         description={
-          options?.description ??
-          `Быстрая доставка еды ${
-            selectedAffiliate?.title
-              ? selectedAffiliate?.title
-              : options?.title
-              ? options?.title
-              : t("Главная")
-          }. Заказывайте прямо сейчас.`
+          options?.seo?.home?.description
+            ? options.seo.home.description
+            : t("Закажите еду онлайн с доставкой! Широкий выбор вкусных блюд, удобный поиск и быстрая доставка.")
         }
       />
 

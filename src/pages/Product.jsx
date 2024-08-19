@@ -179,10 +179,10 @@ const Product = () => {
       <Meta
         title={`${
           selectedAffiliate?.title ? selectedAffiliate?.title : title
-        } — ${product?.item?.title}`}
+        } - ${product?.item?.title}`}
         description={`${
           selectedAffiliate?.title ? selectedAffiliate?.title : title
-        } — ${product?.item?.title}`}
+        } - ${product?.item?.title}`}
         image={
           product?.item?.medias[0]?.media
             ? getImageURL({
