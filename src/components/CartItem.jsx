@@ -18,19 +18,19 @@ const CartItem = memo(({ data }) => {
   const [open, setOpen] = useState({ additions: false, wishes: false });
 
   return (
-    <div className="cart-item" key={data.id}>
+    <div
+      className={
+        "cart-item " +
+        (!data?.cart?.data?.additions &&
+        !data?.cart?.data?.modifiers &&
+        !data?.cart?.data?.wishes
+          ? "mini-cart-item"
+          : "")
+      }
+      key={data.id}
+    >
       <div className="left">
-        <img
-          src={getImageURL({ path: data.medias })}
-          alt={data.title}
-          className={
-            !data?.cart?.data?.additions &&
-            !data?.cart?.data?.modifiers &&
-            !data?.cart?.data?.wishes
-              ? "mini-img-cart-item"
-              : ""
-          }
-        />
+        <img src={getImageURL({ path: data.medias })} alt={data.title} />
         <div className="text">
           <h6>{data.title}</h6>
           {data?.energy?.weight > 0 && (

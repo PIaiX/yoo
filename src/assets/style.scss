@@ -3435,11 +3435,6 @@ main {
       object-fit: cover;
       border-radius: $radius;
       margin-right: 1em;
-      &.mini-img-cart-item {
-        width: 60px !important;
-        height: 60px !important;
-        border-radius: $radius-sm;
-      }
     }
     &-ingredients {
       padding-top: 0.25em;
@@ -3472,6 +3467,11 @@ main {
           margin-right: 0.5em;
         }
       }
+    }
+
+    &.mini-cart-item .left,
+    &.mini-cart-item {
+      align-items: center !important;
     }
   }
   &-box {

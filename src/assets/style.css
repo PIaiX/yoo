@@ -3841,11 +3841,6 @@ main {
   border-radius: 1.25em;
   margin-right: 1em;
 }
-.cart-item img.mini-img-cart-item {
-  width: 60px !important;
-  height: 60px !important;
-  border-radius: 0.9em;
-}
 .cart-item-ingredients {
   padding-top: 0.25em;
   list-style: none;
@@ -3875,6 +3870,9 @@ main {
   font-weight: 600;
   color: #e01e00;
   margin-right: 0.5em;
+}
+.cart-item.mini-cart-item .left, .cart-item.mini-cart-item {
+  align-items: center !important;
 }
 .cart-box {
   background-color: var(--bg-second);
