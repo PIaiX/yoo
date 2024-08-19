@@ -24,7 +24,12 @@ import Tags from "../components/Tags";
 import Loader from "../components/utils/Loader";
 import NavTop from "../components/utils/NavTop";
 import Select from "../components/utils/Select";
-import { customPrice, customWeight, getImageURL } from "../helpers/all";
+import {
+  customPrice,
+  customWeight,
+  generateSeoText,
+  getImageURL,
+} from "../helpers/all";
 import { getProduct } from "../services/product";
 import { useTranslation } from "react-i18next";
 
@@ -47,8 +52,8 @@ const groupByCategoryIdToArray = (modifiers) => {
 const Product = () => {
   const { t } = useTranslation();
   const { productId } = useParams();
-  const multiBrand = useSelector((state) => state.settings.options.multiBrand);
-  const title = useSelector((state) => state.settings.options?.title);
+
+  const options = useSelector((state) => state.settings.options);
   const selectedAffiliate = useSelector((state) => state.affiliate.active);
   const [isRemove, setIsRemove] = useState(false);
 
@@ -80,7 +85,7 @@ const Product = () => {
     getProduct({
       id: productId,
       affiliateId: selectedAffiliate?.id ?? false,
-      view: multiBrand,
+      view: options?.multiBrand,
       type: "site",
     })
       .then((res) => {
@@ -177,12 +182,31 @@ const Product = () => {
   return (
     <main>
       <Meta
-        title={`${
-          selectedAffiliate?.title ? selectedAffiliate?.title : title
-        } - ${product?.item?.title}`}
-        description={`${
-          selectedAffiliate?.title ? selectedAffiliate?.title : title
-        } - ${product?.item?.title}`}
+        title={
+          options?.seo?.product?.title && product?.item?.title
+            ? generateSeoText({
+                text: options.seo.product.title,
+                name: product.item.title,
+                site: options?.title,
+              })
+            : selectedAffiliate?.title && product?.item?.title
+            ? selectedAffiliate?.title + " - " + product.item.title
+            : options?.title && product?.item?.title
+            ? options.title + " - " + product.item.title
+            : product?.item?.title ?? t("Товар")
+        }
+        description={
+          options?.seo?.product?.description
+            ? generateSeoText({
+                text: options.seo.product.description,
+                name: product.item.title,
+                site: options?.title,
+              })
+            : product.item?.description ??
+              t(
+                "Добавьте это блюдо в корзину и наслаждайтесь вкусной едой прямо сейчас!"
+              )
+        }
         image={
           product?.item?.medias[0]?.media
             ? getImageURL({

@@ -10,11 +10,11 @@ import Meta from "../components/Meta";
 import Loader from "../components/utils/Loader";
 import NavTop from "../components/utils/NavTop";
 import { getCategory } from "../services/category";
+import { generateSeoText, getImageURL } from "../helpers/all";
 
 const Category = () => {
   const { categoryId } = useParams();
-  const multiBrand = useSelector((state) => state.settings.options.multiBrand);
-  const title = useSelector((state) => state.settings.options?.title);
+  const options = useSelector((state) => state.settings.options);
   const selectedAffiliate = useSelector((state) => state.affiliate.active);
   const { t } = useTranslation();
 
@@ -27,7 +27,7 @@ const Category = () => {
     getCategory({
       id: categoryId,
       affiliateId: selectedAffiliate?.id ?? false,
-      view: multiBrand,
+      view: options?.multiBrand,
       type: "site",
     })
       .then((res) => setCategory({ loading: false, item: res }))
@@ -63,12 +63,40 @@ const Category = () => {
   return (
     <main>
       <Meta
-        title={`${
-          selectedAffiliate?.title ? selectedAffiliate?.title : title
-        } - ${category.item.title}`}
-        description={`${
-          selectedAffiliate?.title ? selectedAffiliate?.title : title
-        } - ${category.item.title}`}
+        title={
+          options?.seo?.category?.title && category?.item?.title
+            ? generateSeoText({
+                text: options.seo.category.title,
+                name: category.item.title,
+                site: options?.title,
+              })
+            : selectedAffiliate?.title && category?.item?.title
+            ? selectedAffiliate?.title + " - " + category.item.title
+            : options?.title && category?.item?.title
+            ? options.title + " - " + category.item.title
+            : category?.item?.title ?? t("Категория")
+        }
+        description={
+          options?.seo?.category?.description
+            ? generateSeoText({
+                text: options.seo.category.description,
+                name: category.item.title,
+                site: options?.title,
+              })
+            : category.item?.description ??
+              t(
+                "Добавьте блюдо из этой категории в корзину и наслаждайтесь вкусной едой прямо сейчас!"
+              )
+        }
+        image={
+          category?.item?.media
+            ? getImageURL({
+                path: category.item.media,
+                size: "full",
+                type: "category",
+              })
+            : false
+        }
       />
       <section className="container">
         <NavTop breadcrumbs={false} />

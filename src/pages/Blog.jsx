@@ -11,10 +11,13 @@ import Loader from "../components/utils/Loader";
 import { getImageURL } from "../helpers/all";
 import { getBlog } from "../services/blog";
 import Meta from "../components/Meta";
+import { useSelector } from "react-redux";
 
 const Blog = () => {
   const { blogId } = useParams();
   const [blog, setBlog] = useState({ loading: true });
+  const options = useSelector((state) => state.settings.options);
+  const selectedAffiliate = useSelector((state) => state.affiliate.active);
 
   useEffect(() => {
     getBlog(blogId)
@@ -42,7 +45,42 @@ const Blog = () => {
   }
   return (
     <main>
-      <Meta title={blog.title} description={blog.content} />
+      <Meta
+        title={
+          options?.seo?.blog?.title && blog?.title
+            ? generateSeoText({
+                text: options.seo.blog.title,
+                name: blog.title,
+                site: options?.title,
+              })
+            : selectedAffiliate?.title && blog?.title
+            ? selectedAffiliate?.title + " - " + blog.title
+            : options?.title && blog?.title
+            ? options.title + " - " + blog.title
+            : blog?.title ?? t("Новость")
+        }
+        description={
+          options?.seo?.blog?.description
+            ? generateSeoText({
+                text: options.seo.blog.description,
+                name: blog.content,
+                site: options?.title,
+              })
+            : blog?.content ??
+              t(
+                "Узнайте свежие новости о нашей службе доставки, новых ресторанах, акциях и специальных предложениях."
+              )
+        }
+        image={
+          blog?.media
+            ? getImageURL({
+                path: blog.media,
+                size: "full",
+                type: "blog",
+              })
+            : false
+        }
+      />
       <Container>
         <section className="article-page pt-4 pt-lg-0 mb-6">
           <div className="position-relative">

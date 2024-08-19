@@ -7,15 +7,17 @@ import { useParams } from "react-router-dom";
 import Empty from "../components/Empty";
 import EmptyCatalog from "../components/empty/catalog";
 import Loader from "../components/utils/Loader";
-import { getImageURL } from "../helpers/all";
+import { generateSeoText, getImageURL } from "../helpers/all";
 import { getSale } from "../services/sales";
 import Meta from "../components/Meta";
 import { useTranslation } from "react-i18next";
+import { useSelector } from "react-redux";
 
 const OfferPage = () => {
   const { saleId } = useParams();
   const { t } = useTranslation();
-
+  const options = useSelector((state) => state.settings.options);
+  const selectedAffiliate = useSelector((state) => state.affiliate.active);
   const [sale, setSale] = useState({
     loading: true,
     data: {},
@@ -54,7 +56,42 @@ const OfferPage = () => {
 
   return (
     <main>
-      <Meta title={sale.data.title} description={sale.data.desc} />
+      <Meta
+        title={
+          options?.seo?.sale?.title && sale.data?.title
+            ? generateSeoText({
+                text: options.seo.sale.title,
+                name: sale.data.title,
+                site: options?.title,
+              })
+            : selectedAffiliate?.title && sale.data?.title
+            ? selectedAffiliate?.title + " - " + sale.data.title
+            : options?.title && sale.data?.title
+            ? options.title + " - " + sale.data.title
+            : sale.data?.title ?? t("Акция")
+        }
+        description={
+          options?.seo?.sale?.description
+            ? generateSeoText({
+                text: options.seo.sale.description,
+                name: sale.data.desc,
+                site: options?.title,
+              })
+            : sale.data?.desc ??
+              t(
+                "Успейте воспользоваться выгодным предложением и насладитесь вкусной едой по доступной цене."
+              )
+        }
+        image={
+          sale.data?.media
+            ? getImageURL({
+                path: sale.data.medias,
+                type: "sale",
+                size: "full",
+              })
+            : false
+        }
+      />
       <section className="sec-6 pt-4 pt-lg-0 mb-5">
         <Container>
           <Row className="flex-row justify-content-center">

@@ -239,8 +239,20 @@ const getLang = (value) => {
   let lang = localeData.find((e) => e.lang.includes(value ?? "ru"));
   return lang?.title;
 };
-
+const generateSeoText = ({ text, name, site }) => {
+  const regexName = /\{\{name\}\}/;
+  const regexSite = /\{\{site\}\}/;
+  var replacedName = text.replace(/<[^>]+>/g, "").slice(0, 160);
+  if (name) {
+    replacedName = replacedName.replace(regexName, name);
+  }
+  if (site) {
+    replacedName = replacedName.replace(regexSite, site);
+  }
+  return replacedName;
+}
 export {
+  generateSeoText,
   setCssColor,
   customPrice,
   getImageURL,
