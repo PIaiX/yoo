@@ -20,7 +20,7 @@ import Phone from "../assets/imgs/phone.png";
 import { DADATA_TOKEN, DADATA_URL_GEO } from "../config/api";
 import { getCount, getImageURL } from "../helpers/all";
 import { isWork } from "../hooks/all";
-import { useGetBannersQuery } from "../services/home";
+import { homeApi } from "../services/home";
 import {
   mainAffiliateEdit,
   updateAffiliate,
@@ -54,7 +54,10 @@ const Header = memo(() => {
   const selectedAffiliate = useSelector((state) => state.affiliate.active);
   const options = useSelector((state) => state.settings.options);
   const delivery = useSelector((state) => state.checkout.delivery);
-  const banners = useGetBannersQuery();
+  const banners = useSelector(
+    (state) => homeApi.endpoints.getBanners.select()(state).data?.items
+  );
+
   const dispatch = useDispatch();
   const [showMenu, setShowMenu] = useState(false);
   const [showApp, setShowApp] = useState(false);
@@ -390,10 +393,10 @@ const Header = memo(() => {
       >
         <Offcanvas.Body>
           <Container className="h-100">
-            {banners?.data?.items?.length > 0 && (
+            {banners?.length > 0 && (
               <img
                 src={getImageURL({
-                  path: banners.data.items[0].medias,
+                  path: banners[0].medias,
                   type: "banner",
                   size: "full",
                 })}

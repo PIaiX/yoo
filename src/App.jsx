@@ -16,14 +16,14 @@ import socket from "./config/socket";
 import { convertColor, getImageURL, setCssColor } from "./helpers/all";
 import AppRouter from "./routes/AppRouter";
 import { checkAuth, logout } from "./services/auth";
-import { getFavorites } from "./services/favorite";
+// import { getFavorites } from "./services/favorite";
 import { getOptions } from "./services/option";
 import { getDelivery } from "./services/order";
 import { updateAddresses } from "./store/reducers/addressSlice";
 import {
   updateAffiliate,
   updateCities,
-  updateTable,
+  // updateTable,
   updateZone,
 } from "./store/reducers/affiliateSlice";
 import { setAuth, setUser } from "./store/reducers/authSlice";
@@ -179,7 +179,7 @@ function App() {
 
                 dispatch(updateAddresses(data?.addresses ?? []));
 
-                dispatch(getFavorites());
+                // dispatch(getFavorites());
               })
               .catch((err) => {
                 err?.response?.status === 404 && dispatch(logout());
