@@ -96,22 +96,12 @@ function App() {
       await axios
         .get("https://ip.yooapp.ru")
         .then(({ data }) => data?.ip && dispatch(updateIp(data.ip)));
+
       await getOptions()
         .then(async (res) => {
           if (res?.options) {
-            if (res?.options?.lang) {
-              i18n.changeLanguage(res.options.lang);
-              moment.locale(res.options.lang);
-            }
-            if (res.options && delivery) {
-              if (delivery == "delivery" && !res.options?.delivery?.status) {
-                dispatch(editDeliveryCheckout("pickup"));
-              } else if (delivery == "pickup" && !res.options?.pickup?.status) {
-                dispatch(editDeliveryCheckout("hall"));
-              }
-            }
-            dispatch(updateOptions({ options: res.options, token: res.token }));
             updateColor(res.options);
+
             if (res.options.favicon) {
               updateFavicon(
                 selectedAffiliate?.media
@@ -126,6 +116,29 @@ function App() {
                       size: "full",
                     }
               );
+            }
+
+            if (res?.options?.lang) {
+              i18n.changeLanguage(res.options.lang);
+              moment.locale(res.options.lang);
+            }
+
+            dispatch(updateOptions({ options: res.options, token: res.token }));
+
+            const availableDeliveryTypes = [
+              ...(res.options?.delivery?.status ? ["delivery"] : []),
+              ...(res.options?.pickup?.status ? ["pickup"] : []),
+              ...(res.options?.hall?.status ? ["hall"] : []),
+            ];
+
+            if (
+              availableDeliveryTypes.length > 0 &&
+              availableDeliveryTypes.includes(delivery)
+            ) {
+              // Если выбранный тип доступен, ничего не делаем
+            } else {
+              // Если выбранный тип недоступен, обновляем delivery
+              dispatch(editDeliveryCheckout(availableDeliveryTypes[0]));
             }
           }
 

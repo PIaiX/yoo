@@ -69,6 +69,7 @@ const Header = memo(() => {
   const [searchInput, setSearchInput] = useState("");
   const [search, setSearch] = useState();
   const [isPending, startTransition] = useTransition();
+
   const deliveryArray = [
     ...(options?.delivery?.status
       ? [{ title: t("Доставка"), value: "delivery" }]
