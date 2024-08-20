@@ -17,7 +17,7 @@ const DeliveryBar = () => {
     return null;
   }
 
-  if (isMobileLG) {
+  if (isMobileLG && totalNoDelivery < zone?.data?.minPrice) {
     return (
       <div className="freeDeliveryBar">
         <div className="py-2 px-3">
@@ -50,7 +50,7 @@ const DeliveryBar = () => {
         </div>
       </div>
     );
-  } else {
+  } else if (totalNoDelivery < zone?.data?.minPrice) {
     return (
       <div className="freeDeliveryBar">
         <svg
