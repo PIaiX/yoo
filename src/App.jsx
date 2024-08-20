@@ -167,6 +167,9 @@ function App() {
           }
 
           if (auth?.token) {
+            if (!auth?.user?.password || !auth?.user?.brandId) {
+              return dispatch(logout());
+            }
             await checkAuth()
               .then((data) => {
                 dispatch(setAuth(true));
