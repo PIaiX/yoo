@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Container from "react-bootstrap/Container";
 import { useSelector } from "react-redux";
 import AppStore from "../assets/imgs/appstore-black.svg";
@@ -10,7 +10,7 @@ import Meta from "../components/Meta";
 import Widgets from "../components/Widgets";
 import EmptyCatalog from "../components/empty/catalog";
 import Loader from "../components/utils/Loader";
-import { useGetHomeQuery } from "../services/home";
+import { useGetHomeQuery, useUpdateHomeMutation } from "../services/home";
 import { useTranslation } from "react-i18next";
 
 const Home = () => {
@@ -19,13 +19,32 @@ const Home = () => {
   const options = useSelector((state) => state.settings.options);
   const selectedAffiliate = useSelector((state) => state.affiliate.active);
 
-  const home = useGetHomeQuery({
+  const { refetch, data, isLoading } = useGetHomeQuery({
     affiliateId: selectedAffiliate?.id ?? false,
     multiBrand: options?.multiBrand,
-    type: "site",
+    type: "app",
   });
+  const [updateHome] = useUpdateHomeMutation();
 
-  if (home?.isLoading) {
+  const updateDataCatalog = async () => {
+    try {
+      const result = await updateHome({
+        affiliateId: selectedAffiliate?.id ?? false,
+        multiBrand: options?.multiBrand,
+        type: "app",
+      });
+
+      console.log(result)
+
+      refetch();
+    } catch (error) {}
+  };
+
+  useEffect(() => {
+    updateDataCatalog();
+  }, []);
+
+  if (isLoading) {
     return <Loader full />;
   }
 
@@ -44,14 +63,16 @@ const Home = () => {
         description={
           options?.seo?.home?.description
             ? options.seo.home.description
-            : t("Закажите еду онлайн с доставкой! Широкий выбор вкусных блюд, удобный поиск и быстрая доставка.")
+            : t(
+                "Закажите еду онлайн с доставкой! Широкий выбор вкусных блюд, удобный поиск и быстрая доставка."
+              )
         }
       />
 
-      {home?.data?.widgets?.length > 0 ? (
-        <Widgets data={home.data.widgets} />
-      ) : home?.data?.categories?.length > 0 ? (
-        <Catalog data={home.data.categories} />
+      {data?.widgets?.length > 0 ? (
+        <Widgets data={data.widgets} />
+      ) : data?.categories?.length > 0 ? (
+        <Catalog data={data.categories} />
       ) : (
         <Empty
           text={t("Сайт пуст")}

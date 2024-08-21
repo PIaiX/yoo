@@ -7,15 +7,50 @@ export const homeApi = createApi({
   baseQuery: $api,
   refetchOnReconnect: true,
   refetchOnMountOrArgChange: true,
-  keepUnusedDataFor: 350,
+  tagTypes: ["Categories", "Widgets"],
   endpoints: (build) => ({
     getHome: build.query({
       query: (params) => {
         return {
           url: apiRoutes.HOME,
-          params
-        }
+          params,
+        };
       },
+      providesTags: (result) => {
+        if (result) {
+          return [
+            ...result.categories.map((category) => ({
+              type: "Categories",
+              id: category.id,
+            })),
+            ...result.widgets.map((widget) => {
+              if (widget.value === "banners") {
+                return widget.items.map((item) => ({
+                  type: "Banners",
+                  id: item.id,
+                }));
+              } else if (widget.value === "stories") {
+                return widget.items.map((item) => ({
+                  type: "Stories",
+                  id: item.id,
+                }));
+              }
+
+              return [{ type: "Widgets", id: widget.value }];
+            }),
+          ];
+        }
+        return ["Categories", "Widgets"];
+      },
+    }),
+    updateHome: build.mutation({
+      query: (params) => {
+        return {
+          url: apiRoutes.HOME,
+          params,
+        };
+      },
+      invalidatesTags: ["Categories", "Widgets"],
     }),
     getBanners: build.query({
       query: () => apiRoutes.BANNERS,
@@ -24,8 +59,8 @@ export const homeApi = createApi({
       query: (params) => {
         return {
           url: apiRoutes.CATEGORY_ALL,
-          params
-        }
+          params,
+        };
       },
     }),
     getSales: build.query({
@@ -43,4 +78,5 @@ export const {
   useGetBannersQuery,
   useGetStoriesQuery,
   useGetHomeQuery,
+  useUpdateHomeMutation,
 } = homeApi;
