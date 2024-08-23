@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import moment from "moment";
 
 const initialState = {
   isConnected: true,
@@ -30,6 +31,7 @@ const initialState = {
     productEnergyVisible: true,
   },
   filter: [],
+  updateTime: false,
 };
 
 const settingsSlice = createSlice({
@@ -41,9 +43,10 @@ const settingsSlice = createSlice({
     },
     updateOptions: (state, action) => {
       return {
-        ...state, 
-        options: { ...(action.payload?.options ?? initialState.options) }, 
-        token: action.payload?.token, 
+        ...state,
+        updateTime: moment(),
+        options: { ...(action.payload?.options ?? initialState.options) },
+        token: action.payload?.token,
       };
     },
     updateIp: (state, action) => {

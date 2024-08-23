@@ -1,3 +1,4 @@
+import moment from "moment";
 import { FILE_URL } from "../config/api";
 
 const customPrice = (value, currency = true) => {
@@ -250,8 +251,20 @@ const generateSeoText = ({ text, name, site }) => {
     replacedName = replacedName.replace(regexSite, site);
   }
   return replacedName;
-}
+};
+const isUpdateTime = (dateTime) => {
+  if (!dateTime) {
+    return true;
+  }
+  const targetDateTime = moment(dateTime);
+  const now = moment();
+
+  const timeDifference = now.diff(targetDateTime, "minutes");
+
+  return timeDifference >= 1;
+};
 export {
+  isUpdateTime,
   generateSeoText,
   setCssColor,
   customPrice,

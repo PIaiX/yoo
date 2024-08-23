@@ -20,7 +20,6 @@ import Phone from "../assets/imgs/phone.png";
 import { DADATA_TOKEN, DADATA_URL_GEO } from "../config/api";
 import { getCount, getImageURL } from "../helpers/all";
 import { isWork } from "../hooks/all";
-import { homeApi } from "../services/home";
 import {
   mainAffiliateEdit,
   updateAffiliate,
@@ -54,9 +53,6 @@ const Header = memo(() => {
   const selectedAffiliate = useSelector((state) => state.affiliate.active);
   const options = useSelector((state) => state.settings.options);
   const delivery = useSelector((state) => state.checkout.delivery);
-  const banners = useSelector(
-    (state) => homeApi.endpoints.getBanners.select()(state).data?.items
-  );
 
   const dispatch = useDispatch();
   const [showMenu, setShowMenu] = useState(false);
@@ -243,14 +239,16 @@ const Header = memo(() => {
                     </div>
                   )}
                 </li>
-                <li className="d-none d-sm-inline-flex">
-                  <Select
-                    className="fw-5"
-                    data={deliveryArray}
-                    value={delivery}
-                    onClick={(e) => dispatch(editDeliveryCheckout(e.value))}
-                  />
-                </li>
+                {deliveryArray?.length > 0 && (
+                  <li className="d-none d-sm-inline-flex">
+                    <Select
+                      className="fw-5"
+                      data={deliveryArray}
+                      value={delivery}
+                      onClick={(e) => dispatch(editDeliveryCheckout(e.value))}
+                    />
+                  </li>
+                )}
               </ul>
             </div>
             <ul className="text-menu d-none d-lg-flex">
@@ -394,7 +392,7 @@ const Header = memo(() => {
       >
         <Offcanvas.Body>
           <Container className="h-100">
-            {banners?.length > 0 && (
+            {/* {banners?.length > 0 && (
               <img
                 src={getImageURL({
                   path: banners[0].medias,
@@ -403,7 +401,7 @@ const Header = memo(() => {
                 })}
                 className="menu-offer"
               />
-            )}
+            )} */}
             <Select
               className="my-3"
               data={deliveryArray}

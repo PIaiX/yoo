@@ -13,7 +13,12 @@ import "./assets/style.min.css";
 import Loader from "./components/utils/Loader";
 import YandexMetrika from "./components/YandexMetrika";
 import socket from "./config/socket";
-import { convertColor, getImageURL, setCssColor } from "./helpers/all";
+import {
+  convertColor,
+  getImageURL,
+  isUpdateTime,
+  setCssColor,
+} from "./helpers/all";
 import AppRouter from "./routes/AppRouter";
 import { checkAuth, logout } from "./services/auth";
 // import { getFavorites } from "./services/favorite";
@@ -38,6 +43,7 @@ function App() {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
   const options = useSelector((state) => state.settings.options);
+  const updateTime = useSelector((state) => state.settings.updateTime);
   const cart = useSelector((state) => state.cart.items);
   const address = useSelector((state) => state.address.items);
   const selectedAffiliate = useSelector((state) => state.affiliate.active);
@@ -92,117 +98,138 @@ function App() {
 
   useLayoutEffect(() => {
     (async () => {
-      updateColor(options);
-      await axios
-        .get("https://ip.yooapp.ru")
-        .then(({ data }) => data?.ip && dispatch(updateIp(data.ip)));
+      if (options) {
+        updateColor(options);
+        updateFavicon(
+          selectedAffiliate?.media
+            ? {
+                path: selectedAffiliate?.media,
+                type: "affiliate",
+                size: "full",
+              }
+            : {
+                path: options.favicon,
+                type: "all/web/favicon",
+                size: "full",
+              }
+        );
+      }
+      if (!updateTime || isUpdateTime(updateTime)) {
+        await axios
+          .get("https://ip.yooapp.ru")
+          .then(({ data }) => data?.ip && dispatch(updateIp(data.ip)));
 
-      await getOptions()
-        .then(async (res) => {
-          if (res?.options) {
-            updateColor(res.options);
+        await getOptions()
+          .then(async (res) => {
+            if (res?.options) {
+              updateColor(res.options);
 
-            if (res.options.favicon) {
-              updateFavicon(
-                selectedAffiliate?.media
-                  ? {
-                      path: selectedAffiliate?.media,
-                      type: "affiliate",
-                      size: "full",
-                    }
-                  : {
-                      path: res.options.favicon,
-                      type: "all/web/favicon",
-                      size: "full",
-                    }
+              if (res.options.favicon) {
+                updateFavicon(
+                  selectedAffiliate?.media
+                    ? {
+                        path: selectedAffiliate?.media,
+                        type: "affiliate",
+                        size: "full",
+                      }
+                    : {
+                        path: res.options.favicon,
+                        type: "all/web/favicon",
+                        size: "full",
+                      }
+                );
+              }
+
+              if (res?.options?.lang) {
+                i18n.changeLanguage(res.options.lang);
+                moment.locale(res.options.lang);
+              }
+
+              dispatch(
+                updateOptions({ options: res.options, token: res.token })
+              );
+
+              const availableDeliveryTypes = [
+                ...(res.options?.delivery?.status ? ["delivery"] : []),
+                ...(res.options?.pickup?.status ? ["pickup"] : []),
+                ...(res.options?.hall?.status ? ["hall"] : []),
+              ];
+
+              if (
+                availableDeliveryTypes.length > 0 &&
+                availableDeliveryTypes.includes(delivery)
+              ) {
+                // Если выбранный тип доступен, ничего не делаем
+              } else {
+                // Если выбранный тип недоступен, обновляем delivery
+                dispatch(editDeliveryCheckout(availableDeliveryTypes[0]));
+              }
+            }
+
+            if (res?.cities?.length > 0) {
+              const transformedData = res.cities.map((city) => {
+                const { relationCities, ...rest } = city;
+                return {
+                  ...rest,
+                  affiliates:
+                    relationCities && relationCities.length > 0
+                      ? relationCities.map((relation) => relation.affiliate)
+                      : [],
+                };
+              });
+
+              dispatch(updateCities(transformedData));
+
+              if (
+                transformedData?.length === 1 &&
+                transformedData[0]?.affiliates?.length > 0
+              ) {
+                dispatch(updateAffiliate(transformedData[0].affiliates));
+              }
+            }
+
+            // res?.tables && dispatch(updateTable(res.tables));
+            res?.zones && dispatch(updateZone(res.zones));
+
+            if (res?.statuses?.length > 0) {
+              let statusesMain = res.statuses
+                .filter((e) => e.main)
+                .sort((a, b) => a.order - b.order);
+              let statusesMainNo = res.statuses
+                .filter((e) => !e.main)
+                .sort((a, b) => a.order - b.order);
+              dispatch(
+                updateStatus({ mainYes: statusesMain, mainNo: statusesMainNo })
               );
             }
 
-            if (res?.options?.lang) {
-              i18n.changeLanguage(res.options.lang);
-              moment.locale(res.options.lang);
+            if (auth?.token) {
+              if (!auth?.user?.password || !auth?.user?.brandId) {
+                return dispatch(logout());
+              }
+              await checkAuth()
+                .then((data) => {
+                  dispatch(setAuth(true));
+                  dispatch(setUser(data));
+
+                  if (data?.lang) {
+                    i18n.changeLanguage(data.lang);
+                    moment.locale(data.lang);
+                  }
+
+                  dispatch(updateAddresses(data?.addresses ?? []));
+
+                  // dispatch(getFavorites());
+                })
+                .catch((err) => {
+                  err?.response?.status === 404 && dispatch(logout());
+                });
             }
-
-            dispatch(updateOptions({ options: res.options, token: res.token }));
-
-            const availableDeliveryTypes = [
-              ...(res.options?.delivery?.status ? ["delivery"] : []),
-              ...(res.options?.pickup?.status ? ["pickup"] : []),
-              ...(res.options?.hall?.status ? ["hall"] : []),
-            ];
-
-            if (
-              availableDeliveryTypes.length > 0 &&
-              availableDeliveryTypes.includes(delivery)
-            ) {
-              // Если выбранный тип доступен, ничего не делаем
-            } else {
-              // Если выбранный тип недоступен, обновляем delivery
-              dispatch(editDeliveryCheckout(availableDeliveryTypes[0]));
-            }
-          }
-
-          if (res?.cities?.length > 0) {
-            const transformedData = res.cities.map((city) => {
-              const { relationCities, ...rest } = city;
-              return {
-                ...rest,
-                affiliates:
-                  relationCities && relationCities.length > 0
-                    ? relationCities.map((relation) => relation.affiliate)
-                    : [],
-              };
-            });
-
-            dispatch(updateCities(transformedData));
-
-            if (
-              transformedData?.length === 1 &&
-              transformedData[0]?.affiliates?.length > 0
-            ) {
-              dispatch(updateAffiliate(transformedData[0].affiliates));
-            }
-          }
-
-          // res?.tables && dispatch(updateTable(res.tables));
-          res?.zones && dispatch(updateZone(res.zones));
-
-          if (res?.statuses?.length > 0) {
-            let statusesMain = res.statuses
-              .filter((e) => e.main)
-              .sort((a, b) => a.order - b.order);
-            let statusesMainNo = res.statuses
-              .filter((e) => !e.main)
-              .sort((a, b) => a.order - b.order);
-            dispatch(
-              updateStatus({ mainYes: statusesMain, mainNo: statusesMainNo })
-            );
-          }
-
-          if (auth?.token) {
-            if (!auth?.user?.password || !auth?.user?.brandId) {
-              return dispatch(logout());
-            }
-            await checkAuth()
-              .then((data) => {
-                dispatch(setAuth(true));
-                dispatch(setUser(data));
-
-                if (data?.lang) {
-                  i18n.changeLanguage(data.lang);
-                  moment.locale(data.lang);
-                }
-
-                dispatch(updateAddresses(data?.addresses ?? []));
-
-                // dispatch(getFavorites());
-              })
-              .catch((err) => {
-                err?.response?.status === 404 && dispatch(logout());
-              });
-          }
-        })
-        .finally(() => setLoading(false));
+          })
+          .finally(() => setLoading(false));
+      } else {
+        setLoading(false);
+      }
     })();
   }, []);
 

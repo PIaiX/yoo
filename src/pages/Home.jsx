@@ -1,6 +1,7 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Container from "react-bootstrap/Container";
-import { useSelector } from "react-redux";
+import { useTranslation } from "react-i18next";
+import { useDispatch, useSelector } from "react-redux";
 import AppStore from "../assets/imgs/appstore-black.svg";
 import GooglePlay from "../assets/imgs/googleplay-black.svg";
 import Phone from "../assets/imgs/phone.png";
@@ -10,41 +11,48 @@ import Meta from "../components/Meta";
 import Widgets from "../components/Widgets";
 import EmptyCatalog from "../components/empty/catalog";
 import Loader from "../components/utils/Loader";
-import { useGetHomeQuery, useUpdateHomeMutation } from "../services/home";
-import { useTranslation } from "react-i18next";
+import { isUpdateTime } from "../helpers/all";
+import { getCatalog } from "../services/catalog";
+import { updateCatalog } from "../store/reducers/catalogSlice";
 
 const Home = () => {
   const { t } = useTranslation();
-
+  const [loading, setLoading] = useState(false);
   const options = useSelector((state) => state.settings.options);
   const selectedAffiliate = useSelector((state) => state.affiliate.active);
-
-  const { refetch, data, isLoading } = useGetHomeQuery({
-    affiliateId: selectedAffiliate?.id ?? false,
-    multiBrand: options?.multiBrand,
-    type: "app",
-  });
-  const [updateHome] = useUpdateHomeMutation();
-
-  const updateDataCatalog = async () => {
-    try {
-      const result = await updateHome({
-        affiliateId: selectedAffiliate?.id ?? false,
-        multiBrand: options?.multiBrand,
-        type: "app",
-      });
-
-      console.log(result)
-
-      refetch();
-    } catch (error) {}
-  };
+  const catalog = useSelector((state) => state.catalog);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    updateDataCatalog();
-  }, []);
+    if (
+      isUpdateTime(catalog.updateTime) &&
+      options?.name &&
+      options?.name != "ru.yooapp.app"
+    ) {
+      if (catalog?.widgets?.length === 0 && catalog?.categories?.length === 0) {
+        setLoading(true);
+      }
+      getCatalog({
+        affiliateId: selectedAffiliate?.id ?? false,
+        multiBrand: options?.multiBrand,
+        type: "site",
+      })
+        .then((res) => {
+          dispatch(updateCatalog(res));
+        })
+        .finally(() => {
+          if (
+            (catalog?.widgets?.length === 0 &&
+              catalog?.categories?.length === 0) ||
+            loading
+          ) {
+            setLoading(false);
+          }
+        });
+    }
+  }, [options]);
 
-  if (isLoading) {
+  if (loading) {
     return <Loader full />;
   }
 
@@ -69,10 +77,10 @@ const Home = () => {
         }
       />
 
-      {data?.widgets?.length > 0 ? (
-        <Widgets data={data.widgets} />
-      ) : data?.categories?.length > 0 ? (
-        <Catalog data={data.categories} />
+      {catalog?.widgets?.length > 0 ? (
+        <Widgets data={catalog.widgets} />
+      ) : catalog?.categories?.length > 0 ? (
+        <Catalog data={catalog.categories} />
       ) : (
         <Empty
           text={t("Сайт пуст")}
