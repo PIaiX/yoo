@@ -10,10 +10,11 @@ import { customPrice } from "../helpers/all";
 import moment from "moment";
 import Meta from "../components/Meta";
 import { useTranslation } from "react-i18next";
+import Loader from "../components/utils/Loader";
 
 const Contact = () => {
   const { t } = useTranslation();
-
+  const [loading, setLoading] = useState(true);
   const affiliate = useSelector((state) => state.affiliate.items);
   const colors = ["#f56057", "#007aff", "#222222"];
   const zones = useSelector((state) => state.affiliate.zones);
@@ -95,40 +96,6 @@ const Contact = () => {
                 <div className="d-flex align-items-baseline mb-3">
                   <h1 className="mb-0 h3">{t("Контакты")}</h1>
                 </div>
-
-                {/* <h6 className="mb-3">{mainAffiliate.full}</h6> */}
-                {/* {mainAffiliate?.phone && mainAffiliate?.phone[0] && (
-                  <>
-                    <p className="mb-3">
-                      <a href={"tel:" + mainAffiliate.phone[0]}>
-                        <p className="fs-11 ms-2 main-color">
-                          <HiOutlineDevicePhoneMobile className="fs-15 main-color me-1" />
-                          <span>Горячая линия</span>
-                        </p>
-                        <p className="fs-11 ms-2">{mainAffiliate.phone[0]}</p>
-                      </a>
-                    </p>
-                    <p className="mb-3">
-                      {mainAffiliate?.options?.work &&
-                      mainAffiliate.options.work[moment().weekday()]?.start &&
-                      mainAffiliate.options.work[moment().weekday()]?.end
-                        ? `Работает с ${
-                            mainAffiliate.options.work[moment().weekday()].start
-                          } до ${
-                            mainAffiliate.options.work[moment().weekday()].end
-                          }`
-                        : ""}
-                    </p>
-                    <a
-                      href={"tel:" + mainAffiliate.phone[0]}
-                      type="button"
-                      className="btn-primary"
-                    >
-                      Позвонить
-                    </a>
-                  </>
-                )} */}
-
                 <ul className="list-unstyled pe-3">
                   {affiliate.map((e, index) => (
                     <a
@@ -165,74 +132,76 @@ const Contact = () => {
               </div>
             </Col>
             <Col md={8}>
-              {mainAffiliate?.options?.coordinates?.lat &&
-                mainAffiliate?.options?.coordinates?.lon && (
-                  <YMaps>
-                    <Map
-                      className="map"
-                      state={{
-                        center: [
-                          mainAffiliate.options.coordinates.lat,
-                          mainAffiliate.options.coordinates.lon,
-                        ],
-                        zoom: 12,
-                      }}
-                      width="100%"
-                      height="100%"
-                      modules={["geoObject.addon.balloon"]}
-                    >
-                      {affiliate?.length > 0 &&
-                        affiliate.map(
-                          (e) =>
-                            e?.options?.coordinates?.lat &&
-                            e?.options?.coordinates?.lon && (
-                              <Placemark
-                                options={
-                                  mainAffiliate.id === e.id
-                                    ? {
-                                        iconLayout: "default#image",
-                                        iconImageHref: "imgs/marker.png",
-                                        iconImageSize: [38, 54],
-                                      }
-                                    : {
-                                        iconLayout: "default#image",
-                                        iconImageHref: "imgs/marker-gray.png",
-                                        iconImageSize: [38, 54],
-                                      }
-                                }
-                                geometry={[
-                                  e.options.coordinates.lat,
-                                  e.options.coordinates.lon,
-                                ]}
-                              />
-                            )
-                        )}
+              <div className="map">
+                {loading && <Loader />}
+                {mainAffiliate?.options?.coordinates?.lat &&
+                  mainAffiliate?.options?.coordinates?.lon && (
+                    <YMaps>
+                      <Map
+                        onLoad={() => setLoading(false)}
+                        state={{
+                          center: [
+                            mainAffiliate.options.coordinates.lat,
+                            mainAffiliate.options.coordinates.lon,
+                          ],
+                          zoom: 12,
+                        }}
+                        width="100%"
+                        height="100%"
+                        modules={["geoObject.addon.balloon"]}
+                      >
+                        {affiliate?.length > 0 &&
+                          affiliate.map(
+                            (e) =>
+                              e?.options?.coordinates?.lat &&
+                              e?.options?.coordinates?.lon && (
+                                <Placemark
+                                  options={
+                                    mainAffiliate.id === e.id
+                                      ? {
+                                          iconLayout: "default#image",
+                                          iconImageHref: "imgs/marker.png",
+                                          iconImageSize: [38, 54],
+                                        }
+                                      : {
+                                          iconLayout: "default#image",
+                                          iconImageHref: "imgs/marker-gray.png",
+                                          iconImageSize: [38, 54],
+                                        }
+                                  }
+                                  geometry={[
+                                    e.options.coordinates.lat,
+                                    e.options.coordinates.lon,
+                                  ]}
+                                />
+                              )
+                          )}
 
-                      {zones?.length > 0 &&
-                        zones.map((e) => {
-                          const geodata =
-                            e.data.length > 0
-                              ? e.data.map((geo) => [geo[1], geo[0]])
-                              : false;
+                        {zones?.length > 0 &&
+                          zones.map((e) => {
+                            const geodata =
+                              e.data.length > 0
+                                ? e.data.map((geo) => [geo[1], geo[0]])
+                                : false;
 
-                          let color =
-                            affiliate.findIndex(
-                              (a) => a.id === e.affiliateId
-                            ) ?? 0;
+                            let color =
+                              affiliate.findIndex(
+                                (a) => a.id === e.affiliateId
+                              ) ?? 0;
 
-                          return (
-                            <Polygon
-                              defaultGeometry={[geodata]}
-                              options={{
-                                fillColor: colors[color],
-                                strokeColor: colors[color],
-                                opacity: 0.3,
-                                strokeWidth: 2,
-                                strokeStyle: "solid",
-                                visible: true,
-                              }}
-                              properties={{
-                                balloonContent: `<address class='my-info'>
+                            return (
+                              <Polygon
+                                defaultGeometry={[geodata]}
+                                options={{
+                                  fillColor: colors[color],
+                                  strokeColor: colors[color],
+                                  opacity: 0.3,
+                                  strokeWidth: 2,
+                                  strokeStyle: "solid",
+                                  visible: true,
+                                }}
+                                properties={{
+                                  balloonContent: `<address class='my-info'>
                               <div class='my-info-body'>
                               <h6 class='mb-0 fw-6'>${e.title}</h6>
                               ${e.desc ? `<p>${e.desc}</p>` : ""}
@@ -266,13 +235,14 @@ const Contact = () => {
                               }
                               </div>
                               </address>`,
-                              }}
-                            />
-                          );
-                        })}
-                    </Map>
-                  </YMaps>
-                )}
+                                }}
+                              />
+                            );
+                          })}
+                      </Map>
+                    </YMaps>
+                  )}
+              </div>
             </Col>
           </Row>
         </Container>

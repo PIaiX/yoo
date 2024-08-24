@@ -153,9 +153,14 @@ const Footer = memo(() => {
             <div>
               <a href="https://yooapp.ru" target="_blank">
                 <div>
-                  {t("Разработано на платформе")} <b>YooApp</b>
+                  <p className="text-muted fs-08 mb-1">
+                    {t("Разработано на платформе")}
+                  </p>
+                  <b className="d-flex align-items-center">
+                    <img src="/yooapp.png" alt="yooapp" className="me-2" />
+                    YOOAPP
+                  </b>
                 </div>
-                {/* <img src={LogoTextWhite} alt="yooapp" className="d-block mt-2" /> */}
               </a>
             </div>
           )}

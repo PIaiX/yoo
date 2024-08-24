@@ -25,7 +25,7 @@ const login = createAsyncThunk("auth/login", async (data, thunkAPI) => {
       socket.io.opts.query = { brandId: response.data.user.brandId ?? false, userId: response.data.user.id ?? false }
       socket.connect()
 
-      thunkAPI.dispatch(getFavorites())
+      // thunkAPI.dispatch(getFavorites())
     }
     thunkAPI.dispatch(setLoadingLogin(false))
     return response?.data;

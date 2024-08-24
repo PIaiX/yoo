@@ -803,13 +803,16 @@ button {
   &-white {
     @extend .btn;
     color: var(--font-color);
+    border: var(--bg-second);
     background-color: var(--bg-second);
     &:hover,
     &:focus,
     &:active,
     &.active {
       color: #fff;
-      background-color: var(--main-color);
+      background-color: var(--bg-second);
+      border: var(--bg-second);
+      opacity: 0.7;
     }
   }
   &-40-light {
@@ -1976,7 +1979,7 @@ main {
       display: block;
       width: 450px;
       height: 800px;
-      object-fit: cover;
+      object-fit: contain;
       @media (max-width: $bp-sm) {
         width: 100%;
         height: 100vh;
@@ -2771,6 +2774,7 @@ main {
       flex: 1;
     }
   }
+  min-height: 450px;
   &-img {
     position: sticky;
     top: 10px;
@@ -3316,22 +3320,22 @@ main {
   }
   .map {
     border-radius: $radius;
+    background-color: var(--bg-second);
     overflow: hidden;
     @include safariFix();
     @include flex();
     height: 700px;
-    img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
+
     @media (max-width: $bp-sm) {
       height: 350px;
       margin-top: 15px;
     }
   }
 }
-
+.ymaps-2-1-79-map-copyrights-promo,
+.ymaps-2-1-79-copyright {
+  display: none !important;
+}
 .loader {
   position: fixed;
   top: 0;
@@ -4342,9 +4346,7 @@ ACCOUNT
         margin: 0 auto;
         @media (max-width: $bp-lg) {
           width: 100%;
-        }
-        @media (max-width: $bp-sm) {
-          padding: 1em;
+          padding: 1.3em;
         }
       }
     }

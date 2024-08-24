@@ -760,11 +760,14 @@ button {
 }
 .btn-4, .btn-white {
   color: var(--font-color);
+  border: var(--bg-second);
   background-color: var(--bg-second);
 }
 .btn-4:hover, .btn-4:focus, .btn-4:active, .btn-4.active, .btn-white:hover, .btn-white:focus, .btn-white:active, .btn-white.active {
   color: #fff;
-  background-color: var(--main-color);
+  background-color: var(--bg-second);
+  border: var(--bg-second);
+  opacity: 0.7;
 }
 .btn-40-light {
   color: #fff;
@@ -2032,8 +2035,8 @@ main {
   display: block;
   width: 450px;
   height: 800px;
-  -o-object-fit: cover;
-     object-fit: cover;
+  -o-object-fit: contain;
+     object-fit: contain;
 }
 @media (max-width: 580px) {
   .story-big img {
@@ -3062,6 +3065,9 @@ main {
   opacity: 1;
 }
 
+.productPage {
+  min-height: 450px;
+}
 @media (max-width: 770px) {
   .productPage h1 {
     flex: 1;
@@ -3677,6 +3683,7 @@ main {
 }
 .sec-7 .map {
   border-radius: 1.25em;
+  background-color: var(--bg-second);
   overflow: hidden;
   -webkit-backface-visibility: hidden;
   -webkit-transform: translate3d(0, 0, 0);
@@ -3689,17 +3696,16 @@ main {
   flex-wrap: nowrap;
   height: 700px;
 }
-.sec-7 .map img {
-  width: 100%;
-  height: 100%;
-  -o-object-fit: cover;
-     object-fit: cover;
-}
 @media (max-width: 580px) {
   .sec-7 .map {
     height: 350px;
     margin-top: 15px;
   }
+}
+
+.ymaps-2-1-79-map-copyrights-promo,
+.ymaps-2-1-79-copyright {
+  display: none !important;
 }
 
 .loader {
@@ -4936,11 +4942,7 @@ ACCOUNT
 @media (max-width: 991px) {
   .login-forms form.login-form {
     width: 100%;
-  }
-}
-@media (max-width: 580px) {
-  .login-forms form.login-form {
-    padding: 1em;
+    padding: 1.3em;
   }
 }
 .login-toggler {

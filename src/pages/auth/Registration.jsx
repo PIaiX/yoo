@@ -14,9 +14,11 @@ import { authRegister, login } from "../../services/auth";
 import Meta from "../../components/Meta";
 import { Button } from "react-bootstrap";
 import { NotificationManager } from "react-notifications";
-import { isMobile } from "react-device-detect";
+
 import { getImageURL } from "../../helpers/all";
 import { useTranslation } from "react-i18next";
+import socket from "../../config/socket";
+import { setAuth, setToken, setUser } from "../../store/reducers/authSlice";
 
 const Registration = () => {
   const { t } = useTranslation();
@@ -79,17 +81,32 @@ const Registration = () => {
 
   const onSubmitReg = useCallback(
     (data) => {
+      if (data?.comment?.length > 0) {
+        return NotificationManager.error(
+          "Регистрация временно недоступна, попробуйте немного позже"
+        );
+      }
+
       authRegister(data)
-        .then(async (res) => {
+        .then((res) => {
           NotificationManager.success(
             "Завершите регистрацию " +
               (options.authType == "email"
                 ? "подтвердив почту"
                 : "подтвердив номер телефона")
           );
-          if (res?.id) {
-            dispatch(login(data));
-            navigate("/activate");
+          if (res?.user?.id) {
+            dispatch(setUser(res.user));
+            dispatch(setToken(res.token));
+            dispatch(setAuth(true));
+
+            socket.io.opts.query = {
+              brandId: res.user.brandId ?? false,
+              userId: res.user.id ?? false,
+            };
+            socket.connect();
+
+            return navigate("/activate");
           }
         })
         .catch((error) =>
@@ -165,10 +182,7 @@ const Registration = () => {
 
   const regForm = useMemo(() => (
     <form className="login-form" onSubmit={handleSubmit(onSubmit)}>
-      <h4 className="main-color text-center fw-4">{t("С возвращением!")}</h4>
-      {/* <p className="text-center fs-11 mb-5">
-        Вкусные роллы и пицца скучали по тебе
-      </p> */}
+      <h4 class="fw-6 h4 mb-4">{t("Войдите в профиль")}</h4>
       <div className="mb-3">
         {!options.authType || options.authType === "email" ? (
           <Input
@@ -193,7 +207,6 @@ const Registration = () => {
         ) : (
           <Input
             type="custom"
-            label={t("Номер телефона")}
             name="phone"
             placeholder="+7(900)000-00-00"
             mask="+7(999)999-99-99"
@@ -210,9 +223,8 @@ const Registration = () => {
           />
         )}
       </div>
-      <div className="mb-3">
+      <div className="mb-4">
         <Input
-          label={t("Пароль")}
           type="password"
           name="password"
           errors={errors}
@@ -243,9 +255,9 @@ const Registration = () => {
 
   const loginForm = useMemo(() => (
     <form className="login-form" onSubmit={handleSubmitReg(onSubmitReg)}>
-      <h4 className="main-color text-center fw-4">{t("Привет, друг!")}</h4>
-      <p className="text-center fs-11 mb-5">
-        {t("Введи данные, чтобы зарегистрироваться")}
+      <h4 className="fw-6 mb-1">{t("Регистрация")}</h4>
+      <p className="fs-10 mb-4 text-muted">
+        {t("Заполните данные, чтобы создать профиль")}
       </p>
       <div className="mb-3">
         {!options.authType || options.authType === "email" ? (
@@ -271,7 +283,6 @@ const Registration = () => {
         ) : (
           <Input
             type="custom"
-            label={t("Номер телефона")}
             name="phone"
             placeholder="+7(900)000-00-00"
             mask="+7(999)999-99-99"
@@ -291,7 +302,6 @@ const Registration = () => {
       <div className="mb-3">
         <Input
           type="password"
-          label={t("Пароль")}
           placeholder={t("Придумайте пароль")}
           name="password"
           errors={errorsReg}
@@ -312,7 +322,6 @@ const Registration = () => {
       <div className="mb-3">
         <Input
           type="password"
-          label={t("Подтверждение пароля")}
           placeholder={t("Повторите пароль")}
           name="passwordConfirm"
           errors={errorsReg}
@@ -330,7 +339,14 @@ const Registration = () => {
           }}
         />
       </div>
-      <label className="d-flex pale-blue mb-3">
+      <Input
+        type="text"
+        name="comment"
+        errors={errorsReg}
+        register={registerReg}
+        className="d-none"
+      />
+      <label className="d-flex pale-blue mb-4">
         <input
           type="checkbox"
           className="checkbox me-2"
@@ -357,61 +373,49 @@ const Registration = () => {
     <main className="py-lg-0">
       <Meta title={t(loginView ? "Вход" : "Регистрация")} />
       <Container>
-        {isMobile ? (
-          <section className="d-lg-none login-mobile">
+        <section className="align-items-center login justify-content-center justify-content-lg-between d-flex">
+          <div ref={block2} className="login-forms">
             {loginView ? regForm : loginForm}
-            {loginView ? (
-              <button
-                type="button"
-                onClick={() => setLoginView(false)}
-                className="main-color fs-13 mx-auto mt-4 text-decoration-underline"
-              >
-                {t("Зарегистрироваться")}
-              </button>
-            ) : (
-              <button
-                type="button"
-                onClick={() => setLoginView(true)}
-                className="main-color fs-13 mx-auto mt-4 text-decoration-underline"
-              >
-                {t("Войти")}
-              </button>
-            )}
-          </section>
-        ) : (
-          <section className="d-none d-lg-flex align-items-center login">
-            <div ref={block2} className="login-forms">
-              {loginView ? regForm : loginForm}
-            </div>
-            <div
-              ref={block1}
-              className="login-toggler"
-              style={{ backgroundImage: bgImage ? `url(${bgImage})` : null }}
+            <button
+              type="button"
+              onClick={() => setLoginView(!loginView)}
+              className="btn btn-white d-block w-100 rounded-3 d-lg-none fw-6 mx-auto mt-4"
             >
-              <div className="text">
-                <div ref={text1} className="text-1">
-                  <h4>{t("Это ваш первый заказ?")}</h4>
-                  <p>{t("Пройдите регистрацию")}</p>
-                </div>
-                <div ref={text2} className="text-2">
-                  <h4>{t("Уже есть аккаунт?")}</h4>
-                  <p>{t("Войти в личный кабинет")}</p>
-                </div>
+              {loginView ? (
+                <span>{t("Создать профиль")}</span>
+              ) : (
+                <span>{t("Войти в профиль")}</span>
+              )}
+            </button>
+          </div>
+          <div
+            ref={block1}
+            className="login-toggler d-none d-lg-block"
+            style={{ backgroundImage: bgImage ? `url(${bgImage})` : null }}
+          >
+            <div className="text">
+              <div ref={text1} className="text-1">
+                <h4 className="fw-6 mb-1">{t("Это ваш первый заказ?")}</h4>
+                <p>{t("Пройдите регистрацию")}</p>
               </div>
-              <button
-                type="button"
-                onClick={handleClick}
-                className="btn-40 rounded-3 mx-auto mt-4"
-              >
-                {loginView ? (
-                  <span>{t("Регистрация")}</span>
-                ) : (
-                  <span>{t("Войти")}</span>
-                )}
-              </button>
+              <div ref={text2} className="text-2">
+                <h4 className="fw-6 mb-1">{t("Уже есть аккаунт?")}</h4>
+                <p>{t("Войдите в личный кабинет")}</p>
+              </div>
             </div>
-          </section>
-        )}
+            <button
+              type="button"
+              onClick={handleClick}
+              className="btn btn-primary rounded-3 fw-6 mx-auto mt-4"
+            >
+              {loginView ? (
+                <span>{t("Создать профиль")}</span>
+              ) : (
+                <span>{t("Войти в профиль")}</span>
+              )}
+            </button>
+          </div>
+        </section>
       </Container>
     </main>
   );
