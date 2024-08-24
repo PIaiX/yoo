@@ -25,6 +25,7 @@ const Registration = () => {
   const isAuth = useSelector((state) => state.auth.isAuth);
   const user = useSelector((state) => state.auth.user);
   const options = useSelector((state) => state.settings.options);
+  const loadingLogin = useSelector((state) => state.auth.loadingLogin);
   const bgImage = options.auth
     ? getImageURL({
         path: options.auth,
@@ -33,7 +34,7 @@ const Registration = () => {
       })
     : false;
   const navigate = useNavigate();
-
+  const [loadingReg, setLoadingReg] = useState(false);
   const [loginView, setLoginView] = useState(true);
   const block1 = useRef();
   const block2 = useRef();
@@ -70,6 +71,7 @@ const Registration = () => {
   } = useForm({
     mode: "all",
     reValidateMode: "onChange",
+
     defaultValues: { accept: true },
   });
 
@@ -86,6 +88,7 @@ const Registration = () => {
           "Регистрация временно недоступна, попробуйте немного позже"
         );
       }
+      setLoadingReg(true);
 
       authRegister(data)
         .then((res) => {
@@ -115,7 +118,8 @@ const Registration = () => {
               ? error.response.data.error
               : "Неизвестная ошибка"
           )
-        );
+        )
+        .finally(() => setLoadingReg(false));
     },
     [options]
   );
@@ -242,8 +246,8 @@ const Registration = () => {
       <Button
         type="submit"
         variant="primary"
-        disabled={!isValid}
-        className="w-100 rounded-3"
+        disabled={loadingLogin || !isValid}
+        className={"w-100 rounded-3 " + (loadingLogin ? "loading" : "")}
       >
         {t("Войти")}
       </Button>
@@ -339,13 +343,7 @@ const Registration = () => {
           }}
         />
       </div>
-      <Input
-        type="text"
-        name="comment"
-        errors={errorsReg}
-        register={registerReg}
-        className="d-none"
-      />
+      <input type="text" className="d-none" {...registerReg("comment")} />
       <label className="d-flex pale-blue mb-4">
         <input
           type="checkbox"
@@ -361,8 +359,8 @@ const Registration = () => {
       <Button
         type="submit"
         variant="primary"
-        disabled={!isValidReg}
-        className="w-100 rounded-3"
+        disabled={loadingReg || !isValidReg}
+        className={"w-100 rounded-3 " + (loadingReg ? "loading" : "")}
       >
         {t("Зарегистрироваться")}
       </Button>
