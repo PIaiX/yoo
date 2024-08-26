@@ -32,14 +32,14 @@ import Search from "../pages/Search";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
-    <Route path="/" element={<AppLayout />}>
-      <Route index element={<Home />} errorElement={<Error />} />
+    <Route path="/" element={<AppLayout />} errorElement={<Error />}>
+      <Route index element={<Home />} />
       {/* <Route path="about" element={<About />} /> */}
       <Route path="categories" element={<Categories />} />
       <Route path="category/:categoryId" element={<Category />} />
       <Route path="product/:productId" element={<Product />} />
-      <Route path="cart" element={<Cart />} errorElement={<Error />} />
-      <Route path="checkout" element={<Checkout />} errorElement={<Error />} />
+      <Route path="cart" element={<Cart />} />
+      <Route path="checkout" element={<Checkout />} />
       <Route path="search" element={<Search />} />
       <Route path="promo" element={<Promo />} />
       <Route path="promo/:saleId" element={<OfferPage />} />

@@ -191,7 +191,6 @@ const Registration = () => {
         {!options.authType || options.authType === "email" ? (
           <Input
             type="email"
-            label="Email"
             name="email"
             placeholder={t("Введите email")}
             errors={errors}
@@ -267,7 +266,6 @@ const Registration = () => {
         {!options.authType || options.authType === "email" ? (
           <Input
             type="email"
-            label="Email"
             name="email"
             placeholder={t("Введите email")}
             errors={errorsReg}

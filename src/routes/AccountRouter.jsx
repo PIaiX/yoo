@@ -16,12 +16,17 @@ import Notifications from "../pages/account/Notifications";
 import Payment from "../pages/account/Payment";
 import Support from "../pages/account/Support";
 import { isMobile } from "react-device-detect";
+import Error from "../components/Error";
 // import Favorites from "../pages/account/Favorites";
 
 const AccountRouter = () => {
   return (
     <Routes>
-      <Route path="/" element={<AccountLayout isMobile={isMobile} />}>
+      <Route
+        path="/"
+        element={<AccountLayout isMobile={isMobile} />}
+        errorElement={<Error />}
+      >
         {isMobile ? (
           <Route index element={<AccountMenuMobile />} />
         ) : (
@@ -40,8 +45,8 @@ const AccountRouter = () => {
         <Route path="payment" element={<Payment />} />
         <Route path="support" element={<Support />} />
       </Route>
-      <Route path="settings" element={<Settings />} />
-      <Route path="/*" element={<Navigate to="orders" replace={true} />} />
+      <Route path="settings" element={<Settings />} errorElement={<Error />} />
+      <Route path="/*" element={<Navigate to="orders" replace={true} />} errorElement={<Error />} />
     </Routes>
   );
 };

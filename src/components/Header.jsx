@@ -93,7 +93,7 @@ const Header = memo(() => {
 
   useEffect(() => {
     // Сортируем города по алфавиту
-    if (cities?.length > 0) {
+    if (cities && cities?.length > 0) {
       let citiesData = [...cities];
       // Группируем города по странам
       const groupedCities = citiesData.reduce((acc, city) => {
@@ -120,7 +120,7 @@ const Header = memo(() => {
       setList(resultArray);
     }
 
-    if (cities?.length > 1 && !gps && "geolocation" in navigator) {
+    if (cities && cities?.length > 1 && !gps && "geolocation" in navigator) {
       navigator.geolocation.getCurrentPosition(async (position) => {
         if (
           position?.coords?.latitude &&
@@ -145,6 +145,7 @@ const Header = memo(() => {
           if (
             geo?.data?.suggestions &&
             geo?.data?.suggestions[0]?.data?.city &&
+            cities &&
             cities?.length > 0
           ) {
             let city = cities.find(
@@ -194,19 +195,19 @@ const Header = memo(() => {
               </Link>
               <ul className="text-menu">
                 <li>
-                  {!options?.multiBrand && cities.length > 0 && (
+                  {!options?.multiBrand && cities && cities?.length > 0 && (
                     <a
                       onClick={() => cities?.length > 1 && setShowCity(true)}
                       className="fw-6"
                     >
                       {t(
-                        cities?.length > 1
+                        cities.length > 1
                           ? city?.title ?? "Выберите город"
                           : selectedAffiliate?.options?.city ?? "Выберите город"
                       )}
                     </a>
                   )}
-                  {options?.multiBrand && affiliate.length > 0 && (
+                  {options?.multiBrand && affiliate?.length > 0 && (
                     <a onClick={() => setShowBrand(true)} className="fw-6">
                       {t(
                         selectedAffiliate?.title ??
@@ -548,8 +549,8 @@ const Header = memo(() => {
             />
           </div>
           <div className="search-box">
-            {searchInput.length > 0 && search && search?.length > 0
-              ? search?.length > 0 && (
+            {searchInput?.length > 0 && search && search?.length > 0
+              ? search.length > 0 && (
                   <div className="cities">
                     {Object.entries(
                       search
@@ -662,7 +663,7 @@ const Header = memo(() => {
           ></button>
           <h5 className="fw-7 mb-4">{t("Выберите заведение")}</h5>
           <div className="search-box">
-            {affiliate.length > 0 && (
+            {affiliate?.length > 0 && (
               <Row>
                 {affiliate.map((e, index) => (
                   <Col md={6} key={index} className="pb-3">
