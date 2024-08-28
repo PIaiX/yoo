@@ -62,10 +62,10 @@ const Home = () => {
         title={
           options?.seo?.home?.title
             ? options.seo.home.title
-            : selectedAffiliate?.title
-            ? selectedAffiliate?.title + " - доставка еды на дом, офис"
             : options?.title
             ? options.title + " - доставка еды на дом, офис"
+            : selectedAffiliate?.title
+            ? selectedAffiliate?.title + " - доставка еды на дом, офис"
             : t("Главная")
         }
         description={

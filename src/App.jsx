@@ -17,6 +17,7 @@ import {
   convertColor,
   getImageURL,
   isUpdateTime,
+  setClassName,
   setCssColor,
 } from "./helpers/all";
 import AppRouter from "./routes/AppRouter";
@@ -61,13 +62,18 @@ function App() {
       if (options?.colorMain) {
         setCssColor("--main-color", options.colorMain);
         setCssColor(
-          "--main-color-active",
-          convertColor(options.colorMain, 0.9)
-        );
-        setCssColor(
           "--main-color-outline",
           convertColor(options.colorMain, 0.1)
         );
+        setCssColor("--main-color-btn", options.colorBtn);
+        setCssColor("--main-color-text", options.colorText);
+        options.themeFont && setClassName("theme-font", options.themeFont);
+        options.themeFontSize &&
+          setClassName("theme-font-size", options.themeFontSize);
+        options.themeFontTitle &&
+          setClassName("theme-font-title", options.themeFontTitle);
+        options.themeFontTitleSize &&
+          setClassName("theme-font-size-title", options.themeFontTitleSize);
       }
     },
     [options]

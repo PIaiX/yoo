@@ -243,8 +243,14 @@ const Product = () => {
               />
             </Col>
             <Col xs={12} md={7} lg={6}>
-              <div className="d-flex align-items-center justify-content-between justify-content-md-start mb-4">
+              <div
+                className={
+                  "d-flex align-items-center justify-content-between justify-content-md-start" +
+                  (!product.item.options?.subtitle ? "mb-4" : "")
+                }
+              >
                 <h1 className="mb-0">{product.item.title}</h1>
+
                 {product.item.energy.weight > 0 && (
                   <span className="text-muted fw-6 ms-3">
                     {customWeight({
@@ -289,6 +295,13 @@ const Product = () => {
                   </OverlayTrigger>
                 )}
               </div>
+              {product.item.options?.subtitle && (
+                <>
+                  <div className="mb-4 fw-5 fs-14 d-block main-color subtitle">
+                    {product.item.options.subtitle}
+                  </div>
+                </>
+              )}
               <div className="mb-2">
                 {product.item?.tags?.length > 0 && (
                   <Tags data={product.item.tags} />
@@ -296,7 +309,8 @@ const Product = () => {
               </div>
               {product.item.description && (
                 <div className="mb-4">
-                  <p>{product.item.description}</p>
+                  <p className="fw-6 mb-2">{t("Описание")}</p>
+                  {product.item.description}
                 </div>
               )}
               {product?.item?.modifiers?.length > 0 &&
@@ -366,7 +380,14 @@ const Product = () => {
                     )}
                   </>
                 ))}
-
+              {product.item.options?.сompound && (
+                <>
+                  <p className="fw-6 mb-2">{t("Состав")}</p>
+                  <div className="mb-4 text-muted fs-09">
+                    {product.item.options.сompound}
+                  </div>
+                </>
+              )}
               <div className="productPage-price">
                 <div className="py-2 fw-5 me-4 fs-12 rounded-pill">
                   {customPrice(prices.price)}

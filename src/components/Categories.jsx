@@ -84,7 +84,7 @@ const Categories = memo(({ className, data }) => {
                     spaceBetween: 15,
                   },
                   1200: {
-                    spaceBetween: 30,
+                    spaceBetween: 15,
                   },
                 }}
               >

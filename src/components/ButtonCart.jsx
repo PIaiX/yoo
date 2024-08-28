@@ -105,7 +105,6 @@ const ButtonCart = memo(
       >
         {children ?? (
           <>
-            <span className="d-md-none me-2">{t("Добавить")}</span>
             <HiOutlineShoppingBag className="fs-15" />
           </>
         )}

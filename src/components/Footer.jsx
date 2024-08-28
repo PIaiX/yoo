@@ -78,19 +78,27 @@ const Footer = memo(() => {
           </ul>
         </nav>
         <div className="desktop d-none d-lg-flex">
-          <img
-            src={
-              options?.logo
-                ? getImageURL({
-                    path: options.logo,
-                    type: "all/web/logo",
-                    size: "full",
-                  })
-                : "/logo.png"
-            }
-            alt={options?.title ?? "YOOAPP"}
-            className="logo"
-          />
+          <div className="pe-3">
+            <img
+              src={
+                options?.logodark
+                  ? getImageURL({
+                      path: options.logodark,
+                      type: "all/web/logo",
+                      size: "full",
+                    })
+                  : options?.logo
+                  ? getImageURL({
+                      path: options.logo,
+                      type: "all/web/logo",
+                      size: "full",
+                    })
+                  : "/logo.png"
+              }
+              alt={options?.title ?? "YOOAPP"}
+              className="logo"
+            />
+          </div>
           <nav>
             <ul className="list-unstyled d-flex align-items-center">
               <li className="me-4">
@@ -111,20 +119,14 @@ const Footer = memo(() => {
                           (selectedAffiliate.phone[1] ? " mb-2 fs-09" : "")
                         }
                       >
-                        <HiOutlineDevicePhoneMobile className="fs-12" />
-                        <span className="ms-1">
-                          {selectedAffiliate.phone[0]}
-                        </span>
+                        {selectedAffiliate.phone[0]}
                       </a>
                       {selectedAffiliate.phone[1] && (
                         <a
                           href={"tel:" + selectedAffiliate.phone[1]}
                           className="phone fs-09"
                         >
-                          <HiOutlineDevicePhoneMobile className="fs-12" />
-                          <span className="ms-1">
-                            {selectedAffiliate.phone[1]}
-                          </span>
+                          {selectedAffiliate.phone[1]}
                         </a>
                       )}
                     </div>
@@ -132,39 +134,52 @@ const Footer = memo(() => {
                 )}
             </ul>
           </nav>
-          {options?.appYes && (
+          {options?.app?.name && (
             <div>
-              <p>{t("Заказывать через приложение ещё удобнее")}</p>
+              <p className="text-white fs-09">
+                {t("Заказывайте через приложение")}
+              </p>
               <ul className="list-unstyled d-flex mt-2">
                 <li>
-                  <a href="/">
-                    <img src={AppStore} alt="App Store" />
+                  <a
+                    href={
+                      "https://apps.apple.com/ru/app/" +
+                      (options.app?.nameIos?.length > 0
+                        ? options.app.nameIos
+                        : options.app.name) + '/id6462661474'
+                    }
+                  >
+                    <img src={AppStore} alt="App Store" height="35" />
                   </a>
                 </li>
-                <li className="ms-3">
-                  <a href="/">
-                    <img src={GooglePlay} alt="Google Play" />
+                <li className="ms-2">
+                  <a
+                    href={
+                      "https://play.google.com/store/apps/details?id=" +
+                      (options.app?.nameAndroid?.length > 0
+                        ? options.app.nameAndroid
+                        : options.app.name)
+                    }
+                  >
+                    <img src={GooglePlay} alt="Google Play" height="35" />
                   </a>
                 </li>
               </ul>
             </div>
           )}
-          {!options?.copyright && (
-            <div>
-              <a href="https://yooapp.ru" target="_blank">
-                <div>
-                  <p className="text-muted fs-08 mb-1">
-                    {t("Разработано на платформе")}
-                  </p>
-                  <b className="d-flex align-items-center">
-                    <img src="/yooapp.png" alt="yooapp" className="me-2" />
-                    YOOAPP
-                  </b>
-                </div>
-              </a>
-            </div>
-          )}
         </div>
+        {!options?.branding && (
+          <div className="justify-content-center mt-2 d-none d-lg-flex">
+            <a href="https://yooapp.ru" target="_blank">
+              <div>
+                <span className="text-muted fs-08 me-1">
+                  {t("Разработано на платформе")}
+                </span>
+                <b className="fs-08">yooapp</b>
+              </div>
+            </a>
+          </div>
+        )}
       </Container>
     </footer>
   );

@@ -217,6 +217,16 @@ const declination = (value, data, view = true) => {
 const setCssColor = (name, value) => {
   document.documentElement.style.setProperty(name, value);
 };
+const setClassName = (name, value) => {
+  // Проверяем, есть ли уже класс
+  if (document.documentElement.classList.contains(name)) {
+    // Если есть, удаляем его 
+    document.documentElement.classList.remove(name);
+  }
+  
+  // Добавляем новый класс с нужным значением 
+  document.documentElement.classList.add(`${name}-${value}`);
+};
 
 const localeData = [
   {
@@ -267,6 +277,7 @@ export {
   isUpdateTime,
   generateSeoText,
   setCssColor,
+  setClassName,
   customPrice,
   getImageURL,
   convertColor,

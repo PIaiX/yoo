@@ -289,23 +289,31 @@ const Header = memo(() => {
                 <div>
                   <a
                     href={"tel:" + selectedAffiliate.phone[0]}
-                    className={
-                      "phone" +
-                      (selectedAffiliate.phone[1] ? " mb-2 fs-09" : "")
-                    }
+                    className="phone"
                   >
                     <HiOutlineDevicePhoneMobile className="fs-12" />
-                    <span className="ms-1">{selectedAffiliate.phone[0]}</span>
+                    <span className="ms-1 fw-6">
+                      {selectedAffiliate.phone[0]}
+                    </span>
                   </a>
-                  {selectedAffiliate.phone[1] && (
-                    <a
-                      href={"tel:" + selectedAffiliate.phone[1]}
-                      className="phone fs-09"
-                    >
-                      <HiOutlineDevicePhoneMobile className="fs-12" />
-                      <span className="ms-1">{selectedAffiliate.phone[1]}</span>
-                    </a>
-                  )}
+                  {selectedAffiliate?.options?.work?.length > 0 &&
+                  selectedAffiliate.options.work[moment().weekday()]?.start &&
+                  selectedAffiliate.options.work[moment().weekday()]?.end ? (
+                    <>
+                      <div className="d-none d-lg-flex text-muted fs-08">
+                        {`${t("с")} ${
+                          selectedAffiliate.options.work[moment().weekday()]
+                            .start
+                        } ${t("до")} ${
+                          selectedAffiliate.options.work[moment().weekday()].end
+                        }`}
+                        {selectedAffiliate.options.work[5].status &&
+                        selectedAffiliate.options.work[5].status
+                          ? t(", без выходных")
+                          : null}
+                      </div>
+                    </>
+                  ) : null}
                 </div>
               )}
 
@@ -404,7 +412,7 @@ const Header = memo(() => {
               />
             )} */}
             <Select
-              className="my-3"
+              className="mb-3"
               data={deliveryArray}
               value={delivery}
               onClick={(e) => dispatch(editDeliveryCheckout(e.value))}
@@ -431,85 +439,88 @@ const Header = memo(() => {
                 </li>
               </ul>
             </nav>
-            {!options?.copyright && (
-              <a href="https://yooapp.ru/" target="_blank">
-                <p className="gray text-center mt-4 mt-md-5">
-                  {t("Разработано на платформе")}
+            {options?.app?.name && (
+              <div>
+                <p className="mt-4 justify-content-center d-flex">
+                  {t("Заказывайте через приложение")}
                 </p>
-                <p className="text-center mt-2">
-                  <YooApp />
-                </p>
-              </a>
+                <ul className="list-unstyled d-flex justify-content-center mt-2">
+                  {/iPhone|iPad/i.test(navigator.userAgent) ? (
+                    <li>
+                      <a
+                        href={
+                          "https://apps.apple.com/ru/app/" +
+                          (options.app?.nameIos?.length > 0
+                            ? options.app.nameIos
+                            : options.app.name) +
+                          "/id6462661474"
+                        }
+                      >
+                        <img src={AppStore} alt="App Store" height="50" />
+                      </a>
+                    </li>
+                  ) : /Android/i.test(navigator.userAgent) ? (
+                    <li className="list-unstyled d-flex justify-content-center">
+                      <a
+                        href={
+                          "https://play.google.com/store/apps/details?id=" +
+                          (options.app?.nameAndroid?.length > 0
+                            ? options.app.nameAndroid
+                            : options.app.name)
+                        }
+                      >
+                        <img src={GooglePlay} alt="Google Play" height="50" />
+                      </a>
+                    </li>
+                  ) : (
+                    <div className="list-unstyled d-flex justify-content-center">
+                      <li>
+                        <a
+                          href={
+                            "https://apps.apple.com/ru/app/" +
+                            (options.app?.nameIos?.length > 0
+                              ? options.app.nameIos
+                              : options.app.name) +
+                            "/id6462661474"
+                          }
+                        >
+                          <img src={AppStore} alt="App Store" height="35" />
+                        </a>
+                      </li>
+                      <li className="ms-2">
+                        <a
+                          href={
+                            "https://play.google.com/store/apps/details?id=" +
+                            (options.app?.nameAndroid?.length > 0
+                              ? options.app.nameAndroid
+                              : options.app.name)
+                          }
+                        >
+                          <img src={GooglePlay} alt="Google Play" height="35" />
+                        </a>
+                      </li>
+                    </div>
+                  )}
+                </ul>
+              </div>
+            )}
+
+            {!options?.branding && (
+              <div className="justify-content-center mt-4 d-flex">
+                <a href="https://yooapp.ru" target="_blank">
+                  <div>
+                    <span className="text-muted  me-1">
+                      {t("Разработано на платформе")}
+                    </span>
+                    <b>yooapp</b>
+                  </div>
+                </a>
+              </div>
             )}
           </Container>
         </Offcanvas.Body>
       </Offcanvas>
-      {options?.appYes && (
-        <button
-          type="button"
-          className="appOffer"
-          onClick={() => setShowApp(true)}
-        >
-          <AppDownload />
-        </button>
-      )}
 
-      <Offcanvas
-        className="offcanvas-app"
-        show={showApp}
-        onHide={() => setShowApp(false)}
-        placement={"top"}
-      >
-        <Offcanvas.Body>
-          <Container className="h-100">
-            <section className="sec-4 row">
-              <div className="col-12 col-md-7">
-                <h3>
-                  Заказывать стало <br className="d-lg-none" />
-                  ещё&nbsp;удобнее!
-                </h3>
-                <div className="d-flex align-items-center mb-3 mb-lg-4">
-                  <button
-                    type="button"
-                    className="btn-2 fs-20 py-2 px-3 px-lg-4 me-2 me-md-3"
-                  >
-                    <span className="d-lg-none">—</span>
-                    <span className="d-none d-lg-inline">скидка</span>
-                    <span> 15%</span>
-                  </button>
-                  <p className="fs-16">
-                    на&nbsp;первый заказ <br />
-                    через&nbsp;приложение
-                  </p>
-                </div>
-                <ul className="logotips mb-3 mb-lg-5">
-                  <li>
-                    <a href="/">
-                      <img src={AppStore} alt="App Store" />
-                    </a>
-                  </li>
-                  <li>
-                    <a href="/">
-                      <img src={GooglePlay} alt="Google Play" />
-                    </a>
-                  </li>
-                </ul>
-                <p>Акция действует при заказе на сумму от 1 000 ₽</p>
-              </div>
-              <div className="d-none d-md-block col-5">
-                <img src={Phone} alt="Phone" className="phone" />
-              </div>
-            </section>
-            <button
-              type="button"
-              onClick={() => setShowApp(false)}
-              className="offcanvas-app-close"
-            >
-              <IoClose />
-            </button>
-          </Container>
-        </Offcanvas.Body>
-      </Offcanvas>
       <Modal
         size="lg"
         centered
