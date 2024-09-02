@@ -11,7 +11,6 @@ import Loader from "../components/utils/Loader";
 import { useTranslation } from "react-i18next";
 import { getSales } from "../services/sales";
 import { updateSales } from "../store/reducers/catalogSlice";
-import { isUpdateTime } from "../helpers/all";
 
 const Promo = () => {
   const { t } = useTranslation();
@@ -43,7 +42,7 @@ const Promo = () => {
   if (loading) {
     return <Loader full />;
   }
-
+console.log(catalog?.sales)
   if (
     !Array.isArray(catalog?.sales?.items) ||
     catalog?.sales?.items?.length <= 0

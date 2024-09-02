@@ -18,7 +18,7 @@ const catalogSlice = createSlice({
       state.updateTime = moment();
     },
     updateSales: (state, action) => {
-      state.sales = action?.payload?.widgets ?? [];
+      state.sales = action?.payload ?? [];
     },
     resetCatalog: (state) => {
       state.categories = [];
