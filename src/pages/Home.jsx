@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useLayoutEffect, useState } from "react";
 import Container from "react-bootstrap/Container";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
@@ -23,11 +23,11 @@ const Home = () => {
   const catalog = useSelector((state) => state.catalog);
   const dispatch = useDispatch();
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (
       isUpdateTime(catalog.updateTime) &&
-      options?.name &&
-      options?.name != "ru.yooapp.app"
+      options?.title &&
+      options?.title != "YooApp"
     ) {
       if (catalog?.widgets?.length === 0 && catalog?.categories?.length === 0) {
         setLoading(true);
