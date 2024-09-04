@@ -59,13 +59,18 @@ const ProductCard = memo(({ data }) => {
         </Link>
       </div>
       <Link to={"/product/" + data?.id} state={data}>
-        <h6 className="title text-center text-md-start">
+        <h6
+          className={
+            "title text-center text-md-start " +
+            (data?.options?.subtitle ? "fs-09" : "")
+          }
+        >
           {data.title}
           {data?.options?.subtitle ? (
             <div className="subtitle fw-5">{data?.options.subtitle}</div>
           ) : null}
         </h6>
-        <p className="d-none d-md-block text-muted fs-09">{data.description}</p>
+        <p className="d-none d-md-block fs-09">{data.description}</p>
       </Link>
       <hr className="d-none d-md-block" />
       {data?.options?.сompound && (

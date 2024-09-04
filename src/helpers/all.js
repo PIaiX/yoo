@@ -220,11 +220,11 @@ const setCssColor = (name, value) => {
 const setClassName = (name, value) => {
   // Проверяем, есть ли уже класс
   if (document.documentElement.classList.contains(name)) {
-    // Если есть, удаляем его 
+    // Если есть, удаляем его
     document.documentElement.classList.remove(name);
   }
-  
-  // Добавляем новый класс с нужным значением 
+
+  // Добавляем новый класс с нужным значением
   document.documentElement.classList.add(`${name}-${value}`);
 };
 

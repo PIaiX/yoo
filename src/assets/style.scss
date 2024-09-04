@@ -26,8 +26,9 @@ html {
   --main-color: #222;
   --main-color-btn: #222;
   --main-color-text: #000;
-  --font-color: #000;
-  --font-color-revers: #fff;
+  --main-color-text-title: #000;
+  --main-color-text-subtitle: #000;
+  --main-color-text-revers: #fff;
   --bs-secondary-color: #444;
   --bg-main: #fff;
   --bg-btn: #dadada;
@@ -50,8 +51,9 @@ html {
   --main-color: #222;
   --main-color-btn: #222;
   --main-color-text: #fff;
-  --font-color: #fff;
-  --font-color-revers: #111;
+  --main-color-text-title: #fff;
+  --main-color-text-subtitle: #fff;
+  --main-color-text-revers: #111;
   --bs-secondary-color: #777;
   --bg-main: #131313;
   --bg-btn: #333;
@@ -198,6 +200,7 @@ a:active {
   text-decoration: none;
   cursor: pointer;
 }
+
 h1,
 h2,
 h3,
@@ -230,7 +233,9 @@ address {
   line-height: 135%;
   margin-bottom: 0px;
 }
-
+h1, h2, h3{
+  color: var(--main-color-text-title);
+}
 .rotateY-180 {
   transform: rotateY(180deg);
 }
@@ -438,7 +443,7 @@ textarea,
 .input {
   background-color: var(--bg-main);
   border: 1px solid var(--bg-btn);
-  color: var(--font-color);
+  color: var(--main-color-text);
   border-radius: $radius * 0.5;
   padding: 0.7em 1.2em;
   width: 100%;
@@ -643,7 +648,7 @@ input {
 .countInput {
   width: fit-content;
   svg {
-    color: var(--font-color);
+    color: var(--main-color-text);
   }
   padding: 0.6em 0;
   @media (max-width: $bp-sm) {
@@ -807,7 +812,7 @@ button {
   &-4,
   &-white {
     @extend .btn;
-    color: var(--font-color);
+    color: var(--main-color-text);
     border: var(--bg-second);
     background-color: var(--bg-second);
     &:hover,
@@ -876,20 +881,7 @@ button {
       border: 1px solid darken($color: $green, $amount: 10%);
     }
   }
-  &-6,
-  &-light-outline {
-    @extend .btn;
-    color: var(--main-color);
-    background-color: var(--main-color-outline);
-    &:hover,
-    &:focus,
-    &:active,
-    &.active {
-      opacity: 0.9;
-      color: #fff;
-      background-color: var(--main-color);
-    }
-  }
+ 
   /* светло-голубая кнопка */
   &-light {
     @extend .btn;
@@ -911,7 +903,7 @@ button {
     @extend .btn;
     background-color: var(--bg-btn);
     @include lightShadow();
-    color: var(--font-color);
+    color: var(--main-color-text);
     @media (max-width: $bp-lg) {
       background-color: var(--bg-btn);
     }
@@ -1351,7 +1343,7 @@ select {
     top: 50%;
     z-index: 10;
     font-size: 1.7em;
-    color: var(--font-color);
+    color: var(--main-color-text);
     transform: translateY(-50%);
     transition: color $transition;
     @media (max-width: $bp-md) {
@@ -1528,9 +1520,9 @@ select {
     @include flex(row, flex-start, center, wrap);
     font-size: 0.9em;
     li {
-      color: var(--font-color);
+      color: var(--main-color-text);
       &:not(:last-child) {
-        color: var(--font-color);
+        color: var(--main-color-text);
         margin-right: 1em;
         &::after {
           content: "●";
@@ -1550,7 +1542,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
   font-size: 16px;
   font-weight: 400;
-  color: var(--font-color);
+  color: var(--main-color-text);
   background: var(--bg-main);
   overflow-x: hidden;
   @media (max-width: $bp-xl) {
@@ -1639,7 +1631,7 @@ header {
   }
   .phone {
     @include flex(row, flex-start, center, nowrap);
-    color: var(--font-color);
+    color: var(--main-color-text);
     transition: color $transition;
     &:hover,
     &:focus,
@@ -1660,7 +1652,7 @@ header {
     top: 45px !important;
   }
   .btn-menu {
-    color: var(--font-color);
+    color: var(--main-color-text);
     font-size: 2em;
     @include flex();
     transition: color $transition;
@@ -1742,7 +1734,7 @@ header {
 }
 .offcanvas {
   background-color: var(--bg-main) !important;
-  color: var(--font-color) !important;
+  color: var(--main-color-text) !important;
 }
 .offcanvas-app {
   height: fit-content !important;
@@ -2474,7 +2466,7 @@ main {
       width: fit-content;
     }
     .swiper-button {
-      color: var(--font-color);
+      color: var(--main-color-text);
       @media (max-width: $bp-lg) {
         display: none;
       }
@@ -2699,8 +2691,8 @@ main {
     }
   }
   .title {
-    @include clamp(2, 1.2em, true);
-    color: var(--main-color-text);
+    @include clamp(4, 1.2em);
+    color: var(--main-color-text-title);
   }
 
   &-stickers {
@@ -2784,7 +2776,7 @@ html.theme-font-title-amaticsc .product .title {
   .subtitle {
     font-family: "Open Sans", "Arial", "Tahoma", "Verdana" !important;
     font-size: 18px !important;
-    color: var(--main-color);
+    color: var(--main-color-text-subtitle);
     @media (max-width: $bp-sm) {
       font-size: 16px !important;
     }
@@ -2800,6 +2792,7 @@ html.theme-font-title-amaticsc .productPage h1 {
   @media (max-width: $bp-md) {
     h1 {
       flex: 1;
+      color: var(--main-color-text-title);
     }
   }
   min-height: 450px;
@@ -3138,6 +3131,7 @@ html.theme-font-title-amaticsc .filterGrid h4 {
     padding: 1em;
     &-title {
       font-size: 22px;
+      color: var(--main-color-text-title);
       @include clamp(2, 1.3em, true);
     }
     &-desc {
@@ -3487,6 +3481,9 @@ footer {
     width: 100%;
     z-index: 900;
   }
+  @media (max-width: $bp-sm) {
+    padding: 10px 0px;
+  }
   a {
     transition: color 0.2s;
     color: #fff;
@@ -3650,7 +3647,7 @@ ACCOUNT
           }
         }
         a {
-          color: var(--font-color);
+          color: var(--main-color-text);
           @include flex(row, flex-start, center, nowrap);
           padding: 0.75em 1em;
           border-radius: $radius;
@@ -3687,7 +3684,7 @@ ACCOUNT
   &-menu {
     .btn-settings {
       background-color: var(--bg-btn);
-      color: var(--font-color);
+      color: var(--main-color-text);
       font-size: 1.8em;
       @include flex();
       padding: 0.3em;
@@ -3803,7 +3800,7 @@ ACCOUNT
       grid-area: delivery;
       @include flex(row, flex-start, center, nowrap);
       @media (max-width: $bp-lg) {
-        color: var(--font-color);
+        color: var(--main-color-text);
         padding: 0.25em 1em;
       }
     }
@@ -4431,7 +4428,7 @@ ACCOUNT END
   padding: 13px 20px;
   box-shadow: 0px 0px 2px #919eab1f, 0px 8px 24px -4px #919eab33 !important;
   border-radius: 4px;
-  color: var(--font-color);
+  color: var(--main-color-text);
   background-color: var(--bg-second) !important;
   border-left: 4px solid transparent;
   cursor: pointer;
@@ -4508,7 +4505,7 @@ ACCOUNT END
   }
   p {
     font-size: 13px;
-    color: var(--font-color);
+    color: var(--main-color-text);
   }
 }
 .sidebar {
@@ -4603,9 +4600,9 @@ ACCOUNT END
 }
 .dropdown {
   &-menu {
-    --bs-dropdown-color: var(--font-color);
+    --bs-dropdown-color: var(--main-color-text);
     --bs-dropdown-bg: var(--bg-second);
-    color: var(--font-color);
+    color: var(--main-color-text);
   }
 
   & > a {
@@ -4618,27 +4615,27 @@ ACCOUNT END
   &-item {
     font-size: 14px;
     padding: 8px 15px;
-    color: var(--font-color);
+    color: var(--main-color-text);
     background-color: var(--bg-main) !important;
     &:active,
     &.active {
-      color: var(--font-color-revers) !important;
+      color: var(--main-color-text-revers) !important;
       background-color: var(--main-color) !important;
     }
     &:hover:not(.active) {
-      color: var(--font-color) !important;
+      color: var(--main-color-text) !important;
       background-color: var(--bg-second) !important;
     }
     // &:active p,
     // &.active p {
-    //   color: var(--font-color-revers) !important;
+    //   color: var(--main-color-text-revers) !important;
     // }
   }
 }
 .custom-table {
   background-color: var(--bg-second);
   border-radius: 1em;
-  color: var(--font-color);
+  color: var(--main-color-text);
   border: none;
   overflow: hidden;
   &.lite {
@@ -4677,7 +4674,7 @@ ACCOUNT END
   &.lite .head,
   .head {
     background-color: var(--bg-btn);
-    color: var(--font-color);
+    color: var(--main-color-text);
     padding: 5px;
     font-weight: 600;
     border-top-left-radius: 1em;
@@ -4697,7 +4694,7 @@ ACCOUNT END
   }
 
   a svg {
-    color: var(--font-color);
+    color: var(--main-color-text);
   }
   .form-check-inpu:checked .row {
     background-color: var(--bg-btn);
@@ -4782,7 +4779,7 @@ ACCOUNT END
   }
   button {
     font-size: 1.25em;
-    color: var(--font-color);
+    color: var(--main-color-text);
   }
 }
 .payment {
@@ -5229,7 +5226,7 @@ ACCOUNT END
 .my-info-body {
   background-color: var(--bg-second);
   border-radius: 8px;
-  color: var(--font-color);
+  color: var(--main-color-text);
   box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.2);
   padding: 20px;
   padding-right: 30px;
@@ -5418,14 +5415,14 @@ ACCOUNT END
 }
 .card {
   background-color: var(--bg-card);
-  color: var(--font-color);
+  color: var(--main-color-text);
 }
 .popover {
   --bs-popover-bg: var(--bg-second);
   --bs-popover-border-color: var(--bg-second-hover);
-  --bs-popover-header-color: var(--font-color);
+  --bs-popover-header-color: var(--main-color-text);
   --bs-popover-header-bg: var(--bg-second-hover);
-  --bs-popover-body-color: var(--font-color);
+  --bs-popover-body-color: var(--main-color-text);
   .popover-arrow {
     --bs-popover-bg: var(--bg-second-hover);
   }

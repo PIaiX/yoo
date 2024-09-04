@@ -138,7 +138,7 @@ const Order = () => {
                       order.item.block
                         ? " (корпус " + order.item.block + ")"
                         : ""
-                    }, подъезд ${order.item.apartment}, этаж ${
+                    }, подъезд ${order.item.entrance}, этаж ${
                       order.item.floor
                     }, кв ${order.item.apartment}`}
                   </div>

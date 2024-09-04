@@ -581,7 +581,7 @@ const Header = memo(() => {
                         </b>
                         <Row>
                           {cities.map((e, index) => (
-                            <Col md={12} key={index} className="pb-2">
+                            <Col md={12} key={index} className="pb-2 ps-3">
                               <a
                                 onClick={() => {
                                   dispatch(updateAffiliate(e.affiliates));
@@ -591,7 +591,7 @@ const Header = memo(() => {
                                   setShowCity(false);
                                 }}
                                 className={
-                                  "p-2 fw-6" +
+                                  "py-2 fw-6" +
                                   (e.title === city?.title ? " active" : "")
                                 }
                               >
@@ -630,7 +630,7 @@ const Header = memo(() => {
                             </b>
                             <Row>
                               {cities.map((e, index) => (
-                                <Col md={12} key={index} className="pb-2">
+                                <Col md={12} key={index} className="pb-2 ps-3">
                                   <a
                                     onClick={() => {
                                       dispatch(updateAffiliate(e.affiliates));
@@ -640,7 +640,7 @@ const Header = memo(() => {
                                       setShowCity(false);
                                     }}
                                     className={
-                                      "p-2 fw-6" +
+                                      "py-2 fw-6" +
                                       (e.title === city?.title ? " active" : "")
                                     }
                                   >

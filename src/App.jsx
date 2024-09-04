@@ -60,13 +60,19 @@ function App() {
   const updateColor = useCallback(
     (options) => {
       if (options?.colorMain) {
-        setCssColor("--main-color", options.colorMain);
-        setCssColor(
-          "--main-color-outline",
-          convertColor(options.colorMain, 0.1)
-        );
-        setCssColor("--main-color-btn", options.colorBtn);
-        setCssColor("--main-color-text", options.colorText);
+        options.colorMain && setCssColor("--main-color", options.colorMain);
+        options.colorMain &&
+          setCssColor(
+            "--main-color-outline",
+            convertColor(options.colorMain, 0.1)
+          );
+        options.colorBtn && setCssColor("--main-color-btn", options.colorBtn);
+        options.colorText &&
+          setCssColor("--main-color-text", options.colorText);
+        options.colorTextTitle &&
+          setCssColor("--main-color-text-title", options.colorTextTitle);
+        options.colorTextSubtitle &&
+          setCssColor("--main-color-text-subtitle", options.colorTextSubtitle);
         options.themeFont && setClassName("theme-font", options.themeFont);
         options.themeFontSize &&
           setClassName("theme-font-size", options.themeFontSize);
@@ -159,15 +165,13 @@ function App() {
                 ...(res.options?.delivery?.status ? ["delivery"] : []),
                 ...(res.options?.pickup?.status ? ["pickup"] : []),
                 ...(res.options?.hall?.status ? ["hall"] : []),
+                ...(res.options?.feedback?.status ? ["feedback"] : []),
               ];
 
               if (
-                availableDeliveryTypes.length > 0 &&
-                availableDeliveryTypes.includes(delivery)
+                availableDeliveryTypes.length === 0 &&
+                !availableDeliveryTypes.includes(delivery)
               ) {
-                // Если выбранный тип доступен, ничего не делаем
-              } else {
-                // Если выбранный тип недоступен, обновляем delivery
                 dispatch(editDeliveryCheckout(availableDeliveryTypes[0]));
               }
             }
@@ -210,7 +214,7 @@ function App() {
             }
 
             if (auth?.token) {
-              if (!auth?.user?.password || !auth?.user?.brandId) {
+              if (!auth?.user?.brandId) {
                 return dispatch(logout());
               }
               await checkAuth()
