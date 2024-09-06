@@ -5,7 +5,7 @@ import React, {
   useLayoutEffect,
   useState,
 } from "react";
-import { Button, Modal, Spinner } from "react-bootstrap";
+import { Button, Modal } from "react-bootstrap";
 import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
@@ -331,6 +331,22 @@ const Checkout = () => {
 
         data.affiliateId = zone.data.affiliateId;
       }
+
+      if (data?.phone && data.phone?.length > 0) {
+        let phone = data.phone.replace(/[^\d]/g, "").trim();
+        if (!phone) {
+          return NotificationManager.error("Укажите номер телефона");
+        }
+        if (phone?.length < 11) {
+          return NotificationManager.error("Введите корректный номер телефона");
+        }
+        if (parseInt(phone[0]) === 7 && parseInt(phone[1]) === 8) {
+          return NotificationManager.error(
+            "Неверный формат номера телефона. Должно быть +79, +77."
+          );
+        }
+      }
+
       setIsLoading(true);
 
       createOrder(data)

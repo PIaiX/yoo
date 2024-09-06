@@ -6,17 +6,15 @@ import Container from "react-bootstrap/Container";
 import Offcanvas from "react-bootstrap/Offcanvas";
 import { useTranslation } from "react-i18next";
 import {
-  HiOutlineDevicePhoneMobile,
   HiOutlineMagnifyingGlass,
   HiOutlineShoppingBag,
   HiOutlineUserCircle,
 } from "react-icons/hi2";
-import { IoClose, IoCloseOutline } from "react-icons/io5";
+import { IoCloseOutline } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import AppStore from "../assets/imgs/appstore-black.svg";
 import GooglePlay from "../assets/imgs/googleplay-black.svg";
-import Phone from "../assets/imgs/phone.png";
 import { DADATA_TOKEN, DADATA_URL_GEO } from "../config/api";
 import { getCount, getImageURL } from "../helpers/all";
 import { isWork } from "../hooks/all";
@@ -30,12 +28,10 @@ import { resetCart } from "../store/reducers/cartSlice";
 import { editDeliveryCheckout } from "../store/reducers/checkoutSlice";
 import DeliveryBar from "./DeliveryBar";
 import ScrollToTop from "./ScrollToTop";
-import AppDownload from "./svgs/AppDownload";
 import MenuDelivery from "./svgs/MenuDelivery";
 import MenuDocs from "./svgs/MenuDocs";
 import MenuIcon from "./svgs/MenuIcon";
 import MenuPhone from "./svgs/MenuPhone";
-import YooApp from "./svgs/YooApp";
 import Input from "./utils/Input";
 import Select from "./utils/Select";
 
@@ -291,8 +287,7 @@ const Header = memo(() => {
                     href={"tel:" + selectedAffiliate.phone[0]}
                     className="phone"
                   >
-                    <HiOutlineDevicePhoneMobile className="fs-12" />
-                    <span className="ms-1 fw-6">
+                    <span className="fw-6">
                       {selectedAffiliate.phone[0]}
                     </span>
                   </a>

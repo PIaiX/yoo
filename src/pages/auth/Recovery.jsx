@@ -32,6 +32,21 @@ const Recovery = () => {
   const data = useWatch({ control });
 
   const onSubmit = useCallback((data) => {
+    if (data?.phone && data.phone?.length > 0) {
+      let phone = data.phone.replace(/[^\d]/g, "").trim();
+      if (!phone) {
+        return NotificationManager.error("Укажите номер телефона");
+      }
+      if (phone?.length < 11) {
+        return NotificationManager.error("Введите корректный номер телефона");
+      }
+      if (parseInt(phone[0]) === 7 && parseInt(phone[1]) === 8) {
+        return NotificationManager.error(
+          "Неверный формат номера телефона. Должно быть +79, +77."
+        );
+      }
+    }
+    
     authPasswordRecovery(data)
       .then(() => {
         reset({ ...data, step: data.step + 1 });
