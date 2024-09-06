@@ -611,11 +611,6 @@ input[type=number]::-webkit-outer-spin-button, input[type=number]::-webkit-inner
 .countInput svg {
   color: var(--main-color-text);
 }
-@media (max-width: 580px) {
-  .countInput {
-    padding: 0.35em 0;
-  }
-}
 @media (max-width: 1199px) {
   .countInput {
     font-size: 1.15em;
@@ -623,6 +618,12 @@ input[type=number]::-webkit-outer-spin-button, input[type=number]::-webkit-inner
 }
 .countInput.disabled {
   pointer-events: none;
+}
+@media (max-width: 580px) {
+  .countInput {
+    padding: 0.35em 0;
+    font-size: 1em !important;
+  }
 }
 .countInput input {
   padding: 0px;
@@ -2864,6 +2865,9 @@ main {
   }
 }
 
+.product .price {
+  font-size: 1.1em !important;
+}
 .product-img {
   position: relative;
   width: 100%;
@@ -2979,6 +2983,7 @@ main {
   overflow: hidden;
   line-height: 1.2em;
   max-height: 4.8em;
+  min-height: 2.4em;
   color: var(--main-color-text-title);
 }
 .product-stickers {

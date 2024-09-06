@@ -116,16 +116,11 @@ const ProductCard = memo(({ data }) => {
         )}
         <div className="d-flex justify-content-between align-items-center">
           <div>
-            <div className="fs-12 fw-5">
+            <div className="price fw-5">
               {modifiers?.length > 0 && Array.isArray(modifiers)
                 ? "от " + customPrice(price > 0 ? price : data.price)
                 : customPrice(data.price)}
             </div>
-            {/* <div className="gray fs-09 text-decoration-line-through">
-              {data?.modifiers?.length > 0
-                ? "от " + customPrice(price)
-                : customPrice(data.price)}
-            </div> */}
           </div>
         </div>
         {data?.energy?.weight > 0 && (
