@@ -236,11 +236,23 @@ const Product = () => {
         <form className="productPage mb-5">
           <Row className="gx-4 gx-xxl-5">
             <Col xs={12} md={5} lg={6}>
-              <img
-                src={getImageURL({ path: product.item.medias, size: "full" })}
-                alt={product.item.title}
-                className="productPage-img"
-              />
+              {data.cart.data?.modifiers[0]?.medias[0]?.media ? (
+                <img
+                  src={getImageURL({
+                    path: data.cart.data?.modifiers[0]?.medias[0]?.media,
+                    size: "full",
+                    type: "modifier",
+                  })}
+                  alt={product.item.title}
+                  className="productPage-img"
+                />
+              ) : (
+                <img
+                  src={getImageURL({ path: product.item.medias, size: "full" })}
+                  alt={product.item.title}
+                  className="productPage-img"
+                />
+              )}
             </Col>
             <Col xs={12} md={7} lg={6}>
               <div
@@ -307,11 +319,18 @@ const Product = () => {
                   <Tags data={product.item.tags} />
                 )}
               </div>
-              {product.item.description && (
+              {data.cart.data?.modifiers[0]?.description ? (
                 <div className="mb-4">
                   <p className="fw-6 mb-2">{t("Описание")}</p>
-                  {product.item.description}
+                  {data.cart.data.modifiers[0].description}
                 </div>
+              ) : (
+                product.item.description && (
+                  <div className="mb-4">
+                    <p className="fw-6 mb-2">{t("Описание")}</p>
+                    {product.item.description}
+                  </div>
+                )
               )}
               {product?.item?.modifiers?.length > 0 &&
                 product.item.modifiers.map((modifier) => (
