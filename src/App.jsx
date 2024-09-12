@@ -168,11 +168,12 @@ function App() {
                 ...(res.options?.feedback?.status ? ["feedback"] : []),
               ];
 
-              if (
-                availableDeliveryTypes.length === 0 &&
-                !availableDeliveryTypes.includes(delivery)
-              ) {
-                dispatch(editDeliveryCheckout(availableDeliveryTypes[0]));
+              const deliveryType = availableDeliveryTypes.find((type) => {
+                return res.options?.[type]?.status === true; // Проверяем статус для каждого типа
+              });
+
+              if (!availableDeliveryTypes.includes(delivery) && deliveryType) {
+                dispatch(editDeliveryCheckout(deliveryType)); // Выбираем найденный элемент
               }
             }
 

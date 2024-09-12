@@ -210,6 +210,8 @@ const Settings = () => {
                         label={t("Номер телефона")}
                         type="custom"
                         name="phone"
+                        inputMode="tel"
+                        pattern="[0-9+()-]*"
                         mask="+7(999)999-99-99"
                         readOnly={user?.phone ? true : false}
                         keyboardType="phone-pad"
@@ -225,6 +227,7 @@ const Settings = () => {
                       <Input
                         label="Email"
                         name="email"
+                        inputMode="email"
                         readOnly={user?.email ? true : false}
                         errors={errors}
                         register={register}

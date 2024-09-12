@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useState } from "react";
+import React, { useCallback, useLayoutEffect, useEffect, useState } from "react";
 import Container from "react-bootstrap/Container";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
@@ -22,6 +22,27 @@ const Home = () => {
   const selectedAffiliate = useSelector((state) => state.affiliate.active);
   const catalog = useSelector((state) => state.catalog);
   const dispatch = useDispatch();
+  const [isFirstLoad, setIsFirstLoad] = useState(true);
+
+  const getData = useCallback(() => {
+    getCatalog({
+      affiliateId: selectedAffiliate?.id ?? false,
+      multiBrand: options?.multiBrand,
+      type: "site",
+    })
+      .then((res) => {
+        dispatch(updateCatalog(res));
+      })
+      .finally(() => {
+        if (
+          (catalog?.widgets?.length === 0 &&
+            catalog?.categories?.length === 0) ||
+          loading
+        ) {
+          setLoading(false);
+        }
+      });
+  }, [selectedAffiliate, catalog, loading, options]);
 
   useLayoutEffect(() => {
     if (
@@ -32,25 +53,17 @@ const Home = () => {
       if (catalog?.widgets?.length === 0 && catalog?.categories?.length === 0) {
         setLoading(true);
       }
-      getCatalog({
-        affiliateId: selectedAffiliate?.id ?? false,
-        multiBrand: options?.multiBrand,
-        type: "site",
-      })
-        .then((res) => {
-          dispatch(updateCatalog(res));
-        })
-        .finally(() => {
-          if (
-            (catalog?.widgets?.length === 0 &&
-              catalog?.categories?.length === 0) ||
-            loading
-          ) {
-            setLoading(false);
-          }
-        });
+      getData();
     }
   }, [options]);
+
+  useEffect(() => {
+    if (isFirstLoad) {
+      setIsFirstLoad(false);
+      return;
+    }
+    getData();
+  }, [selectedAffiliate]);
 
   if (loading) {
     return <Loader full />;

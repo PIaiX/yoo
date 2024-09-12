@@ -61,6 +61,8 @@ const Callback = ({ show = false, setShow, type, page, product, ip }) => {
               <Input
                 mask="7(999)999-99-99"
                 label="Номер телефона"
+                inputMode="tel"
+                pattern="[0-9+()-]*"
                 name="phone"
                 errors={errors}
                 register={register}
@@ -72,6 +74,8 @@ const Callback = ({ show = false, setShow, type, page, product, ip }) => {
               <Input
                 label="Email"
                 name="email"
+                inputMode="email"
+                pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$"
                 errors={errors}
                 register={register}
                 validation={{ required: "Обязательное поле" }}

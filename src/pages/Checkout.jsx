@@ -638,6 +638,8 @@ const Checkout = () => {
                       label={t("Номер телефона")}
                       type="custom"
                       name="phone"
+                      inputMode="tel"
+                      pattern="[0-9]*"
                       mask="+7(999)999-99-99"
                       keyboardType="phone-pad"
                       control={control}

@@ -37,12 +37,12 @@ const Promo = () => {
           setLoading(false);
         }
       });
-  }, [options]);
+  }, [options, selectedAffiliate]);
 
   if (loading) {
     return <Loader full />;
   }
-console.log(catalog?.sales)
+
   if (
     !Array.isArray(catalog?.sales?.items) ||
     catalog?.sales?.items?.length <= 0

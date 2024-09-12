@@ -220,6 +220,7 @@ const Registration = () => {
           <Input
             type="email"
             name="email"
+            inputMode="email"
             placeholder={t("Введите email")}
             errors={errors}
             register={register}
@@ -239,6 +240,8 @@ const Registration = () => {
           <Input
             type="custom"
             name="phone"
+            inputMode="tel"
+            pattern="[0-9+()-]*"
             placeholder="+7(900)000-00-00"
             mask="+7(999)999-99-99"
             errors={errors}
@@ -295,6 +298,7 @@ const Registration = () => {
           <Input
             type="email"
             name="email"
+            inputMode="email"
             placeholder={t("Введите email")}
             errors={errorsReg}
             register={registerReg}
@@ -314,6 +318,8 @@ const Registration = () => {
           <Input
             type="custom"
             name="phone"
+            inputMode="tel"
+            pattern="[0-9+()-]*"
             placeholder="+7(900)000-00-00"
             mask="+7(999)999-99-99"
             errors={errorsReg}

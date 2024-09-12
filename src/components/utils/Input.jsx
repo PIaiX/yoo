@@ -9,6 +9,8 @@ const Input = memo(
     onFocus,
     onClick,
     onChange,
+    inputMode,
+    pattern,
     required,
     type,
     label,
@@ -66,6 +68,8 @@ const Input = memo(
             </div>
           ) : mask ? (
             <ReactInputMask
+              inputMode={inputMode}
+              pattern={pattern}
               onClick={onClick}
               onFocus={onFocus}
               readOnly={readOnly}
@@ -82,6 +86,8 @@ const Input = memo(
             />
           ) : (
             <input
+              inputMode={inputMode}
+              pattern={pattern}
               onClick={onClick}
               onFocus={onFocus}
               readOnly={readOnly}
