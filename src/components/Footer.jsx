@@ -146,7 +146,10 @@ const Footer = memo(() => {
                       "https://apps.apple.com/ru/app/" +
                       (options.app?.nameIos?.length > 0
                         ? options.app.nameIos
-                        : options.app.name) + '/id6462661474'
+                        : options.app.name) +
+                      (options.app?.accountApple
+                        ? options.app.accountApple
+                        : "/id6462661474")
                     }
                   >
                     <img src={AppStore} alt="App Store" height="35" />

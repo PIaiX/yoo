@@ -287,9 +287,7 @@ const Header = memo(() => {
                     href={"tel:" + selectedAffiliate.phone[0]}
                     className="phone"
                   >
-                    <span className="fw-6">
-                      {selectedAffiliate.phone[0]}
-                    </span>
+                    <span className="fw-6">{selectedAffiliate.phone[0]}</span>
                   </a>
                   {selectedAffiliate?.options?.work?.length > 0 &&
                   selectedAffiliate.options.work[moment().weekday()]?.start &&
@@ -448,7 +446,9 @@ const Header = memo(() => {
                           (options.app?.nameIos?.length > 0
                             ? options.app.nameIos
                             : options.app.name) +
-                          "/id6462661474"
+                          (options.app?.accountApple
+                            ? options.app.accountApple
+                            : "/id6462661474")
                         }
                       >
                         <img src={AppStore} alt="App Store" height="50" />
@@ -476,7 +476,9 @@ const Header = memo(() => {
                             (options.app?.nameIos?.length > 0
                               ? options.app.nameIos
                               : options.app.name) +
-                            "/id6462661474"
+                            (options.app?.accountApple
+                              ? options.app.accountApple
+                              : "/id6462661474")
                           }
                         >
                           <img src={AppStore} alt="App Store" height="35" />
