@@ -111,7 +111,6 @@ const Cart = () => {
       getCart({
         name: user?.firstName ?? "",
         phone: checkout?.data?.phone ?? user.phone ?? "",
-        phoneReg: user?.phoneReg ?? "",
         serving: checkout?.data?.serving ?? "",
         delivery: checkout.delivery ?? "delivery",
         payment: checkout?.data?.payment ?? "cash",

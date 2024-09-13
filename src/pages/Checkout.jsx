@@ -137,7 +137,6 @@ const Checkout = () => {
     defaultValues: {
       name: user.firstName ?? "",
       phone: user.phone ?? "",
-      phoneReg: user.phoneReg ?? "",
       serving: checkout?.data?.serving ?? "",
       delivery: checkout.delivery ?? "delivery",
       payment: checkout?.data?.payment ?? "cash",
@@ -227,7 +226,6 @@ const Checkout = () => {
       setValue("name", user.firstName);
       if (user.phone) {
         setValue("phone", user.phone);
-        setValue("phoneReg", user.phone);
       }
       trigger();
     }
