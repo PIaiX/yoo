@@ -152,6 +152,8 @@ const Header = memo(() => {
 
             if (city) {
               dispatch(updateCity(city));
+            }else{
+              setShowCity(true)
             }
           }
         }
