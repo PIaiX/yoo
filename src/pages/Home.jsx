@@ -102,7 +102,7 @@ const Home = () => {
         />
       )}
 
-      {options?.appYes && (
+      {/* {options?.appYes && (
         <Container className="overflow-hidden">
           <section className="sec-4 mb-5">
             <h3>
@@ -139,7 +139,7 @@ const Home = () => {
             <img src={Phone} alt="Phone" className="phone" />
           </section>
         </Container>
-      )}
+      )} */}
     </main>
   );
 };

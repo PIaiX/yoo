@@ -45,7 +45,10 @@ const ButtonCart = memo(
           plus: false,
         };
 
-        if (product?.modifiers?.length > 0 && data?.cart?.data) {
+        if (
+          product?.modifiers?.length > 0 ||
+          (product?.additions?.length > 0 && data?.cart?.data)
+        ) {
           newProduct.data.cart = { ...newProduct.data.cart, ...data.cart };
         }
 
@@ -59,6 +62,7 @@ const ButtonCart = memo(
         }
 
         dispatch(updateCart(newProduct));
+
         if (full && product?.modifiers?.length > 0 && newCount <= 1) {
           NotificationManager.success(t("Товар успешно добавлен в корзину"));
           navigate(-1);

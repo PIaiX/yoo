@@ -44,7 +44,7 @@ const settingsSlice = createSlice({
     updateOptions: (state, action) => {
       return {
         ...state,
-        updateTime: moment(),
+        updateTime: moment().toISOString(),
         options: { ...(action.payload?.options ?? initialState.options) },
         token: action.payload?.token,
       };

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useLayoutEffect, useState } from "react";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
@@ -21,11 +21,15 @@ const Contact = () => {
   const selectedAffiliate = useSelector((state) => state.affiliate.active);
   const options = useSelector((state) => state.settings.options);
 
-  const [mainAffiliate, setMainAffiliate] = useState(
-    affiliate?.length > 0
-      ? affiliate.find((e) => e.main) ?? affiliate[0]
-      : affiliate[0] ?? false
-  );
+  const [mainAffiliate, setMainAffiliate] = useState();
+
+  useLayoutEffect(() => {
+    setMainAffiliate(
+      affiliate?.length > 0
+        ? affiliate.find((e) => e.main) ?? affiliate[0]
+        : affiliate[0] ?? false
+    );
+  }, [selectedAffiliate]);
 
   if (!mainAffiliate) {
     return (

@@ -27,7 +27,7 @@ const Category = () => {
     getCategory({
       id: categoryId,
       affiliateId: selectedAffiliate?.id ?? false,
-      view: options?.multiBrand,
+      multiBrand: options?.multiBrand,
       type: "site",
     })
       .then((res) => setCategory({ loading: false, item: res }))

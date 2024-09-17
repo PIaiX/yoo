@@ -85,7 +85,7 @@ const Product = () => {
     getProduct({
       id: productId,
       affiliateId: selectedAffiliate?.id ?? false,
-      view: options?.multiBrand,
+      multiBrand: options?.multiBrand,
       type: "site",
     })
       .then((res) => {
