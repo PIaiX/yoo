@@ -319,7 +319,7 @@ const Checkout = () => {
         if (!data.address) {
           return NotificationManager.error(t("Добавьте адрес доставки"));
         }
-
+console.log(zone)
         if (!zone?.data || !zone?.data?.status) {
           NotificationManager.error(
             t("По данному адресу доставка не производится")

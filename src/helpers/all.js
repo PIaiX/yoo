@@ -232,22 +232,22 @@ const localeData = [
   {
     title: "Русский",
     image: require("../assets/imgs/country/russia.png"),
-    lang: ["ru_RU", "ru-RU", "ru"],
+    lang: "ru",
   },
   {
     title: "Казахский",
     image: require("../assets/imgs/country/kazakhstan.png"),
-    lang: ["kk_KZ", "kk-KZ", "kz", "kk"],
+    lang: "kk",
   },
   {
     title: "Английский",
     image: require("../assets/imgs/country/united-states.png"),
-    lang: ["en_US", "en-US", "en"],
+    lang: "en",
   },
 ];
 
 const getLang = (value) => {
-  let lang = localeData.find((e) => e.lang.includes(value ?? "ru"));
+  let lang = localeData.find((e) => e.lang === value)
   return lang?.title;
 };
 const generateSeoText = ({ text, name, site }) => {
@@ -273,6 +273,28 @@ const isUpdateTime = (dateTime) => {
 
   return timeDifference >= 1;
 };
+
+const languageCode = (value) => {
+  const normalizedLanguageCode = value.toLowerCase().replace(/_/g, "-");
+
+  const mappedLanguageCode = {
+    "ru": "ru",
+    "ru-ru": "ru",
+    "ru-RU": "ru",
+    "ru_RU": "ru",
+    "kk": "kk",
+    "kk-kz": "kk",
+    "kk-KZ": "kk",
+    "kk_KZ": "kk",
+    "en": "en",
+    "en-us": "en",
+    "en-US": "en",
+    "en_US": "en",
+  };
+
+  return mappedLanguageCode[normalizedLanguageCode] || "ru";
+};
+
 export {
   isUpdateTime,
   generateSeoText,
@@ -283,6 +305,7 @@ export {
   convertColor,
   customWeight,
   getLang,
+  languageCode,
   localeData,
   statusData,
   deliveryData,

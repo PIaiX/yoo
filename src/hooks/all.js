@@ -38,5 +38,4 @@ const isWork = (start, end, now) => {
     }
 }
 
-
 export { keyGenerator, isWork }

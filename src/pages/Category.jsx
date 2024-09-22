@@ -28,6 +28,8 @@ const Category = () => {
       id: categoryId,
       affiliateId: selectedAffiliate?.id ?? false,
       multiBrand: options?.multiBrand,
+      required: true,
+      viewCategories: false,
       type: "site",
     })
       .then((res) => setCategory({ loading: false, item: res }))
@@ -43,17 +45,18 @@ const Category = () => {
   }
 
   if (
-    !Array.isArray(category.item.products.items) ||
+    !category?.item?.id ||
+    !Array.isArray(category?.item?.products?.items) ||
     category.item.products.items.length <= 0
   ) {
     return (
       <Empty
-        text={t("Товаров нет")}
-        desc={t("Меню уже скоро появится")}
+        text={t("Категория пуста")}
+        desc={t("Информация скоро появится")}
         image={() => <EmptyCatalog />}
         button={
           <Link className="btn-primary" to="/">
-            {t("Перейти в меню")}
+            {t("Перейти на главную")}
           </Link>
         }
       />

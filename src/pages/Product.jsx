@@ -45,7 +45,9 @@ const groupByCategoryIdToArray = (modifiers) => {
 
   return Object.keys(grouped).map((key, index) => ({
     categoryId: key ?? index,
-    modifiers: grouped[key].sort((a, b) => a?.price - b?.price),
+    modifiers: grouped[key]
+      .filter((e) => e.modifierOptions?.length !== 0)
+      .sort((a, b) => a?.price - b?.price),
   }));
 };
 
@@ -85,6 +87,7 @@ const Product = () => {
     getProduct({
       id: productId,
       affiliateId: selectedAffiliate?.id ?? false,
+      required: true,
       multiBrand: options?.multiBrand,
       type: "site",
     })

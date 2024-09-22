@@ -15,7 +15,7 @@ import { editAccount } from "../../services/account";
 import { setUser } from "../../store/reducers/authSlice";
 import { useTranslation } from "react-i18next";
 import Select from "../../components/utils/Select";
-import { localeData } from "../../helpers/all";
+import { languageCode, localeData } from "../../helpers/all";
 
 const Settings = () => {
   const { t, i18n } = useTranslation();
@@ -55,7 +55,7 @@ const Settings = () => {
 
   const editLang = useCallback(
     (lang) => {
-      lang = Array.isArray(lang) ? lang[0].trim() : lang.trim();
+      lang = languageCode(lang)
       editAccount({ ...data, lang });
       i18n.changeLanguage(lang);
       moment.locale(lang);
@@ -239,7 +239,7 @@ const Settings = () => {
                         data={localeData.map((e) => ({
                           title: e.title,
                           image: e.image,
-                          value: e.lang[0],
+                          value: e.lang,
                         }))}
                         value={data.lang}
                         onClick={(e) => editLang(e.value)}

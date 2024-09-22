@@ -17,6 +17,7 @@ import {
   convertColor,
   getImageURL,
   isUpdateTime,
+  languageCode,
   setClassName,
   setCssColor,
 } from "./helpers/all";
@@ -153,8 +154,8 @@ function App() {
               }
 
               if (res?.options?.lang) {
-                i18n.changeLanguage(res.options.lang);
-                moment.locale(res.options.lang);
+                i18n.changeLanguage(languageCode(res.options.lang));
+                moment.locale(languageCode(res.options.lan));
               }
 
               dispatch(
@@ -224,8 +225,8 @@ function App() {
                   dispatch(setUser(data));
 
                   if (data?.lang) {
-                    i18n.changeLanguage(data.lang);
-                    moment.locale(data.lang);
+                    i18n.changeLanguage(languageCode(data.lang));
+                    moment.locale(languageCode(data.lang));
                   }
 
                   dispatch(updateAddresses(data?.addresses ?? []));
@@ -239,6 +240,10 @@ function App() {
           })
           .finally(() => setLoading(false));
       } else {
+        if (auth?.user?.lang) {
+          i18n.changeLanguage(languageCode(auth.user.lang));
+          moment.locale(languageCode(auth.user.lang));
+        }
         setLoading(false);
       }
     })();
