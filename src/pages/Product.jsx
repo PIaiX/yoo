@@ -45,9 +45,13 @@ const groupByCategoryIdToArray = (modifiers) => {
 
   return Object.keys(grouped).map((key, index) => ({
     categoryId: key ?? index,
-    modifiers: grouped[key]
-      .filter((e) => e.modifierOptions?.length !== 0)
-      .sort((a, b) => a?.price - b?.price),
+    modifiers:
+      grouped[key]?.length > 0 &&
+      grouped[key]?.filter((e) => e.modifierOptions?.length !== 0)?.length > 0
+        ? grouped[key]
+            .filter((e) => e.modifierOptions?.length !== 0)
+            .sort((a, b) => a?.price - b?.price)
+        : [],
   }));
 };
 
