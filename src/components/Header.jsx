@@ -52,7 +52,6 @@ const Header = memo(() => {
 
   const dispatch = useDispatch();
   const [showMenu, setShowMenu] = useState(false);
-  const [showApp, setShowApp] = useState(false);
   const [showCity, setShowCity] = useState(false);
   const [showBrand, setShowBrand] = useState(false);
   const count = getCount(cart);

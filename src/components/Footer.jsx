@@ -1,13 +1,12 @@
 import React, { memo } from "react";
 import Container from "react-bootstrap/Container";
 import { useTranslation } from "react-i18next";
-import { HiOutlineDevicePhoneMobile } from "react-icons/hi2";
 import {
-  IoHomeOutline,
-  IoCartOutline,
-  IoPersonOutline,
   IoCallOutline,
+  IoCartOutline,
   IoFlameOutline,
+  IoHomeOutline,
+  IoPersonOutline,
 } from "react-icons/io5";
 import { useSelector } from "react-redux";
 import { Link, NavLink } from "react-router-dom";

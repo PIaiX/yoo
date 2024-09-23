@@ -273,6 +273,13 @@ const isUpdateTime = (dateTime) => {
 
   return timeDifference >= 1;
 };
+const childrenArray = (data, idProp, parentProp) => {
+  const tree = Object.fromEntries(data.map(n => [n[idProp], { ...n, children: [] }]));
+
+  return Object
+    .values(tree)
+    .filter(n => !(tree[n[parentProp]] && tree[n[parentProp]].children.push(n)));
+}
 
 const languageCode = (value) => {
   const normalizedLanguageCode = value.toLowerCase().replace(/_/g, "-");
@@ -312,5 +319,6 @@ export {
   paymentData,
   getCount,
   declination,
+  childrenArray,
   tagsData,
 };
