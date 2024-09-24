@@ -20,6 +20,7 @@ import Empty from "../components/Empty";
 import EmptyWork from "../components/empty/work";
 import Meta from "../components/Meta";
 import { getImageURL } from "../helpers/all";
+import { IoChevronForward } from "react-icons/io5";
 
 const Info = () => {
   const { t } = useTranslation();
@@ -105,7 +106,12 @@ const Info = () => {
               className="d-flex flex-row align-items-center p-3"
             >
               <FaPhone size={24} className="me-3" />
-              <div>Позвонить</div>
+              <div className="d-flex align-items-center justify-content-between w-100">
+                <div>Позвонить</div>
+                <div>
+                  <IoChevronForward color="#999" size={20} />
+                </div>
+              </div>
             </ListGroup.Item>
           )}
           {options?.info?.whatsapp?.value &&
@@ -118,7 +124,12 @@ const Info = () => {
                 className="d-flex flex-row align-items-center p-3"
               >
                 <FaWhatsapp size={24} className="me-3" />
-                <div>Написать в WhatsApp</div>
+                <div className="d-flex align-items-center justify-content-between w-100">
+                  <div>Написать в WhatsApp</div>
+                  <div>
+                    <IoChevronForward color="#999" size={20} />
+                  </div>
+                </div>
               </ListGroup.Item>
             )}
           {options?.info?.vk?.value && options?.info?.vk?.status && (
@@ -130,7 +141,12 @@ const Info = () => {
               className="d-flex flex-row align-items-center p-3"
             >
               <FaVk size={24} className="me-3" />
-              <div>Написать в ВКонтакте</div>
+              <div className="d-flex align-items-center justify-content-between w-100">
+                <div>Написать в ВКонтакте</div>
+                <div>
+                  <IoChevronForward color="#999" size={20} />
+                </div>
+              </div>
             </ListGroup.Item>
           )}
           {options?.info?.telegram?.value &&
@@ -143,7 +159,12 @@ const Info = () => {
                 className="d-flex flex-row align-items-center p-3"
               >
                 <FaTelegram size={24} className="me-3" />
-                <div>Написать в Telegram</div>
+                <div className="d-flex align-items-center justify-content-between w-100">
+                  <div>Написать в Telegram</div>
+                  <div>
+                    <IoChevronForward color="#999" size={20} />
+                  </div>
+                </div>
               </ListGroup.Item>
             )}
           {options?.info?.instagram?.value &&
@@ -156,11 +177,16 @@ const Info = () => {
                 className="d-flex flex-row align-items-center p-3"
               >
                 <FaInstagram size={24} className="me-3" />
-                <div>
-                  Instagram
-                  <p className="fs-07 text-muted">
-                    Запрещено на территории России
-                  </p>
+                <div className="d-flex align-items-center justify-content-between w-100">
+                  <div>
+                    Instagram
+                    <p className="fs-07 text-muted">
+                      Запрещено на территории России
+                    </p>
+                  </div>
+                  <div>
+                    <IoChevronForward color="#999" size={20} />
+                  </div>
                 </div>
               </ListGroup.Item>
             )}
@@ -181,7 +207,12 @@ const Info = () => {
               className="d-flex flex-row align-items-center p-3"
             >
               <FaAppStoreIos size={24} className="me-3" />
-              <div>AppStore</div>
+              <div className="d-flex align-items-center justify-content-between w-100">
+                <div>AppStore</div>
+                <div>
+                  <IoChevronForward color="#999" size={20} />
+                </div>
+              </div>
             </ListGroup.Item>
           ) : options?.app?.name && /Android/i.test(navigator.userAgent) ? (
             <ListGroup.Item
@@ -197,7 +228,12 @@ const Info = () => {
               className="d-flex flex-row align-items-center p-3"
             >
               <FaGooglePlay size={24} className="me-3" />
-              <div>Google Play</div>
+              <div className="d-flex align-items-center justify-content-between w-100">
+                <div>Google Play</div>
+                <div>
+                  <IoChevronForward color="#999" size={20} />
+                </div>
+              </div>
             </ListGroup.Item>
           ) : (
             <>
@@ -214,7 +250,12 @@ const Info = () => {
                 className="d-flex flex-row align-items-center p-3"
               >
                 <FaGooglePlay size={24} className="me-3" />
-                <div>Google Play</div>
+                <div className="d-flex align-items-center justify-content-between w-100">
+                  <div>Google Play</div>
+                  <div>
+                    <IoChevronForward color="#999" size={20} />
+                  </div>
+                </div>
               </ListGroup.Item>
               <ListGroup.Item
                 active={false}
@@ -232,7 +273,12 @@ const Info = () => {
                 className="d-flex flex-row align-items-center p-3"
               >
                 <FaAppStoreIos size={24} className="me-3" />
-                <div>AppStore</div>
+                <div className="d-flex align-items-center justify-content-between w-100">
+                  <div>AppStore</div>
+                  <div>
+                    <IoChevronForward color="#999" size={20} />
+                  </div>
+                </div>
               </ListGroup.Item>
             </>
           )}
