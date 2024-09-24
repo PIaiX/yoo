@@ -46,11 +46,8 @@ const groupByCategoryIdToArray = (modifiers) => {
   return Object.keys(grouped).map((key, index) => ({
     categoryId: key ?? index,
     modifiers:
-      grouped[key]?.length > 0 &&
-      grouped[key]?.filter((e) => e.modifierOptions?.length !== 0)?.length > 0
-        ? grouped[key]
-            .filter((e) => e.modifierOptions?.length !== 0)
-            .sort((a, b) => a?.price - b?.price)
+      grouped[key]?.length > 0
+        ? grouped[key].sort((a, b) => a?.price - b?.price)
         : [],
   }));
 };
@@ -127,12 +124,12 @@ const Product = () => {
         if (product.item?.options?.modifierPriceSum) {
           price +=
             data.cart.data.modifiers.reduce(
-              (sum, item) => sum + item.price,
+              (sum, item) => sum + (item?.price ?? 0),
               0
             ) + product.item.price;
         } else {
           price += data.cart.data.modifiers.reduce(
-            (sum, item) => sum + item.price,
+            (sum, item) => sum + (item?.price ?? 0),
             0
           );
         }
@@ -144,12 +141,12 @@ const Product = () => {
         if (product.item?.options?.modifierPriceSum) {
           discount +=
             data.cart.data.modifiers.reduce(
-              (sum, item) => sum + item.discount,
+              (sum, item) => sum + (item?.discount ?? 0),
               0
             ) + product.item.discount;
         } else {
           discount += data.cart.data.modifiers.reduce(
-            (sum, item) => sum + item.discount,
+            (sum, item) => sum + (item?.discount ?? 0),
             0
           );
         }
@@ -159,7 +156,7 @@ const Product = () => {
 
       if (data.cart.data?.additions?.length > 0) {
         price += data.cart.data.additions.reduce(
-          (sum, item) => sum + item.price,
+          (sum, item) => sum + (item?.price ?? 0),
           0
         );
       }
