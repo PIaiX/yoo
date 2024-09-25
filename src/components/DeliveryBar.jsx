@@ -45,7 +45,7 @@ const DeliveryBar = () => {
                   : "full"
               }
             ></div>
-            <img src="/imgs/scooter.png" alt="delivery" />
+            <img src="imgs/scooter.png" alt="delivery" />
           </div>
         </div>
       </div>

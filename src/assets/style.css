@@ -1,6 +1,7 @@
 @charset "UTF-8";
 @import url("https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Amatic+SC:wght@400;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap");
 html {
   scroll-behavior: smooth;
 }
@@ -124,7 +125,9 @@ address {
   margin-bottom: 0px;
 }
 
-h1, h2, h3 {
+h1,
+h2,
+h3 {
   color: var(--main-color-text-title);
 }
 
@@ -1526,7 +1529,7 @@ select {
 
 body {
   margin: 0;
-  font-family: "Open Sans", "Arial", "Tahoma", "Verdana";
+  font-family: "Nunito", "Arial", "Tahoma", "Verdana";
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-size: 16px;
@@ -6190,4 +6193,19 @@ ACCOUNT END
   position: absolute;
   left: 7px;
   top: 0px;
+}
+
+.member {
+  padding: 2em;
+  width: 100%;
+  max-width: 500px;
+}
+.member .key {
+  font-size: 50px;
+}
+
+.qr {
+  height: auto;
+  max-width: 50%;
+  width: 50%;
 }/*# sourceMappingURL=style.css.map */

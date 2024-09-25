@@ -4,7 +4,9 @@ import moment from "moment";
 const initialState = {
   isConnected: true,
   ip: "0.0.0.0",
+  apiId: false,
   token: false,
+  member: false,
   options: {
     name: "ru.yooapp.app",
     title: "YooApp",
@@ -38,6 +40,12 @@ const settingsSlice = createSlice({
   name: "settings",
   initialState,
   reducers: {
+    updateApiId: (state, action) => {
+      state.apiId = action.payload;
+    },
+    updateMember: (state, action) => {
+      state.member = action.payload;
+    },
     updateConnect: (state, action) => {
       state.isConnected = action.payload;
     },
@@ -82,6 +90,8 @@ export const {
   updateIp,
   updateFilter,
   removeFilter,
+  updateMember,
+  updateApiId
 } = settingsSlice.actions;
 
 export default settingsSlice.reducer;

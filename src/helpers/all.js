@@ -301,9 +301,40 @@ const languageCode = (value) => {
 
   return mappedLanguageCode[normalizedLanguageCode] || "ru";
 };
+const generateToken = (length = 50, type) => {
+  let chars =
+    type == "number"
+      ? "0123456789"
+      : type == "letters"
+      ? "abcdefghijklmnopqrstuvwxyz"
+      : "0123456789abcdefghijklmnopqrstuvwxyz";
+  let key = "";
+  for (var i = 1; i <= length; i++) {
+    var randomNumber = Math.floor(Math.random() * chars.length);
+    key += chars.substring(randomNumber, randomNumber + 1);
+  }
+  return key;
+};
+
+function addSpacesToNumber(number) {
+  const strNumber = String(number); // Преобразуем число в строку
+  const length = strNumber.length;
+  let result = '';
+
+  for (let i = 0; i < length; i++) {
+    if (i > 0 && (length - i) % 3 === 0) {
+      result += ' '; // Добавляем пробел после каждого третьего числа
+    }
+    result += strNumber[i]; // Добавляем текущую цифру к результату
+  }
+
+  return result;
+}
 
 export {
+  addSpacesToNumber,
   isUpdateTime,
+  generateToken,
   generateSeoText,
   setCssColor,
   setClassName,

@@ -14,7 +14,6 @@ import { authRegister, login } from "../../services/auth";
 import Meta from "../../components/Meta";
 import { Button } from "react-bootstrap";
 import { NotificationManager } from "react-notifications";
-
 import { getImageURL } from "../../helpers/all";
 import { useTranslation } from "react-i18next";
 import socket from "../../config/socket";
