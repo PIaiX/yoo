@@ -151,8 +151,8 @@ const Header = memo(() => {
 
             if (city) {
               dispatch(updateCity(city));
-            }else{
-              setShowCity(true)
+            } else {
+              setShowCity(true);
             }
           }
         }
@@ -439,17 +439,21 @@ const Header = memo(() => {
                   {t("Заказывайте через приложение")}
                 </p>
                 <ul className="list-unstyled d-flex justify-content-center mt-2">
-                  {/iPhone|iPad/i.test(navigator.userAgent) ? (
+                  {/iPhone|iPad/i.test(navigator.userAgent) &&
+                  options.app?.accountApple &&
+                  options.app.titleIos ? (
                     <li>
                       <a
                         href={
                           "https://apps.apple.com/ru/app/" +
-                          (options.app?.nameIos?.length > 0
+                          (options.app?.titleIos?.length > 0
+                            ? options.app.titleIos
+                            : options.app?.nameIos?.length > 0
                             ? options.app.nameIos
                             : options.app.name) +
                           (options.app?.accountApple
-                            ? options.app.accountApple
-                            : "/id6462661474")
+                            ? "/id" + options.app.accountApple
+                            : "")
                         }
                       >
                         <img src={AppStore} alt="App Store" height="50" />
@@ -470,21 +474,25 @@ const Header = memo(() => {
                     </li>
                   ) : (
                     <div className="list-unstyled d-flex justify-content-center">
-                      <li>
-                        <a
-                          href={
-                            "https://apps.apple.com/ru/app/" +
-                            (options.app?.nameIos?.length > 0
-                              ? options.app.nameIos
-                              : options.app.name) +
-                            (options.app?.accountApple
-                              ? options.app.accountApple
-                              : "/id6462661474")
-                          }
-                        >
-                          <img src={AppStore} alt="App Store" height="35" />
-                        </a>
-                      </li>
+                      {options.app?.accountApple && options.app?.titleIos && (
+                        <li>
+                          <a
+                            href={
+                              "https://apps.apple.com/ru/app/" +
+                              (options.app?.titleIos?.length > 0
+                                ? options.app.titleIos
+                                : options.app?.nameIos?.length > 0
+                                ? options.app.nameIos
+                                : options.app.name) +
+                              (options.app?.accountApple
+                                ? "/id" + options.app.accountApple
+                                : "")
+                            }
+                          >
+                            <img src={AppStore} alt="App Store" height="35" />
+                          </a>
+                        </li>
+                      )}
                       <li className="ms-2">
                         <a
                           href={

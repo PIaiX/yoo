@@ -139,21 +139,25 @@ const Footer = memo(() => {
                 {t("Заказывайте через приложение")}
               </p>
               <ul className="list-unstyled d-flex mt-2">
-                <li>
-                  <a
-                    href={
-                      "https://apps.apple.com/ru/app/" +
-                      (options.app?.nameIos?.length > 0
-                        ? options.app.nameIos
-                        : options.app.name) +
-                      (options.app?.accountApple
-                        ? options.app.accountApple
-                        : "/id6462661474")
-                    }
-                  >
-                    <img src={AppStore} alt="App Store" height="35" />
-                  </a>
-                </li>
+                {options.app?.accountApple && options.app?.titleIos && (
+                  <li>
+                    <a
+                      href={
+                        "https://apps.apple.com/ru/app/" +
+                        (options.app?.titleIos?.length > 0
+                          ? options.app.titleIos
+                          : options.app?.nameIos?.length > 0
+                          ? options.app.nameIos
+                          : options.app.name) +
+                        (options.app?.accountApple
+                          ? "/id" + options.app.accountApple
+                          : "")
+                      }
+                    >
+                      <img src={AppStore} alt="App Store" height="35" />
+                    </a>
+                  </li>
+                )}
                 <li className="ms-2">
                   <a
                     href={

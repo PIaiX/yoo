@@ -197,12 +197,14 @@ const Info = () => {
               target="_blank"
               href={
                 "https://apps.apple.com/ru/app/" +
-                (options.app?.nameIos?.length > 0
+                (options.app?.titleIos?.length > 0
+                  ? options.app.titleIos
+                  : options.app?.nameIos?.length > 0
                   ? options.app.nameIos
                   : options.app.name) +
                 (options.app?.accountApple
-                  ? options.app.accountApple
-                  : "/id6462661474")
+                  ? "/" + options.app.accountApple
+                  : "")
               }
               className="d-flex flex-row align-items-center p-3"
             >
@@ -257,29 +259,33 @@ const Info = () => {
                   </div>
                 </div>
               </ListGroup.Item>
-              <ListGroup.Item
-                active={false}
-                action
-                target="_blank"
-                href={
-                  "https://apps.apple.com/ru/app/" +
-                  (options.app?.nameIos?.length > 0
-                    ? options.app.nameIos
-                    : options.app.name) +
-                  (options.app?.accountApple
-                    ? options.app.accountApple
-                    : "/id6462661474")
-                }
-                className="d-flex flex-row align-items-center p-3"
-              >
-                <FaAppStoreIos size={24} className="me-3" />
-                <div className="d-flex align-items-center justify-content-between w-100">
-                  <div>AppStore</div>
-                  <div>
-                    <IoChevronForward color="#999" size={20} />
+              {options.app?.accountApple && options.app?.titleIos && (
+                <ListGroup.Item
+                  active={false}
+                  action
+                  target="_blank"
+                  href={
+                    "https://apps.apple.com/ru/app/" +
+                    (options.app?.titleIos?.length > 0
+                      ? options.app.titleIos
+                      : options.app?.nameIos?.length > 0
+                      ? options.app.nameIos
+                      : options.app.name) +
+                    (options.app?.accountApple
+                      ? "/id" + options.app.accountApple
+                      : "")
+                  }
+                  className="d-flex flex-row align-items-center p-3"
+                >
+                  <FaAppStoreIos size={24} className="me-3" />
+                  <div className="d-flex align-items-center justify-content-between w-100">
+                    <div>AppStore</div>
+                    <div>
+                      <IoChevronForward color="#999" size={20} />
+                    </div>
                   </div>
-                </div>
-              </ListGroup.Item>
+                </ListGroup.Item>
+              )}
             </>
           )}
         </ListGroup>
