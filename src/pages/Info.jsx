@@ -197,8 +197,8 @@ const Info = () => {
               target="_blank"
               href={
                 "https://apps.apple.com/ru/app/" +
-                (options.app?.nameIos?.length > 0
-                  ? options.app.nameIos
+                (options.app?.titleIos?.length > 0
+                  ? options.app.titleIos
                   : options.app.name) +
                 (options.app?.accountApple
                   ? options.app.accountApple
@@ -263,8 +263,8 @@ const Info = () => {
                 target="_blank"
                 href={
                   "https://apps.apple.com/ru/app/" +
-                  (options.app?.nameIos?.length > 0
-                    ? options.app.nameIos
+                  (options.app?.titleIos?.length > 0
+                    ? options.app.titleIos
                     : options.app.name) +
                   (options.app?.accountApple
                     ? options.app.accountApple

@@ -133,6 +133,7 @@ function App() {
     terminalAuth()
       .then((res) => {
         res.key && setKey(res.key);
+        res.options && dispatch(updateOptions({ options: res.options }));
       })
       .finally(() => setLoading(false));
     // (async () => {
@@ -314,8 +315,8 @@ function App() {
       socket.io.opts.query = settings.apiId;
       socket.connect();
       socket.on("terminal", (data) => {
-        if (data?.member?.id) {
-          dispatch(updateMember(data.member));
+        if (data?.options) {
+          dispatch(updateOptions({ options: data.options }));
         } else if (data?.key) {
           setKey(data.key);
         }
@@ -324,13 +325,13 @@ function App() {
         socket.off("terminal");
       };
     }
-  }, [settings?.member?.id, settings?.apiId]);
+  }, [settings?.options]);
 
   if (loading) {
     return <Loader full />;
   }
 
-  if (!settings?.member?.id) {
+  if (!settings?.options) {
     return (
       <main className="py-lg-0">
         <Meta title={t("Активируйте терминал")} />
