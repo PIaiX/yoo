@@ -54,6 +54,9 @@ import { Button } from "react-bootstrap";
 import Meta from "./components/Meta";
 import QRCode from "react-qr-code";
 import { Timer } from "./helpers/timer";
+import EmptyWork from "./components/empty/work";
+import Empty from "./components/Empty";
+import { Link } from "react-router-dom";
 
 function App() {
   const { t, i18n } = useTranslation();
@@ -133,7 +136,10 @@ function App() {
     terminalAuth()
       .then((res) => {
         res.key && setKey(res.key);
-        res.options && dispatch(updateOptions({ options: res.options }));
+        res.options &&
+          dispatch(
+            updateOptions({ terminal: res.terminal, options: res.options })
+          );
       })
       .finally(() => setLoading(false));
     // (async () => {
@@ -312,17 +318,19 @@ function App() {
 
   useEffect(() => {
     if (settings?.apiId) {
-      socket.io.opts.query = settings.apiId;
       socket.connect();
-      socket.on("terminal", (data) => {
+      socket.emit("create", "terminal/" + settings.apiId);
+      socket.on("auth", (data) => {
         if (data?.options) {
-          dispatch(updateOptions({ options: data.options }));
+          dispatch(
+            updateOptions({ terminal: data.terminal, options: data.options })
+          );
         } else if (data?.key) {
           setKey(data.key);
         }
       });
       return () => {
-        socket.off("terminal");
+        socket.off("auth");
       };
     }
   }, [settings?.options]);
@@ -331,7 +339,17 @@ function App() {
     return <Loader full />;
   }
 
-  if (!settings?.options) {
+  if (!settings?.terminal?.status) {
+    return (
+      <Empty
+        text={t("Терминал временно не работает")}
+        desc={t("Подходите немного позже")}
+        image={() => <EmptyWork />}
+      />
+    );
+  }
+
+  if (!settings?.options || !settings?.terminal) {
     return (
       <main className="py-lg-0">
         <Meta title={t("Активируйте терминал")} />

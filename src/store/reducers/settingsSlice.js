@@ -6,7 +6,7 @@ const initialState = {
   ip: "0.0.0.0",
   apiId: false,
   token: false,
-  member: false,
+  terminal: false,
   options: false,
   filter: [],
   updateTime: false,
@@ -19,9 +19,6 @@ const settingsSlice = createSlice({
     updateApiId: (state, action) => {
       state.apiId = action.payload;
     },
-    updateMember: (state, action) => {
-      state.member = action.payload;
-    },
     updateConnect: (state, action) => {
       state.isConnected = action.payload;
     },
@@ -30,6 +27,7 @@ const settingsSlice = createSlice({
         ...state,
         updateTime: moment().toISOString(),
         options: { ...(action.payload?.options ?? initialState.options) },
+        terminal: { ...(action.payload?.terminal ?? initialState.terminal) },
         token: action.payload?.token,
       };
     },
@@ -66,8 +64,7 @@ export const {
   updateIp,
   updateFilter,
   removeFilter,
-  updateMember,
-  updateApiId
+  updateApiId,
 } = settingsSlice.actions;
 
 export default settingsSlice.reducer;
