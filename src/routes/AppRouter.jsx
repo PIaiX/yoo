@@ -30,6 +30,7 @@ import Blogs from "../pages/Blogs";
 import Categories from "../pages/Categories";
 import Search from "../pages/Search";
 import Info from "../pages/Info";
+import Login from "../pages/auth/Login";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -76,7 +77,8 @@ const router = createBrowserRouter(
       />
 
       <Route path="recovery" element={<Recovery />} />
-      <Route path="login" element={<Registration />} />
+      <Route path="reg" element={<Registration />} />
+      <Route path="login" element={<Login />} />
       <Route path="blogs" element={<Blogs />} />
       <Route path="blog/:blogId" element={<Blog />} />
     </Route>

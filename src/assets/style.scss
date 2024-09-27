@@ -1,6 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Amatic+SC:wght@400;700&display=swap");
-@import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap");
 html {
   scroll-behavior: smooth;
 }
@@ -22,7 +22,7 @@ html {
 }
 :root,
 :root[data-theme="light"] {
-  --bg-header: #F4F6F8;
+  --bg-header: #f4f6f8;
   --bg-header-active: #fff;
   --main-color: #222;
   --main-color-btn: #222;
@@ -1554,7 +1554,7 @@ body {
     font-size: 14px;
   }
 }
-.left-menu{
+.left-menu {
   position: sticky;
   top: 0px;
   background-color: var(--bg-header);
@@ -1653,14 +1653,15 @@ body {
       }
     }
   }
-  .categories{
-    a{
+  .categories {
+    a {
       padding: 15px;
       width: 100%;
       font-weight: 700;
       color: var(--main-color);
       border-top: 1px solid #ebebeb;
-      img, .img{
+      img,
+      .img {
         display: inline-flex;
         text-align: center;
         font-size: 24px;
@@ -1671,12 +1672,13 @@ body {
         align-items: center;
       }
     }
-    a:hover, a.active{
+    a:hover,
+    a.active {
       background-color: var(--bg-header-active) !important;
     }
   }
 }
-.left-menu-col{
+.left-menu-col {
   max-width: 350px;
 }
 
@@ -4313,36 +4315,20 @@ ACCOUNT
 }
 .login {
   position: relative;
-  min-height: calc(100vh - var(--h-height) - var(--f-height));
-  height: 700px;
-  &-forms {
-    position: relative;
-    z-index: 1;
-    width: 62%;
-    padding: 4em;
-    @media (max-width: $bp-xl) {
-      padding: 2em;
-    }
-    @media (max-width: $bp-md) {
+
+  form {
+    background-color: var(--bg-second);
+    border-radius: $radius;
+    padding: 2em;
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
+    @media (max-width: $bp-lg) {
       width: 100%;
-    }
-    @media (max-width: $bp-sm) {
-      padding: 1em;
-    }
-    form {
-      background-color: var(--bg-second);
-      border-radius: $radius;
-      padding: 2em;
-      &.login-form {
-        width: 80%;
-        margin: 0 auto;
-        @media (max-width: $bp-lg) {
-          width: 100%;
-          padding: 1.3em;
-        }
-      }
+      padding: 1.3em;
     }
   }
+
   &-toggler {
     position: absolute;
     top: 60px;
@@ -5501,7 +5487,7 @@ ACCOUNT END
   padding: 2em;
   width: 100%;
   max-width: 500px;
-  .key{
+  .key {
     font-size: 50px;
   }
 }
@@ -5516,22 +5502,22 @@ ACCOUNT END
   padding: 2em;
   width: 100%;
   max-width: 800px;
-  img{
+  img {
     width: 100%;
     max-width: 90%;
     height: 70vh;
     object-fit: contain;
   }
-  button{
+  button {
     width: 100%;
     max-width: 500px;
   }
 }
-.start-delivery{
+.start-delivery {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  a{
+  a {
     justify-content: center;
     padding: 45px;
     border: 3px solid #eee;
