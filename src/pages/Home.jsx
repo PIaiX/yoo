@@ -1,4 +1,9 @@
-import React, { useCallback, useLayoutEffect, useEffect, useState } from "react";
+import React, {
+  useCallback,
+  useLayoutEffect,
+  useEffect,
+  useState,
+} from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import Catalog from "../components/Catalog";
@@ -10,6 +15,8 @@ import Loader from "../components/utils/Loader";
 import { isUpdateTime } from "../helpers/all";
 import { getCatalog } from "../services/catalog";
 import { updateCatalog } from "../store/reducers/catalogSlice";
+import Header from "../components/Header";
+import { Col, Row } from "react-bootstrap";
 
 const Home = () => {
   const { t } = useTranslation();
@@ -41,12 +48,8 @@ const Home = () => {
   }, [selectedAffiliate, catalog, loading, options]);
 
   useLayoutEffect(() => {
-    if (
-      isUpdateTime(catalog.updateTime) &&
-      options?.title &&
-      options?.title != "YooApp"
-    ) {
-      if (catalog?.widgets?.length === 0 && catalog?.categories?.length === 0) {
+    if (isUpdateTime(catalog.updateTime)) {
+      if (catalog?.categories?.length === 0) {
         setLoading(true);
       }
       getData();
@@ -66,7 +69,7 @@ const Home = () => {
   }
 
   return (
-    <main className="mt-0 pt-0">
+    <>
       <Meta
         title={
           options?.seo?.home?.title
@@ -86,10 +89,15 @@ const Home = () => {
         }
       />
 
-      {catalog?.widgets?.length > 0 ? (
-        <Widgets data={catalog.widgets} />
-      ) : catalog?.categories?.length > 0 ? (
-        <Catalog data={catalog.categories} />
+      {catalog?.categories?.length > 0 ? (
+        <Row className="gx-3 gx-xl-4">
+          <Col className="left-menu-col">
+            <Header categories={catalog.categories}/>
+          </Col>
+          <Col>
+            <Catalog data={catalog.categories} />
+          </Col>
+        </Row>
       ) : (
         <Empty
           text={t("Сайт пуст")}
@@ -97,7 +105,7 @@ const Home = () => {
           image={() => <EmptyCatalog />}
         />
       )}
-    </main>
+    </>
   );
 };
 

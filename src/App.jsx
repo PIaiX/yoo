@@ -44,6 +44,7 @@ import {
   updateIp,
   updateMember,
   updateOptions,
+  updateStart,
 } from "./store/reducers/settingsSlice";
 import { updateStatus } from "./store/reducers/statusSlice";
 import Input from "./components/utils/Input";
@@ -57,6 +58,7 @@ import { Timer } from "./helpers/timer";
 import EmptyWork from "./components/empty/work";
 import Empty from "./components/Empty";
 import { Link } from "react-router-dom";
+import { IoEllipse } from "react-icons/io5";
 
 function App() {
   const { t, i18n } = useTranslation();
@@ -130,184 +132,30 @@ function App() {
   // }, [selectedAffiliate]);
 
   useLayoutEffect(() => {
-    if (!settings?.apiId || settings?.apiId?.length === 0) {
-      dispatch(updateApiId(generateToken(50)));
-    }
-    terminalAuth()
-      .then((res) => {
-        res.key && setKey(res.key);
-        res.options &&
-          dispatch(
-            updateOptions({ terminal: res.terminal, options: res.options })
-          );
-      })
-      .finally(() => setLoading(false));
-    // (async () => {
+    (async () => {
+      await axios
+        .get("https://ip.yooapp.ru")
+        .then(({ data }) => data?.ip && dispatch(updateIp(data.ip)));
 
-    //   if (options) {
-    //     updateColor(options);
-    //     updateFavicon(
-    //       selectedAffiliate?.media
-    //         ? {
-    //             path: selectedAffiliate?.media,
-    //             type: "affiliate",
-    //             size: "full",
-    //           }
-    //         : {
-    //             path: options.favicon,
-    //             type: "all/web/favicon",
-    //             size: "full",
-    //           }
-    //     );
-    //   }
-    //   if (!updateTime || isUpdateTime(updateTime)) {
-    //     await axios
-    //       .get("https://ip.yooapp.ru")
-    //       .then(({ data }) => data?.ip && dispatch(updateIp(data.ip)));
+      if (!settings?.apiId || settings?.apiId?.length === 0) {
+        dispatch(updateApiId(generateToken(50)));
+      }
 
-    //     await getOptions()
-    //       .then(async (res) => {
-    //         if (res?.options) {
-    //           updateColor(res.options);
-
-    //           if (res.options.favicon) {
-    //             updateFavicon(
-    //               selectedAffiliate?.media
-    //                 ? {
-    //                     path: selectedAffiliate?.media,
-    //                     type: "affiliate",
-    //                     size: "full",
-    //                   }
-    //                 : {
-    //                     path: res.options.favicon,
-    //                     type: "all/web/favicon",
-    //                     size: "full",
-    //                   }
-    //             );
-    //           }
-
-    //           if (res?.options?.lang) {
-    //             i18n.changeLanguage(languageCode(res.options.lang));
-    //             moment.locale(languageCode(res.options.lan));
-    //           }
-
-    //           dispatch(
-    //             updateOptions({ options: res.options, token: res.token })
-    //           );
-
-    //           const availableDeliveryTypes = [
-    //             ...(res.options?.delivery?.status ? ["delivery"] : []),
-    //             ...(res.options?.pickup?.status ? ["pickup"] : []),
-    //             ...(res.options?.hall?.status ? ["hall"] : []),
-    //             ...(res.options?.feedback?.status ? ["feedback"] : []),
-    //           ];
-
-    //           const deliveryType = availableDeliveryTypes.find((type) => {
-    //             return res.options?.[type]?.status === true; // Проверяем статус для каждого типа
-    //           });
-
-    //           if (!availableDeliveryTypes.includes(delivery) && deliveryType) {
-    //             dispatch(editDeliveryCheckout(deliveryType)); // Выбираем найденный элемент
-    //           }
-    //         }
-
-    //         if (res?.cities?.length > 0) {
-    //           const transformedData = res.cities.map((city) => {
-    //             const { relationCities, ...rest } = city;
-    //             return {
-    //               ...rest,
-    //               affiliates:
-    //                 relationCities && relationCities.length > 0
-    //                   ? relationCities.map((relation) => relation.affiliate)
-    //                   : [],
-    //             };
-    //           });
-
-    //           dispatch(updateCities(transformedData));
-
-    //           if (
-    //             transformedData?.length === 1 &&
-    //             transformedData[0]?.affiliates?.length > 0
-    //           ) {
-    //             dispatch(updateAffiliate(transformedData[0].affiliates));
-    //           }
-    //         }
-
-    //         // res?.tables && dispatch(updateTable(res.tables));
-    //         res?.zones && dispatch(updateZone(res.zones));
-
-    //         if (res?.statuses?.length > 0) {
-    //           let statusesMain = res.statuses
-    //             .filter((e) => e.main)
-    //             .sort((a, b) => a.order - b.order);
-    //           let statusesMainNo = res.statuses
-    //             .filter((e) => !e.main)
-    //             .sort((a, b) => a.order - b.order);
-    //           dispatch(
-    //             updateStatus({ mainYes: statusesMain, mainNo: statusesMainNo })
-    //           );
-    //         }
-
-    //         if (auth?.token) {
-    //           if (!auth?.user?.brandId) {
-    //             return dispatch(logout());
-    //           }
-    //           await checkAuth()
-    //             .then((data) => {
-    //               dispatch(setAuth(true));
-    //               dispatch(setUser(data));
-
-    //               if (data?.lang) {
-    //                 i18n.changeLanguage(languageCode(data.lang));
-    //                 moment.locale(languageCode(data.lang));
-    //               }
-
-    //               dispatch(updateAddresses(data?.addresses ?? []));
-
-    //               // dispatch(getFavorites());
-    //             })
-    //             .catch((err) => {
-    //               err?.response?.status === 404 && dispatch(logout());
-    //             });
-    //         }
-    //       })
-    //       .finally(() => setLoading(false));
-    //   } else {
-    //     if (auth?.user?.lang) {
-    //       i18n.changeLanguage(languageCode(auth.user.lang));
-    //       moment.locale(languageCode(auth.user.lang));
-    //     }
-    //     setLoading(false);
-    //   }
-    // })();
+      terminalAuth()
+        .then((res) => {
+          res.key && setKey(res.key);
+          res.options &&
+            dispatch(
+              updateOptions({
+                terminal: res.terminal,
+                options: res.options,
+                token: res.token,
+              })
+            );
+        })
+        .finally(() => setLoading(false));
+    })();
   }, []);
-
-  // useEffect(() => {
-  //   if (delivery == "delivery" && auth?.user?.id) {
-  //     const selectedAddress = address ? address.find((e) => e.main) : false;
-  //     if (selectedAddress) {
-  //       getDelivery({ distance: true, addressId: selectedAddress.id }).then(
-  //         (res) => {
-  //           res &&
-  //             dispatch(cartZone({ data: res?.zone, distance: res?.distance }));
-  //         }
-  //       );
-  //     }
-  //   }
-  // }, [address, delivery, options, cart, auth?.user?.id]);
-
-  // useEffect(() => {
-  //   if (auth.isAuth) {
-  //     socket.on("notifications/" + auth.user.id, (data) => {
-  //       if (data) {
-  //         dispatch(updateNotification(data));
-  //       }
-  //     });
-  //     return () => {
-  //       socket.off("notifications/" + auth.user.id);
-  //     };
-  //   }
-  // }, [auth.isAuth]);
 
   const onSubmit = useCallback(() => {
     setLoadingNewKey(true);
@@ -323,7 +171,11 @@ function App() {
       socket.on("auth", (data) => {
         if (data?.options) {
           dispatch(
-            updateOptions({ terminal: data.terminal, options: data.options })
+            updateOptions({
+              terminal: data.terminal,
+              options: data.options,
+              token: data.token,
+            })
           );
         } else if (data?.key) {
           setKey(data.key);
@@ -333,7 +185,7 @@ function App() {
         socket.off("auth");
       };
     }
-  }, [settings?.options]);
+  }, [settings?.apiId]);
 
   if (loading) {
     return <Loader full />;
@@ -393,6 +245,60 @@ function App() {
           </div>
         </section>
       </main>
+    );
+  }
+
+  if (settings?.start) {
+    return (
+      <>
+        <Meta title={t("Добро пожаловать")} />
+        <div className="start d-flex flex-column vh-100 justify-content-between">
+          <div>
+            <div class="fw-7 h1 mb-3">{t("Закажите без очереди")}</div>
+            <p className="fw-6 mb-2 d-flex align-items-center justify-content-center text-muted">
+              Order here <IoEllipse size={8} className="mx-3 text-primary" />{" "}
+              Ordene aquí <IoEllipse size={8} className="mx-3 text-primary" />{" "}
+              在这里订购
+            </p>
+          </div>
+          <div className="d-flex justify-content-center">
+            <img src="/imgs/empty-product-image.png" />
+          </div>
+          <div>
+            <Button
+              variant="primary"
+              onClick={() => dispatch(updateStart(false))}
+              className="rounded-5 m-auto"
+            >
+              Сделать заказ
+            </Button>
+          </div>
+        </div>
+      </>
+    );
+  }
+
+  if (!delivery) {
+    return (
+      <>
+        <Meta title={t("Выберите способ получения")} />
+        <div className="start d-flex flex-column vh-100 justify-content-between">
+          <div>
+            <div class="fw-7 h1 mb-3">{t("Выберите способ получения")}</div>
+            <p className="fw-6 mb-2 d-flex align-items-center justify-content-center text-muted">
+              Order type <IoEllipse size={8} className="mx-3 text-primary" />{" "}
+              Tipo de pedido{" "}
+              <IoEllipse size={8} className="mx-3 text-primary" /> 订单类别
+            </p>
+          </div>
+          <div className="start-delivery">
+            <a onClick={() => dispatch(editDeliveryCheckout("hall"))}>В зале</a>
+            <a onClick={() => dispatch(editDeliveryCheckout("pickup"))}>
+              С собой
+            </a>
+          </div>
+        </div>
+      </>
     );
   }
 

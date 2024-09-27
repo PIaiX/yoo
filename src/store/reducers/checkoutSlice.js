@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   data: false,
-  delivery: "delivery",
+  delivery: false,
 };
 
 const checkoutSlice = createSlice({
@@ -13,7 +13,7 @@ const checkoutSlice = createSlice({
       state.data = action?.payload;
     },
     editDeliveryCheckout: (state, action) => {
-      state.delivery = action?.payload ?? "delivery";
+      state.delivery = action?.payload;
     },
     resetCheckout: (state) => {
       state.data = false;

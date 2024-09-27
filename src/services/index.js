@@ -26,6 +26,7 @@ $api.interceptors.request.use(
     DEVICE.apiId = state?.settings?.apiId;
     DEVICE.ip = state?.settings?.ip ?? "0.0.0.0";
     config.headers.device = JSON.stringify(DEVICE);
+    config.headers.token = state?.settings?.token;
 
     return config;
   },
@@ -47,6 +48,7 @@ $authApi.interceptors.request.use(
     if (token) {
       config.headers.authorization = `Access ${token}`;
     }
+    config.headers.token = state?.settings?.token;
     config.headers.device = JSON.stringify(DEVICE);
     return config;
   },

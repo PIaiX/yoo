@@ -4,6 +4,7 @@ import moment from "moment";
 const initialState = {
   isConnected: true,
   ip: "0.0.0.0",
+  start: true,
   apiId: false,
   token: false,
   terminal: false,
@@ -16,6 +17,9 @@ const settingsSlice = createSlice({
   name: "settings",
   initialState,
   reducers: {
+    updateStart: (state, action) => {
+      state.start = action.payload;
+    },
     updateApiId: (state, action) => {
       state.apiId = action.payload;
     },
@@ -59,6 +63,7 @@ const settingsSlice = createSlice({
 });
 
 export const {
+  updateStart,
   updateConnect,
   updateOptions,
   updateIp,

@@ -21,7 +21,7 @@ const Catalog = memo(({ data }) => {
   return (
     <section className="sec-3 mb-5">
       {viewCategories ? (
-        <Container className="box">
+        <Container>
           <button
             type="button"
             onClick={() => setViewCategories(!viewCategories)}
@@ -47,8 +47,7 @@ const Catalog = memo(({ data }) => {
           )}
         </Container>
       ) : (
-        <>
-          <Categories data={data} />
+        <div className="py-3">
           <Container>
             {data?.length > 0 && (
               <div className="categories-box">
@@ -58,7 +57,7 @@ const Catalog = memo(({ data }) => {
               </div>
             )}
           </Container>
-        </>
+        </div>
       )}
     </section>
   );
