@@ -15,7 +15,7 @@ const NavTop = memo(({ toBack = true, breadcrumbs = false }) => {
           <span>{t("Назад")}</span>
         </a>
       )}
-      {breadcrumbs && breadcrumbs?.length > 0 && (
+      {/* {breadcrumbs && breadcrumbs?.length > 0 && (
         <ul className="navTop-breadcrumbs mb-2">
           <li>
             <Link to="/">{t("Главная")}</Link>
@@ -26,7 +26,7 @@ const NavTop = memo(({ toBack = true, breadcrumbs = false }) => {
             </li>
           ))}
         </ul>
-      )}
+      )} */}
     </nav>
   );
 });

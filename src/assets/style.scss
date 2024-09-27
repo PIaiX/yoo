@@ -1422,7 +1422,8 @@ select {
 }
 
 .navTop {
-  margin-bottom: 2em;
+  padding: 20px 0px;
+  margin-bottom: 1em;
   color: var(--main-color);
   @include flex(row, flex-start, center, wrap);
   font-size: 1.125em;
@@ -1437,7 +1438,7 @@ select {
     @include flex();
     margin-right: 5em;
     svg {
-      font-size: 1.35em;
+      font-size: 1.7em;
       stroke-width: 1.25px;
       margin-right: 0.25em;
     }
@@ -1659,13 +1660,18 @@ body {
       font-weight: 700;
       color: var(--main-color);
       border-top: 1px solid #ebebeb;
-      img{
+      img, .img{
+        display: inline-flex;
+        text-align: center;
+        font-size: 24px;
         width: 40px;
         height: 40px;
-        object-fit: contain; 
+        justify-content: center;
+        object-fit: contain;
+        align-items: center;
       }
     }
-    a:hover{
+    a:hover, a.active{
       background-color: var(--bg-header-active) !important;
     }
   }
@@ -2628,7 +2634,8 @@ main {
 }
 .product {
   .price {
-    font-size: 1.1em !important;
+    font-size: 1.5em !important;
+    font-weight: 800;
   }
   &-img {
     position: relative;

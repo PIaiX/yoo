@@ -3,14 +3,15 @@ import { Nav } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 import { HiOutlineMagnifyingGlass, HiOutlineUserCircle } from "react-icons/hi2";
 import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import DeliveryBar from "./DeliveryBar";
 import { getImageURL } from "../helpers/all";
 
-const Header = memo(({ categories }) => {
+const Header = memo(() => {
   const { t } = useTranslation();
   const isAuth = useSelector((state) => state.auth.isAuth);
   const user = useSelector((state) => state.auth.user);
+  const categories = useSelector((state) => state.catalog.categories);
 
   return (
     <div className="left-menu">
@@ -60,11 +61,17 @@ const Header = memo(({ categories }) => {
 
       <DeliveryBar />
       <Nav className="flex-column categories">
+        <Nav.Link as={NavLink} key={0} to="/" end>
+          <span className="img me-3">🔥</span>Акции
+        </Nav.Link>
         {categories?.length > 0 &&
           categories.map((e, index) => (
-            <Nav.Link as={Link} key={index} to={"/category/" + e.id}>
+            <Nav.Link as={NavLink} key={index} to={"/category/" + e.id}>
               {e.media && (
-                <img className="me-3" src={getImageURL({ path: e.media, type: "category" })} />
+                <img
+                  className="me-3"
+                  src={getImageURL({ path: e.media, type: "category" })}
+                />
               )}
               {e.title}
             </Nav.Link>

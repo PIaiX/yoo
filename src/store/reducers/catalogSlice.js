@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import moment from "moment";
 
 const initialState = {
+  home: [],
   categories: [],
   widgets: [],
   sales: [],
@@ -13,7 +14,7 @@ const catalogSlice = createSlice({
   initialState,
   reducers: {
     updateCatalog: (state, action) => {
-      state.widgets = action?.payload?.widgets ?? [];
+      state.home = action?.payload?.home ?? [];
       state.categories = action?.payload?.categories ?? [];
       state.updateTime = moment().toISOString();
     },
@@ -21,8 +22,8 @@ const catalogSlice = createSlice({
       state.sales = action?.payload ?? [];
     },
     resetCatalog: (state) => {
+      state.home = [];
       state.categories = [];
-      state.widgets = [];
       state.sales = [];
       state.updateTime = false;
     },

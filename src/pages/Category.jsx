@@ -11,6 +11,8 @@ import Loader from "../components/utils/Loader";
 import NavTop from "../components/utils/NavTop";
 import { getCategory } from "../services/category";
 import { generateSeoText, getImageURL } from "../helpers/all";
+import Header from "../components/Header";
+import { Col, Row } from "react-bootstrap";
 
 const Category = () => {
   const { categoryId } = useParams();
@@ -64,7 +66,7 @@ const Category = () => {
   }
 
   return (
-    <main>
+    <>
       <Meta
         title={
           options?.seo?.category?.title && category?.item?.title
@@ -101,25 +103,32 @@ const Category = () => {
             : false
         }
       />
-      <section className="container">
-        <NavTop breadcrumbs={false} />
-        {/* <Notice /> */}
-        {/* <img
+      <Row className="gx-3 gx-xl-4">
+        <Col className="left-menu-col">
+          <Header />
+        </Col>
+        <Col>
+          <section className="container">
+            <NavTop breadcrumbs={false} />
+            {/* <Notice /> */}
+            {/* <img
           src="imgs/Rectangle.png"
           alt="Rectangle"
           className="img-fluid mb-3 mb-sm-4"
         /> */}
-      </section>
-      <section className="sec-5 container mb-5">
-        {/* <div className="sticky-box mb-3 mb-sm-4 mb-md-5">
+          </section>
+          <section className="sec-5 container mb-5">
+            {/* <div className="sticky-box mb-3 mb-sm-4 mb-md-5">
           <Categories />
         </div> */}
 
-        <div className="categories-box">
-          <CategoryGroup data={category.item} />
-        </div>
-      </section>
-    </main>
+            <div className="categories-box">
+              <CategoryGroup data={category.item} />
+            </div>
+          </section>
+        </Col>
+      </Row>
+    </>
   );
 };
 

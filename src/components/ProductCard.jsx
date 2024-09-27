@@ -123,14 +123,6 @@ const ProductCard = memo(({ data }) => {
             </div>
           </div>
         </div>
-        {data?.energy?.weight > 0 && (
-          <div className="text-muted d-none d-md-block">
-            {customWeight({
-              value: data.energy.weight,
-              type: data.energy?.weightType,
-            })}
-          </div>
-        )}
         <ButtonCart product={data} />
       </div>
     </div>

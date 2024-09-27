@@ -34,7 +34,22 @@ const Home = () => {
       type: "site",
     })
       .then((res) => {
-        dispatch(updateCatalog(res));
+        dispatch(
+          updateCatalog({
+            home: res.categories,
+            categories:
+              res.categories?.length > 0
+                ? res.categories.map((e) => ({
+                    id: e.id,
+                    title: e.title,
+                    media: e.media,
+                    status: e.status,
+                    priority: e.priority,
+                    options: e.options,
+                  }))
+                : [],
+          })
+        );
       })
       .finally(() => {
         if (
@@ -89,13 +104,13 @@ const Home = () => {
         }
       />
 
-      {catalog?.categories?.length > 0 ? (
+      {catalog?.home?.length > 0 ? (
         <Row className="gx-3 gx-xl-4">
           <Col className="left-menu-col">
-            <Header categories={catalog.categories}/>
+            <Header />
           </Col>
           <Col>
-            <Catalog data={catalog.categories} />
+            <Catalog data={catalog.home} />
           </Col>
         </Row>
       ) : (
