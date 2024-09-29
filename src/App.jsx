@@ -51,7 +51,7 @@ import Input from "./components/utils/Input";
 import { useForm } from "react-hook-form";
 import { NotificationManager } from "react-notifications";
 import { terminalAuth, terminalNewKey } from "./services/terminal";
-import { Button } from "react-bootstrap";
+import { Badge, Button } from "react-bootstrap";
 import Meta from "./components/Meta";
 import QRCode from "react-qr-code";
 import { Timer } from "./helpers/timer";
@@ -133,34 +133,49 @@ function App() {
 
   useLayoutEffect(() => {
     (async () => {
-      await axios
-        .get("https://ip.yooapp.ru")
-        .then(({ data }) => data?.ip && dispatch(updateIp(data.ip)));
+      setLoading(true); // Запускаем индикатор загрузки
 
-      if (!settings?.apiId || settings?.apiId?.length === 0) {
-        dispatch(updateApiId(generateToken(50)));
+      try {
+        // 1. Получение IP-адреса
+        const ipResponse = await axios.get("https://ip.yooapp.ru");
+        const ip = ipResponse.data?.ip;
+        if (ip) {
+          dispatch(updateIp(ip));
+        }
+
+        // 2. Генерация API ID (если нужно)
+        let apiId = settings?.apiId;
+        if (!apiId || apiId.length === 0) {
+          apiId = generateToken(50);
+          dispatch(updateApiId(apiId));
+        }
+
+        // 3. Авторизация на терминале
+        const terminalAuthResponse = await terminalAuth(apiId); // Передаем apiId
+        if (terminalAuthResponse) {
+          const { terminal, options, token } = terminalAuthResponse;
+          if (terminal?.key) {
+            setKey(terminal.key);
+          }
+          if (options) {
+            dispatch(updateOptions({ terminal, options, token }));
+          }
+        }
+      } catch (error) {
+        console.error("Ошибка при выполнении функций:", error);
+      } finally {
+        setLoading(false); // Останавливаем индикатор загрузки
       }
-
-      terminalAuth()
-        .then((res) => {
-          res.key && setKey(res.key);
-          res.options &&
-            dispatch(
-              updateOptions({
-                terminal: res.terminal,
-                options: res.options,
-                token: res.token,
-              })
-            );
-        })
-        .finally(() => setLoading(false));
     })();
   }, []);
 
   const onSubmit = useCallback(() => {
     setLoadingNewKey(true);
     terminalNewKey()
-      .then((res) => res.key && setKey(res.key), setEndTimer(false))
+      .then(
+        (res) => res?.terminal?.key && setKey(res.terminal.key),
+        setEndTimer(false)
+      )
       .finally(() => setLoadingNewKey(false));
   }, []);
 
@@ -191,21 +206,11 @@ function App() {
     return <Loader full />;
   }
 
-  if (!settings?.terminal?.status) {
+  if ((!settings?.options || !settings?.terminal) && key) {
     return (
-      <Empty
-        text={t("Терминал временно не работает")}
-        desc={t("Подходите немного позже")}
-        image={() => <EmptyWork />}
-      />
-    );
-  }
-
-  if (!settings?.options || !settings?.terminal) {
-    return (
-      <main className="py-lg-0">
+      <>
         <Meta title={t("Активируйте терминал")} />
-        <section className="align-items-center vh-100 justify-content-center d-flex">
+        <div className="align-items-center vh-100 justify-content-center d-flex">
           <div className="member">
             <div className="d-flex justify-content-center">
               <QRCode
@@ -218,14 +223,27 @@ function App() {
             <div class="fw-8 key mt-4 mb-3 text-center">
               {addSpacesToNumber(key)}
             </div>
-            <div class="fw-7 h5 mb-3">
+            <div class="fw-8 h5 mb-3 text-center">
               {t("Подтвердите и активируйте терминал")}
             </div>
-            <p className="fw-6 mb-2">1. Зайдите в аккаунт YooApp</p>
-            <p className="fw-6 mb-2">
-              2. Перейдите в Маркет {">"} Киоск YooApp {">"} Терминалы
+            <p className="fw-6 mb-2 d-flex align-items-start">
+              <Badge pill bg="dark" className="me-3">
+                1
+              </Badge>
+              Зайдите в аккаунт YooApp
             </p>
-            <p className="fw-6 mb-4">3. Добавьте терминал указав данный код</p>
+            <p className="fw-6 mb-2 d-flex align-items-start">
+              <Badge pill bg="dark" className="me-3">
+                2
+              </Badge>
+              Перейдите в Маркет {">"} Киоск YooApp {">"} Терминалы
+            </p>
+            <p className="fw-6 mb-4 d-flex align-items-start">
+              <Badge pill bg="dark" className="me-3">
+                3
+              </Badge>
+              Добавьте терминал указав данный код
+            </p>
             <Button
               type="submit"
               variant="primary"
@@ -243,8 +261,18 @@ function App() {
               )}
             </Button>
           </div>
-        </section>
-      </main>
+        </div>
+      </>
+    );
+  }
+
+  if (!settings?.terminal?.status) {
+    return (
+      <Empty
+        text={t("Терминал временно не работает")}
+        desc={t("Подходите немного позже")}
+        image={() => <EmptyWork />}
+      />
     );
   }
 

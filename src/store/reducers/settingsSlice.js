@@ -2,7 +2,6 @@ import { createSlice } from "@reduxjs/toolkit";
 import moment from "moment";
 
 const initialState = {
-  isConnected: true,
   ip: "0.0.0.0",
   start: true,
   apiId: false,
@@ -22,9 +21,6 @@ const settingsSlice = createSlice({
     },
     updateApiId: (state, action) => {
       state.apiId = action.payload;
-    },
-    updateConnect: (state, action) => {
-      state.isConnected = action.payload;
     },
     updateOptions: (state, action) => {
       return {
@@ -64,7 +60,6 @@ const settingsSlice = createSlice({
 
 export const {
   updateStart,
-  updateConnect,
   updateOptions,
   updateIp,
   updateFilter,

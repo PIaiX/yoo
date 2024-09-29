@@ -469,6 +469,7 @@ textarea,
 input {
   &[type="checkbox"] {
     @include no-appearance;
+    cursor: pointer;
     width: $radius;
     height: $radius;
     border: none !important;
@@ -738,7 +739,7 @@ button {
   min-height: 40px;
   transition: all 0.2s;
   text-align: center;
-  font-weight: 500;
+  font-weight: 700;
   width: fit-content;
   border-radius: $radius * 1.5;
   &-primary {
@@ -890,16 +891,16 @@ button {
   &-light {
     @extend .btn;
     color: var(--main-color);
-    background-color: var(--main-color-outline);
-    border: 1px solid var(--main-color-outline);
+    background-color: var(--bg-second);
+    border: 1px solid var(--bg-second);
     &:hover,
     &:focus,
     &:active,
     &.active {
       opacity: 0.9;
       color: var(--main-color);
-      background-color: var(--main-color-outline);
-      border: 1px solid var(--main-color-outline);
+      background-color: var(--bg-second-hover);
+      border: 1px solid var(--bg-second-hover);
     }
   }
   /* белая кнопка c тенью */
@@ -2634,6 +2635,21 @@ main {
     }
   }
 }
+.custom-hr {
+  margin: 20px auto;
+  display: block;
+  height: 1px;
+  width: 100%;
+  border: none;
+  opacity: 1;
+  background-image: linear-gradient(
+    90deg,
+    hsla(0, 0%, 0%, 0),
+    hsla(0, 0%, 0%, 0.1) 50%,
+    hsla(0, 0%, 0%, 0)
+  );
+}
+
 .product {
   .price {
     font-size: 1.5em !important;
@@ -2719,7 +2735,6 @@ main {
     min-height: 2.4em;
     color: var(--main-color-text-title);
   }
-
   &-stickers {
     position: absolute;
     top: 1em;
@@ -4315,13 +4330,24 @@ ACCOUNT
 }
 .login {
   position: relative;
-
+  &-box {
+    width: 100%;
+    max-width: 400px;
+  }
+  &-box-qr {
+    width: 100%;
+    max-width: 400px;
+    .qr-login {
+      height: auto;
+      max-width: 70%;
+      width: 70%;
+    }
+  }
   form {
     background-color: var(--bg-second);
     border-radius: $radius;
     padding: 2em;
     width: 100%;
-    max-width: 500px;
     margin: 0 auto;
     @media (max-width: $bp-lg) {
       width: 100%;
@@ -5486,15 +5512,15 @@ ACCOUNT END
 .member {
   padding: 2em;
   width: 100%;
-  max-width: 500px;
+  max-width: 400px;
   .key {
     font-size: 50px;
   }
 }
 .qr {
   height: auto;
-  max-width: 50%;
-  width: 50%;
+  max-width: 70%;
+  width: 70%;
 }
 .start {
   margin: 0px auto;
@@ -5530,4 +5556,9 @@ ACCOUNT END
     height: 30vh;
     border-radius: 20px;
   }
+}
+.badge {
+  display: flex;
+  align-items: center;
+  line-height: 11px;
 }

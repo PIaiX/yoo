@@ -13,7 +13,7 @@ const client = new ClientJS();
 
 const language = client.getLanguage();
 
-var DEVICE = {
+var device = {
   brand: client.getBrowser() ?? "",
   osName: client.getOS() ?? "",
   osVersion: client.getOSVersion() ?? "",
@@ -23,9 +23,9 @@ var DEVICE = {
 $api.interceptors.request.use(
   async (config) => {
     const state = store.getState();
-    DEVICE.apiId = state?.settings?.apiId;
-    DEVICE.ip = state?.settings?.ip ?? "0.0.0.0";
-    config.headers.device = JSON.stringify(DEVICE);
+    device.apiId = state?.settings?.apiId;
+    device.ip = state?.settings?.ip;
+    config.headers.device = JSON.stringify(device);
     config.headers.token = state?.settings?.token;
 
     return config;
@@ -41,15 +41,15 @@ const $authApi = axios.create({
 $authApi.interceptors.request.use(
   async (config) => {
     const state = store.getState();
-    DEVICE.apiId = state?.settings?.apiId;
-    DEVICE.ip = state?.settings?.ip ?? "0.0.0.0";
+    device.apiId = state?.settings?.apiId;
+    device.ip = state?.settings?.ip;
     const token = state?.auth?.token ?? false;
 
     if (token) {
       config.headers.authorization = `Access ${token}`;
     }
     config.headers.token = state?.settings?.token;
-    config.headers.device = JSON.stringify(DEVICE);
+    config.headers.device = JSON.stringify(device);
     return config;
   },
   (error) => Promise.reject(error)

@@ -14,6 +14,7 @@ const Input = memo(
     required,
     type,
     label,
+    autocomplete = "on",
     className,
     mask = false,
     defaultValue,
@@ -28,6 +29,7 @@ const Input = memo(
     errors,
   }) => {
     const [visible, setVisibility] = useState(false);
+
     return (
       <>
         <div
@@ -76,6 +78,7 @@ const Input = memo(
               autoFocus={autoFocus}
               mask={mask}
               type={type}
+              autoComplete={autocomplete}
               required
               defaultValue={defaultValue}
               placeholder={placeholder}
@@ -93,6 +96,7 @@ const Input = memo(
               readOnly={readOnly}
               defaultValue={defaultValue}
               autoFocus={autoFocus}
+              autoComplete={autocomplete}
               type={type}
               minLength={minLength}
               maxLength={maxLength}
