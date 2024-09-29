@@ -1,7 +1,7 @@
 import React, { memo } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { HiOutlineArrowLeftCircle } from "react-icons/hi2";
 import { useTranslation } from "react-i18next";
+import { IoChevronBackCircleOutline } from "react-icons/io5";
+import { useNavigate } from "react-router-dom";
 
 const NavTop = memo(({ toBack = true, breadcrumbs = false }) => {
   const navigate = useNavigate();
@@ -10,9 +10,9 @@ const NavTop = memo(({ toBack = true, breadcrumbs = false }) => {
   return (
     <nav className="navTop">
       {toBack && (
-        <a onClick={() => navigate(-1)} className="navTop-back mb-2">
-          <HiOutlineArrowLeftCircle />
-          <span>{t("Назад")}</span>
+        <a onClick={() => navigate(-1)} className="bg-light p-2 pe-3 rounded-5 align-items-center d-inline-flex">
+          <IoChevronBackCircleOutline size={28} className="me-2" />
+          <span className="fw-6">{t("Назад")}</span>
         </a>
       )}
       {/* {breadcrumbs && breadcrumbs?.length > 0 && (

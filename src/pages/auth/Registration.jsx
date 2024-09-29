@@ -10,6 +10,7 @@ import Input from "../../components/utils/Input";
 import socket from "../../config/socket";
 import { authRegister } from "../../services/auth";
 import { setAuth, setToken, setUser } from "../../store/reducers/authSlice";
+import { IoChevronBackCircleOutline } from "react-icons/io5";
 
 const Registration = () => {
   const { t } = useTranslation();
@@ -104,6 +105,13 @@ const Registration = () => {
       <Meta title={t("Регистрация")} />
       <div className="align-items-center login justify-content-center justify-content-center flex-column d-flex vh-100 p-3">
         <div className="login-box">
+          <a
+            onClick={() => navigate(-1)}
+            className="bg-light p-2 pe-3 rounded-5 align-items-center d-inline-flex mb-3"
+          >
+            <IoChevronBackCircleOutline size={28} className="me-2" />
+            <span className="fw-6">{t("Назад")}</span>
+          </a>
           <form className="login-form" onSubmit={handleSubmit(onSubmit)}>
             <h4 className="fw-8 mb-0">{t("Регистрация")}</h4>
             <p className="fs-10 mb-4 text-muted">

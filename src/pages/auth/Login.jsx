@@ -2,7 +2,12 @@ import React, { useCallback, useEffect, useState } from "react";
 import { Badge, Button } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { IoCall, IoMail, IoQrCodeOutline } from "react-icons/io5";
+import {
+  IoCall,
+  IoChevronBackCircleOutline,
+  IoMail,
+  IoQrCodeOutline,
+} from "react-icons/io5";
 import { NotificationManager } from "react-notifications";
 import QRCode from "react-qr-code";
 import { useDispatch, useSelector } from "react-redux";
@@ -10,6 +15,8 @@ import { Link, useNavigate } from "react-router-dom";
 import Meta from "../../components/Meta";
 import Input from "../../components/utils/Input";
 import { login } from "../../services/auth";
+import NavTop from "../../components/utils/NavTop";
+import { HiOutlineArrowLeftCircle } from "react-icons/hi2";
 
 const Login = () => {
   const { t } = useTranslation();
@@ -59,7 +66,6 @@ const Login = () => {
   return (
     <>
       <Meta title={t("Вход")} />
-
       <div className="align-items-center login justify-content-center justify-content-center flex-column d-flex vh-100 p-3">
         {variant == "qr" ? (
           <div className="login-box-qr">
@@ -112,6 +118,13 @@ const Login = () => {
           </div>
         ) : (
           <div className="login-box">
+            <a
+              onClick={() => navigate("/")}
+              className="bg-light p-2 pe-3 rounded-5 align-items-center d-inline-flex mb-3"
+            >
+              <IoChevronBackCircleOutline size={28} className="me-2" />
+              <span className="fw-6">{t("К меню")}</span>
+            </a>
             <form onSubmit={handleSubmit(onSubmit)} className="pb-2">
               <h4 class="fw-8 h4 mb-4">{t("Войдите в профиль")}</h4>
               <div className="mb-3">

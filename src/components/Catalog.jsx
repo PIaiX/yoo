@@ -11,7 +11,6 @@ import {
   // HiOutlineBars3,
 } from "react-icons/hi2";
 import CategoryGroup from "./CategoryGroup";
-import Categories from "./Categories";
 
 const Catalog = memo(({ data }) => {
   const [viewCategories, setViewCategories] = useState(false);
