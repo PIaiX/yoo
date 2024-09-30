@@ -1551,6 +1551,7 @@ body {
   top: 0px;
   background-color: var(--bg-header);
   height: 100vh;
+  box-shadow: inset -14px -1px 16px -18px rgba(0, 0, 0, 0.08);
 }
 .left-menu header {
   width: 100%;
@@ -1686,10 +1687,27 @@ body {
 .left-menu .categories a:hover,
 .left-menu .categories a.active {
   background-color: var(--bg-header-active) !important;
+  box-shadow: inset -14px -1px 16px -18px rgba(0, 0, 0, 0.1);
 }
 
 .left-menu-col {
   max-width: 350px;
+}
+@media (max-width: 580px) {
+  .left-menu-col {
+    max-width: 145px;
+  }
+  .left-menu-col .left-menu .categories a {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
+  .left-menu-col .left-menu .categories a img, .left-menu-col .left-menu .categories a .img {
+    margin-right: 0px !important;
+    margin-bottom: 5px;
+  }
 }
 
 .offcanvas-menu {

@@ -13,7 +13,7 @@ const Empty = memo(({ text, mini, desc, image = false, button }) => {
     >
       {image && <div className="mb-4">{image()}</div>}
       <div>
-        <p className="text-center h4">{t(text ?? "Ничего нет")}</p>
+        <p className="text-center h4 fw-8">{t(text ?? "Ничего нет")}</p>
         {desc && <p className="text-center text-muted">{desc}</p>}
         {button && (
           <div className="d-flex justify-content-center mt-4">{button}</div>

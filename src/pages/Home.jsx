@@ -16,7 +16,8 @@ import { isUpdateTime } from "../helpers/all";
 import { getCatalog } from "../services/catalog";
 import { updateCatalog } from "../store/reducers/catalogSlice";
 import Header from "../components/Header";
-import { Col, Row } from "react-bootstrap";
+import { Col, Container, Row } from "react-bootstrap";
+import Offer from "../components/Offer";
 
 const Home = () => {
   const { t } = useTranslation();
@@ -110,7 +111,30 @@ const Home = () => {
             <Header />
           </Col>
           <Col>
-            <Catalog data={catalog.home} />
+            {catalog?.sales?.items ? (
+              <section className="sec-6 pt-4 pt-lg-0 mb-5">
+                <Container>
+                  <Row
+                    xs={12}
+                    md={6}
+                    lg={4}
+                    className="g-2 g-sm-3 g-md-4 g-lg-3 g-xl-4"
+                  >
+                    {catalog?.sales?.items.map((e) => (
+                      <Col lg={4} md={6} key={e.id}>
+                        <Offer data={e} />
+                      </Col>
+                    ))}
+                  </Row>
+                </Container>
+              </section>
+            ) : (
+              <Empty
+                text={t("Акций нет")}
+                desc={t("Информация скоро появится")}
+                image={() => <EmptyCatalog />}
+              />
+            )}
           </Col>
         </Row>
       ) : (

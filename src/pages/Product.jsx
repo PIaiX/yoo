@@ -13,7 +13,7 @@ import {
   HiPlus,
 } from "react-icons/hi2";
 import { useSelector } from "react-redux";
-import { Link, useParams } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
 import { Navigation } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import ButtonCart from "../components/ButtonCart";
@@ -56,7 +56,7 @@ const groupByCategoryIdToArray = (modifiers) => {
 const Product = () => {
   const { t } = useTranslation();
   const { productId } = useParams();
-
+  const { state } = useLocation();
   const options = useSelector((state) => state.settings.options);
   const selectedAffiliate = useSelector((state) => state.affiliate.active);
   const [isRemove, setIsRemove] = useState(false);
@@ -66,8 +66,8 @@ const Product = () => {
   );
 
   const [product, setProduct] = useState({
-    loading: true,
-    item: {},
+    loading: !!state ? false : true,
+    item: state,
   });
 
   const [data, setData] = useState({

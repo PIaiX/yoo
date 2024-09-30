@@ -9,7 +9,6 @@ import { getImageURL } from "../helpers/all";
 
 const Header = memo(() => {
   const { t } = useTranslation();
-  const isAuth = useSelector((state) => state.auth.isAuth);
   const user = useSelector((state) => state.auth.user);
   const categories = useSelector((state) => state.catalog.categories);
 
@@ -23,11 +22,11 @@ const Header = memo(() => {
                 <HiOutlineMagnifyingGlass size={25} />
               </Link>
             </li>
-            <li className="d-none d-lg-block">
+            <li className="d-lg-block">
               <Link
-                className="bg-white p-2 pe-3 rounded-5 d-flex align-items-center"
+                className="bg-white shadow-sm p-2 pe-3 rounded-5 d-flex align-items-center"
                 to={
-                  isAuth
+                  user?.id
                     ? user?.status === 0
                       ? "/activate"
                       : "/account"
@@ -66,7 +65,12 @@ const Header = memo(() => {
         </Nav.Link>
         {categories?.length > 0 &&
           categories.map((e, index) => (
-            <Nav.Link as={NavLink} key={index} to={"/category/" + e.id}>
+            <Nav.Link
+              as={NavLink}
+              key={index}
+              to={"/category/" + e.id}
+              state={e}
+            >
               {e.media && (
                 <img
                   className="me-3"

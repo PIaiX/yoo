@@ -1,6 +1,6 @@
 import React, { useCallback, useLayoutEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { Link, useParams } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
 import CategoryGroup from "../components/CategoryGroup";
 import Empty from "../components/Empty";
 import EmptyCatalog from "../components/empty/catalog";
@@ -16,40 +16,35 @@ import { Col, Row } from "react-bootstrap";
 
 const Category = () => {
   const { categoryId } = useParams();
+  const { state } = useLocation();
   const options = useSelector((state) => state.settings.options);
+  const item = useSelector((data) =>
+    data.catalog.home?.find((e) => e.id === categoryId || e.id === state.id)
+  );
   const selectedAffiliate = useSelector((state) => state.affiliate.active);
   const { t } = useTranslation();
 
-  const [category, setCategory] = useState({
-    loading: true,
-    item: {},
-  });
+  // const onLoad = useCallback(() => {
+  //   getCategory({
+  //     id: categoryId,
+  //     affiliateId: selectedAffiliate?.id ?? false,
+  //     multiBrand: options?.multiBrand,
+  //     required: true,
+  //     viewCategories: false,
+  //     type: "site",
+  //   })
+  //     .then((res) => setCategory({ loading: false, item: res }))
+  //     .catch(() => setCategory((data) => ({ ...data, loading: false })));
+  // }, [categoryId, selectedAffiliate]);
 
-  const onLoad = useCallback(() => {
-    getCategory({
-      id: categoryId,
-      affiliateId: selectedAffiliate?.id ?? false,
-      multiBrand: options?.multiBrand,
-      required: true,
-      viewCategories: false,
-      type: "site",
-    })
-      .then((res) => setCategory({ loading: false, item: res }))
-      .catch(() => setCategory((data) => ({ ...data, loading: false })));
-  }, [categoryId, selectedAffiliate]);
-
-  useLayoutEffect(() => {
-    onLoad();
-  }, [categoryId, selectedAffiliate]);
-
-  if (category?.loading) {
-    return <Loader full />;
-  }
+  // useLayoutEffect(() => {
+  //   onLoad();
+  // }, [categoryId, selectedAffiliate]);
 
   if (
-    !category?.item?.id ||
-    !Array.isArray(category?.item?.products?.items) ||
-    category.item.products.items.length <= 0
+    !item?.id ||
+    !Array.isArray(item?.products) ||
+    item.products.length <= 0
   ) {
     return (
       <Empty
@@ -69,34 +64,34 @@ const Category = () => {
     <>
       <Meta
         title={
-          options?.seo?.category?.title && category?.item?.title
+          options?.seo?.category?.title && item?.title
             ? generateSeoText({
                 text: options.seo.category.title,
-                name: category.item.title,
+                name: item.title,
                 site: options?.title,
               })
-            : selectedAffiliate?.title && category?.item?.title
-            ? selectedAffiliate?.title + " - " + category.item.title
-            : options?.title && category?.item?.title
-            ? options.title + " - " + category.item.title
-            : category?.item?.title ?? t("Категория")
+            : selectedAffiliate?.title && item?.title
+            ? selectedAffiliate?.title + " - " + item.title
+            : options?.title && item?.title
+            ? options.title + " - " + item.title
+            : item?.title ?? t("Категория")
         }
         description={
           options?.seo?.category?.description
             ? generateSeoText({
                 text: options.seo.category.description,
-                name: category.item.title,
+                name: item.title,
                 site: options?.title,
               })
-            : category.item?.description ??
+            : item?.description ??
               t(
                 "Добавьте блюдо из этой категории в корзину и наслаждайтесь вкусной едой прямо сейчас!"
               )
         }
         image={
-          category?.item?.media
+          item?.media
             ? getImageURL({
-                path: category.item.media,
+                path: item.media,
                 size: "full",
                 type: "category",
               })
@@ -123,7 +118,7 @@ const Category = () => {
         </div> */}
 
             <div className="categories-box">
-              <CategoryGroup data={category.item} />
+              <CategoryGroup data={item} />
             </div>
           </section>
         </Col>

@@ -1560,6 +1560,7 @@ body {
   top: 0px;
   background-color: var(--bg-header);
   height: 100vh;
+  box-shadow: inset -14px -1px 16px -18px rgba(0, 0, 0, 0.08);
   header {
     width: 100%;
     padding: 15px;
@@ -1676,11 +1677,26 @@ body {
     a:hover,
     a.active {
       background-color: var(--bg-header-active) !important;
+      box-shadow: inset -14px -1px 16px -18px rgba(0, 0, 0, 0.1);
     }
   }
 }
 .left-menu-col {
   max-width: 350px;
+  @media (max-width: $bp-sm) {
+    max-width: 145px;
+    .left-menu .categories a{
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      img,.img{
+        margin-right: 0px !important;
+        margin-bottom: 5px;
+      }
+    }
+  }
 }
 
 .offcanvas-menu {
