@@ -33,6 +33,7 @@ import {
 import { getProduct } from "../services/product";
 import { useTranslation } from "react-i18next";
 import Header from "../components/Header";
+import Footer from "../components/Footer";
 
 const groupByCategoryIdToArray = (modifiers) => {
   const grouped = modifiers.reduce((acc, modifier) => {
@@ -222,26 +223,13 @@ const Product = () => {
             : false
         }
       />
-      <Row className="gx-3 gx-xl-4">
+      <Row className="gx-0">
         <Col className="left-menu-col">
           <Header />
         </Col>
         <Col>
-          <Container>
-            <NavTop
-              toBack={true}
-              breadcrumbs={[
-                {
-                  title: product?.item?.category?.title ?? t("Нет категории"),
-                  link: product?.item?.category?.id
-                    ? "/category/" + product.item.category.id
-                    : "/menu",
-                },
-                {
-                  title: product?.item?.title ?? t("Не названия"),
-                },
-              ]}
-            />
+          <div className="px-4 pb-4 vh-100">
+            <NavTop />
 
             <form className="productPage mb-5">
               <Row className="gx-4 gx-xxl-5">
@@ -602,7 +590,8 @@ const Product = () => {
                 </Swiper>
               </section>
             )}
-          </Container>
+          </div>
+          <Footer />
         </Col>
       </Row>
     </>

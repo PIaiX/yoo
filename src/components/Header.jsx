@@ -16,12 +16,7 @@ const Header = memo(() => {
     <div className="left-menu">
       <header>
         <nav className="w-100">
-          <ul className="d-flex justify-content-between w-100">
-            <li className="d-none d-lg-block">
-              <Link to="/search">
-                <HiOutlineMagnifyingGlass size={25} />
-              </Link>
-            </li>
+          <ul className="d-flex justify-content-end w-100">
             <li className="d-lg-block">
               <Link
                 className="bg-white shadow-sm p-2 pe-3 rounded-5 d-flex align-items-center"

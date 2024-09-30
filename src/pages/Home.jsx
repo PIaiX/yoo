@@ -18,6 +18,7 @@ import { updateCatalog } from "../store/reducers/catalogSlice";
 import Header from "../components/Header";
 import { Col, Container, Row } from "react-bootstrap";
 import Offer from "../components/Offer";
+import Footer from "../components/Footer";
 
 const Home = () => {
   const { t } = useTranslation();
@@ -106,7 +107,7 @@ const Home = () => {
       />
 
       {catalog?.home?.length > 0 ? (
-        <Row className="gx-3 gx-xl-4">
+        <Row className="gx-0">
           <Col className="left-menu-col">
             <Header />
           </Col>
@@ -135,6 +136,7 @@ const Home = () => {
                 image={() => <EmptyCatalog />}
               />
             )}
+            <Footer />
           </Col>
         </Row>
       ) : (

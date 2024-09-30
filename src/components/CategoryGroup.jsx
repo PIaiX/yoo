@@ -1,5 +1,6 @@
 import React, { memo } from "react";
 import ProductCard from "./ProductCard";
+import { Col, Row } from "react-bootstrap";
 
 const CategoryGroup = memo(({ data }) => {
   return (
@@ -8,22 +9,22 @@ const CategoryGroup = memo(({ data }) => {
         <h4 className="d-block fw-7 mb-0">{data.title}</h4>
       </div>
       {data.products.length > 0 ? (
-        <ul className="list-unstyled row row-cols-2 row-cols-sm-3 row-cols-lg-4 gx-4 gx-xl-5 gy-5">
+        <Row xxl={5} xl={4} lg={3} md={2} sm={2} className="gx-3">
           {data.products.map((e) => (
-            <li key={e.id}>
+            <Col key={e.id}>
               <ProductCard data={e} />
-            </li>
+            </Col>
           ))}
-        </ul>
+        </Row>
       ) : (
-        data.products.items.length > 0 && (
-          <ul className="list-unstyled row row-cols-2 row-cols-sm-3 row-cols-lg-4 gx-4 gx-xl-5 gy-5">
+        data.products?.items?.length > 0 && (
+          <Row xxl={5} xl={4} lg={3} md={2} sm={2} className="gx-3">
             {data.products.items.map((e) => (
-              <li key={e.id}>
+              <Col key={e.id}>
                 <ProductCard data={e} />
-              </li>
+              </Col>
             ))}
-          </ul>
+          </Row>
         )
       )}
     </section>

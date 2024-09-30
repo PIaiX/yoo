@@ -45,7 +45,7 @@ html {
   --bg-second-hover: #eeeeee;
   --bg-footer: #1c1c1c;
   --bg-checkbox: #999;
-  --hr-color: #dbdbdb;
+  --hr-color: #e7e7e7;
   --gray: #727272;
   --light-gray: #1e1e1e;
   --divider: #121212;
@@ -721,6 +721,7 @@ button {
   font-weight: 700;
   width: -moz-fit-content;
   width: fit-content;
+  position: relative;
   border-radius: 1.875em;
   /* светло-голубая кнопка */
   /* белая кнопка c тенью */
@@ -729,6 +730,15 @@ button {
   /* светло-серая кнопка */
   /* orange */
   /* red */
+}
+.btn .badge, .btn-red .badge, .btn-orange .badge, .btn-99 .badge, .btn-90 .badge, .btn-9 .badge, .btn-8 .badge, .btn-light .badge, .btn-deepgreen .badge, .btn-green .badge, .btn-40 .badge, .btn-40-light .badge, .btn-4 .badge, .btn-white .badge, .btn-30 .badge, .btn-secondary .badge, .btn-2 .badge, .btn-10 .badge, .btn-primary .badge {
+  right: 0px;
+  top: -5px;
+  position: absolute;
+  padding-left: 0.5em;
+  padding-right: 0.5em;
+  border-radius: 1.25em;
+  color: #fff;
 }
 .btn-primary {
   color: #fff;
@@ -1395,17 +1405,6 @@ select {
   flex-wrap: wrap;
   font-size: 1.125em;
 }
-@media (max-width: 991px) {
-  .navTop {
-    margin-top: 1.5em;
-  }
-}
-@media (max-width: 580px) {
-  .navTop {
-    margin-top: 1em;
-    margin-bottom: 1.5em;
-  }
-}
 .navTop-back {
   display: flex;
   flex-direction: row;
@@ -1547,11 +1546,19 @@ body {
 }
 
 .left-menu {
-  position: sticky;
+  position: fixed;
+  max-width: 230px;
   top: 0px;
+  left: 0px;
+  right: 0px;
   background-color: var(--bg-header);
   height: 100vh;
   box-shadow: inset -14px -1px 16px -18px rgba(0, 0, 0, 0.08);
+}
+@media (max-width: 580px) {
+  .left-menu {
+    max-width: 145px;
+  }
 }
 .left-menu header {
   width: 100%;
@@ -1666,7 +1673,7 @@ body {
   color: var(--main-color);
 }
 .left-menu .categories a {
-  padding: 15px;
+  padding: 12px 15px;
   width: 100%;
   font-weight: 700;
   color: var(--main-color);
@@ -1676,9 +1683,9 @@ body {
 .left-menu .categories a .img {
   display: inline-flex;
   text-align: center;
-  font-size: 24px;
-  width: 40px;
-  height: 40px;
+  font-size: 22px;
+  width: 35px;
+  height: 35px;
   justify-content: center;
   -o-object-fit: contain;
      object-fit: contain;
@@ -1691,7 +1698,8 @@ body {
 }
 
 .left-menu-col {
-  max-width: 350px;
+  position: relative;
+  max-width: 230px;
 }
 @media (max-width: 580px) {
   .left-menu-col {
@@ -3999,22 +4007,16 @@ html.theme-font-title-amaticsc .filterGrid h4 {
 }
 
 footer {
+  position: fixed;
+  bottom: 0px;
+  left: 230px;
+  right: 0px;
   padding: 20px 0px;
-  background-color: var(--bg-footer);
-}
-@media (max-width: 991px) {
-  footer {
-    background-color: var(--bg-footer);
-    position: fixed;
-    bottom: -1px;
-    left: 0px;
-    width: 100%;
-    z-index: 900;
-  }
+  border-top: 1px solid var(--hr-color);
 }
 @media (max-width: 580px) {
   footer {
-    padding: 10px 0px;
+    left: 150px;
   }
 }
 footer a {
@@ -4023,85 +4025,6 @@ footer a {
 }
 footer a:hover, footer a:focus, footer a:active {
   color: var(--main-color);
-}
-footer .desktop {
-  height: 100%;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: nowrap;
-}
-footer .desktop .logo {
-  max-width: 160px;
-  max-height: 100px;
-}
-footer .mobile ul {
-  height: 100%;
-  list-style: none;
-  padding-left: 0px;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: nowrap;
-}
-footer .mobile ul li a {
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: center;
-  flex-wrap: nowrap;
-  padding: 0.5em;
-  border-radius: 0.625em;
-  background-color: transparent;
-  color: #fff;
-  overflow: hidden;
-}
-footer .mobile ul li a.active .text {
-  color: #fff !important;
-}
-footer .mobile ul li a svg {
-  width: 1.6em !important;
-  height: 1.6em !important;
-  color: #fff;
-}
-footer .mobile ul li a .text {
-  color: #fff;
-  margin-left: 3px;
-  overflow: hidden;
-  max-width: 0px;
-}
-footer .mobile ul li a .badge {
-  bottom: -4px;
-  right: -4px;
-  font-size: 9px;
-  background-color: var(--main-color);
-  padding: 0px;
-  color: #fff;
-  min-width: 1.5em;
-  height: 1.5em;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  flex-wrap: nowrap;
-}
-footer .mobile ul li a.active {
-  background-color: var(--main-color);
-  max-width: 130px;
-}
-footer .mobile ul li a.active .badge {
-  background-color: var(--bg-second);
-  color: var(--main-color);
-}
-footer .mobile ul li a.active svg {
-  color: #fff;
-}
-footer .mobile ul li a.active .text {
-  display: block;
-  max-width: -moz-fit-content;
-  max-width: fit-content;
 }
 
 /***********

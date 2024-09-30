@@ -5,6 +5,8 @@ import Row from "react-bootstrap/Row";
 import NavTop from "../components/utils/NavTop";
 // import Gifts from "../components/utils/Gifts";
 import { useForm, useWatch } from "react-hook-form";
+import { useTranslation } from "react-i18next";
+import { IoTrashOutline } from "react-icons/io5";
 import { NotificationManager } from "react-notifications";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
@@ -12,8 +14,11 @@ import CartItem from "../components/CartItem";
 import Empty from "../components/Empty";
 import EmptyCart from "../components/empty/cart";
 import Meta from "../components/Meta";
+import Extras from "../components/utils/Extras";
 import Input from "../components/utils/Input";
-import { customPrice, declination, getCount } from "../helpers/all";
+import Loader from "../components/utils/Loader";
+import { customPrice, declination } from "../helpers/all";
+import { keyGenerator } from "../hooks/all";
 import { useTotalCart } from "../hooks/useCart";
 import { deleteCart, getCart, updateCart } from "../services/cart";
 import { isPromo } from "../services/promo";
@@ -23,11 +28,6 @@ import {
   cartPromo,
   updateCartChecking,
 } from "../store/reducers/cartSlice";
-import { IoTrashOutline } from "react-icons/io5";
-import Loader from "../components/utils/Loader";
-import Extras from "../components/utils/Extras";
-import { keyGenerator } from "../hooks/all";
-import { useTranslation } from "react-i18next";
 
 const Cart = () => {
   const { t } = useTranslation();
@@ -49,6 +49,7 @@ const Cart = () => {
     price = 0,
     discount = 0,
     person = 0,
+    count = 0,
     pointAccrual,
     pickupDiscount,
     pointCheckout,
@@ -69,7 +70,6 @@ const Cart = () => {
     },
   });
   const form = useWatch({ control });
-  const count = getCount(cart);
 
   const dispatch = useDispatch();
 

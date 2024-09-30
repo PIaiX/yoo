@@ -1,18 +1,17 @@
-import React, { useCallback, useLayoutEffect, useState } from "react";
+import React from "react";
 import { useSelector } from "react-redux";
 import { Link, useLocation, useParams } from "react-router-dom";
 import CategoryGroup from "../components/CategoryGroup";
 import Empty from "../components/Empty";
 import EmptyCatalog from "../components/empty/catalog";
 // import Notice from "../components/Notice";
-import { useTranslation } from "react-i18next";
-import Meta from "../components/Meta";
-import Loader from "../components/utils/Loader";
-import NavTop from "../components/utils/NavTop";
-import { getCategory } from "../services/category";
-import { generateSeoText, getImageURL } from "../helpers/all";
-import Header from "../components/Header";
 import { Col, Row } from "react-bootstrap";
+import { useTranslation } from "react-i18next";
+import Header from "../components/Header";
+import Meta from "../components/Meta";
+import NavTop from "../components/utils/NavTop";
+import { generateSeoText, getImageURL } from "../helpers/all";
+import Footer from "../components/Footer";
 
 const Category = () => {
   const { categoryId } = useParams();
@@ -98,29 +97,16 @@ const Category = () => {
             : false
         }
       />
-      <Row className="gx-3 gx-xl-4">
+      <Row className="gx-0">
         <Col className="left-menu-col">
           <Header />
         </Col>
         <Col>
-          <section className="container">
-            <NavTop breadcrumbs={false} />
-            {/* <Notice /> */}
-            {/* <img
-          src="imgs/Rectangle.png"
-          alt="Rectangle"
-          className="img-fluid mb-3 mb-sm-4"
-        /> */}
-          </section>
-          <section className="sec-5 container mb-5">
-            {/* <div className="sticky-box mb-3 mb-sm-4 mb-md-5">
-          <Categories />
-        </div> */}
-
-            <div className="categories-box">
-              <CategoryGroup data={item} />
-            </div>
-          </section>
+          <div className="px-4 pb-4 vh-100">
+            <NavTop />
+            <CategoryGroup data={item} />
+          </div>
+          <Footer />
         </Col>
       </Row>
     </>
