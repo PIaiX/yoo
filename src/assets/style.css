@@ -92,6 +92,13 @@ a:active {
   cursor: pointer;
 }
 
+nav a,
+nav a:hover,
+nav a:focus,
+nav a:active {
+  box-shadow: none !important;
+}
+
 h1,
 h2,
 h3,
@@ -605,7 +612,6 @@ input[type=number]::-webkit-outer-spin-button, input[type=number]::-webkit-inner
 .countInput {
   width: -moz-fit-content;
   width: fit-content;
-  padding: 0.6em 0;
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -623,32 +629,22 @@ input[type=number]::-webkit-outer-spin-button, input[type=number]::-webkit-inner
 .countInput.disabled {
   pointer-events: none;
 }
-@media (max-width: 580px) {
-  .countInput {
-    padding: 0.35em 0;
-    font-size: 1em !important;
-  }
-}
 .countInput input {
+  font-size: 15px;
   padding: 0px;
   height: 1.875em;
   width: 2.5em;
   text-align: center;
+  cursor: pointer;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
   border-radius: 1.25em;
   box-shadow: 0px 2px 20px rgba(0, 0, 0, 0.04);
   margin: 0px 0.3125em;
 }
-@media (max-width: 770px) {
-  .countInput input {
-    width: 60px;
-  }
-}
-@media (max-width: 580px) {
-  .countInput input {
-    width: 40px;
-  }
-}
 .countInput button {
+  font-size: 15px;
   padding: 0.3em;
   background-color: var(--bg-second);
   border: 1px solid var(--bg-btn);
@@ -668,13 +664,8 @@ input[type=number]::-webkit-outer-spin-button, input[type=number]::-webkit-inner
 .countInput button svg {
   font-size: 0.8em;
 }
-.countInput button:hover, .countInput button:focus {
+.countInput button:hover, .countInput button:focus, .countInput button:active {
   color: var(--main-color);
-}
-.countInput button:active {
-  color: #fff;
-  background-color: var(--main-color);
-  border: 1px solid var(--main-color);
 }
 
 .promoCode {
@@ -1529,6 +1520,9 @@ select {
 }
 
 body {
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
   margin: 0;
   font-family: "Nunito", "Arial", "Tahoma", "Verdana";
   -webkit-font-smoothing: antialiased;
@@ -1538,11 +1532,6 @@ body {
   color: var(--main-color-text);
   background: var(--bg-main);
   overflow-x: hidden;
-}
-@media (max-width: 1199px) {
-  body {
-    font-size: 14px;
-  }
 }
 
 .left-menu {
@@ -1712,7 +1701,8 @@ body {
     align-items: center;
     text-align: center;
   }
-  .left-menu-col .left-menu .categories a img, .left-menu-col .left-menu .categories a .img {
+  .left-menu-col .left-menu .categories a img,
+  .left-menu-col .left-menu .categories a .img {
     margin-right: 0px !important;
     margin-bottom: 5px;
   }
@@ -3286,39 +3276,6 @@ html.theme-font-title-amaticsc .productPage h1 {
 .productPage-edit .box ul li:not(:first-child) {
   margin-top: var(--mt);
 }
-.productPage-price {
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: center;
-  flex-wrap: nowrap;
-  font-size: 1.2em;
-}
-@media (max-width: 770px) {
-  .productPage-price {
-    font-size: 1em;
-    position: fixed;
-    bottom: var(--f-height);
-    left: 0px;
-    width: 100%;
-    height: 60px;
-    z-index: 90;
-    background-color: var(--bg-main);
-    justify-content: space-between;
-  }
-  .productPage-price button {
-    width: 270px;
-  }
-}
-@media (max-width: 580px) {
-  .productPage-price {
-    padding: 0px 1.5em;
-  }
-  .productPage-price button {
-    width: 100%;
-    flex: 1;
-  }
-}
 .productPage .select-button {
   padding: 0.6em 1em;
 }
@@ -3621,6 +3578,18 @@ html.theme-font-title-amaticsc .filterGrid h4 {
   width: 100%;
   height: var(--offer-w);
   border-radius: 1.25em;
+}
+
+.custom-scroll::-webkit-scrollbar {
+  display: block;
+  width: 6px;
+}
+.custom-scroll::-webkit-scrollbar-thumb {
+  background-color: var(--bg-btn);
+  border-radius: 7px;
+}
+.custom-scroll::-webkit-scrollbar-button:vertical:start:decrement, .custom-scroll::-webkit-scrollbar-button:vertical:end:increment, .custom-scroll::-webkit-scrollbar-button:horizontal:start:decrement, .custom-scroll::-webkit-scrollbar-button:horizontal:end:increment {
+  display: none;
 }
 
 .box {
@@ -6204,4 +6173,9 @@ ACCOUNT END
   display: flex;
   align-items: center;
   line-height: 11px;
+}
+
+.keyboard {
+  max-width: 1000px;
+  margin: 0px auto;
 }/*# sourceMappingURL=style.css.map */

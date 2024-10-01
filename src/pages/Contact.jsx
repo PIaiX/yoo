@@ -205,9 +205,9 @@ const Contact = () => {
                                   visible: true,
                                 }}
                                 properties={{
-                                  balloonContent: `<address class='my-info'>
-                              <div class='my-info-body'>
-                              <h6 class='mb-0 fw-6'>${e.title}</h6>
+                                  balloonContent: `<address className='my-info'>
+                              <div className='my-info-body'>
+                              <h6 className='mb-0 fw-6'>${e.title}</h6>
                               ${e.desc ? `<p>${e.desc}</p>` : ""}
                               ${
                                 e.minPrice > 0

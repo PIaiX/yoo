@@ -18,7 +18,7 @@ const Category = () => {
   const { state } = useLocation();
   const options = useSelector((state) => state.settings.options);
   const item = useSelector((data) =>
-    data.catalog.home?.find((e) => e.id === categoryId || e.id === state.id)
+    data.catalog.home?.find((e) => e.id === categoryId || e.id === state?.id)
   );
   const selectedAffiliate = useSelector((state) => state.affiliate.active);
   const { t } = useTranslation();

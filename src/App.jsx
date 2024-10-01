@@ -1,6 +1,4 @@
 import axios from "axios";
-import "bootstrap/dist/css/bootstrap.min.css";
-import moment from "moment";
 import React, {
   useCallback,
   useEffect,
@@ -13,52 +11,24 @@ import "./assets/style.min.css";
 import Loader from "./components/utils/Loader";
 import YandexMetrika from "./components/YandexMetrika";
 import socket from "./config/socket";
-import {
-  addSpacesToNumber,
-  convertColor,
-  generateToken,
-  getImageURL,
-  isUpdateTime,
-  languageCode,
-  setClassName,
-  setCssColor,
-} from "./helpers/all";
+import { addSpacesToNumber, generateToken } from "./helpers/all";
 import AppRouter from "./routes/AppRouter";
-import { checkAuth, logout } from "./services/auth";
 // import { getFavorites } from "./services/favorite";
-import { getOptions } from "./services/option";
-import { getDelivery } from "./services/order";
-import { updateAddresses } from "./store/reducers/addressSlice";
-import {
-  updateAffiliate,
-  updateCities,
-  // updateTable,
-  updateZone,
-} from "./store/reducers/affiliateSlice";
-import { setAuth, setUser } from "./store/reducers/authSlice";
-import { cartZone } from "./store/reducers/cartSlice";
+import { Badge, Button } from "react-bootstrap";
+import { IoEllipse } from "react-icons/io5";
+import { QRCode } from "react-qrcode-logo";
+import Empty from "./components/Empty";
+import EmptyWork from "./components/empty/work";
+import Meta from "./components/Meta";
+import { Timer } from "./helpers/timer";
+import { terminalAuth, terminalNewKey } from "./services/terminal";
 import { editDeliveryCheckout } from "./store/reducers/checkoutSlice";
-import { updateNotification } from "./store/reducers/notificationSlice";
 import {
   updateApiId,
   updateIp,
-  updateMember,
   updateOptions,
   updateStart,
 } from "./store/reducers/settingsSlice";
-import { updateStatus } from "./store/reducers/statusSlice";
-import Input from "./components/utils/Input";
-import { useForm } from "react-hook-form";
-import { NotificationManager } from "react-notifications";
-import { terminalAuth, terminalNewKey } from "./services/terminal";
-import { Badge, Button } from "react-bootstrap";
-import Meta from "./components/Meta";
-import QRCode from "react-qr-code";
-import { Timer } from "./helpers/timer";
-import EmptyWork from "./components/empty/work";
-import Empty from "./components/Empty";
-import { Link } from "react-router-dom";
-import { IoEllipse } from "react-icons/io5";
 
 function App() {
   const { t, i18n } = useTranslation();
@@ -220,10 +190,10 @@ function App() {
                 viewBox={`0 0 150 150`}
               />
             </div>
-            <div class="fw-8 key mt-4 mb-3 text-center">
+            <div className="fw-8 key mt-4 mb-3 text-center">
               {addSpacesToNumber(key)}
             </div>
-            <div class="fw-8 h5 mb-3 text-center">
+            <div className="fw-8 h5 mb-3 text-center">
               {t("Подтвердите и активируйте терминал")}
             </div>
             <p className="fw-6 mb-2 d-flex align-items-start">
@@ -282,7 +252,7 @@ function App() {
         <Meta title={t("Добро пожаловать")} />
         <div className="start d-flex flex-column vh-100 justify-content-between">
           <div>
-            <div class="fw-7 h1 mb-3">{t("Закажите без очереди")}</div>
+            <div className="fw-7 h1 mb-3">{t("Закажите без очереди")}</div>
             <p className="fw-6 mb-2 d-flex align-items-center justify-content-center text-muted">
               Order here <IoEllipse size={8} className="mx-3 text-primary" />{" "}
               Ordene aquí <IoEllipse size={8} className="mx-3 text-primary" />{" "}
@@ -312,7 +282,7 @@ function App() {
         <Meta title={t("Выберите способ получения")} />
         <div className="start d-flex flex-column vh-100 justify-content-between">
           <div>
-            <div class="fw-7 h1 mb-3">{t("Выберите способ получения")}</div>
+            <div className="fw-7 h1 mb-3">{t("Выберите способ получения")}</div>
             <p className="fw-6 mb-2 d-flex align-items-center justify-content-center text-muted">
               Order type <IoEllipse size={8} className="mx-3 text-primary" />{" "}
               Tipo de pedido{" "}

@@ -24,7 +24,7 @@ const CountInput = memo(
             <HiMinus />
           </button>
         )}
-        <input type="number" value={Number(value)} readOnly={false} />
+        <input type="number" disabled  value={Number(value)} readOnly={false} />
         {!dis && (
           <button type="button" onClick={() => onCount(Number(value) + 1)}>
             <HiPlus />

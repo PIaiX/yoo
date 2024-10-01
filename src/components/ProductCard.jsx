@@ -1,16 +1,15 @@
 import React, { memo } from "react";
-import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { OverlayTrigger, Popover } from "react-bootstrap";
+import { useTranslation } from "react-i18next";
 import { LazyLoadImage } from "react-lazy-load-image-component";
-import { customPrice, customWeight, getImageURL } from "../helpers/all";
+import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+import { customPrice, getImageURL } from "../helpers/all";
 import ButtonCart from "./ButtonCart";
 import Tags from "./Tags";
-import { useTranslation } from "react-i18next";
-import { OverlayTrigger, Popover } from "react-bootstrap";
-import { HiOutlineInformationCircle } from "react-icons/hi2";
 // import BtnFav from "./utils/BtnFav";
 
-const ProductCard = memo(({ data }) => {
+const ProductCard = memo(({ data, onShow }) => {
   const { t } = useTranslation();
   const themeProductImage = useSelector(
     (state) => state.settings?.options?.themeProductImage
@@ -43,7 +42,7 @@ const ProductCard = memo(({ data }) => {
           themeProductImage == 1 ? "product-img rectangle" : "product-img"
         }
       >
-        <Link to={"/product/" + data?.id} state={data}>
+        <a onClick={() => onShow()}>
           {data?.tags?.length > 0 && (
             <div className="p-2 position-absolute">
               <Tags data={data.tags} mini />
@@ -56,9 +55,9 @@ const ProductCard = memo(({ data }) => {
             loading="lazy"
             effect="blur"
           />
-        </Link>
+        </a>
       </div>
-      <Link to={"/product/" + data?.id} state={data}>
+      <a onClick={() => onShow()}>
         <h6
           className={
             "title text-center text-md-start " +
@@ -71,7 +70,7 @@ const ProductCard = memo(({ data }) => {
           ) : null}
         </h6>
         <p className="d-none d-md-block fs-09">{data.description}</p>
-      </Link>
+      </a>
       <hr className="d-none d-md-block" />
       {data?.options?.сompound && (
         <div className="d-flex d-lg-none justify-content-center align-items-center">

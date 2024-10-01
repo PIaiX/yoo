@@ -143,7 +143,7 @@ const CartItem = memo(({ data }) => {
                 {customPrice(price * data.cart.count - data.discount)}
               </div>
               <div className="text-right">
-                <s class="text-muted fw-4 fs-08">
+                <s className="text-muted fw-4 fs-08">
                   {customPrice(price * data.cart.count)}
                 </s>
               </div>

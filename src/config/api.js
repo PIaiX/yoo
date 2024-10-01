@@ -35,6 +35,7 @@ const apiRoutes = {
   AUTH_LOGOUT: SERVICE_ACCOUNT + "/logout",
   AUTH_RECOVERY: SERVICE_ACCOUNT + "/recovery",
   AUTH_EDIT_EMAIL: SERVICE_ACCOUNT + "/editEmail",
+  AUTH_QR_GENERATE: SERVICE_ACCOUNT + "/qrGenerate",
 
   // account
   ACCOUNT_EDIT: SERVICE_USER + "/edit",

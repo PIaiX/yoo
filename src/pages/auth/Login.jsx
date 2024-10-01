@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { Badge, Button } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
@@ -9,14 +9,15 @@ import {
   IoQrCodeOutline,
 } from "react-icons/io5";
 import { NotificationManager } from "react-notifications";
-import QRCode from "react-qr-code";
+import { QRCode } from "react-qrcode-logo";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import Meta from "../../components/Meta";
 import Input from "../../components/utils/Input";
-import { login } from "../../services/auth";
-import NavTop from "../../components/utils/NavTop";
-import { HiOutlineArrowLeftCircle } from "react-icons/hi2";
+import Loader from "../../components/utils/Loader";
+import { authQrGenerate, login } from "../../services/auth";
+import { setQr } from "../../store/reducers/authSlice";
+import Keyboard from "react-simple-keyboard";
 
 const Login = () => {
   const { t } = useTranslation();
@@ -24,7 +25,14 @@ const Login = () => {
   const user = useSelector((state) => state.auth.user);
   const options = useSelector((state) => state.settings.options);
   const loadingLogin = useSelector((state) => state.auth.loadingLogin);
+  const qr = useSelector((state) => state.auth.qr);
   const [variant, setVariant] = useState();
+  const [loading, setLoading] = useState(false);
+  const timerRef = useRef(null);
+  const keyboard = useRef();
+  const [inputs, setInputs] = useState({});
+  const [inputName, setInputName] = useState("default");
+  const [layoutName, setLayoutName] = useState("default");
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -41,6 +49,7 @@ const Login = () => {
     register,
     formState: { errors, isValid },
     handleSubmit,
+    setValue,
   } = useForm({ mode: "all", reValidateMode: "onChange" });
 
   const dispatch = useDispatch();
@@ -63,23 +72,79 @@ const Login = () => {
     dispatch(login(data));
   }, []);
 
+  useEffect(() => {
+    // Очистка таймера при размонтировании компонента
+    return () => clearInterval(timerRef.current);
+  }, []);
+
+  useEffect(() => {
+    if (variant === "qr") {
+      const updateQrToken = async () => {
+        try {
+          const token = await authQrGenerate(); // Ваша функция генерации QR-токена
+          if (token) {
+            dispatch(setQr(token));
+          }
+        } catch (error) {
+          console.error("Ошибка при генерации QR-кода:", error);
+        }
+      };
+
+      updateQrToken();
+
+      timerRef.current = setInterval(updateQrToken, 300000); // 5 мин
+    }
+
+    return () => {
+      clearInterval(timerRef.current);
+    };
+  }, [variant]);
+
+  const onChangeAll = (inputs) => {
+    /**
+     * Here we spread the inputs into a new object
+     * If we modify the same object, react will not trigger a re-render
+     */
+    setInputs({ ...inputs });
+    setValue(inputName, inputs[inputName]);
+    console.log("Inputs changed", inputs);
+  };
+
+  const handleShift = () => {
+    const newLayoutName = layoutName === "default" ? "shift" : "default";
+    setLayoutName(newLayoutName);
+  };
+
+  const onKeyPress = (button) => {
+    console.log("Button pressed", button);
+
+    /**
+     * If you want to handle the shift and caps lock buttons
+     */
+    if (button === "{shift}" || button === "{lock}") handleShift();
+  };
+
+  if (loading && variant === "qr" && !qr) {
+    return <Loader />;
+  }
+
   return (
     <>
       <Meta title={t("Вход")} />
       <div className="align-items-center login justify-content-center justify-content-center flex-column d-flex vh-100 p-3">
         {variant == "qr" ? (
           <div className="login-box-qr">
-            <div className="d-flex justify-content-center">
-              <QRCode
-                size={350}
-                className="qr-login"
-                value={
-                  "gjasdg87asdg89shtq8ug487a8g8rg8a8rg8hra8ha85rgharahf4liktk432jk214k888a9s8a9f8ayfsy453gg54h676j6741q3w4gfghh65j577j3j53ll993434fg5w32yh6h"
-                }
-                viewBox={`0 0 350 350`}
-              />
-            </div>
-            <div class="fw-8 h5 mb-3 mt-4 text-center">
+            {qr && (
+              <div className="d-flex justify-content-center">
+                <QRCode
+                  size={350}
+                  className="qr-login"
+                  value={qr}
+                  viewBox={`0 0 350 350`}
+                />
+              </div>
+            )}
+            <div className="fw-8 h5 mb-3 mt-4 text-center">
               {t("Войдите через QR код")}
             </div>
             <p className="fw-6 mb-2 d-flex align-items-start">
@@ -126,7 +191,7 @@ const Login = () => {
               <span className="fw-6">{t("К меню")}</span>
             </a>
             <form onSubmit={handleSubmit(onSubmit)} className="pb-2">
-              <h4 class="fw-8 h4 mb-4">{t("Войдите в профиль")}</h4>
+              <h4 className="fw-8 h4 mb-4">{t("Войдите в профиль")}</h4>
               <div className="mb-3">
                 {!options.authType || options.authType === "email" ? (
                   <Input
@@ -148,6 +213,7 @@ const Login = () => {
                         message: "Неверный формат Email",
                       },
                     }}
+                    onFocus={() => setInputName("email")}
                   />
                 ) : (
                   <Input
@@ -168,6 +234,7 @@ const Login = () => {
                         message: "Максимально 16 символов",
                       },
                     }}
+                    onFocus={() => setInputName("phone")}
                   />
                 )}
               </div>
@@ -187,6 +254,7 @@ const Login = () => {
                         "Минимальный пароль должен состоять из 6 символов",
                     },
                   }}
+                  onFocus={() => setInputName("password")}
                 />
               </div>
               <Button
@@ -214,6 +282,15 @@ const Login = () => {
             </Link>
           </div>
         )}
+      </div>
+      <div className="position-sticky keyboard bottom-0 left-0 right-0 w-100">
+        <Keyboard
+          keyboardRef={(r) => (keyboard.current = r)}
+          inputName={inputName}
+          layoutName={layoutName}
+          onChangeAll={onChangeAll}
+          onKeyPress={onKeyPress}
+        />
       </div>
     </>
   );
