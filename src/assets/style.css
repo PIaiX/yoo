@@ -6166,6 +6166,12 @@ ACCOUNT END
   padding-bottom: 35px;
   overflow: hidden;
 }
+@media (max-width: 580px) {
+  .cities {
+    -moz-columns: 1;
+         columns: 1;
+  }
+}
 
 .cities-box {
   padding-left: 25px;

@@ -5465,6 +5465,9 @@ ACCOUNT END
   columns: 3;
   padding-bottom: 35px;
   overflow: hidden;
+  @media (max-width: $bp-sm) {
+    columns: 1;
+  }
 }
 .cities-box {
   padding-left: 25px;
