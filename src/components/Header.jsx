@@ -574,102 +574,112 @@ const Header = memo(() => {
               value={searchInput}
             />
           </div>
-          <div className="search-box">
-            {searchInput?.length > 0 && search && search?.length > 0
-              ? search.length > 0 && (
-                  <div className="cities">
-                    {Object.entries(
-                      search
-                        .sort((a, b) => a.title.localeCompare(b.title))
-                        .reduce((acc, city) => {
-                          const firstLetter = city.title[0].toUpperCase();
-                          if (!acc[firstLetter]) {
-                            acc[firstLetter] = [];
-                          }
-                          acc[firstLetter].push(city);
-                          return acc;
-                        }, {})
-                    ).map(([letter, cities]) => (
-                      <div key={letter} className="cities-box">
-                        <b className="d-block cities-box-letter text-main">
-                          {letter}
-                        </b>
-                        <Row>
-                          {cities.map((e, index) => (
-                            <Col md={12} key={index} className="pb-2 ps-3">
-                              <a
-                                onClick={() => {
-                                  dispatch(updateAffiliate(e.affiliates));
-                                  dispatch(updateCity(e));
-                                  dispatch(updateGps(true));
+          <div className="box-shadow">
+            <div className="box-shadow-top"></div>
+            <div className="search-box">
+              {searchInput?.length > 0 && search && search?.length > 0
+                ? search.length > 0 && (
+                    <div className="cities">
+                      {Object.entries(
+                        search
+                          .sort((a, b) => a.title.localeCompare(b.title))
+                          .reduce((acc, city) => {
+                            const firstLetter = city.title[0].toUpperCase();
+                            if (!acc[firstLetter]) {
+                              acc[firstLetter] = [];
+                            }
+                            acc[firstLetter].push(city);
+                            return acc;
+                          }, {})
+                      ).map(([letter, cities]) => (
+                        <div key={letter} className="cities-box">
+                          <b className="d-block cities-box-letter text-main">
+                            {letter}
+                          </b>
+                          <Row>
+                            {cities.map((e, index) => (
+                              <Col md={12} key={index} className="pb-2 ps-3">
+                                <a
+                                  onClick={() => {
+                                    dispatch(updateAffiliate(e.affiliates));
+                                    dispatch(updateCity(e));
+                                    dispatch(updateGps(true));
 
-                                  setShowCity(false);
-                                }}
-                                className={
-                                  "py-2 fw-6" +
-                                  (e.title === city?.title ? " active" : "")
+                                    setShowCity(false);
+                                  }}
+                                  className={
+                                    "py-2 fw-6" +
+                                    (e.title === city?.title ? " active" : "")
+                                  }
+                                >
+                                  {e.title}
+                                </a>
+                              </Col>
+                            ))}
+                          </Row>
+                        </div>
+                      ))}
+                    </div>
+                  )
+                : list?.length > 0 &&
+                  list.map((item) => (
+                    <>
+                      {item?.country && (
+                        <h6 className="fw-7 p-2">{item.country}</h6>
+                      )}
+                      {item?.cities?.length > 0 && (
+                        <div className="cities">
+                          {Object.entries(
+                            item.cities
+                              .sort((a, b) => a.title.localeCompare(b.title))
+                              .reduce((acc, city) => {
+                                const firstLetter = city.title[0].toUpperCase();
+                                if (!acc[firstLetter]) {
+                                  acc[firstLetter] = [];
                                 }
-                              >
-                                {e.title}
-                              </a>
-                            </Col>
-                          ))}
-                        </Row>
-                      </div>
-                    ))}
-                  </div>
-                )
-              : list?.length > 0 &&
-                list.map((item) => (
-                  <>
-                    {item?.country && (
-                      <h6 className="fw-7 p-2">{item.country}</h6>
-                    )}
-                    {item?.cities?.length > 0 && (
-                      <div className="cities">
-                        {Object.entries(
-                          item.cities
-                            .sort((a, b) => a.title.localeCompare(b.title))
-                            .reduce((acc, city) => {
-                              const firstLetter = city.title[0].toUpperCase();
-                              if (!acc[firstLetter]) {
-                                acc[firstLetter] = [];
-                              }
-                              acc[firstLetter].push(city);
-                              return acc;
-                            }, {})
-                        ).map(([letter, cities]) => (
-                          <div key={letter} className="cities-box">
-                            <b className="d-block cities-box-letter text-main">
-                              {letter}
-                            </b>
-                            <Row>
-                              {cities.map((e, index) => (
-                                <Col md={12} key={index} className="pb-2 ps-3">
-                                  <a
-                                    onClick={() => {
-                                      dispatch(updateAffiliate(e.affiliates));
-                                      dispatch(updateCity(e));
-                                      dispatch(updateGps(true));
-
-                                      setShowCity(false);
-                                    }}
-                                    className={
-                                      "py-2 fw-6" +
-                                      (e.title === city?.title ? " active" : "")
-                                    }
+                                acc[firstLetter].push(city);
+                                return acc;
+                              }, {})
+                          ).map(([letter, cities]) => (
+                            <div key={letter} className="cities-box">
+                              <b className="d-block cities-box-letter text-main">
+                                {letter}
+                              </b>
+                              <Row>
+                                {cities.map((e, index) => (
+                                  <Col
+                                    md={12}
+                                    key={index}
+                                    className="pb-2 ps-3"
                                   >
-                                    {e.title}
-                                  </a>
-                                </Col>
-                              ))}
-                            </Row>
-                          </div>
-                        ))}
-                      </div>
-                    )}
-                  </>
-                ))}
+                                    <a
+                                      onClick={() => {
+                                        dispatch(updateAffiliate(e.affiliates));
+                                        dispatch(updateCity(e));
+                                        dispatch(updateGps(true));
+
+                                        setShowCity(false);
+                                      }}
+                                      className={
+                                        "py-2 fw-6" +
+                                        (e.title === city?.title
+                                          ? " active"
+                                          : "")
+                                      }
+                                    >
+                                      {e.title}
+                                    </a>
+                                  </Col>
+                                ))}
+                              </Row>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </>
+                  ))}
+            </div>
+            <div className="box-shadow-bottom"></div>
           </div>
         </Modal.Body>
       </Modal>

@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Container } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
@@ -11,11 +11,15 @@ import Loader from "../components/utils/Loader";
 import useDebounce from "../hooks/useDebounce";
 import { getSearch } from "../services/search";
 import { useTranslation } from "react-i18next";
+import { useSearchParams, useNavigate } from "react-router-dom";
 
 const Search = () => {
   const { t } = useTranslation();
   const multiBrand = useSelector((state) => state.settings.options.multiBrand);
   const selectedAffiliate = useSelector((state) => state.affiliate.active);
+
+  const [searchParams, setSearchParams] = useSearchParams();
+
   const [search, setSearch] = useState({
     loading: false,
     items: [],
@@ -28,17 +32,24 @@ const Search = () => {
     formState: { errors, isValid },
   } = useForm({
     defaultValues: {
-      text: "",
+      text: searchParams.get('text'),
     },
   });
   const searchEvent = useDebounce(watch("text"), 500);
 
-  useLayoutEffect(() => {
-    if (searchEvent && selectedAffiliate?.id) {
+  useEffect(() => {
+    if (searchEvent?.length > 0) {
+      searchParams.set("text", searchEvent);
+    } else {
+      searchParams.delete("text");
+    }
+    setSearchParams(searchParams);
+
+    if (searchEvent) {
       setSearch({ loading: true });
       getSearch({
         text: searchEvent,
-        affiliateId: selectedAffiliate.id,
+        affiliateId: selectedAffiliate?.id,
         view: multiBrand,
       })
         .then(

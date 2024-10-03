@@ -124,7 +124,9 @@ address {
   margin-bottom: 0px;
 }
 
-h1, h2, h3 {
+h1,
+h2,
+h3 {
   color: var(--main-color-text-title);
 }
 
@@ -6159,22 +6161,10 @@ ACCOUNT END
 }
 
 .cities {
-  display: flex;
-  flex-direction: column;
-  flex-wrap: wrap;
-  max-height: 600px;
-  overflow-x: hidden;
-}
-.cities::-webkit-scrollbar {
-  display: block;
-  width: 6px;
-}
-.cities::-webkit-scrollbar-thumb {
-  background-color: var(--bg-btn);
-  border-radius: 7px;
-}
-.cities::-webkit-scrollbar-button:vertical:start:decrement, .cities::-webkit-scrollbar-button:vertical:end:increment, .cities::-webkit-scrollbar-button:horizontal:start:decrement, .cities::-webkit-scrollbar-button:horizontal:end:increment {
-  display: none;
+  -moz-columns: 3;
+       columns: 3;
+  padding-bottom: 35px;
+  overflow: hidden;
 }
 
 .cities-box {
@@ -6182,12 +6172,56 @@ ACCOUNT END
   margin-bottom: 10px;
   position: relative;
   page-break-inside: avoid;
+  max-width: 100%;
   -moz-column-break-inside: avoid;
        break-inside: avoid;
-  max-width: 33%;
+  backface-visibility: hidden;
 }
 .cities-box .cities-box-letter {
   position: absolute;
   left: 7px;
   top: 0px;
+}
+
+.search-box {
+  padding-top: 30px;
+  position: relative;
+  max-height: 400px;
+  overflow: auto;
+}
+.search-box::-webkit-scrollbar {
+  display: block;
+  width: 6px;
+}
+.search-box::-webkit-scrollbar-thumb {
+  background-color: var(--bg-btn);
+  border-radius: 7px;
+}
+.search-box::-webkit-scrollbar-button:vertical:start:decrement, .search-box::-webkit-scrollbar-button:vertical:end:increment, .search-box::-webkit-scrollbar-button:horizontal:start:decrement, .search-box::-webkit-scrollbar-button:horizontal:end:increment {
+  display: none;
+}
+
+.box-shadow {
+  position: relative;
+}
+.box-shadow .box-shadow-top {
+  display: block;
+  content: "";
+  top: -1px;
+  right: 0px;
+  left: 0px;
+  z-index: 100;
+  position: absolute;
+  height: 35px;
+  background: linear-gradient(0deg, rgba(255, 255, 255, 0) 0%, rgb(255, 255, 255) 100%);
+}
+.box-shadow .box-shadow-bottom {
+  position: absolute;
+  bottom: -1px;
+  left: 0px;
+  right: 0px;
+  height: 35px;
+  z-index: 100;
+  transition: opacity 0.25s ease-in-out, transform 0.25s ease-in-out;
+  background: linear-gradient(rgba(255, 255, 255, 0) 0%, rgb(255, 255, 255) 100%);
 }/*# sourceMappingURL=style.css.map */
