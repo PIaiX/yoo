@@ -30,6 +30,7 @@ import { updateAddresses } from "./store/reducers/addressSlice";
 import {
   updateAffiliate,
   updateCities,
+  updateCity,
   // updateTable,
   updateZone,
 } from "./store/reducers/affiliateSlice";
@@ -37,7 +38,12 @@ import { setAuth, setUser } from "./store/reducers/authSlice";
 import { cartZone } from "./store/reducers/cartSlice";
 import { editDeliveryCheckout } from "./store/reducers/checkoutSlice";
 import { updateNotification } from "./store/reducers/notificationSlice";
-import { updateIp, updateOptions } from "./store/reducers/settingsSlice";
+import {
+  updateIp,
+  updateOptions,
+  updateSettingsCity,
+  updateSettingsCountry,
+} from "./store/reducers/settingsSlice";
 import { updateStatus } from "./store/reducers/statusSlice";
 
 function App() {
@@ -128,9 +134,11 @@ function App() {
         );
       }
       if (!updateTime || isUpdateTime(updateTime)) {
-        await axios
-          .get("https://ip.yooapp.ru")
-          .then(({ data }) => data?.ip && dispatch(updateIp(data.ip)));
+        await axios.get("https://ip.yooapp.ru").then(({ data }) => {
+          data?.ip && dispatch(updateIp(data.ip));
+          data?.city && dispatch(updateSettingsCity(data.city));
+          data?.country && dispatch(updateSettingsCountry(data.country));
+        });
 
         await getOptions()
           .then(async (res) => {

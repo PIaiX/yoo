@@ -4,6 +4,8 @@ import moment from "moment";
 const initialState = {
   isConnected: true,
   ip: "0.0.0.0",
+  city: false,
+  country: false,
   token: false,
   options: {
     name: "ru.yooapp.app",
@@ -52,6 +54,12 @@ const settingsSlice = createSlice({
     updateIp: (state, action) => {
       state.ip = action.payload;
     },
+    updateSettingsCity: (state, action) => {
+      state.city = action.payload;
+    },
+    updateSettingsCountry: (state, action) => {
+      state.country = action.payload;
+    },
     updateFilter: (state, action) => {
       if (action?.payload?.categoryId) {
         let categoryIndex =
@@ -82,6 +90,8 @@ export const {
   updateIp,
   updateFilter,
   removeFilter,
+  updateSettingsCity,
+  updateSettingsCountry
 } = settingsSlice.actions;
 
 export default settingsSlice.reducer;

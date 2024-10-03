@@ -49,6 +49,7 @@ const Header = memo(() => {
   const selectedAffiliate = useSelector((state) => state.affiliate.active);
   const options = useSelector((state) => state.settings.options);
   const delivery = useSelector((state) => state.checkout.delivery);
+  const settingsCity = useSelector((state) => state.settings.city);
 
   const dispatch = useDispatch();
   const [showMenu, setShowMenu] = useState(false);
@@ -89,6 +90,14 @@ const Header = memo(() => {
   useEffect(() => {
     // Сортируем города по алфавиту
     if (cities && cities?.length > 0) {
+      if (settingsCity && !city) {
+        let defaultCity = cities.find(
+          (e) => e.title.toLowerCase() === settingsCity.toLowerCase()
+        );
+        if (defaultCity) {
+          dispatch(updateCity(defaultCity));
+        }
+      }
       let citiesData = [...cities];
       // Группируем города по странам
       const groupedCities = citiesData.reduce((acc, city) => {

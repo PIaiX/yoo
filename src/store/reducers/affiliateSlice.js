@@ -77,12 +77,14 @@ const affiliateSlice = createSlice({
       state.gps = action.payload;
     },
     updateCity: (state, action) => {
-        state.city = action.payload
-        state.items = action.payload?.affiliates ?? []
-        state.active = action.payload?.affiliates[0] ?? false
+      state.city = action.payload;
+      if (action.payload?.affiliates?.length > 0) {
+        state.items = action.payload.affiliates;
+        state.active = action.payload?.affiliates[0] ?? false;
+      }
     },
     updateCities: (state, action) => {
-        state.cities = action.payload
+      state.cities = action.payload;
     },
     updateTable: (state, action) => {
       state.tables = action.payload;
