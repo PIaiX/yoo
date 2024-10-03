@@ -22,6 +22,7 @@ import EmptyWork from "./components/empty/work";
 import Meta from "./components/Meta";
 import { Timer } from "./helpers/timer";
 import { terminalAuth, terminalNewKey } from "./services/terminal";
+import { setAuth, setToken } from "./store/reducers/authSlice";
 import { editDeliveryCheckout } from "./store/reducers/checkoutSlice";
 import {
   updateApiId,
@@ -38,11 +39,8 @@ function App() {
   const [loadingNewKey, setLoadingNewKey] = useState(false);
   const [endTimer, setEndTimer] = useState(false);
   const settings = useSelector((state) => state.settings);
-  const cart = useSelector((state) => state.cart.items);
-  const address = useSelector((state) => state.address.items);
-  const selectedAffiliate = useSelector((state) => state.affiliate.active);
+  const user = useSelector((state) => state.auth.user);
   const delivery = useSelector((state) => state.checkout.delivery);
-  const auth = useSelector((state) => state.auth);
 
   // useEffect(() => {
   //   if (options?.themeType) {
@@ -151,8 +149,12 @@ function App() {
 
   useEffect(() => {
     if (settings?.apiId) {
+      socket.io.opts.query = {
+        brandId: user.brandId ?? false,
+        userId: user.id ?? false,
+      };
       socket.connect();
-      socket.emit("create", "terminal/" + settings.apiId);
+      socket.emit("create", "id" + settings.apiId);
       socket.on("auth", (data) => {
         if (data?.options) {
           dispatch(
@@ -166,11 +168,19 @@ function App() {
           setKey(data.key);
         }
       });
+      socket.on("login", (data) => {
+        if (data?.user && data?.token) {
+          dispatch(setUser(data.user));
+          dispatch(setToken(data.token));
+          dispatch(setAuth(true));
+        }
+      });
       return () => {
         socket.off("auth");
+        socket.off("login");
       };
     }
-  }, [settings?.apiId]);
+  }, [settings?.apiId, user]);
 
   if (loading) {
     return <Loader full />;

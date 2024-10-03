@@ -28,6 +28,7 @@ import {
   cartPromo,
   updateCartChecking,
 } from "../store/reducers/cartSlice";
+import Footer from "../components/Footer";
 
 const Cart = () => {
   const { t } = useTranslation();
@@ -210,7 +211,7 @@ const Cart = () => {
   }
 
   return (
-    <main>
+    <>
       <Meta
         title={
           options?.seo?.cart?.title
@@ -398,7 +399,8 @@ const Cart = () => {
           </Row>
         </div>
       </Container>
-    </main>
+      <Footer />
+    </>
   );
 };
 
