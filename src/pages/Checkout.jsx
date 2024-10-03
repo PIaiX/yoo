@@ -44,6 +44,7 @@ import {
   setCheckout,
 } from "../store/reducers/checkoutSlice";
 import CartItem from "../components/CartItem";
+import Footer from "../components/Footer";
 
 const Checkout = () => {
   const { t } = useTranslation();
@@ -319,7 +320,7 @@ const Checkout = () => {
         if (!data.address) {
           return NotificationManager.error(t("Добавьте адрес доставки"));
         }
-console.log(zone)
+
         if (!zone?.data || !zone?.data?.status) {
           NotificationManager.error(
             t("По данному адресу доставка не производится")
@@ -400,39 +401,6 @@ console.log(zone)
     );
   }
 
-  if (!isAuth) {
-    return (
-      <Empty
-        text={t("Вы не авторизованы")}
-        desc={t("Войдите в свой аккаунт или зарегистрируйтесь")}
-        image={() => <EmptyAuth />}
-        button={
-          <Link className="btn-primary" to="/login">
-            {t("Войти или создать профиль")}
-          </Link>
-        }
-      />
-    );
-  }
-
-  if (
-    data?.delivery == "delivery" &&
-    (!Array.isArray(address) || address.length <= 0)
-  ) {
-    return (
-      <Empty
-        text={t("Адрес не добавлен")}
-        desc={t("Создайте новый адрес для доставки заказа")}
-        image={() => <EmptyAddresses />}
-        button={
-          <Link className="btn-primary" to="/account/addresses/add">
-            {t("Добавить адрес")}
-          </Link>
-        }
-      />
-    );
-  }
-
   if (selectedAffiliate?.status === 0) {
     return (
       <Empty
@@ -472,10 +440,10 @@ console.log(zone)
     );
   }
   return (
-    <main>
+    <>
       <Meta title={t("Оформление заказа")} />
       <Container>
-        <NavTop toBack={true} breadcrumbs={false} />
+        <NavTop />
         <form className="cart">
           <Row className="g-4 g-xxl-5 d-flex justify-content-between">
             <Col xs={12} xl={6}>
@@ -830,13 +798,6 @@ console.log(zone)
                     {customPrice(zone?.data.minPrice)}
                   </div>
                 )}
-              <Button
-                disabled={isValidBtn()}
-                className="mt-3 fw-6 w-100"
-                onClick={() => setConfirmation(true)}
-              >
-                {t("Оформить заказ")}
-              </Button>
             </Col>
           </Row>
           <Modal
@@ -958,7 +919,18 @@ console.log(zone)
           </Modal>
         </form>
       </Container>
-    </main>
+      <Footer
+        sendButton={
+          <Button
+            variant="success"
+            onClick={() => setConfirmation(true)}
+            disabled={isValidBtn()}
+          >
+            {t("Оформить заказ")}
+          </Button>
+        }
+      />
+    </>
   );
 };
 

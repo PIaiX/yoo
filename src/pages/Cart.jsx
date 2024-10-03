@@ -234,7 +234,7 @@ const Cart = () => {
         <NavTop breadcrumbs={false} />
         <div className="cart">
           <Row className="g-4 g-xxl-5">
-            <Col xs={12} lg={8}>
+            <Col xs={12} lg={12}>
               <div className="cart-filter d-flex justify-content-between align-items-center">
                 {/* <label>
                   <input type="checkbox" />
@@ -278,7 +278,7 @@ const Cart = () => {
                 <Gifts total={total} items={data?.gifts} />
               )} */}
             </Col>
-            <Col xs={12} lg={4}>
+            <Col xs={12} lg={12}>
               {options?.promoVisible && user?.id && !promo && (
                 <>
                   <div className="fs-11 mb-1">{t("Промокод")}</div>
@@ -374,32 +374,17 @@ const Cart = () => {
                 <span className="fw-7 fs-11">{t("Итоговая сумма")}</span>
                 <span className="fw-7">{customPrice(totalNoDelivery)}</span>
               </div>
-
-              <Link
-                to={
-                  user?.id
-                    ? address?.length === 0 && stateDelivery == "delivery"
-                      ? "/account/addresses/add"
-                      : "/checkout"
-                    : "/login"
-                }
-                className="btn-primary w-100"
-              >
-                <span className="fw-6">
-                  {t(
-                    user?.id
-                      ? address?.length === 0 && stateDelivery == "delivery"
-                        ? "Добавить адрес"
-                        : "Далее"
-                      : "Войти в профиль"
-                  )}
-                </span>
-              </Link>
             </Col>
           </Row>
         </div>
       </Container>
-      <Footer />
+      <Footer
+        sendButton={
+          <Link to="/checkout" className="btn btn-success">
+            Далее
+          </Link>
+        }
+      />
     </>
   );
 };

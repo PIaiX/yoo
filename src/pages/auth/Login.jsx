@@ -283,15 +283,17 @@ const Login = () => {
           </div>
         )}
       </div>
-      <div className="position-sticky keyboard bottom-0 left-0 right-0 w-100">
-        <Keyboard
-          keyboardRef={(r) => (keyboard.current = r)}
-          inputName={inputName}
-          layoutName={layoutName}
-          onChangeAll={onChangeAll}
-          onKeyPress={onKeyPress}
-        />
-      </div>
+      {inputName && layoutName && (
+        <div className="position-sticky keyboard bottom-0 left-0 right-0 w-100">
+          <Keyboard
+            keyboardRef={(r) => (keyboard.current = r)}
+            inputName={inputName}
+            layoutName={layoutName}
+            onChangeAll={onChangeAll}
+            onKeyPress={onKeyPress}
+          />
+        </div>
+      )}
     </>
   );
 };

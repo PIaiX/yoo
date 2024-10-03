@@ -106,7 +106,7 @@ const Category = () => {
             <NavTop />
             <CategoryGroup data={item} />
           </div>
-          <Footer />
+          <Footer left/>
         </Col>
       </Row>
     </>

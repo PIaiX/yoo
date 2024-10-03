@@ -194,10 +194,10 @@ function App() {
           <div className="member">
             <div className="d-flex justify-content-center">
               <QRCode
-                size={150}
+                size={250}
                 className="qr"
                 value={key}
-                viewBox={`0 0 150 150`}
+                viewBox={`0 0 250 250`}
               />
             </div>
             <div className="fw-8 key mt-4 mb-3 text-center">

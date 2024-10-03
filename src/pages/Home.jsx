@@ -136,7 +136,7 @@ const Home = () => {
                 image={() => <EmptyCatalog />}
               />
             )}
-            <Footer />
+            <Footer left/>
           </Col>
         </Row>
       ) : (

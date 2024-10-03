@@ -3975,18 +3975,20 @@ html.theme-font-title-amaticsc .filterGrid h4 {
   border-radius: 1.25em;
 }
 
+.footer-height {
+  height: 60px;
+  width: 100%;
+}
+
 footer {
   position: fixed;
+  z-index: 100;
+  background-color: var(--bg-main);
   bottom: 0px;
-  left: 230px;
+  left: 0px;
   right: 0px;
   padding: 20px 0px;
   border-top: 1px solid var(--hr-color);
-}
-@media (max-width: 580px) {
-  footer {
-    left: 150px;
-  }
 }
 footer a {
   transition: color 0.2s;
@@ -3994,6 +3996,14 @@ footer a {
 }
 footer a:hover, footer a:focus, footer a:active {
   color: var(--main-color);
+}
+footer.footer-left {
+  left: 230px;
+}
+@media (max-width: 580px) {
+  footer.footer-left {
+    left: 150px;
+  }
 }
 
 /***********
