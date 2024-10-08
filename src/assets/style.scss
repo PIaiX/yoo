@@ -2121,11 +2121,18 @@ main {
     }
   }
 }
-
+.modal-dialog {
+  @media (max-width: $bp-sm) {
+    margin: 0px !important;
+  }
+}
 .modal-content {
   background-color: var(--bg-main) !important;
   border-radius: $radius * 0.5 !important;
   overflow: hidden;
+  @media (max-width: $bp-sm) {
+    border-radius: 0px !important;
+  }
 }
 .story-modal {
   backdrop-filter: blur(10px);
@@ -5486,7 +5493,7 @@ ACCOUNT END
 .search-box {
   padding-top: 30px;
   position: relative;
-  max-height: 400px;
+  max-height: 79vh;
   @include scrollCustomized();
   overflow: auto;
 }
@@ -5507,7 +5514,7 @@ ACCOUNT END
       rgb(255, 255, 255) 100%
     );
   }
-  .box-shadow-bottom{
+  .box-shadow-bottom {
     position: absolute;
     bottom: -1px;
     left: 0px;
@@ -5515,6 +5522,9 @@ ACCOUNT END
     height: 35px;
     z-index: 100;
     transition: opacity 0.25s ease-in-out, transform 0.25s ease-in-out;
-    background: linear-gradient(rgba(255, 255, 255, 0) 0%, rgb(255, 255, 255) 100%);
+    background: linear-gradient(
+      rgba(255, 255, 255, 0) 0%,
+      rgb(255, 255, 255) 100%
+    );
   }
 }
