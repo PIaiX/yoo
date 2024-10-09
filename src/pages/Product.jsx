@@ -267,15 +267,25 @@ const Product = () => {
               >
                 <h1 className="mb-0">{product.item.title}</h1>
 
-                {product.item.energy.weight > 0 && (
+                {data.cart.data?.modifiers[0]?.energy?.weight > 0 ? (
                   <span className="text-muted fw-6 ms-3">
                     {customWeight({
-                      value: product.item.energy.weight,
-                      type: product.item.energy?.weightType,
+                      value: data.cart.data.modifiers[0].energy.weight,
+                      type: data.cart.data.modifiers[0].energy.weightType,
                     })}
                   </span>
+                ) : (
+                  product.item.energy.weight > 0 && (
+                    <span className="text-muted fw-6 ms-3">
+                      {customWeight({
+                        value: product.item.energy.weight,
+                        type: product.item.energy?.weightType,
+                      })}
+                    </span>
+                  )
                 )}
-                {productEnergyVisible && product.item?.energy?.kkal > 0 && (
+                {productEnergyVisible &&
+                data.cart.data?.modifiers[0]?.energy?.kkal > 0 ? (
                   <OverlayTrigger
                     trigger={["hover"]}
                     className="ms-2"
@@ -285,21 +295,31 @@ const Product = () => {
                       <Popover id="popover-positioned-bottom">
                         <Popover.Header className="fs-09 fw-6">
                           {t("Энергетическая ценность")}
-                          {Math.round(product.item.energy.kkal)}&nbsp;
+                          {Math.round(data.cart.data.modifiers[0].energy.kkal)}
+                          &nbsp;
                           {t("ккал")}
                         </Popover.Header>
                         <Popover.Body>
                           <div>
                             {t("Белки")}:{" "}
-                            {Math.round(product.item.energy.protein)}г
+                            {Math.round(
+                              data.cart.data.modifiers[0].energy.protein
+                            )}
+                            г
                           </div>
                           <div>
                             {t("Жиры")}:{" "}
-                            {Math.round(product.item.energy.protein)}г
+                            {Math.round(
+                              data.cart.data.modifiers[0].energy.protein
+                            )}
+                            г
                           </div>
                           <div>
                             {t("Углеводы")}:{" "}
-                            {Math.round(product.item.energy.protein)}г
+                            {Math.round(
+                              data.cart.data.modifiers[0].energy.protein
+                            )}
+                            г
                           </div>
                         </Popover.Body>
                       </Popover>
@@ -309,6 +329,43 @@ const Product = () => {
                       <HiOutlineInformationCircle size={23} />
                     </a>
                   </OverlayTrigger>
+                ) : (
+                  productEnergyVisible &&
+                  product.item?.energy?.kkal > 0 && (
+                    <OverlayTrigger
+                      trigger={["hover"]}
+                      className="ms-2"
+                      key="bottom"
+                      placement="bottom"
+                      overlay={
+                        <Popover id="popover-positioned-bottom">
+                          <Popover.Header className="fs-09 fw-6">
+                            {t("Энергетическая ценность")}
+                            {Math.round(product.item.energy.kkal)}&nbsp;
+                            {t("ккал")}
+                          </Popover.Header>
+                          <Popover.Body>
+                            <div>
+                              {t("Белки")}:{" "}
+                              {Math.round(product.item.energy.protein)}г
+                            </div>
+                            <div>
+                              {t("Жиры")}:{" "}
+                              {Math.round(product.item.energy.protein)}г
+                            </div>
+                            <div>
+                              {t("Углеводы")}:{" "}
+                              {Math.round(product.item.energy.protein)}г
+                            </div>
+                          </Popover.Body>
+                        </Popover>
+                      }
+                    >
+                      <a className="ms-2">
+                        <HiOutlineInformationCircle size={23} />
+                      </a>
+                    </OverlayTrigger>
+                  )
                 )}
               </div>
               {product.item.options?.subtitle && (
