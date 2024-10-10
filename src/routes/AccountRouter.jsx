@@ -2,7 +2,6 @@ import React from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
 // import useIsMobile from "../hooks/isMobile";
 import AccountLayout from "../layouts/AccountLayout";
-import Profile from "../pages/account/Profile";
 import AccountMenuMobile from "../pages/account/AccountMenuMobile";
 import Orders from "../pages/account/Orders";
 import Order from "../pages/account/Order";
@@ -35,7 +34,6 @@ const AccountRouter = () => {
         {/* <Route path="favorites" element={<Favorites />} /> */}
         <Route path="orders" element={<Orders />} />
         <Route path="orders/:orderId" element={<Order />} />
-        <Route path="profile" element={<Profile />} />
         <Route path="addresses" element={<Addresses />} />
         <Route path="addresses/add" element={<AddAddress />} />
         <Route path="address/:addressId" element={<EditAddress />} />
@@ -46,7 +44,11 @@ const AccountRouter = () => {
         <Route path="support" element={<Support />} />
       </Route>
       <Route path="settings" element={<Settings />} errorElement={<Error />} />
-      <Route path="/*" element={<Navigate to="orders" replace={true} />} errorElement={<Error />} />
+      <Route
+        path="/*"
+        element={<Navigate to="orders" replace={true} />}
+        errorElement={<Error />}
+      />
     </Routes>
   );
 };

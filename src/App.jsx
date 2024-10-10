@@ -51,6 +51,7 @@ function App() {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
   const options = useSelector((state) => state.settings.options);
+  const notification = useSelector((state) => state.notification);
   const updateTime = useSelector((state) => state.settings.updateTime);
   const cart = useSelector((state) => state.cart.items);
   const address = useSelector((state) => state.address.items);
@@ -283,6 +284,17 @@ function App() {
       };
     }
   }, [auth.isAuth]);
+
+  useEffect(() => {
+    if (auth.isAuth) {
+      async () => {
+        const { data } = await checkAuth();
+        if (data) {
+          dispatch(setUser(data));
+        }
+      };
+    }
+  }, [notification?.order]);
 
   if (loading) {
     return <Loader full />;

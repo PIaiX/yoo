@@ -10,14 +10,15 @@ import EmptyOrders from "../../components/empty/orders";
 import OrderItem from "../../components/OrderItem";
 import Status from "../../components/Status";
 import Loader from "../../components/utils/Loader";
-import socket from "../../config/socket";
 import { customPrice, deliveryData, paymentData } from "../../helpers/all";
 import { getOrder } from "../../services/order";
 import { useTranslation } from "react-i18next";
+import { useCallback } from "react";
 
 const Order = () => {
   const { orderId } = useParams();
   const affiliates = useSelector((state) => state.affiliate.items);
+  const notification = useSelector((state) => state.notification);
   const { t } = useTranslation();
 
   const [order, setOrder] = useState({
@@ -40,22 +41,17 @@ const Order = () => {
     ? paymentData[order.item.payment]
     : null;
 
-  useLayoutEffect(() => {
+  const onLoad = useCallback(() => {
     getOrder(orderId)
       .then((res) => setOrder({ loading: false, item: res }))
       .catch(() => setOrder((data) => ({ ...data, loading: false })));
   }, [orderId]);
 
-  // useEffect(() => {
-  //   socket.on("order/" + order.item.id, (data) => {
-  //     if (data?.statuses?.length > 0) {
-  //       setStatus(data.statuses[0]);
-  //     }
-  //   });
-  //   return () => {
-  //     socket.off("order/" + order.item.id);
-  //   };
-  // }, []);
+  useLayoutEffect(() => {
+    if (orderId) {
+      onLoad();
+    }
+  }, [orderId, notification?.order]);
 
   if (order?.loading) {
     return <Loader full />;

@@ -98,8 +98,9 @@ const statusData = {
         />
       </svg>
     ),
-    text: "Обработка",
-    bg: "#666",
+    image: false,
+    text: 'Обработка',
+    statusBg: '#666',
   },
   reservation: {
     icon: (
@@ -118,8 +119,9 @@ const statusData = {
         />
       </svg>
     ),
-    text: "Предзаказ",
-    bg: "#ab41ff",
+    image: false,
+    text: 'Предзаказ',
+    statusBg: '#ab41ff',
   },
   new: {
     icon: (
@@ -136,23 +138,22 @@ const statusData = {
         />
       </svg>
     ),
-    text: "Принят",
-    bg: "#313131",
+    text: 'Принят', statusBg: '#222'
   },
   preparing: {
     image: "/imgs/cooking.gif",
-    text: "Готовится",
-    bg: "#3366ff",
+    text: 'Готовится',
+    statusBg: '#3366ff',
   },
   prepared: {
     image: "/imgs/prepared.gif",
-    text: "На выдаче",
-    bg: "#ffab00",
+    text: 'На выдаче',
+    statusBg: '#ffab00',
   },
   delivery: {
     image: "/imgs/delivery.gif",
-    text: "Доставка",
-    bg: "#00b8d9",
+    text: 'Доставка',
+    statusBg: '#00b8d9',
   },
   done: {
     icon: (
@@ -166,8 +167,7 @@ const statusData = {
         />
       </svg>
     ),
-    text: "Завершен",
-    bg: "#00ab55",
+    text: 'Завершен', statusBg: '#00ab55'
   },
   canceled: {
     icon: (
@@ -180,16 +180,18 @@ const statusData = {
         />
       </svg>
     ),
-    text: "Отменен",
-    bg: "#ff5630",
+    image: false,
+    text: 'Отменен',
+    statusBg: '#ff5630',
   },
 };
 
 const deliveryData = {
-  delivery: "Доставка",
-  pickup: "Самовывоз",
-  hall: "В зале",
-};
+  delivery: 'Доставка',
+  pickup: 'Самовывоз',
+  hall: 'В зале',
+  feedback: 'Обратная связь',
+}
 
 const paymentData = {
   card: "Банковской картой",
