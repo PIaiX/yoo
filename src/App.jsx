@@ -249,6 +249,18 @@ function App() {
           })
           .finally(() => setLoading(false));
       } else {
+        if (auth?.token) {
+          if (!auth?.user?.brandId) {
+            return dispatch(logout());
+          }
+          await checkAuth()
+            .then((data) => {
+              dispatch(setUser(data));
+            })
+            .catch((err) => {
+              err?.response?.status === 404 && dispatch(logout());
+            });
+        }
         if (auth?.user?.lang) {
           i18n.changeLanguage(languageCode(auth.user.lang));
           moment.locale(languageCode(auth.user.lang));
@@ -284,17 +296,6 @@ function App() {
       };
     }
   }, [auth.isAuth]);
-
-  useEffect(() => {
-    if (auth.isAuth) {
-      async () => {
-        const { data } = await checkAuth();
-        if (data) {
-          dispatch(setUser(data));
-        }
-      };
-    }
-  }, [notification?.order]);
 
   if (loading) {
     return <Loader full />;

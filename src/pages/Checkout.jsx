@@ -44,6 +44,7 @@ import {
   setCheckout,
 } from "../store/reducers/checkoutSlice";
 import CartItem from "../components/CartItem";
+import { setUser } from "../store/reducers/authSlice";
 
 const Checkout = () => {
   const { t } = useTranslation();
@@ -319,7 +320,7 @@ const Checkout = () => {
         if (!data.address) {
           return NotificationManager.error(t("Добавьте адрес доставки"));
         }
-console.log(zone)
+
         if (!zone?.data || !zone?.data?.status) {
           NotificationManager.error(
             t("По данному адресу доставка не производится")
@@ -362,11 +363,8 @@ console.log(zone)
           dispatch(resetCheckout());
           setEnd(true);
 
-          if (response?.data?.point > 0) {
-            checkAuth().then(
-              async (auth) =>
-                auth?.data?.user && dispatch(setUser(auth.data.user))
-            );
+          if (data?.pointWriting > 0 || data?.pointSwitch) {
+            await checkAuth().then((auth) => auth && dispatch(setUser(auth)));
           }
 
           if (response?.data?.link) {
@@ -382,7 +380,7 @@ console.log(zone)
         })
         .finally(() => setIsLoading(false));
     },
-    [data.address, zone?.data]
+    [data, zone?.data]
   );
 
   if (!Array.isArray(cart) || cart.length <= 0) {

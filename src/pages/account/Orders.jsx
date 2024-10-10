@@ -1,7 +1,7 @@
 import moment from "moment";
 import React, { useEffect, useLayoutEffect, useState } from "react";
 import { HiOutlineArrowLeftCircle } from "react-icons/hi2";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import DataTable from "../../components/DataTable";
 import Empty from "../../components/Empty";
@@ -13,10 +13,12 @@ import socket from "../../config/socket";
 import { customPrice, deliveryData, paymentData } from "../../helpers/all";
 import { getOrders } from "../../services/order";
 import { useTranslation } from "react-i18next";
+import { checkAuth } from "../../services/auth";
+import { setUser } from "../../store/reducers/authSlice";
 
 const Orders = () => {
   const { t } = useTranslation();
-
+  const dispatch = useDispatch();
   const user = useSelector((state) => state.auth.user);
   const [orders, setOrders] = useState({
     loading: true,
@@ -69,6 +71,10 @@ const Orders = () => {
     },
   ];
 
+  const onLoadUser = async () => {
+    await checkAuth().then((auth) => auth && dispatch(setUser(auth)));
+  };
+
   useLayoutEffect(() => {
     getOrders()
       .then((res) => setOrders((data) => ({ ...data, loading: false, ...res })))
@@ -88,6 +94,8 @@ const Orders = () => {
           setOrders({ loading: false, items: newOrders });
         }
       }
+
+      onLoadUser();
     });
     return () => {
       socket.off("orders/" + user.id);
