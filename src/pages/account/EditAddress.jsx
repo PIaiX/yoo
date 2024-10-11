@@ -21,6 +21,7 @@ import { editAddress, getAddress } from "../../services/address";
 import { getDadataStreets } from "../../services/dadata";
 import { updateAddress } from "../../store/reducers/addressSlice";
 import { useTranslation } from "react-i18next";
+import { getDelivery } from "../../services/order";
 
 const EditAddress = () => {
   const { t } = useTranslation();
@@ -41,6 +42,7 @@ const EditAddress = () => {
     formState: { errors, isValid },
     handleSubmit,
     reset,
+    setValue,
   } = useForm({
     mode: "all",
     reValidateMode: "onChange",
@@ -56,50 +58,81 @@ const EditAddress = () => {
   }, [addressId]);
 
   const clickAddress = useCallback(
-    (address) => {
-      if (address) {
-        reset({
-          ...data,
-          full: address.value ?? null,
-          country: address.data.country ?? null,
-          region: address.data.region ?? null,
-          city: address.data.city ?? null,
-          area: address.data.federal_district ?? null,
-          street: address.data.street ?? null,
-          home: address.data.house ?? null,
-          apartment: address.data.flat ?? null,
-          lat: address.data.geo_lat ?? null,
-          lon: address.data.geo_lon ?? null,
-          postal: address.data.postal_code ?? null,
-          options: {
-            // ФИАС
-            fiasId: address.data.fias_id ?? null,
-            fiasRegionId: address.data.region_fias_id ?? null,
-            fiasCityId: address.data.city_fias_id ?? null,
-            fiasStreetId: address.data.street_fias_id ?? null,
+    async (address) => {
+      try {
+        if (address && address.data?.geo_lat && address.data?.geo_lon) {
+          let info = await getDelivery({
+            distance: true,
+            lat: address.data.geo_lat,
+            lon: address.data.geo_lon,
+          });
 
-            // КЛАДР
-            kladrId: address.data.kladr_id ?? null,
-            kladrRegionId: address.data.region_kladr_id ?? null,
-            kladrCityId: address.data.city_kladr_id ?? null,
-            kladrStreetId: address.data.street_kladr_id ?? null,
+          if (info?.zone?.affiliateId) {
+            return reset({
+              ...data,
+              affiliate: info?.zone.affiliateId,
+              zone: info?.zone,
+              distance: info?.distance,
+              full: address.value ?? null,
+              country: address.data.country ?? null,
+              region: address.data.region ?? null,
+              city: address.data.city ?? null,
+              area: address.data.federal_district ?? null,
+              street: address.data.street ?? null,
+              home: address.data.house ?? null,
+              apartment: address.data.flat ?? null,
+              lat: address.data.geo_lat ?? null,
+              lon: address.data.geo_lon ?? null,
+              postal: address.data.postal_code ?? null,
+              options: {
+                // ФИАС
+                fias_id: address.data.fias_id ?? null,
+                region_fias_id: address.data.region_fias_id ?? null,
+                city_fias_id: address.data.city_fias_id ?? null,
+                street_fias_id: address.data.street_fias_id ?? null,
 
-            // Всего этажей
-            floorAll: address.data.fias_level ?? null,
-          },
-        });
+                // КЛАДР
+                kladr_id: address.data.kladr_id ?? null,
+                region_kladr_id: address.data.region_kladr_id ?? null,
+                city_kladr_id: address.data.city_kladr_id ?? null,
+                street_kladr_id: address.data.street_kladr_id ?? null,
+
+                // Всего этажей
+                fias_level: address.data.fias_level ?? null,
+              },
+            });
+          } else {
+            setValue("full", null);
+            reset();
+            setShowDropdown(false);
+          }
+        }
+        setShowDropdown(false);
+      } catch (err) {
+        console.log(err);
+        setValue("full", null);
+        reset();
+        setShowDropdown(false);
+        return NotificationManager.error(
+          t("Доставка на данный адрес не производиться")
+        );
       }
-      setShowDropdown(false);
     },
     [data]
   );
 
-  const onKeyDown = useCallback((e) => {
-    if (e === "Enter" && streets?.length > 0) {
-      clickAddress(streets[0]);
-      setStreets([]);
-    }
-  });
+  const onKeyDown = useCallback(
+    (e) => {
+      if (!showDropdown) {
+        setShowDropdown(true);
+      }
+      if (e === "Enter" && streets?.length > 0) {
+        clickAddress(streets[0]);
+        setStreets([]);
+      }
+    },
+    [showDropdown, streets]
+  );
 
   useEffect(() => {
     if (streetText) {
@@ -328,7 +361,7 @@ const EditAddress = () => {
       <div className="d-md-flex d-block align-items-center ">
         <div>
           <button
-            disabled={!isValid}
+            disabled={!isValid || showDropdown || !data?.zone}
             onClick={handleSubmit(onSubmit)}
             className="btn-primary w-xs-100 mb-3"
           >
@@ -336,10 +369,16 @@ const EditAddress = () => {
           </button>
         </div>
         <div>
-          <p className="fs-09 ms-3 mb-3">
-            <span className="text-danger">*</span> -{" "}
-            {t("обязательные поля для заполнения")}
-          </p>
+          {data?.zone || !data?.full ? (
+            <p className="fs-09 ms-3 mb-3">
+              <span className="text-danger">*</span> -{" "}
+              {t("обязательные поля для заполнения")}
+            </p>
+          ) : (
+            <p className="fs-09 text-danger ms-3 mb-3">
+              {t("Доставка на данный адрес не производиться")}
+            </p>
+          )}
         </div>
       </div>
     </section>

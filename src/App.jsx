@@ -274,12 +274,13 @@ function App() {
     if (delivery == "delivery" && auth?.user?.id) {
       const selectedAddress = address ? address.find((e) => e.main) : false;
       if (selectedAddress) {
-        getDelivery({ distance: true, addressId: selectedAddress.id }).then(
-          (res) => {
-            res &&
-              dispatch(cartZone({ data: res?.zone, distance: res?.distance }));
-          }
-        );
+        getDelivery({ distance: true, addressId: selectedAddress.id })
+          .then(
+            (res) =>
+              res &&
+              dispatch(cartZone({ data: res?.zone, distance: res?.distance }))
+          )
+          .catch(() => dispatch(cartZone({ data: false, distance: false })));
       }
     }
   }, [address, delivery, options, cart, auth?.user?.id]);

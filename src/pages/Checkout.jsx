@@ -195,7 +195,7 @@ const Checkout = () => {
     !isValid ||
     !user?.id ||
     (checkout.delivery === "delivery" &&
-      zone?.data?.minPrice > totalNoDelivery);
+      (zone?.data?.minPrice > totalNoDelivery || !zone?.data));
 
   useLayoutEffect(() => {
     if (isAuth && user?.status === 0) {
@@ -469,6 +469,7 @@ const Checkout = () => {
       />
     );
   }
+
   return (
     <main>
       <Meta title={t("Оформление заказа")} />
@@ -806,7 +807,7 @@ const Checkout = () => {
                     <span className="fw-6">{customPrice(totalNoDelivery)}</span>
                   </div>
                 )}
-                {data.delivery == "delivery" && (
+                {data?.delivery == "delivery" && zone?.data && (
                   <div className="d-flex justify-content-between mb-2">
                     <span className="fw-6 fs-10">{t("Доставка")}</span>
                     <span className="text-success fw-6">
@@ -822,12 +823,19 @@ const Checkout = () => {
                 </div>
               </div>
               {checkout.delivery == "delivery" &&
-                zone?.data?.minPrice > totalNoDelivery && (
+              zone?.data?.minPrice > totalNoDelivery ? (
+                <div className="text-danger text-center">
+                  {t("Минимальная сумма для доставки")}{" "}
+                  {customPrice(zone?.data.minPrice)}
+                </div>
+              ) : (
+                data?.delivery == "delivery" &&
+                !zone?.data && (
                   <div className="text-danger text-center">
-                    {t("Минимальная сумма для доставки")}{" "}
-                    {customPrice(zone?.data.minPrice)}
+                    {t("Доставка на данный адрес не производиться")}
                   </div>
-                )}
+                )
+              )}
               <Button
                 disabled={isValidBtn()}
                 className="mt-3 fw-6 w-100"
@@ -920,7 +928,7 @@ const Checkout = () => {
                       data={{ ...item, themeProduct: 0, noCount: true }}
                     />
                   ))}
-                  {data.delivery == "delivery" && (
+                  {data?.delivery == "delivery" && zone?.data && (
                     <div className="px-md-3 d-flex justify-content-between mb-2">
                       <span className="fw-6 fs-10">{t("Доставка")}</span>
                       <span className="text-success fw-6">

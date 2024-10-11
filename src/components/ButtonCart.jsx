@@ -27,7 +27,7 @@ const ButtonCart = memo(
       (newCount) => {
         let newProduct = {
           data: {
-            cart: product.cart,
+            cart: product.cart ?? {},
             id: product.id,
             options: product.options,
             title: product.title,
