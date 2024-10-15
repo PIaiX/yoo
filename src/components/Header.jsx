@@ -157,7 +157,7 @@ const Header = memo(() => {
                 e.title.toLowerCase() ===
                 geo.data.suggestions[0].data.city.toLowerCase()
             );
-
+            console.log(city);
             if (city) {
               dispatch(updateCity(city));
             } else {
