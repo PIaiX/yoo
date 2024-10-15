@@ -17,7 +17,7 @@ function Loader() {
         <div className="position-relative">
           <div className="spinner"></div>
           <div className="delivery-loader">
-            <img src="/imgs/delivery-loading.png" width="35" />
+            <img src="imgs/delivery-loading.png" width="35" />
           </div>
         </div>
       </div>

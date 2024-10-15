@@ -1553,6 +1553,15 @@ body {
   background: var(--bg-main);
   overflow-x: hidden;
 }
+/*Убрать полосу прокрутки у элемента*/
+body::-webkit-scrollbar {
+  width: 0;
+}
+
+/*Убрать полосу прокрутки для всей страницы*/
+::-webkit-scrollbar {
+  width: 0;
+}
 .left-menu {
   position: fixed;
   max-width: 230px;

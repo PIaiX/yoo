@@ -35,7 +35,7 @@ import Login from "../pages/auth/Login";
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<AppLayout />} errorElement={<Error />}>
-      <Route index element={<Home />} />
+      <Route index path="/" element={<Home />} />
       {/* <Route path="about" element={<About />} /> */}
       <Route path="categories" element={<Categories />} />
       <Route path="category/:categoryId" element={<Category />} />

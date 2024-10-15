@@ -270,7 +270,7 @@ function App() {
             </p>
           </div>
           <div className="d-flex justify-content-center">
-            <img src="/imgs/empty-product-image.png" />
+            <img src="imgs/empty-product-image.png" />
           </div>
           <div>
             <Button

@@ -30,9 +30,9 @@ function createWindow() {
       event.preventDefault(); // Запрет на действие по умолчанию
     }
   });
-  win.setMenuBarVisibility(false); 
+  win.setMenuBarVisibility(false);
   // Загружаем index.html из папки build (после сборки ReactJS)
-  win.loadFile(path.join(__dirname, 'build', 'index.html')); 
+  win.loadFile(path.join(__dirname, 'build', 'index.html'));
 }
 
 app.whenReady().then(createWindow);
