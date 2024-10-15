@@ -99,13 +99,16 @@ const Checkout = () => {
   const promo = useSelector((state) => state.cart?.promo);
   const zone = useSelector((state) => state.cart?.zone);
   const checkout = useSelector((state) => state.checkout);
-  const address = useSelector((state) => state.address.items);
+  const addressData = useSelector((state) => state.address.items);
   const affiliate = useSelector((state) => state.affiliate.items);
+  const city = useSelector((state) => state.affiliate.city);
   const tables = useSelector((state) => state.affiliate.tables);
   const selectedAffiliate = useSelector((state) => state.affiliate?.active);
   const selectedTable = useSelector((state) => state.affiliate.table);
   const options = useSelector((state) => state.settings.options);
   const [confirmation, setConfirmation] = useState(false);
+  const [address, setAddress] = useState([]);
+
   const {
     total = 0,
     price = 0,
@@ -144,7 +147,15 @@ const Checkout = () => {
       person: person > 0 ? person : checkout?.data?.person ?? 1,
       comment: checkout?.data?.comment ?? "",
 
-      address: address ? address.find((e) => e.main) : false,
+      address:
+        addressData?.length > 0
+          ? addressData.filter(
+              (e) =>
+                e?.city?.toLowerCase() === city?.title?.toLowerCase() ||
+                e?.region?.toLowerCase() === city?.region?.toLowerCase() ||
+                e?.area?.toLowerCase() === city?.area?.toLowerCase()
+            )
+          : false,
       affiliateId: selectedAffiliate?.id ? selectedAffiliate.id : false,
       tableId: selectedTable?.id ? selectedTable.id : false,
 
@@ -283,9 +294,22 @@ const Checkout = () => {
     }
   }, [checkout.delivery, end, options, data.payment]);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
+    if (addressData?.length > 0 && city?.title) {
+      setAddress(
+        addressData.filter(
+          (e) =>
+            e?.city?.toLowerCase() === city?.title?.toLowerCase() ||
+            e?.region?.toLowerCase() === city?.region?.toLowerCase() ||
+            e?.area?.toLowerCase() === city?.area?.toLowerCase()
+        )
+      );
+    }
+  }, [addressData, city]);
+
+  useLayoutEffect(() => {
     if (address?.length > 0) {
-      setValue("address", address.find((e) => e.main) ?? false);
+      setValue("address", address.find((e) => e.main) ?? address[0] ?? false);
     }
 
     if (zone?.data?.affiliateId && checkout.delivery === "delivery") {

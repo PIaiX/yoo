@@ -51,13 +51,14 @@ function App() {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
   const options = useSelector((state) => state.settings.options);
-  const notification = useSelector((state) => state.notification);
+  // const notification = useSelector((state) => state.notification);
   const updateTime = useSelector((state) => state.settings.updateTime);
   const cart = useSelector((state) => state.cart.items);
   const address = useSelector((state) => state.address.items);
   const selectedAffiliate = useSelector((state) => state.affiliate.active);
   const delivery = useSelector((state) => state.checkout.delivery);
   const auth = useSelector((state) => state.auth);
+  const city = useSelector((state) => state.affiliate.city);
 
   useEffect(() => {
     if (options?.themeType) {
@@ -137,8 +138,11 @@ function App() {
       if (!updateTime || isUpdateTime(updateTime)) {
         await axios.get("https://ip.yooapp.ru").then(({ data }) => {
           data?.ip && dispatch(updateIp(data.ip));
-          data?.city && dispatch(updateSettingsCity(data.city));
-          data?.country && dispatch(updateSettingsCountry(data.country));
+          !city && dispatch(updateSettingsCity(data?.city ? data.city : false));
+          !city &&
+            dispatch(
+              updateSettingsCountry(data?.country ? data.country : false)
+            );
         });
 
         await getOptions()

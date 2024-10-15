@@ -18,13 +18,13 @@ import GooglePlay from "../assets/imgs/googleplay-black.svg";
 import { DADATA_TOKEN, DADATA_URL_GEO } from "../config/api";
 import { getCount, getImageURL } from "../helpers/all";
 import { isWork } from "../hooks/all";
+import { deleteCart } from "../services/cart";
 import {
   mainAffiliateEdit,
   updateAffiliate,
   updateCity,
   updateGps,
 } from "../store/reducers/affiliateSlice";
-import { resetCart } from "../store/reducers/cartSlice";
 import { editDeliveryCheckout } from "../store/reducers/checkoutSlice";
 import DeliveryBar from "./DeliveryBar";
 import ScrollToTop from "./ScrollToTop";
@@ -124,48 +124,60 @@ const Header = memo(() => {
       setList(resultArray);
     }
 
-    if (cities && cities?.length > 1 && !gps && "geolocation" in navigator) {
-      navigator.geolocation.getCurrentPosition(async (position) => {
-        if (
-          position?.coords?.latitude &&
-          position?.coords?.longitude &&
-          DADATA_TOKEN &&
-          DADATA_URL_GEO
-        ) {
-          let geo = await axios.post(
-            DADATA_URL_GEO,
-            JSON.stringify({
-              lat: position.coords.latitude,
-              lon: position.coords.longitude,
-            }),
-            {
-              headers: {
-                "Content-Type": "application/json",
-                Accept: "application/json",
-                Authorization: "Token " + DADATA_TOKEN,
-              },
-            }
-          );
-          if (
-            geo?.data?.suggestions &&
-            geo?.data?.suggestions[0]?.data?.city &&
-            cities &&
-            cities?.length > 0
-          ) {
-            let city = cities.find(
-              (e) =>
-                e.title.toLowerCase() ===
-                geo.data.suggestions[0].data.city.toLowerCase()
-            );
-            console.log(city);
-            if (city) {
-              dispatch(updateCity(city));
+    if (cities && cities?.length > 1 && !gps) {
+      if ("geolocation" in navigator) {
+        navigator.geolocation.getCurrentPosition(
+          async (position) => {
+            if (
+              position?.coords?.latitude &&
+              position?.coords?.longitude &&
+              DADATA_TOKEN &&
+              DADATA_URL_GEO
+            ) {
+              let geo = await axios.post(
+                DADATA_URL_GEO,
+                JSON.stringify({
+                  lat: position.coords.latitude,
+                  lon: position.coords.longitude,
+                }),
+                {
+                  headers: {
+                    "Content-Type": "application/json",
+                    Accept: "application/json",
+                    Authorization: "Token " + DADATA_TOKEN,
+                  },
+                }
+              );
+              if (
+                geo?.data?.suggestions &&
+                geo?.data?.suggestions[0]?.data?.city &&
+                cities &&
+                cities?.length > 0
+              ) {
+                let city = cities.find(
+                  (e) =>
+                    e.title.toLowerCase() ===
+                    geo.data.suggestions[0].data.city.toLowerCase()
+                );
+
+                if (city) {
+                  dispatch(updateCity(city));
+                  dispatch(deleteCart());
+                } else {
+                  setShowCity(true);
+                }
+              } else {
+                setShowCity(true);
+              }
             } else {
               setShowCity(true);
             }
-          }
-        }
-      });
+          },
+          () => setShowCity(true)
+        );
+      } else {
+        setShowCity(true);
+      }
     }
   }, [cities]);
 
@@ -225,7 +237,7 @@ const Header = memo(() => {
                   {!gps && city?.title && (
                     <div className="no-city">
                       <p className="mb-3">
-                        {t("Ваш город")} <b>{city.title}</b> {t("город")}?
+                        {t("Ваш город")} <b>{city.title}</b>?
                       </p>
                       <div className="d-flex align-items-center justify-content-center">
                         <Link
@@ -539,6 +551,8 @@ const Header = memo(() => {
       <Modal
         size="lg"
         centered
+        backdrop={city?.title ? true : "static"}
+        keyboard={!!city?.title}
         className="city"
         show={showCity}
         onHide={() => setShowCity(false)}
@@ -558,12 +572,14 @@ const Header = memo(() => {
             className="logo mb-4"
           />
 
-          <button
-            type="button"
-            className="btn-close close"
-            aria-label="Close"
-            onClick={() => setShowCity(false)}
-          ></button>
+          {city?.title && (
+            <button
+              type="button"
+              className="btn-close close"
+              aria-label="Close"
+              onClick={() => setShowCity(false)}
+            ></button>
+          )}
           <div>
             <Input
               name="search"
@@ -604,7 +620,7 @@ const Header = memo(() => {
                                     dispatch(updateAffiliate(e.affiliates));
                                     dispatch(updateCity(e));
                                     dispatch(updateGps(true));
-
+                                    dispatch(deleteCart());
                                     setShowCity(false);
                                   }}
                                   className={
@@ -657,7 +673,7 @@ const Header = memo(() => {
                                         dispatch(updateAffiliate(e.affiliates));
                                         dispatch(updateCity(e));
                                         dispatch(updateGps(true));
-
+                                        dispatch(deleteCart());
                                         setShowCity(false);
                                       }}
                                       className={
@@ -688,15 +704,19 @@ const Header = memo(() => {
         centered
         className="brand"
         show={showBrand}
+        backdrop={city?.title ? true : "static"}
+        keyboard={!!city?.title}
         onHide={() => setShowBrand(false)}
       >
         <Modal.Body className="p-4">
-          <button
-            type="button"
-            className="btn-close close"
-            aria-label="Close"
-            onClick={() => setShowCity(false)}
-          ></button>
+          {city?.title && (
+            <button
+              type="button"
+              className="btn-close close"
+              aria-label="Close"
+              onClick={() => setShowBrand(false)}
+            ></button>
+          )}
           <h5 className="fw-7 mb-4">{t("Выберите заведение")}</h5>
           <div className="search-box">
             {affiliate?.length > 0 && (
@@ -706,7 +726,7 @@ const Header = memo(() => {
                     <a
                       onClick={() => {
                         dispatch(mainAffiliateEdit(e));
-                        dispatch(resetCart());
+                        dispatch(deleteCart());
                         setShowBrand(false);
                       }}
                       className={

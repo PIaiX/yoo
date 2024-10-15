@@ -1,4 +1,9 @@
-import React, { useCallback, useLayoutEffect, useEffect, useState } from "react";
+import React, {
+  useCallback,
+  useLayoutEffect,
+  useEffect,
+  useState,
+} from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import Catalog from "../components/Catalog";
@@ -21,23 +26,25 @@ const Home = () => {
   const [isFirstLoad, setIsFirstLoad] = useState(true);
 
   const getData = useCallback(() => {
-    getCatalog({
-      affiliateId: selectedAffiliate?.id ?? false,
-      multiBrand: options?.multiBrand,
-      type: "site",
-    })
-      .then((res) => {
-        dispatch(updateCatalog(res));
+    if (selectedAffiliate?.id) {
+      getCatalog({
+        affiliateId: selectedAffiliate?.id ?? false,
+        multiBrand: options?.multiBrand,
+        type: "site",
       })
-      .finally(() => {
-        if (
-          (catalog?.widgets?.length === 0 &&
-            catalog?.categories?.length === 0) ||
-          loading
-        ) {
-          setLoading(false);
-        }
-      });
+        .then((res) => {
+          dispatch(updateCatalog(res));
+        })
+        .finally(() => {
+          if (
+            (catalog?.widgets?.length === 0 &&
+              catalog?.categories?.length === 0) ||
+            loading
+          ) {
+            setLoading(false);
+          }
+        });
+    }
   }, [selectedAffiliate, catalog, loading, options]);
 
   useLayoutEffect(() => {
