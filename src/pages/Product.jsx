@@ -14,8 +14,10 @@ import {
 } from "react-icons/hi2";
 import { useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
-import { Navigation } from "swiper/modules";
+import { FreeMode, Navigation, Thumbs } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
+import SwiperButtonNext from "../components/utils/SwiperButtonNext";
+import SwiperButtonPrev from "../components/utils/SwiperButtonPrev";
 import ButtonCart from "../components/ButtonCart";
 import Empty from "../components/Empty";
 import EmptyCatalog from "../components/empty/catalog";
@@ -32,6 +34,7 @@ import {
 } from "../helpers/all";
 import { getProduct } from "../services/product";
 import { useTranslation } from "react-i18next";
+import Callback from "../components/modals/Callback";
 
 const groupByCategoryIdToArray = (modifiers) => {
   const grouped = modifiers.reduce((acc, modifier) => {
@@ -55,6 +58,9 @@ const groupByCategoryIdToArray = (modifiers) => {
 const Product = () => {
   const { t } = useTranslation();
   const { productId } = useParams();
+  const [featuresShow, setFeaturesShow] = useState(false);
+  const [showFeedback, setShowFeedback] = useState(false);
+  const [thumbsSwiper, setThumbsSwiper] = useState(null);
 
   const options = useSelector((state) => state.settings.options);
   const selectedAffiliate = useSelector((state) => state.affiliate.active);
@@ -240,23 +246,59 @@ const Product = () => {
         <form className="productPage mb-5">
           <Row className="gx-4 gx-xxl-5">
             <Col xs={12} md={5} lg={6}>
-              {data.cart.data?.modifiers[0]?.medias[0]?.media ? (
-                <img
-                  src={getImageURL({
-                    path: data.cart.data?.modifiers[0]?.medias[0]?.media,
-                    size: "full",
-                    type: "modifier",
-                  })}
-                  alt={product.item.title}
-                  className="productPage-img"
-                />
-              ) : (
-                <img
-                  src={getImageURL({ path: product.item.medias, size: "full" })}
-                  alt={product.item.title}
-                  className="productPage-img"
-                />
-              )}
+              <div className="productPage-photo">
+                <Swiper
+                  className="thumbSlider"
+                  modules={[Thumbs, FreeMode]}
+                  watchSlidesProgress
+                  onSwiper={setThumbsSwiper}
+                  direction="vertical"
+                  loop={true}
+                  spaceBetween={20}
+                  slidesPerView={"auto"}
+                  freeMode={true}
+                >
+                  {product.item?.medias?.length > 0 &&
+                    product.item.medias.map((e) => (
+                      <SwiperSlide>
+                        <img
+                          src={getImageURL({
+                            path: e.media,
+                            size: "full",
+                          })}
+                          alt={product.item.title}
+                          className="productPage-img"
+                        />
+                      </SwiperSlide>
+                    ))}
+                </Swiper>
+                <Swiper
+                  className="mainSlider"
+                  modules={[Thumbs]}
+                  loop={true}
+                  spaceBetween={20}
+                  thumbs={{
+                    swiper:
+                      thumbsSwiper && !thumbsSwiper.destroyed
+                        ? thumbsSwiper
+                        : null,
+                  }}
+                >
+                  {product.item.medias?.length > 0 &&
+                    product.item.medias.map((e) => (
+                      <SwiperSlide>
+                        <img
+                          src={getImageURL({
+                            path: e.media,
+                            size: "full",
+                          })}
+                          alt={product.item.title}
+                          className="productPage-img"
+                        />
+                      </SwiperSlide>
+                    ))}
+                </Swiper>
+              </div>
             </Col>
             <Col xs={12} md={7} lg={6}>
               <div
@@ -477,15 +519,27 @@ const Product = () => {
                     </div>
                   )}
                 </div>
-                <ButtonCart
-                  full
-                  product={product.item}
-                  data={data}
-                  className="py-2"
-                >
-                  <span className="fw-4">{t("В корзину")}</span>
-                  <HiOutlineShoppingBag className="fs-12 ms-2" />
-                </ButtonCart>
+                {prices.price > 0 ? (
+                  <ButtonCart full product={product.item} data={data}>
+                    Заказать
+                  </ButtonCart>
+                ) : (
+                  <>
+                    <button
+                      onClick={() => setShowFeedback(true)}
+                      type="button"
+                      className="btn btn-primary"
+                    >
+                      <HiOutlineShoppingBag className="fs-15" />
+                      <span className="ms-2">Заказать</span>
+                    </button>
+                    <Callback
+                      show={showFeedback}
+                      product={product.item}
+                      setShow={setShowFeedback}
+                    />
+                  </>
+                )}
               </div>
 
               {(product?.item?.additions?.length > 0 ||

@@ -27,4 +27,9 @@ const getOrders = async (page, limit) => {
   return response?.data;
 };
 
-export { getOrder, getOrders, createOrder, getDelivery };
+const createFeedback = async (data) => {
+  const response = await $authApi.post(apiRoutes.FEEDBACK_CREATE, data);
+  return response?.data;
+};
+
+export { getOrder, getOrders, createOrder, getDelivery, createFeedback };

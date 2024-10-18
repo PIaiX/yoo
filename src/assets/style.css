@@ -534,6 +534,11 @@ input[type=number]::-webkit-outer-spin-button, input[type=number]::-webkit-inner
   stroke-width: 1.25px;
 }
 
+label span {
+  flex: 1;
+  margin-left: 0.5em;
+}
+
 .inputGroup {
   list-style: none;
   padding-left: 0px;
@@ -713,7 +718,7 @@ button {
   color: inherit;
 }
 
-.btn, .btn-red, .btn-orange, .btn-99, .btn-90, .btn-9, .btn-8, .btn-light, .btn-deepgreen, .btn-green, .btn-40, .btn-40-light, .btn-4, .btn-white, .btn-30, .btn-secondary, .btn-2, .btn-10, .btn-primary {
+.btn, .btn-red, .btn-orange, .btn-99, .btn-90, .btn-9, .btn-8, .btn-light, .btn-info, .btn-deepgreen, .btn-green, .btn-success, .btn-40, .btn-40-light, .btn-4, .btn-white, .btn-30, .btn-secondary, .btn-2, .btn-10, .btn-primary {
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -741,7 +746,7 @@ button {
   background-color: var(--main-color-btn);
   border: 1px solid var(--main-color-btn);
 }
-.btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary.active, .btn-primary:not(.btn-check) + .btn:active, .btn-primary:not(.btn-check) + .btn-red:active, .btn-primary:not(.btn-check) + .btn-orange:active, .btn-primary:not(.btn-check) + .btn-99:active, .btn-primary:not(.btn-check) + .btn-90:active, .btn-primary:not(.btn-check) + .btn-9:active, .btn-primary:not(.btn-check) + .btn-8:active, .btn-primary:not(.btn-check) + .btn-light:active, .btn-primary:not(.btn-check) + .btn-deepgreen:active, .btn-primary:not(.btn-check) + .btn-green:active, .btn-primary:not(.btn-check) + .btn-40:active, .btn-primary:not(.btn-check) + .btn-40-light:active, .btn-primary:not(.btn-check) + .btn-4:active, .btn-primary:not(.btn-check) + .btn-white:active, .btn-primary:not(.btn-check) + .btn-30:active, .btn-primary:not(.btn-check) + .btn-secondary:active, .btn-primary:not(.btn-check) + .btn-2:active, .btn-primary:not(.btn-check) + .btn-10:active {
+.btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary.active, .btn-primary:not(.btn-check) + .btn:active, .btn-primary:not(.btn-check) + .btn-red:active, .btn-primary:not(.btn-check) + .btn-orange:active, .btn-primary:not(.btn-check) + .btn-99:active, .btn-primary:not(.btn-check) + .btn-90:active, .btn-primary:not(.btn-check) + .btn-9:active, .btn-primary:not(.btn-check) + .btn-8:active, .btn-primary:not(.btn-check) + .btn-light:active, .btn-primary:not(.btn-check) + .btn-info:active, .btn-primary:not(.btn-check) + .btn-deepgreen:active, .btn-primary:not(.btn-check) + .btn-green:active, .btn-primary:not(.btn-check) + .btn-success:active, .btn-primary:not(.btn-check) + .btn-40:active, .btn-primary:not(.btn-check) + .btn-40-light:active, .btn-primary:not(.btn-check) + .btn-4:active, .btn-primary:not(.btn-check) + .btn-white:active, .btn-primary:not(.btn-check) + .btn-30:active, .btn-primary:not(.btn-check) + .btn-secondary:active, .btn-primary:not(.btn-check) + .btn-2:active, .btn-primary:not(.btn-check) + .btn-10:active {
   color: #fff !important;
   opacity: 0.8;
   background-color: var(--main-color-btn) !important;
@@ -752,7 +757,7 @@ button {
   background-color: var(--bg-main);
   border: 1px solid var(--main-color);
 }
-.btn-10:hover, .btn-10:focus, .btn-10:active, .btn-10.active, .btn-10:not(.btn-check) + .btn:active, .btn-10:not(.btn-check) + .btn-red:active, .btn-10:not(.btn-check) + .btn-orange:active, .btn-10:not(.btn-check) + .btn-99:active, .btn-10:not(.btn-check) + .btn-90:active, .btn-10:not(.btn-check) + .btn-9:active, .btn-10:not(.btn-check) + .btn-8:active, .btn-10:not(.btn-check) + .btn-light:active, .btn-10:not(.btn-check) + .btn-deepgreen:active, .btn-10:not(.btn-check) + .btn-green:active, .btn-10:not(.btn-check) + .btn-40:active, .btn-10:not(.btn-check) + .btn-40-light:active, .btn-10:not(.btn-check) + .btn-4:active, .btn-10:not(.btn-check) + .btn-white:active, .btn-10:not(.btn-check) + .btn-30:active, .btn-10:not(.btn-check) + .btn-secondary:active, .btn-10:not(.btn-check) + .btn-2:active, .btn-10:not(.btn-check) + .btn-primary:active {
+.btn-10:hover, .btn-10:focus, .btn-10:active, .btn-10.active, .btn-10:not(.btn-check) + .btn:active, .btn-10:not(.btn-check) + .btn-red:active, .btn-10:not(.btn-check) + .btn-orange:active, .btn-10:not(.btn-check) + .btn-99:active, .btn-10:not(.btn-check) + .btn-90:active, .btn-10:not(.btn-check) + .btn-9:active, .btn-10:not(.btn-check) + .btn-8:active, .btn-10:not(.btn-check) + .btn-light:active, .btn-10:not(.btn-check) + .btn-info:active, .btn-10:not(.btn-check) + .btn-deepgreen:active, .btn-10:not(.btn-check) + .btn-green:active, .btn-10:not(.btn-check) + .btn-success:active, .btn-10:not(.btn-check) + .btn-40:active, .btn-10:not(.btn-check) + .btn-40-light:active, .btn-10:not(.btn-check) + .btn-4:active, .btn-10:not(.btn-check) + .btn-white:active, .btn-10:not(.btn-check) + .btn-30:active, .btn-10:not(.btn-check) + .btn-secondary:active, .btn-10:not(.btn-check) + .btn-2:active, .btn-10:not(.btn-check) + .btn-primary:active {
   color: #fff !important;
   background-color: var(--main-color) !important;
 }
@@ -760,7 +765,7 @@ button {
   color: #fff;
   background-color: #e01e00;
 }
-.btn-2:hover, .btn-2:focus, .btn-2:active, .btn-2.active, .btn-2:not(.btn-check) + .btn:active, .btn-2:not(.btn-check) + .btn-red:active, .btn-2:not(.btn-check) + .btn-orange:active, .btn-2:not(.btn-check) + .btn-99:active, .btn-2:not(.btn-check) + .btn-90:active, .btn-2:not(.btn-check) + .btn-9:active, .btn-2:not(.btn-check) + .btn-8:active, .btn-2:not(.btn-check) + .btn-light:active, .btn-2:not(.btn-check) + .btn-deepgreen:active, .btn-2:not(.btn-check) + .btn-green:active, .btn-2:not(.btn-check) + .btn-40:active, .btn-2:not(.btn-check) + .btn-40-light:active, .btn-2:not(.btn-check) + .btn-4:active, .btn-2:not(.btn-check) + .btn-white:active, .btn-2:not(.btn-check) + .btn-30:active, .btn-2:not(.btn-check) + .btn-secondary:active, .btn-2:not(.btn-check) + .btn-primary:active, .btn-2:not(.btn-check) + .btn-10:active {
+.btn-2:hover, .btn-2:focus, .btn-2:active, .btn-2.active, .btn-2:not(.btn-check) + .btn:active, .btn-2:not(.btn-check) + .btn-red:active, .btn-2:not(.btn-check) + .btn-orange:active, .btn-2:not(.btn-check) + .btn-99:active, .btn-2:not(.btn-check) + .btn-90:active, .btn-2:not(.btn-check) + .btn-9:active, .btn-2:not(.btn-check) + .btn-8:active, .btn-2:not(.btn-check) + .btn-light:active, .btn-2:not(.btn-check) + .btn-info:active, .btn-2:not(.btn-check) + .btn-deepgreen:active, .btn-2:not(.btn-check) + .btn-green:active, .btn-2:not(.btn-check) + .btn-success:active, .btn-2:not(.btn-check) + .btn-40:active, .btn-2:not(.btn-check) + .btn-40-light:active, .btn-2:not(.btn-check) + .btn-4:active, .btn-2:not(.btn-check) + .btn-white:active, .btn-2:not(.btn-check) + .btn-30:active, .btn-2:not(.btn-check) + .btn-secondary:active, .btn-2:not(.btn-check) + .btn-primary:active, .btn-2:not(.btn-check) + .btn-10:active {
   color: #fff;
   background-color: #c71b00;
 }
@@ -770,7 +775,7 @@ button {
   border: 1px solid var(--main-color);
   font-weight: 600;
 }
-.btn-secondary:hover, .btn-secondary:focus, .btn-secondary:active, .btn-secondary.active, .btn-secondary:not(.btn-check) + .btn:active, .btn-secondary:not(.btn-check) + .btn-red:active, .btn-secondary:not(.btn-check) + .btn-orange:active, .btn-secondary:not(.btn-check) + .btn-99:active, .btn-secondary:not(.btn-check) + .btn-90:active, .btn-secondary:not(.btn-check) + .btn-9:active, .btn-secondary:not(.btn-check) + .btn-8:active, .btn-secondary:not(.btn-check) + .btn-light:active, .btn-secondary:not(.btn-check) + .btn-deepgreen:active, .btn-secondary:not(.btn-check) + .btn-green:active, .btn-secondary:not(.btn-check) + .btn-40:active, .btn-secondary:not(.btn-check) + .btn-40-light:active, .btn-secondary:not(.btn-check) + .btn-4:active, .btn-secondary:not(.btn-check) + .btn-white:active, .btn-secondary:not(.btn-check) + .btn-30:active, .btn-secondary:not(.btn-check) + .btn-primary:active, .btn-secondary:not(.btn-check) + .btn-10:active, .btn-secondary:not(.btn-check) + .btn-2:active {
+.btn-secondary:hover, .btn-secondary:focus, .btn-secondary:active, .btn-secondary.active, .btn-secondary:not(.btn-check) + .btn:active, .btn-secondary:not(.btn-check) + .btn-red:active, .btn-secondary:not(.btn-check) + .btn-orange:active, .btn-secondary:not(.btn-check) + .btn-99:active, .btn-secondary:not(.btn-check) + .btn-90:active, .btn-secondary:not(.btn-check) + .btn-9:active, .btn-secondary:not(.btn-check) + .btn-8:active, .btn-secondary:not(.btn-check) + .btn-light:active, .btn-secondary:not(.btn-check) + .btn-info:active, .btn-secondary:not(.btn-check) + .btn-deepgreen:active, .btn-secondary:not(.btn-check) + .btn-green:active, .btn-secondary:not(.btn-check) + .btn-success:active, .btn-secondary:not(.btn-check) + .btn-40:active, .btn-secondary:not(.btn-check) + .btn-40-light:active, .btn-secondary:not(.btn-check) + .btn-4:active, .btn-secondary:not(.btn-check) + .btn-white:active, .btn-secondary:not(.btn-check) + .btn-30:active, .btn-secondary:not(.btn-check) + .btn-primary:active, .btn-secondary:not(.btn-check) + .btn-10:active, .btn-secondary:not(.btn-check) + .btn-2:active {
   color: #fff;
   background-color: var(--main-color-outline);
 }
@@ -815,12 +820,12 @@ button {
   background-color: transparent;
   border: 1px solid var(--main-color);
 }
-.btn-green {
+.btn-green, .btn-success {
   color: #00ab55;
   border: 1px solid transparent;
   background-color: rgba(0, 171, 85, 0.1);
 }
-.btn-green:hover, .btn-green:focus, .btn-green:active, .btn-green.active {
+.btn-green:hover, .btn-green:focus, .btn-green:active, .btn-green.active, .btn-success:hover, .btn-success:focus, .btn-success:active, .btn-success.active {
   color: #fff;
   background-color: #00ab55;
   border: 1px solid #00ab55;
@@ -834,6 +839,17 @@ button {
   color: #fff;
   background-color: #00783c;
   border: 1px solid #00783c;
+}
+.btn-info {
+  color: #000;
+  background-color: #faff14;
+  border: 1px solid #faff14;
+}
+.btn-info:hover, .btn-info:focus, .btn-info:active, .btn-info.active, .btn-info:first-child:active {
+  opacity: 0.9;
+  color: #000;
+  background-color: #faff14;
+  border: 1px solid #faff14;
 }
 .btn-light {
   color: var(--main-color);
@@ -925,7 +941,7 @@ button {
   background-color: #e01e00;
   border: 1px solid #e01e00;
 }
-.btn[disabled], [disabled].btn-primary, [disabled].btn-10, [disabled].btn-2, [disabled].btn-secondary, [disabled].btn-30, [disabled].btn-4, [disabled].btn-white, [disabled].btn-40-light, [disabled].btn-40, [disabled].btn-green, [disabled].btn-deepgreen, [disabled].btn-light, [disabled].btn-8, [disabled].btn-9, [disabled].btn-90, [disabled].btn-99, [disabled].btn-orange, [disabled].btn-red {
+.btn[disabled], [disabled].btn-primary, [disabled].btn-10, [disabled].btn-2, [disabled].btn-secondary, [disabled].btn-30, [disabled].btn-4, [disabled].btn-white, [disabled].btn-40-light, [disabled].btn-40, [disabled].btn-green, [disabled].btn-success, [disabled].btn-deepgreen, [disabled].btn-info, [disabled].btn-light, [disabled].btn-8, [disabled].btn-9, [disabled].btn-90, [disabled].btn-99, [disabled].btn-orange, [disabled].btn-red {
   background-color: var(--bg-btn);
   border: 1px solid var(--bg-btn);
   color: var(--bs-secondary-color);
@@ -962,14 +978,14 @@ button {
   stroke: var(--main-color);
   fill: var(--main-color);
 }
-.btn.loading, .loading.btn-primary, .loading.btn-10, .loading.btn-2, .loading.btn-secondary, .loading.btn-30, .loading.btn-4, .loading.btn-white, .loading.btn-40-light, .loading.btn-40, .loading.btn-green, .loading.btn-deepgreen, .loading.btn-light, .loading.btn-8, .loading.btn-9, .loading.btn-90, .loading.btn-99, .loading.btn-orange, .loading.btn-red {
+.btn.loading, .loading.btn-primary, .loading.btn-10, .loading.btn-2, .loading.btn-secondary, .loading.btn-30, .loading.btn-4, .loading.btn-white, .loading.btn-40-light, .loading.btn-40, .loading.btn-green, .loading.btn-success, .loading.btn-deepgreen, .loading.btn-info, .loading.btn-light, .loading.btn-8, .loading.btn-9, .loading.btn-90, .loading.btn-99, .loading.btn-orange, .loading.btn-red {
   position: relative;
   color: transparent !important;
 }
-.btn.loading > *, .loading.btn-primary > *, .loading.btn-10 > *, .loading.btn-2 > *, .loading.btn-secondary > *, .loading.btn-30 > *, .loading.btn-4 > *, .loading.btn-white > *, .loading.btn-40-light > *, .loading.btn-40 > *, .loading.btn-green > *, .loading.btn-deepgreen > *, .loading.btn-light > *, .loading.btn-8 > *, .loading.btn-9 > *, .loading.btn-90 > *, .loading.btn-99 > *, .loading.btn-orange > *, .loading.btn-red > * {
+.btn.loading > *, .loading.btn-primary > *, .loading.btn-10 > *, .loading.btn-2 > *, .loading.btn-secondary > *, .loading.btn-30 > *, .loading.btn-4 > *, .loading.btn-white > *, .loading.btn-40-light > *, .loading.btn-40 > *, .loading.btn-green > *, .loading.btn-success > *, .loading.btn-deepgreen > *, .loading.btn-info > *, .loading.btn-light > *, .loading.btn-8 > *, .loading.btn-9 > *, .loading.btn-90 > *, .loading.btn-99 > *, .loading.btn-orange > *, .loading.btn-red > * {
   opacity: 0;
 }
-.btn.loading::after, .loading.btn-primary::after, .loading.btn-10::after, .loading.btn-2::after, .loading.btn-secondary::after, .loading.btn-30::after, .loading.btn-4::after, .loading.btn-white::after, .loading.btn-40-light::after, .loading.btn-40::after, .loading.btn-green::after, .loading.btn-deepgreen::after, .loading.btn-light::after, .loading.btn-8::after, .loading.btn-9::after, .loading.btn-90::after, .loading.btn-99::after, .loading.btn-orange::after, .loading.btn-red::after {
+.btn.loading::after, .loading.btn-primary::after, .loading.btn-10::after, .loading.btn-2::after, .loading.btn-secondary::after, .loading.btn-30::after, .loading.btn-4::after, .loading.btn-white::after, .loading.btn-40-light::after, .loading.btn-40::after, .loading.btn-green::after, .loading.btn-success::after, .loading.btn-deepgreen::after, .loading.btn-info::after, .loading.btn-light::after, .loading.btn-8::after, .loading.btn-9::after, .loading.btn-90::after, .loading.btn-99::after, .loading.btn-orange::after, .loading.btn-red::after {
   content: "";
   position: absolute;
   z-index: 1;
@@ -1063,11 +1079,14 @@ select {
   padding: 0px;
   margin: 0px;
   border: none;
+  background-color: var(--bg-second);
   background-image: url(imgs/chevron.svg);
   background-repeat: no-repeat;
-  padding-right: 1em;
-  background-position: right center;
+  background-position: calc(100% - 0.7em) 50%;
   background-size: 0.75em;
+  border-radius: 5px;
+  padding: 0.4em 1.2em;
+  padding-right: 2em;
 }
 
 .select {
@@ -2564,7 +2583,6 @@ main {
 }
 
 .product-slider {
-  overflow: visible !important;
   padding: 1em 0px;
 }
 .product-slider .swiper-slide {
@@ -2574,10 +2592,9 @@ main {
 }
 
 .product-card-mini {
-  max-width: 380px;
-  background-color: rgba(255, 255, 255, 0.05);
+  max-width: 100%;
+  background-color: var(--bg-second);
   padding: 1em;
-  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.06);
   border-radius: 1.25em;
   display: flex;
   flex-direction: row;
@@ -2903,6 +2920,70 @@ main {
   }
 }
 
+.filter {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+}
+.filter fieldset {
+  margin-bottom: 1em;
+}
+.filter fieldset legend {
+  float: unset;
+  display: block;
+  margin-bottom: 0.5em;
+  font-size: 1em;
+  font-weight: 500;
+}
+.filter fieldset ul {
+  list-style: none;
+  padding-left: 0px;
+}
+.filter fieldset ul li:not(:first-child) {
+  margin-top: 0.35em;
+}
+.filter fieldset .more {
+  margin-top: 0.5em;
+  color: #c2c2c2;
+  font-size: 0.8em;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+  flex-wrap: nowrap;
+}
+.filter fieldset .more::before {
+  content: "";
+  flex: 1;
+  width: auto;
+  height: 1px;
+  background-color: #c2c2c2;
+  margin-right: 0.25em;
+}
+.filter-heading {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  flex-wrap: nowrap;
+  margin-bottom: 1em;
+  border-bottom: 1px solid #c2c2c2;
+  color: var(--main-color);
+  padding-bottom: 0.5em;
+}
+
+.offcanvas-filter .offcanvas-body {
+  padding: 0px;
+}
+@media (max-width: 991px) {
+  .offcanvas-filter .offcanvas-body {
+    padding: calc(var(--h-height) + 1em) 1.5em calc(var(--f-height) + 1em);
+  }
+}
+
 .product .price {
   font-size: 1.1em !important;
 }
@@ -2910,8 +2991,8 @@ main {
   position: relative;
   width: 100%;
   height: 280px;
-  -o-object-fit: cover;
-     object-fit: cover;
+  -o-object-fit: contain;
+     object-fit: contain;
   top: 0px;
   transition: top 150ms ease-out 0s;
   margin-bottom: 1em;
@@ -2942,8 +3023,8 @@ main {
 .product-img img {
   width: 100%;
   height: 280px;
-  -o-object-fit: cover;
-     object-fit: cover;
+  -o-object-fit: contain;
+     object-fit: contain;
   -o-object-position: center;
      object-position: center;
   border-radius: 1.25em;
@@ -3179,6 +3260,61 @@ html.theme-font-title-amaticsc .productPage h1 {
   .productPage-img {
     height: 85vw;
   }
+}
+.productPage-photo {
+  position: relative;
+  --img: 315px;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: flex-start;
+  flex-wrap: nowrap;
+}
+@media (max-width: 1199px) {
+  .productPage-photo {
+    --img: 270px;
+  }
+}
+@media (max-width: 770px) {
+  .productPage-photo {
+    --img: 450px;
+    margin-bottom: 1em;
+  }
+}
+@media (max-width: 580px) {
+  .productPage-photo {
+    --img: calc(88vw - 90px - 1em);
+  }
+}
+.productPage-photo .thumbSlider {
+  width: 90px;
+  margin-right: 1em;
+  height: var(--img);
+}
+.productPage-photo .thumbSlider .swiper-slide {
+  height: 90px;
+}
+.productPage-photo .thumbSlider .swiper-slide img {
+  width: 100%;
+  width: 90px;
+  height: 90px;
+  border-radius: 0.625em;
+  -o-object-fit: contain;
+     object-fit: contain;
+  background-color: var(--bg-second);
+  border: 1px solid var(--bg-btn);
+}
+.productPage-photo .mainSlider {
+  flex: 1;
+}
+.productPage-photo .mainSlider img {
+  width: var(--img);
+  height: var(--img);
+  border-radius: 1.25em;
+  -o-object-fit: contain;
+     object-fit: contain;
+  width: 100%;
+  background-color: var(--bg-second);
 }
 .productPage-edit .top {
   display: flex;
@@ -6345,6 +6481,19 @@ ACCOUNT END
      object-fit: cover;
   border-radius: 1.25em;
 }
+.article-preview-body {
+  display: -webkit-box;
+  -webkit-line-clamp: 5;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  line-height: 1.3em;
+  height: 6.5em;
+}
+@media (max-width: 580px) {
+  .article-preview-body {
+    display: none;
+  }
+}
 
 .blog-post-background {
   border-radius: 1.25em;
@@ -6537,4 +6686,203 @@ ACCOUNT END
   z-index: 100;
   transition: opacity 0.25s ease-in-out, transform 0.25s ease-in-out;
   background: linear-gradient(rgba(255, 255, 255, 0) 0%, rgb(255, 255, 255) 100%);
+}
+
+.project-card {
+  position: relative;
+}
+.project-card img {
+  width: 100%;
+  height: 320px;
+  -o-object-fit: cover;
+     object-fit: cover;
+  border-radius: 1.25em;
+  margin-bottom: 0.625em;
+}
+@media (max-width: 1399px) {
+  .project-card img {
+    height: 300px;
+  }
+}
+@media (max-width: 1199px) {
+  .project-card img {
+    height: 250px;
+  }
+}
+@media (max-width: 580px) {
+  .project-card img {
+    height: 30vw;
+    border-radius: 0.625em;
+    margin-bottom: 0.1em;
+  }
+}
+.project-card figcaption {
+  text-align: center;
+}
+.project-card figcaption a {
+  transition: color 300ms ease-in;
+}
+.project-card figcaption a:hover {
+  color: var(--main-color);
+}
+
+.sec-feedback {
+  border-radius: 16px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  padding: 4em 0em;
+  position: relative;
+  margin-bottom: 4em;
+}
+@media (max-width: 580px) {
+  .sec-feedback {
+    background-image: none !important;
+  }
+}
+
+.portfolio-item {
+  display: block;
+  width: 100%;
+  position: relative;
+  border-radius: 1.25em;
+  overflow: hidden;
+  height: 200px;
+  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.06);
+}
+@media (max-width: 580px) {
+  .portfolio-item {
+    font-size: 11px;
+  }
+}
+.portfolio-item img {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  border-radius: 1.25em;
+  overflow: hidden;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+.portfolio-item-body {
+  position: absolute;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+  padding: 1em;
+  z-index: 100;
+  width: 100%;
+  justify-content: center;
+  display: flex;
+}
+
+.offer {
+  width: 100%;
+  border-radius: 1.25em;
+  overflow: hidden;
+  position: relative;
+  background-color: rgba(255, 255, 255, 0.05);
+  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.06);
+}
+@media (max-width: 580px) {
+  .offer {
+    font-size: 11px;
+  }
+}
+.offer img {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: 150px;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+@media (max-width: 1399px) {
+  .offer img {
+    height: 140px;
+  }
+}
+@media (max-width: 991px) {
+  .offer img {
+    height: 130px;
+  }
+}
+.offer.full img {
+  height: 320px;
+}
+@media (max-width: 1399px) {
+  .offer.full img {
+    height: 270px;
+  }
+}
+@media (max-width: 991px) {
+  .offer.full img {
+    height: 200px;
+  }
+}
+@media (max-width: 770px) {
+  .offer.full img {
+    height: 200px;
+  }
+}
+@media (max-width: 580px) {
+  .offer.full img {
+    height: 140px;
+  }
+}
+.offer-body {
+  padding: 1em;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: stretch;
+  flex-wrap: nowrap;
+}
+.offer-body-title {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  line-height: 1.4em;
+  height: 2.8em;
+}
+.offer-body-desc {
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  line-height: 1.4em;
+  height: 1.4em;
+}
+
+.accordion {
+  --bs-accordion-color: $black;
+  --bs-accordion-active-color: $black;
+  --bs-accordion-bg: transparent;
+  --bs-accordion-active-bg: transparent;
+  --bs-accordion-border-color: transparent;
+  --bs-accordion-border-width: 0px;
+  --bs-accordion-btn-icon-width: 0.8em;
+  --bs-accordion-btn-icon-size: 0.8em;
+  --bs-accordion-body-padding-x: 0em;
+  --bs-accordion-body-padding-y: 0.5em;
+  --bs-accordion-btn-padding-x: 0em;
+  --bs-accordion-btn-padding-y: 0em;
+  --bs-accordion-btn-focus-box-shadow: none;
+}
+.accordion-body {
+  padding-bottom: 2em;
+}
+
+.pagination {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+  flex-wrap: nowrap;
+  font-size: 0.9em;
+}
+.pagination select {
+  width: 80px;
+  min-width: unset;
 }/*# sourceMappingURL=style.css.map */

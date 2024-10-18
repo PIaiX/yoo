@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { Container } from "react-bootstrap";
 import { useForm } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
+import { useSearchParams } from "react-router-dom";
 import Catalog from "../components/Catalog";
 import Empty from "../components/Empty";
-import EmptyCatalog from "../components/empty/catalog";
+import EmptySearch from "../components/empty/search";
 import Meta from "../components/Meta";
 import Input from "../components/utils/Input";
 import Loader from "../components/utils/Loader";
 import useDebounce from "../hooks/useDebounce";
 import { getSearch } from "../services/search";
-import { useTranslation } from "react-i18next";
-import { useSearchParams, useNavigate } from "react-router-dom";
 
 const Search = () => {
   const { t } = useTranslation();
@@ -32,7 +32,7 @@ const Search = () => {
     formState: { errors, isValid },
   } = useForm({
     defaultValues: {
-      text: searchParams.get('text'),
+      text: searchParams.get("text"),
     },
   });
   const searchEvent = useDebounce(watch("text"), 500);
@@ -83,7 +83,7 @@ const Search = () => {
         <Empty
           text={t("Ничего не найдено")}
           desc={t("Попробуйте найти что-то другое")}
-          image={() => <EmptyCatalog />}
+          image={() => <EmptySearch />}
         />
       )}
     </main>

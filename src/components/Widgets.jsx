@@ -1,6 +1,7 @@
 import React, { memo } from "react";
 import WidgetBlogs from "./widget/WidgetBlogs";
 import WidgetProjects from "./widget/WidgetProjects";
+import WidgetContact from "./widget/WidgetContact";
 import WidgetServices from "./widget/WidgetServices";
 import WidgetAbout from "./widget/WidgetAbout";
 import WidgetPopular from "./widget/WidgetPopular";
@@ -8,6 +9,7 @@ import WidgetHello from "./widget/WidgetHello";
 import WidgetStories from "./widget/WidgetStories";
 import WidgetSales from "./widget/WidgetSales";
 import WidgetBanners from "./widget/WidgetBanners";
+import WidgetCategories from "./widget/WidgetCategories";
 import Catalog from "./Catalog";
 
 const Widgets = memo(({ data }) => {
@@ -23,6 +25,10 @@ const Widgets = memo(({ data }) => {
           <Catalog data={e.items} />
         ) : e?.value == "projects" ? (
           <WidgetProjects {...e} />
+        ) : e?.value == "categories" ? (
+          <WidgetCategories {...e} />
+        ) : e?.value == "contact" ? (
+          <WidgetContact {...e} />
         ) : e?.value == "about" ? (
           <WidgetAbout {...e} />
         ) : e?.value == "popular" ? (

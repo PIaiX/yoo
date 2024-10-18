@@ -578,7 +578,12 @@ input {
     }
   }
 }
-
+label {
+  span {
+    flex: 1;
+    margin-left: 0.5em;
+  }
+}
 .inputGroup {
   @include list();
   @include flex(row, flex-start, center, nowrap);
@@ -647,6 +652,7 @@ input {
     }
   }
 }
+
 .countInput {
   width: fit-content;
   svg {
@@ -856,7 +862,8 @@ button {
       border: 1px solid var(--main-color);
     }
   }
-  &-green {
+  &-green,
+  &-success {
     @extend .btn;
     color: $green;
     border: 1px solid transparent;
@@ -884,7 +891,22 @@ button {
       border: 1px solid darken($color: $green, $amount: 10%);
     }
   }
-
+  &-info {
+    @extend .btn;
+    color: #000;
+    background-color: #faff14;
+    border: 1px solid #faff14;
+    &:hover,
+    &:focus,
+    &:active,
+    &.active,
+    &:first-child:active {
+      opacity: 0.9;
+      color: #000;
+      background-color: #faff14;
+      border: 1px solid #faff14;
+    }
+  }
   /* светло-голубая кнопка */
   &-light {
     @extend .btn;
@@ -1121,11 +1143,14 @@ button {
 select {
   @include no-appearance();
   border: none;
+  background-color: var(--bg-second);
   background-image: url(imgs/chevron.svg);
   background-repeat: no-repeat;
-  padding-right: 1em;
-  background-position: right center;
+  background-position: calc(100% - 0.7em) 50%;
   background-size: 0.75em;
+  border-radius: 5px;
+  padding: 0.4em 1.2em;
+  padding-right: 2em;
 }
 .select {
   position: relative;
@@ -2372,7 +2397,6 @@ main {
 }
 
 .product-slider {
-  overflow: visible !important;
   padding: 1em 0px;
   .swiper-slide {
     width: fit-content;
@@ -2380,10 +2404,9 @@ main {
 }
 
 .product-card-mini {
-  max-width: 380px;
-  background-color: rgba(255, 255, 255, 0.05);
+  max-width: 100%;
+  background-color: var(--bg-second);
   padding: 1em;
-  @include shadow();
   border-radius: $radius;
   @include flex(row, flex-start, stretch, nowrap);
   @media (max-width: $bp-lg) {
@@ -2625,6 +2648,61 @@ main {
     }
   }
 }
+.filter {
+  position: sticky;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  fieldset {
+    margin-bottom: 1em;
+    legend {
+      float: unset;
+      display: block;
+      margin-bottom: 0.5em;
+      font-size: 1em;
+      font-weight: 500;
+    }
+    ul {
+      @include list();
+      li {
+        &:not(:first-child) {
+          margin-top: 0.35em;
+        }
+      }
+    }
+    .more {
+      margin-top: 0.5em;
+      color: $gray;
+      font-size: 0.8em;
+      width: 100%;
+      @include flex(row, flex-end, center, nowrap);
+      &::before {
+        content: "";
+        flex: 1;
+        width: auto;
+        height: 1px;
+        background-color: $gray;
+        margin-right: 0.25em;
+      }
+    }
+  }
+  &-heading {
+    @include flex(row, flex-start, center, nowrap);
+    margin-bottom: 1em;
+    border-bottom: 1px solid $gray;
+    color: var(--main-color);
+    padding-bottom: 0.5em;
+  }
+}
+
+.offcanvas-filter {
+  .offcanvas-body {
+    padding: 0px;
+    @media (max-width: $bp-lg) {
+      padding: calc(var(--h-height) + 1em) 1.5em calc(var(--f-height) + 1em);
+    }
+  }
+}
 .product {
   .price {
     font-size: 1.1em !important;
@@ -2633,7 +2711,7 @@ main {
     position: relative;
     width: 100%;
     height: 280px;
-    object-fit: cover;
+    object-fit: contain;
     top: 0px;
     transition: top 150ms ease-out 0s;
     &:hover {
@@ -2656,7 +2734,7 @@ main {
     img {
       width: 100%;
       height: 280px;
-      object-fit: cover;
+      object-fit: contain;
       object-position: center;
       border-radius: $radius;
       @media (max-width: $bp-xxl) {
@@ -2830,6 +2908,43 @@ html.theme-font-title-amaticsc .productPage h1 {
     }
     @media (max-width: $bp-sm) {
       height: 85vw;
+    }
+  }
+  &-photo {
+    position: relative;
+    --img: 315px;
+    @include flex(row, flex-start, flex-start, nowrap);
+    @media (max-width: $bp-xl) {
+      --img: 270px;
+    }
+    @media (max-width: $bp-md) {
+      --img: 450px;
+      margin-bottom: 1em;
+    }
+    @media (max-width: $bp-sm) {
+      --img: calc(88vw - 90px - 1em);
+    }
+    .thumbSlider {
+      width: 90px;
+      margin-right: 1em;
+      height: var(--img);
+      .swiper-slide {
+        height: 90px;
+        img {
+          width: 100%;
+          @include roundedImg(90px, $radius * 0.5, contain);
+          background-color: var(--bg-second);
+          border: 1px solid var(--bg-btn);
+        }
+      }
+    }
+    .mainSlider {
+      flex: 1;
+      img {
+        @include roundedImg(var(--img), $radius, contain);
+        width: 100%;
+        background-color: var(--bg-second);
+      }
     }
   }
   &-edit {
@@ -5356,6 +5471,12 @@ ACCOUNT END
       object-fit: cover;
       border-radius: $radius;
     }
+    &-body {
+      @include clamp(5, 1.3em, true);
+      @media (max-width: $bp-sm) {
+        display: none;
+      }
+    }
   }
 }
 .blog-post-background {
@@ -5521,5 +5642,164 @@ ACCOUNT END
       rgba(255, 255, 255, 0) 0%,
       rgb(255, 255, 255) 100%
     );
+  }
+}
+.project {
+  &-card {
+    position: relative;
+    img {
+      width: 100%;
+      height: 320px;
+      object-fit: cover;
+      border-radius: $radius;
+      margin-bottom: $radius * 0.5;
+      @media (max-width: $bp-xxl) {
+        height: 300px;
+      }
+      @media (max-width: $bp-xl) {
+        height: 250px;
+      }
+      // @media (max-width: $bp-lg) {
+      //   height: 150px;
+      // }
+      @media (max-width: $bp-sm) {
+        height: 30vw;
+        border-radius: $radius * 0.5;
+        margin-bottom: 0.1em;
+      }
+    }
+    figcaption {
+      text-align: center;
+      a {
+        transition: color $transition;
+        &:hover {
+          color: var(--main-color);
+        }
+      }
+    }
+  }
+}
+.sec-feedback {
+  border-radius: 16px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  padding: 4em 0em;
+  position: relative;
+  margin-bottom: 4em;
+  @media (max-width: $bp-sm) {
+    background-image: none !important;
+  }
+}
+.portfolio-item {
+  display: block;
+  width: 100%;
+  position: relative;
+  border-radius: $radius;
+  overflow: hidden;
+  height: 200px;
+  @include shadow();
+  // @include shadowF();
+  // transition: transform 200ms linear;
+  @media (max-width: $bp-sm) {
+    font-size: 11px;
+  }
+  img {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    border-radius: $radius;
+    overflow: hidden;
+    object-fit: cover;
+  }
+  &-body {
+    position: absolute;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+    padding: 1em;
+    z-index: 100;
+    width: 100%;
+    justify-content: center;
+    display: flex;
+  }
+}
+.offer {
+  width: 100%;
+  border-radius: $radius;
+  overflow: hidden;
+  position: relative;
+  background-color: rgba(255, 255, 255, 0.05);
+  @include shadow();
+  // @include shadowF();
+  // transition: transform 200ms linear;
+  @media (max-width: $bp-sm) {
+    font-size: 11px;
+  }
+  img {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    @media (max-width: $bp-xxl) {
+      height: 140px;
+    }
+    @media (max-width: $bp-lg) {
+      height: 130px;
+    }
+  }
+  &.full {
+    img {
+      height: 320px;
+      @media (max-width: $bp-xxl) {
+        height: 270px;
+      }
+      @media (max-width: $bp-lg) {
+        height: 200px;
+      }
+      @media (max-width: $bp-md) {
+        height: 200px;
+      }
+      @media (max-width: $bp-sm) {
+        height: 140px;
+      }
+    }
+  }
+  &-body {
+    padding: 1em;
+    &-title {
+      @include clamp(2, 1.4em, true);
+    }
+    &-desc {
+      @include clamp(1, 1.4em, true);
+    }
+    @include flex(column, flex-end, stretch, nowrap);
+  }
+}
+.accordion {
+  --bs-accordion-color: $black;
+  --bs-accordion-active-color: $black;
+  --bs-accordion-bg: transparent;
+  --bs-accordion-active-bg: transparent;
+  --bs-accordion-border-color: transparent;
+  --bs-accordion-border-width: 0px;
+  --bs-accordion-btn-icon-width: 0.8em;
+  --bs-accordion-btn-icon-size: 0.8em;
+  --bs-accordion-body-padding-x: 0em;
+  --bs-accordion-body-padding-y: 0.5em;
+  --bs-accordion-btn-padding-x: 0em;
+  --bs-accordion-btn-padding-y: 0em;
+  --bs-accordion-btn-focus-box-shadow: none;
+  &-body {
+    padding-bottom: 2em;
+  }
+}
+.pagination {
+  @include flex(row, flex-end, center, nowrap);
+  font-size: 0.9em;
+  select {
+    width: 80px;
+    min-width: unset;
   }
 }

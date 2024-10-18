@@ -18,9 +18,12 @@ const ArticlePreview = (item) => {
         <h5>
           <Link to={"/blog/" + item.alias}>{item.title}</Link>
         </h5>
-        <div dangerouslySetInnerHTML={{ __html: item.content }} className="text-muted" />
-        <Link to={"/blog/" + item.alias} className="btn btn-light mt-3" >
-          {t('Подробнее')}
+        <div
+          dangerouslySetInnerHTML={{ __html: item.content }}
+          className="article-preview-body text-muted"
+        />
+        <Link to={"/blog/" + item.alias} className="btn btn-light mt-3">
+          {t("Подробнее")}
         </Link>
       </div>
     </div>

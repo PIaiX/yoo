@@ -7,8 +7,9 @@ import {
   HiChevronRight,
 } from "react-icons/hi2";
 import { IoChevronDownOutline, IoChevronUpOutline } from "react-icons/io5";
-
+import EmptyCatalog from "./empty/catalog";
 import { useSearchParams } from "react-router-dom";
+import Empty from "./Empty";
 
 const DataTable = React.memo(
   ({
@@ -24,7 +25,8 @@ const DataTable = React.memo(
     lite,
     headClassName = "",
     paramsValue,
-    onClick,
+    emptyText = false,
+    renderItem = false,
   }) => {
     const [selected, setSelected] = useState([]);
     const [searchParams, setSearchParams] = useSearchParams(paramsValue);
@@ -62,6 +64,119 @@ const DataTable = React.memo(
     useEffect(() => {
       setSelected([]);
     }, [data]);
+
+    const footerView = useMemo(() => {
+      return footer ? (
+        <Card.Footer>{footer}</Card.Footer>
+      ) : (
+        pagination && (
+          <Card.Footer className="px-2 w-100 border-top pt-4 fs-08 d-flex justify-content-center align-items-center sticky pagination">
+            <button
+              className="me-2 px-2 btn btn-light"
+              onClick={() => setSearchParams(searchParams.delete("page"))}
+            >
+              <HiChevronDoubleLeft
+                size={16}
+                className={
+                  Number(pagination.currentPage) <= 1
+                    ? "text-muted"
+                    : "text-dark"
+                }
+              />
+            </button>
+            <button
+              className="px-2 btn btn-light"
+              onClick={() => {
+                if (Number(pagination.currentPage) >= 3) {
+                  searchParams.set("page", Number(pagination.currentPage) - 1);
+                } else {
+                  searchParams.delete("page");
+                }
+                setSearchParams(searchParams);
+              }}
+            >
+              <HiChevronLeft
+                size={16}
+                className={
+                  Number(pagination.currentPage) <= 1
+                    ? "text-muted"
+                    : "text-dark"
+                }
+              />
+            </button>
+            <span className="mx-3">
+              {pagination.currentPage} из {pagination.totalPages}
+            </span>
+            <button
+              className="me-2 px-2 btn btn-light"
+              onClick={() => {
+                if (
+                  Number(pagination.currentPage) < Number(pagination.totalPages)
+                ) {
+                  searchParams.set("page", Number(pagination.currentPage) + 1);
+                  setSearchParams(searchParams);
+                }
+              }}
+            >
+              <HiChevronRight
+                size={16}
+                className={
+                  Number(pagination.currentPage) >=
+                  Number(pagination.totalPages)
+                    ? "text-muted"
+                    : "text-dark"
+                }
+              />
+            </button>
+            <button
+              className="px-2 btn btn-light"
+              onClick={() => {
+                if (
+                  Number(pagination.currentPage) < Number(pagination.totalPages)
+                ) {
+                  searchParams.set("page", pagination.totalPages);
+                  setSearchParams(searchParams);
+                }
+              }}
+            >
+              <HiChevronDoubleRight
+                size={16}
+                className={
+                  Number(pagination.currentPage) >=
+                  Number(pagination.totalPages)
+                    ? "text-muted"
+                    : "text-dark"
+                }
+              />
+            </button>
+          </Card.Footer>
+        )
+      );
+    }, [pagination]);
+
+    if (renderItem) {
+      const body = useMemo(() => {
+        console.log(data);
+        if (!data || data?.length === 0) {
+          return (
+            <Empty
+              mini
+              text="Ничего нет"
+              desc="Контент уже скоро появится"
+              image={() => <EmptyCatalog />}
+            />
+          );
+        }
+        return data && data.map((item, index) => renderItem(item, index));
+      }, [data]);
+
+      return (
+        <>
+          {body}
+          {footerView}
+        </>
+      );
+    }
 
     const head = useMemo(() => {
       return (
@@ -110,11 +225,7 @@ const DataTable = React.memo(
         index++;
         const [open, setOpen] = useState({ show: false, data: false });
         return (
-          <a
-            key={index}
-            className="item d-block"
-            onClick={() => onClick && onClick(item)}
-          >
+          <div key={index} className="item">
             <Row
               className={[
                 "gx-0",
@@ -178,7 +289,7 @@ const DataTable = React.memo(
               )}
             </Row>
             {open.show && open.data && open.data(item)}
-          </a>
+          </div>
         );
       });
 
@@ -189,94 +300,6 @@ const DataTable = React.memo(
         ))
       );
     }, [data, selected]);
-
-    const footerView = useMemo(() => {
-      return footer ? (
-        <Card.Footer>{footer}</Card.Footer>
-      ) : (
-        pagination && (
-          <Card.Footer className="px-2 fs-08 d-flex justify-content-end align-items-center sticky pagination">
-            <span className="me-4">
-              Страница {pagination.currentPage} из {pagination.totalPages}
-            </span>
-            <button
-              className="me-2"
-              onClick={() => setSearchParams(searchParams.delete("page"))}
-            >
-              <HiChevronDoubleLeft
-                size={16}
-                className={
-                  Number(pagination.currentPage) <= 1
-                    ? "text-muted"
-                    : "text-dark"
-                }
-              />
-            </button>
-            <button
-              className="me-4"
-              onClick={() => {
-                if (Number(pagination.currentPage) >= 3) {
-                  searchParams.set("page", Number(pagination.currentPage) - 1);
-                } else {
-                  searchParams.delete("page");
-                }
-                setSearchParams(searchParams);
-              }}
-            >
-              <HiChevronLeft
-                size={16}
-                className={
-                  Number(pagination.currentPage) <= 1
-                    ? "text-muted"
-                    : "text-dark"
-                }
-              />
-            </button>
-            <button
-              className="me-2"
-              onClick={() => {
-                if (
-                  Number(pagination.currentPage) < Number(pagination.totalPages)
-                ) {
-                  searchParams.set("page", Number(pagination.currentPage) + 1);
-                  setSearchParams(searchParams);
-                }
-              }}
-            >
-              <HiChevronRight
-                size={16}
-                className={
-                  Number(pagination.currentPage) >=
-                  Number(pagination.totalPages)
-                    ? "text-muted"
-                    : "text-dark"
-                }
-              />
-            </button>
-            <button
-              onClick={() => {
-                if (
-                  Number(pagination.currentPage) < Number(pagination.totalPages)
-                ) {
-                  searchParams.set("page", pagination.totalPages);
-                  setSearchParams(searchParams);
-                }
-              }}
-            >
-              <HiChevronDoubleRight
-                size={16}
-                className={
-                  Number(pagination.currentPage) >=
-                  Number(pagination.totalPages)
-                    ? "text-muted"
-                    : "text-dark"
-                }
-              />
-            </button>
-          </Card.Footer>
-        )
-      );
-    }, [pagination]);
 
     return (
       <Card className={"custom-table" + (lite ? " lite" : "")}>

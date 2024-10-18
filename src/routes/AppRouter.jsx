@@ -30,6 +30,12 @@ import Blogs from "../pages/Blogs";
 import Categories from "../pages/Categories";
 import Search from "../pages/Search";
 import Info from "../pages/Info";
+import Projects from "../pages/Projects";
+import Services from "../pages/Services";
+import Project from "../pages/Project";
+import Service from "../pages/Service";
+import PortfolioList from "../pages/PortfolioList";
+import Portfolio from "../pages/Portfolio";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -48,6 +54,12 @@ const router = createBrowserRouter(
       <Route path="contact" element={<Contact />} />
       <Route path="delivery" element={<Delivery />} />
       <Route path="policy" element={<Policy />} />
+      <Route path="projects" element={<Projects />} />
+      <Route path="project/:productId" element={<Project />} />
+      <Route path="services" element={<Services />} />
+      <Route path="service/:productId" element={<Service />} />
+      <Route path="portfolio" element={<PortfolioList />} />
+      <Route path="portfolio/:portfolioId" element={<Portfolio />} />
       <Route path="*" element={<NotFound />} />
       <Route
         path="account/*"

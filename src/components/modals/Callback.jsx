@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { memo, useCallback } from "react";
 import Modal from "react-bootstrap/Modal";
 import { useSelector } from "react-redux";
 import Input from "../utils/Input";
@@ -7,13 +7,15 @@ import Textarea from "../utils/Textarea";
 import { Col, Row } from "react-bootstrap";
 import { createFeedback } from "../../services/order";
 import { NotificationManager } from "react-notifications";
+import ProductCardMini from "../ProductCardMini";
 
-const Callback = ({ show = false, setShow, type, page, product, ip }) => {
+const Callback = memo(({ show = false, setShow, type, page, product, ip }) => {
   const options = useSelector((state) => state.settings.options);
 
   const {
     register,
     formState: { errors, isValid },
+    reset,
     handleSubmit,
   } = useForm({
     mode: "onChange",
@@ -21,7 +23,7 @@ const Callback = ({ show = false, setShow, type, page, product, ip }) => {
     defaultValues: {
       type,
       page,
-      product,
+      product: Array.isArray(product) ? product : [product],
       ip,
     },
   });
@@ -31,7 +33,7 @@ const Callback = ({ show = false, setShow, type, page, product, ip }) => {
       .then(() => {
         NotificationManager.success("Заявка успешно отправлена");
         reset();
-        handleClose();
+        setShow(false);
       })
       .catch((err) => {
         NotificationManager.error(
@@ -46,6 +48,11 @@ const Callback = ({ show = false, setShow, type, page, product, ip }) => {
         {options?.feedback?.title ?? "Обратная связь"}
       </Modal.Header>
       <Modal.Body>
+        {product?.id && (
+          <div className="mb-4">
+            <ProductCardMini data={product} preview />
+          </div>
+        )}
         <Row>
           <Col md={6}>
             <Input
@@ -61,8 +68,6 @@ const Callback = ({ show = false, setShow, type, page, product, ip }) => {
               <Input
                 mask="7(999)999-99-99"
                 label="Номер телефона"
-                inputMode="tel"
-                pattern="[0-9+()-]*"
                 name="phone"
                 errors={errors}
                 register={register}
@@ -74,8 +79,6 @@ const Callback = ({ show = false, setShow, type, page, product, ip }) => {
               <Input
                 label="Email"
                 name="email"
-                inputMode="email"
-                pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$"
                 errors={errors}
                 register={register}
                 validation={{ required: "Обязательное поле" }}
@@ -105,6 +108,6 @@ const Callback = ({ show = false, setShow, type, page, product, ip }) => {
       </Modal.Body>
     </Modal>
   );
-};
+});
 
 export default Callback;
