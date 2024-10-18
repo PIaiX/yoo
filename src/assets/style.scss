@@ -3196,11 +3196,6 @@ html.theme-font-title-amaticsc .filterGrid h4 {
   @media (max-width: $bp-md) {
     padding: 1em;
   }
-  p {
-    &:not(:first-child) {
-      margin-top: 1em;
-    }
-  }
 }
 .offer-product {
   padding: 1.25em 0px;

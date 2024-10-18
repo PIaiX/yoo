@@ -3637,9 +3637,6 @@ html.theme-font-title-amaticsc .filterGrid h4 {
     padding: 1em;
   }
 }
-.box p:not(:first-child) {
-  margin-top: 1em;
-}
 
 .offer-product {
   padding: 1.25em 0px;

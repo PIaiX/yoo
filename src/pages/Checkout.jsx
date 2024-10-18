@@ -295,14 +295,16 @@ const Checkout = () => {
   }, [checkout.delivery, end, options, data.payment]);
 
   useLayoutEffect(() => {
-    if (addressData?.length > 0 && city?.title) {
+    if (addressData?.length > 0) {
       setAddress(
-        addressData.filter(
-          (e) =>
-            e?.city?.toLowerCase() === city?.title?.toLowerCase() ||
-            e?.region?.toLowerCase() === city?.region?.toLowerCase() ||
-            e?.area?.toLowerCase() === city?.area?.toLowerCase()
-        )
+        city?.title
+          ? addressData.filter(
+              (e) =>
+                e?.city?.toLowerCase() === city?.title?.toLowerCase() ||
+                e?.region?.toLowerCase() === city?.region?.toLowerCase() ||
+                e?.area?.toLowerCase() === city?.area?.toLowerCase()
+            )
+          : addressData
       );
     }
   }, [addressData, city]);
@@ -821,6 +823,12 @@ const Checkout = () => {
                 <div className="d-flex justify-content-between my-2">
                   <span>{t("Списание баллов")}</span>
                   <span>-{customPrice(pointCheckout)}</span>
+                </div>
+              )}
+              {pointAccrual > 0 && (
+                <div className="d-flex justify-content-between my-2">
+                  <span>{t("Начислится баллов")}</span>
+                  <span>+{customPrice(pointAccrual)}</span>
                 </div>
               )}
               <hr className="my-3" />

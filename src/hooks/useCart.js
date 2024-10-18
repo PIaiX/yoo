@@ -35,6 +35,7 @@ const useTotalCart = () => {
     const stateZone = useSelector((state) => state.cart?.zone?.data)
     const pointOptions = useSelector((state) => state?.settings?.options?.point)
     const userPoint = useSelector((state) => state.auth?.user?.point)
+    const userOptions = useSelector((state) => state.auth?.user?.options)
     const affiliateActive = useSelector((state) => state?.affiliate?.active)
 
     const calculateCart = useMemo(() => {
@@ -132,14 +133,20 @@ const useTotalCart = () => {
                 }
             }
 
-            if (Number(pointOptions?.accrual?.value) > 0 && stateDelivery && totalCalcul) {
+            if ((Number(pointOptions?.accrual?.value) > 0 || Number(userOptions?.cashback) > 0) && stateDelivery && totalCalcul) {
+
                 const isEligible =
                     (pointOptions?.accrual?.delivery && stateDelivery === 'delivery') ||
                     (pointOptions?.accrual?.pickup && stateDelivery === 'pickup') ||
                     (pointOptions?.accrual?.card && statePayment === 'card') ||
                     (pointOptions?.accrual?.cash && statePayment === 'cash') ||
                     (pointOptions?.accrual?.online && statePayment === 'online')
-                pointAccrual = isEligible ? Math.floor((totalCalcul / 100) * Number(pointOptions.accrual.value)) : 0
+
+                if (pointOptions?.type === 'yooapp' || !pointOptions?.type) {
+                    pointAccrual = isEligible ? Math.floor((totalCalcul / 100) * Number(userOptions?.cashback ? userOptions?.cashback : pointOptions.accrual.value ?? 0)) : 0
+                } else {
+                    pointAccrual = Math.floor((totalCalcul / 100) * Number(userOptions?.cashback ? userOptions?.cashback : pointOptions.accrual.value ?? 0))
+                }
             }
 
             if (stateDelivery === 'delivery' && stateZone?.price > 0 && (!stateZone?.options?.freeStatus || stateZone?.priceFree > totalCalcul)) {

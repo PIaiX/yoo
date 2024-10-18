@@ -63,13 +63,20 @@ const AccountLayout = ({ isMobile }) => {
                 </div>
               </Col>
               {profilePointVisible && (
-                <Col lg={2}>
+                <Col lg={4}>
                   <div className="box w-100 h-100 d-flex flex-column justify-content-between text-center">
-                    <p className="fs-09 fw-6">{t("Вы можете потратить")}</p>
-                    <p className="main-color">
-                      <span className="fw-6 fs-13">{user.point}</span>&nbsp;
-                      <span className="fw-6 fs-13">Б</span>
+                    <p className="fs-09 fw-6">
+                      {t("Вы можете потратить баллами")}
                     </p>
+                    <p className="main-color">
+                      <span className="fw-7 fs-14">{user.point}</span>&nbsp;
+                    </p>
+                    {user?.options?.cashback > 0 && (
+                      <p className="text-muted fs-08">
+                        {t("Начислим")} <b>{user.options.cashback + "%"}</b>{" "}
+                        {t("с заказа")}
+                      </p>
+                    )}
                   </div>
                 </Col>
               )}

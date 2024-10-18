@@ -55,7 +55,7 @@ const Settings = () => {
 
   const editLang = useCallback(
     (lang) => {
-      lang = languageCode(lang)
+      lang = languageCode(lang);
       editAccount({ ...data, lang });
       i18n.changeLanguage(lang);
       moment.locale(lang);
@@ -124,7 +124,7 @@ const Settings = () => {
           <Col lg={8}>
             <Row className="g-3 g-xl-4">
               <Col xs={12} sm={6} md={6}>
-                <div className="box w-100 d-flex align-items-center p-3 h-100">
+                <div className="box w-100 d-flex align-items-center h-100">
                   <div className="icon d-none d-sm-none d-md-none d-xxl-flex">
                     <span>
                       {t(
@@ -141,12 +141,19 @@ const Settings = () => {
               </Col>
               {profilePointVisible && (
                 <Col xs={12} sm={6} md={6} className="d-none d-sm-block">
-                  <div className="box p-3 w-100 h-100 d-flex flex-column justify-content-between text-center">
-                    <p className="fs-09 fw-6">{t("Вы можете потратить")}</p>
-                    <p className="main-color">
-                      <span className="fw-6 fs-13">{user.point}</span>&nbsp;
-                      <span className="fw-6 fs-13">Б</span>
+                  <div className="box w-100 h-100 d-flex flex-column justify-content-between text-center">
+                    <p className="fs-09 fw-6">
+                      {t("Вы можете потратить баллами")}
                     </p>
+                    <p className="main-color my-2">
+                      <span className="fw-7 fs-14">{user.point}</span>&nbsp;
+                    </p>
+                    {user?.options?.cashback > 0 && (
+                      <p className="text-muted fs-08">
+                        {t("Начислим")} <b>{user.options.cashback + "%"}</b>{" "}
+                        {t("с заказа")}
+                      </p>
+                    )}
                   </div>
                 </Col>
               )}
@@ -169,7 +176,7 @@ const Settings = () => {
                 </label>
               </Col> */}
               <Col xs={12}>
-                <div className="box p-3 p-sm-4">
+                <div>
                   <h6 className="mb-3">{t("Настройки")}</h6>
                   <Row className="g-4">
                     <Col md={4}>
@@ -234,6 +241,7 @@ const Settings = () => {
                       />
                     </Col>
                     <Col md={6}>
+                      <div className="fs-09 mb-2">Язык</div>
                       <Select
                         className="p-3 fs-09 fw-6"
                         data={localeData.map((e) => ({
