@@ -5,9 +5,11 @@ import {
   HiOutlineShoppingCart,
   HiOutlineChevronDoubleUp,
 } from "react-icons/hi2";
+import { useSelector } from "react-redux";
 
 const ScrollToTop = memo(({ count = 0 }) => {
   const [visible, setVisible] = useState(false);
+  const options = useSelector((state) => state.settings.options);
 
   const toggleVisible = () => {
     if (window.pageYOffset > 250) {
@@ -35,12 +37,14 @@ const ScrollToTop = memo(({ count = 0 }) => {
     visible && (
       <nav className={visible ? "sidebar" : "sidebar hide"}>
         <ul>
-          <li className="d-none d-lg-block">
-            <Link to="/cart" className="position-relative">
-              <HiOutlineShoppingCart />
-              {count > 0 && <span className="badge">{count}</span>}
-            </Link>
-          </li>
+          {options?.cart && (
+            <li className="d-none d-lg-block">
+              <Link to="/cart" className="position-relative">
+                <HiOutlineShoppingCart />
+                {count > 0 && <span className="badge">{count}</span>}
+              </Link>
+            </li>
+          )}
           {/* <li className="d-none d-lg-block">
             <Link to="/account/favorites">
               <HiOutlineHeart />

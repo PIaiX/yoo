@@ -5344,6 +5344,7 @@ ACCOUNT END
     img {
       border-radius: $radius;
       height: 500px;
+      max-width: 100%;
       object-fit: contain;
     }
   }
@@ -5355,6 +5356,11 @@ ACCOUNT END
       height: 180px;
       object-fit: cover;
       border-radius: $radius;
+      @media (max-width: $bp-sm) {
+        width: 100px;
+        height: 100px;
+        margin-right: 15px;
+      }
     }
   }
 }
@@ -5522,4 +5528,7 @@ ACCOUNT END
       rgb(255, 255, 255) 100%
     );
   }
+}
+.white-space{
+white-space: pre-wrap !important;
 }

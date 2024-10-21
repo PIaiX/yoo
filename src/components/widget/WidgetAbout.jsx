@@ -9,7 +9,7 @@ const WidgetAbout = memo((data) => {
         <Row className="align-items-center">
           <Col md={6}>
             <h2>{data.title}</h2>
-            {data?.desc && <p className="fs-11 fw-3">{data.desc}</p>}
+            {data?.desc && <p className="fs-11 fw-3 pb-3 white-space">{data.desc}</p>}
           </Col>
           {data?.media && (
             <Col md={6}>

@@ -18,7 +18,7 @@ const WidgetHello = memo((data) => {
     >
       <div className="hello-box">
         <h1 className="mb-4">{data.title}</h1>
-        {data?.desc && <p>{data.desc}</p>}
+        {data?.desc && <p className="white-space">{data.desc}</p>}
         {data?.btnText && data?.btnLink && (
           <div className="d-flex mt-5 justify-content-center">
             <Link className="btn btn-40-light" to={data.btnLink}>

@@ -108,7 +108,7 @@ const OfferPage = () => {
                 />
                 <div className="p-4">
                   <h4>{sale.data.title}</h4>
-                  <h6 className="fw-4">{sale.data.desc}</h6>
+                  <h6 className="fw-4 white-space">{sale.data.desc}</h6>
                 </div>
               </figure>
               {/* <h2>Товары, участвующие в акции</h2>
