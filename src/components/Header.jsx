@@ -426,12 +426,14 @@ const Header = memo(() => {
                 className="menu-offer"
               />
             )} */}
-            <Select
-              className="mb-3"
-              data={deliveryArray}
-              value={delivery}
-              onClick={(e) => dispatch(editDeliveryCheckout(e.value))}
-            />
+            {deliveryArray?.length > 0 && (
+              <Select
+                className="mb-3"
+                data={deliveryArray}
+                value={delivery}
+                onClick={(e) => dispatch(editDeliveryCheckout(e.value))}
+              />
+            )}
             <nav>
               <ul>
                 <li>

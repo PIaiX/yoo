@@ -59,16 +59,18 @@ const Footer = memo(() => {
                 </NavLink>
               </li>
             )}
-            <li>
-              <NavLink to="/cart" className="position-relative">
-                <IoCartOutline />
-                {count > 0 && (
-                  <span className="position-absolute translate-middle badge rounded-pill">
-                    {count}
-                  </span>
-                )}
-              </NavLink>
-            </li>
+            {options?.cart && (
+              <li>
+                <NavLink to="/cart" className="position-relative">
+                  <IoCartOutline />
+                  {count > 0 && (
+                    <span className="position-absolute translate-middle badge rounded-pill">
+                      {count}
+                    </span>
+                  )}
+                </NavLink>
+              </li>
+            )}
             <li>
               <NavLink to={isAuth ? "/account" : "/login"}>
                 <IoPersonOutline />
