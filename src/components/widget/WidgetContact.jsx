@@ -20,8 +20,9 @@ const WidgetContact = memo((data) => {
           })})`,
         }}
       >
+        <div className="feedback-shadown"></div>
         <Row className="justify-content-end">
-          <Col xs={12} md={8} lg={6}>
+          <Col xs={12} md={8} lg={6} className="feedback-body">
             <h2 className="text-center">{data?.title ?? "Оформите заявку"}</h2>
             {data?.desc && <p className="text-center">{data.desc}</p>}
             <button

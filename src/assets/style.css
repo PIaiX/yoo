@@ -6733,12 +6733,30 @@ ACCOUNT END
   background-repeat: no-repeat;
   padding: 4em 0em;
   position: relative;
+  overflow: hidden;
   margin-bottom: 4em;
 }
 @media (max-width: 580px) {
   .sec-feedback {
     background-image: none !important;
   }
+}
+.sec-feedback .feedback-shadown {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 0;
+  bottom: 0;
+  left: 20%;
+  max-width: 100%;
+  background: linear-gradient(to left, rgba(0, 0, 0, 0.75) 30%, rgba(0, 0, 0, 0) 100%);
+  pointer-events: none;
+}
+.sec-feedback .feedback-body {
+  position: relative;
+  height: 100%;
+  z-index: 2;
 }
 
 .portfolio-item {
