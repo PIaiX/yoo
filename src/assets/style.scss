@@ -1151,6 +1151,7 @@ select {
   border-radius: 5px;
   padding: 0.4em 1.2em;
   padding-right: 2em;
+  color: var(--main-color-text)
 }
 .select {
   position: relative;
@@ -5458,6 +5459,7 @@ ACCOUNT END
   &-page {
     img {
       border-radius: $radius;
+      max-width: 100%;
       height: 500px;
       object-fit: contain;
     }
@@ -5465,11 +5467,19 @@ ACCOUNT END
   &-preview {
     display: flex;
     flex-direction: row;
+    @media (max-width: $bp-sm) {
+      font-size: 13px;
+    }
     img {
       width: 180px;
       height: 180px;
       object-fit: cover;
       border-radius: $radius;
+      @media (max-width: $bp-sm) {
+        width: 100px;
+        height: 100px;
+        margin-right: 15px;
+      }
     }
     &-body {
       @include clamp(5, 1.3em, true);
@@ -5824,4 +5834,7 @@ ACCOUNT END
     width: 80px;
     min-width: unset;
   }
+}
+.white-space{
+  white-space: pre-wrap !important;
 }

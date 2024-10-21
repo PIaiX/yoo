@@ -9,7 +9,7 @@ const WidgetSales = memo((data) => {
     return null;
   }
   return (
-    <section className="mt-6">
+    <section className="mb-6">
       <Container>
         {data.title && <h2 className="mb-3">{data.title}</h2>}
         <Swiper
