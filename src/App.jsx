@@ -30,7 +30,6 @@ import { updateAddresses } from "./store/reducers/addressSlice";
 import {
   updateAffiliate,
   updateCities,
-  updateCity,
   // updateTable,
   updateZone,
 } from "./store/reducers/affiliateSlice";

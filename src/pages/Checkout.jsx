@@ -141,6 +141,7 @@ const Checkout = () => {
     defaultValues: {
       name: user.firstName ?? "",
       phone: user.phone ?? "",
+      email: checkout?.data?.email ?? user.email ?? "",
       serving: checkout?.data?.serving ?? "",
       delivery: checkout.delivery ?? "delivery",
       payment: checkout?.data?.payment ?? "cash",
@@ -674,6 +675,32 @@ const Checkout = () => {
                     />
                   </div>
                 </Col>
+                {options.payment.email && (
+                  <Col>
+                    <div className="mb-4">
+                      <Input
+                        label="Email"
+                        type="email"
+                        name="email"
+                        inputMode="email"
+                        placeholder={t("Введите email")}
+                        errors={errors}
+                        register={register}
+                        validation={{
+                          required: t("Введите email"),
+                          maxLength: {
+                            value: 250,
+                            message: t("Максимально 250 символов"),
+                          },
+                          pattern: {
+                            value: /\S+@\S+\.\S+/,
+                            message: t("Неверный формат Email"),
+                          },
+                        }}
+                      />
+                    </div>
+                  </Col>
+                )}
                 <Col md={12}>
                   <div className="mb-4">
                     <p className="mb-2 fs-09">{t("Кол-во персон")}</p>

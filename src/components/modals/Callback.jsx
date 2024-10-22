@@ -75,7 +75,6 @@ const Callback = ({ show = false, setShow, type, page, product, ip }) => {
                 label="Email"
                 name="email"
                 inputMode="email"
-                pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$"
                 errors={errors}
                 register={register}
                 validation={{ required: "Обязательное поле" }}
