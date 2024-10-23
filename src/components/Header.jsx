@@ -180,7 +180,7 @@ const Header = memo(() => {
       }
     }
   }, [cities]);
-  console.log(city);
+
   return (
     <>
       <header>
