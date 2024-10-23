@@ -1,16 +1,21 @@
 import axios from 'axios'
 import { DADATA_URL_ADDRESS, DADATA_URL_STREET, DADATA_TOKEN } from '../config/api'
 
-const getDadataStreets = async ({ query, city }) => {
-    let locations = []
+const getDadataStreets = async ({ query, city, locations }) => {
+
+    let locationsData = locations || []
     if (city && city.length > 0) {
-        city.forEach(e => locations.push({ city: e.toLowerCase() }))
+        city.forEach(e => locationsData.push({ city: e.toLowerCase() }))
     }
+
     return await axios.post(
         DADATA_URL_STREET,
         JSON.stringify({
             query,
-            locations
+            locations: locationsData,
+            "from_bound": { "value": "city" },
+            "to_bound": { "value": "settlement" },
+            "restrict_value": true
             // from_bound: {value: 'street'},
             // to_bound: {value: 'house'},
             // locations: [
@@ -37,6 +42,8 @@ const getDadataStreets = async ({ query, city }) => {
             //     {settlement: 'большие кабаны'},
             //     {settlement: 'большие дербышки'},
             // ],
+            // restrict_value: true,
+            // ,
             // restrict_value: true,
         }),
         {

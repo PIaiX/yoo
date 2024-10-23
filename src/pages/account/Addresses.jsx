@@ -10,6 +10,7 @@ import { useTranslation } from "react-i18next";
 const Addresses = () => {
   const addresses = useSelector((state) => state.address);
   const user = useSelector((state) => state.auth.user);
+
   const navigate = useNavigate();
   const { t } = useTranslation();
 
