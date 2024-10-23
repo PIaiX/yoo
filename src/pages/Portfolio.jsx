@@ -80,10 +80,10 @@ const Portfolio = () => {
           breadcrumbs={[
             {
               title: "Портфолио",
-              link: "/projects",
+              link: "/portfolio",
             },
             {
-              title: portfolio?.title ?? "Нет названия",
+              title: portfolio?.title ?? "Портфолио",
             },
           ]}
         />

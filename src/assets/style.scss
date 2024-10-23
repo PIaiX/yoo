@@ -1151,7 +1151,7 @@ select {
   border-radius: 5px;
   padding: 0.4em 1.2em;
   padding-right: 2em;
-  color: var(--main-color-text)
+  color: var(--main-color-text);
 }
 .select {
   position: relative;
@@ -5740,6 +5740,7 @@ ACCOUNT END
     position: relative;
     z-index: 1;
     width: 100%;
+    height: 100%;
     border-radius: $radius;
     overflow: hidden;
     object-fit: cover;
@@ -5835,6 +5836,6 @@ ACCOUNT END
     min-width: unset;
   }
 }
-.white-space{
+.white-space {
   white-space: pre-wrap !important;
 }

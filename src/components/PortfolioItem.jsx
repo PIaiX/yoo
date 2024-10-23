@@ -10,7 +10,8 @@ const PortfolioItem = ({ data }) => {
         src={getImageURL({
           path:
             data?.medias?.length > 0
-              ? data.medias.filter((e) => e.main)[0]?.media
+              ? data.medias.filter((e) => e.main)[0]?.media ??
+                data.medias[0]?.media
               : false,
           type: "portfolio",
         })}
