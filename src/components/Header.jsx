@@ -180,7 +180,7 @@ const Header = memo(() => {
       }
     }
   }, [cities]);
-
+  console.log(city);
   return (
     <>
       <header>
@@ -219,9 +219,17 @@ const Header = memo(() => {
                       className="fw-6"
                     >
                       {t(
-                        cities.length > 1
+                        cities?.length > 1
                           ? city?.title ?? "Выберите город"
-                          : selectedAffiliate?.options?.city ?? "Выберите город"
+                          : cities[0]?.options?.view === "region" &&
+                            cities[0]?.region
+                          ? cities[0].region
+                          : cities[0]?.options?.view === "country" &&
+                            cities[0]?.country
+                          ? cities[0].country
+                          : cities[0]?.options?.view === "no"
+                          ? ""
+                          : cities[0]?.title ?? "Выберите город"
                       )}
                     </a>
                   )}
