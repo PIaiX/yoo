@@ -4,9 +4,9 @@ import {
   HiOutlineShoppingBag,
   HiOutlineMapPin,
   HiOutlineArrowRightOnRectangle,
-  HiOutlineHeart,
+  // HiOutlineHeart,
 } from "react-icons/hi2";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../services/auth";
 import { useTranslation } from "react-i18next";
 
@@ -14,22 +14,27 @@ const AccountMenu = () => {
   const dispatch = useDispatch();
   const navigaion = useNavigate();
   const { t } = useTranslation();
-
+  const cities = useSelector((state) => state.affiliate.cities);
+  
   return (
     <nav className="account-nav">
       <ul>
-        <li>
-          <NavLink to="orders">
-            <HiOutlineShoppingBag />
-            <div>{t("Заказы")}</div>
-          </NavLink>
-        </li>
-        <li>
-          <NavLink to="addresses">
-            <HiOutlineMapPin />
-            <div>{t("Адреса")}</div>
-          </NavLink>
-        </li>
+        {!cities[0]?.options?.view === "no" && (
+          <>
+            <li>
+              <NavLink to="orders">
+                <HiOutlineShoppingBag />
+                <div>{t("Заказы")}</div>
+              </NavLink>
+            </li>
+            <li>
+              <NavLink to="addresses">
+                <HiOutlineMapPin />
+                <div>{t("Адреса")}</div>
+              </NavLink>
+            </li>
+          </>
+        )}
         {/* <li>
           <NavLink to="favorites">
             <HiOutlineHeart />

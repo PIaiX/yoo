@@ -86,13 +86,15 @@ const Callback = memo(({ show = false, setShow, type, page, product, ip }) => {
             </Col>
           )}
           <Col md={12}>
-            <Textarea
-              label="Комментарий"
-              name="comment"
-              placeholder="Введите комментарий"
-              errors={errors}
-              register={register}
-            />
+            <div className="mt-3">
+              <Textarea
+                label="Комментарий"
+                name="comment"
+                placeholder="Введите комментарий"
+                errors={errors}
+                register={register}
+              />
+            </div>
           </Col>
         </Row>
         <div className="d-flex justify-content-end">

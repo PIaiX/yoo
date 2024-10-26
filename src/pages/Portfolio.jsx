@@ -189,7 +189,6 @@ const Portfolio = () => {
                   spaceBetween={20}
                   slidesPerView={"auto"}
                   speed={750}
-                  navigation
                   freeMode={true}
                   breakpoints={{
                     576: {
