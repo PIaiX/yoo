@@ -675,7 +675,7 @@ const Checkout = () => {
                     />
                   </div>
                 </Col>
-                {options.payment.email && (
+                {options?.payment?.email && (
                   <Col>
                     <div className="mb-4">
                       <Input
