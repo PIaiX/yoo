@@ -13,37 +13,9 @@ const getDadataStreets = async ({ query, city, locations }) => {
         JSON.stringify({
             query,
             locations: locationsData,
-            "from_bound": { "value": "city" },
-            "to_bound": { "value": "settlement" },
-            "restrict_value": true
-            // from_bound: {value: 'street'},
-            // to_bound: {value: 'house'},
-            // locations: [
-            //     {city: 'казань'},
-            //     {settlement: 'куюки'},
-            //     {settlement: 'высокая гора'},
-            //     {settlement: 'кульсеитово'},
-            //     {settlement: 'семиозерка'},
-            //     {settlement: 'озерный'},
-            //     {settlement: 'усады'},
-            //     {settlement: 'песчаные ковали'},
-            //     {settlement: 'поселок габишебо'},
-            //     {settlement: 'боровое матюшино'},
-            //     {settlement: 'петровский'},
-            //     {settlement: 'вороновка'},
-            //     {settlement: 'юдино'},
-            //     {settlement: 'осиново'},
-            //     {settlement: 'кощаково'},
-            //     {settlement: 'званка'},
-            //     {settlement: 'кадышево'},
-            //     {settlement: 'новые салмачи'},
-            //     {settlement: 'малые кабаны'},
-            //     {settlement: 'малые дербышки'},
-            //     {settlement: 'большие кабаны'},
-            //     {settlement: 'большие дербышки'},
-            // ],
-            // restrict_value: true,
-            // ,
+            // from_bound: { value: 'city' }, // ограничение по типу адреса
+            // to_bound: { value: 'settlement' }, // ограничение по типу адреса
+            // restrict_value: true, // ограничить результаты только указанными населенными пунктами
             // restrict_value: true,
         }),
         {

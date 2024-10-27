@@ -6,6 +6,7 @@ import React, {
 } from "react";
 import { Col, Dropdown, Form, Row } from "react-bootstrap";
 import { useForm, useWatch } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 import { NotificationManager } from "react-notifications";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -16,10 +17,8 @@ import Textarea from "../../components/utils/Textarea";
 import useDebounce from "../../hooks/useDebounce";
 import { createAddress } from "../../services/address";
 import { getDadataStreets } from "../../services/dadata";
-import { setAddress } from "../../store/reducers/addressSlice";
-import { useTranslation } from "react-i18next";
 import { getDelivery } from "../../services/order";
-import { Alert } from "bootstrap";
+import { setAddress } from "../../store/reducers/addressSlice";
 
 const CreateAddress = () => {
   const { t } = useTranslation();

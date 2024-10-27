@@ -107,56 +107,12 @@ const Settings = () => {
       <Meta title={t("Настройки")} />
       <Container className="pt-4 pt-lg-0">
         <AccountTitleReturn
-          className="d-lg-none"
           link="/account"
           title="Настройки"
         />
-        <h1 className="d-none d-lg-block mb-2">{t("Личный кабинет")}</h1>
-        <NavBreadcrumbs
-          className="d-none d-lg-block"
-          breadcrumbs={[
-            { title: t("Аккаунт"), link: "/account" },
-            { title: t("Настройки"), link: "/account/settings" },
-          ]}
-        />
-
         <Row className="gx-3 gx-xl-4">
           <Col lg={8}>
             <Row className="g-3 g-xl-4">
-              <Col xs={12} sm={6} md={6}>
-                <div className="box w-100 d-flex align-items-center h-100">
-                  <div className="icon d-none d-sm-none d-md-none d-xxl-flex">
-                    <span>
-                      {t(
-                        user.firstName
-                          ? user.firstName.slice(0, 1).toUpperCase()
-                          : "A"
-                      )}
-                    </span>
-                  </div>
-                  <div>
-                    <h6>{t(user.firstName ?? "Имя")}</h6>
-                  </div>
-                </div>
-              </Col>
-              {profilePointVisible && (
-                <Col xs={12} sm={6} md={6} className="d-none d-sm-block">
-                  <div className="box w-100 h-100 d-flex flex-column justify-content-between text-center">
-                    <p className="fs-09 fw-6">
-                      {t("Вы можете потратить баллами")}
-                    </p>
-                    <p className="main-color my-2">
-                      <span className="fw-7 fs-14">{user.point}</span>&nbsp;
-                    </p>
-                    {user?.options?.cashback > 0 && (
-                      <p className="text-muted fs-08">
-                        {t("Начислим")} <b>{user.options.cashback + "%"}</b>{" "}
-                        {t("с заказа")}
-                      </p>
-                    )}
-                  </div>
-                </Col>
-              )}
               {/* <Col xs={12} md={5}>
                 <label className="mb-3">
                   <span className="me-1 me-sm-3">Включить пуш-уведомления</span>
@@ -177,7 +133,6 @@ const Settings = () => {
               </Col> */}
               <Col xs={12}>
                 <div>
-                  <h6 className="mb-3">{t("Настройки")}</h6>
                   <Row className="g-4">
                     <Col md={4}>
                       <Input

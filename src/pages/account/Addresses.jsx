@@ -38,22 +38,17 @@ const Addresses = () => {
 
   return (
     <section className="addresses">
-      <AccountTitleReturn
-        className="d-lg-none"
-        link="/account"
-        title={t("Адреса")}
-      />
-      <div className="d-flex flex-column flex-lg-column-reverse">
+      <div className="d-flex flex-column">
+        <div className="d-flex align-items-center justify-content-between">
+          <AccountTitleReturn link="/account" title={t("Адреса")} />
+          <Link to="add" className="w-xs-100 btn-primary mb-3">
+            {t("Добавить адрес")}
+          </Link>
+        </div>
         <ul className="addresses-list w-100">
           {addresses?.items?.length > 0 &&
             addresses.items.map((e) => <LiAddress data={e} />)}
         </ul>
-        <Link
-          to="add"
-          className="w-xs-100 btn-primary mt-3 mt-lg-0 mb-0 mb-lg-3"
-        >
-          {t("Добавить адрес")}
-        </Link>
       </div>
     </section>
   );
