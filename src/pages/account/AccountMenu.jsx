@@ -4,6 +4,7 @@ import {
   HiOutlineShoppingBag,
   HiOutlineMapPin,
   HiOutlineArrowRightOnRectangle,
+  HiOutlineBellAlert,
   // HiOutlineHeart,
 } from "react-icons/hi2";
 import { useDispatch, useSelector } from "react-redux";
@@ -15,25 +16,23 @@ const AccountMenu = () => {
   const navigaion = useNavigate();
   const { t } = useTranslation();
   const cities = useSelector((state) => state.affiliate.cities);
-  
+
   return (
     <nav className="account-nav">
       <ul>
+        <li>
+          <NavLink to="orders">
+            <HiOutlineShoppingBag />
+            <div>{t("Заказы")}</div>
+          </NavLink>
+        </li>
         {!cities[0]?.options?.view === "no" && (
-          <>
-            <li>
-              <NavLink to="orders">
-                <HiOutlineShoppingBag />
-                <div>{t("Заказы")}</div>
-              </NavLink>
-            </li>
-            <li>
-              <NavLink to="addresses">
-                <HiOutlineMapPin />
-                <div>{t("Адреса")}</div>
-              </NavLink>
-            </li>
-          </>
+          <li>
+            <NavLink to="addresses">
+              <HiOutlineMapPin />
+              <div>{t("Адреса")}</div>
+            </NavLink>
+          </li>
         )}
         {/* <li>
           <NavLink to="favorites">
@@ -41,6 +40,12 @@ const AccountMenu = () => {
             <div>{t('Избранное')}</div>
           </NavLink>
         </li> */}
+        <li>
+          <NavLink to="notifications">
+            <HiOutlineBellAlert />
+            <div>Уведомления</div>
+          </NavLink>
+        </li>
         <li>
           <a
             onClick={() => {
@@ -70,12 +75,7 @@ const AccountMenu = () => {
             <div>Тех. подержка</div>
           </NavLink>
         </li>
-        <li>
-          <NavLink to="notifications">
-            <HiOutlineBellAlert/>
-            <div>Уведомления</div>
-          </NavLink>
-        </li>
+        
         <li>
           <NavLink to="offers">
             <HiOutlineBolt/>

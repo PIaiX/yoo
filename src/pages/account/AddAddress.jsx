@@ -28,9 +28,19 @@ const CreateAddress = () => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.auth.user);
   const affiliate = useSelector((state) => state.affiliate.items);
-  const mainCityAffiliate =
-    affiliate.length > 0 ? affiliate.map((e) => e.options.city) : false;
-
+  const cities = useSelector((state) => state.affiliate.cities);
+  var locations = [];
+  if (affiliate?.length > 0) {
+    affiliate.forEach((e) => locations.push({ city: e.options.city }));
+  }
+  if (affiliate?.length === 1) {
+    let city = cities.find((e) => e.title === affiliate[0]?.options?.city);
+    if (city?.options?.settlements?.length > 0) {
+      city.options.settlements.forEach((e) =>
+        locations.push({ settlement: e.title })
+      );
+    }
+  }
   const [streets, setStreets] = useState([]);
   const [showDropdown, setShowDropdown] = useState(false);
   const {
@@ -132,13 +142,11 @@ const CreateAddress = () => {
 
   useEffect(() => {
     if (streetText) {
-      getDadataStreets({ query: streetText, city: mainCityAffiliate }).then(
-        (res) => {
-          if (res?.data?.suggestions) {
-            setStreets(res.data.suggestions);
-          }
+      getDadataStreets({ query: streetText, locations }).then((res) => {
+        if (res?.data?.suggestions) {
+          setStreets(res.data.suggestions);
         }
-      );
+      });
     }
   }, [streetText]);
 

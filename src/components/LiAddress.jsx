@@ -18,8 +18,10 @@ const LiAddress = memo(({ data }) => {
     <>
       <li className="d-flex flex-row align-items-center justify-content-between">
         <div className="d-flex align-items-center">
-          <HiOutlineMap className="fs-15 main-color-60 me-3" />
-          <div>
+          <Link to={"/account/addresses/" + data.id}>
+            <HiOutlineMap className="fs-15 main-color-60 me-3" />
+          </Link>
+          <Link to={"/account/addresses/" + data.id}>
             {data?.title ? (
               <>
                 <p className="fw-6 fs-09">{data.title}</p>
@@ -28,18 +30,18 @@ const LiAddress = memo(({ data }) => {
             ) : (
               <p className="fw-6">{data?.full}</p>
             )}
-          </div>
+          </Link>
         </div>
         <div className="d-flex align-items-center justify-content-end mt-2 mt-sm-0 ms-sm-4">
-          <Link to={"/account/address/" + data.id} className="fs-09">
-            <HiPencil />
+          <Link to={"/account/addresses/" + data.id} className="fs-09">
+            <HiPencil size={18} />
           </Link>
           <button
             type="button"
             className="text-danger fs-12 ms-4"
             onClick={() => setShowDelConfirmation(true)}
           >
-            <HiOutlineTrash />
+            <HiOutlineTrash size={22} />
           </button>
         </div>
       </li>

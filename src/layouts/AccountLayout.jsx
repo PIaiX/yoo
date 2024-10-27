@@ -8,6 +8,7 @@ import { Link } from "react-router-dom";
 import NavBreadcrumbs from "../components/utils/NavBreadcrumbs";
 import { useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
+import { IoSettingsOutline } from "react-icons/io5";
 
 const AccountLayout = ({ isMobile }) => {
   const user = useSelector((state) => state.auth.user);
@@ -23,77 +24,44 @@ const AccountLayout = ({ isMobile }) => {
           <Outlet />
         ) : (
           <div>
-            <h1 className="mb-2">{t("Личный кабинет")}</h1>
-            <NavBreadcrumbs
-              breadcrumbs={[{ title: t("Аккаунт"), link: "/account" }]}
-            />
-            <Row className="account-top gx-3 gx-xl-4">
-              <Col lg={3}>
-                <div className="box w-100 h-100 d-flex align-items-center">
-                  <div className="icon d-none d-sm-none d-md-none d-xxl-flex">
-                    <span>
-                      {user.firstName
-                        ? user.firstName.slice(0, 1).toUpperCase()
-                        : "A"}
-                    </span>
-                  </div>
-                  <div>
-                    <h6>{t(user?.firstName ?? "Имя")}</h6>
-                    {user?.phone ||
-                      (user?.email && (
-                        <>
-                          {user?.phone && (
-                            <p className="mb-3">
-                              <a href={"tel:" + user.phone}>{user.phone}</a>
-                            </p>
-                          )}
-                          {user?.email && (
-                            <p className="mb-3 fs-09">
-                              <a href={"mailer:" + user.email}>{user.email}</a>
-                            </p>
-                          )}
-                        </>
-                      ))}
-                    <p className="mt-2">
-                      <Link to="/account/settings" className="main-color">
-                        {t("Изменить")}
-                      </Link>
-                    </p>
-                  </div>
-                </div>
-              </Col>
-              {profilePointVisible && (
-                <Col lg={4}>
-                  <div className="box w-100 h-100 d-flex flex-column justify-content-between text-center">
-                    <p className="fs-09 fw-6">
-                      {t("Вы можете потратить баллами")}
-                    </p>
-                    <p className="main-color">
-                      <span className="fw-7 fs-14">{user.point}</span>&nbsp;
-                    </p>
-                    {user?.options?.cashback > 0 && (
-                      <p className="text-muted fs-08">
-                        {t("Начислим")} <b>{user.options.cashback + "%"}</b>{" "}
-                        {t("с заказа")}
-                      </p>
-                    )}
-                  </div>
-                </Col>
-              )}
-              {/* <Col lg={7}>
-                <div className="h-100 row row-cols-2 gx-3 gx-xl-4">
-                  <div>
-                    <div className="gradient-block"></div>
-                  </div>
-                  <div>
-                    <div className="gradient-block"></div>
-                  </div>
-                </div>
-              </Col> */}
-            </Row>
-
             <div className="row gx-3 gx-xl-4">
               <div className="col-4 col-lg-3">
+                <div className="box p-3 w-100 d-flex align-items-center justify-content-between mb-3">
+                  <div>
+                    <h6 className="mb-0 fs-10">
+                      {t(user?.firstName ? user.firstName : "Имя")}
+                    </h6>
+                    {(user?.phone || user?.email) && (
+                      <>
+                        {user?.phone && (
+                          <a className="fs-08" href={"tel:" + user.phone}>
+                            +
+                            {user.phone.replace(/^(.{2})([0-9]{5})/, "$1*****")}
+                          </a>
+                        )}
+                        {user?.email && (
+                          <p className="mb-0 fs-08 text-muted">
+                            <a href={"mailer:" + user.email}>{user.email}</a>
+                          </p>
+                        )}
+                      </>
+                    )}
+                  </div>
+                  <Link to="/account/settings" className="main-color">
+                    <IoSettingsOutline size={25} />
+                  </Link>
+                </div>
+                {profilePointVisible && (
+                  <div className="box w-100 p-3 d-flex flex-column justify-content-between  mb-3">
+                    <p className="fs-09 fw-6">{t("Вы можете потратить")}</p>
+                    <p className="main-color">
+                      <span className="fw-7 fs-14">
+                        {user.point}&nbsp;
+                        <span className="text-light-muted">Б</span>
+                      </span>
+                    </p>
+                  </div>
+                )}
                 <AccountMenu />
               </div>
               <div className="col-8 col-lg-9">
