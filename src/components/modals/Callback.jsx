@@ -55,34 +55,40 @@ const Callback = memo(({ show = false, setShow, type, page, product, ip }) => {
         )}
         <Row>
           <Col md={6}>
-            <Input
-              label="Имя"
-              name="name"
-              errors={errors}
-              register={register}
-              validation={{ required: "Обязательное поле" }}
-            />
+            <div className="mt-3">
+              <Input
+                label="Имя"
+                name="name"
+                errors={errors}
+                register={register}
+                validation={{ required: "Обязательное поле" }}
+              />
+            </div>
           </Col>
           {!options?.feedback?.type || options?.feedback?.type == "phone" ? (
             <Col md={6}>
-              <Input
-                mask="7(999)999-99-99"
-                label="Номер телефона"
-                name="phone"
-                errors={errors}
-                register={register}
-                validation={{ required: "Обязательное поле" }}
-              />
+              <div className="mt-3">
+                <Input
+                  mask="7(999)999-99-99"
+                  label="Номер телефона"
+                  name="phone"
+                  errors={errors}
+                  register={register}
+                  validation={{ required: "Обязательное поле" }}
+                />
+              </div>
             </Col>
           ) : (
             <Col md={6}>
-              <Input
-                label="Email"
-                name="email"
-                errors={errors}
-                register={register}
-                validation={{ required: "Обязательное поле" }}
-              />
+              <div className="mt-3">
+                <Input
+                  label="Email"
+                  name="email"
+                  errors={errors}
+                  register={register}
+                  validation={{ required: "Обязательное поле" }}
+                />
+              </div>
             </Col>
           )}
           <Col md={12}>

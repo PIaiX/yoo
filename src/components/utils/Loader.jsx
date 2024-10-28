@@ -16,9 +16,9 @@ function Loader() {
       <div className={`loading-indicator ${isLoading ? "active" : ""}`}>
         <div className="position-relative">
           <div className="spinner"></div>
-          <div className="delivery-loader">
+          {/* <div className="delivery-loader">
             <img src="/imgs/delivery-loading.png" width="35" />
-          </div>
+          </div> */}
         </div>
       </div>
     </main>

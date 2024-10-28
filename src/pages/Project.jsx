@@ -210,15 +210,6 @@ const Project = () => {
                 Описание
               </button>
             </li>
-            {/* <li>
-              <button
-                type="button"
-                onClick={() => setFeaturesShow(true)}
-                className={featuresShow ? "active" : ""}
-              >
-                Характеристики
-              </button>
-            </li> */}
           </ul>
           {featuresShow ? (
             <ul className="features px-2 py-3 p-sm-4">

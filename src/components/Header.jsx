@@ -28,10 +28,7 @@ import {
 import { editDeliveryCheckout } from "../store/reducers/checkoutSlice";
 import DeliveryBar from "./DeliveryBar";
 import ScrollToTop from "./ScrollToTop";
-import MenuDelivery from "./svgs/MenuDelivery";
-import MenuDocs from "./svgs/MenuDocs";
 import MenuIcon from "./svgs/MenuIcon";
-import MenuPhone from "./svgs/MenuPhone";
 import Input from "./utils/Input";
 import Select from "./utils/Select";
 
@@ -424,16 +421,6 @@ const Header = memo(() => {
       >
         <Offcanvas.Body>
           <Container className="h-100">
-            {/* {banners?.length > 0 && (
-              <img
-                src={getImageURL({
-                  path: banners[0].medias,
-                  type: "banner",
-                  size: "full",
-                })}
-                className="menu-offer"
-              />
-            )} */}
             {deliveryArray?.length > 0 && (
               <Select
                 className="mb-3"
@@ -444,6 +431,43 @@ const Header = memo(() => {
             )}
             <nav>
               <ul>
+                {selectedAffiliate &&
+                  selectedAffiliate?.phone &&
+                  selectedAffiliate?.phone[0] && (
+                    <li key={-1}>
+                      <a
+                        href={"tel:" + selectedAffiliate.phone[0]}
+                        className="phone"
+                      >
+                        <span className="fw-6">
+                          {selectedAffiliate.phone[0]}
+                          {selectedAffiliate?.options?.work?.length > 0 &&
+                          selectedAffiliate.options.work[moment().weekday()]
+                            ?.start &&
+                          selectedAffiliate.options.work[moment().weekday()]
+                            ?.end ? (
+                            <>
+                              <div className="d-flex text-muted fw-4 fs-08">
+                                {`${t("с")} ${
+                                  selectedAffiliate.options.work[
+                                    moment().weekday()
+                                  ].start
+                                } ${t("до")} ${
+                                  selectedAffiliate.options.work[
+                                    moment().weekday()
+                                  ].end
+                                }`}
+                                {selectedAffiliate.options.work[5].status &&
+                                selectedAffiliate.options.work[5].status
+                                  ? t(", без выходных")
+                                  : null}
+                              </div>
+                            </>
+                          ) : null}
+                        </span>
+                      </a>
+                    </li>
+                  )}
                 {options?.menu?.length > 0 ? (
                   options.menu.map(
                     (e, index) =>

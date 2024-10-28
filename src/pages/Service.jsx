@@ -9,10 +9,14 @@ import NavTop from "../components/utils/NavTop";
 import { getImageURL } from "../helpers/all";
 import { getProduct } from "../services/product";
 import { useSelector } from "react-redux";
+import Callback from "../components/modals/Callback";
+import { useTranslation } from "react-i18next";
 
 const Service = () => {
+  const { t } = useTranslation();
   const { productId } = useParams();
   const selectedAffiliate = useSelector((state) => state.affiliate.active);
+  const [show, setShow] = useState(false);
 
   const [product, setProduct] = useState({
     loading: true,
@@ -81,8 +85,15 @@ const Service = () => {
           />
           <h1>{product.title}</h1>
           <p>{product.description}</p>
+          <Link
+            onClick={() => setShow(true)}
+            className={"mt-4 px-5 btn btn-primary"}
+          >
+            {t("Подробнее")}
+          </Link>
         </section>
       </Container>
+      <Callback show={show} setShow={setShow} />
     </main>
   );
 };
