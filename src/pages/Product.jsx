@@ -1,4 +1,4 @@
-import React, { useEffect, useLayoutEffect, useState } from "react";
+import React, { useLayoutEffect, useState } from "react";
 import { Col, Container, OverlayTrigger, Popover, Row } from "react-bootstrap";
 // import Notice from "../components/Notice";
 import ProductCard from "../components/ProductCard";
@@ -403,6 +403,14 @@ const Product = () => {
                             title: e.title,
                             value: e,
                           }))}
+                          value={data?.cart?.data?.modifiers?.find(
+                            (modifierItem) =>
+                              modifier.modifiers.some(
+                                (cartModifier) =>
+                                  cartModifier.categoryId ===
+                                  modifierItem.categoryId
+                              )
+                          ) || null}
                           onClick={(e) => {
                             let newData = { ...data };
                             let isModifierIndex =

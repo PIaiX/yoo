@@ -67,8 +67,39 @@ const CreateAddress = () => {
   const clickAddress = useCallback(
     async (address) => {
       try {
-        if (address && address.data?.geo_lat && address.data?.geo_lon) {
-          let info = await getDelivery({
+        const isValidAddress =
+          address &&
+          address.data?.geo_lat &&
+          address.data?.geo_lon &&
+          address.data?.house;
+
+        const commonData = {
+          full: address.value ?? null,
+          country: address.data.country ?? null,
+          region: address.data.region ?? null,
+          city: address.data.city ?? null,
+          area: address.data.federal_district ?? null,
+          street: address.data.street ?? null,
+          home: address.data.house ?? null,
+          apartment: address.data.flat ?? null,
+          lat: address.data.geo_lat ?? null,
+          lon: address.data.geo_lon ?? null,
+          postal: address.data.postal_code ?? null,
+          options: {
+            fias_id: address.data.fias_id ?? null,
+            region_fias_id: address.data.region_fias_id ?? null,
+            city_fias_id: address.data.city_fias_id ?? null,
+            street_fias_id: address.data.street_fias_id ?? null,
+            kladr_id: address.data.kladr_id ?? null,
+            region_kladr_id: address.data.region_kladr_id ?? null,
+            city_kladr_id: address.data.city_kladr_id ?? null,
+            street_kladr_id: address.data.street_kladr_id ?? null,
+            fias_level: address.data.fias_level ?? null,
+          },
+        };
+
+        if (isValidAddress) {
+          const info = await getDelivery({
             distance: true,
             lat: address.data.geo_lat,
             lon: address.data.geo_lon,
@@ -77,44 +108,25 @@ const CreateAddress = () => {
           if (info?.zone?.affiliateId) {
             return reset({
               ...data,
-              affiliate: info?.zone.affiliateId,
-              zone: info?.zone,
-              distance: info?.distance,
-              full: address.value ?? null,
-              country: address.data.country ?? null,
-              region: address.data.region ?? null,
-              city: address.data.city ?? null,
-              area: address.data.federal_district ?? null,
-              street: address.data.street ?? null,
-              home: address.data.house ?? null,
-              apartment: address.data.flat ?? null,
-              lat: address.data.geo_lat ?? null,
-              lon: address.data.geo_lon ?? null,
-              postal: address.data.postal_code ?? null,
-              options: {
-                // ФИАС
-                fias_id: address.data.fias_id ?? null,
-                region_fias_id: address.data.region_fias_id ?? null,
-                city_fias_id: address.data.city_fias_id ?? null,
-                street_fias_id: address.data.street_fias_id ?? null,
-
-                // КЛАДР
-                kladr_id: address.data.kladr_id ?? null,
-                region_kladr_id: address.data.region_kladr_id ?? null,
-                city_kladr_id: address.data.city_kladr_id ?? null,
-                street_kladr_id: address.data.street_kladr_id ?? null,
-
-                // Всего этажей
-                fias_level: address.data.fias_level ?? null,
-              },
+              affiliate: info.zone.affiliateId,
+              zone: info.zone,
+              distance: info.distance,
+              ...commonData,
             });
           } else {
             setValue("full", null);
             reset();
             setShowDropdown(false);
           }
+        } else if (address?.value) {
+          setShowDropdown(false);
+          return reset({
+            ...data,
+            ...commonData,
+          });
+        } else {
+          setShowDropdown(false);
         }
-        setShowDropdown(false);
       } catch (err) {
         setValue("full", null);
         reset();
