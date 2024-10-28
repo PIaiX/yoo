@@ -1,22 +1,21 @@
+import { Map, Placemark, Polygon, YMaps } from "@pbe/react-yandex-maps";
+import moment from "moment";
 import React, { useLayoutEffect, useState } from "react";
+import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
-import { YMaps, Map, Placemark, Polygon } from "@pbe/react-yandex-maps";
-import { useSelector } from "react-redux";
-import EmptyWork from "../components/empty/work";
-import Empty from "../components/Empty";
-import { customPrice } from "../helpers/all";
-import moment from "moment";
-import Meta from "../components/Meta";
 import { useTranslation } from "react-i18next";
+import { useSelector } from "react-redux";
+import Empty from "../components/Empty";
+import EmptyWork from "../components/empty/work";
+import Meta from "../components/Meta";
 import Loader from "../components/utils/Loader";
+import { customPrice } from "../helpers/all";
 
 const Contact = () => {
   const { t } = useTranslation();
   const [loading, setLoading] = useState(true);
   const affiliate = useSelector((state) => state.affiliate.items);
-  const colors = ["#f56057", "#007aff", "#222222"];
   const zones = useSelector((state) => state.affiliate.zones);
   const selectedAffiliate = useSelector((state) => state.affiliate.active);
   const options = useSelector((state) => state.settings.options);
@@ -188,17 +187,12 @@ const Contact = () => {
                                 ? e.data.map((geo) => [geo[1], geo[0]])
                                 : false;
 
-                            let color =
-                              affiliate.findIndex(
-                                (a) => a.id === e.affiliateId
-                              ) ?? 0;
-
                             return (
                               <Polygon
                                 defaultGeometry={[geodata]}
                                 options={{
-                                  fillColor: colors[color],
-                                  strokeColor: colors[color],
+                                  fillColor: e?.color ? e.color : "#f56057",
+                                  strokeColor: e?.color ? e.color : "#f56057",
                                   opacity: 0.3,
                                   strokeWidth: 2,
                                   strokeStyle: "solid",
