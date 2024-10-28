@@ -2,10 +2,14 @@ import React, { memo } from "react";
 import Container from "react-bootstrap/Container";
 import { useTranslation } from "react-i18next";
 import {
+  IoAlbumsOutline,
+  IoBriefcaseOutline,
   IoCallOutline,
   IoCartOutline,
+  IoDocumentTextOutline,
   IoFlameOutline,
   IoHomeOutline,
+  IoNewspaperOutline,
   IoPersonOutline,
 } from "react-icons/io5";
 import { useSelector } from "react-redux";
@@ -18,6 +22,10 @@ import FlameIcon from "./svgs/FlameIcon";
 const iconComponents = {
   "/contact": IoCallOutline,
   "/promo": IoFlameOutline,
+  "/portfolio": IoBriefcaseOutline,
+  "/services": IoDocumentTextOutline,
+  "/blogs": IoNewspaperOutline,
+  "/projects": IoAlbumsOutline,
 };
 
 const Footer = memo(() => {

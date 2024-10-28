@@ -444,22 +444,35 @@ const Header = memo(() => {
             )}
             <nav>
               <ul>
-                <li>
-                  <Link to="/contact" onClick={() => setShowMenu(false)}>
-                    <MenuPhone />
-                    <span>{t("Контакты")}</span>
-                  </Link>
-                </li>
-                <li>
-                  <Link to="/contact" onClick={() => setShowMenu(false)}>
-                    <MenuDelivery />
-                    <span>{t("Оплата и доставка")}</span>
-                  </Link>
-                </li>
+                {options?.menu?.length > 0 ? (
+                  options.menu.map(
+                    (e, index) =>
+                      e?.status && (
+                        <li key={index}>
+                          <Link
+                            to={e?.link ?? e.page}
+                            onClick={() => setShowMenu(false)}
+                          >
+                            {t(e.title)}
+                          </Link>
+                        </li>
+                      )
+                  )
+                ) : (
+                  <>
+                    <li>
+                      <Link to="/contact">{t("Контакты")}</Link>
+                    </li>
+                    <li>
+                      <Link to="/contact" onClick={() => setShowMenu(false)}>
+                        {t("Оплата и доставка")}
+                      </Link>
+                    </li>
+                  </>
+                )}
                 <li>
                   <Link to="/policy" onClick={() => setShowMenu(false)}>
-                    <MenuDocs />
-                    <span>{t("Политика конфиденциальности")}</span>
+                    {t("Политика конфиденциальности")}
                   </Link>
                 </li>
               </ul>

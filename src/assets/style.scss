@@ -5697,9 +5697,6 @@ ACCOUNT END
   position: relative;
   overflow: hidden;
   margin-bottom: 4em;
-  @media (max-width: $bp-sm) {
-    background-image: none !important;
-  }
   .feedback-shadown {
     content: "";
     position: absolute;
@@ -5729,11 +5726,13 @@ ACCOUNT END
   border-radius: $radius;
   overflow: hidden;
   height: 200px;
+  .lazy-load-image-loaded {
+    height: 100% !important;
+    display: block !important;
+  }
   @include shadow();
-  // @include shadowF();
-  // transition: transform 200ms linear;
   @media (max-width: $bp-sm) {
-    font-size: 11px;
+    font-size: 13px;
   }
   img {
     position: relative;
