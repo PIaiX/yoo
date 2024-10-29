@@ -30,11 +30,25 @@ const WidgetSales = memo((data) => {
             },
           }}
         >
-          {data.items.map((e, index) => (
-            <SwiperSlide key={index}>
-              <Offer data={e} />
-            </SwiperSlide>
-          ))}
+          {data.items
+            .filter((item) => {
+              if (item?.options?.start && item?.options?.end) {
+                const startDate = new Date(item.options.start);
+                const endDate = new Date(item.options.end);
+                const currentDateTime = new Date();
+
+                return (
+                  startDate <= currentDateTime && currentDateTime <= endDate
+                );
+              }
+
+              return true;
+            })
+            .map((e, index) => (
+              <SwiperSlide key={index}>
+                <Offer data={e} />
+              </SwiperSlide>
+            ))}
         </Swiper>
 
         <Link to="/promo" className="btn btn-40 mt-4 mt-sm-5 mx-auto">

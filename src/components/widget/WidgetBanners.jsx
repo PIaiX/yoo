@@ -31,21 +31,35 @@ const WidgetBanners = memo((data) => {
               speed={750}
               pagination={{ clickable: true }}
             >
-              {data.items.map((e, index) => (
-                <SwiperSlide key={index}>
-                  <img
-                    src={getImageURL({
-                      path: e?.medias,
-                      type: "banner",
-                      size: "full",
-                    })}
-                    alt={e?.title}
-                    className={
-                      data?.size === "big" ? "img-fluid big" : "img-fluid"
-                    }
-                  />
-                </SwiperSlide>
-              ))}
+              {data.items
+                .filter((item) => {
+                  if (item?.options?.start && item?.options?.end) {
+                    const startDate = new Date(item.options.start);
+                    const endDate = new Date(item.options.end);
+                    const currentDateTime = new Date();
+
+                    return (
+                      startDate <= currentDateTime && currentDateTime <= endDate
+                    );
+                  }
+
+                  return true;
+                })
+                .map((e, index) => (
+                  <SwiperSlide key={index}>
+                    <img
+                      src={getImageURL({
+                        path: e?.medias,
+                        type: "banner",
+                        size: "full",
+                      })}
+                      alt={e?.title}
+                      className={
+                        data?.size === "big" ? "img-fluid big" : "img-fluid"
+                      }
+                    />
+                  </SwiperSlide>
+                ))}
             </Swiper>
           </div>
         </div>

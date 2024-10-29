@@ -891,7 +891,7 @@ const Checkout = () => {
                 data?.delivery == "delivery" &&
                 !zone?.data && (
                   <div className="text-danger text-center">
-                    {t("Доставка на данный адрес не производиться")}
+                    {t("Доставка на данный адрес не производится")}
                   </div>
                 )
               )}

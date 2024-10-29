@@ -90,15 +90,29 @@ const WidgetStories = memo((data) => {
                 }
           }
         >
-          {data.items.map((e, index) => (
-            <SwiperSlide key={e?.id}>
-              <Story
-                onClick={() => showStory(index)}
-                data={e}
-                type={data.type}
-              />
-            </SwiperSlide>
-          ))}
+          {data.items
+            .filter((item) => {
+              if (item?.options?.start && item?.options?.end) {
+                const startDate = new Date(item.options.start);
+                const endDate = new Date(item.options.end);
+                const currentDateTime = new Date();
+
+                return (
+                  startDate <= currentDateTime && currentDateTime <= endDate
+                );
+              }
+
+              return true;
+            })
+            .map((e, index) => (
+              <SwiperSlide key={e?.id}>
+                <Story
+                  onClick={() => showStory(index)}
+                  data={e}
+                  type={data.type}
+                />
+              </SwiperSlide>
+            ))}
         </Swiper>
 
         <Modal

@@ -44,6 +44,8 @@ html {
   --bg-catalog-menu: #fff;
   --modal-close: #ddd;
   --bg-card: #fff;
+  --dropdown-menu: #fff;
+  --dropdown-menu-hover: #eee;
 }
 
 :root[data-theme="dark"] {
@@ -71,6 +73,8 @@ html {
   --modal-close: invert(1) grayscale(100%) brightness(200%);
   --bs-border-color: #222;
   --bg-card: #222;
+  --dropdown-menu: #202020;
+  --dropdown-menu-hover: #292929;
 }
 $radius: 1.25em;
 $radius-sm: 0.9em;
@@ -4622,8 +4626,8 @@ ACCOUNT END
   &-item {
     font-size: 14px;
     padding: 8px 15px;
-    color: var(--main-color-text);
-    background-color: var(--bg-main) !important;
+    color: var(--main-color-text) !important;
+    background-color: var(--dropdown-menu) !important;
     &:active,
     &.active {
       color: var(--main-color-text-revers) !important;
@@ -4631,7 +4635,7 @@ ACCOUNT END
     }
     &:hover:not(.active) {
       color: var(--main-color-text) !important;
-      background-color: var(--bg-second) !important;
+      background-color: var(--dropdown-menu-hover) !important;
     }
     // &:active p,
     // &.active p {
@@ -5529,6 +5533,6 @@ ACCOUNT END
 .white-space {
   white-space: pre-wrap !important;
 }
-.text-light-muted{
+.text-light-muted {
   color: var(--color-light-gray) !important;
 }

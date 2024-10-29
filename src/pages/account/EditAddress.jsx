@@ -2,6 +2,7 @@ import React, {
   useCallback,
   useEffect,
   useLayoutEffect,
+  useRef,
   useState,
 } from "react";
 import { Col, Dropdown, Form, Row } from "react-bootstrap";
@@ -59,6 +60,7 @@ const EditAddress = () => {
     reValidateMode: "onChange",
   });
   const data = useWatch({ control });
+  const dropdownRef = useRef(null);
 
   const streetText = useDebounce(data.full, 1000);
 
@@ -110,6 +112,7 @@ const EditAddress = () => {
           });
 
           if (info?.zone?.affiliateId) {
+            setShowDropdown(false);
             return reset({
               ...data,
               affiliate: info.zone.affiliateId,
@@ -117,13 +120,9 @@ const EditAddress = () => {
               distance: info.distance,
               ...commonData,
             });
-          } else {
-            setValue("full", null);
-            reset();
-            setShowDropdown(false);
           }
         } else if (address?.value) {
-          setShowDropdown(false);
+          NotificationManager.error(t("Укажите номер дома"));
           return reset({
             ...data,
             ...commonData,
@@ -132,11 +131,8 @@ const EditAddress = () => {
           setShowDropdown(false);
         }
       } catch (err) {
-        setValue("full", null);
-        reset();
-        setShowDropdown(false);
         return NotificationManager.error(
-          t("Доставка на данный адрес не производиться")
+          t("Доставка на данный адрес не производится")
         );
       }
     },
@@ -148,9 +144,8 @@ const EditAddress = () => {
       if (!showDropdown) {
         setShowDropdown(true);
       }
-      if (e === "Enter" && streets?.length > 0) {
+      if ((e === "Enter" || e.key === "Enter") && streets?.length > 0) {
         clickAddress(streets[0]);
-        setStreets([]);
       }
     },
     [showDropdown, streets]
@@ -166,7 +161,30 @@ const EditAddress = () => {
     }
   }, [streetText]);
 
+  const handleClickOutside = (event) => {
+    if (
+      dropdownRef.current &&
+      !dropdownRef.current.contains(event.target) &&
+      (data?.home || data?.street || data?.affiliate || data?.zone)
+    ) {
+      setShowDropdown(false);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   const onSubmit = useCallback((data) => {
+    if (!data?.street) {
+      return NotificationManager.error(t("Укажите улицу"));
+    }
+    if (!data?.home) {
+      return NotificationManager.error(t("Укажите номер дома"));
+    }
     editAddress(data)
       .then((res) => {
         NotificationManager.success(t("Адрес успешно обновлен"));
@@ -230,10 +248,15 @@ const EditAddress = () => {
         />
         {showDropdown && streets?.length > 0 && (
           <Dropdown.Menu
-            onClick={() => setShowDropdown(false)}
+            ref={dropdownRef}
             show
             className="w-100 custom-input-street"
           >
+            {!data?.home && (
+              <div className="fs-08 text-danger p-2 px-3">
+                {t("Выберите адрес с номером дома")}
+              </div>
+            )}
             {streets.map(
               (item, key) =>
                 item && (
@@ -246,37 +269,7 @@ const EditAddress = () => {
         )}
       </div>
       <Row>
-        <Col md={4}>
-          <div className="mb-4">
-            <Input
-              required
-              errors={errors}
-              label={t("Дом")}
-              name="home"
-              placeholder={t("Введите дом")}
-              register={register}
-              validation={{
-                required: t("Обязательное поле"),
-                maxLength: { value: 20, message: t("Максимум 20 символов") },
-              }}
-            />
-          </div>
-        </Col>
-        <Col md={4}>
-          <div className="mb-4">
-            <Input
-              errors={errors}
-              label={t("Корпус")}
-              name="block"
-              placeholder={t("Введите корпус")}
-              register={register}
-              validation={{
-                maxLength: { value: 20, message: t("Максимум 20 символов") },
-              }}
-            />
-          </div>
-        </Col>
-        <Col md={4}>
+        <Col md={3}>
           <div className="mb-4">
             <Input
               required
@@ -292,7 +285,7 @@ const EditAddress = () => {
             />
           </div>
         </Col>
-        <Col md={4}>
+        <Col md={3}>
           <div className="mb-4">
             <Input
               required
@@ -308,7 +301,7 @@ const EditAddress = () => {
             />
           </div>
         </Col>
-        <Col md={4}>
+        <Col md={3}>
           <div className="mb-4">
             <Input
               required
@@ -325,7 +318,7 @@ const EditAddress = () => {
             />
           </div>
         </Col>
-        <Col md={4}>
+        <Col md={3}>
           <div className="mb-4">
             <Input
               errors={errors}
@@ -381,7 +374,7 @@ const EditAddress = () => {
       <div className="d-md-flex d-block align-items-center ">
         <div>
           <button
-            disabled={!isValid || showDropdown || !data?.zone}
+            disabled={!isValid || showDropdown}
             onClick={handleSubmit(onSubmit)}
             className="btn-primary w-xs-100 mb-3"
           >
@@ -389,16 +382,10 @@ const EditAddress = () => {
           </button>
         </div>
         <div>
-          {data?.zone || !data?.full ? (
-            <p className="fs-09 ms-3 mb-3">
-              <span className="text-danger">*</span> -{" "}
-              {t("обязательные поля для заполнения")}
-            </p>
-          ) : (
-            <p className="fs-09 text-danger ms-3 mb-3">
-              {t("Доставка на данный адрес не производиться")}
-            </p>
-          )}
+          <p className="fs-09 ms-3 mb-3">
+            <span className="text-danger">*</span> -{" "}
+            {t("обязательные поля для заполнения")}
+          </p>
         </div>
       </div>
     </section>

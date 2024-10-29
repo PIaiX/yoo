@@ -51,7 +51,11 @@ const LiAddress = memo(({ data }) => {
         centered
       >
         <Modal.Body className="p-5">
-          <button type="button" className="close m-2">
+          <button
+            type="button"
+            onClick={() => setShowDelConfirmation(false)}
+            className="close m-2"
+          >
             <HiXMark size={30} />
           </button>
           <h6 className="text-center">
@@ -66,11 +70,11 @@ const LiAddress = memo(({ data }) => {
                 setShowDelConfirmation(false);
               }}
             >
-              Да
+              Да, удалить
             </button>
             <button
               type="button"
-              className="btn mx-auto px-5 mt-3"
+              className="btn btn-light mx-auto px-5 mt-3"
               onClick={() => setShowDelConfirmation(false)}
             >
               Нет

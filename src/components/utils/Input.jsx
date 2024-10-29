@@ -8,6 +8,7 @@ const Input = memo(
   ({
     onFocus,
     onClick,
+    onKeyDown,
     onChange,
     inputMode,
     pattern,
@@ -82,6 +83,7 @@ const Input = memo(
               onChange={(e) =>
                 onChange && !register && onChange(e.target.value)
               }
+              onKeyDown={onKeyDown}
               {...(register && { ...register(name, validation) })}
             />
           ) : (
@@ -101,6 +103,7 @@ const Input = memo(
               onChange={(e) =>
                 onChange && !register && onChange(e.target.value)
               }
+              onKeyDown={onKeyDown}
               {...(register && { ...register(name, validation) })}
             />
           )}
