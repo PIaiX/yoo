@@ -416,40 +416,82 @@ const Header = memo(() => {
       >
         <Offcanvas.Body>
           <Container className="h-100">
-            {/* {banners?.length > 0 && (
-              <img
-                src={getImageURL({
-                  path: banners[0].medias,
-                  type: "banner",
-                  size: "full",
-                })}
-                className="menu-offer"
+            {deliveryArray?.length > 0 && (
+              <Select
+                className="mb-3"
+                data={deliveryArray}
+                value={delivery}
+                onClick={(e) => dispatch(editDeliveryCheckout(e.value))}
               />
-            )} */}
-            <Select
-              className="mb-3"
-              data={deliveryArray}
-              value={delivery}
-              onClick={(e) => dispatch(editDeliveryCheckout(e.value))}
-            />
+            )}
             <nav>
               <ul>
-                <li>
-                  <Link to="/contact" onClick={() => setShowMenu(false)}>
-                    <MenuPhone />
-                    <span>{t("Контакты")}</span>
-                  </Link>
-                </li>
-                <li>
-                  <Link to="/contact" onClick={() => setShowMenu(false)}>
-                    <MenuDelivery />
-                    <span>{t("Оплата и доставка")}</span>
-                  </Link>
-                </li>
+                {selectedAffiliate &&
+                  selectedAffiliate?.phone &&
+                  selectedAffiliate?.phone[0] && (
+                    <li key={-1}>
+                      <a
+                        href={"tel:" + selectedAffiliate.phone[0]}
+                        className="phone"
+                      >
+                        <span className="fw-6">
+                          {selectedAffiliate.phone[0]}
+                          {selectedAffiliate?.options?.work?.length > 0 &&
+                          selectedAffiliate.options.work[moment().weekday()]
+                            ?.start &&
+                          selectedAffiliate.options.work[moment().weekday()]
+                            ?.end ? (
+                            <>
+                              <div className="d-flex text-muted fw-4 fs-08">
+                                {`${t("с")} ${
+                                  selectedAffiliate.options.work[
+                                    moment().weekday()
+                                  ].start
+                                } ${t("до")} ${
+                                  selectedAffiliate.options.work[
+                                    moment().weekday()
+                                  ].end
+                                }`}
+                                {selectedAffiliate.options.work[5].status &&
+                                selectedAffiliate.options.work[5].status
+                                  ? t(", без выходных")
+                                  : null}
+                              </div>
+                            </>
+                          ) : null}
+                        </span>
+                      </a>
+                    </li>
+                  )}
+                {options?.menu?.length > 0 ? (
+                  options.menu.map(
+                    (e, index) =>
+                      e?.status && (
+                        <li key={index}>
+                          <Link
+                            to={e?.link ?? e.page}
+                            onClick={() => setShowMenu(false)}
+                          >
+                            {t(e.title)}
+                          </Link>
+                        </li>
+                      )
+                  )
+                ) : (
+                  <>
+                    <li>
+                      <Link to="/contact">{t("Контакты")}</Link>
+                    </li>
+                    <li>
+                      <Link to="/contact" onClick={() => setShowMenu(false)}>
+                        {t("Оплата и доставка")}
+                      </Link>
+                    </li>
+                  </>
+                )}
                 <li>
                   <Link to="/policy" onClick={() => setShowMenu(false)}>
-                    <MenuDocs />
-                    <span>{t("Политика конфиденциальности")}</span>
+                    {t("Политика конфиденциальности")}
                   </Link>
                 </li>
               </ul>
