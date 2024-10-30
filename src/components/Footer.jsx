@@ -2,10 +2,14 @@ import React, { memo } from "react";
 import Container from "react-bootstrap/Container";
 import { useTranslation } from "react-i18next";
 import {
+  IoAlbumsOutline,
+  IoBriefcaseOutline,
   IoCallOutline,
   IoCartOutline,
+  IoDocumentTextOutline,
   IoFlameOutline,
   IoHomeOutline,
+  IoNewspaperOutline,
   IoPersonOutline,
 } from "react-icons/io5";
 import { useSelector } from "react-redux";
@@ -18,6 +22,10 @@ import FlameIcon from "./svgs/FlameIcon";
 const iconComponents = {
   "/contact": IoCallOutline,
   "/promo": IoFlameOutline,
+  "/portfolio": IoBriefcaseOutline,
+  "/services": IoDocumentTextOutline,
+  "/blogs": IoNewspaperOutline,
+  "/projects": IoAlbumsOutline,
 };
 
 const Footer = memo(() => {
@@ -102,9 +110,25 @@ const Footer = memo(() => {
           </div>
           <nav>
             <ul className="list-unstyled d-flex align-items-center">
-              <li className="me-4">
-                <Link to="/contact">{t("Контакты")}</Link>
-              </li>
+              {options?.menu?.length > 0 ? (
+                options.menu.map(
+                  (e, index) =>
+                    e?.status && (
+                      <li className="me-4" key={index}>
+                        <Link
+                          to={e?.link ?? e.page}
+                          onClick={() => setShowMenu(false)}
+                        >
+                          {t(e.title)}
+                        </Link>
+                      </li>
+                    )
+                )
+              ) : (
+                <li className="me-4">
+                  <Link to="/contact">{t("Контакты")}</Link>
+                </li>
+              )}
               <li className="me-4">
                 <Link to="/policy">{t("Политика конфиденциальности")}</Link>
               </li>
