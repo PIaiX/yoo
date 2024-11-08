@@ -24,9 +24,10 @@ const Home = () => {
   const catalog = useSelector((state) => state.catalog);
   const dispatch = useDispatch();
   const [isFirstLoad, setIsFirstLoad] = useState(true);
+  const cities = useSelector((state) => state.affiliate.cities);
 
   const getData = useCallback(() => {
-    if (selectedAffiliate?.id) {
+    if (cities?.length === 0 || selectedAffiliate?.id) {
       getCatalog({
         affiliateId: selectedAffiliate?.id ?? false,
         multiBrand: options?.multiBrand,
