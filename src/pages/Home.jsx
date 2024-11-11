@@ -20,6 +20,7 @@ const Home = () => {
   const { t } = useTranslation();
   const [loading, setLoading] = useState(false);
   const options = useSelector((state) => state.settings.options);
+  const city = useSelector((state) => state.affiliate.city);
   const selectedAffiliate = useSelector((state) => state.affiliate.active);
   const catalog = useSelector((state) => state.catalog);
   const dispatch = useDispatch();
@@ -66,7 +67,7 @@ const Home = () => {
       return;
     }
     getData();
-  }, [selectedAffiliate]);
+  }, [selectedAffiliate, city]);
 
   if (loading) {
     return <Loader full />;

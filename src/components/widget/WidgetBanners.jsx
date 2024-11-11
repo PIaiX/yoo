@@ -2,6 +2,7 @@ import React, { memo } from "react";
 import { Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { getImageURL } from "../../helpers/all";
+import { Link } from "react-router-dom";
 
 const WidgetBanners = memo((data) => {
   if (!data?.items || data?.items?.length === 0) {
@@ -47,17 +48,50 @@ const WidgetBanners = memo((data) => {
                 })
                 .map((e, index) => (
                   <SwiperSlide key={index}>
-                    <img
-                      src={getImageURL({
-                        path: e?.medias,
-                        type: "banner",
-                        size: "full",
-                      })}
-                      alt={e?.title}
-                      className={
-                        data?.size === "big" ? "img-fluid big" : "img-fluid"
-                      }
-                    />
+                    {e?.options?.linkType ? (
+                      <Link
+                        to={
+                          e?.options?.linkType === "product" &&
+                          e?.options?.linkValue
+                            ? "/product/" + e.options.linkValue
+                            : e?.options?.linkType === "category" &&
+                              e.options?.linkValue
+                            ? "/category/" + e.options.linkValue
+                            : e?.options?.linkType === "categories"
+                            ? "/categories"
+                            : e?.options?.linkType === "sale" &&
+                              e.options?.linkValue
+                            ? "/promo/" + e.options.linkValue
+                            : e?.options?.linkType === "sales"
+                            ? "/promo"
+                            : ""
+                        }
+                      >
+                        <img
+                          src={getImageURL({
+                            path: e?.medias,
+                            type: "banner",
+                            size: "full",
+                          })}
+                          alt={e?.title}
+                          className={
+                            data?.size === "big" ? "img-fluid big" : "img-fluid"
+                          }
+                        />
+                      </Link>
+                    ) : (
+                      <img
+                        src={getImageURL({
+                          path: e?.medias,
+                          type: "banner",
+                          size: "full",
+                        })}
+                        alt={e?.title}
+                        className={
+                          data?.size === "big" ? "img-fluid big" : "img-fluid"
+                        }
+                      />
+                    )}
                   </SwiperSlide>
                 ))}
             </Swiper>
