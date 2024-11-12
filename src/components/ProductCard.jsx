@@ -76,16 +76,26 @@ const ProductCard = memo(({ data }) => {
       {data?.options?.сompound && (
         <div className="d-flex d-lg-none justify-content-center align-items-center">
           <OverlayTrigger
-            trigger={["hover"]}
+            trigger={["hover", "focus"]}
             className="ms-2"
             key="top"
             placement="top"
             overlay={
               <Popover id="popover-positioned-top">
-                <Popover.Header className="fs-09 fw-6">
+                <Popover.Header className="fs-09 fw-6 d-flex justify-content-between">
                   {t("Состав")}
+                  {data?.energy?.weight > 0 && (
+                    <div className="fw-6">
+                      {customWeight({
+                        value: data.energy.weight,
+                        type: data.energy?.weightType,
+                      })}
+                    </div>
+                  )}
                 </Popover.Header>
-                <Popover.Body>{data.options.сompound}</Popover.Body>
+                <Popover.Body className="white-space">
+                  {data.options.сompound}
+                </Popover.Body>
               </Popover>
             }
           >
@@ -97,16 +107,26 @@ const ProductCard = memo(({ data }) => {
         {data?.options?.сompound && (
           <div className="d-none d-lg-flex justify-content-between align-items-center">
             <OverlayTrigger
-              trigger={["hover"]}
+              trigger={["hover", "focus"]}
               className="ms-2"
               key="top"
               placement="top"
               overlay={
                 <Popover id="popover-positioned-top">
-                  <Popover.Header className="fs-09 fw-6">
+                  <Popover.Header className="fs-09 fw-6 d-flex justify-content-between">
                     {t("Состав")}
+                    {data?.energy?.weight > 0 && (
+                      <div className="fw-6">
+                        {customWeight({
+                          value: data.energy.weight,
+                          type: data.energy?.weightType,
+                        })}
+                      </div>
+                    )}
                   </Popover.Header>
-                  <Popover.Body>{data.options.сompound}</Popover.Body>
+                  <Popover.Body className="white-space">
+                    {data.options.сompound}
+                  </Popover.Body>
                 </Popover>
               }
             >
@@ -123,7 +143,7 @@ const ProductCard = memo(({ data }) => {
             </div>
           </div>
         </div>
-        {data?.energy?.weight > 0 && (
+        {data?.energy?.weight > 0 && !data?.options?.сompound && (
           <div className="text-muted d-none d-md-block">
             {customWeight({
               value: data.energy.weight,

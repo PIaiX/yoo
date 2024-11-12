@@ -287,7 +287,7 @@ const Product = () => {
                 {productEnergyVisible &&
                 data.cart.data?.modifiers[0]?.energy?.kkal > 0 ? (
                   <OverlayTrigger
-                    trigger={["hover"]}
+                    trigger={["hover", "focus"]}
                     className="ms-2"
                     key="bottom"
                     placement="bottom"
@@ -333,7 +333,7 @@ const Product = () => {
                   productEnergyVisible &&
                   product.item?.energy?.kkal > 0 && (
                     <OverlayTrigger
-                      trigger={["hover"]}
+                      trigger={["hover", "focus"]}
                       className="ms-2"
                       key="bottom"
                       placement="bottom"
@@ -403,14 +403,15 @@ const Product = () => {
                             title: e.title,
                             value: e,
                           }))}
-                          value={data?.cart?.data?.modifiers?.find(
-                            (modifierItem) =>
+                          value={
+                            data?.cart?.data?.modifiers?.find((modifierItem) =>
                               modifier.modifiers.some(
                                 (cartModifier) =>
                                   cartModifier.categoryId ===
                                   modifierItem.categoryId
                               )
-                          ) || null}
+                            ) || null
+                          }
                           onClick={(e) => {
                             let newData = { ...data };
                             let isModifierIndex =
@@ -471,7 +472,7 @@ const Product = () => {
               {product.item.options?.сompound && (
                 <>
                   <p className="fw-6 mb-2">{t("Состав")}</p>
-                  <div className="mb-4 text-muted fs-09">
+                  <div className="mb-4 text-muted fs-09 white-space">
                     {product.item.options.сompound}
                   </div>
                 </>

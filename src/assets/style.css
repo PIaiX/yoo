@@ -54,6 +54,16 @@ html {
   --bg-card: #fff;
   --dropdown-menu: #fff;
   --dropdown-menu-hover: #eee;
+  --box-shadow-top: linear-gradient(
+    0deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgb(255, 255, 255) 100%
+  );
+  --box-shadow-bottom: linear-gradient(
+    0deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgb(255, 255, 255) 100%
+  );
 }
 
 :root[data-theme=dark] {
@@ -83,6 +93,15 @@ html {
   --bg-card: #222;
   --dropdown-menu: #202020;
   --dropdown-menu-hover: #292929;
+  --box-shadow-top: linear-gradient(
+    0deg,
+    rgba(19, 19, 19, 0) 0%,
+    rgb(19, 19, 19) 100%
+  );
+  --box-shadow-bottom: linear-gradient(
+    rgba(19, 19, 19, 0) 0%,
+    rgb(19, 19, 19) 100%
+  );
 }
 
 /* mixins */
@@ -6535,7 +6554,7 @@ ACCOUNT END
   z-index: 100;
   position: absolute;
   height: 35px;
-  background: linear-gradient(0deg, rgba(255, 255, 255, 0) 0%, rgb(255, 255, 255) 100%);
+  background: var(--box-shadow-top);
 }
 .box-shadow .box-shadow-bottom {
   position: absolute;
@@ -6545,7 +6564,7 @@ ACCOUNT END
   height: 35px;
   z-index: 100;
   transition: opacity 0.25s ease-in-out, transform 0.25s ease-in-out;
-  background: linear-gradient(rgba(255, 255, 255, 0) 0%, rgb(255, 255, 255) 100%);
+  background: var(--box-shadow-bottom);
 }
 
 .white-space {
