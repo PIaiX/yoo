@@ -17,7 +17,7 @@ const DEVICE = JSON.stringify({
   brand: client.getBrowser() ?? "",
   osName: client.getOS() ?? "",
   osVersion: client.getOSVersion() ?? "",
-  language: language ?? "ru_RU",
+  language: language ?? "ru",
 });
 
 
