@@ -79,7 +79,11 @@ const Header = memo(() => {
       list.forEach((e) => {
         e.cities.forEach(
           (e2) =>
-            e2.title.toLowerCase().includes(value.toLowerCase()) &&
+            (e2.title.toLowerCase().includes(value.toLowerCase()) ||
+              (e2.options?.alias &&
+                e2.options?.alias
+                  .toLowerCase()
+                  .includes(value.toLowerCase()))) &&
             searchList.push(e2)
         );
       });
@@ -124,60 +128,61 @@ const Header = memo(() => {
       setList(resultArray);
     }
 
-    if (cities && cities?.length > 1 && !gps) {
-      if ("geolocation" in navigator) {
-        navigator.geolocation.getCurrentPosition(
-          async (position) => {
-            if (
-              position?.coords?.latitude &&
-              position?.coords?.longitude &&
-              DADATA_TOKEN &&
-              DADATA_URL_GEO
-            ) {
-              let geo = await axios.post(
-                DADATA_URL_GEO,
-                JSON.stringify({
-                  lat: position.coords.latitude,
-                  lon: position.coords.longitude,
-                }),
-                {
-                  headers: {
-                    "Content-Type": "application/json",
-                    Accept: "application/json",
-                    Authorization: "Token " + DADATA_TOKEN,
-                  },
-                }
-              );
-              if (
-                geo?.data?.suggestions &&
-                geo?.data?.suggestions[0]?.data?.city &&
-                cities &&
-                cities?.length > 0
-              ) {
-                let city = cities.find(
-                  (e) =>
-                    e.title.toLowerCase() ===
-                    geo.data.suggestions[0].data.city.toLowerCase()
-                );
+    if (cities && cities?.length > 1 && !city) {
+      setShowCity(true);
+      // if ("geolocation" in navigator) {
+      //   navigator.geolocation.getCurrentPosition(
+      //     async (position) => {
+      //       if (
+      //         position?.coords?.latitude &&
+      //         position?.coords?.longitude &&
+      //         DADATA_TOKEN &&
+      //         DADATA_URL_GEO
+      //       ) {
+      //         let geo = await axios.post(
+      //           DADATA_URL_GEO,
+      //           JSON.stringify({
+      //             lat: position.coords.latitude,
+      //             lon: position.coords.longitude,
+      //           }),
+      //           {
+      //             headers: {
+      //               "Content-Type": "application/json",
+      //               Accept: "application/json",
+      //               Authorization: "Token " + DADATA_TOKEN,
+      //             },
+      //           }
+      //         );
+      //         if (
+      //           geo?.data?.suggestions &&
+      //           geo?.data?.suggestions[0]?.data?.city &&
+      //           cities &&
+      //           cities?.length > 0
+      //         ) {
+      //           let city = cities.find(
+      //             (e) =>
+      //               e.title.toLowerCase() ===
+      //               geo.data.suggestions[0].data.city.toLowerCase()
+      //           );
 
-                if (city) {
-                  dispatch(updateCity(city));
-                  dispatch(deleteCart());
-                } else {
-                  setShowCity(true);
-                }
-              } else {
-                setShowCity(true);
-              }
-            } else {
-              setShowCity(true);
-            }
-          },
-          () => setShowCity(true)
-        );
-      } else {
-        setShowCity(true);
-      }
+      //           if (city) {
+      //             dispatch(updateCity(city));
+      //             dispatch(deleteCart());
+      //           } else {
+      //             setShowCity(true);
+      //           }
+      //         } else {
+      //           setShowCity(true);
+      //         }
+      //       } else {
+      //         setShowCity(true);
+      //       }
+      //     },
+      //     () => setShowCity(true)
+      //   );
+      // } else {
+      //   setShowCity(true);
+      // }
     }
   }, [cities]);
 
@@ -220,7 +225,9 @@ const Header = memo(() => {
                     >
                       {t(
                         cities?.length > 1
-                          ? city?.title ?? "Выберите город"
+                          ? city?.options?.alias ??
+                              city?.title ??
+                              "Выберите город"
                           : cities[0]?.options?.view === "region" &&
                             cities[0]?.region
                           ? cities[0].region
@@ -675,10 +682,13 @@ const Header = memo(() => {
                                   }}
                                   className={
                                     "py-2 fw-6" +
-                                    (e.title === city?.title ? " active" : "")
+                                    (e.title === city?.title &&
+                                    e.options?.alias === city?.options?.alias
+                                      ? " active"
+                                      : "")
                                   }
                                 >
-                                  {e.title}
+                                  {e?.options?.alias ?? e.title}
                                 </a>
                               </Col>
                             ))}
@@ -728,12 +738,14 @@ const Header = memo(() => {
                                       }}
                                       className={
                                         "py-2 fw-6" +
-                                        (e.title === city?.title
+                                        (e.title === city?.title &&
+                                        e.options?.alias ===
+                                          city?.options?.alias
                                           ? " active"
                                           : "")
                                       }
                                     >
-                                      {e.title}
+                                      {e?.options?.alias ?? e.title}
                                     </a>
                                   </Col>
                                 ))}
