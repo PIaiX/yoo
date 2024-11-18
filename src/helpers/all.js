@@ -74,9 +74,7 @@ const customWeight = ({ value, type = "г" }) => {
   let typeData = weightTypes.find((e) => e.value == type)?.title ?? "г";
 
   value =
-    Math.round(value) > 0
-      ? Math.round(value)
-      : Math.pow(10, value.toString().split(".")[1].length) * value;
+    Number(value) < 1 && typeData === 'г' ? Math.pow(10, value.toString().split(".")[1].length) * Number(value) : Number(value);
   value = value + typeData;
 
   return value;

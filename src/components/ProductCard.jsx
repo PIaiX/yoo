@@ -7,7 +7,7 @@ import ButtonCart from "./ButtonCart";
 import Tags from "./Tags";
 import { useTranslation } from "react-i18next";
 import { OverlayTrigger, Popover } from "react-bootstrap";
-import { HiOutlineInformationCircle } from "react-icons/hi2";
+// import { HiOutlineInformationCircle } from "react-icons/hi2";
 // import BtnFav from "./utils/BtnFav";
 
 const ProductCard = memo(({ data }) => {
