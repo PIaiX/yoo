@@ -1,5 +1,5 @@
 import React, { memo } from "react";
-import { Pagination } from "swiper/modules";
+import { Autoplay, Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { getImageURL } from "../../helpers/all";
 import { Link } from "react-router-dom";
@@ -22,7 +22,7 @@ const WidgetBanners = memo((data) => {
           >
             <Swiper
               className="main-slider paginated"
-              modules={[Pagination]}
+              modules={[Pagination, Autoplay]}
               loop={true}
               spaceBetween={15}
               slidesPerView={1}
@@ -30,6 +30,17 @@ const WidgetBanners = memo((data) => {
               loopedSlides={1}
               centeredSlides={true}
               speed={750}
+              autoplay={
+                !!data?.autoScroll
+                  ? {
+                      delay: data?.autoScrollSpeed
+                        ? Number(data.autoScrollSpeed)
+                        : 10000,
+                      pauseOnMouseEnter: true,
+                      disableOnInteraction: false,
+                    }
+                  : false
+              }
               pagination={{ clickable: true }}
             >
               {data.items
