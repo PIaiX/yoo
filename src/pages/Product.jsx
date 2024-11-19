@@ -14,7 +14,7 @@ import {
 } from "react-icons/hi2";
 import { useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
-import { Navigation, Thumbs } from "swiper/modules";
+import { FreeMode, Navigation, Thumbs } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import ButtonCart from "../components/ButtonCart";
 import Empty from "../components/Empty";
@@ -59,6 +59,7 @@ const Product = () => {
   const options = useSelector((state) => state.settings.options);
   const selectedAffiliate = useSelector((state) => state.affiliate.active);
   const [isRemove, setIsRemove] = useState(false);
+  const [thumbsSwiper, setThumbsSwiper] = useState(null);
 
   const productEnergyVisible = useSelector(
     (state) => state.settings.options.productEnergyVisible
