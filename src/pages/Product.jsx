@@ -32,6 +32,7 @@ import {
 } from "../helpers/all";
 import { getProduct } from "../services/product";
 import { useTranslation } from "react-i18next";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 
 const groupByCategoryIdToArray = (modifiers) => {
   const grouped = modifiers.reduce((acc, modifier) => {
@@ -241,59 +242,6 @@ const Product = () => {
         <form className="productPage mb-5">
           <Row className="gx-4 gx-xxl-5">
             <Col xs={12} md={5} lg={6}>
-              <div className="productPage-photo">
-                <Swiper
-                  className="thumbSlider"
-                  modules={[Thumbs, FreeMode]}
-                  watchSlidesProgress
-                  onSwiper={setThumbsSwiper}
-                  direction="vertical"
-                  loop={true}
-                  spaceBetween={20}
-                  slidesPerView={"auto"}
-                  freeMode={true}
-                >
-                  {product.item?.medias?.length > 0 &&
-                    product.item.medias.map((e) => (
-                      <SwiperSlide>
-                        <img
-                          src={getImageURL({
-                            path: e.media,
-                            size: "full",
-                          })}
-                          alt={product.item.title}
-                          className="productPage-img"
-                        />
-                      </SwiperSlide>
-                    ))}
-                </Swiper>
-                <Swiper
-                  className="mainSlider"
-                  modules={[Thumbs]}
-                  loop={true}
-                  spaceBetween={20}
-                  thumbs={{
-                    swiper:
-                      thumbsSwiper && !thumbsSwiper.destroyed
-                        ? thumbsSwiper
-                        : null,
-                  }}
-                >
-                  {product.item.medias?.length > 0 &&
-                    product.item.medias.map((e) => (
-                      <SwiperSlide>
-                        <img
-                          src={getImageURL({
-                            path: e.media,
-                            size: "full",
-                          })}
-                          alt={product.item.title}
-                          className="productPage-img"
-                        />
-                      </SwiperSlide>
-                    ))}
-                </Swiper>
-              </div>
               {data.cart.data?.modifiers[0]?.medias[0]?.media ? (
                 <img
                   src={getImageURL({
@@ -304,8 +252,62 @@ const Product = () => {
                   alt={product.item.title}
                   className="productPage-img"
                 />
+              ) : product.item.medias?.length > 1 ? (
+                <div className="productPage-photo">
+                  <Swiper
+                    className="thumbSlider"
+                    modules={[Thumbs, FreeMode]}
+                    watchSlidesProgress
+                    onSwiper={setThumbsSwiper}
+                    direction="vertical"
+                    loop={true}
+                    spaceBetween={20}
+                    slidesPerView={"auto"}
+                    freeMode={true}
+                  >
+                    {product.item.medias.map((e) => (
+                      <SwiperSlide>
+                        <img
+                          src={getImageURL({
+                            path: e.media,
+                            size: "full",
+                          })}
+                          alt={product.item.title}
+                          className="productPage-img"
+                        />
+                      </SwiperSlide>
+                    ))}
+                  </Swiper>
+                  <Swiper
+                    className="mainSlider"
+                    modules={[Thumbs]}
+                    loop={true}
+                    spaceBetween={20}
+                    thumbs={{
+                      swiper:
+                        thumbsSwiper && !thumbsSwiper.destroyed
+                          ? thumbsSwiper
+                          : null,
+                    }}
+                  >
+                    {product.item.medias.map((e, index) => (
+                      <SwiperSlide key={index}>
+                        <LazyLoadImage
+                          loading="lazy"
+                          src={getImageURL({
+                            path: e.media,
+                            size: "full",
+                          })}
+                          alt={product.item.title}
+                          className="productPage-img"
+                        />
+                      </SwiperSlide>
+                    ))}
+                  </Swiper>
+                </div>
               ) : (
-                <img
+                <LazyLoadImage
+                  loading="lazy"
                   src={getImageURL({ path: product.item.medias, size: "full" })}
                   alt={product.item.title}
                   className="productPage-img"

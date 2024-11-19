@@ -2660,9 +2660,17 @@ main {
     height: 280px;
     object-fit: cover;
     top: 0px;
-    transition: top 150ms ease-out 0s;
+    transition: all 150ms ease-out 0s;
+    .lazy-load-image-loaded {
+      display: flex !important;
+    }
     &:hover {
       top: 3px;
+    }
+    &.no-hover {
+      &:hover {
+        top: 0px !important;
+      }
     }
     margin-bottom: 1em;
 
@@ -2838,8 +2846,9 @@ html.theme-font-title-amaticsc .productPage h1 {
   min-height: 450px;
   &-img {
     position: sticky;
-    top: 10px;
+    top: 50px;
     width: 100%;
+    justify-content: center;
     max-height: 450px;
     object-fit: contain;
     border-radius: $radius;
@@ -2855,6 +2864,37 @@ html.theme-font-title-amaticsc .productPage h1 {
     }
     @media (max-width: $bp-sm) {
       height: 85vw;
+    }
+  }
+  &-photo {
+    position: sticky;
+    top: 80px;
+    justify-content: center;
+    .lazy-load-image-loaded {
+      align-self: center;
+      display: block !important;
+      width: 100%;
+    }
+    @include flex(row, flex-start, flex-start, nowrap);
+    .thumbSlider {
+      cursor: pointer;
+      width: 70px;
+      margin-right: 1em;
+      height: var(--img);
+      .swiper-slide {
+        height: 70px;
+        img {
+          width: 100%;
+          align-self: center;
+          @include roundedImg(70px, $radius * 0.5, contain);
+          background-color: var(--bg-second);
+          border: 1px solid var(--bg-btn);
+        }
+      }
+    }
+    .mainSlider {
+      flex: 1;
+      cursor: grab;
     }
   }
   &-edit {
@@ -2899,7 +2939,7 @@ html.theme-font-title-amaticsc .productPage h1 {
         }
         &.active {
           background-color: var(--bg-second);
-          color: $black;
+          // color: $black;
           z-index: 2;
           .corner {
             color: var(--bg-second);
@@ -5547,4 +5587,43 @@ ACCOUNT END
 }
 .text-light-muted {
   color: var(--color-light-gray) !important;
+}
+.pagination-mouse {
+  position: absolute;
+  bottom: 0px;
+  left: 0px;
+  right: 0px;
+  top: 0;
+  z-index: 9999;
+  display: flex;
+  flex-direction: row;
+}
+.pagination-mouse-item {
+  height: 100%;
+  width: 100%;
+  position: relative;
+  border-radius: 5px;
+  background-color: transparent;
+  &::before {
+    position: absolute;
+    content: "";
+    left: 0px;
+    border-radius: 5px;
+    margin: 0px 5px;
+    margin-bottom: 10px;
+    right: 0px;
+    z-index: 9999;
+    height: 3px;
+    background-color: rgba(255, 255, 255, 0.1) !important;
+    bottom: 0px;
+  }
+}
+.pagination-mouse-item-active::before {
+  background-color: rgba(255, 255, 255, 0.4) !important;
+}
+.hide {
+  display: none;
+}
+.show {
+  display: flex;
 }

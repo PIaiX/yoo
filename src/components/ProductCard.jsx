@@ -1,4 +1,4 @@
-import React, { memo } from "react";
+import React, { memo, useState } from "react";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { LazyLoadImage } from "react-lazy-load-image-component";
@@ -7,6 +7,8 @@ import ButtonCart from "./ButtonCart";
 import Tags from "./Tags";
 import { useTranslation } from "react-i18next";
 import { OverlayTrigger, Popover } from "react-bootstrap";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { EffectFade } from "swiper/modules";
 // import { HiOutlineInformationCircle } from "react-icons/hi2";
 // import BtnFav from "./utils/BtnFav";
 
@@ -36,11 +38,14 @@ const ProductCard = memo(({ data }) => {
   //       : modifiers.reduce((sum, item) => sum + item.discount, 0)
   //     : data.discount;
 
+  const [activeIndex, setActiveIndex] = useState(0);
+
   return (
     <div className="product" key={data?.id}>
       <div
         className={
-          themeProductImage == 1 ? "product-img rectangle" : "product-img"
+          (themeProductImage == 1 ? "product-img rectangle" : "product-img") +
+          (data?.medias?.length > 1 ? " no-hover" : "")
         }
       >
         <Link to={"/product/" + data?.id} state={data}>
@@ -49,13 +54,51 @@ const ProductCard = memo(({ data }) => {
               <Tags data={data.tags} mini />
             </div>
           )}
-          <LazyLoadImage
-            wrapperClassName="d-flex"
-            src={getImageURL({ path: data?.medias })}
-            alt={data.title}
-            loading="lazy"
-            effect="blur"
-          />
+
+          {data?.medias?.length > 1 ? (
+            <div
+              onMouseLeave={() => setActiveIndex(0)}
+              onMouseMove={(e) =>
+                data?.medias?.length <= 2 && setActiveIndex(1)
+              }
+            >
+              {data?.medias.map((e, index) => (
+                <LazyLoadImage
+                  className={activeIndex === index ? "show" : "hide"}
+                  src={getImageURL({
+                    path: e.media,
+                  })}
+                  alt={data.title}
+                  loading="lazy"
+                  effect="blur"
+                />
+              ))}
+              {data?.medias?.length > 2 && (
+                <div className="pagination-mouse">
+                  {data.medias.map((e, index) => (
+                    <div
+                      key={index}
+                      className={
+                        "pagination-mouse-item " +
+                        (activeIndex === index
+                          ? "pagination-mouse-item-active"
+                          : "")
+                      }
+                      onMouseMove={(e) => setActiveIndex(index)}
+                    />
+                  ))}
+                </div>
+              )}
+            </div>
+          ) : (
+            <LazyLoadImage
+              wrapperClassName="d-flex"
+              src={getImageURL({ path: data?.medias })}
+              alt={data.title}
+              loading="lazy"
+              effect="blur"
+            />
+          )}
         </Link>
       </div>
       <Link to={"/product/" + data?.id} state={data}>
