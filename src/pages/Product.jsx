@@ -14,7 +14,7 @@ import {
 } from "react-icons/hi2";
 import { useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
-import { Navigation } from "swiper/modules";
+import { Navigation, Thumbs } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import ButtonCart from "../components/ButtonCart";
 import Empty from "../components/Empty";
@@ -240,6 +240,59 @@ const Product = () => {
         <form className="productPage mb-5">
           <Row className="gx-4 gx-xxl-5">
             <Col xs={12} md={5} lg={6}>
+              <div className="productPage-photo">
+                <Swiper
+                  className="thumbSlider"
+                  modules={[Thumbs, FreeMode]}
+                  watchSlidesProgress
+                  onSwiper={setThumbsSwiper}
+                  direction="vertical"
+                  loop={true}
+                  spaceBetween={20}
+                  slidesPerView={"auto"}
+                  freeMode={true}
+                >
+                  {product.item?.medias?.length > 0 &&
+                    product.item.medias.map((e) => (
+                      <SwiperSlide>
+                        <img
+                          src={getImageURL({
+                            path: e.media,
+                            size: "full",
+                          })}
+                          alt={product.item.title}
+                          className="productPage-img"
+                        />
+                      </SwiperSlide>
+                    ))}
+                </Swiper>
+                <Swiper
+                  className="mainSlider"
+                  modules={[Thumbs]}
+                  loop={true}
+                  spaceBetween={20}
+                  thumbs={{
+                    swiper:
+                      thumbsSwiper && !thumbsSwiper.destroyed
+                        ? thumbsSwiper
+                        : null,
+                  }}
+                >
+                  {product.item.medias?.length > 0 &&
+                    product.item.medias.map((e) => (
+                      <SwiperSlide>
+                        <img
+                          src={getImageURL({
+                            path: e.media,
+                            size: "full",
+                          })}
+                          alt={product.item.title}
+                          className="productPage-img"
+                        />
+                      </SwiperSlide>
+                    ))}
+                </Swiper>
+              </div>
               {data.cart.data?.modifiers[0]?.medias[0]?.media ? (
                 <img
                   src={getImageURL({
