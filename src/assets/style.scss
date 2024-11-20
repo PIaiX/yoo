@@ -5627,3 +5627,29 @@ ACCOUNT END
 .show {
   display: flex;
 }
+
+.banner-slider {
+  .slick-slide > div {
+    padding: 0px 10px;
+    img {
+      border-radius: 30px;
+    }
+    @media (max-width: $bp-sm) {
+      padding: 0px 5px;
+      img {
+        border-radius: 12px;
+      }
+    }
+  }
+  .slick-dots {
+    bottom: -25px !important;
+  }
+  .slick-dots li button:before {
+    color: var(--main-color) !important;
+  }
+  // .slick-active > div {
+  //   img {
+
+  //   }
+  // }
+}

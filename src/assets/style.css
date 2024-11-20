@@ -6664,4 +6664,25 @@ ACCOUNT END
 
 .show {
   display: flex;
+}
+
+.banner-slider .slick-slide > div {
+  padding: 0px 10px;
+}
+.banner-slider .slick-slide > div img {
+  border-radius: 30px;
+}
+@media (max-width: 580px) {
+  .banner-slider .slick-slide > div {
+    padding: 0px 5px;
+  }
+  .banner-slider .slick-slide > div img {
+    border-radius: 12px;
+  }
+}
+.banner-slider .slick-dots {
+  bottom: -25px !important;
+}
+.banner-slider .slick-dots li button:before {
+  color: var(--main-color) !important;
 }/*# sourceMappingURL=style.css.map */

@@ -30,10 +30,12 @@
     "react-router-dom": "^6.10.0",
     "react-scripts": "5.0.1",
     "react-scroll": "^1.8.9",
+    "react-slick": "^0.30.2",
     "react-ui-scrollspy": "^2.3.0",
     "redux-persist": "^6.0.0",
     "redux-persist-transform-encrypt": "^5.0.0",
     "reselect": "^5.1.0",
+    "slick-carousel": "^1.8.1",
     "socket.io-client": "^4.6.1",
     "swiper": "^11.0.7",
     "web-vitals": "^2.1.4"
