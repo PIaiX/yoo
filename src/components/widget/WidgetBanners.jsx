@@ -25,21 +25,19 @@ const WidgetBanners = memo((data) => {
   });
 
   const link = (e) =>
-    navigate(
-      !mouseMoved && e?.options?.linkType === "product" && e?.options?.linkValue
-        ? "/product/" + e.options.linkValue
-        : !mouseMoved &&
-          e?.options?.linkType === "category" &&
-          e.options?.linkValue
-        ? "/category/" + e.options.linkValue
-        : !mouseMoved && e?.options?.linkType === "categories"
-        ? "/categories"
-        : !mouseMoved && e?.options?.linkType === "sale" && e.options?.linkValue
-        ? "/promo/" + e.options.linkValue
-        : !mouseMoved && e?.options?.linkType === "sales"
-        ? "/promo"
-        : ""
-    );
+    !mouseMoved && e?.options?.linkType === "product" && e?.options?.linkValue
+      ? "/product/" + e.options.linkValue
+      : !mouseMoved &&
+        e?.options?.linkType === "category" &&
+        e.options?.linkValue
+      ? "/category/" + e.options.linkValue
+      : !mouseMoved && e?.options?.linkType === "categories"
+      ? "/categories"
+      : !mouseMoved && e?.options?.linkType === "sale" && e.options?.linkValue
+      ? "/promo/" + e.options.linkValue
+      : !mouseMoved && e?.options?.linkType === "sales"
+      ? "/promo"
+      : false;
 
   return (
     <Slider
@@ -61,9 +59,9 @@ const WidgetBanners = memo((data) => {
           <>
             {e?.options?.linkType ? (
               <Link
+                to={link(e)}
                 onMouseMove={() => setMouseMoved(true)}
                 onMouseDown={() => setMouseMoved(false)}
-                onMouseUp={() => link(e)}
               >
                 <img
                   key={index}
@@ -79,7 +77,11 @@ const WidgetBanners = memo((data) => {
                 />
               </Link>
             ) : (
-              <Link to={link(e)}>
+              <Link
+                to={link(e)}
+                onMouseMove={() => setMouseMoved(true)}
+                onMouseDown={() => setMouseMoved(false)}
+              >
                 <img
                   key={index}
                   src={getImageURL({
