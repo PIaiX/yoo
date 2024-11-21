@@ -5629,15 +5629,53 @@ ACCOUNT END
 }
 
 .banner-slider {
+ 
   .slick-slide > div {
+    cursor: grab;
     padding: 0px 10px;
     img {
-      border-radius: 30px;
+      width: 100%;
+      border-radius: $radius;
+      height: 370px;
+      object-fit: cover;
+      @media (max-width: $bp-xxl) {
+        height: 320px;
+      }
+      @media (max-width: $bp-lg) {
+        height: 275px;
+      }
+      @media (max-width: $bp-md) {
+        height: 225px;
+      }
+      @media (max-width: $bp-sm) {
+        height: 230px;
+      }
+      @media (max-width: $bp-xs) {
+        height: 195px;
+      }
+      @media (max-width: $bp-xxs) {
+        height: 160px;
+      }
     }
     @media (max-width: $bp-sm) {
       padding: 0px 5px;
       img {
         border-radius: 12px;
+      }
+    }
+    .big {
+      height: 520px;
+      @media (max-width: $bp-xxl) {
+        height: 420px;
+      }
+      @media (max-width: $bp-lg) {
+        height: 280px;
+      }
+      @media (max-width: $bp-md) {
+        height: 220px;
+      }
+      @media (max-width: $bp-sm) {
+        height: 200px;
       }
     }
   }
@@ -5652,4 +5690,7 @@ ACCOUNT END
 
   //   }
   // }
+}
+:focus-visible {
+  outline: none !important;
 }
