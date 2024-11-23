@@ -74,7 +74,9 @@ const customWeight = ({ value, type = "г" }) => {
   let typeData = weightTypes.find((e) => e.value == type)?.title ?? "г";
 
   value =
-    Number(value) < 1 && typeData === 'г' ? Math.pow(10, value.toString().split(".")[1].length) * Number(value) : Number(value);
+    Number(value) < 1 && typeData === "г"
+      ? Math.pow(10, value.toString().split(".")[1].length) * Number(value)
+      : Number(value);
   value = value + typeData;
 
   return value;
@@ -97,8 +99,8 @@ const statusData = {
       </svg>
     ),
     image: false,
-    text: 'Обработка',
-    statusBg: '#666',
+    text: "Обработка",
+    statusBg: "#666",
   },
   reservation: {
     icon: (
@@ -118,8 +120,8 @@ const statusData = {
       </svg>
     ),
     image: false,
-    text: 'Предзаказ',
-    statusBg: '#ab41ff',
+    text: "Предзаказ",
+    statusBg: "#ab41ff",
   },
   new: {
     icon: (
@@ -136,22 +138,23 @@ const statusData = {
         />
       </svg>
     ),
-    text: 'Принят', statusBg: '#222'
+    text: "Принят",
+    statusBg: "#222",
   },
   preparing: {
     image: "/imgs/cooking.gif",
-    text: 'Готовится',
-    statusBg: '#3366ff',
+    text: "Готовится",
+    statusBg: "#3366ff",
   },
   prepared: {
     image: "/imgs/prepared.gif",
-    text: 'На выдаче',
-    statusBg: '#ffab00',
+    text: "На выдаче",
+    statusBg: "#ffab00",
   },
   delivery: {
     image: "/imgs/delivery.gif",
-    text: 'Доставка',
-    statusBg: '#00b8d9',
+    text: "Доставка",
+    statusBg: "#00b8d9",
   },
   done: {
     icon: (
@@ -165,7 +168,8 @@ const statusData = {
         />
       </svg>
     ),
-    text: 'Завершен', statusBg: '#00ab55'
+    text: "Завершен",
+    statusBg: "#00ab55",
   },
   canceled: {
     icon: (
@@ -179,17 +183,17 @@ const statusData = {
       </svg>
     ),
     image: false,
-    text: 'Отменен',
-    statusBg: '#ff5630',
+    text: "Отменен",
+    statusBg: "#ff5630",
   },
 };
 
 const deliveryData = {
-  delivery: 'Доставка',
-  pickup: 'Самовывоз',
-  hall: 'В зале',
-  feedback: 'Обратная связь',
-}
+  delivery: "Доставка",
+  pickup: "Самовывоз",
+  hall: "В зале",
+  feedback: "Обратная связь",
+};
 
 const paymentData = {
   card: "Банковской картой",
@@ -247,7 +251,7 @@ const localeData = [
 ];
 
 const getLang = (value) => {
-  let lang = localeData.find((e) => e.lang === value)
+  let lang = localeData.find((e) => e.lang === value);
   return lang?.title;
 };
 const generateSeoText = ({ text, name, site }) => {
@@ -274,35 +278,48 @@ const isUpdateTime = (dateTime) => {
   return timeDifference >= 1;
 };
 const childrenArray = (data, idProp, parentProp) => {
-  const tree = Object.fromEntries(data.map(n => [n[idProp], { ...n, children: [] }]));
+  const tree = Object.fromEntries(
+    data.map((n) => [n[idProp], { ...n, children: [] }])
+  );
 
-  return Object
-    .values(tree)
-    .filter(n => !(tree[n[parentProp]] && tree[n[parentProp]].children.push(n)));
-}
+  return Object.values(tree).filter(
+    (n) => !(tree[n[parentProp]] && tree[n[parentProp]].children.push(n))
+  );
+};
 
 const languageCode = (value) => {
   const normalizedLanguageCode = value.toLowerCase().replace(/_/g, "-");
 
   const mappedLanguageCode = {
-    "ru": "ru",
+    ru: "ru",
     "ru-ru": "ru",
     "ru-RU": "ru",
-    "ru_RU": "ru",
-    "kk": "kk",
+    ru_RU: "ru",
+    kk: "kk",
     "kk-kz": "kk",
     "kk-KZ": "kk",
-    "kk_KZ": "kk",
-    "en": "en",
+    kk_KZ: "kk",
+    en: "en",
     "en-us": "en",
     "en-US": "en",
-    "en_US": "en",
+    en_US: "en",
   };
 
   return mappedLanguageCode[normalizedLanguageCode] || "ru";
 };
 
+const sortMain = (medias) => {
+  return medias.slice().sort((a, b) => {
+    // Если a.main истинно, он должен быть первым
+    if (a.main === b.main) {
+      return 0; // Оба равны по этому критерию
+    }
+    return a.main ? -1 : 1; // Если a.main истинно, возвращаем -1 (a перед b), иначе 1
+  });
+};
+
 export {
+  sortMain,
   isUpdateTime,
   generateSeoText,
   setCssColor,

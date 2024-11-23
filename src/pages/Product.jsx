@@ -29,6 +29,7 @@ import {
   customWeight,
   generateSeoText,
   getImageURL,
+  sortMain,
 } from "../helpers/all";
 import { getProduct } from "../services/product";
 import { useTranslation } from "react-i18next";
@@ -214,9 +215,9 @@ const Product = () => {
               )
         }
         image={
-          product?.item?.medias[0]?.media
+          Array.isArray(product?.item?.medias) && product?.item?.medias[0]?.media
             ? getImageURL({
-                path: product.item.medias[0].media,
+                path: sortMain(product.item.medias)[0].main,
                 size: "full",
                 type: "product",
               })
@@ -252,7 +253,8 @@ const Product = () => {
                   alt={product.item.title}
                   className="productPage-img"
                 />
-              ) : product.item.medias?.length > 1 ? (
+              ) : Array.isArray(product.item.medias) &&
+                product.item.medias?.length > 1 ? (
                 <div className="productPage-photo">
                   <Swiper
                     className="thumbSlider"
@@ -265,7 +267,7 @@ const Product = () => {
                     slidesPerView={"auto"}
                     freeMode={true}
                   >
-                    {product.item.medias.map((e) => (
+                    {sortMain(product.item.medias).map((e) => (
                       <SwiperSlide>
                         <img
                           src={getImageURL({
@@ -290,7 +292,7 @@ const Product = () => {
                           : null,
                     }}
                   >
-                    {product.item.medias.map((e, index) => (
+                    {sortMain(product.item.medias).map((e, index) => (
                       <SwiperSlide key={index}>
                         <LazyLoadImage
                           loading="lazy"

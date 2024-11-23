@@ -2,7 +2,7 @@ import React, { memo, useState } from "react";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { LazyLoadImage } from "react-lazy-load-image-component";
-import { customPrice, customWeight, getImageURL } from "../helpers/all";
+import { customPrice, customWeight, getImageURL, sortMain } from "../helpers/all";
 import ButtonCart from "./ButtonCart";
 import Tags from "./Tags";
 import { useTranslation } from "react-i18next";
@@ -45,7 +45,7 @@ const ProductCard = memo(({ data }) => {
       <div
         className={
           (themeProductImage == 1 ? "product-img rectangle" : "product-img") +
-          (data?.medias?.length > 1 ? " no-hover" : "")
+          (Array.isArray(data?.medias) && data?.medias?.length > 1 ? " no-hover" : "")
         }
       >
         <Link to={"/product/" + data?.id} state={data}>
@@ -55,14 +55,14 @@ const ProductCard = memo(({ data }) => {
             </div>
           )}
 
-          {data?.medias?.length > 1 ? (
+          {Array.isArray(data?.medias) && data?.medias?.length > 1 ? (
             <div
               onMouseLeave={() => setActiveIndex(0)}
               onMouseMove={(e) =>
                 data?.medias?.length <= 2 && setActiveIndex(1)
               }
             >
-              {data?.medias.map((e, index) => (
+              {sortMain(data?.medias).map((e, index) => (
                 <LazyLoadImage
                   className={activeIndex === index ? "show" : "hide"}
                   src={getImageURL({
@@ -73,7 +73,7 @@ const ProductCard = memo(({ data }) => {
                   effect="blur"
                 />
               ))}
-              {data?.medias?.length > 2 && (
+              {Array.isArray(data?.medias) && data?.medias?.length > 2 && (
                 <div className="pagination-mouse">
                   {data.medias.map((e, index) => (
                     <div
@@ -113,7 +113,7 @@ const ProductCard = memo(({ data }) => {
             <div className="subtitle fw-5">{data?.options.subtitle}</div>
           ) : null}
         </h6>
-        <p className="d-none d-md-block fs-09">{data.description}</p>
+        {data?.description && <p className="d-none d-md-block fs-09">{data.description}</p>}
       </Link>
       <hr className="d-none d-md-block" />
       {data?.options?.сompound && (

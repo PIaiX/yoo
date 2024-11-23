@@ -1,7 +1,7 @@
 import React, { memo } from "react";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import { Link } from "react-router-dom";
-import { customPrice, customWeight, getImageURL } from "../helpers/all";
+import { customPrice, customWeight, getImageURL, sortMain } from "../helpers/all";
 import ButtonCart from "./ButtonCart";
 
 const ProductCardMini = memo(({ data }) => {
@@ -46,7 +46,7 @@ const ProductCardMini = memo(({ data }) => {
       : data.discount;
 
   const image = getImageURL({
-    path: data.medias,
+    path: Array.isArray(data.medias) && data.medias?.length > 0 ? sortMain(data.medias)[0] : data.medias,
     type: "product",
   });
 
