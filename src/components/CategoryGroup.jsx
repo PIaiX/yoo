@@ -6,8 +6,19 @@ import React, { memo } from "react";
 // import SelectImitation from "./utils/SelectImitation";
 // import SearchForm from "./forms/SearchForm";
 import ProductCard from "./ProductCard";
+import { useSelector } from "react-redux";
 
 const CategoryGroup = memo(({ data }) => {
+  const priceAffiliateType = useSelector(
+    (state) => state.settings?.options?.brand?.options?.priceAffiliateType
+  );
+  const products =
+    priceAffiliateType && data?.products?.length > 0
+      ? data.products.filter((e) => e?.productOptions?.length > 0)
+      : priceAffiliateType
+      ? []
+      : data?.products;
+
   return (
     <section className="CategoryGroup" id={"category-" + data.id}>
       <div className="filterGrid mb-5">
@@ -64,16 +75,16 @@ const CategoryGroup = memo(({ data }) => {
           />
         </div> */}
       </div>
-      {data.products.length > 0 ? (
+      {products?.length > 0 ? (
         <ul className="list-unstyled row row-cols-2 row-cols-sm-3 row-cols-lg-4 gx-4 gx-xl-5 gy-5">
-          {data.products.map((e) => (
+          {products.map((e) => (
             <li>
               <ProductCard data={e} />
             </li>
           ))}
         </ul>
       ) : (
-        data.products.items.length > 0 && (
+        products?.items?.length > 0 && (
           <ul className="list-unstyled row row-cols-2 row-cols-sm-3 row-cols-lg-4 gx-4 gx-xl-5 gy-5">
             {data.products.items.map((e) => (
               <li>

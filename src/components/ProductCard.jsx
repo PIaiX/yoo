@@ -1,7 +1,9 @@
 import React, { memo, useState } from "react";
-import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { OverlayTrigger, Popover } from "react-bootstrap";
+import { useTranslation } from "react-i18next";
 import { LazyLoadImage } from "react-lazy-load-image-component";
+import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 import {
   customPrice,
   customWeight,
@@ -10,21 +12,26 @@ import {
 } from "../helpers/all";
 import ButtonCart from "./ButtonCart";
 import Tags from "./Tags";
-import { useTranslation } from "react-i18next";
-import { OverlayTrigger, Popover } from "react-bootstrap";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { EffectFade } from "swiper/modules";
 // import { HiOutlineInformationCircle } from "react-icons/hi2";
 // import BtnFav from "./utils/BtnFav";
 
 const ProductCard = memo(({ data }) => {
   const { t } = useTranslation();
+
   const themeProductImage = useSelector(
     (state) => state.settings?.options?.themeProductImage
   );
-
+  const priceAffiliateType = useSelector(
+    (state) => state.settings?.options?.brand?.options?.priceAffiliateType
+  );
   const modifiers =
-    Array.isArray(data.modifiers) && data?.modifiers?.length > 0
+    priceAffiliateType &&
+    Array.isArray(data.modifiers) &&
+    data?.modifiers?.length > 0
+      ? data.modifiers
+          .filter((e) => e?.modifierOptions?.length > 0)
+          .sort((a, b) => a?.price - b?.price)
+      : Array.isArray(data.modifiers) && data?.modifiers?.length > 0
       ? [...data.modifiers].sort((a, b) => a?.price - b?.price)
       : [];
 

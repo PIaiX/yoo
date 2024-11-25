@@ -57,7 +57,9 @@ const groupByCategoryIdToArray = (modifiers) => {
 const Product = () => {
   const { t } = useTranslation();
   const { productId } = useParams();
-
+  const priceAffiliateType = useSelector(
+    (state) => state.settings?.options?.brand?.options?.priceAffiliateType
+  );
   const options = useSelector((state) => state.settings.options);
   const selectedAffiliate = useSelector((state) => state.affiliate.active);
   const [isRemove, setIsRemove] = useState(false);
@@ -97,9 +99,16 @@ const Product = () => {
     })
       .then((res) => {
         const modifiers =
+          priceAffiliateType &&
+          Array.isArray(res.modifiers) &&
           res?.modifiers?.length > 0
+            ? groupByCategoryIdToArray(
+                res.modifiers.filter((e) => e?.modifierOptions?.length > 0)
+              )
+            : Array.isArray(res.modifiers) && res?.modifiers?.length > 0
             ? groupByCategoryIdToArray(res.modifiers)
             : [];
+
         setProduct({
           loading: false,
           item: {
@@ -215,7 +224,8 @@ const Product = () => {
               )
         }
         image={
-          Array.isArray(product?.item?.medias) && product?.item?.medias[0]?.media
+          Array.isArray(product?.item?.medias) &&
+          product?.item?.medias[0]?.media
             ? getImageURL({
                 path: sortMain(product.item.medias)[0].main,
                 size: "full",
@@ -244,7 +254,8 @@ const Product = () => {
           <Row className="gx-4 gx-xxl-5">
             <Col xs={12} md={5} lg={6}>
               {data.cart.data?.modifiers[0]?.medias[0]?.media ? (
-                <img
+                <LazyLoadImage
+                  loading="lazy"
                   src={getImageURL({
                     path: data.cart.data?.modifiers[0]?.medias[0]?.media,
                     size: "full",
@@ -253,7 +264,7 @@ const Product = () => {
                   alt={product.item.title}
                   className="productPage-img"
                 />
-              ) : Array.isArray(product.item.medias) &&
+              ) : Array.isArray(product.item?.medias) &&
                 product.item.medias?.length > 1 ? (
                 <div className="productPage-photo">
                   <Swiper

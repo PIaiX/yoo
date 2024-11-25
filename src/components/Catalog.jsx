@@ -1,23 +1,23 @@
 import React, { memo, useState } from "react";
+import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
-import CategoryCard from "./CategoryCard";
-import Choose from "../assets/imgs/choose.svg";
-import GridIcon from "./svgs/GridIcon";
 import {
   // HiOutlineAdjustmentsHorizontal,
   HiOutlineArrowUturnDown,
-  // HiOutlineBars3,
 } from "react-icons/hi2";
-import CategoryGroup from "./CategoryGroup";
+import Choose from "../assets/imgs/choose.svg";
 import Categories from "./Categories";
+import CategoryCard from "./CategoryCard";
+import CategoryGroup from "./CategoryGroup";
+import GridIcon from "./svgs/GridIcon";
 
 const Catalog = memo(({ data }) => {
   const [viewCategories, setViewCategories] = useState(false);
   if (!data || data?.length === 0) {
     return null;
   }
+
   return (
     <section className="sec-3 mb-5">
       {viewCategories ? (
