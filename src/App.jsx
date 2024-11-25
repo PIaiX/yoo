@@ -84,10 +84,14 @@ function App() {
         options.themeFont && setClassName("theme-font", options.themeFont);
         options.themeFontSize &&
           setClassName("theme-font-size", options.themeFontSize);
+        options.themeFontAlign &&
+          setClassName("theme-font-align", options.themeFontAlign);
         options.themeFontTitle &&
           setClassName("theme-font-title", options.themeFontTitle);
         options.themeFontTitleSize &&
           setClassName("theme-font-size-title", options.themeFontTitleSize);
+        options.themeFontTitleAlign &&
+          setClassName("theme-font-align-title", options.themeFontTitleAlign);
       }
     },
     [options]

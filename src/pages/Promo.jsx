@@ -14,16 +14,15 @@ import { updateSales } from "../store/reducers/catalogSlice";
 
 const Promo = () => {
   const { t } = useTranslation();
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const selectedAffiliate = useSelector((state) => state.affiliate.active);
   const options = useSelector((state) => state.settings.options);
   const catalog = useSelector((state) => state.catalog);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (!catalog?.sales) {
-      setLoading(true);
-    }
+    setLoading(true);
+
     getSales({
       affiliateId: selectedAffiliate?.id ?? false,
       multiBrand: options?.multiBrand,
@@ -33,9 +32,7 @@ const Promo = () => {
         dispatch(updateSales(res));
       })
       .finally(() => {
-        if (!catalog?.sales || loading) {
-          setLoading(false);
-        }
+        setLoading(false);
       });
   }, [options, selectedAffiliate]);
 

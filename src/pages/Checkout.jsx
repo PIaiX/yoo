@@ -207,7 +207,9 @@ const Checkout = () => {
     !isValid ||
     !user?.id ||
     (checkout.delivery === "delivery" &&
-      (zone?.data?.minPrice > totalNoDelivery || !zone?.data));
+      (zone?.data?.minPrice > totalNoDelivery || !zone?.data)) ||
+    (data?.delivery == "delivery" &&
+      (!Array.isArray(address) || address.length <= 0));
 
   useLayoutEffect(() => {
     if (isAuth && user?.status === 0) {
@@ -440,23 +442,23 @@ const Checkout = () => {
     );
   }
 
-  if (
-    data?.delivery == "delivery" &&
-    (!Array.isArray(address) || address.length <= 0)
-  ) {
-    return (
-      <Empty
-        text={t("Адрес не добавлен")}
-        desc={t("Создайте новый адрес для доставки заказа")}
-        image={() => <EmptyAddresses />}
-        button={
-          <Link className="btn-primary" to="/account/addresses/add">
-            {t("Добавить адрес")}
-          </Link>
-        }
-      />
-    );
-  }
+  // if (
+  //   data?.delivery == "delivery" &&
+  //   (!Array.isArray(address) || address.length <= 0)
+  // ) {
+  //   return (
+  //     <Empty
+  //       text={t("Адрес не добавлен")}
+  //       desc={t("Создайте новый адрес для доставки заказа")}
+  //       image={() => <EmptyAddresses />}
+  //       button={
+  //         <Link className="btn-primary" to="/account/addresses/add">
+  //           {t("Добавить адрес")}
+  //         </Link>
+  //       }
+  //     />
+  //   );
+  // }
 
   if (selectedAffiliate?.status === 0) {
     return (
@@ -556,7 +558,14 @@ const Checkout = () => {
                   </div>
                 </Col>
                 <Col md={12}>
-                  {data.delivery == "delivery" ? (
+                  {data?.delivery == "delivery" &&
+                  (!Array.isArray(address) || address.length <= 0) ? (
+                    <p className="text-muted fs-09 mt-2 mb-4 fw-6 btn btn-light">
+                      <Link to="/account/addresses/add">
+                        {t("Добавить адрес доставки")}
+                      </Link>
+                    </p>
+                  ) : data.delivery == "delivery" ? (
                     <div className="mb-4">
                       <Select
                         label={t("Адрес")}
@@ -895,6 +904,12 @@ const Checkout = () => {
                   </div>
                 )
               )}
+              {data?.delivery == "delivery" &&
+                (!Array.isArray(address) || address.length <= 0) && (
+                  <div className="text-danger text-center">
+                    {t("Добавьте адрес доставки")}
+                  </div>
+                )}
               <Button
                 disabled={isValidBtn()}
                 className="mt-3 fw-6 w-100"

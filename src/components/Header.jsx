@@ -273,7 +273,7 @@ const Header = memo(() => {
                     </div>
                   )}
                 </li>
-                {deliveryArray?.length > 0 && (
+                {deliveryArray?.length > 0 && !options?.hideDeliverySelect && (
                   <li className="d-none d-sm-inline-flex">
                     <Select
                       className="fw-5"
@@ -431,7 +431,7 @@ const Header = memo(() => {
       >
         <Offcanvas.Body>
           <Container className="h-100">
-            {deliveryArray?.length > 0 && (
+            {deliveryArray?.length > 0 && !options?.hideDeliverySelect && (
               <Select
                 className="mb-3"
                 data={deliveryArray}

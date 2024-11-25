@@ -6,7 +6,6 @@ import { Link } from "react-router-dom";
 import Slider from "react-slick";
 
 const WidgetBanners = memo((data) => {
-  console.log(data);
   const hasWindow = typeof window !== "undefined";
   const [mobile, setMobile] = useState(false);
   const [width, setWidth] = useState(hasWindow ? window.innerWidth : null);

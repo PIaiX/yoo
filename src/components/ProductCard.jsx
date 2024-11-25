@@ -2,7 +2,12 @@ import React, { memo, useState } from "react";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { LazyLoadImage } from "react-lazy-load-image-component";
-import { customPrice, customWeight, getImageURL, sortMain } from "../helpers/all";
+import {
+  customPrice,
+  customWeight,
+  getImageURL,
+  sortMain,
+} from "../helpers/all";
 import ButtonCart from "./ButtonCart";
 import Tags from "./Tags";
 import { useTranslation } from "react-i18next";
@@ -45,7 +50,9 @@ const ProductCard = memo(({ data }) => {
       <div
         className={
           (themeProductImage == 1 ? "product-img rectangle" : "product-img") +
-          (Array.isArray(data?.medias) && data?.medias?.length > 1 ? " no-hover" : "")
+          (Array.isArray(data?.medias) && data?.medias?.length > 1
+            ? " no-hover"
+            : "")
         }
       >
         <Link to={"/product/" + data?.id} state={data}>
@@ -102,18 +109,17 @@ const ProductCard = memo(({ data }) => {
         </Link>
       </div>
       <Link to={"/product/" + data?.id} state={data}>
-        <h6
-          className={
-            "title text-center text-md-start " +
-            (data?.options?.subtitle ? "fs-09" : "")
-          }
-        >
+        <h6 className={"title" + (data?.options?.subtitle ? " fs-09" : "")}>
           {data.title}
           {data?.options?.subtitle ? (
-            <div className="subtitle fw-5">{data?.options.subtitle}</div>
-          ) : null}
+            <div className="subtitle fw-5">{data.options.subtitle}</div>
+          ) : (
+            ""
+          )}
         </h6>
-        {data?.description && <p className="d-none d-md-block fs-09">{data.description}</p>}
+        {data?.description && (
+          <p className="desc d-none d-md-block fs-09">{data.description}</p>
+        )}
       </Link>
       <hr className="d-none d-md-block" />
       {data?.options?.сompound && (
