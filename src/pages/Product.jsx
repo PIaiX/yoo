@@ -34,6 +34,7 @@ import {
 import { getProduct } from "../services/product";
 import { useTranslation } from "react-i18next";
 import { LazyLoadImage } from "react-lazy-load-image-component";
+import Notice from "../components/Notice";
 
 const groupByCategoryIdToArray = (modifiers) => {
   const grouped = modifiers.reduce((acc, modifier) => {
@@ -109,11 +110,21 @@ const Product = () => {
             ? groupByCategoryIdToArray(res.modifiers)
             : [];
 
+        const recommends =
+          priceAffiliateType &&
+          Array.isArray(res.recommends) &&
+          res?.recommends?.length > 0
+            ? res.recommends.filter(
+                (e) => productId != e.id && e?.productOptions?.length > 0
+              )
+            : [];
+
         setProduct({
           loading: false,
           item: {
             ...res,
             modifiers: modifiers,
+            recommends: recommends,
           },
         });
 
@@ -338,6 +349,7 @@ const Product = () => {
 
                 {data.cart.data?.modifiers[0]?.energy?.weight > 0 ? (
                   <span className="text-muted fw-6 ms-3">
+                    {options?.productWeightDiscrepancy ? "±" : ""}
                     {customWeight({
                       value: data.cart.data.modifiers[0].energy.weight,
                       type: data.cart.data.modifiers[0].energy.weightType,
@@ -346,6 +358,7 @@ const Product = () => {
                 ) : (
                   product.item.energy.weight > 0 && (
                     <span className="text-muted fw-6 ms-3">
+                      {options?.productWeightDiscrepancy ? "±" : ""}
                       {customWeight({
                         value: product.item.energy.weight,
                         type: product.item.energy?.weightType,
@@ -569,7 +582,6 @@ const Product = () => {
               {(product?.item?.additions?.length > 0 ||
                 product?.item?.wishes?.length > 0) && (
                 <div className="mt-5">
-                  {/* <h6>Изменить по вкусу</h6> */}
                   <div className="productPage-edit mb-3">
                     <div className="top">
                       {product.item?.additions?.length > 0 && (
@@ -687,6 +699,9 @@ const Product = () => {
                     </div>
                   </div>
                 </div>
+              )}
+              {options?.productNotice && (
+                <Notice className="mt-4" text={options?.productNoticeText} />
               )}
             </Col>
           </Row>

@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Amatic+SC:wght@400;700&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Amatic+SC:wght@400;700&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap");
 html {
   scroll-behavior: smooth;
 }
@@ -1412,15 +1412,14 @@ select {
     color: #222;
     font-weight: 500;
   }
-  @include shadow();
   position: relative;
   margin-top: 0.5em;
   margin-bottom: 2em;
-  padding-right: 8em;
+  padding-right: 9em;
   @media (max-width: $bp-sm) {
     margin-bottom: 1em;
     padding: 1.25em;
-    padding-right: 4em;
+    padding-right: 5em;
     border-radius: $radius * 0.5;
   }
   &::after {
@@ -1577,7 +1576,7 @@ body {
   }
 }
 
-html.theme-font-robotocondensed body{
+html.theme-font-robotocondensed body {
   font-family: "Roboto Condensed", "Arial", "Tahoma", "Verdana" !important;
 }
 
@@ -3016,7 +3015,7 @@ html.theme-font-title-amaticsc .productPage h1 {
     padding: 0.6em 1em;
   }
   .notice {
-    padding: 0.75em 5em 0.75em 1em;
+    padding: 0.75em 6em 0.75em 1em;
   }
 }
 .ingredient {
@@ -5642,7 +5641,7 @@ img.hide {
 img.show {
   display: flex;
 }
- 
+
 .banner-slider {
   .slick-slide > div {
     cursor: grab;

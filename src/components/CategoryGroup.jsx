@@ -13,11 +13,13 @@ const CategoryGroup = memo(({ data }) => {
     (state) => state.settings?.options?.brand?.options?.priceAffiliateType
   );
   const products =
-    priceAffiliateType && data?.products?.length > 0
+    priceAffiliateType && data?.products?.items?.length > 0
+      ? data.products.items.filter((e) => e?.productOptions?.length > 0)
+      : priceAffiliateType && data?.products?.length > 0
       ? data.products.filter((e) => e?.productOptions?.length > 0)
       : priceAffiliateType
       ? []
-      : data?.products;
+      : data?.products?.items ?? data?.products;
 
   return (
     <section className="CategoryGroup" id={"category-" + data.id}>

@@ -15,6 +15,9 @@ import { generateSeoText, getImageURL } from "../helpers/all";
 const Category = () => {
   const { categoryId } = useParams();
   const options = useSelector((state) => state.settings.options);
+  const priceAffiliateType = useSelector(
+    (state) => state.settings?.options?.brand?.options?.priceAffiliateType
+  );
   const selectedAffiliate = useSelector((state) => state.affiliate.active);
   const { t } = useTranslation();
 
@@ -32,9 +35,17 @@ const Category = () => {
       viewCategories: false,
       type: "site",
     })
-      .then((res) => setCategory({ loading: false, item: res }))
+      .then((res) => {
+        res.products.items =
+          priceAffiliateType && res?.products?.items?.length > 0
+            ? res.products.items.filter((e) => e?.productOptions?.length > 0)
+            : priceAffiliateType
+            ? []
+            : res?.products?.items;
+        setCategory({ loading: false, item: res });
+      })
       .catch(() => setCategory((data) => ({ ...data, loading: false })));
-  }, [categoryId, selectedAffiliate]);
+  }, [categoryId, selectedAffiliate, priceAffiliateType]);
 
   useLayoutEffect(() => {
     onLoad();

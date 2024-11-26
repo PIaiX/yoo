@@ -17,7 +17,7 @@ import Tags from "./Tags";
 
 const ProductCard = memo(({ data }) => {
   const { t } = useTranslation();
-
+  const options = useSelector((state) => state.settings.options);
   const themeProductImage = useSelector(
     (state) => state.settings?.options?.themeProductImage
   );
@@ -51,7 +51,7 @@ const ProductCard = memo(({ data }) => {
   //     : data.discount;
 
   const [activeIndex, setActiveIndex] = useState(0);
-
+  console.log(options);
   return (
     <div className="product" key={data?.id}>
       <div
@@ -142,6 +142,7 @@ const ProductCard = memo(({ data }) => {
                   {t("Состав")}
                   {data?.energy?.weight > 0 && (
                     <div className="fw-6">
+                      {options?.productWeightDiscrepancy ? "±" : ""}
                       {customWeight({
                         value: data.energy.weight,
                         type: data.energy?.weightType,
@@ -173,6 +174,7 @@ const ProductCard = memo(({ data }) => {
                     {t("Состав")}
                     {data?.energy?.weight > 0 && (
                       <div className="fw-6">
+                        {options?.productWeightDiscrepancy ? "±" : ""}
                         {customWeight({
                           value: data.energy.weight,
                           type: data.energy?.weightType,
@@ -201,6 +203,7 @@ const ProductCard = memo(({ data }) => {
         </div>
         {data?.energy?.weight > 0 && !data?.options?.сompound && (
           <div className="text-muted d-none d-md-block">
+            {options?.productWeightDiscrepancy ? "±" : ""}
             {customWeight({
               value: data.energy.weight,
               type: data.energy?.weightType,
