@@ -51,7 +51,7 @@ const ProductCard = memo(({ data }) => {
   //     : data.discount;
 
   const [activeIndex, setActiveIndex] = useState(0);
-  console.log(options);
+
   return (
     <div className="product" key={data?.id}>
       <div
