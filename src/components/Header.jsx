@@ -287,6 +287,7 @@ const Header = memo(() => {
                     e?.status && (
                       <li key={index}>
                         <Link
+                          target={e?.link ? "_blank" : ""}
                           to={e?.link ?? e.page}
                           // className={e.type == "dark" ? "btn-primary" : ""}
                           className="fw-6"

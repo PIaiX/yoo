@@ -708,7 +708,7 @@ const Product = () => {
         </form>
         {product?.item?.recommends?.length > 0 && (
           <section className="d-none d-md-block mb-5">
-            <h2>{t("Вам может понравится")}</h2>
+            <h2>{t("Вам может понравиться")}</h2>
             <Swiper
               className=""
               modules={[Navigation]}

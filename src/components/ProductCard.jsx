@@ -156,7 +156,7 @@ const ProductCard = memo(({ data }) => {
               </Popover>
             }
           >
-            <a className="fw-5">Состав</a>
+            <a className="fw-5 text-decoration-underline">Состав</a>
           </OverlayTrigger>
         </div>
       )}
@@ -188,7 +188,7 @@ const ProductCard = memo(({ data }) => {
                 </Popover>
               }
             >
-              <a className="fw-5">Состав</a>
+              <a className="fw-5 text-decoration-underline">Состав</a>
             </OverlayTrigger>
           </div>
         )}

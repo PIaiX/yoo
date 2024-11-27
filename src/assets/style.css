@@ -3151,6 +3151,10 @@ main {
   opacity: 1;
 }
 
+html.theme-font-align-center .filterGrid h4 {
+  text-align: center !important;
+}
+
 html.theme-font-align-center .product .title {
   text-align: center !important;
 }
