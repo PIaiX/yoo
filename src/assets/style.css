@@ -3057,6 +3057,9 @@ main {
   min-height: 2.4em;
   color: var(--main-color-text-title);
 }
+.product .subtitle {
+  margin-top: 10px;
+}
 .product-stickers {
   position: absolute;
   top: 1em;

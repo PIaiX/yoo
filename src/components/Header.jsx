@@ -1,4 +1,3 @@
-import axios from "axios";
 import moment from "moment";
 import React, { memo, useEffect, useState, useTransition } from "react";
 import { Col, Modal, Row } from "react-bootstrap";
@@ -15,7 +14,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import AppStore from "../assets/imgs/appstore-black.svg";
 import GooglePlay from "../assets/imgs/googleplay-black.svg";
-import { DADATA_TOKEN, DADATA_URL_GEO } from "../config/api";
 import { getCount, getImageURL } from "../helpers/all";
 import { isWork } from "../hooks/all";
 import { deleteCart } from "../services/cart";
@@ -28,10 +26,7 @@ import {
 import { editDeliveryCheckout } from "../store/reducers/checkoutSlice";
 import DeliveryBar from "./DeliveryBar";
 import ScrollToTop from "./ScrollToTop";
-import MenuDelivery from "./svgs/MenuDelivery";
-import MenuDocs from "./svgs/MenuDocs";
 import MenuIcon from "./svgs/MenuIcon";
-import MenuPhone from "./svgs/MenuPhone";
 import Input from "./utils/Input";
 import Select from "./utils/Select";
 

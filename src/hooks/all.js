@@ -12,13 +12,13 @@ const keyGenerator = (data) => {
 }
 const isWork = (start, end, now) => {
     try {
-        const timezone = moment.tz.guess()
+        const timezone = moment.tz.guess();
 
         if (!now) {
-            now = moment.tz()
+            now = moment.tz();
         }
         if (!start || !end) {
-            return false
+            return false;
         }
         if (end === "00:00") {
             end = "23:59";
@@ -26,15 +26,17 @@ const isWork = (start, end, now) => {
 
         const startTime = moment.tz(start, 'HH:mm', timezone).utc();
         const endTime = moment.tz(end, 'HH:mm', timezone).utc();
-        const isEndNextDay = endTime.isSameOrBefore(startTime)
+
+        const isEndNextDay = endTime.isSameOrBefore(startTime);
         if (isEndNextDay) {
-            endTime.add(1, 'day')
+            endTime.add(1, 'day');
         }
-        const nowTime = moment.tz(now, 'HH:mm', timezone).utc();
+
+        const nowTime = moment.tz(now, timezone).utc();
 
         return nowTime.isBetween(startTime, endTime, null, '()');
     } catch (err) {
-        return false
+        return false;
     }
 }
 

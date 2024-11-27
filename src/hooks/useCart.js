@@ -71,6 +71,31 @@ const useTotalCart = () => {
 
                 price += productPrice
 
+                if (statePromo?.options) {
+                    if (statePromo?.type === 'category_one' && statePromo?.options?.categoryId) {
+                        if (stateCart.find(e => e?.categoryId && e?.categoryId === statePromo.options.categoryId)) {
+                            price -=
+                                Number(statePromo?.options?.percent) > 0
+                                    ? (price / 100) * Number(statePromo.options.percent)
+                                    : Number(statePromo?.options?.sum) > 0 ? Number(statePromo.options.sum) : 0
+
+                        }
+                    } else if (statePromo?.type === 'category_one' && (statePromo?.options?.exceptions?.length === 0 || !!stateCart.find(e => e?.categoryId && statePromo?.options?.exceptions.includes(String(e.categoryId))))) {
+                        price -=
+                            Number(statePromo?.options?.percent) > 0
+                                ? (price / 100) * Number(statePromo.options.percent)
+                                : Number(statePromo?.options?.sum) > 0 ? Number(statePromo.options.sum) : 0
+                    } else if (statePromo?.type === 'product_one' && statePromo?.options?.productId) {
+                        if (stateCart.find(e => String(e?.id) === String(statePromo.options.productId))) {
+                            price -=
+                                Number(statePromo?.options?.percent) > 0
+                                    ? (price / 100) * Number(statePromo.options.percent)
+                                    : Number(statePromo?.options?.sum) > 0 ? Number(statePromo.options.sum) : 0
+
+                        }
+                    }
+                }
+
                 if (product?.discount > 0 && product?.cart?.count > 0 && product?.price > 0) {
                     discount += product.discount
                 }
@@ -93,16 +118,18 @@ const useTotalCart = () => {
             totalNoDelivery += totalCalcul
 
             if (statePromo?.options) {
-                totalNoDelivery -=
-                    Number(statePromo?.options?.percent) > 0
-                        ? (totalCalcul / 100) * Number(statePromo.options.percent)
-                        : 0
-                totalNoDelivery -= Number(statePromo?.options?.sum) > 0 ? Number(statePromo.options.sum) : 0
-                totalCalcul -=
-                    Number(statePromo?.options?.percent) > 0
-                        ? (totalCalcul / 100) * Number(statePromo.options.percent)
-                        : 0
-                totalCalcul -= Number(statePromo?.options?.sum) > 0 ? Number(statePromo.options.sum) : 0
+                if (statePromo.type != 'product_one' && statePromo.type != 'category_one') {
+                    totalNoDelivery -=
+                        Number(statePromo?.options?.percent) > 0
+                            ? (totalCalcul / 100) * Number(statePromo.options.percent)
+                            : 0
+                    totalNoDelivery -= Number(statePromo?.options?.sum) > 0 ? Number(statePromo.options.sum) : 0
+                    totalCalcul -=
+                        Number(statePromo?.options?.percent) > 0
+                            ? (totalCalcul / 100) * Number(statePromo.options.percent)
+                            : 0
+                    totalCalcul -= Number(statePromo?.options?.sum) > 0 ? Number(statePromo.options.sum) : 0
+                }
             }
 
             const pickupDiscount =

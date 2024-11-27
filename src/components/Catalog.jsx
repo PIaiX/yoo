@@ -52,8 +52,8 @@ const Catalog = memo(({ data }) => {
           <Container>
             {data?.length > 0 && (
               <div className="categories-box">
-                {data.map((e) => (
-                  <CategoryGroup data={e} />
+                {data.map((e, index) => (
+                  <CategoryGroup key={index} data={e} />
                 ))}
               </div>
             )}

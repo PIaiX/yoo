@@ -2744,7 +2744,9 @@ main {
     min-height: 2.4em;
     color: var(--main-color-text-title);
   }
-
+  .subtitle {
+    margin-top: 10px;
+  }
   &-stickers {
     position: absolute;
     top: 1em;

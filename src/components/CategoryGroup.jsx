@@ -79,8 +79,8 @@ const CategoryGroup = memo(({ data }) => {
       </div>
       {products?.length > 0 ? (
         <ul className="list-unstyled row row-cols-2 row-cols-sm-3 row-cols-lg-4 gx-4 gx-xl-5 gy-5">
-          {products.map((e) => (
-            <li>
+          {products.map((e, index) => (
+            <li key={index}>
               <ProductCard data={e} />
             </li>
           ))}
@@ -88,8 +88,8 @@ const CategoryGroup = memo(({ data }) => {
       ) : (
         products?.items?.length > 0 && (
           <ul className="list-unstyled row row-cols-2 row-cols-sm-3 row-cols-lg-4 gx-4 gx-xl-5 gy-5">
-            {data.products.items.map((e) => (
-              <li>
+            {data.products.items.map((e, index) => (
+              <li key={index}>
                 <ProductCard data={e} />
               </li>
             ))}

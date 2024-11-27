@@ -88,12 +88,12 @@ const WidgetBanners = memo((data) => {
           <>
             {e?.options?.linkType ? (
               <Link
+                key={index}
                 to={link(e)}
                 onMouseMove={() => setMouseMoved(true)}
                 onMouseDown={() => setMouseMoved(false)}
               >
                 <img
-                  key={index}
                   src={getImageURL({
                     path: e?.medias,
                     type: "banner",
@@ -107,12 +107,12 @@ const WidgetBanners = memo((data) => {
               </Link>
             ) : (
               <Link
+                key={index}
                 to={link(e)}
                 onMouseMove={() => setMouseMoved(true)}
                 onMouseDown={() => setMouseMoved(false)}
               >
                 <img
-                  key={index}
                   src={getImageURL({
                     path: e?.medias,
                     type: "banner",

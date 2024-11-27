@@ -37,6 +37,7 @@ const ButtonCart = memo(
             price: product.price,
             discount: product.discount,
             code: product.code,
+            categoryId: product.categoryId,
             medias: product.medias,
             modifiers: product?.modifiers ?? [],
             additions: product?.additions ?? [],

@@ -15,27 +15,27 @@ const Widgets = memo(({ data }) => {
   return data?.length > 0
     ? data.map((e) =>
         e?.value == "services" ? (
-          <WidgetServices {...e} />
+          <WidgetServices key={0} {...e} />
         ) : e?.value == "hello" ? (
-          <WidgetHello {...e} />
+          <WidgetHello key={1} {...e} />
         ) : e?.value == "stories" ? (
-          <WidgetStories {...e} />
+          <WidgetStories key={2} {...e} />
         ) : e?.value == "menu" ? (
-          <Catalog data={e.items} />
+          <Catalog key={3} data={e.items} />
         ) : e?.value == "projects" ? (
-          <WidgetProjects {...e} />
+          <WidgetProjects key={3} {...e} />
         ) : e?.value == "about" ? (
-          <WidgetAbout {...e} />
+          <WidgetAbout key={4} {...e} />
         ) : e?.value == "popular" ? (
-          <WidgetPopular {...e} />
+          <WidgetPopular key={5} {...e} />
         ) : e?.value == "blogs" ? (
-          <WidgetBlogs {...e} />
+          <WidgetBlogs key={6} {...e} />
         ) : e?.value == "banners" ? (
-          <WidgetBanners {...e} />
+          <WidgetBanners key={7} {...e} />
         ) : e?.value == "sales" ? (
-          <WidgetSales {...e} />
+          <WidgetSales key={8} {...e} />
         ) : e?.value == "categories" ? (
-          <WidgetCategories {...e} />
+          <WidgetCategories key={9} {...e} />
         ) : null
       )
     : null;
