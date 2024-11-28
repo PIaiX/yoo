@@ -390,7 +390,7 @@ const Cart = () => {
                       : "/checkout"
                     : "/login"
                 }
-                className="btn-primary w-100"
+                className="btn btn-primary btn-lg w-100"
               >
                 <span className="fw-6">
                   {t(

@@ -66,10 +66,6 @@ const Product = () => {
   const [isRemove, setIsRemove] = useState(false);
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
 
-  const productEnergyVisible = useSelector(
-    (state) => state.settings.options.productEnergyVisible
-  );
-
   const [product, setProduct] = useState({
     loading: true,
     item: {},
@@ -341,8 +337,8 @@ const Product = () => {
             <Col xs={12} md={7} lg={6}>
               <div
                 className={
-                  "d-flex align-items-center justify-content-between justify-content-md-start" +
-                  (!product.item.options?.subtitle ? "mb-4" : "")
+                  "d-flex align-items-center justify-content-between" +
+                  (!product.item.options?.subtitle ? " mb-4" : "")
                 }
               >
                 <h1 className="mb-0">{product.item.title}</h1>
@@ -366,7 +362,7 @@ const Product = () => {
                     </span>
                   )
                 )}
-                {productEnergyVisible &&
+                {options?.productEnergyVisible &&
                 data.cart.data?.modifiers[0]?.energy?.kkal > 0 ? (
                   <OverlayTrigger
                     trigger={["hover", "focus"]}
@@ -412,7 +408,7 @@ const Product = () => {
                     </a>
                   </OverlayTrigger>
                 ) : (
-                  productEnergyVisible &&
+                  options?.productEnergyVisible &&
                   product.item?.energy?.kkal > 0 && (
                     <OverlayTrigger
                       trigger={["hover", "focus"]}
@@ -541,7 +537,20 @@ const Product = () => {
                                       setData(newData);
                                     }}
                                   />
-                                  <div className="text">{e.title}</div>
+                                  <div className="text d-flex flex-row justify-content-center">
+                                    <div className="line-height-100">
+                                      {e.title}
+                                    </div>
+                                    {e?.energy?.weight > 0 &&
+                                      options?.productVisibleModifierWeight && (
+                                        <div className="text-muted fw-4 ms-1 line-height-100">
+                                          {customWeight({
+                                            value: e.energy.weight,
+                                            type: e.energy?.weightType,
+                                          })}
+                                        </div>
+                                      )}
+                                  </div>
                                 </label>
                               </li>
                             ))}
@@ -572,10 +581,10 @@ const Product = () => {
                   full
                   product={product.item}
                   data={data}
-                  className="py-2"
+                  className="py-2 btn-lg"
                 >
-                  <span className="fw-4">{t("В корзину")}</span>
-                  <HiOutlineShoppingBag className="fs-12 ms-2" />
+                  {t("В корзину")}
+                  <HiOutlineShoppingBag className="fs-13 ms-2" />
                 </ButtonCart>
               </div>
 

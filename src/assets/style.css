@@ -634,7 +634,8 @@ input[type=number]::-webkit-outer-spin-button, input[type=number]::-webkit-inner
   width: -webkit-fit-content;
   width: -moz-fit-content;
   width: fit-content;
-  padding: 0.6em 0;
+  min-height: 40px;
+  padding: 0px;
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -743,8 +744,8 @@ button {
   justify-content: center;
   align-items: center;
   flex-wrap: nowrap;
-  padding: 0.7em 1.2em;
   min-height: 40px;
+  padding: 0px 1.2em;
   transition: all 0.2s;
   text-align: center;
   font-weight: 500;
@@ -862,13 +863,13 @@ button {
 .btn-light {
   color: var(--main-color);
   background-color: var(--main-color-outline);
-  border: 1px solid var(--main-color-outline);
+  border: none;
 }
 .btn-light:hover, .btn-light:focus, .btn-light:active, .btn-light.active {
-  opacity: 0.9;
-  color: var(--main-color);
-  background-color: var(--main-color-outline);
-  border: 1px solid var(--main-color-outline);
+  opacity: 0.9 !important;
+  color: var(--main-color) !important;
+  background-color: var(--main-color-outline) !important;
+  border: none !important;
 }
 .btn-8 {
   background-color: var(--bg-btn);
@@ -2930,9 +2931,10 @@ main {
   }
 }
 
-.product .price {
-  font-size: 1.1em !important;
+.line-height-100 {
+  height: 100% !important;
 }
+
 .product-img {
   position: relative;
   width: 100%;
@@ -3047,6 +3049,14 @@ main {
     height: 32vw;
   }
 }
+.product-img-contain {
+  -o-object-fit: contain !important;
+     object-fit: contain !important;
+}
+.product-img-contain img {
+  -o-object-fit: contain !important;
+     object-fit: contain !important;
+}
 .product .title {
   display: -webkit-box;
   -webkit-line-clamp: 4;
@@ -3144,6 +3154,14 @@ main {
   line-height: 1.2em;
   height: 2.4em;
 }
+.product p.desc-full {
+  display: -webkit-box;
+  -webkit-line-clamp: 6;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  line-height: 1.2em;
+  height: 7.2em;
+}
 .product hr {
   background-color: var(--bg-second);
   height: 1px;
@@ -3194,6 +3212,7 @@ html.theme-font-robotocondensed .product .subtitle {
 
 html.theme-font-title-amaticsc .productPage h1 {
   font-family: "Amatic SC" !important;
+  line-height: 1.1em;
   font-size: 50px !important;
 }
 
@@ -3205,6 +3224,9 @@ html.theme-font-title-amaticsc .productPage h1 {
     flex: 1;
     color: var(--main-color-text-title);
   }
+}
+.productPage .subtitle {
+  margin-top: 10px;
 }
 .productPage-img {
   position: -webkit-sticky;
@@ -3584,77 +3606,8 @@ html.theme-font-title-amaticsc .filterGrid h4 {
   position: relative;
   z-index: 1;
   width: 100%;
-  height: 180px;
   -o-object-fit: cover;
      object-fit: cover;
-}
-@media (max-width: 1399px) {
-  .offer img {
-    height: 155px !important;
-  }
-}
-@media (max-width: 1199px) {
-  .offer img {
-    height: 130px !important;
-  }
-}
-@media (max-width: 991px) {
-  .offer img {
-    height: 145px !important;
-  }
-}
-@media (max-width: 770px) {
-  .offer img {
-    height: 220px !important;
-  }
-}
-@media (max-width: 580px) {
-  .offer img {
-    height: 210px !important;
-  }
-}
-@media (max-width: 510px) {
-  .offer img {
-    height: 175px !important;
-  }
-}
-@media (max-width: 440px) {
-  .offer img {
-    height: 145px !important;
-  }
-}
-.offer.full img {
-  height: 370px;
-}
-@media (max-width: 1399px) {
-  .offer.full img {
-    height: 335px !important;
-  }
-}
-@media (max-width: 991px) {
-  .offer.full img {
-    height: 300px !important;
-  }
-}
-@media (max-width: 770px) {
-  .offer.full img {
-    height: 230px !important;
-  }
-}
-@media (max-width: 580px) {
-  .offer.full img {
-    height: 220px !important;
-  }
-}
-@media (max-width: 510px) {
-  .offer.full img {
-    height: 180px !important;
-  }
-}
-@media (max-width: 440px) {
-  .offer.full img {
-    height: 145px !important;
-  }
 }
 .offer-body {
   padding: 1em;
@@ -5449,7 +5402,7 @@ ACCOUNT END
 }
 .dropdown > a {
   border: 1px solid var(--bg-btn);
-  border-radius: 10px;
+  border-radius: 0.7em;
   padding: 8px 15px;
   min-height: 40px;
   background-color: var(--bg-header-active);
@@ -6774,4 +6727,25 @@ img.show {
 
 :focus-visible {
   outline: none !important;
+}
+
+.rounded-4 {
+  border-radius: 0.4rem !important;
+}
+
+.rounded-5 {
+  border-radius: 0.5rem !important;
+}
+
+.rounded-6 {
+  border-radius: 0.6rem !important;
+}
+
+.rounded-7 {
+  border-radius: 0.7rem !important;
+}
+
+.btn-lg {
+  min-height: 48px !important;
+  font-size: 1rem !important;
 }/*# sourceMappingURL=style.css.map */

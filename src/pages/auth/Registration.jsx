@@ -277,7 +277,7 @@ const Registration = () => {
         type="submit"
         variant="primary"
         disabled={loadingLogin || !isValid}
-        className={"w-100 rounded-3 " + (loadingLogin ? "loading" : "")}
+        className={"w-100 btn-lg " + (loadingLogin ? "loading" : "")}
       >
         {t("Войти")}
       </Button>
@@ -392,7 +392,7 @@ const Registration = () => {
         type="submit"
         variant="primary"
         disabled={loadingReg || !isValidReg}
-        className={"w-100 rounded-3 " + (loadingReg ? "loading" : "")}
+        className={"w-100 btn-lg " + (loadingReg ? "loading" : "")}
       >
         {t("Зарегистрироваться")}
       </Button>
@@ -409,7 +409,7 @@ const Registration = () => {
             <button
               type="button"
               onClick={() => setLoginView(!loginView)}
-              className="btn btn-white d-block w-100 rounded-3 d-lg-none fw-6 mx-auto mt-4"
+              className="btn btn-lg btn-white d-block w-100 rounded-3 d-lg-none fw-6 mx-auto mt-4"
             >
               {loginView ? (
                 <span>{t("Создать профиль")}</span>
@@ -436,7 +436,7 @@ const Registration = () => {
             <button
               type="button"
               onClick={handleClick}
-              className="btn btn-primary rounded-3 fw-6 mx-auto mt-4"
+              className="btn btn-primary btn-lg rounded-3 fw-6 mx-auto mt-4"
             >
               {loginView ? (
                 <span>{t("Создать профиль")}</span>

@@ -17,10 +17,8 @@ import Tags from "./Tags";
 
 const ProductCard = memo(({ data }) => {
   const { t } = useTranslation();
-  const options = useSelector((state) => state.settings.options);
-  const themeProductImage = useSelector(
-    (state) => state.settings?.options?.themeProductImage
-  );
+  const options = useSelector((state) => state.settings?.options);
+
   const priceAffiliateType = useSelector(
     (state) => state.settings?.options?.brand?.options?.priceAffiliateType
   );
@@ -56,7 +54,10 @@ const ProductCard = memo(({ data }) => {
     <div className="product" key={data?.id}>
       <div
         className={
-          (themeProductImage == 1 ? "product-img rectangle" : "product-img") +
+          (options?.themeProductImage == 1
+            ? "product-img rectangle"
+            : "product-img") +
+          (options?.themeProductImageSize ? " product-img-contain" : "") +
           (Array.isArray(data?.medias) && data?.medias?.length > 1
             ? " no-hover"
             : "")
@@ -124,9 +125,14 @@ const ProductCard = memo(({ data }) => {
             ""
           )}
         </h6>
-        {data?.description && (
-          <p className="desc d-none d-md-block fs-09">{data.description}</p>
-        )}
+        {data?.description &&
+          (options?.themeProductDesc ? (
+            <p className="desc desc-full d-none d-md-block fs-09">
+              {data.description}
+            </p>
+          ) : (
+            <p className="desc d-none d-md-block fs-09">{data.description}</p>
+          ))}
       </Link>
       <hr className="d-none d-md-block" />
       {data?.options?.сompound && (
@@ -194,21 +200,29 @@ const ProductCard = memo(({ data }) => {
         )}
         <div className="d-flex justify-content-between align-items-center">
           <div>
-            <div className="price fw-5">
+            <Link
+              to={"/product/" + data?.id}
+              state={data}
+              className="price fw-5"
+            >
               {modifiers?.length > 0 && Array.isArray(modifiers)
                 ? "от " + customPrice(price > 0 ? price : data.price)
                 : customPrice(data.price)}
-            </div>
+            </Link>
           </div>
         </div>
         {data?.energy?.weight > 0 && !data?.options?.сompound && (
-          <div className="text-muted d-none d-md-block">
+          <Link
+            to={"/product/" + data?.id}
+            state={data}
+            className="text-muted d-none d-md-block"
+          >
             {options?.productWeightDiscrepancy ? "±" : ""}
             {customWeight({
               value: data.energy.weight,
               type: data.energy?.weightType,
             })}
-          </div>
+          </Link>
         )}
         <ButtonCart product={data} />
       </div>
