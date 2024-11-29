@@ -45,7 +45,8 @@ const useTotalCart = () => {
             delivery = 0,
             person = 0,
             pointAccrual = 0,
-            totalNoDelivery = 0
+            totalNoDelivery = 0,
+            pickupDiscount = 0
 
         if (stateCart?.length > 0) {
             stateCart.forEach((product) => {
@@ -71,22 +72,27 @@ const useTotalCart = () => {
 
                 price += productPrice
 
+                pickupDiscount +=
+                    Number(affiliateActive?.options?.discountPickup) > 0 && stateDelivery === 'pickup' && options?.discountExceptions?.length > 0 && !affiliateActive?.options?.discountExceptions.includes(String(product.categoryId))
+                        ? Math.floor((price / 100) * Number(affiliateActive.options.discountPickup))
+                        : 0
+
                 if (statePromo?.options) {
                     if (statePromo?.type === 'category_one' && statePromo?.options?.categoryId) {
-                        if (stateCart.find(e => e?.categoryId && e?.categoryId === statePromo.options.categoryId)) {
+                        if (product?.categoryId && product?.categoryId === statePromo.options.categoryId) {
                             price -=
                                 Number(statePromo?.options?.percent) > 0
                                     ? (price / 100) * Number(statePromo.options.percent)
                                     : Number(statePromo?.options?.sum) > 0 ? Number(statePromo.options.sum) : 0
 
                         }
-                    } else if (statePromo?.type === 'category_one' && (statePromo?.options?.exceptions?.length === 0 || !!stateCart.find(e => e?.categoryId && statePromo?.options?.exceptions.includes(String(e.categoryId))))) {
+                    } else if (statePromo?.type === 'category_one' && (statePromo?.options?.exceptions?.length > 0 && statePromo?.options?.exceptions.includes(String(product.categoryId)))) {
                         price -=
                             Number(statePromo?.options?.percent) > 0
                                 ? (price / 100) * Number(statePromo.options.percent)
                                 : Number(statePromo?.options?.sum) > 0 ? Number(statePromo.options.sum) : 0
                     } else if (statePromo?.type === 'product_one' && statePromo?.options?.productId) {
-                        if (stateCart.find(e => String(e?.id) === String(statePromo.options.productId))) {
+                        if (String(product?.id) === String(statePromo.options.productId)) {
                             price -=
                                 Number(statePromo?.options?.percent) > 0
                                     ? (price / 100) * Number(statePromo.options.percent)
@@ -116,6 +122,7 @@ const useTotalCart = () => {
 
             let totalCalcul = discount > 0 && price > 0 ? price - discount : price ?? 0
             totalNoDelivery += totalCalcul
+            totalCalcul -= pickupDiscount
 
             if (statePromo?.options) {
                 if (statePromo.type != 'product_one' && statePromo.type != 'category_one') {
@@ -131,12 +138,6 @@ const useTotalCart = () => {
                     totalCalcul -= Number(statePromo?.options?.sum) > 0 ? Number(statePromo.options.sum) : 0
                 }
             }
-
-            const pickupDiscount =
-                Number(affiliateActive?.options?.discountPickup) > 0 && stateDelivery === 'pickup'
-                    ? Math.floor((totalCalcul / 100) * Number(affiliateActive.options.discountPickup))
-                    : 0
-            totalCalcul -= pickupDiscount
 
             let pointCheckout =
                 Number(pointOptions?.writing?.value) > 0

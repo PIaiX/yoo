@@ -260,7 +260,8 @@ const Product = () => {
         <form className="productPage mb-5">
           <Row className="gx-4 gx-xxl-5">
             <Col xs={12} md={5} lg={6}>
-              {data.cart.data?.modifiers[0]?.medias[0]?.media ? (
+              {data.cart.data?.modifiers[0]?.medias[0]?.media &&
+              product.item?.medias?.length === 1 ? (
                 <LazyLoadImage
                   loading="lazy"
                   src={getImageURL({

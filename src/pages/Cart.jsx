@@ -356,14 +356,6 @@ const Cart = () => {
                   <span className="text-success">-{customPrice(discount)}</span>
                 </div>
               )}
-              {pickupDiscount > 0 && (
-                <div className="d-flex justify-content-between my-2">
-                  <span>{t("Скидка за самовывоз")}</span>
-                  <span className="text-success">
-                    -{customPrice(pickupDiscount)}
-                  </span>
-                </div>
-              )}
               {pointCheckout > 0 && pointSwitch && (
                 <div className="d-flex justify-content-between my-2">
                   <span>{t("Списание баллов")}</span>
