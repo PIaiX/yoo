@@ -213,30 +213,31 @@ const Header = memo(() => {
               </Link>
               <ul className="text-menu">
                 <li>
-                  {!options?.multiBrand && cities && cities?.length > 0 && (
-                    <a
-                      onClick={() => cities?.length > 1 && setShowCity(true)}
-                      className="fw-6"
-                    >
-                      <div className="btn btn-sm btn-light rounded-7">
-                        {t(
-                          cities?.length > 1
-                            ? city?.options?.alias ??
-                                city?.title ??
-                                "Выберите город"
-                            : cities[0]?.options?.view === "region" &&
-                              cities[0]?.region
-                            ? cities[0].region
-                            : cities[0]?.options?.view === "country" &&
-                              cities[0]?.country
-                            ? cities[0].country
-                            : cities[0]?.options?.view === "no"
-                            ? ""
-                            : cities[0]?.title ?? "Выберите город"
-                        )}
-                      </div>
-                    </a>
-                  )}
+                  {!options?.multiBrand &&
+                    cities &&
+                    cities?.length > 0 &&
+                    cities[0]?.options?.view !== "no" && (
+                      <a
+                        onClick={() => cities?.length > 1 && setShowCity(true)}
+                        className="fw-6"
+                      >
+                        <div className="btn btn-sm btn-light rounded-7">
+                          {t(
+                            cities?.length > 1
+                              ? city?.options?.alias ??
+                                  city?.title ??
+                                  "Выберите город"
+                              : cities[0]?.options?.view === "region" &&
+                                cities[0]?.region
+                              ? cities[0].region
+                              : cities[0]?.options?.view === "country" &&
+                                cities[0]?.country
+                              ? cities[0].country
+                              : cities[0]?.title ?? "Выберите город"
+                          )}
+                        </div>
+                      </a>
+                    )}
                   {options?.multiBrand && affiliate?.length > 0 && (
                     <a onClick={() => setShowBrand(true)} className="fw-6">
                       {t(
