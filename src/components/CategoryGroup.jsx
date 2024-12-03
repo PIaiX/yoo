@@ -14,9 +14,13 @@ const CategoryGroup = memo(({ data }) => {
   );
   const products =
     priceAffiliateType && data?.products?.items?.length > 0
-      ? data.products.items.filter((e) => e?.productOptions?.length > 0)
+      ? data.products.items
+          .filter((e) => e?.productOptions?.length > 0)
+          .sort((a, b) => a.priority - b.priority)
       : priceAffiliateType && data?.products?.length > 0
-      ? data.products.filter((e) => e?.productOptions?.length > 0)
+      ? data.products
+          .filter((e) => e?.productOptions?.length > 0)
+          .sort((a, b) => a.priority - b.priority)
       : priceAffiliateType
       ? []
       : data?.products?.items ?? data?.products;

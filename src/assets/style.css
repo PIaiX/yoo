@@ -3312,7 +3312,7 @@ html.theme-font-title-amaticsc .productPage h1 {
   position: relative;
   z-index: 1;
   background-color: #3f3f3f;
-  color: #fff;
+  color: var(--main-color-text);
   border-radius: 1.25em 1.25em 0px 0px;
   height: 2.5em;
   display: flex;
@@ -3445,7 +3445,8 @@ html.theme-font-title-amaticsc .productPage h1 {
   background-color: var(--bg-main);
   border-radius: 0.625em;
   padding: 7px;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
+  min-height: 90%;
   border: 2px solid transparent;
   font-size: 0.8em;
 }
@@ -3460,12 +3461,15 @@ html.theme-font-title-amaticsc .productPage h1 {
      object-fit: contain;
   align-self: center;
   border-radius: 0.3125em;
+  margin-bottom: 5px;
 }
 .ingredient-title {
   flex: 1;
   line-height: 100%;
   margin-bottom: 7px;
-  font-size: 13px;
+  font-size: 12px;
+  white-space: break-spaces;
+  word-break: break-word;
 }
 .ingredient-price {
   font-weight: 700;
@@ -4045,6 +4049,7 @@ html.theme-font-title-amaticsc .filterGrid h4 {
 footer {
   padding: 20px 0px;
   background-color: var(--bg-footer);
+  min-height: 61px;
 }
 @media (max-width: 991px) {
   footer {
@@ -6645,6 +6650,9 @@ img.show {
   display: flex;
 }
 
+.banner-slider {
+  overflow: hidden !important;
+}
 .banner-slider .slick-slide > div {
   cursor: -webkit-grab;
   cursor: grab;
@@ -6719,7 +6727,8 @@ img.show {
   }
 }
 .banner-slider .slick-dots {
-  bottom: -25px !important;
+  bottom: 0px !important;
+  position: relative !important;
 }
 .banner-slider .slick-dots li button:before {
   color: var(--main-color) !important;

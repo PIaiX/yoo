@@ -41,13 +41,15 @@ const WidgetPopular = memo((data) => {
               },
             }}
           >
-            {data.items.map((obj) => {
-              return (
-                <SwiperSlide key={obj.id}>
-                  <ProductCardMini data={obj} />
-                </SwiperSlide>
-              );
-            })}
+            {data.items
+              .sort((a, b) => a.priority - b.priority)
+              .map((obj) => {
+                return (
+                  <SwiperSlide key={obj.id}>
+                    <ProductCardMini data={obj} />
+                  </SwiperSlide>
+                );
+              })}
           </Swiper>
         ) : (
           <Empty mini text="Ничего нет" />

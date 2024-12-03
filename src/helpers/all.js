@@ -77,7 +77,7 @@ const customWeight = ({ value, type = "г" }) => {
     Number(value) < 1 && typeData === "г"
       ? Math.pow(10, value.toString().split(".")[1].length) * Number(value)
       : Number(value);
-  value = value + typeData;
+  value = value + ' ' + typeData;
 
   return value;
 };

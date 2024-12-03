@@ -545,6 +545,7 @@ const Product = () => {
                                     {e?.energy?.weight > 0 &&
                                       options?.productVisibleModifierWeight && (
                                         <div className="text-muted fw-4 ms-1 line-height-100">
+                                          /{" "}
                                           {customWeight({
                                             value: e.energy.weight,
                                             type: e.energy?.weightType,
@@ -628,10 +629,11 @@ const Product = () => {
                     </div>
                     <div className="box bg-gray">
                       <Row
+                        xs={3}
                         sm={3}
                         lg={3}
                         xl={4}
-                        className={isRemove ? "d-none" : "d-flex"}
+                        className={isRemove ? "d-none gx-3" : "gx-3 d-flex"}
                       >
                         {product.item?.additions?.length > 0 &&
                           product.item.additions.map((e) => {
