@@ -225,9 +225,9 @@ const Header = memo(() => {
                         <div className="btn btn-sm btn-light rounded-7">
                           {t(
                             cities?.length > 1
-                              ? city?.options?.alias ??
-                                  city?.title ??
-                                  "Выберите город"
+                              ? city?.options?.alias?.length > 0
+                                ? city.options.alias
+                                : city?.title ?? "Выберите город"
                               : cities[0]?.options?.view === "region" &&
                                 cities[0]?.region
                               ? cities[0].region
@@ -690,7 +690,9 @@ const Header = memo(() => {
                                       : "")
                                   }
                                 >
-                                  {e?.options?.alias ?? e.title}
+                                  {e?.options?.alias?.length > 0
+                                    ? e.options.alias
+                                    : e.title}
                                 </a>
                               </Col>
                             ))}
@@ -747,7 +749,9 @@ const Header = memo(() => {
                                           : "")
                                       }
                                     >
-                                      {e?.options?.alias ?? e.title}
+                                      {e?.options?.alias?.length > 0
+                                        ? e.options.alias
+                                        : e.title}
                                     </a>
                                   </Col>
                                 ))}
