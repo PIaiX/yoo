@@ -1652,16 +1652,31 @@ header ul li > a {
 header ul li > a:hover {
   color: var(--main-color);
 }
+@media (max-width: 1399px) {
+  header ul li > a {
+    font-size: 13px !important;
+  }
+}
+@media (max-width: 1399px) {
+  header ul li .btn, header ul li .btn-primary, header ul li .btn-10, header ul li .btn-2, header ul li .btn-secondary, header ul li .btn-30, header ul li .btn-4, header ul li .btn-white, header ul li .btn-40-light, header ul li .btn-40, header ul li .btn-green, header ul li .btn-deepgreen, header ul li .btn-light, header ul li .btn-8, header ul li .btn-9, header ul li .btn-90, header ul li .btn-99, header ul li .btn-orange, header ul li .btn-red {
+    font-size: 13px !important;
+  }
+}
 header ul.text-menu li:not(:first-child) {
-  margin-left: 2.5em;
+  margin-left: 2em;
 }
 @media (max-width: 1399px) {
   header ul.text-menu li:not(:first-child) {
-    margin-left: 1.5em;
+    margin-left: 1.2em;
   }
 }
 header ul.icons-menu > li:not(:first-child) {
   margin-left: 1.25em;
+}
+@media (max-width: 1399px) {
+  header ul.icons-menu > li:not(:first-child) {
+    margin-left: 0.8em;
+  }
 }
 header .logo {
   max-height: 50px;

@@ -1623,15 +1623,23 @@ header {
       &:hover {
         color: var(--main-color);
       }
+      @media (max-width: $bp-xxl) {
+        font-size: 13px !important;
+      }
+    }
+    li .btn {
+      @media (max-width: $bp-xxl) {
+        font-size: 13px !important;
+      }
     }
     @include list();
     @include flex();
     &.text-menu {
       li {
         &:not(:first-child) {
-          margin-left: 2.5em;
+          margin-left: 2em;
           @media (max-width: $bp-xxl) {
-            margin-left: 1.5em;
+            margin-left: 1.2em;
           }
         }
       }
@@ -1640,6 +1648,9 @@ header {
       & > li {
         &:not(:first-child) {
           margin-left: 1.25em;
+          @media (max-width: $bp-xxl) {
+            margin-left: 0.8em;
+          }
         }
       }
     }

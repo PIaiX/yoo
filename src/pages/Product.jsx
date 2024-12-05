@@ -344,25 +344,6 @@ const Product = () => {
               >
                 <h1 className="mb-0">{product.item.title}</h1>
 
-                {data.cart.data?.modifiers[0]?.energy?.weight > 0 ? (
-                  <span className="text-muted fw-6 ms-3">
-                    {options?.productWeightDiscrepancy ? "±" : ""}
-                    {customWeight({
-                      value: data.cart.data.modifiers[0].energy.weight,
-                      type: data.cart.data.modifiers[0].energy.weightType,
-                    })}
-                  </span>
-                ) : (
-                  product.item.energy.weight > 0 && (
-                    <span className="text-muted fw-6 ms-3">
-                      {options?.productWeightDiscrepancy ? "±" : ""}
-                      {customWeight({
-                        value: product.item.energy.weight,
-                        type: product.item.energy?.weightType,
-                      })}
-                    </span>
-                  )
-                )}
                 {options?.productEnergyVisible &&
                 data.cart.data?.modifiers[0]?.energy?.kkal > 0 ? (
                   <OverlayTrigger
@@ -571,7 +552,7 @@ const Product = () => {
                 </>
               )}
               <div className="productPage-price">
-                <div className="py-2 fw-5 me-4 fs-12 rounded-pill">
+                <div className="py-2 fw-5 me-2 fs-12 rounded-pill">
                   {customPrice(prices.price)}
                   {prices.discount > 0 && (
                     <div className="fs-08 text-muted text-decoration-line-through">
@@ -579,11 +560,32 @@ const Product = () => {
                     </div>
                   )}
                 </div>
+                {data.cart.data?.modifiers[0]?.energy?.weight > 0 ? (
+                  <div className="text-muted py-2 me-2 fw-4 fs-09">
+                    {"/ "}
+                    {options?.productWeightDiscrepancy ? "±" : ""}
+                    {customWeight({
+                      value: data.cart.data.modifiers[0].energy.weight,
+                      type: data.cart.data.modifiers[0].energy.weightType,
+                    })}
+                  </div>
+                ) : (
+                  product.item.energy.weight > 0 && (
+                    <div className="text-muted py-2 me-2 fw-4 fs-09">
+                      {"/ "}
+                      {options?.productWeightDiscrepancy ? "±" : ""}
+                      {customWeight({
+                        value: product.item.energy.weight,
+                        type: product.item.energy?.weightType,
+                      })}
+                    </div>
+                  )
+                )}
                 <ButtonCart
                   full
                   product={product.item}
                   data={data}
-                  className="py-2 btn-lg"
+                  className="py-2 ms-2 btn-lg"
                 >
                   {t("В корзину")}
                   <HiOutlineShoppingBag className="fs-13 ms-2" />

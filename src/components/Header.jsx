@@ -43,6 +43,7 @@ const Header = memo(() => {
   const cities = useSelector((state) => state.affiliate.cities);
   const selectedAffiliate = useSelector((state) => state.affiliate.active);
   const options = useSelector((state) => state.settings.options);
+
   const delivery = useSelector((state) => state.checkout.delivery);
   const settingsCity = useSelector((state) => state.settings.city);
 
@@ -187,7 +188,7 @@ const Header = memo(() => {
         <Container className="h-100">
           <nav className="h-100">
             <div className="d-flex align-items-center">
-              <Link to="/" className="me-3 me-lg-5">
+              <Link to="/" className="me-2 me-xxl-3">
                 <img
                   src={
                     options?.multiBrand
@@ -284,22 +285,24 @@ const Header = memo(() => {
               </ul>
             </div>
             <ul className="text-menu d-none d-lg-flex">
-              {options?.menu?.length > 0 ? (
-                options.menu.map(
-                  (e, index) =>
-                    e?.status && (
-                      <li key={index}>
-                        <Link
-                          target={e?.link ? "_blank" : ""}
-                          to={e?.link ?? e.page}
-                          // className={e.type == "dark" ? "btn-primary" : ""}
-                          className="fw-6"
-                        >
-                          {t(e.title)}
-                        </Link>
-                      </li>
-                    )
-                )
+              {options?.menu && options?.menu?.length > 0 ? (
+                [...options.menu]
+                  .sort((a, b) => a.order - b.order)
+                  .map(
+                    (e, index) =>
+                      e?.status && (
+                        <li key={index}>
+                          <Link
+                            target={e?.link ? "_blank" : ""}
+                            to={e?.link ?? e.page}
+                            // className={e.type == "dark" ? "btn-primary" : ""}
+                            className="fw-6"
+                          >
+                            {t(e.title)}
+                          </Link>
+                        </li>
+                      )
+                  )
               ) : (
                 <>
                   <li>
@@ -477,7 +480,7 @@ const Header = memo(() => {
                       </a>
                     </li>
                   )}
-                {options?.menu?.length > 0 ? (
+                {options?.menu && options?.menu?.length > 0 ? (
                   options.menu.map(
                     (e, index) =>
                       e?.status && (

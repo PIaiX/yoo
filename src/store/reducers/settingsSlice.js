@@ -65,8 +65,8 @@ const settingsSlice = createSlice({
         let categoryIndex =
           state?.filter?.length > 0
             ? state.filter.findIndex(
-                (e) => e.categoryId === action.payload.categoryId
-              )
+              (e) => e.categoryId === action.payload.categoryId
+            )
             : -1;
 
         if (categoryIndex != -1) {
