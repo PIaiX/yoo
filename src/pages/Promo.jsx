@@ -22,18 +22,20 @@ const Promo = () => {
 
   useEffect(() => {
     setLoading(true);
-
-    getSales({
-      affiliateId: selectedAffiliate?.id ?? false,
-      multiBrand: options?.multiBrand,
-      type: "site",
-    })
-      .then((res) => {
-        dispatch(updateSales(res));
+    if (selectedAffiliate?.id) {
+      getSales({
+        affiliateId: selectedAffiliate?.id ?? false,
+        multiBrand: options?.multiBrand,
+        type: "site",
       })
-      .finally(() => {
-        setLoading(false);
-      });
+        .then((res) => {
+          console.log(res);
+          dispatch(updateSales(res));
+        })
+        .finally(() => {
+          setLoading(false);
+        });
+    }
   }, [options, selectedAffiliate]);
 
   if (loading) {

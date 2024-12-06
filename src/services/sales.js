@@ -6,8 +6,8 @@ const getSale = async (id) => {
     return response?.data
 }
 
-const getSales = async () => {
-    const response = await $api.get(apiRoutes.SALES_GET)
+const getSales = async (data) => {
+    const response = await $api.get(apiRoutes.SALES_GET, { params: data })
     return response?.data
 }
 
