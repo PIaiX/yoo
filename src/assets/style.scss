@@ -3373,7 +3373,7 @@ html.theme-font-title-amaticsc .filterGrid h4 {
 .sec-7 {
   .box {
     box-shadow: none;
-    height: 700px;
+    height: 750px;
     @include flex(column, flex-start, stretch, nowrap);
     @media (max-width: $bp-sm) {
       height: 350px;
@@ -3413,7 +3413,7 @@ html.theme-font-title-amaticsc .filterGrid h4 {
     overflow: hidden;
     @include safariFix();
     @include flex();
-    height: 700px;
+    height: 750px;
 
     @media (max-width: $bp-sm) {
       height: 350px;

@@ -1,6 +1,7 @@
 import { Map, Placemark, Polygon, YMaps } from "@pbe/react-yandex-maps";
 import moment from "moment";
 import React, { useLayoutEffect, useState } from "react";
+import { Modal } from "react-bootstrap";
 import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
@@ -21,6 +22,8 @@ const Contact = () => {
   const options = useSelector((state) => state.settings.options);
 
   const [mainAffiliate, setMainAffiliate] = useState();
+  const [showModalOrganization, setModalOrganization] = useState(false);
+  const [showModalDelivery, setModalDelivery] = useState(false);
 
   useLayoutEffect(() => {
     setMainAffiliate(
@@ -29,7 +32,7 @@ const Contact = () => {
         : affiliate[0] ?? false
     );
   }, [selectedAffiliate]);
-
+  console.log(mainAffiliate);
   if (!mainAffiliate) {
     return (
       <>
@@ -97,15 +100,16 @@ const Contact = () => {
             <Col md={4}>
               <div className="box">
                 <div className="d-flex align-items-baseline mb-3">
-                  <h1 className="mb-0 h3">{t("Контакты")}</h1>
+                  <h1 className="mb-0 h4 fw-6">{t("Контакты")}</h1>
                 </div>
                 <ul className="list-unstyled pe-3">
-                  {affiliate.map((e, index) => (
+                  {affiliate.map((e) => (
                     <a
+                      key={e.id}
                       onClick={() => setMainAffiliate(e)}
                       className={mainAffiliate.id === e.id ? "active" : ""}
                     >
-                      <li key={e.id}>
+                      <li>
                         <h6>{e.full}</h6>
                         {e?.options?.work?.length > 0 &&
                         e.options.work[moment().weekday()]?.start &&
@@ -132,6 +136,26 @@ const Contact = () => {
                     </a>
                   ))}
                 </ul>
+                {mainAffiliate?.options?.organization && (
+                  <div className="d-flex justify-content-center text-center pt-3">
+                    <a
+                      className="btn btn-light w-100 fw-6 fs-09"
+                      onClick={() => setModalOrganization(true)}
+                    >
+                      Юридическое лицо
+                    </a>
+                  </div>
+                )}
+                {mainAffiliate?.options?.delivery && (
+                  <div className="d-flex justify-content-center text-center pt-2">
+                    <a
+                      className="btn btn-light fw-6 w-100 fs-09"
+                      onClick={() => setModalDelivery(true)}
+                    >
+                      Условия доставки
+                    </a>
+                  </div>
+                )}
               </div>
             </Col>
             <Col md={8}>
@@ -159,6 +183,7 @@ const Contact = () => {
                               e?.options?.coordinates?.lat &&
                               e?.options?.coordinates?.lon && (
                                 <Placemark
+                                  key={e.id}
                                   options={
                                     mainAffiliate.id === e.id
                                       ? {
@@ -189,6 +214,7 @@ const Contact = () => {
 
                             return (
                               <Polygon
+                                key={e.id}
                                 defaultGeometry={[geodata]}
                                 options={{
                                   fillColor: e?.color ? e.color : "#f56057",
@@ -245,6 +271,31 @@ const Contact = () => {
           </Row>
         </Container>
       </section>
+      <Modal
+        centered
+        show={showModalOrganization}
+        onHide={() => setModalOrganization(false)}
+      >
+        <Modal.Header closeButton className="fw-6 h5">
+          {t("Информация")}
+        </Modal.Header>
+        <Modal.Body className="p-4">
+          {mainAffiliate?.options?.organization &&
+            mainAffiliate.options.organization}
+        </Modal.Body>
+      </Modal>
+      <Modal
+        centered
+        show={showModalDelivery}
+        onHide={() => setModalDelivery(false)}
+      >
+        <Modal.Header closeButton className="fw-6 h5">
+          {t("Условия доставки")}
+        </Modal.Header>
+        <Modal.Body className="p-4">
+          {mainAffiliate?.options?.delivery && mainAffiliate.options.delivery}
+        </Modal.Body>
+      </Modal>
     </main>
   );
 };

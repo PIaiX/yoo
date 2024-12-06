@@ -3782,7 +3782,7 @@ html.theme-font-title-amaticsc .filterGrid h4 {
 
 .sec-7 .box {
   box-shadow: none;
-  height: 700px;
+  height: 750px;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -3845,7 +3845,7 @@ html.theme-font-title-amaticsc .filterGrid h4 {
   justify-content: center;
   align-items: center;
   flex-wrap: nowrap;
-  height: 700px;
+  height: 750px;
 }
 @media (max-width: 580px) {
   .sec-7 .map {
