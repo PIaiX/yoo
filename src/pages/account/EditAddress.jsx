@@ -86,6 +86,7 @@ const EditAddress = () => {
           city: address.data.city ?? null,
           area: address.data.federal_district ?? null,
           street: address.data.street ?? null,
+          block: address.data.block ?? null,
           home: address.data.house ?? null,
           apartment: address.data.flat ?? null,
           lat: address.data.geo_lat ?? null,
