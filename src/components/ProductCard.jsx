@@ -65,7 +65,7 @@ const ProductCard = memo(({ data }) => {
       >
         <Link to={"/product/" + data?.id} state={data}>
           {data?.tags?.length > 0 && (
-            <div className="p-2 position-absolute">
+            <div className="p-2 z-3 position-absolute">
               <Tags data={data.tags} mini />
             </div>
           )}
