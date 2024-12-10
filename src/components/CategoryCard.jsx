@@ -3,9 +3,7 @@ import { Link } from "react-router-dom";
 import { getImageURL } from "../helpers/all";
 
 const CategoryCard = memo(({ data }) => {
-  const image = data?.media
-    ? getImageURL({ path: data.media, type: "category" })
-    : false;
+  const image = getImageURL({ path: data.media, type: "category" });
   return (
     <figure className="category-card">
       {image && <img src={image} alt={data.title} />}

@@ -106,10 +106,31 @@ const Settings = () => {
     <main className="account mb-2 mb-sm-3 mb-md-0">
       <Meta title={t("Настройки")} />
       <Container className="pt-4 pt-lg-0">
-        <AccountTitleReturn link="/account" title="Настройки" />
+        <AccountTitleReturn
+          link="/account"
+          title="Настройки"
+        />
         <Row className="gx-3 gx-xl-4">
           <Col lg={8}>
             <Row className="g-3 g-xl-4">
+              {/* <Col xs={12} md={5}>
+                <label className="mb-3">
+                  <span className="me-1 me-sm-3">Включить пуш-уведомления</span>
+                  <input
+                    type="checkbox"
+                    role="switch"
+                    {...register("notification")}
+                  />
+                </label>
+                <label>
+                  <span className="me-1 me-sm-3">Подписаться на рассылку</span>
+                  <input
+                    type="checkbox"
+                    role="switch"
+                    {...register("followEmail")}
+                  />
+                </label>
+              </Col> */}
               <Col xs={12}>
                 <div>
                   <Row className="g-4">
@@ -175,7 +196,7 @@ const Settings = () => {
                       />
                     </Col>
                     <Col md={6}>
-                      <div className="fs-09 mb-2 ms-2">Язык</div>
+                      <div className="fs-09 mb-2">Язык</div>
                       <Select
                         className="p-3 fs-09 fw-6"
                         data={localeData.map((e) => ({

@@ -1,4 +1,3 @@
-import axios from "axios";
 import moment from "moment";
 import React, { memo, useEffect, useState, useTransition } from "react";
 import { Col, Modal, Row } from "react-bootstrap";
@@ -15,7 +14,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import AppStore from "../assets/imgs/appstore-black.svg";
 import GooglePlay from "../assets/imgs/googleplay-black.svg";
-import { DADATA_TOKEN, DADATA_URL_GEO } from "../config/api";
 import { getCount, getImageURL } from "../helpers/all";
 import { isWork } from "../hooks/all";
 import { deleteCart } from "../services/cart";
@@ -45,6 +43,7 @@ const Header = memo(() => {
   const cities = useSelector((state) => state.affiliate.cities);
   const selectedAffiliate = useSelector((state) => state.affiliate.active);
   const options = useSelector((state) => state.settings.options);
+
   const delivery = useSelector((state) => state.checkout.delivery);
   const settingsCity = useSelector((state) => state.settings.city);
 
@@ -76,7 +75,11 @@ const Header = memo(() => {
       list.forEach((e) => {
         e.cities.forEach(
           (e2) =>
-            e2.title.toLowerCase().includes(value.toLowerCase()) &&
+            (e2.title.toLowerCase().includes(value.toLowerCase()) ||
+              (e2.options?.alias &&
+                e2.options?.alias
+                  .toLowerCase()
+                  .includes(value.toLowerCase()))) &&
             searchList.push(e2)
         );
       });
@@ -121,60 +124,61 @@ const Header = memo(() => {
       setList(resultArray);
     }
 
-    if (cities && cities?.length > 1 && !gps) {
-      if ("geolocation" in navigator) {
-        navigator.geolocation.getCurrentPosition(
-          async (position) => {
-            if (
-              position?.coords?.latitude &&
-              position?.coords?.longitude &&
-              DADATA_TOKEN &&
-              DADATA_URL_GEO
-            ) {
-              let geo = await axios.post(
-                DADATA_URL_GEO,
-                JSON.stringify({
-                  lat: position.coords.latitude,
-                  lon: position.coords.longitude,
-                }),
-                {
-                  headers: {
-                    "Content-Type": "application/json",
-                    Accept: "application/json",
-                    Authorization: "Token " + DADATA_TOKEN,
-                  },
-                }
-              );
-              if (
-                geo?.data?.suggestions &&
-                geo?.data?.suggestions[0]?.data?.city &&
-                cities &&
-                cities?.length > 0
-              ) {
-                let city = cities.find(
-                  (e) =>
-                    e.title.toLowerCase() ===
-                    geo.data.suggestions[0].data.city.toLowerCase()
-                );
+    if (cities && cities?.length > 1 && !city) {
+      setShowCity(true);
+      // if ("geolocation" in navigator) {
+      //   navigator.geolocation.getCurrentPosition(
+      //     async (position) => {
+      //       if (
+      //         position?.coords?.latitude &&
+      //         position?.coords?.longitude &&
+      //         DADATA_TOKEN &&
+      //         DADATA_URL_GEO
+      //       ) {
+      //         let geo = await axios.post(
+      //           DADATA_URL_GEO,
+      //           JSON.stringify({
+      //             lat: position.coords.latitude,
+      //             lon: position.coords.longitude,
+      //           }),
+      //           {
+      //             headers: {
+      //               "Content-Type": "application/json",
+      //               Accept: "application/json",
+      //               Authorization: "Token " + DADATA_TOKEN,
+      //             },
+      //           }
+      //         );
+      //         if (
+      //           geo?.data?.suggestions &&
+      //           geo?.data?.suggestions[0]?.data?.city &&
+      //           cities &&
+      //           cities?.length > 0
+      //         ) {
+      //           let city = cities.find(
+      //             (e) =>
+      //               e.title.toLowerCase() ===
+      //               geo.data.suggestions[0].data.city.toLowerCase()
+      //           );
 
-                if (city) {
-                  dispatch(updateCity(city));
-                  dispatch(deleteCart());
-                } else {
-                  setShowCity(true);
-                }
-              } else {
-                setShowCity(true);
-              }
-            } else {
-              setShowCity(true);
-            }
-          },
-          () => setShowCity(true)
-        );
-      } else {
-        setShowCity(true);
-      }
+      //           if (city) {
+      //             dispatch(updateCity(city));
+      //             dispatch(deleteCart());
+      //           } else {
+      //             setShowCity(true);
+      //           }
+      //         } else {
+      //           setShowCity(true);
+      //         }
+      //       } else {
+      //         setShowCity(true);
+      //       }
+      //     },
+      //     () => setShowCity(true)
+      //   );
+      // } else {
+      //   setShowCity(true);
+      // }
     }
   }, [cities]);
 
@@ -184,7 +188,7 @@ const Header = memo(() => {
         <Container className="h-100">
           <nav className="h-100">
             <div className="d-flex align-items-center">
-              <Link to="/" className="me-3 me-lg-5">
+              <Link to="/" className="me-2 me-xxl-3">
                 <img
                   src={
                     options?.multiBrand
@@ -210,26 +214,31 @@ const Header = memo(() => {
               </Link>
               <ul className="text-menu">
                 <li>
-                  {!options?.multiBrand && cities && cities?.length > 0 && (
-                    <a
-                      onClick={() => cities?.length > 1 && setShowCity(true)}
-                      className="fw-6"
-                    >
-                      {t(
-                        cities?.length > 1
-                          ? city?.title ?? "Выберите город"
-                          : cities[0]?.options?.view === "region" &&
-                            cities[0]?.region
-                          ? cities[0].region
-                          : cities[0]?.options?.view === "country" &&
-                            cities[0]?.country
-                          ? cities[0].country
-                          : cities[0]?.options?.view === "no"
-                          ? ""
-                          : cities[0]?.title ?? "Выберите город"
-                      )}
-                    </a>
-                  )}
+                  {!options?.multiBrand &&
+                    cities &&
+                    cities?.length > 0 &&
+                    cities[0]?.options?.view !== "no" && (
+                      <a
+                        onClick={() => cities?.length > 1 && setShowCity(true)}
+                        className="fw-6"
+                      >
+                        <div className="btn btn-sm btn-light rounded-7">
+                          {t(
+                            cities?.length > 1
+                              ? city?.options?.alias?.length > 0
+                                ? city.options.alias
+                                : city?.title ?? "Выберите город"
+                              : cities[0]?.options?.view === "region" &&
+                                cities[0]?.region
+                              ? cities[0].region
+                              : cities[0]?.options?.view === "country" &&
+                                cities[0]?.country
+                              ? cities[0].country
+                              : cities[0]?.title ?? "Выберите город"
+                          )}
+                        </div>
+                      </a>
+                    )}
                   {options?.multiBrand && affiliate?.length > 0 && (
                     <a onClick={() => setShowBrand(true)} className="fw-6">
                       {t(
@@ -263,7 +272,7 @@ const Header = memo(() => {
                     </div>
                   )}
                 </li>
-                {deliveryArray?.length > 0 && (
+                {deliveryArray?.length > 0 && !options?.hideDeliverySelect && (
                   <li className="d-none d-sm-inline-flex">
                     <Select
                       className="fw-5"
@@ -276,21 +285,24 @@ const Header = memo(() => {
               </ul>
             </div>
             <ul className="text-menu d-none d-lg-flex">
-              {options?.menu?.length > 0 ? (
-                options.menu.map(
-                  (e, index) =>
-                    e?.status && (
-                      <li key={index}>
-                        <Link
-                          to={e?.link ?? e.page}
-                          // className={e.type == "dark" ? "btn-primary" : ""}
-                          className="fw-6"
-                        >
-                          {t(e.title)}
-                        </Link>
-                      </li>
-                    )
-                )
+              {options?.menu && options?.menu?.length > 0 ? (
+                [...options.menu]
+                  .sort((a, b) => a.order - b.order)
+                  .map(
+                    (e, index) =>
+                      e?.status && (
+                        <li key={index}>
+                          <Link
+                            target={e?.link ? "_blank" : ""}
+                            to={e?.link ?? e.page}
+                            // className={e.type == "dark" ? "btn-primary" : ""}
+                            className="fw-6"
+                          >
+                            {t(e.title)}
+                          </Link>
+                        </li>
+                      )
+                  )
               ) : (
                 <>
                   <li>
@@ -421,7 +433,7 @@ const Header = memo(() => {
       >
         <Offcanvas.Body>
           <Container className="h-100">
-            {deliveryArray?.length > 0 && (
+            {deliveryArray?.length > 0 && !options?.hideDeliverySelect && (
               <Select
                 className="mb-3"
                 data={deliveryArray}
@@ -468,7 +480,7 @@ const Header = memo(() => {
                       </a>
                     </li>
                   )}
-                {options?.menu?.length > 0 ? (
+                {options?.menu && options?.menu?.length > 0 ? (
                   options.menu.map(
                     (e, index) =>
                       e?.status && (
@@ -672,10 +684,15 @@ const Header = memo(() => {
                                   }}
                                   className={
                                     "py-2 fw-6" +
-                                    (e.title === city?.title ? " active" : "")
+                                    (e.title === city?.title &&
+                                    e.options?.alias === city?.options?.alias
+                                      ? " active"
+                                      : "")
                                   }
                                 >
-                                  {e.title}
+                                  {e?.options?.alias?.length > 0
+                                    ? e.options.alias
+                                    : e.title}
                                 </a>
                               </Col>
                             ))}
@@ -725,12 +742,16 @@ const Header = memo(() => {
                                       }}
                                       className={
                                         "py-2 fw-6" +
-                                        (e.title === city?.title
+                                        (e.title === city?.title &&
+                                        e.options?.alias ===
+                                          city?.options?.alias
                                           ? " active"
                                           : "")
                                       }
                                     >
-                                      {e.title}
+                                      {e?.options?.alias?.length > 0
+                                        ? e.options.alias
+                                        : e.title}
                                     </a>
                                   </Col>
                                 ))}

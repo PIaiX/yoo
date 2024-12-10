@@ -2,6 +2,7 @@ import React, {
   useCallback,
   useEffect,
   useLayoutEffect,
+  useRef,
   useState,
 } from "react";
 import { Col, Dropdown, Form, Row } from "react-bootstrap";
@@ -44,6 +45,7 @@ const EditAddress = () => {
       );
     }
   }
+
   const [streets, setStreets] = useState([]);
   const [showDropdown, setShowDropdown] = useState(false);
   const {
@@ -58,6 +60,7 @@ const EditAddress = () => {
     reValidateMode: "onChange",
   });
   const data = useWatch({ control });
+  const dropdownRef = useRef(null);
 
   const streetText = useDebounce(data.full, 1000);
 
@@ -70,61 +73,67 @@ const EditAddress = () => {
   const clickAddress = useCallback(
     async (address) => {
       try {
-        if (address && address.data?.geo_lat && address.data?.geo_lon) {
-          let info = await getDelivery({
+        const isValidAddress =
+          address &&
+          address.data?.geo_lat &&
+          address.data?.geo_lon &&
+          address.data?.house;
+
+        const commonData = {
+          full: address.value ?? null,
+          country: address.data.country ?? null,
+          region: address.data.region ?? null,
+          city: address.data.city ?? null,
+          area: address.data.federal_district ?? null,
+          street: address.data.street ?? null,
+          block: address.data.block ?? null,
+          home: address.data.house ?? null,
+          apartment: address.data.flat ?? null,
+          lat: address.data.geo_lat ?? null,
+          lon: address.data.geo_lon ?? null,
+          postal: address.data.postal_code ?? null,
+          options: {
+            fias_id: address.data.fias_id ?? null,
+            region_fias_id: address.data.region_fias_id ?? null,
+            city_fias_id: address.data.city_fias_id ?? null,
+            street_fias_id: address.data.street_fias_id ?? null,
+            kladr_id: address.data.kladr_id ?? null,
+            region_kladr_id: address.data.region_kladr_id ?? null,
+            city_kladr_id: address.data.city_kladr_id ?? null,
+            street_kladr_id: address.data.street_kladr_id ?? null,
+            fias_level: address.data.fias_level ?? null,
+          },
+        };
+
+        if (isValidAddress) {
+          const info = await getDelivery({
             distance: true,
             lat: address.data.geo_lat,
             lon: address.data.geo_lon,
           });
 
           if (info?.zone?.affiliateId) {
+            setShowDropdown(false);
             return reset({
               ...data,
-              affiliate: info?.zone.affiliateId,
-              zone: info?.zone,
-              distance: info?.distance,
-              full: address.value ?? null,
-              country: address.data.country ?? null,
-              region: address.data.region ?? null,
-              city: address.data.city ?? null,
-              area: address.data.federal_district ?? null,
-              street: address.data.street ?? null,
-              home: address.data.house ?? null,
-              apartment: address.data.flat ?? null,
-              lat: address.data.geo_lat ?? null,
-              lon: address.data.geo_lon ?? null,
-              postal: address.data.postal_code ?? null,
-              options: {
-                // ФИАС
-                fias_id: address.data.fias_id ?? null,
-                region_fias_id: address.data.region_fias_id ?? null,
-                city_fias_id: address.data.city_fias_id ?? null,
-                street_fias_id: address.data.street_fias_id ?? null,
-
-                // КЛАДР
-                kladr_id: address.data.kladr_id ?? null,
-                region_kladr_id: address.data.region_kladr_id ?? null,
-                city_kladr_id: address.data.city_kladr_id ?? null,
-                street_kladr_id: address.data.street_kladr_id ?? null,
-
-                // Всего этажей
-                fias_level: address.data.fias_level ?? null,
-              },
+              affiliate: info.zone.affiliateId,
+              zone: info.zone,
+              distance: info.distance,
+              ...commonData,
             });
-          } else {
-            setValue("full", null);
-            reset();
-            setShowDropdown(false);
           }
+        } else if (address?.value) {
+          NotificationManager.error(t("Укажите номер дома"));
+          return reset({
+            ...data,
+            ...commonData,
+          });
+        } else {
+          setShowDropdown(false);
         }
-        setShowDropdown(false);
       } catch (err) {
-        console.log(err);
-        setValue("full", null);
-        reset();
-        setShowDropdown(false);
         return NotificationManager.error(
-          t("Доставка на данный адрес не производиться")
+          t("Доставка на данный адрес не производится")
         );
       }
     },
@@ -136,9 +145,8 @@ const EditAddress = () => {
       if (!showDropdown) {
         setShowDropdown(true);
       }
-      if (e === "Enter" && streets?.length > 0) {
+      if ((e === "Enter" || e.key === "Enter") && streets?.length > 0) {
         clickAddress(streets[0]);
-        setStreets([]);
       }
     },
     [showDropdown, streets]
@@ -154,7 +162,30 @@ const EditAddress = () => {
     }
   }, [streetText]);
 
+  const handleClickOutside = (event) => {
+    if (
+      dropdownRef.current &&
+      !dropdownRef.current.contains(event.target) &&
+      (data?.home || data?.street || data?.affiliate || data?.zone)
+    ) {
+      setShowDropdown(false);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   const onSubmit = useCallback((data) => {
+    if (!data?.street) {
+      return NotificationManager.error(t("Укажите улицу"));
+    }
+    if (!data?.home) {
+      return NotificationManager.error(t("Укажите номер дома"));
+    }
     editAddress(data)
       .then((res) => {
         NotificationManager.success(t("Адрес успешно обновлен"));
@@ -218,10 +249,15 @@ const EditAddress = () => {
         />
         {showDropdown && streets?.length > 0 && (
           <Dropdown.Menu
-            onClick={() => setShowDropdown(false)}
+            ref={dropdownRef}
             show
             className="w-100 custom-input-street"
           >
+            {!data?.home && (
+              <div className="fs-08 text-danger p-2 px-3">
+                {t("Выберите адрес с номером дома")}
+              </div>
+            )}
             {streets.map(
               (item, key) =>
                 item && (
@@ -234,37 +270,7 @@ const EditAddress = () => {
         )}
       </div>
       <Row>
-        <Col md={4}>
-          <div className="mb-4">
-            <Input
-              required
-              errors={errors}
-              label={t("Дом")}
-              name="home"
-              placeholder={t("Введите дом")}
-              register={register}
-              validation={{
-                required: t("Обязательное поле"),
-                maxLength: { value: 20, message: t("Максимум 20 символов") },
-              }}
-            />
-          </div>
-        </Col>
-        <Col md={4}>
-          <div className="mb-4">
-            <Input
-              errors={errors}
-              label={t("Корпус")}
-              name="block"
-              placeholder={t("Введите корпус")}
-              register={register}
-              validation={{
-                maxLength: { value: 20, message: t("Максимум 20 символов") },
-              }}
-            />
-          </div>
-        </Col>
-        <Col md={4}>
+        <Col md={3}>
           <div className="mb-4">
             <Input
               required
@@ -280,7 +286,7 @@ const EditAddress = () => {
             />
           </div>
         </Col>
-        <Col md={4}>
+        <Col md={3}>
           <div className="mb-4">
             <Input
               required
@@ -296,7 +302,7 @@ const EditAddress = () => {
             />
           </div>
         </Col>
-        <Col md={4}>
+        <Col md={3}>
           <div className="mb-4">
             <Input
               required
@@ -313,7 +319,7 @@ const EditAddress = () => {
             />
           </div>
         </Col>
-        <Col md={4}>
+        <Col md={3}>
           <div className="mb-4">
             <Input
               errors={errors}
@@ -369,7 +375,7 @@ const EditAddress = () => {
       <div className="d-md-flex d-block align-items-center ">
         <div>
           <button
-            disabled={!isValid || showDropdown || !data?.zone}
+            disabled={!isValid || showDropdown}
             onClick={handleSubmit(onSubmit)}
             className="btn-primary w-xs-100 mb-3"
           >
@@ -377,16 +383,10 @@ const EditAddress = () => {
           </button>
         </div>
         <div>
-          {data?.zone || !data?.full ? (
-            <p className="fs-09 ms-3 mb-3">
-              <span className="text-danger">*</span> -{" "}
-              {t("обязательные поля для заполнения")}
-            </p>
-          ) : (
-            <p className="fs-09 text-danger ms-3 mb-3">
-              {t("Доставка на данный адрес не производиться")}
-            </p>
-          )}
+          <p className="fs-09 ms-3 mb-3">
+            <span className="text-danger">*</span> -{" "}
+            {t("обязательные поля для заполнения")}
+          </p>
         </div>
       </div>
     </section>

@@ -1,13 +1,13 @@
 import React, { useLayoutEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
-import { useDispatch } from "react-redux";
-import AccountTitleReturn from "../../components/AccountTitleReturn";
-import Empty from "../../components/Empty";
-import EmptyNotifications from "../../components/empty/notifications";
 import LiNotification from "../../components/LiNotification";
-import Loader from "../../components/utils/Loader";
+import AccountTitleReturn from "../../components/AccountTitleReturn";
 import { getNotifications } from "../../services/account";
 import { updateNotification } from "../../store/reducers/notificationSlice";
+import { useDispatch } from "react-redux";
+import EmptyNotifications from "../../components/empty/notifications";
+import Empty from "../../components/Empty";
+import { useTranslation } from "react-i18next";
+import Loader from "../../components/utils/Loader";
 
 const Notifications = () => {
   const { t } = useTranslation();

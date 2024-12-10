@@ -8,6 +8,10 @@ import { HiXMark } from "react-icons/hi2";
 import { Container } from "react-bootstrap";
 
 const WidgetStories = memo((data) => {
+  if (!data?.items || data?.items?.length === 0) {
+    return null;
+  }
+
   const [activeSlide, setActiveSlide] = useState(0);
   const [story, setStory] = useState(false);
 
@@ -16,10 +20,6 @@ const WidgetStories = memo((data) => {
     setStory(true);
     setActiveSlide(index);
   };
-
-  if (!data?.items || data?.items?.length === 0) {
-    return null;
-  }
 
   const size = data.size === "big" ? "big" : "middle";
 

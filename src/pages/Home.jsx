@@ -20,14 +20,14 @@ const Home = () => {
   const { t } = useTranslation();
   const [loading, setLoading] = useState(false);
   const options = useSelector((state) => state.settings.options);
+  const city = useSelector((state) => state.affiliate.city);
   const selectedAffiliate = useSelector((state) => state.affiliate.active);
   const catalog = useSelector((state) => state.catalog);
   const dispatch = useDispatch();
   const [isFirstLoad, setIsFirstLoad] = useState(true);
-  const cities = useSelector((state) => state.affiliate.cities);
 
   const getData = useCallback(() => {
-    if (cities?.length === 0 || selectedAffiliate?.id) {
+    if (selectedAffiliate?.id) {
       getCatalog({
         affiliateId: selectedAffiliate?.id ?? false,
         multiBrand: options?.multiBrand,
@@ -67,7 +67,7 @@ const Home = () => {
       return;
     }
     getData();
-  }, [selectedAffiliate]);
+  }, [selectedAffiliate, city]);
 
   if (loading) {
     return <Loader full />;

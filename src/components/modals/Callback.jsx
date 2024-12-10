@@ -59,6 +59,7 @@ const Callback = memo(({ show = false, setShow, type, page, product, ip }) => {
               <Input
                 label="Имя"
                 name="name"
+                placeholder="Введите имя"
                 errors={errors}
                 register={register}
                 validation={{ required: "Обязательное поле" }}
@@ -72,6 +73,7 @@ const Callback = memo(({ show = false, setShow, type, page, product, ip }) => {
                   mask="7(999)999-99-99"
                   label="Номер телефона"
                   name="phone"
+                  placeholder="Введите телефон"
                   errors={errors}
                   register={register}
                   validation={{ required: "Обязательное поле" }}

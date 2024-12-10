@@ -15,6 +15,7 @@ import { getOrders } from "../../services/order";
 import { useTranslation } from "react-i18next";
 import { checkAuth } from "../../services/auth";
 import { setUser } from "../../store/reducers/authSlice";
+import AccountTitleReturn from "../../components/AccountTitleReturn";
 
 const Orders = () => {
   const { t } = useTranslation();
@@ -110,13 +111,6 @@ const Orders = () => {
     return (
       <>
         <Meta title={t("Заказы")} />
-        <div className="d-flex d-lg-none align-items-center mb-4">
-          <Link to="/account" className="link-return">
-            <HiOutlineArrowLeftCircle />
-            <span>{t("Назад")}</span>
-          </Link>
-          <h6 className="fs-12 mb-0">{t("Заказы")}</h6>
-        </div>
         <Empty
           mini
           text={t("Заказов пока нет")}
@@ -135,13 +129,7 @@ const Orders = () => {
   return (
     <section className="sec-orders">
       <Meta title={t("Заказы")} />
-      <div className="d-flex d-lg-none align-items-center mb-4">
-        <Link to="/account" className="link-return">
-          <HiOutlineArrowLeftCircle />
-          <span>{t("Назад")}</span>
-        </Link>
-        <h6 className="fs-12 mb-0">{t("Заказы")}</h6>
-      </div>
+      <AccountTitleReturn  title={t("Заказы")} />
       <DataTable
         onClick={(e) => navigate("/account/orders/" + e.id)}
         columns={orderColumns}

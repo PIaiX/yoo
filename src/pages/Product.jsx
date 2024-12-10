@@ -1,4 +1,4 @@
-import React, { useEffect, useLayoutEffect, useState } from "react";
+import React, { useLayoutEffect, useState } from "react";
 import { Col, Container, OverlayTrigger, Popover, Row } from "react-bootstrap";
 // import Notice from "../components/Notice";
 import ProductCard from "../components/ProductCard";
@@ -16,8 +16,6 @@ import { useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
 import { FreeMode, Navigation, Thumbs } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
-import SwiperButtonNext from "../components/utils/SwiperButtonNext";
-import SwiperButtonPrev from "../components/utils/SwiperButtonPrev";
 import ButtonCart from "../components/ButtonCart";
 import Empty from "../components/Empty";
 import EmptyCatalog from "../components/empty/catalog";
@@ -31,9 +29,12 @@ import {
   customWeight,
   generateSeoText,
   getImageURL,
+  sortMain,
 } from "../helpers/all";
 import { getProduct } from "../services/product";
 import { useTranslation } from "react-i18next";
+import { LazyLoadImage } from "react-lazy-load-image-component";
+import Notice from "../components/Notice";
 import Callback from "../components/modals/Callback";
 
 const groupByCategoryIdToArray = (modifiers) => {
@@ -58,17 +59,14 @@ const groupByCategoryIdToArray = (modifiers) => {
 const Product = () => {
   const { t } = useTranslation();
   const { productId } = useParams();
-  const [featuresShow, setFeaturesShow] = useState(false);
-  const [showFeedback, setShowFeedback] = useState(false);
-  const [thumbsSwiper, setThumbsSwiper] = useState(null);
-
+  const priceAffiliateType = useSelector(
+    (state) => state.settings?.options?.brand?.options?.priceAffiliateType
+  );
   const options = useSelector((state) => state.settings.options);
   const selectedAffiliate = useSelector((state) => state.affiliate.active);
   const [isRemove, setIsRemove] = useState(false);
-
-  const productEnergyVisible = useSelector(
-    (state) => state.settings.options.productEnergyVisible
-  );
+  const [thumbsSwiper, setThumbsSwiper] = useState(null);
+  const [showFeedback, setShowFeedback] = useState(false);
 
   const [product, setProduct] = useState({
     loading: true,
@@ -100,14 +98,31 @@ const Product = () => {
     })
       .then((res) => {
         const modifiers =
+          priceAffiliateType &&
+          Array.isArray(res.modifiers) &&
           res?.modifiers?.length > 0
+            ? groupByCategoryIdToArray(
+                res.modifiers.filter((e) => e?.modifierOptions?.length > 0)
+              )
+            : Array.isArray(res.modifiers) && res?.modifiers?.length > 0
             ? groupByCategoryIdToArray(res.modifiers)
             : [];
+
+        const recommends =
+          priceAffiliateType &&
+          Array.isArray(res.recommends) &&
+          res?.recommends?.length > 0
+            ? res.recommends.filter(
+                (e) => productId != e.id && e?.productOptions?.length > 0
+              )
+            : [];
+
         setProduct({
           loading: false,
           item: {
             ...res,
             modifiers: modifiers,
+            recommends: recommends,
           },
         });
 
@@ -218,9 +233,10 @@ const Product = () => {
               )
         }
         image={
+          Array.isArray(product?.item?.medias) &&
           product?.item?.medias[0]?.media
             ? getImageURL({
-                path: product.item.medias[0].media,
+                path: sortMain(product.item.medias)[0].main,
                 size: "full",
                 type: "product",
               })
@@ -246,20 +262,33 @@ const Product = () => {
         <form className="productPage mb-5">
           <Row className="gx-4 gx-xxl-5">
             <Col xs={12} md={5} lg={6}>
-              <div className="productPage-photo">
-                <Swiper
-                  className="thumbSlider"
-                  modules={[Thumbs, FreeMode]}
-                  watchSlidesProgress
-                  onSwiper={setThumbsSwiper}
-                  direction="vertical"
-                  loop={true}
-                  spaceBetween={20}
-                  slidesPerView={"auto"}
-                  freeMode={true}
-                >
-                  {product.item?.medias?.length > 0 &&
-                    product.item.medias.map((e) => (
+              {data.cart.data?.modifiers[0]?.medias[0]?.media &&
+              product.item?.medias?.length === 1 ? (
+                <LazyLoadImage
+                  loading="lazy"
+                  src={getImageURL({
+                    path: data.cart.data?.modifiers[0]?.medias[0]?.media,
+                    size: "full",
+                    type: "modifier",
+                  })}
+                  alt={product.item.title}
+                  className="productPage-img"
+                />
+              ) : Array.isArray(product.item?.medias) &&
+                product.item.medias?.length > 1 ? (
+                <div className="productPage-photo">
+                  <Swiper
+                    className="thumbSlider"
+                    modules={[Thumbs, FreeMode]}
+                    watchSlidesProgress
+                    onSwiper={setThumbsSwiper}
+                    direction="vertical"
+                    loop={true}
+                    spaceBetween={20}
+                    slidesPerView={"auto"}
+                    freeMode={true}
+                  >
+                    {sortMain(product.item.medias).map((e) => (
                       <SwiperSlide>
                         <img
                           src={getImageURL({
@@ -271,23 +300,23 @@ const Product = () => {
                         />
                       </SwiperSlide>
                     ))}
-                </Swiper>
-                <Swiper
-                  className="mainSlider"
-                  modules={[Thumbs]}
-                  loop={true}
-                  spaceBetween={20}
-                  thumbs={{
-                    swiper:
-                      thumbsSwiper && !thumbsSwiper.destroyed
-                        ? thumbsSwiper
-                        : null,
-                  }}
-                >
-                  {product.item.medias?.length > 0 &&
-                    product.item.medias.map((e) => (
-                      <SwiperSlide>
-                        <img
+                  </Swiper>
+                  <Swiper
+                    className="mainSlider"
+                    modules={[Thumbs]}
+                    loop={true}
+                    spaceBetween={20}
+                    thumbs={{
+                      swiper:
+                        thumbsSwiper && !thumbsSwiper.destroyed
+                          ? thumbsSwiper
+                          : null,
+                    }}
+                  >
+                    {sortMain(product.item.medias).map((e, index) => (
+                      <SwiperSlide key={index}>
+                        <LazyLoadImage
+                          loading="lazy"
                           src={getImageURL({
                             path: e.media,
                             size: "full",
@@ -297,39 +326,30 @@ const Product = () => {
                         />
                       </SwiperSlide>
                     ))}
-                </Swiper>
-              </div>
+                  </Swiper>
+                </div>
+              ) : (
+                <LazyLoadImage
+                  loading="lazy"
+                  src={getImageURL({ path: product.item.medias, size: "full" })}
+                  alt={product.item.title}
+                  className="productPage-img"
+                />
+              )}
             </Col>
             <Col xs={12} md={7} lg={6}>
               <div
                 className={
-                  "d-flex align-items-center justify-content-between justify-content-md-start" +
-                  (!product.item.options?.subtitle ? "mb-4" : "")
+                  "d-flex align-items-center justify-content-between" +
+                  (!product.item.options?.subtitle ? " mb-4" : "")
                 }
               >
                 <h1 className="mb-0">{product.item.title}</h1>
 
-                {data.cart.data?.modifiers[0]?.energy?.weight > 0 ? (
-                  <span className="text-muted fw-6 ms-3">
-                    {customWeight({
-                      value: data.cart.data.modifiers[0].energy.weight,
-                      type: data.cart.data.modifiers[0].energy.weightType,
-                    })}
-                  </span>
-                ) : (
-                  product.item.energy.weight > 0 && (
-                    <span className="text-muted fw-6 ms-3">
-                      {customWeight({
-                        value: product.item.energy.weight,
-                        type: product.item.energy?.weightType,
-                      })}
-                    </span>
-                  )
-                )}
-                {productEnergyVisible &&
+                {options?.productEnergyVisible &&
                 data.cart.data?.modifiers[0]?.energy?.kkal > 0 ? (
                   <OverlayTrigger
-                    trigger={["hover"]}
+                    trigger={["hover", "focus"]}
                     className="ms-2"
                     key="bottom"
                     placement="bottom"
@@ -372,10 +392,10 @@ const Product = () => {
                     </a>
                   </OverlayTrigger>
                 ) : (
-                  productEnergyVisible &&
+                  options?.productEnergyVisible &&
                   product.item?.energy?.kkal > 0 && (
                     <OverlayTrigger
-                      trigger={["hover"]}
+                      trigger={["hover", "focus"]}
                       className="ms-2"
                       key="bottom"
                       placement="bottom"
@@ -501,7 +521,21 @@ const Product = () => {
                                       setData(newData);
                                     }}
                                   />
-                                  <div className="text">{e.title}</div>
+                                  <div className="text d-flex flex-row justify-content-center">
+                                    <div className="line-height-100">
+                                      {e.title}
+                                    </div>
+                                    {e?.energy?.weight > 0 &&
+                                      options?.productVisibleModifierWeight && (
+                                        <div className="text-muted fw-4 ms-1 line-height-100">
+                                          /{" "}
+                                          {customWeight({
+                                            value: e.energy.weight,
+                                            type: e.energy?.weightType,
+                                          })}
+                                        </div>
+                                      )}
+                                  </div>
                                 </label>
                               </li>
                             ))}
@@ -514,23 +548,52 @@ const Product = () => {
               {product.item.options?.сompound && (
                 <>
                   <p className="fw-6 mb-2">{t("Состав")}</p>
-                  <div className="mb-4 text-muted fs-09">
+                  <div className="mb-4 text-muted fs-09 white-space">
                     {product.item.options.сompound}
                   </div>
                 </>
               )}
               <div className="productPage-price">
-                <div className="py-2 fw-5 me-4 fs-12 rounded-pill">
-                  {customPrice(prices.price)}
-                  {prices.discount > 0 && (
-                    <div className="fs-08 text-muted text-decoration-line-through">
-                      {customPrice(prices.discount)}
+                {prices.price > 0 && (
+                  <div className="py-2 fw-5 me-2 fs-12 rounded-pill">
+                    {customPrice(prices.price)}
+                    {prices.discount > 0 && (
+                      <div className="fs-08 text-muted text-decoration-line-through">
+                        {customPrice(prices.discount)}
+                      </div>
+                    )}
+                  </div>
+                )}
+                {data.cart.data?.modifiers[0]?.energy?.weight > 0 ? (
+                  <div className="text-muted py-2 me-2 fw-4 fs-09">
+                    {"/ "}
+                    {options?.productWeightDiscrepancy ? "±" : ""}
+                    {customWeight({
+                      value: data.cart.data.modifiers[0].energy.weight,
+                      type: data.cart.data.modifiers[0].energy.weightType,
+                    })}
+                  </div>
+                ) : (
+                  product.item.energy.weight > 0 && (
+                    <div className="text-muted py-2 me-2 fw-4 fs-09">
+                      {"/ "}
+                      {options?.productWeightDiscrepancy ? "±" : ""}
+                      {customWeight({
+                        value: product.item.energy.weight,
+                        type: product.item.energy?.weightType,
+                      })}
                     </div>
-                  )}
-                </div>
+                  )
+                )}
                 {prices.price > 0 ? (
-                  <ButtonCart full product={product.item} data={data}>
-                    Заказать
+                  <ButtonCart
+                    full
+                    product={product.item}
+                    data={data}
+                    className="py-2 ms-2 btn-lg"
+                  >
+                    {t("В корзину")}
+                    <HiOutlineShoppingBag className="fs-13 ms-2" />
                   </ButtonCart>
                 ) : (
                   <>
@@ -554,7 +617,6 @@ const Product = () => {
               {(product?.item?.additions?.length > 0 ||
                 product?.item?.wishes?.length > 0) && (
                 <div className="mt-5">
-                  {/* <h6>Изменить по вкусу</h6> */}
                   <div className="productPage-edit mb-3">
                     <div className="top">
                       {product.item?.additions?.length > 0 && (
@@ -591,10 +653,11 @@ const Product = () => {
                     </div>
                     <div className="box bg-gray">
                       <Row
+                        xs={3}
                         sm={3}
                         lg={3}
                         xl={4}
-                        className={isRemove ? "d-none" : "d-flex"}
+                        className={isRemove ? "d-none gx-3" : "gx-3 d-flex"}
                       >
                         {product.item?.additions?.length > 0 &&
                           product.item.additions.map((e) => {
@@ -673,12 +736,15 @@ const Product = () => {
                   </div>
                 </div>
               )}
+              {options?.productNotice && (
+                <Notice className="mt-4" text={options?.productNoticeText} />
+              )}
             </Col>
           </Row>
         </form>
         {product?.item?.recommends?.length > 0 && (
           <section className="d-none d-md-block mb-5">
-            <h2>{t("Вам может понравится")}</h2>
+            <h2>{t("Вам может понравиться")}</h2>
             <Swiper
               className=""
               modules={[Navigation]}

@@ -56,10 +56,15 @@ const ProductCardMini = memo(({ data }) => {
         <LazyLoadImage src={image} alt={data.title} loading="lazy" />
       </Link>
       <figcaption>
-        <div>
+        <div className="desc">
           <h6 className="mb-2">
             <Link to={"/product/" + data?.id}>{data.title}</Link>
           </h6>
+          {data.description && (
+            <Link to={"/product/" + data?.id}>
+              <p className="fs-09 text-muted">{data.description}</p>
+            </Link>
+          )}
           {data.energy.weight > 0 && (
             <p className="text-muted d-none d-lg-block">
               {customWeight({
@@ -69,14 +74,17 @@ const ProductCardMini = memo(({ data }) => {
             </p>
           )}
         </div>
-        <div className="d-flex justify-content-md-between justify-content-center align-items-center">
-          <p className="d-none d-lg-block fw-6">
-            {modifiers?.length > 0 && Array.isArray(modifiers)
-              ? "от " + customPrice(price > 0 ? price : data.price)
-              : customPrice(data.price)}
-          </p>
-          <ButtonCart product={data} />
-        </div>
+        {(modifiers?.length > 0 && Array.isArray(modifiers) && price > 0) ||
+          (data.price > 0 && (
+            <div className="d-flex justify-content-md-between justify-content-center align-items-center">
+              <p className="d-none d-lg-block fw-6">
+                {modifiers?.length > 0 && Array.isArray(modifiers) && price > 0
+                  ? "от " + customPrice(price > 0 ? price : data.price)
+                  : data.price > 0 && customPrice(data.price)}
+              </p>
+              <ButtonCart product={data} />
+            </div>
+          ))}
       </figcaption>
     </figure>
   );
