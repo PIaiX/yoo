@@ -6,6 +6,9 @@ import { Link } from "react-router-dom";
 import Slider from "react-slick";
 
 const WidgetBanners = memo((data) => {
+ if (!data?.items || data?.items?.length === 0) {
+    return null;
+  }
   const hasWindow = typeof window !== "undefined";
   const [mobile, setMobile] = useState(false);
   const [width, setWidth] = useState(hasWindow ? window.innerWidth : null);
@@ -13,9 +16,7 @@ const WidgetBanners = memo((data) => {
 
   const [mouseMoved, setMouseMoved] = useState(false);
 
-  if (!data?.items || data?.items?.length === 0) {
-    return null;
-  }
+
 
   useEffect(() => {
     const handleResize = () => {
