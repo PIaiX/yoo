@@ -28,6 +28,7 @@ import Loader from "../components/utils/Loader";
 import Extras from "../components/utils/Extras";
 import { keyGenerator } from "../hooks/all";
 import { useTranslation } from "react-i18next";
+import Gifts from "../components/utils/Gifts";
 
 const Cart = () => {
   const { t } = useTranslation();
@@ -42,6 +43,7 @@ const Cart = () => {
   const [data, setData] = useState({ loading: true });
   const checkout = useSelector((state) => state.checkout);
   const selectedAffiliate = useSelector((state) => state.affiliate?.active);
+  const [isGift, setIsGift] = useState(false);
 
   const {
     total = 0,
@@ -107,6 +109,7 @@ const Cart = () => {
   }, [promo]);
 
   useEffect(() => {
+    setIsGift(count > 0 ? cart.find((e) => e.type == "gift") : false);
     if (count > 0) {
       getCart({
         name: user?.firstName ?? "",
@@ -273,9 +276,9 @@ const Cart = () => {
                   </li>
                 ))}
               </ul>
-              {/* {options.giftVisible && !isGift && (
-                <Gifts total={total} items={data?.gifts} />
-              )} */}
+              {options?.giftVisible && !isGift && (
+                <Gifts total={totalNoDelivery} items={data?.gifts} />
+              )}
             </Col>
             <Col xs={12} lg={4}>
               {options?.promoVisible && user?.id && !promo && (

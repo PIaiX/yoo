@@ -12,6 +12,7 @@ const ButtonCart = memo(
   ({
     product,
     data,
+    isValid = true,
     full = false,
     onAddCart,
     cart = false,
@@ -72,7 +73,12 @@ const ButtonCart = memo(
       [data, product, cart, full]
     );
 
-    if ((isCartData && product?.modifiers?.length === 0) || cart) {
+    if (
+      (isCartData &&
+        !product?.modifiers?.length &&
+        !product?.additions?.length) ||
+      cart
+    ) {
       if (product.type == "gift" || product.type == "promo") {
         return (
           <button
@@ -95,6 +101,7 @@ const ButtonCart = memo(
 
     return (
       <button
+        disabled={!isValid}
         onClick={() =>
           data?.cart?.data?.modifiers
             ? onPress(1)
