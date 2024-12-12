@@ -201,7 +201,17 @@ function App() {
                   ...rest,
                   affiliates:
                     relationCities && relationCities.length > 0
-                      ? relationCities.map((relation) => relation.affiliate)
+                      ? relationCities
+                          .map((relation) => relation.affiliate)
+                          .sort((a, b) => {
+                            if (a.main === b.main) {
+                              return 0;
+                            } else if (a.main) {
+                              return -1;
+                            } else {
+                              return 1;
+                            }
+                          })
                       : [],
                 };
               });
