@@ -49,7 +49,189 @@ const ProductCard = memo(({ data }) => {
   //     : data.discount;
 
   const [activeIndex, setActiveIndex] = useState(0);
+  if (data?.type == "gift") {
+    return (
+      <div className="product product-gift" key={data?.id}>
+        <div className="left">
+          <div
+            className={
+              (options?.themeProductImageSize ? " product-img-contain" : "") +
+              (Array.isArray(data?.medias) && data?.medias?.length > 1
+                ? " no-hover"
+                : "")
+            }
+          >
+            <Link to={"/product/" + data?.id} state={data}>
+              {data?.tags?.length > 0 && (
+                <div className="p-2 z-3 position-absolute">
+                  <Tags data={data.tags} mini />
+                </div>
+              )}
 
+              {Array.isArray(data?.medias) && data?.medias?.length > 1 ? (
+                <div
+                  onMouseLeave={() => setActiveIndex(0)}
+                  onMouseMove={(e) =>
+                    data?.medias?.length <= 2 && setActiveIndex(1)
+                  }
+                >
+                  {sortMain(data?.medias).map((e, index) => (
+                    <LazyLoadImage
+                      className={activeIndex === index ? "show" : "hide"}
+                      src={getImageURL({
+                        path: e.media,
+                      })}
+                      alt={data.title}
+                      loading="lazy"
+                      effect="blur"
+                    />
+                  ))}
+                  {Array.isArray(data?.medias) && data?.medias?.length > 2 && (
+                    <div className="pagination-mouse">
+                      {data.medias.map((e, index) => (
+                        <div
+                          key={index}
+                          className={
+                            "pagination-mouse-item " +
+                            (activeIndex === index
+                              ? "pagination-mouse-item-active"
+                              : "")
+                          }
+                          onMouseMove={(e) => setActiveIndex(index)}
+                        />
+                      ))}
+                    </div>
+                  )}
+                </div>
+              ) : (
+                <LazyLoadImage
+                  wrapperClassName="d-flex"
+                  src={getImageURL({ path: data?.medias })}
+                  alt={data.title}
+                  loading="lazy"
+                  effect="blur"
+                />
+              )}
+            </Link>
+          </div>
+        </div>
+        <div className="right w-100">
+          <Link to={"/product/" + data?.id} state={data}>
+            <h6 className={"title" + (data?.options?.subtitle ? " fs-09" : "")}>
+              {data.title}
+              {data?.options?.subtitle ? (
+                <div className="subtitle fw-5">{data.options.subtitle}</div>
+              ) : (
+                ""
+              )}
+            </h6>
+            {options?.themeProductDesc ? (
+              <p className="desc desc-full d-none d-md-block fs-09">
+                {data.description}
+              </p>
+            ) : (
+              <p className="desc d-none d-md-block fs-09">{data.description}</p>
+            )}
+          </Link>
+          {data?.options?.сompound && (
+            <div className="d-flex d-lg-none justify-content-center align-items-center">
+              <OverlayTrigger
+                trigger={["hover", "focus"]}
+                className="ms-2"
+                key="top"
+                placement="top"
+                overlay={
+                  <Popover id="popover-positioned-top">
+                    <Popover.Header className="fs-09 fw-6 d-flex justify-content-between">
+                      {t("Состав")}
+                      {data?.energy?.weight > 0 && (
+                        <div className="fw-6">
+                          {options?.productWeightDiscrepancy ? "±" : ""}
+                          {customWeight({
+                            value: data.energy.weight,
+                            type: data.energy?.weightType,
+                          })}
+                        </div>
+                      )}
+                    </Popover.Header>
+                    <Popover.Body className="white-space">
+                      {data.options.сompound}
+                    </Popover.Body>
+                  </Popover>
+                }
+              >
+                <a className="fw-5 text-decoration-underline">Состав</a>
+              </OverlayTrigger>
+            </div>
+          )}
+          <div className="d-flex justify-content-between align-items-center">
+            {data?.options?.сompound && (
+              <div className="d-none d-lg-flex justify-content-between align-items-center">
+                <OverlayTrigger
+                  trigger={["hover", "focus"]}
+                  className="ms-2"
+                  key="top"
+                  placement="top"
+                  overlay={
+                    <Popover id="popover-positioned-top">
+                      <Popover.Header className="fs-09 fw-6 d-flex justify-content-between">
+                        {t("Состав")}
+                        {data?.energy?.weight > 0 && (
+                          <div className="fw-6">
+                            {options?.productWeightDiscrepancy ? "±" : ""}
+                            {customWeight({
+                              value: data.energy.weight,
+                              type: data.energy?.weightType,
+                            })}
+                          </div>
+                        )}
+                      </Popover.Header>
+                      <Popover.Body className="white-space">
+                        {data.options.сompound}
+                      </Popover.Body>
+                    </Popover>
+                  }
+                >
+                  <a className="fw-5 text-decoration-underline">Состав</a>
+                </OverlayTrigger>
+              </div>
+            )}
+
+            <div className="d-flex justify-content-between align-items-center">
+              <div>
+                <Link
+                  to={"/product/" + data?.id}
+                  state={data}
+                  className="price fw-5"
+                >
+                  {"от " + customPrice(data.options.minCart)}
+                </Link>
+              </div>
+            </div>
+
+            {data?.energy?.weight > 0 && !data?.options?.сompound && (
+              <Link
+                to={"/product/" + data?.id}
+                state={data}
+                className="text-muted d-none d-md-block"
+              >
+                {options?.productWeightDiscrepancy ? "±" : ""}
+                {customWeight({
+                  value: data.energy.weight,
+                  type: data.energy?.weightType,
+                })}
+              </Link>
+            )}
+
+            <ButtonCart
+              product={data}
+              isValid={data.total >= data.options.minCart}
+            />
+          </div>
+        </div>
+      </div>
+    );
+  }
   return (
     <div className="product" key={data?.id}>
       <div

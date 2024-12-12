@@ -3,7 +3,7 @@ import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import NavTop from "../components/utils/NavTop";
-// import Gifts from "../components/utils/Gifts";
+import Gifts from "../components/utils/Gifts";
 import { useForm, useWatch } from "react-hook-form";
 import { NotificationManager } from "react-notifications";
 import { useDispatch, useSelector } from "react-redux";
@@ -42,6 +42,7 @@ const Cart = () => {
   const [data, setData] = useState({ loading: true });
   const checkout = useSelector((state) => state.checkout);
   const selectedAffiliate = useSelector((state) => state.affiliate?.active);
+  const [isGift, setIsGift] = useState(false);
 
   const {
     total = 0,
@@ -107,6 +108,7 @@ const Cart = () => {
   }, [promo]);
 
   useEffect(() => {
+    setIsGift(count > 0 ? cart.find((e) => e.type == "gift") : false);
     if (count > 0) {
       getCart({
         name: user?.firstName ?? "",
@@ -273,127 +275,131 @@ const Cart = () => {
                   </li>
                 ))}
               </ul>
-              {/* {options.giftVisible && !isGift && (
-                <Gifts total={total} items={data?.gifts} />
-              )} */}
             </Col>
             <Col xs={12} lg={4}>
-              {options?.promoVisible && user?.id && !promo && (
-                <>
-                  <div className="fs-11 mb-1">{t("Промокод")}</div>
-                  <div className="mb-3">
-                    <Input
-                      className="w-100 mb-3"
-                      type="text"
-                      name="promo"
-                      placeholder={t("Введите промокод")}
-                      errors={errors}
-                      register={register}
-                      maxLength={100}
-                    />
-                    <button
-                      type="button"
-                      disabled={!isValid}
-                      onClick={handleSubmit(onPromo)}
-                      className={
-                        form?.promo?.length > 1
-                          ? "btn-primary w-100 rounded-3"
-                          : "btn-10 w-100 rounded-3"
-                      }
-                    >
-                      {t("Применить")}
-                    </button>
+              <div className="position-sticky top-h">
+                {options?.giftVisible && !isGift && (
+                  <Gifts total={totalNoDelivery} items={data?.gifts} />
+                )}
+                {options?.promoVisible && user?.id && !promo && (
+                  <>
+                    <div className="fs-11 mb-1">{t("Промокод")}</div>
+                    <div className="mb-3">
+                      <Input
+                        className="w-100 mb-3"
+                        type="text"
+                        name="promo"
+                        placeholder={t("Введите промокод")}
+                        errors={errors}
+                        register={register}
+                        maxLength={100}
+                      />
+                      <button
+                        type="button"
+                        disabled={!isValid}
+                        onClick={handleSubmit(onPromo)}
+                        className={
+                          form?.promo?.length > 1
+                            ? "btn-primary w-100 rounded-3"
+                            : "btn-10 w-100 rounded-3"
+                        }
+                      >
+                        {t("Применить")}
+                      </button>
+                    </div>
+                  </>
+                )}
+
+                {person > 0 && <Extras person={person} items={data?.extras} />}
+
+                <div className="d-flex justify-content-between my-2">
+                  <span>{t("Стоимость товаров")}</span>
+                  <span>{customPrice(price)}</span>
+                </div>
+                {options?.promoVisible && promo && (
+                  <div className="d-flex justify-content-between my-2">
+                    <div>
+                      <div className="text-muted fs-08">{t("Промокод")}</div>
+                      <div className="fw-6">{promo.title.toUpperCase()}</div>
+                    </div>
+                    <span className="d-flex align-items-center">
+                      {Number(promo.options?.discount) > 0 && (
+                        <span className="text-success">
+                          -{" "}
+                          {Number.isInteger(Number(promo.options?.discount)) > 0
+                            ? customPrice(promo.options.discount)
+                            : promo.options?.discount}
+                        </span>
+                      )}
+                      {Number(promo.options?.percent > 0) && (
+                        <span className="text-success">
+                          -{" "}
+                          {Number.isInteger(Number(promo.options?.percent)) > 0
+                            ? promo.options?.percent + "%"
+                            : promo.options?.percent}
+                        </span>
+                      )}
+                      <a
+                        onClick={() => {
+                          dispatch(cartDeleteProduct(promo.product));
+                          setValue("promo", "");
+                          dispatch(cartDeletePromo());
+                        }}
+                        className="ms-2 text-danger"
+                      >
+                        <IoTrashOutline size={18} />
+                      </a>
+                    </span>
                   </div>
-                </>
-              )}
+                )}
 
-              {person > 0 && <Extras person={person} items={data?.extras} />}
-
-              <div className="d-flex justify-content-between my-2">
-                <span>{t("Стоимость товаров")}</span>
-                <span>{customPrice(price)}</span>
-              </div>
-              {options?.promoVisible && promo && (
-                <div className="d-flex justify-content-between my-2">
-                  <div>
-                    <div className="text-muted fs-08">{t("Промокод")}</div>
-                    <div className="fw-6">{promo.title.toUpperCase()}</div>
+                {discount > 0 && (
+                  <div className="d-flex justify-content-between my-2">
+                    <span>{t("Скидка")}</span>
+                    <span className="text-success">
+                      -{customPrice(discount)}
+                    </span>
                   </div>
-                  <span className="d-flex align-items-center">
-                    {Number(promo.options?.discount) > 0 && (
-                      <span className="text-success">
-                        -{" "}
-                        {Number.isInteger(Number(promo.options?.discount)) > 0
-                          ? customPrice(promo.options.discount)
-                          : promo.options?.discount}
-                      </span>
-                    )}
-                    {Number(promo.options?.percent > 0) && (
-                      <span className="text-success">
-                        -{" "}
-                        {Number.isInteger(Number(promo.options?.percent)) > 0
-                          ? promo.options?.percent + "%"
-                          : promo.options?.percent}
-                      </span>
-                    )}
-                    <a
-                      onClick={() => {
-                        dispatch(cartDeleteProduct(promo.product));
-                        setValue("promo", "");
-                        dispatch(cartDeletePromo());
-                      }}
-                      className="ms-2 text-danger"
-                    >
-                      <IoTrashOutline size={18} />
-                    </a>
-                  </span>
+                )}
+                {pointCheckout > 0 && pointSwitch && (
+                  <div className="d-flex justify-content-between my-2">
+                    <span>{t("Списание баллов")}</span>
+                    <span>-{customPrice(pointCheckout)}</span>
+                  </div>
+                )}
+                {pointAccrual > 0 && (
+                  <div className="d-flex justify-content-between my-2">
+                    <span>{t("Начислится баллов")}</span>
+                    <span>+{customPrice(pointAccrual)}</span>
+                  </div>
+                )}
+                <hr className="my-3" />
+                <div className="d-flex justify-content-between mb-5">
+                  <span className="fw-7 fs-11">{t("Итоговая сумма")}</span>
+                  <span className="fw-7">{customPrice(totalNoDelivery)}</span>
                 </div>
-              )}
 
-              {discount > 0 && (
-                <div className="d-flex justify-content-between my-2">
-                  <span>{t("Скидка")}</span>
-                  <span className="text-success">-{customPrice(discount)}</span>
-                </div>
-              )}
-              {pointCheckout > 0 && pointSwitch && (
-                <div className="d-flex justify-content-between my-2">
-                  <span>{t("Списание баллов")}</span>
-                  <span>-{customPrice(pointCheckout)}</span>
-                </div>
-              )}
-              {pointAccrual > 0 && (
-                <div className="d-flex justify-content-between my-2">
-                  <span>{t("Начислится баллов")}</span>
-                  <span>+{customPrice(pointAccrual)}</span>
-                </div>
-              )}
-              <hr className="my-3" />
-              <div className="d-flex justify-content-between mb-5">
-                <span className="fw-7 fs-11">{t("Итоговая сумма")}</span>
-                <span className="fw-7">{customPrice(totalNoDelivery)}</span>
-              </div>
-
-              <Link
-                to={
-                  user?.id
-                    ? address?.length === 0 && stateDelivery == "delivery"
-                      ? "/account/addresses/add"
-                      : "/checkout"
-                    : "/login"
-                }
-                className="btn btn-primary btn-lg w-100"
-              >
-                <span className="fw-6">
-                  {t(
+                <Link
+                  to={
                     user?.id
                       ? address?.length === 0 && stateDelivery == "delivery"
-                        ? "Добавить адрес"
-                        : "Далее"
-                      : "Войти в профиль"
-                  )}
-                </span>
-              </Link>
+                        ? "/account/addresses/add"
+                        : "/checkout"
+                      : "/login"
+                  }
+                  className="btn btn-primary btn-lg w-100"
+                >
+                  <span className="fw-6">
+                    {t(
+                      user?.id
+                        ? address?.length === 0 && stateDelivery == "delivery"
+                          ? "Добавить адрес"
+                          : "Далее"
+                        : "Войти в профиль"
+                    )}
+                  </span>
+                </Link>
+              </div>
             </Col>
           </Row>
         </div>
