@@ -85,7 +85,9 @@ const Cart = () => {
           .then((res) => {
             dispatch(cartPromo(res));
             if (res?.product?.id) {
-              dispatch(updateCart({ ...res.product, cart: { count: 1 } }));
+              dispatch(
+                updateCart({ data: { ...res.product, cart: { count: 1 } } })
+              );
             }
           })
           .catch((error) => {
@@ -323,25 +325,33 @@ const Cart = () => {
                       <div className="fw-6">{promo.title.toUpperCase()}</div>
                     </div>
                     <span className="d-flex align-items-center">
-                      {Number(promo.options?.discount) > 0 && (
+                      {Number(promo.options?.discount) > 0 ? (
                         <span className="text-success">
                           -{" "}
                           {Number.isInteger(Number(promo.options?.discount)) > 0
                             ? customPrice(promo.options.discount)
-                            : promo.options?.discount}
+                            : promo.options?.discount ?? ""}
                         </span>
+                      ) : (
+                        ""
                       )}
-                      {Number(promo.options?.percent > 0) && (
+                      {Number(promo.options?.percent > 0) ? (
                         <span className="text-success">
                           -{" "}
                           {Number.isInteger(Number(promo.options?.percent)) > 0
                             ? promo.options?.percent + "%"
-                            : promo.options?.percent}
+                            : promo.options?.percent ?? ""}
                         </span>
+                      ) : (
+                        ""
                       )}
                       <a
                         onClick={() => {
-                          dispatch(cartDeleteProduct(promo.product));
+                          if (promo?.product?.id) {
+                            dispatch(
+                              cartDeleteProduct({ data: promo.product })
+                            );
+                          }
                           setValue("promo", "");
                           dispatch(cartDeletePromo());
                         }}

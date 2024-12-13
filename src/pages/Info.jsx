@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Container from "react-bootstrap/Container";
 
 // swiper
@@ -21,11 +21,36 @@ import EmptyWork from "../components/empty/work";
 import Meta from "../components/Meta";
 import { getImageURL } from "../helpers/all";
 import { IoChevronForward } from "react-icons/io5";
+import Slider from "react-slick";
 
 const Info = () => {
   const { t } = useTranslation();
   const options = useSelector((state) => state.settings.options);
   const selectedAffiliate = useSelector((state) => state.affiliate.active);
+  const hasWindow = typeof window !== "undefined";
+  const [mobile, setMobile] = useState(false);
+  const [width, setWidth] = useState(hasWindow ? window.innerWidth : null);
+  let timeOutId = useRef();
+
+  const [mouseMoved, setMouseMoved] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setWidth(window.innerWidth);
+    };
+    window.addEventListener("resize", () => {
+      clearTimeout(timeOutId.current);
+      timeOutId.current = setTimeout(handleResize, 500);
+    });
+  }, []);
+
+  useEffect(() => {
+    if (width !== null && width < 700) {
+      setMobile(true);
+    } else {
+      setMobile(false);
+    }
+  }, [width]);
 
   if (!options?.info) {
     return (
@@ -68,36 +93,30 @@ const Info = () => {
         }
       />
 
-      <section className="sec-1 mb-3">
-        <div className="container">
-          <div className="row justify-content-center">
-            <div className={"col-12"}>
-              <Swiper
-                className="main-slider paginated"
-                slidesPerView={1}
-                initialSlide={0}
-                loopedSlides={1}
-                centeredSlides={true}
-                speed={750}
-                pagination={{ clickable: true }}
-              >
-                <SwiperSlide>
-                  <img
-                    src={getImageURL({
-                      path: options?.info?.banner,
-                      type: "all/web/info",
-                      size: "full",
-                    })}
-                    className={"img-fluid big"}
-                  />
-                </SwiperSlide>
-              </Swiper>
-            </div>
-          </div>
-        </div>
-      </section>
-      <Container>
-        <ListGroup>
+      <Container className="mb-4">
+        {options?.info?.banner && (
+          <Slider
+            className={"mt-2 mx-4"}
+            centerMode={!mobile}
+            infinite={true}
+            slidesToShow={1}
+            adaptiveHeight={true}
+            slidesToScroll={1}
+            pauseOnHover={true}
+            swipe={true}
+            variableWidth={!mobile}
+          >
+            <img
+              src={getImageURL({
+                path: options?.info?.banner,
+                type: "all/web/info",
+                size: "full",
+              })}
+              className={"img-fluid big"}
+            />
+          </Slider>
+        )}
+        <ListGroup className="mt-4">
           {options?.info?.phone?.value && options?.info?.phone?.status && (
             <ListGroup.Item
               active={false}

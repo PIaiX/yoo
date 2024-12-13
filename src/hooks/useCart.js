@@ -46,7 +46,8 @@ const useTotalCart = () => {
             person = 0,
             pointAccrual = 0,
             totalNoDelivery = 0,
-            pickupDiscount = 0
+            pickupDiscount = 0,
+            count = 0
 
         if (stateCart?.length > 0) {
             stateCart.forEach((product) => {
@@ -71,6 +72,10 @@ const useTotalCart = () => {
                     : modifiersPrice || basePrice
 
                 price += productPrice
+
+                if (product?.discount > 0 && product?.cart?.count > 0 && product?.price > 0) {
+                    discount += product.discount
+                }
 
                 pickupDiscount +=
                     Number(affiliateActive?.options?.discountPickup) > 0 && stateDelivery === 'pickup' && affiliateActive?.options?.discountExceptions?.length > 0 && !affiliateActive?.options?.discountExceptions.includes(String(product.categoryId))
@@ -100,10 +105,6 @@ const useTotalCart = () => {
 
                         }
                     }
-                }
-
-                if (product?.discount > 0 && product?.cart?.count > 0 && product?.price > 0) {
-                    discount += product.discount
                 }
 
                 if (product?.cart?.data?.additions?.length > 0) {
@@ -193,6 +194,7 @@ const useTotalCart = () => {
                 pickupDiscount: parseInt(pickupDiscount),
                 pointCheckout: parseInt(pointCheckout),
                 person: parseInt(person),
+                count: count
             }
         } else {
             return {
@@ -206,6 +208,7 @@ const useTotalCart = () => {
                 pickupDiscount: 0,
                 pointCheckout: 0,
                 person: 0,
+                count: 0
             }
         }
     }, [

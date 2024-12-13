@@ -62,7 +62,6 @@ const Callback = ({ show = false, setShow, type, page, product, ip }) => {
                 mask="7(999)999-99-99"
                 label="Номер телефона"
                 inputMode="tel"
-                pattern="[0-9+()-]*"
                 name="phone"
                 errors={errors}
                 register={register}

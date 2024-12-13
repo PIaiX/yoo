@@ -112,7 +112,6 @@ const Recovery = () => {
                         label={t("Номер телефона")}
                         name="phone"
                         inputMode="tel"
-                        pattern="[0-9+()-]*"
                         placeholder="+7(900)000-00-00"
                         mask="+7(999)999-99-99"
                         errors={errors}

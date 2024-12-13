@@ -5,9 +5,12 @@ import { customPrice } from "../../helpers/all";
 import ProductCard from "../ProductCard";
 
 const Gifts = memo(({ total, items }) => {
+  if (!items || items?.length === 0) {
+    return null;
+  }
   const [show, setShow] = useState(false);
 
-  const { prices, price, priceIndex } = useMemo(() => {
+  const { prices, price } = useMemo(() => {
     let prices =
       items?.length > 0
         ? [
@@ -37,6 +40,10 @@ const Gifts = memo(({ total, items }) => {
 
     return { prices, price };
   }, [items, total]);
+
+  if (!prices || prices?.length === 0) {
+    return null;
+  }
 
   return (
     <>

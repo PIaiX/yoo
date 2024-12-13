@@ -6837,4 +6837,17 @@ img.show {
 
 .top-h {
   top: calc(var(--h-height) + 40px) !important;
+}
+
+.list-group {
+  --bs-list-group-color: var(--main-color-text);
+  --bs-list-group-bg: var(--bg-second);
+  --bs-list-group-border-color: var(--bg-second-hover);
+  --bs-list-group-action-color: var(--bs-secondary-color);
+  --bs-list-group-action-hover-color: var(--main-color-text);
+  --bs-list-group-action-hover-bg: var(--bg-second-hover);
+  --bs-list-group-action-active-color: var(--main-color-text);
+  --bs-list-group-action-active-bg: var(--bg-second-hover);
+  --bs-list-group-disabled-color: var(--main-color-text);
+  --bs-list-group-disabled-bg: var(--bg-second-hover);
 }/*# sourceMappingURL=style.css.map */

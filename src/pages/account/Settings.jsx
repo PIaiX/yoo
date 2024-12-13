@@ -106,10 +106,7 @@ const Settings = () => {
     <main className="account mb-2 mb-sm-3 mb-md-0">
       <Meta title={t("Настройки")} />
       <Container className="pt-4 pt-lg-0">
-        <AccountTitleReturn
-          link="/account"
-          title="Настройки"
-        />
+        <AccountTitleReturn link="/account" title="Настройки" />
         <Row className="gx-3 gx-xl-4">
           <Col lg={8}>
             <Row className="g-3 g-xl-4">
@@ -173,7 +170,6 @@ const Settings = () => {
                         type="custom"
                         name="phone"
                         inputMode="tel"
-                        pattern="[0-9+()-]*"
                         mask="+7(999)999-99-99"
                         readOnly={user?.phone ? true : false}
                         keyboardType="phone-pad"
