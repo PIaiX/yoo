@@ -365,6 +365,7 @@ const Header = memo(() => {
                       : "/login"
                   }
                 >
+                  <img src="/imgs/cap.png" className="cap" />
                   <HiOutlineUserCircle size={25} />
                 </Link>
               </li>

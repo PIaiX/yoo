@@ -1622,11 +1622,24 @@ header {
     }
     li > a {
       display: flex;
+      position: relative;
       transition: all 200ms;
       height: var(--h-height);
       align-items: center;
+      .cap {
+        position: absolute;
+        width: 34px;
+        height: 34px;
+        bottom: 30px;
+        right: -9px;
+        object-fit: contain;
+        transition: all 300ms;
+      }
       &:hover {
         color: var(--main-color);
+        .cap {
+          bottom: 33px;
+        }
       }
       @media (max-width: $bp-xxl) {
         font-size: 13px !important;
