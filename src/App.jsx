@@ -10,6 +10,7 @@ import React, {
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import "./assets/style.min.css";
+import Holiday from "./components/Holiday";
 import Loader from "./components/utils/Loader";
 import YandexMetrika from "./components/YandexMetrika";
 import socket from "./config/socket";
@@ -321,6 +322,7 @@ function App() {
 
   return (
     <>
+      <Holiday />
       <YandexMetrika />
       <AppRouter />
     </>
