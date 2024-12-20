@@ -343,10 +343,12 @@ const Checkout = () => {
             selectedAffiliate.options.work[moment(data.serving).weekday()]
               .start,
             selectedAffiliate.options.work[moment(data.serving).weekday()].end,
-            data.serving
+            moment(data.serving).format("HH:mm")
           )
         ) {
-          NotificationManager.error(t("Нельзя заказать на данное время"));
+          return NotificationManager.error(
+            t("Нельзя заказать на данное время")
+          );
         }
       }
 
@@ -356,10 +358,9 @@ const Checkout = () => {
         }
 
         if (!zone?.data || !zone?.data?.status) {
-          NotificationManager.error(
+          return NotificationManager.error(
             t("По данному адресу доставка не производится")
           );
-          return false;
         }
 
         data.affiliateId = zone.data.affiliateId;
@@ -414,7 +415,7 @@ const Checkout = () => {
         })
         .finally(() => setIsLoading(false));
     },
-    [data, zone?.data]
+    [data, selectedAffiliate, zone?.data]
   );
 
   if (!Array.isArray(cart) || cart.length <= 0) {

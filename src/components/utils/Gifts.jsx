@@ -10,7 +10,7 @@ const Gifts = memo(({ total, items }) => {
   }
   const [show, setShow] = useState(false);
 
-  const { prices, price } = useMemo(() => {
+  const { prices, price, priceIndex } = useMemo(() => {
     let prices =
       items?.length > 0
         ? [
@@ -25,11 +25,13 @@ const Gifts = memo(({ total, items }) => {
         : false;
 
     let price = null;
+    let priceIndex = 0;
     if (prices?.length > 0) {
       prices.forEach((value, index) => {
         if (value > total) {
           if (price === null || value - total < price - total) {
             price = value;
+            priceIndex = index;
           }
         }
       });
@@ -38,7 +40,7 @@ const Gifts = memo(({ total, items }) => {
       }
     }
 
-    return { prices, price };
+    return { prices, price, priceIndex };
   }, [items, total]);
 
   if (!prices || prices?.length === 0) {
@@ -83,11 +85,14 @@ const Gifts = memo(({ total, items }) => {
         </ul>
         {total < price ? (
           <p className="mt-2 text-muted fs-09">
-            Добавьте товар на сумму {customPrice(price)} чтобы получить подарок
+            Добавьте товар на сумму {customPrice(price)}{" "}
+            {priceIndex > 0
+              ? " чтобы улучшить подарок"
+              : " чтобы получить подарок"}
           </p>
         ) : (
-          <p className="mt-2">
-            Вам доступен подарок.{" "}
+          <p className="mt-2 fw-6">
+            Вам доступен подарок!{" "}
             <a className="color-main" onClick={() => setShow(true)}>
               Выберите из списка
             </a>

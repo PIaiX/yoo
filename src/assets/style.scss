@@ -2877,7 +2877,9 @@ main {
     @include clamp(2, 1.2em, true);
   }
   p.desc-full {
-    @include clamp(6, 1.2em, true);
+    @include clamp(15, 1.2em, false);
+    // white-space: break-spaces;
+    height: auto;
   }
   hr {
     background-color: var(--bg-second);
@@ -5823,4 +5825,10 @@ img.show {
   --bs-list-group-action-active-bg: var(--bg-second-hover);
   --bs-list-group-disabled-color: var(--main-color-text);
   --bs-list-group-disabled-bg: var(--bg-second-hover);
+}
+.color-main {
+  color: var(--main-color);
+  &:hover{
+    color: var(--main-color);
+  }
 }

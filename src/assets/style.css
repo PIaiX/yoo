@@ -3242,11 +3242,12 @@ main {
 }
 .product p.desc-full {
   display: -webkit-box;
-  -webkit-line-clamp: 6;
+  -webkit-line-clamp: 15;
   -webkit-box-orient: vertical;
   overflow: hidden;
   line-height: 1.2em;
-  height: 7.2em;
+  max-height: 18em;
+  height: auto;
 }
 .product hr {
   background-color: var(--bg-second);
@@ -6864,4 +6865,11 @@ img.show {
   --bs-list-group-action-active-bg: var(--bg-second-hover);
   --bs-list-group-disabled-color: var(--main-color-text);
   --bs-list-group-disabled-bg: var(--bg-second-hover);
+}
+
+.color-main {
+  color: var(--main-color);
+}
+.color-main:hover {
+  color: var(--main-color);
 }/*# sourceMappingURL=style.css.map */

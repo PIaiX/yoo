@@ -354,7 +354,7 @@ const Product = () => {
                     overlay={
                       <Popover id="popover-positioned-bottom">
                         <Popover.Header className="fs-09 fw-6">
-                          {t("Энергетическая ценность")}
+                          {t("Энергетическая ценность")}{" "}
                           {Math.round(data.cart.data.modifiers[0].energy.kkal)}
                           &nbsp;
                           {t("ккал")}
@@ -369,15 +369,13 @@ const Product = () => {
                           </div>
                           <div>
                             {t("Жиры")}:{" "}
-                            {Math.round(
-                              data.cart.data.modifiers[0].energy.protein
-                            )}
+                            {Math.round(data.cart.data.modifiers[0].energy.fat)}
                             г
                           </div>
                           <div>
                             {t("Углеводы")}:{" "}
                             {Math.round(
-                              data.cart.data.modifiers[0].energy.protein
+                              data.cart.data.modifiers[0].energy.carbohydrate
                             )}
                             г
                           </div>
@@ -400,7 +398,7 @@ const Product = () => {
                       overlay={
                         <Popover id="popover-positioned-bottom">
                           <Popover.Header className="fs-09 fw-6">
-                            {t("Энергетическая ценность")}
+                            {t("Энергетическая ценность")}{" "}
                             {Math.round(product.item.energy.kkal)}&nbsp;
                             {t("ккал")}
                           </Popover.Header>
@@ -410,12 +408,12 @@ const Product = () => {
                               {Math.round(product.item.energy.protein)}г
                             </div>
                             <div>
-                              {t("Жиры")}:{" "}
-                              {Math.round(product.item.energy.protein)}г
+                              {t("Жиры")}: {Math.round(product.item.energy.fat)}
+                              г
                             </div>
                             <div>
                               {t("Углеводы")}:{" "}
-                              {Math.round(product.item.energy.protein)}г
+                              {Math.round(product.item.energy.carbohydrate)}г
                             </div>
                           </Popover.Body>
                         </Popover>

@@ -14,9 +14,13 @@ const isWork = (start, end, now) => {
     try {
         const timezone = moment.tz.guess();
 
+        // Если now не передан, используем текущее время
         if (!now) {
             now = moment.tz();
+        } else {
+            now = moment.tz(now, 'HH:mm', timezone);
         }
+
         if (!start || !end) {
             return false;
         }
@@ -24,18 +28,29 @@ const isWork = (start, end, now) => {
             end = "23:59";
         }
 
-        const startTime = moment.tz(start, 'HH:mm', timezone).utc();
-        const endTime = moment.tz(end, 'HH:mm', timezone).utc();
+        const startTime = moment.tz(start, 'HH:mm', timezone);
+        const endTime = moment.tz(end, 'HH:mm', timezone);
 
-        const isEndNextDay = endTime.isSameOrBefore(startTime);
-        if (isEndNextDay) {
-            endTime.add(1, 'day');
+        if (!startTime.isValid() || !endTime.isValid()) {
+            console.error("Invalid start or end time");
+            return false;
         }
 
-        const nowTime = moment.tz(now, timezone).utc();
+        // Переводим время в UTC
+        const startUtc = startTime.utc();
+        const endUtc = endTime.utc();
 
-        return nowTime.isBetween(startTime, endTime, null, '()');
+        if (endUtc.isSameOrBefore(startUtc)) {
+            endUtc.add(1, 'day');
+        }
+
+        // Текущее время в UTC
+        const nowUtc = moment.tz(now, timezone).utc();
+
+        // Проверка, находится ли текущее время в пределах рабочего времени
+        return nowUtc.isBetween(startUtc, endUtc, null, '()');
     } catch (err) {
+        console.error(err);
         return false;
     }
 }
