@@ -292,7 +292,10 @@ function App() {
     if (delivery == "delivery" && auth?.user?.id) {
       const selectedAddress = address ? address.find((e) => e.main) : false;
       if (selectedAddress) {
-        getDelivery({ distance: true, addressId: selectedAddress.id })
+        getDelivery({
+          distance: true,
+          addressId: selectedAddress.id
+        })
           .then(
             (res) =>
               res &&
@@ -301,7 +304,7 @@ function App() {
           .catch(() => dispatch(cartZone({ data: false, distance: false })));
       }
     }
-  }, [address, delivery, options, cart, auth?.user?.id]);
+  }, [address, delivery, cart]);
 
   useEffect(() => {
     if (auth.isAuth) {
