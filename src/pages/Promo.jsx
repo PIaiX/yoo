@@ -29,7 +29,6 @@ const Promo = () => {
         type: "site",
       })
         .then((res) => {
-          console.log(res);
           dispatch(updateSales(res));
         })
         .finally(() => {

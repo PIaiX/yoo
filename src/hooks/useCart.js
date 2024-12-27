@@ -67,11 +67,11 @@ const useTotalCart = () => {
 
                 const basePrice =
                     product?.price > 0 && product?.cart?.count > 0 ? product.price * product.cart.count : 0
-                const productPrice = product?.options?.modifierPriceSum
+                var productPrice = product?.options?.modifierPriceSum
                     ? basePrice + modifiersPrice
                     : modifiersPrice || basePrice
 
-                price += productPrice
+
 
                 if (product?.discount > 0 && product?.cart?.count > 0 && product?.price > 0) {
                     discount += product.discount
@@ -79,34 +79,34 @@ const useTotalCart = () => {
 
                 pickupDiscount +=
                     Number(affiliateActive?.options?.discountPickup) > 0 && stateDelivery === 'pickup' && affiliateActive?.options?.discountExceptions?.length > 0 && !affiliateActive?.options?.discountExceptions.includes(String(product.categoryId))
-                        ? Math.floor((price / 100) * Number(affiliateActive.options.discountPickup))
+                        ? Math.floor((productPrice / 100) * Number(affiliateActive.options.discountPickup))
                         : 0
 
                 if (statePromo?.options) {
                     if (statePromo?.type === 'category_one' && statePromo?.options?.categoryId) {
                         if (product?.categoryId && product?.categoryId === statePromo.options.categoryId) {
-                            price -=
+                            productPrice -=
                                 Number(statePromo?.options?.percent) > 0
-                                    ? (price / 100) * Number(statePromo.options.percent)
+                                    ? (productPrice / 100) * Number(statePromo.options.percent)
                                     : Number(statePromo?.options?.sum) > 0 ? Number(statePromo.options.sum) : 0
 
                         }
                     } else if (statePromo?.type === 'category_one' && (statePromo?.options?.exceptions?.length > 0 && statePromo?.options?.exceptions.includes(String(product.categoryId)))) {
-                        price -=
+                        productPrice -=
                             Number(statePromo?.options?.percent) > 0
-                                ? (price / 100) * Number(statePromo.options.percent)
+                                ? (productPrice / 100) * Number(statePromo.options.percent)
                                 : Number(statePromo?.options?.sum) > 0 ? Number(statePromo.options.sum) : 0
                     } else if (statePromo?.type === 'product_one' && statePromo?.options?.productId) {
                         if (String(product?.id) === String(statePromo.options.productId)) {
-                            price -=
+                            productPrice -=
                                 Number(statePromo?.options?.percent) > 0
-                                    ? (price / 100) * Number(statePromo.options.percent)
+                                    ? (productPrice / 100) * Number(statePromo.options.percent)
                                     : Number(statePromo?.options?.sum) > 0 ? Number(statePromo.options.sum) : 0
 
                         }
                     }
                 }
-
+                price += productPrice
                 if (product?.cart?.data?.additions?.length > 0) {
                     product.cart.data.additions.forEach((e) => {
                         const count = e?.count || 1

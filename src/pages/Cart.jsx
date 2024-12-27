@@ -384,11 +384,14 @@ const Cart = () => {
                   </div>
                 )}
                 <hr className="my-3" />
-                <div className="d-flex justify-content-between mb-5">
-                  <span className="fw-7 fs-11">{t("Итоговая сумма")}</span>
-                  <span className="fw-7">{customPrice(totalNoDelivery)}</span>
-                </div>
-
+                {price != totalNoDelivery && (
+                  <div className="d-flex justify-content-between mb-5">
+                    <span className="fw-7 fs-11">
+                      {t("Стоимость со скидкой")}
+                    </span>
+                    <span className="fw-7">{customPrice(totalNoDelivery)}</span>
+                  </div>
+                )}
                 <Link
                   to={
                     user?.id

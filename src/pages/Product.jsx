@@ -440,13 +440,11 @@ const Product = () => {
               </div>
               {data.cart.data?.modifiers[0]?.description ? (
                 <div className="mb-4 white-space">
-                  <p className="fw-6 mb-2">{t("Описание")}</p>
                   {data.cart.data.modifiers[0].description}
                 </div>
               ) : (
                 product.item.description && (
                   <div className="mb-4 white-space">
-                    <p className="fw-6 mb-2">{t("Описание")}</p>
                     {product.item.description}
                   </div>
                 )

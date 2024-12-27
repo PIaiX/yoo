@@ -15,6 +15,7 @@ import Loader from "../components/utils/Loader";
 import { isUpdateTime } from "../helpers/all";
 import { getCatalog } from "../services/catalog";
 import { updateCatalog } from "../store/reducers/catalogSlice";
+import EmptyWork from "../components/empty/work";
 
 const Home = () => {
   const { t } = useTranslation();
@@ -100,9 +101,14 @@ const Home = () => {
         <Catalog data={catalog.categories} />
       ) : (
         <Empty
-          text={t("Сайт пуст")}
-          desc={t("Информация скоро появится")}
-          image={() => <EmptyCatalog />}
+          text={t("На сайте ведутся работы")}
+          desc={
+            <>
+              <p>{t("Зайдите к нам немного позже.")}</p>
+              <p>{t("Либо попробуйте почистить кеш браузера.")}</p>
+            </>
+          }
+          image={() => <EmptyWork />}
         />
       )}
     </main>

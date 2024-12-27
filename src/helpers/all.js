@@ -196,7 +196,7 @@ const deliveryData = {
 };
 
 const paymentData = {
-  card: "Банковской картой",
+  card: "Картой при получении",
   online: "Онлайн оплата",
   cash: "Наличными",
 };
@@ -273,9 +273,9 @@ const isUpdateTime = (dateTime) => {
   const targetDateTime = moment(dateTime);
   const now = moment();
 
-  const timeDifference = now.diff(targetDateTime, "minutes");
+  const timeDifference = now.diff(targetDateTime, 'seconds');
 
-  return timeDifference >= 1;
+  return timeDifference >= 30;
 };
 const childrenArray = (data, idProp, parentProp) => {
   const tree = Object.fromEntries(

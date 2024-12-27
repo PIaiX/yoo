@@ -32,7 +32,7 @@ const Contact = () => {
         : affiliate[0] ?? false
     );
   }, [selectedAffiliate]);
-  console.log(mainAffiliate);
+
   if (!mainAffiliate) {
     return (
       <>

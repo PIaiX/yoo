@@ -63,7 +63,7 @@ const Checkout = () => {
     },
     {
       id: 2,
-      title: t("Банковской картой"),
+      title: t("Картой при получении"),
       value: "card",
       main: false,
     },
@@ -716,16 +716,18 @@ const Checkout = () => {
                     </div>
                   </Col>
                 )}
-                <Col md={12}>
-                  <div className="mb-4">
-                    <p className="mb-2 fs-09">{t("Кол-во персон")}</p>
-                    <CountInput
-                      dis={person > 0}
-                      value={data.person}
-                      onChange={(e) => setValue("person", e)}
-                    />
-                  </div>
-                </Col>
+                {!options?.person && (
+                  <Col md={12}>
+                    <div className="mb-4">
+                      <p className="mb-2 fs-09">{t("Кол-во персон")}</p>
+                      <CountInput
+                        dis={person > 0}
+                        value={data.person}
+                        onChange={(e) => setValue("person", e)}
+                      />
+                    </div>
+                  </Col>
+                )}
                 <Col md={6}>
                   <div className="mb-4">
                     <Input

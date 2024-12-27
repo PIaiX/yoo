@@ -387,9 +387,9 @@ const ProductCard = memo(({ data }) => {
               state={data}
               className="price fw-5"
             >
-              {modifiers?.length > 0 && Array.isArray(modifiers)
+              {modifiers?.length > 1 && Array.isArray(modifiers)
                 ? "от " + customPrice(price > 0 ? price : data.price)
-                : customPrice(data.price)}
+                : customPrice(price > 0 ? price : data.price)}
             </Link>
           </div>
         </div>

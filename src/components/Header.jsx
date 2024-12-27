@@ -182,6 +182,10 @@ const Header = memo(() => {
     }
   }, [cities]);
 
+  if (options?.title === "YooApp") {
+    return null;
+  }
+
   return (
     <>
       <header>

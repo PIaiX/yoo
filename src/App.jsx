@@ -141,132 +141,143 @@ function App() {
         );
       }
       if (!updateTime || isUpdateTime(updateTime)) {
-        await axios.get("https://ip.yooapp.ru").then(({ data }) => {
-          data?.ip && dispatch(updateIp(data.ip));
-          !city && dispatch(updateSettingsCity(data?.city ? data.city : false));
-          !city &&
-            dispatch(
-              updateSettingsCountry(data?.country ? data.country : false)
-            );
-        });
+        try {
+          await axios.get("https://ip.yooapp.ru").then(({ data }) => {
+            data?.ip && dispatch(updateIp(data.ip));
+            !city &&
+              dispatch(updateSettingsCity(data?.city ? data.city : false));
+            !city &&
+              dispatch(
+                updateSettingsCountry(data?.country ? data.country : false)
+              );
+          });
 
-        await getOptions()
-          .then(async (res) => {
-            if (res?.options) {
-              updateColor(res.options);
+          await getOptions()
+            .then(async (res) => {
+              if (res?.options) {
+                updateColor(res.options);
 
-              if (res.options.favicon) {
-                updateFavicon(
-                  selectedAffiliate?.media
-                    ? {
-                        path: selectedAffiliate?.media,
-                        type: "affiliate",
-                        size: "full",
-                      }
-                    : {
-                        path: res.options.favicon,
-                        type: "all/web/favicon",
-                        size: "full",
-                      }
+                if (res.options.favicon) {
+                  updateFavicon(
+                    selectedAffiliate?.media
+                      ? {
+                          path: selectedAffiliate?.media,
+                          type: "affiliate",
+                          size: "full",
+                        }
+                      : {
+                          path: res.options.favicon,
+                          type: "all/web/favicon",
+                          size: "full",
+                        }
+                  );
+                }
+
+                if (res?.options?.lang) {
+                  i18n.changeLanguage(languageCode(res.options.lang));
+                  moment.locale(languageCode(res.options.lan));
+                }
+
+                dispatch(
+                  updateOptions({ options: res.options, token: res.token })
+                );
+
+                const availableDeliveryTypes = [
+                  ...(res.options?.delivery?.status ? ["delivery"] : []),
+                  ...(res.options?.pickup?.status ? ["pickup"] : []),
+                  ...(res.options?.hall?.status ? ["hall"] : []),
+                  ...(res.options?.feedback?.status ? ["feedback"] : []),
+                ];
+
+                const deliveryType = availableDeliveryTypes.find((type) => {
+                  return res.options?.[type]?.status === true; // Проверяем статус для каждого типа
+                });
+
+                if (
+                  !availableDeliveryTypes.includes(delivery) &&
+                  deliveryType
+                ) {
+                  dispatch(editDeliveryCheckout(deliveryType)); // Выбираем найденный элемент
+                }
+              }
+
+              if (res?.cities?.length > 0) {
+                const transformedData = res.cities.map((city) => {
+                  const { relationCities, ...rest } = city;
+                  return {
+                    ...rest,
+                    affiliates:
+                      relationCities && relationCities.length > 0
+                        ? relationCities
+                            .map((relation) => relation.affiliate)
+                            .sort((a, b) => {
+                              if (a.main === b.main) {
+                                return 0;
+                              } else if (a.main) {
+                                return -1;
+                              } else {
+                                return 1;
+                              }
+                            })
+                        : [],
+                  };
+                });
+
+                dispatch(updateCities(transformedData));
+
+                if (
+                  transformedData?.length === 1 &&
+                  transformedData[0]?.affiliates?.length > 0
+                ) {
+                  dispatch(updateAffiliate(transformedData[0].affiliates));
+                }
+              }
+
+              // res?.tables && dispatch(updateTable(res.tables));
+              res?.zones && dispatch(updateZone(res.zones));
+
+              if (res?.statuses?.length > 0) {
+                let statusesMain = res.statuses
+                  .filter((e) => e.main)
+                  .sort((a, b) => a.order - b.order);
+                let statusesMainNo = res.statuses
+                  .filter((e) => !e.main)
+                  .sort((a, b) => a.order - b.order);
+                dispatch(
+                  updateStatus({
+                    mainYes: statusesMain,
+                    mainNo: statusesMainNo,
+                  })
                 );
               }
 
-              if (res?.options?.lang) {
-                i18n.changeLanguage(languageCode(res.options.lang));
-                moment.locale(languageCode(res.options.lan));
+              if (auth?.token) {
+                if (!auth?.user?.brandId) {
+                  return dispatch(logout());
+                }
+                await checkAuth()
+                  .then((data) => {
+                    dispatch(setAuth(true));
+                    dispatch(setUser(data));
+
+                    if (data?.lang) {
+                      i18n.changeLanguage(languageCode(data.lang));
+                      moment.locale(languageCode(data.lang));
+                    }
+
+                    dispatch(updateAddresses(data?.addresses ?? []));
+
+                    // dispatch(getFavorites());
+                  })
+                  .catch((err) => {
+                    err?.response?.status === 404 && dispatch(logout());
+                  });
               }
-
-              dispatch(
-                updateOptions({ options: res.options, token: res.token })
-              );
-
-              const availableDeliveryTypes = [
-                ...(res.options?.delivery?.status ? ["delivery"] : []),
-                ...(res.options?.pickup?.status ? ["pickup"] : []),
-                ...(res.options?.hall?.status ? ["hall"] : []),
-                ...(res.options?.feedback?.status ? ["feedback"] : []),
-              ];
-
-              const deliveryType = availableDeliveryTypes.find((type) => {
-                return res.options?.[type]?.status === true; // Проверяем статус для каждого типа
-              });
-
-              if (!availableDeliveryTypes.includes(delivery) && deliveryType) {
-                dispatch(editDeliveryCheckout(deliveryType)); // Выбираем найденный элемент
-              }
-            }
-
-            if (res?.cities?.length > 0) {
-              const transformedData = res.cities.map((city) => {
-                const { relationCities, ...rest } = city;
-                return {
-                  ...rest,
-                  affiliates:
-                    relationCities && relationCities.length > 0
-                      ? relationCities
-                          .map((relation) => relation.affiliate)
-                          .sort((a, b) => {
-                            if (a.main === b.main) {
-                              return 0;
-                            } else if (a.main) {
-                              return -1;
-                            } else {
-                              return 1;
-                            }
-                          })
-                      : [],
-                };
-              });
-
-              dispatch(updateCities(transformedData));
-
-              if (
-                transformedData?.length === 1 &&
-                transformedData[0]?.affiliates?.length > 0
-              ) {
-                dispatch(updateAffiliate(transformedData[0].affiliates));
-              }
-            }
-
-            // res?.tables && dispatch(updateTable(res.tables));
-            res?.zones && dispatch(updateZone(res.zones));
-
-            if (res?.statuses?.length > 0) {
-              let statusesMain = res.statuses
-                .filter((e) => e.main)
-                .sort((a, b) => a.order - b.order);
-              let statusesMainNo = res.statuses
-                .filter((e) => !e.main)
-                .sort((a, b) => a.order - b.order);
-              dispatch(
-                updateStatus({ mainYes: statusesMain, mainNo: statusesMainNo })
-              );
-            }
-
-            if (auth?.token) {
-              if (!auth?.user?.brandId) {
-                return dispatch(logout());
-              }
-              await checkAuth()
-                .then((data) => {
-                  dispatch(setAuth(true));
-                  dispatch(setUser(data));
-
-                  if (data?.lang) {
-                    i18n.changeLanguage(languageCode(data.lang));
-                    moment.locale(languageCode(data.lang));
-                  }
-
-                  dispatch(updateAddresses(data?.addresses ?? []));
-
-                  // dispatch(getFavorites());
-                })
-                .catch((err) => {
-                  err?.response?.status === 404 && dispatch(logout());
-                });
-            }
-          })
-          .finally(() => setLoading(false));
+            })
+            .finally(() => setLoading(false));
+        } catch (err) {
+          console.error(err);
+        }
       } else {
         if (auth?.token) {
           if (!auth?.user?.brandId) {
@@ -326,7 +337,7 @@ function App() {
   useEffect(() => {
     setHasFetched(false);
   }, [address, delivery, cart]);
-  
+
   useEffect(() => {
     if (auth.isAuth) {
       socket.on("notifications/" + auth.user.id, (data) => {

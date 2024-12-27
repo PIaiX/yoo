@@ -69,7 +69,6 @@ const CreateAddress = () => {
   const clickAddress = useCallback(
     async (address) => {
       try {
-        console.log(address);
         const isValidAddress =
           address &&
           address.data?.geo_lat &&

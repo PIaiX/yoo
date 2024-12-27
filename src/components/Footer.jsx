@@ -37,6 +37,10 @@ const Footer = memo(() => {
   const count = getCount(cart);
   const selectedAffiliate = useSelector((state) => state.affiliate.active);
 
+  if (options?.title === "YooApp") {
+    return null;
+  }
+
   return (
     <footer>
       <Container className="h-100">
