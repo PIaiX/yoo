@@ -50,6 +50,8 @@ import {
 import CartItem from "../components/CartItem";
 import { setUser } from "../store/reducers/authSlice";
 import { IoTrashOutline } from "react-icons/io5";
+import { getDelivery } from "../services/order";
+import { cartZone } from "../store/reducers/cartSlice";
 
 const Checkout = () => {
   const { t } = useTranslation();
@@ -113,6 +115,7 @@ const Checkout = () => {
   const options = useSelector((state) => state.settings.options);
   const [confirmation, setConfirmation] = useState(false);
   const [address, setAddress] = useState([]);
+  const [hasFetched, setHasFetched] = useState(false);
 
   const {
     total = 0,
@@ -334,6 +337,42 @@ const Checkout = () => {
       setValue("tableId", selectedTable.id);
     }
   }, [selectedTable]);
+
+  useEffect(() => {
+    const fetchDeliveryData = async () => {
+      if (checkout?.delivery === "delivery" && user?.id) {
+        const selectedAddress = address ? address.find((e) => e.main) : false;
+        const weight = cart.reduce((sum, item) => {
+          const itemWeight = item.energy?.weight ?? 0;
+          const itemCount = item.cart?.count ?? 0;
+          return sum + itemWeight * itemCount;
+        }, 0);
+
+        if (selectedAddress) {
+          try {
+            const res = await getDelivery({
+              distance: true,
+              addressId: selectedAddress.id,
+              weight,
+            });
+            if (res) {
+              dispatch(cartZone({ data: res?.zone, distance: res?.distance }));
+            }
+          } catch (error) {
+            dispatch(cartZone({ data: false, distance: false }));
+          }
+        }
+      }
+    };
+
+    if (!hasFetched) {
+      fetchDeliveryData().then(() => setHasFetched(true));
+    }
+  }, [address, checkout.delivery, cart, hasFetched]);
+
+  useEffect(() => {
+    setHasFetched(false);
+  }, [address, checkout.delivery, cart]);
 
   const onSubmit = useCallback(
     (data) => {

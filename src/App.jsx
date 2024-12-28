@@ -26,7 +26,6 @@ import AppRouter from "./routes/AppRouter";
 import { checkAuth, logout } from "./services/auth";
 // import { getFavorites } from "./services/favorite";
 import { getOptions } from "./services/option";
-import { getDelivery } from "./services/order";
 import { updateAddresses } from "./store/reducers/addressSlice";
 import {
   updateAffiliate,
@@ -35,7 +34,6 @@ import {
   updateZone,
 } from "./store/reducers/affiliateSlice";
 import { setAuth, setUser } from "./store/reducers/authSlice";
-import { cartZone } from "./store/reducers/cartSlice";
 import { editDeliveryCheckout } from "./store/reducers/checkoutSlice";
 import { updateNotification } from "./store/reducers/notificationSlice";
 import {
@@ -53,13 +51,10 @@ function App() {
   const options = useSelector((state) => state.settings.options);
   // const notification = useSelector((state) => state.notification);
   const updateTime = useSelector((state) => state.settings.updateTime);
-  const cart = useSelector((state) => state.cart.items);
-  const address = useSelector((state) => state.address.items);
   const selectedAffiliate = useSelector((state) => state.affiliate.active);
   const delivery = useSelector((state) => state.checkout.delivery);
   const auth = useSelector((state) => state.auth);
   const city = useSelector((state) => state.affiliate.city);
-  const [hasFetched, setHasFetched] = useState(false);
 
   useEffect(() => {
     if (options?.themeType) {
@@ -299,44 +294,6 @@ function App() {
       }
     })();
   }, []);
-
-  useEffect(() => {
-    // Функция для выполнения запроса
-    const fetchDeliveryData = async () => {
-      if (delivery === "delivery" && auth?.user?.id) {
-        const selectedAddress = address ? address.find((e) => e.main) : false;
-        const weight = cart.reduce((sum, item) => {
-          const itemWeight = item.energy?.weight ?? 0;
-          const itemCount = item.cart?.count ?? 0;
-          return sum + itemWeight * itemCount;
-        }, 0);
-
-        if (selectedAddress) {
-          try {
-            const res = await getDelivery({
-              distance: true,
-              addressId: selectedAddress.id,
-              weight,
-            });
-            if (res) {
-              dispatch(cartZone({ data: res?.zone, distance: res?.distance }));
-            }
-          } catch (error) {
-            dispatch(cartZone({ data: false, distance: false }));
-          }
-        }
-      }
-    };
-
-    // Если hasFetched еще не установлен, выполняем функцию
-    if (!hasFetched) {
-      fetchDeliveryData().then(() => setHasFetched(true));
-    }
-  }, [address, delivery, cart, hasFetched]);
-
-  useEffect(() => {
-    setHasFetched(false);
-  }, [address, delivery, cart]);
 
   useEffect(() => {
     if (auth.isAuth) {

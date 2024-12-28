@@ -51,7 +51,6 @@ const Cart = () => {
     discount = 0,
     person = 0,
     pointAccrual,
-    pickupDiscount,
     pointCheckout,
     delivery,
   } = useTotalCart();
