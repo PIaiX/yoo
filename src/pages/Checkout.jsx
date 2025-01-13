@@ -16,7 +16,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import CheckoutProduct from "../components/CheckoutProduct";
 import Empty from "../components/Empty";
-import EmptyAddresses from "../components/empty/addresses";
 import EmptyAuth from "../components/empty/auth";
 import EmptyCart from "../components/empty/cart";
 import EmptyWork from "../components/empty/work";
@@ -49,12 +48,13 @@ import {
 } from "../store/reducers/checkoutSlice";
 import CartItem from "../components/CartItem";
 import { setUser } from "../store/reducers/authSlice";
-import { IoTrashOutline } from "react-icons/io5";
+import { IoTimeOutline, IoTrashOutline } from "react-icons/io5";
 import { getDelivery } from "../services/order";
 import { cartZone } from "../store/reducers/cartSlice";
 
 const Checkout = () => {
   const { t } = useTranslation();
+  const [showDateTimePicker, setShowDateTimePicker] = useState(false);
 
   const paymentsData = [
     {
@@ -769,43 +769,115 @@ const Checkout = () => {
                 )}
                 <Col md={6}>
                   <div className="mb-4">
-                    <Input
-                      label={t("Время подачи")}
-                      name="serving"
-                      control={control}
-                      autoCapitalize="none"
-                      errors={errors}
-                      register={register}
-                      type="datetime-local"
-                      validation={{
-                        min: {
-                          value: moment()
-                            .add(
-                              selectedAffiliate?.options?.preorderMin ?? 90,
-                              "minutes"
-                            )
-                            .format("YYYY-MM-DDTkk:mm"),
-                          message: `${t(
-                            "Время подачи заказа не менее чем через"
-                          )} ${
-                            selectedAffiliate?.options?.preorderMin ?? 90
-                          } ${t("мин")}`,
-                        },
-                        max: {
-                          value: moment()
-                            .add(
-                              selectedAffiliate?.options?.preorderMax ?? 30,
-                              "days"
-                            )
-                            .format("YYYY-MM-DDTkk:mm"),
-                          message: `${t(
-                            "Максимальное время подачи не более"
-                          )} ${
-                            selectedAffiliate?.options?.preorderMax ?? 30
-                          } ${t("д")}`,
-                        },
-                      }}
-                    />
+                    <p>
+                      <a
+                        onClick={() => setShowDateTimePicker((prev) => !prev)}
+                        className="d-inline-flex align-items-center"
+                      >
+                        <IoTimeOutline size={25} className="me-2" />
+                        <span>
+                          <p>
+                            {data.delivery == "delivery"
+                              ? t("Привезем")
+                              : t("Подадим")}{" "}
+                            {data.serving
+                              ? t("к")
+                              : zone?.data?.time > 0
+                              ? t("с")
+                              : t("в")}{" "}
+                            <b>
+                              {data.serving
+                                ? moment(data.serving).format("DD.MM.YYYY") ===
+                                  moment().format("DD.MM.YYYY")
+                                  ? moment(data.serving).format("kk:mm")
+                                  : moment(data.serving).format(
+                                      "DD.MM.YYYY kk:mm"
+                                    )
+                                : zone?.data?.time > 0
+                                ? moment()
+                                    .add(zone.data.time, "minutes")
+                                    .format("kk:mm") +
+                                  " - " +
+                                  moment()
+                                    .add(zone.data.time + 30, "minutes")
+                                    .format("kk:mm")
+                                : t("ближайшее время")}
+                            </b>
+                          </p>
+                          <p className="text-muted fs-08">
+                            {t("Изменить дату и время")}
+                          </p>
+                        </span>
+                      </a>
+                    </p>
+                    <Modal
+                      size="sm"
+                      show={showDateTimePicker}
+                      onHide={setShowDateTimePicker}
+                      centered
+                      closeButton
+                    >
+                      <Modal.Body>
+                        <h5 className="fw-7 h5 mt-2 mb-4 text-center">
+                          {data.delivery == "delivery"
+                            ? t("Время доставки")
+                            : t("Время подачи")}
+                        </h5>
+                        <Input
+                          name="serving"
+                          control={control}
+                          autoCapitalize="none"
+                          errors={errors}
+                          register={register}
+                          type="datetime-local"
+                          validation={{
+                            min: {
+                              value: moment()
+                                .add(
+                                  selectedAffiliate?.options?.preorderMin ?? 90,
+                                  "minutes"
+                                )
+                                .format("YYYY-MM-DDTkk:mm"),
+                              message: `${t(
+                                "Время подачи заказа не менее чем через"
+                              )} ${
+                                selectedAffiliate?.options?.preorderMin ?? 90
+                              } ${t("мин")}`,
+                            },
+                            max: {
+                              value: moment()
+                                .add(
+                                  selectedAffiliate?.options?.preorderMax ?? 30,
+                                  "days"
+                                )
+                                .format("YYYY-MM-DDTkk:mm"),
+                              message: `${t(
+                                "Максимальное время подачи не более"
+                              )} ${
+                                selectedAffiliate?.options?.preorderMax ?? 30
+                              } ${t("д")}`,
+                            },
+                          }}
+                        />
+                        <Button
+                          className="mt-3 w-100"
+                          onClick={() => {
+                            setShowDateTimePicker(false);
+                            setValue("serving", null);
+                          }}
+                        >
+                          Очистить
+                        </Button>
+                        <Button
+                          className="btn-light mt-3 w-100"
+                          onClick={() => {
+                            setShowDateTimePicker(false);
+                          }}
+                        >
+                          Отмена
+                        </Button>
+                      </Modal.Body>
+                    </Modal>
                   </div>
                 </Col>
                 <Col md={12}>
