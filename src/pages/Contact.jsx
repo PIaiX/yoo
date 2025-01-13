@@ -1,6 +1,6 @@
 import { Map, Placemark, Polygon, YMaps } from "@pbe/react-yandex-maps";
 import moment from "moment";
-import React, { useLayoutEffect, useState } from "react";
+import React, { useLayoutEffect, useMemo, useState } from "react";
 import { Modal } from "react-bootstrap";
 import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
@@ -24,6 +24,93 @@ const Contact = () => {
   const [mainAffiliate, setMainAffiliate] = useState();
   const [showModalOrganization, setModalOrganization] = useState(false);
   const [showModalDelivery, setModalDelivery] = useState(false);
+console.log(zones)
+  const mapPoligone = useMemo(() => {
+    return (
+      <>
+        {affiliate?.length > 0 &&
+          affiliate.map(
+            (e) =>
+              e?.options?.coordinates?.lat &&
+              e?.options?.coordinates?.lon && (
+                <Placemark
+                  key={e.id}
+                  options={
+                    mainAffiliate?.id === e.id
+                      ? {
+                          iconLayout: "default#image",
+                          iconImageHref: "imgs/marker.png",
+                          iconImageSize: [38, 54],
+                        }
+                      : {
+                          iconLayout: "default#image",
+                          iconImageHref: "imgs/marker-gray.png",
+                          iconImageSize: [38, 54],
+                        }
+                  }
+                  geometry={[
+                    e.options.coordinates.lat,
+                    e.options.coordinates.lon,
+                  ]}
+                />
+              )
+          )}
+
+        {zones?.length > 0 &&
+          zones.map((e) => {
+            const geodata =
+              e.data.length > 0 ? e.data.map((geo) => [geo[1], geo[0]]) : false;
+
+            return (
+              <Polygon
+                key={e.id}
+                defaultGeometry={[geodata]}
+                options={{
+                  fillColor: e?.color ? e.color : "#f56057",
+                  strokeColor: e?.color ? e.color : "#f56057",
+                  opacity: 0.3,
+                  strokeWidth: 2,
+                  strokeStyle: "solid",
+                  visible: true,
+                }}
+                properties={{
+                  balloonContent: `<address class='my-info'>
+        <div class='my-info-body'>
+        <h6 class='mb-0 fw-6'>${e.title}</h6>
+        ${e.desc ? `<p>${e.desc}</p>` : ""}
+        ${
+          e.minPrice > 0
+            ? `<p>${t("Минимальная сумма заказа")} ${customPrice(
+                e.minPrice
+              )}</p>`
+            : ""
+        }
+        ${
+          e.priceFree > 0
+            ? `<p>${t("Бесплатная доставка от")} ${customPrice(
+                e.priceFree
+              )}</p>`
+            : ""
+        }
+        ${
+          e.price > 0
+            ? `<p>${t("Стоимость доставки")} ${customPrice(e.price)}</p>`
+            : ""
+        }
+        ${
+          e.time > 0
+            ? `<p>${t("Время доставки от")} ${e.time} ${t("мин")}</p>`
+            : ""
+        }
+        </div>
+        </address>`,
+                }}
+              />
+            );
+          })}
+      </>
+    );
+  }, [zones, affiliate, mainAffiliate]);
 
   useLayoutEffect(() => {
     setMainAffiliate(
@@ -177,92 +264,7 @@ const Contact = () => {
                         height="100%"
                         modules={["geoObject.addon.balloon"]}
                       >
-                        {affiliate?.length > 0 &&
-                          affiliate.map(
-                            (e) =>
-                              e?.options?.coordinates?.lat &&
-                              e?.options?.coordinates?.lon && (
-                                <Placemark
-                                  key={e.id}
-                                  options={
-                                    mainAffiliate.id === e.id
-                                      ? {
-                                          iconLayout: "default#image",
-                                          iconImageHref: "imgs/marker.png",
-                                          iconImageSize: [38, 54],
-                                        }
-                                      : {
-                                          iconLayout: "default#image",
-                                          iconImageHref: "imgs/marker-gray.png",
-                                          iconImageSize: [38, 54],
-                                        }
-                                  }
-                                  geometry={[
-                                    e.options.coordinates.lat,
-                                    e.options.coordinates.lon,
-                                  ]}
-                                />
-                              )
-                          )}
-
-                        {zones?.length > 0 &&
-                          zones.map((e) => {
-                            const geodata =
-                              e.data.length > 0
-                                ? e.data.map((geo) => [geo[1], geo[0]])
-                                : false;
-
-                            return (
-                              <Polygon
-                                key={e.id}
-                                defaultGeometry={[geodata]}
-                                options={{
-                                  fillColor: e?.color ? e.color : "#f56057",
-                                  strokeColor: e?.color ? e.color : "#f56057",
-                                  opacity: 0.3,
-                                  strokeWidth: 2,
-                                  strokeStyle: "solid",
-                                  visible: true,
-                                }}
-                                properties={{
-                                  balloonContent: `<address class='my-info'>
-                              <div class='my-info-body'>
-                              <h6 class='mb-0 fw-6'>${e.title}</h6>
-                              ${e.desc ? `<p>${e.desc}</p>` : ""}
-                              ${
-                                e.minPrice > 0
-                                  ? `<p>${t(
-                                      "Минимальная сумма заказа"
-                                    )} ${customPrice(e.minPrice)}</p>`
-                                  : ""
-                              }
-                              ${
-                                e.priceFree > 0
-                                  ? `<p>${t(
-                                      "Бесплатная доставка от"
-                                    )} ${customPrice(e.priceFree)}</p>`
-                                  : ""
-                              }
-                              ${
-                                e.price > 0
-                                  ? `<p>${t(
-                                      "Стоимость доставки"
-                                    )} ${customPrice(e.price)}</p>`
-                                  : ""
-                              }
-                              ${
-                                e.time > 0
-                                  ? `<p>${t("Время доставки от")} ${e.time} ${t(
-                                      "мин"
-                                    )}</p>`
-                                  : ""
-                              }
-                              </div>
-                              </address>`,
-                                }}
-                              />
-                            );
-                          })}
+                        {mapPoligone}
                       </Map>
                     </YMaps>
                   )}
