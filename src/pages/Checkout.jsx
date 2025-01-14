@@ -830,7 +830,7 @@ const Checkout = () => {
                       onHide={setShowDateTimePicker}
                       centered
                       closeButton
-                      backdrop={isWorkStatus ? "static" : ""}
+                      backdrop="static"
                       keyboard={isWorkStatus ? false : true}
                     >
                       <Modal.Body>
