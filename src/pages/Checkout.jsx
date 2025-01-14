@@ -129,6 +129,15 @@ const Checkout = () => {
     totalNoDelivery = 0,
   } = useTotalCart();
 
+  const isWorkStatus =
+    selectedAffiliate?.options?.work &&
+    selectedAffiliate.options.work[moment().weekday()].end &&
+    selectedAffiliate.options.work[moment().weekday()].start &&
+    !isWork(
+      selectedAffiliate.options.work[moment().weekday()].start,
+      selectedAffiliate.options.work[moment().weekday()].end
+    );
+
   const [end, setEnd] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -151,6 +160,8 @@ const Checkout = () => {
       phone: user.phone ?? "",
       email: checkout?.data?.email ?? user.email ?? "",
       serving: checkout?.data?.serving ?? "",
+      servingCheck:
+        checkout?.data?.serving ?? checkout?.data?.servingCheck ?? "",
       delivery: checkout.delivery ?? "delivery",
       payment: checkout?.data?.payment ?? "cash",
       person: person > 0 ? person : checkout?.data?.person ?? 1,
@@ -278,6 +289,9 @@ const Checkout = () => {
   }, [checkout.delivery, end]);
 
   useEffect(() => {
+    if (isWorkStatus && !showDateTimePicker && !data.serving) {
+      setShowDateTimePicker(true);
+    }
     if (checking) {
       setValue("checking", checking);
     }
@@ -519,30 +533,30 @@ const Checkout = () => {
       />
     );
   }
-  if (
-    selectedAffiliate?.options?.work &&
-    selectedAffiliate.options.work[moment().weekday()].end &&
-    selectedAffiliate.options.work[moment().weekday()].start &&
-    !isWork(
-      selectedAffiliate.options.work[moment().weekday()].start,
-      selectedAffiliate.options.work[moment().weekday()].end
-    )
-  ) {
-    return (
-      <Empty
-        text={`${t("Мы работаем с")} ${
-          selectedAffiliate.options.work[moment().weekday()].start
-        } ${t("до")} ${selectedAffiliate.options.work[moment().weekday()].end}`}
-        desc={t("Зайдите к нам немного позже")}
-        image={() => <EmptyWork />}
-        button={
-          <Link className="btn-primary" to="/">
-            {t("Перейти на главную")}
-          </Link>
-        }
-      />
-    );
-  }
+  // if (
+  //   selectedAffiliate?.options?.work &&
+  //   selectedAffiliate.options.work[moment().weekday()].end &&
+  //   selectedAffiliate.options.work[moment().weekday()].start &&
+  //   !isWork(
+  //     selectedAffiliate.options.work[moment().weekday()].start,
+  //     selectedAffiliate.options.work[moment().weekday()].end
+  //   )
+  // ) {
+  //   return (
+  //     <Empty
+  //       text={`${t("Мы работаем с")} ${
+  //         selectedAffiliate.options.work[moment().weekday()].start
+  //       } ${t("до")} ${selectedAffiliate.options.work[moment().weekday()].end}`}
+  //       desc={t("Зайдите к нам немного позже")}
+  //       image={() => <EmptyWork />}
+  //       button={
+  //         <Link className="btn-primary" to="/">
+  //           {t("Перейти на главную")}
+  //         </Link>
+  //       }
+  //     />
+  //   );
+  // }
 
   return (
     <main>
@@ -816,15 +830,34 @@ const Checkout = () => {
                       onHide={setShowDateTimePicker}
                       centered
                       closeButton
+                      backdrop={isWorkStatus ? "static" : ""}
+                      keyboard={isWorkStatus ? false : true}
                     >
                       <Modal.Body>
-                        <h5 className="fw-7 h5 mt-2 mb-4 text-center">
+                        <h5
+                          className={
+                            isWorkStatus
+                              ? "fw-7 h5 mt-2 mb-2 text-center"
+                              : "fw-7 h5 mt-2 mb-4 text-center"
+                          }
+                        >
                           {data.delivery == "delivery"
                             ? t("Время доставки")
                             : t("Время подачи")}
                         </h5>
+                        {isWorkStatus && (
+                          <p className="text-muted text-center mb-3">{`${t(
+                            "Мы работаем с"
+                          )} ${
+                            selectedAffiliate.options.work[moment().weekday()]
+                              .start
+                          } ${t("до")} ${
+                            selectedAffiliate.options.work[moment().weekday()]
+                              .end
+                          }`}</p>
+                        )}
                         <Input
-                          name="serving"
+                          name="servingCheck"
                           control={control}
                           autoCapitalize="none"
                           errors={errors}
@@ -859,23 +892,42 @@ const Checkout = () => {
                             },
                           }}
                         />
-                        <Button
-                          className="mt-3 w-100"
-                          onClick={() => {
-                            setShowDateTimePicker(false);
-                            setValue("serving", null);
-                          }}
-                        >
-                          Очистить
-                        </Button>
-                        <Button
-                          className="btn-light mt-3 w-100"
-                          onClick={() => {
-                            setShowDateTimePicker(false);
-                          }}
-                        >
-                          Отмена
-                        </Button>
+
+                        {!isWorkStatus || data?.serving ? (
+                          <>
+                            <Button
+                              className="mt-3 w-100"
+                              onClick={() => {
+                                setShowDateTimePicker(false);
+                                setValue("serving", null);
+                                setValue("servingCheck", null);
+                              }}
+                            >
+                              Очистить
+                            </Button>
+                            <Button
+                              className="btn-light mt-3 w-100"
+                              onClick={() => {
+                                setShowDateTimePicker(false);
+                              }}
+                            >
+                              Отмена
+                            </Button>
+                          </>
+                        ) : (
+                          <Button
+                            disabled={!isValid || !data?.servingCheck}
+                            className="mt-3 w-100"
+                            onClick={() => {
+                              setShowDateTimePicker(false);
+                              if (data?.servingCheck) {
+                                setValue("serving", data.servingCheck);
+                              }
+                            }}
+                          >
+                            Продолжить
+                          </Button>
+                        )}
                       </Modal.Body>
                     </Modal>
                   </div>
@@ -1066,7 +1118,7 @@ const Checkout = () => {
                   </div>
                 )}
               <Button
-                disabled={isValidBtn()}
+                disabled={isValidBtn() || (isWorkStatus && !data.serving)}
                 className="mt-3 fw-6 w-100"
                 onClick={() => setConfirmation(true)}
               >

@@ -13,6 +13,25 @@ const cartSlice = createSlice({
   name: "cart",
   initialState,
   reducers: {
+    updateCartAll: (state, action) => {
+      state.items = state.items.map((cartItem) => {
+        let isProduct = action.payload.find(e => e.id === cartItem.id)
+        if (cartItem.id === isProduct?.id) {
+          return {
+            ...cartItem, title: isProduct.title, description: isProduct.description, code: isProduct.code, medias: isProduct.medias, options: isProduct.options, cart: {
+              ...cartItem.cart, data: {
+                ...cartItem.cart.data, modifiers: cartItem.cart.data.modifiers.map(e => {
+                  let isModifier = isProduct?.modifiers.find(e2 => e2.id === e.id)
+                  if (isModifier) {
+                    return { ...e, ...isModifier }
+                  }
+                })
+              }
+            }
+          };
+        }
+      });
+    },
     updateCartSync: (state, action) => {
       const isCart = state.items.findIndex((cartItem) => {
         if (cartItem.id !== action.payload.data.id) {
@@ -116,6 +135,7 @@ const cartSlice = createSlice({
 });
 
 export const {
+  updateCartAll,
   updateCartSync,
   updateCartChecking,
   cartEditOptions,

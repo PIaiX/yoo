@@ -221,10 +221,17 @@ function App() {
                 dispatch(updateCities(transformedData));
 
                 if (
-                  transformedData?.length === 1 &&
+                  transformedData?.length > 0 &&
                   transformedData[0]?.affiliates?.length > 0
                 ) {
-                  dispatch(updateAffiliate(transformedData[0].affiliates));
+                  dispatch(
+                    updateAffiliate(
+                      city?.id
+                        ? transformedData.find((e) => e.id === city.id)
+                            ?.affiliates ?? transformedData[0].affiliates
+                        : transformedData[0].affiliates
+                    )
+                  );
                 }
               }
 

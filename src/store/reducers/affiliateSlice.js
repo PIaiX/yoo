@@ -27,6 +27,7 @@ const affiliateSlice = createSlice({
       }
     },
     updateAffiliate: (state, action) => {
+
       if (!state.active && action.payload?.length > 0) {
         let active = action.payload.find((e) => e.main) ?? action.payload[0];
         state.active = active;
@@ -37,9 +38,10 @@ const affiliateSlice = createSlice({
           };
         });
       } else if (action.payload?.length > 0) {
+
         let affiliateActive = state?.active?.id
           ? action.payload.find((e) => e.id == state.active.id) ??
-            action.payload[0]
+          action.payload[0]
           : action.payload[0];
 
         state.items = action.payload.map((e) => {
@@ -48,6 +50,7 @@ const affiliateSlice = createSlice({
             main: e?.id === affiliateActive?.id,
           };
         });
+
         state.active = affiliateActive;
       }
 
@@ -60,8 +63,8 @@ const affiliateSlice = createSlice({
         state.tables = tables;
         state.table =
           state.table?.id &&
-          tables?.length > 0 &&
-          tables.find((e) => e.id === state.table.id)
+            tables?.length > 0 &&
+            tables.find((e) => e.id === state.table.id)
             ? state.table
             : tables[0];
       }
@@ -90,8 +93,8 @@ const affiliateSlice = createSlice({
       state.tables = action.payload;
       state.table =
         state.table?.id &&
-        state.tables?.length > 0 &&
-        state.tables.find((e) => e.id === state.table.id)
+          state.tables?.length > 0 &&
+          state.tables.find((e) => e.id === state.table.id)
           ? state.table
           : action.payload[0];
       return state;
