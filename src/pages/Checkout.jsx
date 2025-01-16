@@ -51,6 +51,7 @@ import { setUser } from "../store/reducers/authSlice";
 import { IoTimeOutline, IoTrashOutline } from "react-icons/io5";
 import { getDelivery } from "../services/order";
 import { cartZone } from "../store/reducers/cartSlice";
+import { HiXMark } from "react-icons/hi2";
 
 const Checkout = () => {
   const { t } = useTranslation();
@@ -133,7 +134,7 @@ const Checkout = () => {
     selectedAffiliate?.options?.work &&
     selectedAffiliate.options.work[moment().weekday()].end &&
     selectedAffiliate.options.work[moment().weekday()].start &&
-    !isWork(
+    isWork(
       selectedAffiliate.options.work[moment().weekday()].start,
       selectedAffiliate.options.work[moment().weekday()].end
     );
@@ -289,7 +290,7 @@ const Checkout = () => {
   }, [checkout.delivery, end]);
 
   useEffect(() => {
-    if (isWorkStatus && !showDateTimePicker && !data.serving) {
+    if (!isWorkStatus && !showDateTimePicker && !data.serving) {
       setShowDateTimePicker(true);
     }
     if (checking) {
@@ -830,7 +831,7 @@ const Checkout = () => {
                       onHide={setShowDateTimePicker}
                       centered
                       closeButton
-                      backdrop="static"
+                      backdrop={isWorkStatus ? true : "static"}
                       keyboard={isWorkStatus ? false : true}
                     >
                       <Modal.Body>
@@ -845,6 +846,17 @@ const Checkout = () => {
                             ? t("Время доставки")
                             : t("Время подачи")}
                         </h5>
+                        {isWorkStatus && (
+                          <button
+                            type="button"
+                            className="close"
+                            onClick={() => {
+                              setShowDateTimePicker(false);
+                            }}
+                          >
+                            <HiXMark size={23} />
+                          </button>
+                        )}
                         {isWorkStatus && (
                           <p className="text-muted text-center mb-3">{`${t(
                             "Мы работаем с"
@@ -863,6 +875,18 @@ const Checkout = () => {
                           errors={errors}
                           register={register}
                           type="datetime-local"
+                          min={moment()
+                            .add(
+                              selectedAffiliate?.options?.preorderMin ?? 90,
+                              "minutes"
+                            )
+                            .format("YYYY-MM-DDTkk:mm")}
+                          max={moment()
+                            .add(
+                              selectedAffiliate?.options?.preorderMax ?? 30,
+                              "days"
+                            )
+                            .format("YYYY-MM-DDTkk:mm")}
                           validation={{
                             min: {
                               value: moment()

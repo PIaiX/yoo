@@ -24,6 +24,8 @@ const Input = memo(
     register,
     readOnly,
     validation,
+    min = null,
+    max = null,
     minLength = 0,
     maxLength = 250,
     errors,
@@ -62,6 +64,8 @@ const Input = memo(
                   onChange && !register && onChange(e.target.value)
                 }
                 {...(register && { ...register(name, validation) })}
+                min={min}
+                max={max}
               />
               <button type="button" onClick={() => setVisibility(!visible)}>
                 {visible ? <Eye /> : <CloseEye />}
@@ -85,6 +89,8 @@ const Input = memo(
               }
               onKeyDown={onKeyDown}
               {...(register && { ...register(name, validation) })}
+              min={min}
+              max={max}
             />
           ) : (
             <input
@@ -105,6 +111,8 @@ const Input = memo(
               }
               onKeyDown={onKeyDown}
               {...(register && { ...register(name, validation) })}
+              min={min}
+              max={max}
             />
           )}
         </div>
