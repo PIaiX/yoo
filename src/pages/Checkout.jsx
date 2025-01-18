@@ -789,7 +789,7 @@ const Checkout = () => {
                         onClick={() => setShowDateTimePicker((prev) => !prev)}
                         className="d-inline-flex align-items-center"
                       >
-                        <IoTimeOutline size={25} className="me-2" />
+                        <IoTimeOutline size={27} className="me-3" />
                         <span>
                           <p>
                             {data.delivery == "delivery"
@@ -959,18 +959,27 @@ const Checkout = () => {
                 <Col md={12}>
                   <div className="mb-4">
                     <p className="mb-2 fs-09">{t("Способ оплаты")}</p>
-                    <Row xs={2} sm={3} md={3} className="gx-2 gy-4">
-                      {paymentsData.map((e) => {
+                    <Row className="gx-2 gy-2">
+                      {paymentsData.map((e, index) => {
                         let pay =
                           checkout.delivery == "delivery"
                             ? options?.delivery ?? []
                             : options?.pickup ?? [];
 
+                        let count = paymentsData.filter(
+                          (item) => pay[item.value]
+                        )?.length;
+
                         if (!pay[e.value]) {
                           return null;
                         }
                         return (
-                          <Col>
+                          <Col
+                            key={index}
+                            xs={2}
+                            sm={count > 2 ? 4 : count === 1 ? 1 : 6}
+                            md={count > 2 ? 4 : count === 1 ? 1 : 6}
+                          >
                             <PaymentItem
                               onClick={(e) => setValue("payment", e.value)}
                               data={e}
@@ -1142,8 +1151,8 @@ const Checkout = () => {
                   </div>
                 )}
               <Button
-                disabled={isValidBtn() || (isWorkStatus && !data.serving)}
-                className="mt-3 fw-6 w-100"
+                disabled={isValidBtn() || (!isWorkStatus && !data.serving)}
+                className="mt-3 btn-lg fw-6 w-100"
                 onClick={() => setConfirmation(true)}
               >
                 {t("Оформить заказ")}
