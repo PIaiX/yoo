@@ -976,7 +976,7 @@ const Checkout = () => {
                         return (
                           <Col
                             key={index}
-                            xs={2}
+                            xs={12}
                             sm={count > 2 ? 4 : count === 1 ? 1 : 6}
                             md={count > 2 ? 4 : count === 1 ? 1 : 6}
                           >
