@@ -6,7 +6,7 @@ const initialState = {
   deliveryPrice: 0,
   items: [],
   zone: false,
-  checking: []
+  checking: [],
 };
 
 const cartSlice = createSlice({
@@ -15,19 +15,33 @@ const cartSlice = createSlice({
   reducers: {
     updateCartAll: (state, action) => {
       state.items = state.items.map((cartItem) => {
-        let isProduct = action.payload.find(e => e.id === cartItem.id)
+        let isProduct = action.payload.find((e) => e.id === cartItem.id);
         if (cartItem.id === isProduct?.id) {
           return {
-            ...cartItem, title: isProduct.title, description: isProduct.description, code: isProduct.code, medias: isProduct.medias, options: isProduct.options, cart: {
-              ...cartItem.cart, data: {
-                ...cartItem.cart.data, modifiers: cartItem.cart.data.modifiers.map(e => {
-                  let isModifier = isProduct?.modifiers.find(e2 => e2.id === e.id)
-                  if (isModifier) {
-                    return { ...e, ...isModifier }
-                  }
-                })
-              }
-            }
+            ...cartItem,
+            title: isProduct.title,
+            description: isProduct.description,
+            code: isProduct.code,
+            medias: isProduct.medias,
+            options: isProduct.options,
+            cart: {
+              ...cartItem.cart,
+              data: {
+                ...cartItem.cart.data,
+                modifiers:
+                  cartItem?.cart?.data?.modifiers?.length > 0 &&
+                  isProduct?.modifiers?.length > 0
+                    ? cartItem.cart.data.modifiers.map((e) => {
+                        let isModifier = isProduct?.modifiers.find(
+                          (e2) => e2.id === e.id
+                        );
+                        if (isModifier) {
+                          return { ...e, ...isModifier };
+                        }
+                      })
+                    : [],
+              },
+            },
           };
         }
       });
@@ -62,10 +76,11 @@ const cartSlice = createSlice({
       }
     },
     updateCartChecking: (state, action) => {
-      let discounts = action.payload[0]?.discounts ?? state.checking[0]?.discounts ?? [];
+      let discounts =
+        action.payload[0]?.discounts ?? state.checking[0]?.discounts ?? [];
 
       if (action.payload) {
-        state.checking = action.payload
+        state.checking = action.payload;
       }
 
       if (discounts?.length > 0) {

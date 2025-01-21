@@ -23,7 +23,6 @@ import {
   cartPromo,
   updateCartAll,
   updateCartChecking,
-  updateCartSync,
 } from "../store/reducers/cartSlice";
 import { IoTrashOutline } from "react-icons/io5";
 import Loader from "../components/utils/Loader";
@@ -111,7 +110,7 @@ const Cart = () => {
   }, [promo]);
 
   useEffect(() => {
-    setIsGift(count > 0 ? cart.find((e) => e.type == "gift") : false);
+    setIsGift(count > 0 ? !!cart.find((e) => e.type == "gift") : false);
     if (count > 0) {
       getCart({
         name: user?.firstName ?? "",
@@ -162,8 +161,8 @@ const Cart = () => {
         .then((res) => {
           setData({
             loading: false,
-            extras: res?.extras ?? [],
-            gifts: res?.gifts ?? [],
+            extras: res?.extras || [],
+            gifts: res?.gifts || [],
           });
 
           if (res?.products) {
@@ -174,7 +173,7 @@ const Cart = () => {
             dispatch(updateCartChecking(res.checking));
           }
         })
-        .catch(() => {
+        .catch((err) => {
           setData({ ...data, loading: false });
         });
     }
