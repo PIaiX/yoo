@@ -4,9 +4,10 @@ import React, {
   useCallback,
   useEffect,
   useLayoutEffect,
+  useMemo,
   useState,
 } from "react";
-import { Button, Modal, Col, Row, Container, Form } from "react-bootstrap";
+import { Button, Modal, Col, Row, Container } from "react-bootstrap";
 import { useForm, useWatch } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { NotificationManager } from "react-notifications";
@@ -52,8 +53,6 @@ import { cartZone } from "../store/reducers/cartSlice";
 
 const Checkout = () => {
   const { t } = useTranslation();
-  const [showDateTimePicker, setShowDateTimePicker] = useState(false);
-
   const paymentsData = [
     {
       id: 1,
@@ -292,9 +291,6 @@ const Checkout = () => {
   }, [checkout.delivery, end]);
 
   useEffect(() => {
-    if (!isWorkStatus && !showDateTimePicker && !data.serving) {
-      setShowDateTimePicker(true);
-    }
     if (checking) {
       setValue("checking", checking);
     }
@@ -357,20 +353,16 @@ const Checkout = () => {
 
   useEffect(() => {
     const fetchDeliveryData = async () => {
-      if (checkout?.delivery !== "delivery" || !user?.id) return;
-
-      const selectedAddress = address?.find((e) => e.main);
-      if (!selectedAddress) return;
-
-      const weight = useMemo(
-        () =>
-          cart.reduce((sum, item) => {
-            return sum + (item.energy?.weight ?? 0) * (item.cart?.count ?? 0);
-          }, 0),
-        [cart]
-      );
-
       try {
+        if (checkout?.delivery !== "delivery" || !user?.id) return false;
+
+        const selectedAddress = address?.find((e) => e.main);
+        if (!selectedAddress) return false;
+
+        const weight = cart.reduce((sum, item) => {
+          return sum + (item.energy?.weight ?? 0) * (item.cart?.count ?? 0);
+        }, 0);
+
         const res = await getDelivery({
           distance: true,
           addressId: selectedAddress.id,
@@ -381,18 +373,18 @@ const Checkout = () => {
         }
       } catch (error) {
         dispatch(cartZone({ data: false, distance: false }));
+        return false;
       }
     };
 
     if (!hasFetched) {
-      fetchDeliveryData();
-      setHasFetched(true);
+      fetchDeliveryData().then((e) => !e && setHasFetched(true));
     }
-  }, [address, checkout.delivery, cart, hasFetched, user?.id]);
+  }, [hasFetched]);
 
   useEffect(() => {
     setHasFetched(false);
-  }, [address, checkout.delivery, cart]);
+  }, [address, checkout.delivery, cart, city, user?.id]);
 
   const onSubmit = useCallback(
     (data) => {
