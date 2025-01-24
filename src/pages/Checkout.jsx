@@ -1,14 +1,12 @@
 import moment from "moment";
 import React, {
+  memo,
   useCallback,
   useEffect,
   useLayoutEffect,
   useState,
 } from "react";
-import { Button, Modal } from "react-bootstrap";
-import Col from "react-bootstrap/Col";
-import Container from "react-bootstrap/Container";
-import Row from "react-bootstrap/Row";
+import { Button, Modal, Col, Row, Container, Form } from "react-bootstrap";
 import { useForm, useWatch } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { NotificationManager } from "react-notifications";
@@ -48,10 +46,9 @@ import {
 } from "../store/reducers/checkoutSlice";
 import CartItem from "../components/CartItem";
 import { setUser } from "../store/reducers/authSlice";
-import { IoTimeOutline, IoTrashOutline } from "react-icons/io5";
+import { IoTrashOutline } from "react-icons/io5";
 import { getDelivery } from "../services/order";
 import { cartZone } from "../store/reducers/cartSlice";
-import { HiXMark } from "react-icons/hi2";
 
 const Checkout = () => {
   const { t } = useTranslation();
@@ -144,7 +141,6 @@ const Checkout = () => {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
   const {
     control,
     formState: { isValid, errors },
@@ -161,13 +157,11 @@ const Checkout = () => {
       phone: user.phone ?? "",
       email: checkout?.data?.email ?? user.email ?? "",
       serving: checkout?.data?.serving ?? "",
-      servingCheck:
-        checkout?.data?.serving ?? checkout?.data?.servingCheck ?? "",
+      servingRadio: checkout?.data?.servingRadio ?? false,
       delivery: checkout.delivery ?? "delivery",
       payment: checkout?.data?.payment ?? "cash",
       person: person > 0 ? person : checkout?.data?.person ?? 1,
       comment: checkout?.data?.comment ?? "",
-
       address:
         addressData?.length > 0
           ? addressData.filter(
@@ -230,6 +224,14 @@ const Checkout = () => {
       (zone?.data?.minPrice > totalNoDelivery || !zone?.data)) ||
     (data?.delivery == "delivery" &&
       (!Array.isArray(address) || address.length <= 0));
+
+  const CartItems = memo(({ items }) => {
+    return items.map((e) => (
+      <li key={e.id} className="mb-2">
+        <CheckoutProduct data={e} />
+      </li>
+    ));
+  });
 
   useLayoutEffect(() => {
     if (isAuth && user?.status === 0) {
@@ -355,35 +357,38 @@ const Checkout = () => {
 
   useEffect(() => {
     const fetchDeliveryData = async () => {
-      if (checkout?.delivery === "delivery" && user?.id) {
-        const selectedAddress = address ? address.find((e) => e.main) : false;
-        const weight = cart.reduce((sum, item) => {
-          const itemWeight = item.energy?.weight ?? 0;
-          const itemCount = item.cart?.count ?? 0;
-          return sum + itemWeight * itemCount;
-        }, 0);
+      if (checkout?.delivery !== "delivery" || !user?.id) return;
 
-        if (selectedAddress) {
-          try {
-            const res = await getDelivery({
-              distance: true,
-              addressId: selectedAddress.id,
-              weight,
-            });
-            if (res) {
-              dispatch(cartZone({ data: res?.zone, distance: res?.distance }));
-            }
-          } catch (error) {
-            dispatch(cartZone({ data: false, distance: false }));
-          }
+      const selectedAddress = address?.find((e) => e.main);
+      if (!selectedAddress) return;
+
+      const weight = useMemo(
+        () =>
+          cart.reduce((sum, item) => {
+            return sum + (item.energy?.weight ?? 0) * (item.cart?.count ?? 0);
+          }, 0),
+        [cart]
+      );
+
+      try {
+        const res = await getDelivery({
+          distance: true,
+          addressId: selectedAddress.id,
+          weight,
+        });
+        if (res) {
+          dispatch(cartZone({ data: res?.zone, distance: res?.distance }));
         }
+      } catch (error) {
+        dispatch(cartZone({ data: false, distance: false }));
       }
     };
 
     if (!hasFetched) {
-      fetchDeliveryData().then(() => setHasFetched(true));
+      fetchDeliveryData();
+      setHasFetched(true);
     }
-  }, [address, checkout.delivery, cart, hasFetched]);
+  }, [address, checkout.delivery, cart, hasFetched, user?.id]);
 
   useEffect(() => {
     setHasFetched(false);
@@ -471,6 +476,40 @@ const Checkout = () => {
     },
     [data, selectedAffiliate, zone?.data]
   );
+
+  useEffect(() => {
+    const selectedTime = data.servingTime;
+    const currentDate = data.servingDate
+      ? moment(data.servingDate).format("YYYY-MM-DD")
+      : moment().format("YYYY-MM-DD");
+
+    // Проверяем, попадает ли выбранное время в диапазон
+    const minTime = moment(
+      selectedAffiliate.options.work[moment().weekday()].start,
+      "HH:mm"
+    ).add(selectedAffiliate?.options?.preorderMin ?? 90, "minutes");
+
+    const maxTime = moment(
+      selectedAffiliate.options.work[moment().weekday()].end,
+      "HH:mm"
+    );
+
+    if (moment(selectedTime, "HH:mm").isBetween(minTime, maxTime, null, "[]")) {
+      setValue(
+        "serving",
+        moment(currentDate + "T" + selectedTime).format("YYYY-MM-DDTHH:mm")
+      );
+    } else {
+      setValue("serving", null);
+    }
+  }, [data.servingTime, data.servingDate]);
+
+  useEffect(() => {
+    if (data.serving && (!data.servingRadio || data.servingRadio === "false")) {
+      setValue("servingTime", null);
+      setValue("servingDate", null);
+    }
+  }, [data.servingRadio]);
 
   if (!Array.isArray(cart) || cart.length <= 0) {
     return (
@@ -784,176 +823,155 @@ const Checkout = () => {
                 )}
                 <Col md={6}>
                   <div className="mb-4">
-                    <p>
-                      <a
-                        onClick={() => setShowDateTimePicker((prev) => !prev)}
-                        className="d-inline-flex align-items-center"
-                      >
-                        <IoTimeOutline size={27} className="me-3" />
-                        <span>
-                          <p>
-                            {data.delivery == "delivery"
-                              ? t("Привезем")
-                              : t("Подадим")}{" "}
-                            {data.serving
-                              ? t("к")
-                              : zone?.data?.time > 0
-                              ? t("с")
-                              : t("в")}{" "}
-                            <b>
-                              {data.serving
-                                ? moment(data.serving).format("DD.MM.YYYY") ===
-                                  moment().format("DD.MM.YYYY")
-                                  ? moment(data.serving).format("kk:mm")
-                                  : moment(data.serving).format(
-                                      "DD.MM.YYYY kk:mm"
+                    <label className="d-flex align-items-center flex-row mb-3">
+                      <input
+                        type="radio"
+                        name="servingRadio"
+                        id="servingRadio"
+                        defaultChecked={data.servingRadio === false}
+                        value={false}
+                        {...register("servingRadio")}
+                      />
+                      <span className="ms-2">
+                        {data.delivery == "delivery"
+                          ? t("Привезем")
+                          : t("Подадим")}{" "}
+                        {t("в")} <b>{t("ближайшее время")}</b>
+                      </span>
+                    </label>
+                    <label className="d-flex align-items-center flex-row mb-3">
+                      <input
+                        type="radio"
+                        name="servingRadio"
+                        id="servingRadio2"
+                        defaultChecked={data.servingRadio === true}
+                        value={true}
+                        {...register("servingRadio")}
+                      />
+                      <span className="ms-2">
+                        {data.delivery == "delivery"
+                          ? t("Привезем")
+                          : t("Подадим")}{" "}
+                        {t("ко")} <b>{t("времени")}</b>
+                      </span>
+                    </label>
+                    {data?.servingRadio === "true" && (
+                      <div className="text-muted d-flex flex-row">
+                        {selectedAffiliate?.options?.preorderMax > 0 && (
+                          <div>
+                            <Input
+                              errors={errors}
+                              register={register}
+                              name="servingDate"
+                              type="date"
+                              defaultValue={moment(data.serving).format(
+                                "YYYY-MM-DD"
+                              )}
+                              validation={{
+                                min: {
+                                  value: moment()
+                                    .add(
+                                      selectedAffiliate?.options?.preorderMin ??
+                                        90,
+                                      "minutes"
                                     )
-                                : zone?.data?.time > 0
-                                ? moment()
-                                    .add(zone.data.time, "minutes")
-                                    .format("kk:mm") +
-                                  " - " +
-                                  moment()
-                                    .add(zone.data.time + 30, "minutes")
-                                    .format("kk:mm")
-                                : t("ближайшее время")}
-                            </b>
-                          </p>
-                          <p className="text-muted fs-08">
-                            {t("Изменить дату и время")}
-                          </p>
-                        </span>
-                      </a>
-                    </p>
-                    <Modal
-                      size="sm"
-                      show={showDateTimePicker}
-                      onHide={setShowDateTimePicker}
-                      centered
-                      closeButton
-                      backdrop={isWorkStatus ? true : "static"}
-                      keyboard={isWorkStatus ? false : true}
-                    >
-                      <Modal.Body>
-                        <h5
-                          className={
-                            isWorkStatus
-                              ? "fw-7 h5 mt-2 mb-2 text-center"
-                              : "fw-7 h5 mt-2 mb-4 text-center"
-                          }
-                        >
-                          {data.delivery == "delivery"
-                            ? t("Время доставки")
-                            : t("Время подачи")}
-                        </h5>
-                        {isWorkStatus && (
-                          <button
-                            type="button"
-                            className="close"
-                            onClick={() => {
-                              setShowDateTimePicker(false);
-                            }}
-                          >
-                            <HiXMark size={23} />
-                          </button>
-                        )}
-                        {isWorkStatus && (
-                          <p className="text-muted text-center mb-3">{`${t(
-                            "Мы работаем с"
-                          )} ${
-                            selectedAffiliate.options.work[moment().weekday()]
-                              .start
-                          } ${t("до")} ${
-                            selectedAffiliate.options.work[moment().weekday()]
-                              .end
-                          }`}</p>
-                        )}
-                        <Input
-                          name="servingCheck"
-                          control={control}
-                          autoCapitalize="none"
-                          errors={errors}
-                          register={register}
-                          type="datetime-local"
-                          min={moment()
-                            .add(
-                              selectedAffiliate?.options?.preorderMin ?? 90,
-                              "minutes"
-                            )
-                            .format("YYYY-MM-DDTkk:mm")}
-                          max={moment()
-                            .add(
-                              selectedAffiliate?.options?.preorderMax ?? 30,
-                              "days"
-                            )
-                            .format("YYYY-MM-DDTkk:mm")}
-                          validation={{
-                            min: {
-                              value: moment()
+                                    .format("YYYY-MM-DD"),
+                                  message: `${t("Минимум ")} ${moment()
+                                    .add(
+                                      selectedAffiliate?.options?.preorderMin ??
+                                        90,
+                                      "minutes"
+                                    )
+                                    .format("YYYY-MM-DD")}`,
+                                },
+                                max: {
+                                  value: moment()
+                                    .add(
+                                      selectedAffiliate?.options?.preorderMax ??
+                                        30,
+                                      "days"
+                                    )
+                                    .format("YYYY-MM-DD"),
+                                  message: `${t("Максимум ")} ${moment()
+                                    .add(
+                                      selectedAffiliate?.options?.preorderMax ??
+                                        30,
+                                      "days"
+                                    )
+                                    .format("YYYY-MM-DD")}`,
+                                },
+                              }}
+                              min={moment()
                                 .add(
                                   selectedAffiliate?.options?.preorderMin ?? 90,
                                   "minutes"
                                 )
-                                .format("YYYY-MM-DDTkk:mm"),
-                              message: `${t(
-                                "Время подачи заказа не менее чем через"
-                              )} ${
-                                selectedAffiliate?.options?.preorderMin ?? 90
-                              } ${t("мин")}`,
-                            },
-                            max: {
-                              value: moment()
+                                .format("YYYY-MM-DD")}
+                              max={moment()
                                 .add(
                                   selectedAffiliate?.options?.preorderMax ?? 30,
                                   "days"
                                 )
-                                .format("YYYY-MM-DDTkk:mm"),
-                              message: `${t(
-                                "Максимальное время подачи не более"
-                              )} ${
-                                selectedAffiliate?.options?.preorderMax ?? 30
-                              } ${t("д")}`,
-                            },
-                          }}
-                        />
-
-                        {!isWorkStatus || data?.serving ? (
-                          <>
-                            <Button
-                              className="mt-3 w-100"
-                              onClick={() => {
-                                setShowDateTimePicker(false);
-                                setValue("serving", null);
-                                setValue("servingCheck", null);
-                              }}
-                            >
-                              Очистить
-                            </Button>
-                            <Button
-                              className="btn-light mt-3 w-100"
-                              onClick={() => {
-                                setShowDateTimePicker(false);
-                              }}
-                            >
-                              Отмена
-                            </Button>
-                          </>
-                        ) : (
-                          <Button
-                            disabled={!isValid || !data?.servingCheck}
-                            className="mt-3 w-100"
-                            onClick={() => {
-                              setShowDateTimePicker(false);
-                              if (data?.servingCheck) {
-                                setValue("serving", data.servingCheck);
-                              }
-                            }}
-                          >
-                            Продолжить
-                          </Button>
+                                .format("YYYY-MM-DD")}
+                              className="input-date me-2"
+                            />{" "}
+                          </div>
                         )}
-                      </Modal.Body>
-                    </Modal>
+
+                        <div>
+                          <Input
+                            errors={errors}
+                            register={register}
+                            type="time"
+                            name="servingTime"
+                            className="input-time"
+                            defaultValue={moment(data.serving).format("HH:mm")}
+                            validation={{
+                              min: {
+                                value: moment(
+                                  selectedAffiliate.options.work[
+                                    moment().weekday()
+                                  ].start,
+                                  "HH:mm"
+                                )
+                                  .add(
+                                    selectedAffiliate?.options?.preorderMin ??
+                                      90,
+                                    "minutes"
+                                  )
+                                  .format("HH:mm"),
+                                message: `${t("Минимум ")} ${moment(
+                                  selectedAffiliate.options.work[
+                                    moment().weekday()
+                                  ].start,
+                                  "HH:mm"
+                                )
+                                  .add(
+                                    selectedAffiliate?.options?.preorderMin ??
+                                      90,
+                                    "minutes"
+                                  )
+                                  .format("HH:mm")}`,
+                              },
+                              max: {
+                                value: moment(
+                                  selectedAffiliate.options.work[
+                                    moment().weekday()
+                                  ].end,
+                                  "HH:mm"
+                                ).format("HH:mm"),
+                                message: `${t("Максимум ")} ${moment(
+                                  selectedAffiliate.options.work[
+                                    moment().weekday()
+                                  ].end,
+                                  "HH:mm"
+                                ).format("HH:mm")}`,
+                              },
+                            }}
+                          />
+                        </div>
+                      </div>
+                    )}
                   </div>
                 </Col>
                 <Col md={12}>
@@ -1008,11 +1026,7 @@ const Checkout = () => {
                 <h6>{t("Ваш заказ")}</h6>
 
                 <ul className="list-unstyled">
-                  {cart.map((e) => (
-                    <li className="mb-2">
-                      <CheckoutProduct data={e} />
-                    </li>
-                  ))}
+                  <CartItems items={cart} />
                 </ul>
               </div>
               {user?.point > 0 && profilePointVisible && (
