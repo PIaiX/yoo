@@ -10,7 +10,6 @@ import Catalog from "../components/Catalog";
 import Empty from "../components/Empty";
 import Meta from "../components/Meta";
 import Widgets from "../components/Widgets";
-import EmptyCatalog from "../components/empty/catalog";
 import Loader from "../components/utils/Loader";
 import { isUpdateTime } from "../helpers/all";
 import { getCatalog } from "../services/catalog";
