@@ -112,7 +112,6 @@ const Checkout = () => {
   const options = useSelector((state) => state.settings.options);
   const [confirmation, setConfirmation] = useState(false);
   const [address, setAddress] = useState([]);
-  const [hasFetched, setHasFetched] = useState(false);
 
   const {
     total = 0,
@@ -377,13 +376,7 @@ const Checkout = () => {
       }
     };
 
-    if (!hasFetched) {
-      fetchDeliveryData().then((e) => !e && setHasFetched(true));
-    }
-  }, [hasFetched]);
-
-  useEffect(() => {
-    setHasFetched(false);
+    fetchDeliveryData();
   }, [address, checkout.delivery, cart, city, user?.id]);
 
   const onSubmit = useCallback(
