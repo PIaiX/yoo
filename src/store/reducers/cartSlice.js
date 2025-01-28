@@ -76,25 +76,17 @@ const cartSlice = createSlice({
       }
     },
     updateCartChecking: (state, action) => {
-      let discounts =
-        action.payload[0]?.discounts ?? state.checking[0]?.discounts ?? [];
-
-      if (action.payload) {
-        state.checking = action.payload;
-      }
-
-      if (discounts?.length > 0) {
-        state.items = [
-          ...state.items.map((cartItem, index) => {
-            return {
-              ...cartItem,
-              discount: discounts[index].discountSum,
-            };
-          }),
-        ];
-      }
-
-      return state;
+      return {
+        ...state,
+        checking: action.payload ?? state.checking, 
+        items: state.items.map((cartItem, index) => {
+          const discount = action.payload[0]?.discounts?.[index]?.discountSum || 0;
+          return {
+            ...cartItem,
+            discount: discount,
+          };
+        }),
+      };
     },
     cartEditOptions: (state, action) => {
       let isCart =

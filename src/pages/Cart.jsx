@@ -169,15 +169,22 @@ const Cart = () => {
             dispatch(updateCartAll(res.products));
           }
 
-          if (res?.checking?.length > 0) {
-            dispatch(updateCartChecking(res.checking));
+          dispatch(updateCartChecking(res.checking));
+
+          if (
+            promo?.type === "integration_coupon" &&
+            (!res?.checking || res?.checking?.length === 0)
+          ) {
+            NotificationManager.error("Условия не выполнены");
+            setValue("promo", "");
+            dispatch(cartDeletePromo());
           }
         })
         .catch((err) => {
           setData({ ...data, loading: false });
         });
     }
-  }, [user?.id, count]);
+  }, [user?.id, count, promo]);
 
   if (!Array.isArray(cart) || cart.length <= 0) {
     return (
