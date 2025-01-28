@@ -34,6 +34,7 @@ const Cart = () => {
   const { t } = useTranslation();
 
   const user = useSelector((state) => state.auth.user);
+  const checking = useSelector((state) => state.cart.checking);
   const cart = useSelector((state) => state.cart.items);
   const promo = useSelector((state) => state.cart.promo);
   const stateDelivery = useSelector((state) => state.stateDelivery);
@@ -109,7 +110,7 @@ const Cart = () => {
     }
   }, [promo]);
 
-  useEffect(() => {
+  const getCartData = () => {
     setIsGift(count > 0 ? !!cart.find((e) => e.type == "gift") : false);
     if (count > 0) {
       getCart({
@@ -181,10 +182,25 @@ const Cart = () => {
           }
         })
         .catch((err) => {
+          if (promo?.type === "integration_coupon") {
+            dispatch(updateCartChecking([]));
+            setValue("promo", "");
+            dispatch(cartDeletePromo());
+          }
           setData({ ...data, loading: false });
         });
     }
-  }, [user?.id, count, promo]);
+  };
+
+  useEffect(() => {
+    getCartData();
+  }, [user?.id, count, address, selectedAffiliate]);
+
+  useEffect(() => {
+    if (promo && promo?.type === "integration_coupon") {
+      getCartData();
+    }
+  }, [promo]);
 
   if (!Array.isArray(cart) || cart.length <= 0) {
     return (
@@ -363,6 +379,10 @@ const Cart = () => {
                             dispatch(
                               cartDeleteProduct({ data: promo.product })
                             );
+                          }
+
+                          if (promo?.type === "integration_coupon") {
+                            dispatch(updateCartChecking([]));
                           }
                           setValue("promo", "");
                           dispatch(cartDeletePromo());
