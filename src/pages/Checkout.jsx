@@ -346,6 +346,7 @@ const Checkout = () => {
 
   useEffect(() => {
     if (selectedTable?.id && checkout.delivery == "hall") {
+      setValue('affiliateId', selectedTable.affiliateId)
       setValue("tableId", selectedTable.id);
     }
   }, [selectedTable]);
