@@ -160,15 +160,7 @@ const Checkout = () => {
       payment: checkout?.data?.payment ?? "cash",
       person: person > 0 ? person : checkout?.data?.person ?? 1,
       comment: checkout?.data?.comment ?? "",
-      address:
-        addressData?.length > 0
-          ? addressData.filter(
-              (e) =>
-                e?.city?.toLowerCase() === city?.title?.toLowerCase() ||
-                e?.region?.toLowerCase() === city?.region?.toLowerCase() ||
-                e?.area?.toLowerCase() === city?.area?.toLowerCase()
-            )
-          : false,
+      address: checkout?.data?.address ?? false,
       affiliateId: selectedAffiliate?.id ? selectedAffiliate.id : false,
       tableId: selectedTable?.id ? selectedTable.id : false,
 
@@ -334,7 +326,7 @@ const Checkout = () => {
 
   useLayoutEffect(() => {
     if (address?.length > 0) {
-      setValue("address", address.find((e) => e.main) ?? address[0] ?? false);
+      setValue("address", address.find((e) => e.main) || address[0] || false);
     }
 
     if (zone?.data?.affiliateId && checkout.delivery === "delivery") {
@@ -346,7 +338,7 @@ const Checkout = () => {
 
   useEffect(() => {
     if (selectedTable?.id && checkout.delivery == "hall") {
-      setValue('affiliateId', selectedTable.affiliateId)
+      setValue("affiliateId", selectedTable.affiliateId);
       setValue("tableId", selectedTable.id);
     }
   }, [selectedTable]);
@@ -356,7 +348,8 @@ const Checkout = () => {
       try {
         if (checkout?.delivery !== "delivery" || !user?.id) return false;
 
-        const selectedAddress = address?.find((e) => e.main);
+        const selectedAddress = address?.find((e) => e.main) || address[0];
+        console.log(address);
         if (!selectedAddress) return false;
 
         const weight = cart.reduce((sum, item) => {
@@ -368,6 +361,7 @@ const Checkout = () => {
           addressId: selectedAddress.id,
           weight,
         });
+        console.log(res);
         if (res) {
           dispatch(cartZone({ data: res?.zone, distance: res?.distance }));
         }
