@@ -152,7 +152,7 @@ const Checkout = () => {
     reValidateMode: "onSubmit",
     defaultValues: {
       name: user.firstName ?? "",
-      phone: user.phone ?? "",
+      phone: checkout?.data?.phone ?? user.phone ?? "",
       email: checkout?.data?.email ?? user.email ?? "",
       serving: checkout?.data?.serving ?? "",
       servingRadio: checkout?.data?.servingRadio ?? false,
@@ -260,7 +260,7 @@ const Checkout = () => {
 
   useEffect(() => {
     if (data) dispatch(setCheckout(data));
-  }, [data]);
+  }, [data, end]);
 
   useEffect(() => {
     if (isAuth && !end) {
@@ -270,10 +270,6 @@ const Checkout = () => {
       );
     }
   }, [data.pointSwitch, pointCheckout, end]);
-
-  useEffect(() => {
-    if (!end && data) dispatch(setCheckout(data));
-  }, [data, end]);
 
   useEffect(() => {
     if (!end && checkout.delivery) {
@@ -349,7 +345,7 @@ const Checkout = () => {
         if (checkout?.delivery !== "delivery" || !user?.id) return false;
 
         const selectedAddress = address?.find((e) => e.main) || address[0];
-        console.log(address);
+
         if (!selectedAddress) return false;
 
         const weight = cart.reduce((sum, item) => {
@@ -361,7 +357,7 @@ const Checkout = () => {
           addressId: selectedAddress.id,
           weight,
         });
-        console.log(res);
+
         if (res) {
           dispatch(cartZone({ data: res?.zone, distance: res?.distance }));
         }
