@@ -25,6 +25,7 @@ import {
 } from "../../store/reducers/authSlice";
 import { IoCall, IoMail, IoQrCodeOutline } from "react-icons/io5";
 import QRCode from "react-qr-code";
+import { HiXMark } from "react-icons/hi2";
 
 const Registration = () => {
   const { t } = useTranslation();
@@ -515,11 +516,19 @@ const Registration = () => {
       </Container>
       {options.qr && (
         <Modal size="md" show={modalQr} onHide={setModalQr} centered>
-          <Modal.Header closeButton className="fw-7">
+          {/* <Modal.Header closeButton className="fw-7">
             Вход по QR коду
-          </Modal.Header>
+          </Modal.Header> */}
+
           <Modal.Body>
-            <div className="login-box-qr">
+            <button
+              type="button"
+              className="close"
+              onClick={() => setModalQr(false)}
+            >
+              <HiXMark size={30} />
+            </button>
+            <div className="login-box-qr mt-3">
               {qr && (
                 <div className="d-flex justify-content-center">
                   <QRCode
@@ -531,22 +540,22 @@ const Registration = () => {
                 </div>
               )}
 
-              <div className="fw-8 h5 mb-3 mt-4 text-center">
+              <div className="fw-7 h5 mb-3 mt-4 text-center">
                 {t("Войдите через QR код")}
               </div>
-              <p className="fw-6 mb-2 d-flex align-items-start">
+              <p className="fw-4 mb-2 d-flex align-items-start">
                 <Badge pill bg="dark" className="me-3">
                   1
                 </Badge>
                 Зайдите в приложение
               </p>
-              <p className="fw-6 mb-2 d-flex align-items-start">
+              <p className="fw-4 mb-2 d-flex align-items-start">
                 <Badge pill bg="dark" className="me-3">
                   2
                 </Badge>
                 Перейдите в профиль {">"} Нажмите на значок QR кода
               </p>
-              <p className="fw-6 mb-4 d-flex align-items-start">
+              <p className="fw-4 mb-4 d-flex align-items-start">
                 <Badge pill bg="dark" className="me-3">
                   3
                 </Badge>
