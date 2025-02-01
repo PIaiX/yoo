@@ -10,22 +10,32 @@ import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import Input from "../../components/utils/Input";
-import { authRegister, login } from "../../services/auth";
+import { authQrGenerate, authRegister, login } from "../../services/auth";
 import Meta from "../../components/Meta";
-import { Button } from "react-bootstrap";
+import { Badge, Button, Modal } from "react-bootstrap";
 import { NotificationManager } from "react-notifications";
 import { getImageURL } from "../../helpers/all";
 import { useTranslation } from "react-i18next";
 import socket from "../../config/socket";
-import { setAuth, setToken, setUser } from "../../store/reducers/authSlice";
-import { IoQrCodeOutline } from "react-icons/io5";
+import {
+  setAuth,
+  setQr,
+  setToken,
+  setUser,
+} from "../../store/reducers/authSlice";
+import { IoCall, IoMail, IoQrCodeOutline } from "react-icons/io5";
+import QRCode from "react-qr-code";
 
 const Registration = () => {
   const { t } = useTranslation();
   const isAuth = useSelector((state) => state.auth.isAuth);
   const user = useSelector((state) => state.auth.user);
+  const apiId = useSelector((state) => state.settings.apiId);
   const options = useSelector((state) => state.settings.options);
   const loadingLogin = useSelector((state) => state.auth.loadingLogin);
+  const qr = useSelector((state) => state.auth.qr);
+  const [modalQr, setModalQr] = useState(false);
+  const timerRef = useRef(null);
   const bgImage = options.auth
     ? getImageURL({
         path: options.auth,
@@ -211,6 +221,55 @@ const Registration = () => {
     setTimeout(() => setLoginView(!loginView), 500);
   };
 
+  useEffect(() => {
+    // Очистка таймера при размонтировании компонента
+    return () => clearInterval(timerRef.current);
+  }, []);
+
+  useEffect(() => {
+    if (modalQr && options.qr) {
+      const updateQrToken = async () => {
+        try {
+          const token = await authQrGenerate(); // Ваша функция генерации QR-токена
+          if (token) {
+            dispatch(setQr(token));
+          }
+        } catch (error) {
+          console.error("Ошибка при генерации QR-кода:", error);
+        }
+      };
+
+      updateQrToken();
+
+      timerRef.current = setInterval(updateQrToken, 300000); // 5 мин
+    }
+
+    return () => {
+      clearInterval(timerRef.current);
+    };
+  }, [modalQr]);
+
+  useEffect(() => {
+    if (apiId && options.qr) {
+      socket.io.opts.query = {
+        brandId: user.brandId ?? false,
+        userId: user.id ?? false,
+      };
+      socket.connect();
+      socket.emit("create", "id" + apiId);
+      socket.on("login", (data) => {
+        if (data?.user && data?.token) {
+          dispatch(setUser(data.user));
+          dispatch(setToken(data.token));
+          dispatch(setAuth(true));
+        }
+      });
+      return () => {
+        socket.off("login");
+      };
+    }
+  }, [apiId, user]);
+
   const regForm = useMemo(() => (
     <form className="login-form" onSubmit={handleSubmit(onSubmit)}>
       <h4 class="fw-6 h4 mb-4">{t("Войдите в профиль")}</h4>
@@ -281,10 +340,9 @@ const Registration = () => {
       </Button>
       {options?.qr && (
         <Button
-          type="submit"
           variant="light"
-          disabled={loadingLogin || !isValid}
           className={"w-100 mt-3 btn-lg " + (loadingLogin ? "loading" : "")}
+          onClick={() => setModalQr(true)}
         >
           <IoQrCodeOutline size={22} className="me-2" />
           {t("Войти по QR коду")}
@@ -455,6 +513,64 @@ const Registration = () => {
           </div>
         </section>
       </Container>
+      {options.qr && (
+        <Modal size="md" show={modalQr} onHide={setModalQr} centered>
+          <Modal.Header closeButton className="fw-7">
+            Вход по QR коду
+          </Modal.Header>
+          <Modal.Body>
+            <div className="login-box-qr">
+              {qr && (
+                <div className="d-flex justify-content-center">
+                  <QRCode
+                    size={350}
+                    className="qr-login"
+                    value={qr}
+                    viewBox={`0 0 350 350`}
+                  />
+                </div>
+              )}
+
+              <div className="fw-8 h5 mb-3 mt-4 text-center">
+                {t("Войдите через QR код")}
+              </div>
+              <p className="fw-6 mb-2 d-flex align-items-start">
+                <Badge pill bg="dark" className="me-3">
+                  1
+                </Badge>
+                Зайдите в приложение
+              </p>
+              <p className="fw-6 mb-2 d-flex align-items-start">
+                <Badge pill bg="dark" className="me-3">
+                  2
+                </Badge>
+                Перейдите в профиль {">"} Нажмите на значок QR кода
+              </p>
+              <p className="fw-6 mb-4 d-flex align-items-start">
+                <Badge pill bg="dark" className="me-3">
+                  3
+                </Badge>
+                Наведите камеру на данный QR код
+              </p>
+              <Link
+                className="w-100 btn btn-lg btn-primary mt-3"
+                onClick={() => setModalQr(false)}
+              >
+                {!options.authType || options.authType === "email" ? (
+                  <IoMail size={20} className="me-2" />
+                ) : (
+                  <IoCall size={20} className="me-2" />
+                )}
+                {t(
+                  !options.authType || options.authType === "email"
+                    ? "Войти по Email"
+                    : "Войти по номеру телефона"
+                )}
+              </Link>
+            </div>
+          </Modal.Body>
+        </Modal>
+      )}
     </main>
   );
 };

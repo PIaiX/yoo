@@ -5862,3 +5862,72 @@ img.show {
     opacity: 0.6;
   }
 }
+.login {
+  position: relative;
+  &-box {
+    width: 100%;
+  }
+  &-box-qr {
+    width: 100%;
+    padding: 15px;
+    .qr-login {
+      background-color: #fff;
+      padding: 25px;
+      border-radius: 25px;
+      height: auto;
+      max-width: 70%;
+      width: 70%;
+    }
+  }
+  form {
+    background-color: var(--bg-second);
+    border-radius: $radius;
+    padding: 2em;
+    width: 100%;
+    margin: 0 auto;
+    @media (max-width: $bp-lg) {
+      width: 100%;
+      padding: 1.3em;
+    }
+  }
+
+  &-toggler {
+    position: absolute;
+    top: 60px;
+    right: 0%;
+    bottom: 0px;
+    z-index: 10;
+    width: 38%;
+    border-radius: 30px;
+    background-color: var(--main-color);
+    background-image: url(imgs/bg/entrance.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: 100% 50%;
+    color: #fff;
+    text-align: center;
+    padding-top: 4em;
+    .btn-40 {
+      width: 40%;
+    }
+    .text {
+      position: relative;
+      overflow: hidden;
+      color: #fff;
+      &-1 {
+        position: relative;
+        z-index: 1;
+        width: 100%;
+        margin-left: 0%;
+      }
+      &-2 {
+        @include absBG(10, 0px, 100%);
+        left: -100%;
+      }
+    }
+  }
+  &-mobile {
+    display: block;
+    padding: 2em 0px;
+  }
+}

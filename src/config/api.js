@@ -1,4 +1,4 @@
-const DOMAIN = 'test.yoo-app.ru'; //window.location.hostname;
+const DOMAIN = false; //window.location.hostname;
 const SITE_URL = "https://yooapp.ru";
 const BASE_URL = "https://api.yooapp.ru";
 const ADMIN_URL = "https://admin.yooapp.ru";
@@ -35,6 +35,7 @@ const apiRoutes = {
   AUTH_LOGOUT: SERVICE_ACCOUNT + "/logout",
   AUTH_RECOVERY: SERVICE_ACCOUNT + "/recovery",
   AUTH_EDIT_EMAIL: SERVICE_ACCOUNT + "/editEmail",
+  AUTH_QR_GENERATE: SERVICE_ACCOUNT + "/qrGenerate",
 
   // account
   ACCOUNT_EDIT: SERVICE_USER + "/edit",

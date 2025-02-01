@@ -16,6 +16,7 @@ import YandexMetrika from "./components/YandexMetrika";
 import socket from "./config/socket";
 import {
   convertColor,
+  generateToken,
   getImageURL,
   isUpdateTime,
   languageCode,
@@ -37,6 +38,7 @@ import { setAuth, setUser } from "./store/reducers/authSlice";
 import { editDeliveryCheckout } from "./store/reducers/checkoutSlice";
 import { updateNotification } from "./store/reducers/notificationSlice";
 import {
+  updateApiId,
   updateIp,
   updateOptions,
   updateSettingsCity,
@@ -48,6 +50,7 @@ function App() {
   const { i18n } = useTranslation();
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
+  const apiId = useSelector((state) => state.settings.apiId);
   const options = useSelector((state) => state.settings.options);
   // const notification = useSelector((state) => state.notification);
   const updateTime = useSelector((state) => state.settings.updateTime);
@@ -146,7 +149,13 @@ function App() {
                 updateSettingsCountry(data?.country ? data.country : false)
               );
           });
-
+          
+          let apiIdCode = apiId;
+          if (!apiIdCode || apiIdCode.length === 0) {
+            apiIdCode = generateToken(50);
+            dispatch(updateApiId(apiIdCode));
+          }
+      
           await getOptions()
             .then(async (res) => {
               if (res?.options) {

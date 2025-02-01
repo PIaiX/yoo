@@ -11,6 +11,20 @@ const customPrice = (value, currency = true) => {
   }
   return value;
 };
+const generateToken = (length = 50, type) => {
+  let chars =
+    type == "number"
+      ? "0123456789"
+      : type == "letters"
+      ? "abcdefghijklmnopqrstuvwxyz"
+      : "0123456789abcdefghijklmnopqrstuvwxyz";
+  let key = "";
+  for (var i = 1; i <= length; i++) {
+    var randomNumber = Math.floor(Math.random() * chars.length);
+    key += chars.substring(randomNumber, randomNumber + 1);
+  }
+  return key;
+};
 
 const getImageURL = ({ path = "", size = "mini", type = "product" }) => {
   if (path && Array.isArray(path) && path?.length > 0) {
@@ -319,6 +333,7 @@ const sortMain = (medias) => {
 };
 
 export {
+  generateToken,
   sortMain,
   isUpdateTime,
   generateSeoText,

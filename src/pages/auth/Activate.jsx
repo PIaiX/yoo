@@ -75,24 +75,24 @@ const Activate = () => {
     return (
       <>
         <Meta
-          title={
-            t("Подтверждение " +
-            (options.authType == "email"
-              ? "электронной почты"
-              : "номера телефона"))
-          }
+          title={t(
+            "Подтверждение " +
+              (options.authType == "email"
+                ? "электронной почты"
+                : "номера телефона")
+          )}
         />
         <Empty
-          text={
-            t(options.authType == "email"
+          text={t(
+            options.authType == "email"
               ? "Электронная почта успешно подтверждена"
-              : "Номер телефона успешно подтвержден")
-          }
+              : "Номер телефона успешно подтвержден"
+          )}
           desc={t("Теперь вы можете перейти в меню для заказов")}
           image={() => <EmptyActivate />}
           button={
             <Link to="/" className="btn btn-primary">
-              {t('Перейти в меню')}
+              {t("Перейти в меню")}
             </Link>
           }
         />
@@ -102,32 +102,40 @@ const Activate = () => {
   return (
     <main className="d-flex align-items-center justify-content-center">
       <Meta
-        title={
-          t("Подтверждение " +
-          (options.authType == "email"
-            ? "электронной почты"
-            : "номера телефона"))
-        }
+        title={t(
+          "Подтверждение " +
+            (options.authType == "email"
+              ? "электронной почты"
+              : "номера телефона")
+        )}
       />
       <div className="login-forms p-2 p-md-3 w-xs-100">
-        <Form
-          className="login-form text-center d-flex flex-column justify-content-center w-xs-100"
-          onSubmit={handleSubmit(onSubmit)}
-        >
+        <Form className="login-form text-center d-flex flex-column justify-content-center w-xs-100">
           <h5 className="mb-3 fw-6 text-center">
-           {t(`Подтвердите ${options.authType == "email"
-              ? "электронную почту"
-              : "номер телефона"}`)}
+            {t(
+              `Подтвердите ${
+                options.authType == "email"
+                  ? "электронную почту"
+                  : "номер телефона"
+              }`
+            )}
           </h5>
           <p className="mb-4 text-center text-muted fs-09">
             {options.authType == "email" ? (
               <span>
-                {t('Мы отправили 4-значный код подтверждения на указанную электронную почту.')} <br />
-                {t('Пожалуйста, введите код в поле ниже, чтобы подтвердить свой адрес электронной почты.')}
+                {t(
+                  "Мы отправили 4-значный код подтверждения на указанную электронную почту."
+                )}{" "}
+                <br />
+                {t(
+                  "Пожалуйста, введите код в поле ниже, чтобы подтвердить свой адрес электронной почты."
+                )}
               </span>
             ) : (
               <span>
-                {t('Мы отправили 4-значный код подтверждения на указанный номер телефона. Введите полученный код в поле ниже.')}
+                {t(
+                  "Мы отправили 4-значный код подтверждения на указанный номер телефона. Введите полученный код в поле ниже."
+                )}
               </span>
             )}
           </p>
@@ -141,11 +149,11 @@ const Activate = () => {
           <p className="fs-09 text-muted text-center">
             {endTimer ? (
               <a onClick={() => onNewKey()}>
-                {t('Отправить повторно код подтверждения')}
+                {t("Отправить повторно код подтверждения")}
               </a>
             ) : (
               <p>
-                {t('Повторить отправку кода подтверждения через')}{" "}
+                {t("Повторить отправку кода подтверждения через")}{" "}
                 <Timer onEnd={() => setEndTimer(true)} /> сек
               </p>
             )}
@@ -154,11 +162,16 @@ const Activate = () => {
             type="submit"
             disabled={!data?.key || data?.key?.length != 4}
             className="btn-primary w-100 mt-4"
+            onClick={handleSubmit(onSubmit)}
           >
-            {t(`Подтвердить ${options.authType == "email" ? "почту" : "номер телефона"}`)}
+            {t(
+              `Подтвердить ${
+                options.authType == "email" ? "почту" : "номер телефона"
+              }`
+            )}
           </button>
           <button className="w-100 mt-4" onClick={() => dispatch(logout())}>
-            {t('Выйти из аккаунта')}
+            {t("Выйти из аккаунта")}
           </button>
         </Form>
       </div>

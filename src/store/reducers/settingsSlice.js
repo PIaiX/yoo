@@ -3,7 +3,8 @@ import moment from "moment";
 
 const initialState = {
   isConnected: true,
-  ip: "0.0.0.0",
+  ip: false,
+  apiId: false,
   city: false,
   country: false,
   token: false,
@@ -40,6 +41,9 @@ const settingsSlice = createSlice({
   name: "settings",
   initialState,
   reducers: {
+    updateApiId: (state, action) => {
+      state.apiId = action.payload;
+    },
     updateConnect: (state, action) => {
       state.isConnected = action.payload;
     },
@@ -88,6 +92,7 @@ export const {
   updateConnect,
   updateOptions,
   updateIp,
+  updateApiId,
   updateFilter,
   removeFilter,
   updateSettingsCity,

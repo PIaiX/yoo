@@ -123,7 +123,13 @@ const authNewKeyRecovery = async (params) => {
   const data = await $authApi.post(apiRoutes.AUTH_NEW_KEY_RECOVERY, params);
   return data;
 };
+const authQrGenerate = async (payloads) => {
+  const response = await $api.post(apiRoutes.AUTH_QR_GENERATE, payloads);
+  return response?.data;
+};
+
 export {
+  authQrGenerate,
   authActivate,
   authActivateEmail,
   authEditEmail,

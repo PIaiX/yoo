@@ -13,22 +13,23 @@ const client = new ClientJS();
 
 const language = client.getLanguage();
 
-const DEVICE = JSON.stringify({
+var device = {
   brand: client.getBrowser() ?? "",
   osName: client.getOS() ?? "",
   osVersion: client.getOSVersion() ?? "",
   language: language ?? "ru",
-});
-
+};
 
 $api.interceptors.request.use(
   async (config) => {
     const state = store.getState();
-    config.headers.ip = state?.settings?.ip ?? "0.0.0.0";
+    device.apiId = state?.settings?.apiId;
+    device.ip = state?.settings?.ip;
+    config.headers.ip = state?.settings?.ip;
     config.headers.token = state?.settings?.token
       ? `API ${state.settings.token}`
       : false;
-    config.headers.device = DEVICE;
+    config.headers.device = JSON.stringify(device);
     return config;
   },
   (error) => Promise.reject(error)
@@ -42,7 +43,9 @@ const $authApi = axios.create({
 $authApi.interceptors.request.use(
   async (config) => {
     const state = store.getState();
-    config.headers.ip = state?.settings?.ip ?? "0.0.0.0";
+    device.apiId = state?.settings?.apiId;
+    device.ip = state?.settings?.ip;
+    config.headers.ip = state?.settings?.ip;
     config.headers.token = state?.settings?.token
       ? `API ${state.settings.token}`
       : false;
@@ -51,7 +54,7 @@ $authApi.interceptors.request.use(
     if (token) {
       config.headers.authorization = `Access ${token}`;
     }
-    config.headers.device = DEVICE;
+    config.headers.device = JSON.stringify(device);
     return config;
   },
   (error) => Promise.reject(error)
