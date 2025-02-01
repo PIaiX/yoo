@@ -14,11 +14,11 @@ import { authRegister, login } from "../../services/auth";
 import Meta from "../../components/Meta";
 import { Button } from "react-bootstrap";
 import { NotificationManager } from "react-notifications";
-
 import { getImageURL } from "../../helpers/all";
 import { useTranslation } from "react-i18next";
 import socket from "../../config/socket";
 import { setAuth, setToken, setUser } from "../../store/reducers/authSlice";
+import { IoQrCodeOutline } from "react-icons/io5";
 
 const Registration = () => {
   const { t } = useTranslation();
@@ -71,7 +71,6 @@ const Registration = () => {
   } = useForm({
     mode: "all",
     reValidateMode: "onChange",
-
     defaultValues: { accept: true },
   });
 
@@ -280,6 +279,17 @@ const Registration = () => {
       >
         {t("Войти")}
       </Button>
+      {options?.qr && (
+        <Button
+          type="submit"
+          variant="light"
+          disabled={loadingLogin || !isValid}
+          className={"w-100 mt-3 btn-lg " + (loadingLogin ? "loading" : "")}
+        >
+          <IoQrCodeOutline size={22} className="me-2" />
+          {t("Войти по QR коду")}
+        </Button>
+      )}
       <div className="mt-4 text-center text-muted fs-09">
         <Link to="/recovery">{t("Забыли пароль?")}</Link>
       </div>
