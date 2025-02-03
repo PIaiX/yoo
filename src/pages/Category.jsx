@@ -4,7 +4,6 @@ import { Link, useParams } from "react-router-dom";
 import CategoryGroup from "../components/CategoryGroup";
 import Empty from "../components/Empty";
 import EmptyCatalog from "../components/empty/catalog";
-// import Notice from "../components/Notice";
 import { useTranslation } from "react-i18next";
 import Meta from "../components/Meta";
 import Loader from "../components/utils/Loader";
@@ -15,9 +14,6 @@ import { generateSeoText, getImageURL } from "../helpers/all";
 const Category = () => {
   const { categoryId } = useParams();
   const options = useSelector((state) => state.settings.options);
-  const priceAffiliateType = useSelector(
-    (state) => state.settings?.options?.brand?.options?.priceAffiliateType
-  );
   const selectedAffiliate = useSelector((state) => state.affiliate.active);
   const { t } = useTranslation();
 
@@ -37,15 +33,16 @@ const Category = () => {
     })
       .then((res) => {
         res.products.items =
-          priceAffiliateType && res?.products?.items?.length > 0
+        options?.brand?.options?.priceAffiliateType && res?.products?.items?.length > 0
             ? res.products.items.filter((e) => e?.productOptions?.length > 0)
-            : priceAffiliateType
+            : options?.brand?.options?.priceAffiliateType
             ? []
             : res?.products?.items;
+
         setCategory({ loading: false, item: res });
       })
       .catch(() => setCategory((data) => ({ ...data, loading: false })));
-  }, [categoryId, selectedAffiliate, priceAffiliateType]);
+  }, [categoryId, selectedAffiliate, options]);
 
   useLayoutEffect(() => {
     onLoad();

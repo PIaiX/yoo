@@ -257,6 +257,9 @@ address {
   line-height: 135%;
   margin-bottom: 0px;
 }
+label{
+  cursor: pointer;
+}
 h1,
 h2,
 h3 {
@@ -552,6 +555,7 @@ input {
     background-color: var(--bg-second);
     border-radius: 50%;
     box-shadow: none;
+    cursor: pointer;
     transition: background-color $transition;
     position: relative;
     &::before {
@@ -5835,12 +5839,12 @@ img.show {
   }
 }
 .input-date input {
-  font-size: 16px !important;
-  max-width: 125px;
+  font-size: 15px !important;
+  max-width: 145px;
   padding-top: 3px !important;
   padding-bottom: 3px !important;
-  padding-left: 10px !important;
-  height: 40px !important;
+  padding-left: 15px !important;
+  height: 45px !important;
   padding-right: 6px !important;
   &::-webkit-calendar-picker-indicator {
     -webkit-appearance: none;
@@ -5849,12 +5853,12 @@ img.show {
   }
 }
 .input-time input {
-  font-size: 16px !important;
-  max-width: 95px;
-  padding-top: 5px !important;
+  font-size: 15px !important;
+  max-width: 110px;
+  padding-top: 3px !important;
   padding-bottom: 3px !important;
-  padding-left: 10px !important;
-  height: 40px !important;
+  padding-left: 15px !important;
+  height: 45px !important;
   padding-right: 6px !important;
   &::-webkit-calendar-picker-indicator {
     -webkit-appearance: none;

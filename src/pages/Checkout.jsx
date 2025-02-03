@@ -797,7 +797,7 @@ const Checkout = () => {
                     </div>
                   </Col>
                 )}
-                <Col md={6}>
+                <Col md={12}>
                   <div className="mb-4">
                     <label className="d-flex align-items-center flex-row mb-3">
                       <input
@@ -832,7 +832,7 @@ const Checkout = () => {
                       </span>
                     </label>
                     {data?.servingRadio === "true" && (
-                      <div className="text-muted d-flex flex-row">
+                      <div className="text-muted ms-4 d-flex flex-row">
                         {selectedAffiliate?.options?.preorderMax > 0 && (
                           <div>
                             <Input

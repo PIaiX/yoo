@@ -194,7 +194,6 @@ const Settings = () => {
                     <Col md={6}>
                       <div className="fs-09 mb-2">Язык</div>
                       <Select
-                        className="p-3 fs-09 fw-6"
                         data={localeData.map((e) => ({
                           title: e.title,
                           image: e.image,
@@ -209,7 +208,7 @@ const Settings = () => {
                     type="submit"
                     disabled={!isValid}
                     onClick={handleSubmit(onSubmit)}
-                    className="btn-primary mt-4 d-block d-md-flex w-xs-100"
+                    className="btn-primary btn-lg mt-4 d-block d-md-flex w-xs-100"
                   >
                     {t("Сохранить изменения")}
                   </button>

@@ -19,11 +19,8 @@ const ProductCard = memo(({ data }) => {
   const { t } = useTranslation();
   const options = useSelector((state) => state.settings?.options);
 
-  const priceAffiliateType = useSelector(
-    (state) => state.settings?.options?.brand?.options?.priceAffiliateType
-  );
   const modifiers =
-    priceAffiliateType &&
+    options?.brand?.options?.priceAffiliateType &&
     Array.isArray(data.modifiers) &&
     data?.modifiers?.length > 0
       ? data.modifiers

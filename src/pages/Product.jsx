@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useState } from "react";
+import React, { useCallback, useLayoutEffect, useState } from "react";
 import { Col, Container, OverlayTrigger, Popover, Row } from "react-bootstrap";
 // import Notice from "../components/Notice";
 import ProductCard from "../components/ProductCard";
@@ -58,9 +58,7 @@ const groupByCategoryIdToArray = (modifiers) => {
 const Product = () => {
   const { t } = useTranslation();
   const { productId } = useParams();
-  const priceAffiliateType = useSelector(
-    (state) => state.settings?.options?.brand?.options?.priceAffiliateType
-  );
+
   const options = useSelector((state) => state.settings.options);
   const selectedAffiliate = useSelector((state) => state.affiliate.active);
   const [isRemove, setIsRemove] = useState(false);
@@ -86,7 +84,7 @@ const Product = () => {
     discount: 0,
   });
 
-  const onLoad = () => {
+  const onLoad = useCallback(() => {
     getProduct({
       id: productId,
       affiliateId: selectedAffiliate?.id ?? false,
@@ -96,7 +94,7 @@ const Product = () => {
     })
       .then((res) => {
         const modifiers =
-          priceAffiliateType &&
+          options?.brand?.options?.priceAffiliateType &&
           Array.isArray(res.modifiers) &&
           res?.modifiers?.length > 0
             ? groupByCategoryIdToArray(
@@ -107,12 +105,14 @@ const Product = () => {
             : [];
 
         const recommends =
-          priceAffiliateType &&
+          options?.brand?.options?.priceAffiliateType &&
           Array.isArray(res.recommends) &&
           res?.recommends?.length > 0
             ? res.recommends.filter(
                 (e) => productId != e.id && e?.productOptions?.length > 0
               )
+            : Array.isArray(res.recommends) && res?.recommends?.length > 0
+            ? res.recommends.filter((e) => productId != e.id)
             : [];
 
         setProduct({
@@ -129,7 +129,7 @@ const Product = () => {
         setData(data);
       })
       .catch(() => setProduct((data) => ({ ...data, loading: false })));
-  };
+  }, [options, data, productId, selectedAffiliate]);
 
   useLayoutEffect(() => {
     onLoad();

@@ -129,7 +129,7 @@ const Recovery = () => {
                   </div>
                   <button
                     type="submit"
-                    className="btn btn-primary w-100 mx-auto mt-4"
+                    className="btn btn-lg btn-primary w-100 mx-auto mt-4"
                     disabled={!isValid}
                   >
                     {t("Отправить")}

@@ -46,7 +46,16 @@ const Select = memo(
 
       return (
         <>
-          {label && <label className="select-label mb-2">{label}</label>}
+          {label && (
+            <label className="select-label mb-2"  onClick={(e) => {
+              if (data?.length > 1) {
+                e.preventDefault();
+                onClick(e);
+              }
+            }}>
+              {label}
+            </label>
+          )}
           <a
             disabled={disabled}
             ref={ref}
@@ -83,8 +92,8 @@ const Select = memo(
     });
 
     return (
-      <Dropdown className="select">
-        <Dropdown.Toggle as={CustomToggle} />
+      <Dropdown  className="select">
+        <Dropdown.Toggle  as={CustomToggle} />
         <Dropdown.Menu className="select-options">
           {data && search && (
             <div className="mb-2 bg-body position-sticky top-0">

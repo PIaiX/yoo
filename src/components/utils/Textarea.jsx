@@ -23,13 +23,13 @@ const Textarea = memo(
         }
       >
         {label && (
-          <label className="mb-2 fs-09">
+          <label className="mb-2 fs-09" htmlFor={"textarea-" + name}>
             <span>{label}</span>
             {required && <span className="ms-1 text-danger">*</span>}
           </label>
         )}
         <textarea
-          id={name}
+          id={"textarea-" + name}
           name={name}
           type={type}
           placeholder={placeholder}

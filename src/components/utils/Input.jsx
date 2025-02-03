@@ -41,7 +41,7 @@ const Input = memo(
           }
         >
           {label && (
-            <label className="mb-2 fs-09">
+            <label htmlFor={"input-" + name} className="mb-2 fs-09">
               <span>{label}</span>
               {required && <span className="ms-1 text-danger">*</span>}
             </label>
@@ -49,6 +49,7 @@ const Input = memo(
           {type === "password" ? (
             <div className="password">
               <input
+                id={"input-" + name}
                 onClick={onClick}
                 onFocus={onFocus}
                 readOnly={readOnly}
@@ -73,6 +74,7 @@ const Input = memo(
             </div>
           ) : mask ? (
             <ReactInputMask
+              id={"input-" + name}
               inputMode={inputMode}
               pattern={pattern}
               onClick={onClick}
@@ -94,6 +96,7 @@ const Input = memo(
             />
           ) : (
             <input
+              id={"input-" + name}
               inputMode={inputMode}
               pattern={pattern}
               onClick={onClick}

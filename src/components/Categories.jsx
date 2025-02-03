@@ -2,7 +2,6 @@ import React, { memo, useEffect, useRef, useState } from "react";
 import { Link } from "react-scroll";
 import { FreeMode, Mousewheel, Navigation } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
-
 import { HiArrowUturnUp, HiOutlineArrowUturnDown } from "react-icons/hi2";
 
 const Categories = memo(({ className, data }) => {
@@ -16,31 +15,29 @@ const Categories = memo(({ className, data }) => {
     setIsFull(true);
   };
 
-  const handleСollapse = () => {
+  const handleCollapse = () => {
     swiperRef.current.swiper.enable();
     setIsFull(false);
   };
 
   const updateSlider = (i) => {
     swiperRef?.current?.swiper && swiperRef.current.swiper.slideTo(i);
+    if (isFull && swiperRef?.current?.swiper) {
+      setIsFull(false);
+      swiperRef.current.swiper.enable();
+    }
   };
 
   useEffect(() => {
-    function updateView() {
+    const updateView = () => {
       const menuNode = menuRef.current;
-
       if (menuNode) {
         const rect = menuNode.getBoundingClientRect();
-        const offsetElem = rect.top + window.pageYOffset;
-        const scrollTop = window.pageYOffset;
-
-        if (scrollTop > offsetElem) {
-          setIsShowMenu(true);
-        } else {
-          setIsShowMenu(false);
-        }
+        const scrollTop = window.scrollY;
+        setIsShowMenu(scrollTop > rect.top + scrollTop - 60);
       }
-    }
+    };
+
     window.addEventListener("scroll", updateView);
     updateView();
     return () => window.removeEventListener("scroll", updateView);
@@ -50,21 +47,17 @@ const Categories = memo(({ className, data }) => {
     <>
       <div ref={menuRef} />
       <div
-        className={
-          "sticky-box container p-0 mt-5 pe-md-3 ps-md-3 mb-3 mb-sm-4 mb-md-5 " +
-          (isShowMenu ? " h-fixed show" : " h-fixed")
-        }
+        className={`sticky-box container p-0 mt-5 pe-md-3 ps-md-3 mb-3 mb-sm-4 mb-md-5 ${
+          isShowMenu ? "h-fixed show" : "h-fixed"
+        }`}
       >
         <div className="container p-0">
-          <div className={"categories" + (className ? " " + className : "")}>
-            <div className="categories-wrap">
+          <div className={`categories${className ? ` ${className}` : ""}`}>
+            <div className={isFull ? "p-0 categories-wrap" :"categories-wrap"}>
               <Swiper
                 ref={swiperRef}
                 loop={false}
-                freeMode={{
-                  enabled: true,
-                  sticky: true,
-                }}
+                freeMode={{ enabled: true, sticky: true }}
                 mousewheel={true}
                 className={
                   isFull
@@ -80,12 +73,8 @@ const Categories = memo(({ className, data }) => {
                 watchSlidesProgress={true}
                 navigation={true}
                 breakpoints={{
-                  576: {
-                    spaceBetween: 15,
-                  },
-                  1200: {
-                    spaceBetween: 15,
-                  },
+                  576: { spaceBetween: 15 },
+                  1200: { spaceBetween: 15 },
                 }}
               >
                 {data.map((e, index) => (
@@ -93,11 +82,11 @@ const Categories = memo(({ className, data }) => {
                     <Link
                       className="btn-white"
                       activeClass="active"
-                      to={"category-" + e.id}
+                      to={`category-${e.id}`}
                       spy={true}
                       smooth={true}
-                      offset={-100}
-                      duration={100}
+                      offset={-150}
+                      duration={150}
                       onSetActive={() => updateSlider(index)}
                     >
                       {e.title}
@@ -106,23 +95,17 @@ const Categories = memo(({ className, data }) => {
                 ))}
               </Swiper>
             </div>
-            {isFull ? (
-              <button
-                type="button"
-                onClick={handleСollapse}
-                className="categories-btn ms-auto"
-              >
+            <button
+              type="button"
+              onClick={isFull ? handleCollapse : handleExpand}
+              className="categories-btn ms-auto"
+            >
+              {isFull ? (
                 <HiArrowUturnUp className="fs-15 main-color" />
-              </button>
-            ) : (
-              <button
-                type="button"
-                onClick={handleExpand}
-                className="categories-btn ms-auto"
-              >
+              ) : (
                 <HiOutlineArrowUturnDown className="fs-15 main-color rotateY-180" />
-              </button>
-            )}
+              )}
+            </button>
           </div>
         </div>
       </div>
