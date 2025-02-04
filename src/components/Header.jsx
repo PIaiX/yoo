@@ -1,4 +1,4 @@
-import moment from "moment";
+import moment from "moment-timezone";
 import React, { memo, useEffect, useState, useTransition } from "react";
 import { Col, Modal, Row } from "react-bootstrap";
 import Container from "react-bootstrap/Container";

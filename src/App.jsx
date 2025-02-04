@@ -1,6 +1,6 @@
 import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
-import moment from "moment";
+import moment from "moment-timezone";
 import React, {
   useCallback,
   useEffect,

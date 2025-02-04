@@ -9,7 +9,7 @@ import "slick-carousel/slick/slick-theme.css"
 import "react-lazy-load-image-component/src/effects/blur.css";
 import "./helpers/i18n";
 import App from "./App";
-import moment from "moment";
+import moment from "moment-timezone";
 import momentRu from "moment/locale/ru";
 import { NotificationContainer } from "react-notifications";
 moment.updateLocale("ru", momentRu);

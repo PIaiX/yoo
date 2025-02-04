@@ -1,5 +1,5 @@
 import { Map, Placemark, Polygon, YMaps } from "@pbe/react-yandex-maps";
-import moment from "moment";
+import moment from "moment-timezone";
 import React, { useLayoutEffect, useMemo, useState } from "react";
 import { Modal } from "react-bootstrap";
 import Col from "react-bootstrap/Col";

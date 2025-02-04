@@ -1,4 +1,4 @@
-import moment from "moment";
+import moment from "moment-timezone";
 import React, { memo } from "react";
 import { useSelector } from "react-redux";
 import Snowfall from "react-snowfall";

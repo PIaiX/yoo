@@ -79,7 +79,11 @@ const Cart = () => {
     async (e) => {
       if (e?.promo?.length > 0 || promo?.name?.length > 0) {
         isPromo({
-          promo: e?.promo ? e.promo : promo?.name ? promo.name : "",
+          promo: e?.promo
+            ? e.promo.trim().toLowerCase()
+            : promo?.name
+            ? promo.name.trim().toLowerCase()
+            : "",
           delivery: stateDelivery,
           total: totalNoDelivery,
         })

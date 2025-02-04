@@ -1,4 +1,4 @@
-import moment from "moment";
+import moment from "moment-timezone";
 import React, { useEffect, useLayoutEffect, useState } from "react";
 import { HiOutlineArrowLeftCircle } from "react-icons/hi2";
 import { useSelector, useDispatch } from "react-redux";

@@ -1,10 +1,9 @@
-import moment from "moment";
+import moment from "moment-timezone";
 import React, {
   memo,
   useCallback,
   useEffect,
   useLayoutEffect,
-  useMemo,
   useState,
 } from "react";
 import { Button, Modal, Col, Row, Container } from "react-bootstrap";
@@ -26,7 +25,7 @@ import PaymentItem from "../components/utils/PaymentItem";
 import Select from "../components/utils/Select";
 import Textarea from "../components/utils/Textarea";
 import { customPrice, deliveryData, paymentData } from "../helpers/all";
-import { isWork } from "../hooks/all";
+import { isWork, weekday } from "../helpers/all";
 import { useTotalCart } from "../hooks/useCart";
 import { mainAddress } from "../services/address";
 import { checkAuth } from "../services/auth";
@@ -127,11 +126,11 @@ const Checkout = () => {
 
   const isWorkStatus =
     selectedAffiliate?.options?.work &&
-    selectedAffiliate.options.work[moment().weekday()].end &&
-    selectedAffiliate.options.work[moment().weekday()].start &&
+    selectedAffiliate.options.work[weekday].end &&
+    selectedAffiliate.options.work[weekday].start &&
     isWork(
-      selectedAffiliate.options.work[moment().weekday()].start,
-      selectedAffiliate.options.work[moment().weekday()].end
+      selectedAffiliate.options.work[weekday].start,
+      selectedAffiliate.options.work[weekday].end
     );
 
   const [end, setEnd] = useState(false);
@@ -375,9 +374,10 @@ const Checkout = () => {
       if (data.serving) {
         if (
           !isWork(
-            selectedAffiliate.options.work[moment(data.serving).weekday()]
+            selectedAffiliate.options.work[moment(data.serving).weekday() - 1]
               .start,
-            selectedAffiliate.options.work[moment(data.serving).weekday()].end,
+            selectedAffiliate.options.work[moment(data.serving).weekday() - 1]
+              .end,
             moment(data.serving).format("HH:mm")
           )
         ) {
@@ -461,12 +461,12 @@ const Checkout = () => {
 
     // Проверяем, попадает ли выбранное время в диапазон
     const minTime = moment(
-      selectedAffiliate.options.work[moment().weekday()].start,
+      selectedAffiliate.options.work[weekday].start,
       "HH:mm"
     ).add(selectedAffiliate?.options?.preorderMin ?? 90, "minutes");
 
     const maxTime = moment(
-      selectedAffiliate.options.work[moment().weekday()].end,
+      selectedAffiliate.options.work[weekday].end,
       "HH:mm"
     );
 
@@ -551,18 +551,18 @@ const Checkout = () => {
   }
   // if (
   //   selectedAffiliate?.options?.work &&
-  //   selectedAffiliate.options.work[moment().weekday()].end &&
-  //   selectedAffiliate.options.work[moment().weekday()].start &&
+  //   selectedAffiliate.options.work[weekday].end &&
+  //   selectedAffiliate.options.work[weekday].start &&
   //   !isWork(
-  //     selectedAffiliate.options.work[moment().weekday()].start,
-  //     selectedAffiliate.options.work[moment().weekday()].end
+  //     selectedAffiliate.options.work[weekday].start,
+  //     selectedAffiliate.options.work[weekday].end
   //   )
   // ) {
   //   return (
   //     <Empty
   //       text={`${t("Мы работаем с")} ${
-  //         selectedAffiliate.options.work[moment().weekday()].start
-  //       } ${t("до")} ${selectedAffiliate.options.work[moment().weekday()].end}`}
+  //         selectedAffiliate.options.work[weekday].start
+  //       } ${t("до")} ${selectedAffiliate.options.work[weekday].end}`}
   //       desc={t("Зайдите к нам немного позже")}
   //       image={() => <EmptyWork />}
   //       button={
@@ -901,47 +901,118 @@ const Checkout = () => {
                             type="time"
                             name="servingTime"
                             className="input-time"
-                            defaultValue={moment(data.serving).format("HH:mm")}
+                            defaultValue={
+                              data.serving
+                                ? moment(data.serving).format("HH:mm")
+                                : null
+                            }
                             validation={{
                               min: {
-                                value: moment(
-                                  selectedAffiliate.options.work[
-                                    moment().weekday()
-                                  ].start,
-                                  "HH:mm"
-                                )
-                                  .add(
-                                    selectedAffiliate?.options?.preorderMin ??
-                                      90,
-                                    "minutes"
+                                value:
+                                  moment().isSame(
+                                    moment(data.serving),
+                                    "day"
+                                  ) &&
+                                  moment().isAfter(
+                                    moment(
+                                      selectedAffiliate.options.work[weekday]
+                                        .start,
+                                      "HH:mm"
+                                    )
                                   )
-                                  .format("HH:mm"),
-                                message: `${t("Минимум ")} ${moment(
-                                  selectedAffiliate.options.work[
-                                    moment().weekday()
-                                  ].start,
-                                  "HH:mm"
-                                )
-                                  .add(
-                                    selectedAffiliate?.options?.preorderMin ??
-                                      90,
-                                    "minutes"
+                                    ? moment
+                                        .max(
+                                          moment(
+                                            selectedAffiliate.options.work[
+                                              weekday
+                                            ].start,
+                                            "HH:mm"
+                                          ).add(
+                                            selectedAffiliate?.options
+                                              ?.preorderMin ?? 90,
+                                            "minutes"
+                                          ),
+                                          moment() // Текущее время
+                                        )
+                                        .format("HH:mm")
+                                    : moment(
+                                        selectedAffiliate.options.work[weekday]
+                                          .start,
+                                        "HH:mm"
+                                      )
+                                        .add(
+                                          selectedAffiliate?.options
+                                            ?.preorderMin ?? 90,
+                                          "minutes"
+                                        )
+                                        .format("HH:mm"),
+                                message: `${t("Минимум ")} ${
+                                  moment().isSame(
+                                    moment(data.serving),
+                                    "day"
+                                  ) &&
+                                  moment().isAfter(
+                                    moment(
+                                      selectedAffiliate.options.work[weekday]
+                                        .start,
+                                      "HH:mm"
+                                    )
                                   )
-                                  .format("HH:mm")}`,
+                                    ? moment
+                                        .max(
+                                          moment(
+                                            selectedAffiliate.options.work[
+                                              weekday
+                                            ].start,
+                                            "HH:mm"
+                                          ).add(
+                                            selectedAffiliate?.options
+                                              ?.preorderMin ?? 90,
+                                            "minutes"
+                                          ),
+                                          moment() // Текущее время
+                                        )
+                                        .format("HH:mm")
+                                    : moment(
+                                        selectedAffiliate.options.work[weekday]
+                                          .start,
+                                        "HH:mm"
+                                      )
+                                        .add(
+                                          selectedAffiliate?.options
+                                            ?.preorderMin ?? 90,
+                                          "minutes"
+                                        )
+                                        .format("HH:mm")
+                                }`,
                               },
                               max: {
-                                value: moment(
-                                  selectedAffiliate.options.work[
-                                    moment().weekday()
-                                  ].end,
-                                  "HH:mm"
-                                ).format("HH:mm"),
-                                message: `${t("Максимум ")} ${moment(
-                                  selectedAffiliate.options.work[
-                                    moment().weekday()
-                                  ].end,
-                                  "HH:mm"
-                                ).format("HH:mm")}`,
+                                value: data.servingDate
+                                  ? moment(
+                                      selectedAffiliate.options.work[
+                                        moment(data.servingDate).weekday() - 1
+                                      ].end,
+                                      "HH:mm"
+                                    ).format("HH:mm")
+                                  : moment(
+                                      selectedAffiliate.options.work[weekday]
+                                        .end,
+                                      "HH:mm"
+                                    ).format("HH:mm"), // Используем значение end для выбранного дня
+                                message: `${t("Максимум ")} ${
+                                  data.servingDate
+                                    ? moment(
+                                        selectedAffiliate.options.work[
+                                          moment(data.servingDate).weekday() - 1
+                                        ].end,
+                                        "HH:mm"
+                                      ).format("HH:mm")
+                                    : moment(
+                                        selectedAffiliate.options.work[weekday]
+                                          .end,
+                                        "HH:mm"
+                                      ).format("HH:mm")
+                                }`, // Сообщение с максимальным временем для выбранного дня
                               },
                             }}
                           />
@@ -1126,6 +1197,26 @@ const Checkout = () => {
                   {t("Минимальная сумма для доставки")}{" "}
                   {customPrice(zone?.data.minPrice)}
                 </div>
+              ) : (!isWorkStatus && !data.serving) ||
+                !(
+                  data.serving &&
+                  isWork(
+                    selectedAffiliate.options.work[
+                      moment(data.serving).weekday() - 1
+                    ].start,
+                    selectedAffiliate.options.work[
+                      moment(data.serving).weekday() - 1
+                    ].end,
+                    moment(data.serving).format("HH:mm")
+                  )
+                ) ? (
+                <div className="text-danger text-center">
+                  {`${t("Мы работаем с")} ${
+                    selectedAffiliate.options.work[weekday].start
+                  } ${t("до")} ${
+                    selectedAffiliate.options.work[weekday].end
+                  }. Попробуйте заказать на другой день.`}
+                </div>
               ) : (
                 data?.delivery == "delivery" &&
                 !zone?.data && (
@@ -1141,7 +1232,22 @@ const Checkout = () => {
                   </div>
                 )}
               <Button
-                disabled={isValidBtn() || (!isWorkStatus && !data.serving)}
+                disabled={
+                  isValidBtn() ||
+                  (!isWorkStatus && !data.serving) ||
+                  !(
+                    data.serving &&
+                    isWork(
+                      selectedAffiliate.options.work[
+                        moment(data.serving).weekday() - 1
+                      ].start,
+                      selectedAffiliate.options.work[
+                        moment(data.serving).weekday() - 1
+                      ].end,
+                      moment(data.serving).format("HH:mm")
+                    )
+                  )
+                }
                 className="mt-3 btn-lg fw-6 w-100"
                 onClick={() => setConfirmation(true)}
               >

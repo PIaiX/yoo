@@ -1,4 +1,4 @@
-import moment from "moment";
+import moment from "moment-timezone";
 import { FILE_URL } from "../config/api";
 
 const customPrice = (value, currency = true) => {
@@ -91,7 +91,7 @@ const customWeight = ({ value, type = "г" }) => {
     Number(value) < 1 && typeData === "г"
       ? Math.pow(10, value.toString().split(".")[1].length) * Number(value)
       : Number(value);
-  value = value + ' ' + typeData;
+  value = value + " " + typeData;
 
   return value;
 };
@@ -287,7 +287,7 @@ const isUpdateTime = (dateTime) => {
   const targetDateTime = moment(dateTime);
   const now = moment();
 
-  const timeDifference = now.diff(targetDateTime, 'seconds');
+  const timeDifference = now.diff(targetDateTime, "seconds");
 
   return timeDifference >= 30;
 };
@@ -321,7 +321,7 @@ const languageCode = (value) => {
 
   return mappedLanguageCode[normalizedLanguageCode] || "ru";
 };
-
+const weekday = moment().isoWeekday() - 1
 const sortMain = (medias) => {
   return medias.slice().sort((a, b) => {
     // Если a.main истинно, он должен быть первым
@@ -332,7 +332,64 @@ const sortMain = (medias) => {
   });
 };
 
+
+const keyGenerator = (data) => {
+    let key = data.id + '_'
+    if (data?.cart?.data?.modifiers?.length > 0) {
+        key += data.cart.data.modifiers.map(e => e.id).join('_')
+    }
+    if (data?.cart?.data?.additions?.length > 0) {
+        key += data.cart.data.additions.map(e => e.id).join('_')
+    }
+    return key
+}
+const isWork = (start, end, now) => {
+    try {
+        const timezone = moment.tz.guess();
+
+        // Если now не передан, используем текущее время
+        if (!now) {
+            now = moment.tz();
+        } else {
+            now = moment.tz(now, 'HH:mm', timezone);
+        }
+
+        if (!start || !end) {
+            return false;
+        }
+        if (end === "00:00") {
+            end = "23:59";
+        }
+
+        const startTime = moment.tz(start, 'HH:mm', timezone);
+        const endTime = moment.tz(end, 'HH:mm', timezone);
+
+        if (!startTime.isValid() || !endTime.isValid()) {
+            console.error("Invalid start or end time");
+            return false;
+        }
+
+        // Переводим время в UTC
+        const startUtc = startTime.utc();
+        const endUtc = endTime.utc();
+
+        if (endUtc.isSameOrBefore(startUtc)) {
+            endUtc.add(1, 'day');
+        }
+
+        // Текущее время в UTC
+        const nowUtc = moment.tz(now, timezone).utc();
+
+        // Проверка, находится ли текущее время в пределах рабочего времени
+        return nowUtc.isBetween(startUtc, endUtc, null, '()');
+    } catch (err) {
+        console.error(err);
+        return false;
+    }
+}
+
 export {
+  keyGenerator, isWork ,
   generateToken,
   sortMain,
   isUpdateTime,
@@ -353,4 +410,5 @@ export {
   declination,
   childrenArray,
   tagsData,
+  weekday
 };
