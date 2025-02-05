@@ -374,10 +374,9 @@ const Checkout = () => {
       if (data.serving) {
         if (
           !isWork(
-            selectedAffiliate.options.work[moment(data.serving).weekday() - 1]
+            selectedAffiliate.options.work[moment(data.serving).weekday()]
               .start,
-            selectedAffiliate.options.work[moment(data.serving).weekday() - 1]
-              .end,
+            selectedAffiliate.options.work[moment(data.serving).weekday()].end,
             moment(data.serving).format("HH:mm")
           )
         ) {
@@ -517,24 +516,6 @@ const Checkout = () => {
     );
   }
 
-  // if (
-  //   data?.delivery == "delivery" &&
-  //   (!Array.isArray(address) || address.length <= 0)
-  // ) {
-  //   return (
-  //     <Empty
-  //       text={t("Адрес не добавлен")}
-  //       desc={t("Создайте новый адрес для доставки заказа")}
-  //       image={() => <EmptyAddresses />}
-  //       button={
-  //         <Link className="btn-primary" to="/account/addresses/add">
-  //           {t("Добавить адрес")}
-  //         </Link>
-  //       }
-  //     />
-  //   );
-  // }
-
   if (selectedAffiliate?.status === 0) {
     return (
       <Empty
@@ -549,30 +530,6 @@ const Checkout = () => {
       />
     );
   }
-  // if (
-  //   selectedAffiliate?.options?.work &&
-  //   selectedAffiliate.options.work[weekday].end &&
-  //   selectedAffiliate.options.work[weekday].start &&
-  //   !isWork(
-  //     selectedAffiliate.options.work[weekday].start,
-  //     selectedAffiliate.options.work[weekday].end
-  //   )
-  // ) {
-  //   return (
-  //     <Empty
-  //       text={`${t("Мы работаем с")} ${
-  //         selectedAffiliate.options.work[weekday].start
-  //       } ${t("до")} ${selectedAffiliate.options.work[weekday].end}`}
-  //       desc={t("Зайдите к нам немного позже")}
-  //       image={() => <EmptyWork />}
-  //       button={
-  //         <Link className="btn-primary" to="/">
-  //           {t("Перейти на главную")}
-  //         </Link>
-  //       }
-  //     />
-  //   );
-  // }
 
   return (
     <main>
@@ -890,7 +847,7 @@ const Checkout = () => {
                                 )
                                 .format("YYYY-MM-DD")}
                               className="input-date me-2"
-                            />{" "}
+                            />
                           </div>
                         )}
 
@@ -990,7 +947,7 @@ const Checkout = () => {
                                 value: data.servingDate
                                   ? moment(
                                       selectedAffiliate.options.work[
-                                        moment(data.servingDate).weekday() - 1
+                                        moment(data.servingDate).weekday()
                                       ].end,
                                       "HH:mm"
                                     ).format("HH:mm")
@@ -1003,7 +960,7 @@ const Checkout = () => {
                                   data.servingDate
                                     ? moment(
                                         selectedAffiliate.options.work[
-                                          moment(data.servingDate).weekday() - 1
+                                          moment(data.servingDate).weekday()
                                         ].end,
                                         "HH:mm"
                                       ).format("HH:mm")
@@ -1202,10 +1159,10 @@ const Checkout = () => {
                   data.serving &&
                   isWork(
                     selectedAffiliate.options.work[
-                      moment(data.serving).weekday() - 1
+                      moment(data.serving).weekday()
                     ].start,
                     selectedAffiliate.options.work[
-                      moment(data.serving).weekday() - 1
+                      moment(data.serving).weekday()
                     ].end,
                     moment(data.serving).format("HH:mm")
                   )
@@ -1239,10 +1196,10 @@ const Checkout = () => {
                     data.serving &&
                     isWork(
                       selectedAffiliate.options.work[
-                        moment(data.serving).weekday() - 1
+                        moment(data.serving).weekday()
                       ].start,
                       selectedAffiliate.options.work[
-                        moment(data.serving).weekday() - 1
+                        moment(data.serving).weekday()
                       ].end,
                       moment(data.serving).format("HH:mm")
                     )
