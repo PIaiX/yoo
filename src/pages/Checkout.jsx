@@ -124,15 +124,6 @@ const Checkout = () => {
     totalNoDelivery = 0,
   } = useTotalCart();
 
-  const isWorkStatus =
-    selectedAffiliate?.options?.work &&
-    selectedAffiliate.options.work[weekday].end &&
-    selectedAffiliate.options.work[weekday].start &&
-    isWork(
-      selectedAffiliate.options.work[weekday].start,
-      selectedAffiliate.options.work[weekday].end
-    );
-
   const [end, setEnd] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -205,13 +196,43 @@ const Checkout = () => {
 
   const paymentText = data?.payment ? paymentData[data.payment] : null;
 
+  const isWorkStatus =
+    (!data.serving &&
+      selectedAffiliate?.options?.work &&
+      selectedAffiliate.options.work[weekday]?.end &&
+      selectedAffiliate.options.work[weekday]?.start &&
+      isWork(
+        selectedAffiliate.options.work[weekday].start,
+        selectedAffiliate.options.work[weekday].end
+      )) ||
+    (data.serving &&
+      selectedAffiliate?.options?.work &&
+      selectedAffiliate.options.work[moment(data.serving).weekday()]?.end &&
+      selectedAffiliate.options.work[moment(data.serving).weekday()]?.start &&
+      moment(data.serving).isAfter(moment()) &&
+      isWork(
+        selectedAffiliate.options.work[moment(data.serving).weekday()].start,
+        selectedAffiliate.options.work[moment(data.serving).weekday()].end,
+        moment(data.serving).format("HH:mm")
+      )) ||
+    (moment(data.serving).isBefore(moment()) &&
+      isWork(
+        moment()
+          .add((selectedAffiliate?.options?.preorderMin ?? 90) - 1, "minutes")
+          .format("HH:mm"),
+        selectedAffiliate.options.work[moment(data.serving).weekday()].end,
+        moment(data.serving).format("HH:mm")
+      ));
+
   const isValidBtn = () =>
     isLoading ||
     !isValid ||
     !user?.id ||
-    (checkout.delivery === "delivery" &&
-      (zone?.data?.minPrice > totalNoDelivery || !zone?.data)) ||
-    (data?.delivery == "delivery" &&
+    !zone?.data ||
+    !(
+      data?.delivery === "delivery" && zone?.data?.minPrice > totalNoDelivery
+    ) ||
+    (data?.delivery === "delivery" &&
       (!Array.isArray(address) || address.length <= 0));
 
   const CartItems = memo(({ items }) => {
@@ -1151,25 +1172,11 @@ const Checkout = () => {
                   {t("Минимальная сумма для доставки")}{" "}
                   {customPrice(zone?.data.minPrice)}
                 </div>
-              ) : (!isWorkStatus && !data.serving) ||
-                !(
-                  data.serving &&
-                  isWork(
-                    selectedAffiliate.options.work[
-                      moment(data.serving).weekday()
-                    ].start,
-                    selectedAffiliate.options.work[
-                      moment(data.serving).weekday()
-                    ].end,
-                    moment(data.serving).format("HH:mm")
-                  )
-                ) ? (
+              ) : (!isWorkStatus) ? (
                 <div className="text-danger text-center">
                   {`${t("Мы работаем с")} ${
                     selectedAffiliate.options.work[weekday].start
-                  } ${t("до")} ${
-                    selectedAffiliate.options.work[weekday].end
-                  }. Попробуйте заказать на другой день.`}
+                  } ${t("до")} ${selectedAffiliate.options.work[weekday].end}`}
                 </div>
               ) : (
                 data?.delivery == "delivery" &&
@@ -1186,22 +1193,7 @@ const Checkout = () => {
                   </div>
                 )}
               <Button
-                disabled={
-                  isValidBtn() ||
-                  (!isWorkStatus && !data.serving) ||
-                  !(
-                    data.serving &&
-                    isWork(
-                      selectedAffiliate.options.work[
-                        moment(data.serving).weekday()
-                      ].start,
-                      selectedAffiliate.options.work[
-                        moment(data.serving).weekday()
-                      ].end,
-                      moment(data.serving).format("HH:mm")
-                    )
-                  )
-                }
+                disabled={!isValidBtn() || !isWorkStatus}
                 className="mt-3 btn-lg fw-6 w-100"
                 onClick={() => setConfirmation(true)}
               >
