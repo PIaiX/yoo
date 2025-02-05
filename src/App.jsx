@@ -149,13 +149,13 @@ function App() {
                 updateSettingsCountry(data?.country ? data.country : false)
               );
           });
-          
+
           let apiIdCode = apiId;
           if (!apiIdCode || apiIdCode.length === 0) {
             apiIdCode = generateToken(50);
             dispatch(updateApiId(apiIdCode));
           }
-      
+
           await getOptions()
             .then(async (res) => {
               if (res?.options) {
@@ -318,8 +318,10 @@ function App() {
           dispatch(updateNotification(data));
         }
       });
+      socket.on("logout/" + auth.user.id, () => dispatch(logout()));
       return () => {
         socket.off("notifications/" + auth.user.id);
+        socket.off("logout/" + auth.user.id);
       };
     }
   }, [auth.isAuth]);
