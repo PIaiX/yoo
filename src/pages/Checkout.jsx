@@ -790,67 +790,64 @@ const Checkout = () => {
                     </label>
                     {data?.servingRadio === "true" && (
                       <div className="text-muted ms-4 d-flex flex-row">
-                        {selectedAffiliate?.options?.preorderMax > 0 && (
-                          <div>
-                            <Input
-                              errors={errors}
-                              register={register}
-                              name="servingDate"
-                              type="date"
-                              defaultValue={moment(data.serving).format(
-                                "YYYY-MM-DD"
-                              )}
-                              validation={{
-                                min: {
-                                  value: moment()
-                                    .add(
-                                      selectedAffiliate?.options?.preorderMin ??
-                                        90,
-                                      "minutes"
-                                    )
-                                    .format("YYYY-MM-DD"),
-                                  message: `${t("Минимум ")} ${moment()
-                                    .add(
-                                      selectedAffiliate?.options?.preorderMin ??
-                                        90,
-                                      "minutes"
-                                    )
-                                    .format("YYYY-MM-DD")}`,
-                                },
-                                max: {
-                                  value: moment()
-                                    .add(
-                                      selectedAffiliate?.options?.preorderMax ??
-                                        30,
-                                      "days"
-                                    )
-                                    .format("YYYY-MM-DD"),
-                                  message: `${t("Максимум ")} ${moment()
-                                    .add(
-                                      selectedAffiliate?.options?.preorderMax ??
-                                        30,
-                                      "days"
-                                    )
-                                    .format("YYYY-MM-DD")}`,
-                                },
-                              }}
-                              min={moment()
-                                .add(
-                                  selectedAffiliate?.options?.preorderMin ?? 90,
-                                  "minutes"
-                                )
-                                .format("YYYY-MM-DD")}
-                              max={moment()
-                                .add(
-                                  selectedAffiliate?.options?.preorderMax ?? 30,
-                                  "days"
-                                )
-                                .format("YYYY-MM-DD")}
-                              className="input-date me-2"
-                            />
-                          </div>
-                        )}
-
+                        <div>
+                          <Input
+                            errors={errors}
+                            register={register}
+                            name="servingDate"
+                            type="date"
+                            defaultValue={moment(data.serving).format(
+                              "YYYY-MM-DD"
+                            )}
+                            validation={{
+                              min: {
+                                value: moment()
+                                  .add(
+                                    selectedAffiliate?.options?.preorderMin ??
+                                      90,
+                                    "minutes"
+                                  )
+                                  .format("YYYY-MM-DD"),
+                                message: `${t("Минимум ")} ${moment()
+                                  .add(
+                                    selectedAffiliate?.options?.preorderMin ??
+                                      90,
+                                    "minutes"
+                                  )
+                                  .format("YYYY-MM-DD")}`,
+                              },
+                              max: {
+                                value: moment()
+                                  .add(
+                                    selectedAffiliate?.options?.preorderMax ??
+                                      30,
+                                    "days"
+                                  )
+                                  .format("YYYY-MM-DD"),
+                                message: `${t("Максимум ")} ${moment()
+                                  .add(
+                                    selectedAffiliate?.options?.preorderMax ??
+                                      30,
+                                    "days"
+                                  )
+                                  .format("YYYY-MM-DD")}`,
+                              },
+                            }}
+                            min={moment()
+                              .add(
+                                selectedAffiliate?.options?.preorderMin ?? 90,
+                                "minutes"
+                              )
+                              .format("YYYY-MM-DD")}
+                            max={moment()
+                              .add(
+                                selectedAffiliate?.options?.preorderMax ?? 30,
+                                "days"
+                              )
+                              .format("YYYY-MM-DD")}
+                            className="input-date me-2"
+                          />
+                        </div>
                         <div>
                           <Input
                             errors={errors}
