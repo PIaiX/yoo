@@ -1172,7 +1172,7 @@ const Checkout = () => {
                   {t("Минимальная сумма для доставки")}{" "}
                   {customPrice(zone?.data.minPrice)}
                 </div>
-              ) : (!isWorkStatus) ? (
+              ) : !isWorkStatus ? (
                 <div className="text-danger text-center">
                   {`${t("Мы работаем с")} ${
                     selectedAffiliate.options.work[weekday].start
@@ -1304,14 +1304,14 @@ const Checkout = () => {
             <Modal.Footer closeButton className="fw-7">
               <Button
                 type="submit"
-                disabled={isLoading || isValidBtn()}
-                className={"fw-6 w-100 " + (isLoading ? "loading" : "")}
+                disabled={!isValidBtn() || !isWorkStatus}
+                className={"fw-6 btn-lg w-100 " + (isLoading ? "loading" : "")}
                 onClick={handleSubmit(onSubmit)}
               >
                 {t("Подтвердить заказ")}
               </Button>
               <Button
-                className="mt-3 fw-6 w-100 btn-light"
+                className="mt-3 btn-lg fw-6 w-100 btn-light"
                 onClick={() => setConfirmation(false)}
               >
                 {t("Отмена")}
