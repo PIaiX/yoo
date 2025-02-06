@@ -20,11 +20,10 @@ const Contact = () => {
   const zones = useSelector((state) => state.affiliate.zones);
   const selectedAffiliate = useSelector((state) => state.affiliate.active);
   const options = useSelector((state) => state.settings.options);
-
   const [mainAffiliate, setMainAffiliate] = useState();
   const [showModalOrganization, setModalOrganization] = useState(false);
   const [showModalDelivery, setModalDelivery] = useState(false);
-
+  console.log(zones);
   const mapPoligone = useMemo(() => {
     return (
       <>

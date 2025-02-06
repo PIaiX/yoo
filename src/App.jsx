@@ -207,12 +207,11 @@ function App() {
 
               if (res?.cities?.length > 0) {
                 const transformedData = res.cities.map((city) => {
-                  const { relationCities, ...rest } = city;
                   return {
-                    ...rest,
+                    ...city,
                     affiliates:
-                      relationCities && relationCities.length > 0
-                        ? relationCities
+                      city.relationCities && city.relationCities.length > 0
+                        ? city.relationCities
                             .map((relation) => relation.affiliate)
                             .sort((a, b) => {
                               if (a.main === b.main) {

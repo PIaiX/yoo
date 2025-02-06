@@ -30,17 +30,33 @@ const CreateAddress = () => {
   const affiliate = useSelector((state) => state.affiliate.items);
   const cities = useSelector((state) => state.affiliate.cities);
   var locations = [];
-  if (affiliate?.length > 0) {
-    affiliate.forEach((e) => locations.push({ city: e.options.city }));
-  }
-  if (affiliate?.length === 1) {
-    let city = cities.find((e) => e.title === affiliate[0]?.options?.city);
-    if (city?.options?.settlements?.length > 0) {
-      city.options.settlements.forEach((e) =>
-        locations.push({ settlement: e.title })
+
+  if (affiliate?.length > 0 && cities?.length > 0) {
+    const affiliateIds = affiliate.map((e) => e.id);
+
+    let foundCities = cities.filter((city) =>
+      city.relationCities.some((relationCity) =>
+        affiliateIds.includes(relationCity.affiliateId)
+      )
+    );
+
+    if (foundCities?.length > 0) {
+      foundCities.forEach((city) => {
+        locations.push({ city: city.title.toLowerCase() });
+
+        if (city?.options?.settlements) {
+          city.options.settlements.forEach((settlement) => {
+            locations.push({ settlement: settlement.title.toLowerCase() });
+          });
+        }
+      });
+    } else {
+      affiliate.forEach((e) =>
+        locations.push({ city: e.options.city.toLowerCase() })
       );
     }
   }
+
   const dropdownRef = useRef(null);
 
   const [streets, setStreets] = useState([]);
