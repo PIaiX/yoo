@@ -25,13 +25,11 @@ import {
 } from "./helpers/all";
 import AppRouter from "./routes/AppRouter";
 import { checkAuth, logout } from "./services/auth";
-// import { getFavorites } from "./services/favorite";
 import { getOptions } from "./services/option";
 import { updateAddresses } from "./store/reducers/addressSlice";
 import {
   updateAffiliate,
   updateCities,
-  // updateTable,
   updateZone,
 } from "./store/reducers/affiliateSlice";
 import { setAuth, setUser } from "./store/reducers/authSlice";
