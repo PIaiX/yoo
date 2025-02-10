@@ -389,7 +389,8 @@ const Product = () => {
                   </OverlayTrigger>
                 ) : (
                   options?.productEnergyVisible &&
-                  product.item?.energy?.kkal > 0 && (
+                  (product.item?.energy?.kkal > 0 ||
+                    product.item?.energy?.kkalAll) && (
                     <OverlayTrigger
                       trigger={["hover", "focus"]}
                       className="ms-2"
@@ -399,7 +400,11 @@ const Product = () => {
                         <Popover id="popover-positioned-bottom">
                           <Popover.Header className="fs-09 fw-6">
                             {t("Энергетическая ценность")}{" "}
-                            {Math.round(product.item.energy.kkal)}&nbsp;
+                            {Math.round(
+                              product.item.energy.kkal ??
+                                product.item.energy.kkalAll
+                            )}
+                            &nbsp;
                             {t("ккал")}
                           </Popover.Header>
                           <Popover.Body>
