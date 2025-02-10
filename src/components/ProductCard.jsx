@@ -133,7 +133,8 @@ const ProductCard = memo(({ data }) => {
           {data?.options?.сompound && (
             <div className="d-flex d-lg-none justify-content-center align-items-center">
               <OverlayTrigger
-                trigger={["hover", "focus"]}
+                trigger={["focus", "click"]}
+                rootClose
                 className="ms-2"
                 key="top"
                 placement="top"
@@ -165,7 +166,8 @@ const ProductCard = memo(({ data }) => {
             {data?.options?.сompound && (
               <div className="d-none d-lg-flex justify-content-between align-items-center">
                 <OverlayTrigger
-                  trigger={["hover", "focus"]}
+                  trigger={["focus", "click"]}
+                  rootClose
                   className="ms-2"
                   key="top"
                   placement="top"

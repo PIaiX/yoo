@@ -347,44 +347,70 @@ const Product = () => {
                 {options?.productEnergyVisible &&
                 data.cart.data?.modifiers[0]?.energy?.kkal > 0 ? (
                   <OverlayTrigger
-                    trigger={["hover", "focus"]}
+                    trigger={["focus", "click"]}
+                    rootClose
                     className="ms-2"
                     key="bottom"
                     placement="bottom"
                     overlay={
                       <Popover id="popover-positioned-bottom">
                         <Popover.Header className="fs-09 fw-6">
-                          {t("Энергетическая ценность")}{" "}
-                          {Math.round(data.cart.data.modifiers[0].energy.kkal)}
-                          &nbsp;
-                          {t("ккал")}
+                          {t("Пищевая ценность на 100 г")}
                         </Popover.Header>
-                        <Popover.Body>
-                          <div>
-                            {t("Белки")}:{" "}
-                            {Math.round(
-                              data.cart.data.modifiers[0].energy.protein
-                            )}
-                            г
+                        <Popover.Body style={{ width: 250 }}>
+                          <div className="d-flex mb-1 fs-09 justify-content-between">
+                            <div>{t("Энерг. ценность")}</div>
+                            <div>
+                              {Math.round(
+                                data.cart.data.modifiers[0].energy.kkal ??
+                                  data.cart.data.modifiers[0].energy.kkalAll
+                              )}
+                              &nbsp;
+                              {t("ккал")}
+                            </div>
                           </div>
-                          <div>
-                            {t("Жиры")}:{" "}
-                            {Math.round(data.cart.data.modifiers[0].energy.fat)}
-                            г
+                          <div className="d-flex mb-1 fs-09 justify-content-between">
+                            <div>{t("Белки")}</div>
+                            <div>
+                              {Math.round(
+                                data.cart.data.modifiers[0].energy.protein
+                              )}
+                              г
+                            </div>
                           </div>
-                          <div>
-                            {t("Углеводы")}:{" "}
-                            {Math.round(
-                              data.cart.data.modifiers[0].energy.carbohydrate
-                            )}
-                            г
+                          <div className="d-flex mb-1 fs-09 justify-content-between">
+                            <div>{t("Жиры")}</div>
+                            <div>
+                              {Math.round(
+                                data.cart.data.modifiers[0].energy.fat
+                              )}
+                              г
+                            </div>
+                          </div>
+                          <div className="d-flex mb-1 fs-09 justify-content-between">
+                            <div>{t("Углеводы")}</div>
+                            <div>
+                              {Math.round(
+                                data.cart.data.modifiers[0].energy.carbohydrate
+                              )}
+                              г
+                            </div>
+                          </div>
+                          <div className="d-flex mt-2 fs-09 justify-content-between">
+                            <div>{t("Вес")}</div>
+                            <div>
+                              {Math.round(
+                                data.cart.data.modifiers[0].energy.weight
+                              )}
+                              г
+                            </div>
                           </div>
                         </Popover.Body>
                       </Popover>
                     }
                   >
                     <a className="ms-2">
-                      <HiOutlineInformationCircle size={23} />
+                      <HiOutlineInformationCircle size={25} />
                     </a>
                   </OverlayTrigger>
                 ) : (
@@ -392,40 +418,56 @@ const Product = () => {
                   (product.item?.energy?.kkal > 0 ||
                     product.item?.energy?.kkalAll) && (
                     <OverlayTrigger
-                      trigger={["hover", "focus"]}
+                      trigger={["focus", "click"]}
+                      rootClose
                       className="ms-2"
                       key="bottom"
                       placement="bottom"
                       overlay={
                         <Popover id="popover-positioned-bottom">
                           <Popover.Header className="fs-09 fw-6">
-                            {t("Энергетическая ценность")}{" "}
-                            {Math.round(
-                              product.item.energy.kkal ??
-                                product.item.energy.kkalAll
-                            )}
-                            &nbsp;
-                            {t("ккал")}
+                            {t("Пищевая ценность на 100 г")}
                           </Popover.Header>
-                          <Popover.Body>
-                            <div>
-                              {t("Белки")}:{" "}
-                              {Math.round(product.item.energy.protein)}г
+                          <Popover.Body style={{ width: 250 }}>
+                            <div className="d-flex mb-1 fs-09 justify-content-between">
+                              <div>{t("Энерг. ценность")}</div>
+                              <div>
+                                {Math.round(
+                                  product.item.energy.kkal ??
+                                    product.item.energy.kkalAll
+                                )}
+                                &nbsp;
+                                {t("ккал")}
+                              </div>
                             </div>
-                            <div>
-                              {t("Жиры")}: {Math.round(product.item.energy.fat)}
-                              г
+                            <div className="d-flex mb-1 fs-09 justify-content-between">
+                              <div>{t("Белки")}</div>
+                              <div>
+                                {Math.round(product.item.energy.protein)}г
+                              </div>
                             </div>
-                            <div>
-                              {t("Углеводы")}:{" "}
-                              {Math.round(product.item.energy.carbohydrate)}г
+                            <div className="d-flex mb-1 fs-09 justify-content-between">
+                              <div>{t("Жиры")}</div>
+                              <div>{Math.round(product.item.energy.fat)}г</div>
+                            </div>
+                            <div className="d-flex mb-1 fs-09 justify-content-between">
+                              <div>{t("Углеводы")}</div>
+                              <div>
+                                {Math.round(product.item.energy.carbohydrate)}г
+                              </div>
+                            </div>
+                            <div className="d-flex mt-2 fs-09 justify-content-between">
+                              <div>{t("Вес")}</div>
+                              <div>
+                                {Math.round(product.item.energy.weight)}г
+                              </div>
                             </div>
                           </Popover.Body>
                         </Popover>
                       }
                     >
                       <a className="ms-2">
-                        <HiOutlineInformationCircle size={23} />
+                        <HiOutlineInformationCircle size={25} />
                       </a>
                     </OverlayTrigger>
                   )
