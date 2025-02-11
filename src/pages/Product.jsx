@@ -355,7 +355,7 @@ const Product = () => {
                     overlay={
                       <Popover id="popover-positioned-bottom">
                         <Popover.Header className="fs-09 fw-6">
-                          {t("Пищевая ценность на 100 г")}
+                          {t("Пищевая ценность")}
                         </Popover.Header>
                         <Popover.Body style={{ width: 250 }}>
                           <div className="d-flex mb-1 fs-09 justify-content-between">
@@ -426,7 +426,7 @@ const Product = () => {
                       overlay={
                         <Popover id="popover-positioned-bottom">
                           <Popover.Header className="fs-09 fw-6">
-                            {t("Пищевая ценность на 100 г")}
+                            {t("Пищевая ценность")}
                           </Popover.Header>
                           <Popover.Body style={{ width: 250 }}>
                             <div className="d-flex mb-1 fs-09 justify-content-between">
