@@ -366,7 +366,7 @@ const CreateAddress = () => {
           {...register("main")}
         />
         <Form.Check.Label htmlFor="main" className="ms-2">
-          {t("Адрес по умолчанию")}
+          {t("Основной адрес")}
         </Form.Check.Label>
       </Form.Check>
       <div className="d-md-flex d-block align-items-center ">

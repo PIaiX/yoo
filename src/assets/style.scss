@@ -201,6 +201,7 @@ $bp-xxl: 1399px;
   &::-webkit-scrollbar {
     display: block;
     width: 6px;
+    height: 6px;
   }
   &::-webkit-scrollbar-thumb {
     background-color: var(--bg-btn);
@@ -257,7 +258,7 @@ address {
   line-height: 135%;
   margin-bottom: 0px;
 }
-label{
+label {
   cursor: pointer;
 }
 h1,
@@ -4954,6 +4955,21 @@ ACCOUNT END
     color: var(--main-color-text);
   }
 }
+.time-item {
+  cursor: pointer;
+  background-color: var(--bg-second);
+  border-radius: $radius * 0.5;
+  border: 2px solid transparent;
+  &.active {
+    border-color: var(--main-color);
+    background-color: var(--main-color-outline);
+    color: var(--main-color);
+    font-weight: 600;
+  }
+  padding: 5px;
+  height: 50px;
+  @include flex();
+}
 .payment {
   cursor: pointer;
   background-color: var(--bg-second);
@@ -5934,4 +5950,16 @@ img.show {
     display: block;
     padding: 2em 0px;
   }
+}
+.time-container {
+  @include scrollCustomized();
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-x;
+
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  overflow-x: scroll;
+  overflow-y: hidden;
+  user-select: none;
 }

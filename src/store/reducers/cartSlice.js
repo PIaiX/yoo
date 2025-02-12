@@ -22,6 +22,8 @@ const cartSlice = createSlice({
             title: isProduct.title,
             description: isProduct.description,
             code: isProduct.code,
+            price: isProduct.price,
+            discount: isProduct.discount,
             medias: isProduct.medias,
             options: isProduct.options,
             cart: {

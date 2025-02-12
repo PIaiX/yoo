@@ -49,6 +49,7 @@ import { setUser } from "../store/reducers/authSlice";
 import { IoTrashOutline } from "react-icons/io5";
 import { getDelivery } from "../services/order";
 import { cartZone } from "../store/reducers/cartSlice";
+import TimePicker from "../components/TimePicker";
 
 const Checkout = () => {
   const { t } = useTranslation();
@@ -793,7 +794,7 @@ const Checkout = () => {
                         {t("в")} <b>{t("ближайшее время")}</b>
                       </span>
                     </label>
-                    <label className="d-flex align-items-center flex-row mb-3">
+                    <label className="d-flex align-items-center mb-3">
                       <input
                         type="radio"
                         name="servingRadio"
@@ -810,8 +811,8 @@ const Checkout = () => {
                       </span>
                     </label>
                     {data?.servingRadio === "true" && (
-                      <div className="text-muted ms-4 d-flex flex-row">
-                        <div>
+                      <div className="text-muted ms-4">
+                        {/* <div>
                           <Input
                             errors={errors}
                             register={register}
@@ -868,8 +869,8 @@ const Checkout = () => {
                               .format("YYYY-MM-DD")}
                             className="input-date me-2"
                           />
-                        </div>
-                        <div>
+                        </div> */}
+                        {/* <div>
                           <Input
                             errors={errors}
                             register={register}
@@ -991,7 +992,14 @@ const Checkout = () => {
                               },
                             }}
                           />
-                        </div>
+                        </div> */}
+                        <TimePicker
+                          startTime={
+                            selectedAffiliate.options.work[weekday].start
+                          }
+                          endTime={selectedAffiliate.options.work[weekday].end}
+                          interval={30}
+                        />
                       </div>
                     )}
                   </div>
