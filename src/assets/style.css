@@ -43,7 +43,8 @@ html {
   --bg-second: #f7f7f7;
   --bg-second-hover: #eeeeee;
   --bg-footer: #1c1c1c;
-  --bg-checkbox: #999;
+  --bg-checkbox: transparent;
+  --bs-border-color: #999;
   --hr-color: #dbdbdb;
   --gray: #727272;
   --light-gray: #1e1e1e;
@@ -441,21 +442,21 @@ input[type=checkbox] {
   margin: 0px;
   width: 1.25em;
   height: 1.25em;
-  border: none !important;
   background-color: var(--bg-checkbox);
+  border-color: var(--bs-border-color);
   background-repeat: no-repeat;
   background-size: contain;
   background-position: center;
   border-radius: 0.3125em;
   box-shadow: none;
+  cursor: pointer;
 }
 input[type=checkbox]:focus, input[type=checkbox]:active, input[type=checkbox]:hover, input[type=checkbox].active {
   box-shadow: none !important;
   outline: none !important;
-  border-color: transparent !important;
+  border-color: var(--main-color);
 }
 input[type=checkbox]:checked {
-  background-image: url(imgs/mark.svg);
   background-color: var(--main-color);
   border: none !important;
 }
@@ -5704,12 +5705,12 @@ ACCOUNT END
 }
 
 .time-item {
-  cursor: pointer;
+  background-color: var(--main-color-outline);
   background-color: var(--bg-second);
   border-radius: 0.625em;
   border: 2px solid transparent;
   padding: 5px;
-  height: 50px;
+  height: 45px;
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -5721,6 +5722,11 @@ ACCOUNT END
   background-color: var(--main-color-outline);
   color: var(--main-color);
   font-weight: 600;
+}
+.time-item:disabled, .time-item.disabled {
+  cursor: default;
+  opacity: 0.6;
+  background-color: var(--bg-second);
 }
 
 .payment {

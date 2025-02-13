@@ -35,7 +35,8 @@ html {
   --bg-second: #f7f7f7;
   --bg-second-hover: #eeeeee;
   --bg-footer: #1c1c1c;
-  --bg-checkbox: #999;
+  --bg-checkbox: transparent;
+  --bs-border-color: #999;
   --hr-color: #dbdbdb;
   --gray: #727272;
   --light-gray: #1e1e1e;
@@ -498,23 +499,25 @@ input {
     @include no-appearance;
     width: $radius;
     height: $radius;
-    border: none !important;
+    // border: none !important;
     background-color: var(--bg-checkbox);
+    border-color: var(--bs-border-color);
     background-repeat: no-repeat;
     background-size: contain;
     background-position: center;
     border-radius: calc($radius * 0.25);
     box-shadow: none;
+    cursor: pointer;
     &:focus,
     &:active,
     &:hover,
     &.active {
       box-shadow: none !important;
       outline: none !important;
-      border-color: transparent !important;
+      border-color: var(--main-color);
     }
     &:checked {
-      background-image: url(imgs/mark.svg);
+      // background-image: url(imgs/mark.svg);
       background-color: var(--main-color);
       border: none !important;
     }
@@ -4956,7 +4959,7 @@ ACCOUNT END
   }
 }
 .time-item {
-  cursor: pointer;
+  background-color: var(--main-color-outline);
   background-color: var(--bg-second);
   border-radius: $radius * 0.5;
   border: 2px solid transparent;
@@ -4966,9 +4969,16 @@ ACCOUNT END
     color: var(--main-color);
     font-weight: 600;
   }
+
   padding: 5px;
-  height: 50px;
+  height: 45px;
   @include flex();
+  &:disabled,
+  &.disabled {
+    cursor: default;
+    opacity: 0.6;
+    background-color: var(--bg-second);
+  }
 }
 .payment {
   cursor: pointer;
@@ -5805,11 +5815,6 @@ img.show {
   .slick-dots li button:before {
     color: var(--main-color) !important;
   }
-  // .slick-active > div {
-  //   img {
-
-  //   }
-  // }
 }
 :focus-visible {
   outline: none !important;
@@ -5955,7 +5960,6 @@ img.show {
   @include scrollCustomized();
   -webkit-overflow-scrolling: touch;
   touch-action: pan-x;
-
   width: 100%;
   display: flex;
   flex-direction: row;

@@ -998,7 +998,16 @@ const Checkout = () => {
                             selectedAffiliate.options.work[weekday].start
                           }
                           endTime={selectedAffiliate.options.work[weekday].end}
-                          interval={30}
+                          interval={selectedAffiliate?.options?.interval}
+                          minMinuteTime={
+                            selectedAffiliate?.options?.preorderMin
+                          }
+                          maxDayDate={selectedAffiliate?.options?.preorderMax}
+                          value={data.serving}
+                          onChange={(e) => {
+                            console.log(e);
+                            setValue("serving", e);
+                          }}
                         />
                       </div>
                     )}

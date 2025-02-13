@@ -23,7 +23,7 @@ const Addresses = () => {
   }, [user]);
 
   useLayoutEffect(() => {
-    if (addressData?.length > 0) {
+    if (addressData.items?.length > 0) {
       setAddresses(
         city?.title
           ? addressData.items.filter(

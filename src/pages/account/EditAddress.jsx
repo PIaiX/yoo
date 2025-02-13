@@ -284,70 +284,86 @@ const EditAddress = () => {
           </Dropdown.Menu>
         )}
       </div>
+      {!data?.private && (
+        <Row>
+          <Col md={3}>
+            <div className="mb-4">
+              <Input
+                required
+                errors={errors}
+                label={t("Подъезд")}
+                name="entrance"
+                placeholder={t("Введите подъезд")}
+                register={register}
+                validation={{
+                  required: t("Обязательное поле"),
+                  maxLength: { value: 20, message: t("Максимум 20 символов") },
+                }}
+              />
+            </div>
+          </Col>
+          <Col md={3}>
+            <div className="mb-4">
+              <Input
+                required
+                errors={errors}
+                label={t("Квартира")}
+                name="apartment"
+                placeholder={t("Введите квартиру")}
+                register={register}
+                validation={{
+                  required: t("Обязательное поле"),
+                  maxLength: { value: 20, message: t("Максимум 20 символов") },
+                }}
+              />
+            </div>
+          </Col>
+          <Col md={3}>
+            <div className="mb-4">
+              <Input
+                required
+                errors={errors}
+                label={t("Этаж")}
+                type="number"
+                name="floor"
+                placeholder={t("Введите этаж")}
+                register={register}
+                validation={{
+                  required: t("Обязательное поле"),
+                  maxLength: { value: 20, message: t("Максимум 20 символов") },
+                }}
+              />
+            </div>
+          </Col>
+          <Col md={3}>
+            <div className="mb-4">
+              <Input
+                errors={errors}
+                label={t("Код домофона")}
+                name="code"
+                placeholder={t("Введите код")}
+                register={register}
+                validation={{
+                  maxLength: { value: 30, message: t("Максимум 30 символов") },
+                }}
+              />
+            </div>
+          </Col>
+        </Row>
+      )}
+      <Form.Check className="mb-4">
+        <Form.Check.Input
+          type="checkbox"
+          name="private"
+          id="private"
+          value={true}
+          {...register("private")}
+        />
+        <Form.Check.Label htmlFor="private" className="ms-2">
+          {t("Частный дом")}
+        </Form.Check.Label>
+      </Form.Check>
       <Row>
-        <Col md={3}>
-          <div className="mb-4">
-            <Input
-              required
-              errors={errors}
-              label={t("Подъезд")}
-              name="entrance"
-              placeholder={t("Введите подъезд")}
-              register={register}
-              validation={{
-                required: t("Обязательное поле"),
-                maxLength: { value: 20, message: t("Максимум 20 символов") },
-              }}
-            />
-          </div>
-        </Col>
-        <Col md={3}>
-          <div className="mb-4">
-            <Input
-              required
-              errors={errors}
-              label={t("Квартира")}
-              name="apartment"
-              placeholder={t("Введите квартиру")}
-              register={register}
-              validation={{
-                required: t("Обязательное поле"),
-                maxLength: { value: 20, message: t("Максимум 20 символов") },
-              }}
-            />
-          </div>
-        </Col>
-        <Col md={3}>
-          <div className="mb-4">
-            <Input
-              required
-              errors={errors}
-              label={t("Этаж")}
-              type="number"
-              name="floor"
-              placeholder={t("Введите этаж")}
-              register={register}
-              validation={{
-                required: t("Обязательное поле"),
-                maxLength: { value: 20, message: t("Максимум 20 символов") },
-              }}
-            />
-          </div>
-        </Col>
-        <Col md={3}>
-          <div className="mb-4">
-            <Input
-              errors={errors}
-              label={t("Код домофона")}
-              name="code"
-              placeholder={t("Введите код")}
-              register={register}
-              validation={{
-                maxLength: { value: 30, message: t("Максимум 30 символов") },
-              }}
-            />
-          </div>
-        </Col>
         <Col md={12}>
           <div className="mb-4">
             <Input
@@ -390,7 +406,11 @@ const EditAddress = () => {
       <div className="d-md-flex d-block align-items-center ">
         <div>
           <button
-            disabled={!isValid || showDropdown}
+            disabled={
+              !isValid ||
+              showDropdown ||
+              (data?.private && (!data?.street || !data?.home))
+            }
             onClick={handleSubmit(onSubmit)}
             className="btn-primary w-xs-100 mb-3"
           >
