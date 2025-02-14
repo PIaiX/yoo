@@ -50,6 +50,7 @@ import { IoTrashOutline } from "react-icons/io5";
 import { getDelivery } from "../services/order";
 import { cartZone } from "../store/reducers/cartSlice";
 import TimePicker from "../components/TimePicker";
+import Loader from "../components/utils/Loader";
 
 const Checkout = () => {
   const { t } = useTranslation();
@@ -197,29 +198,60 @@ const Checkout = () => {
 
   const paymentText = data?.payment ? paymentData[data.payment] : null;
 
+  // const isWorkStatus =
+  //   (!data.serving &&
+  //     selectedAffiliate?.options?.work &&
+  //     selectedAffiliate.options.work[weekday]?.end &&
+  //     selectedAffiliate.options.work[weekday]?.start &&
+  //     isWork(
+  //       selectedAffiliate.options.work[weekday].start,
+  //       selectedAffiliate.options.work[weekday].end
+  //     )) ||
+  //   (data.serving &&
+  //     selectedAffiliate?.options?.work &&
+  //     selectedAffiliate.options.work[moment(data.serving).weekday()]?.end &&
+  //     selectedAffiliate.options.work[moment(data.serving).weekday()]?.start &&
+  //     moment(data.serving).isAfter(moment()) &&
+  //     isWork(
+  //       selectedAffiliate.options.work[moment(data.serving).weekday()].start,
+  //       selectedAffiliate.options.work[moment(data.serving).weekday()].end,
+  //       moment(data.serving).format("HH:mm")
+  //     )) ||
+  //   (moment(data.serving).isBefore(moment()) &&
+  //     isWork(
+  //       moment()
+  //         .add((selectedAffiliate?.options?.preorderMin ?? 90) - 1, "minutes")
+  //         .format("HH:mm"),
+  //       selectedAffiliate.options.work[moment(data.serving).weekday()].end,
+  //       moment(data.serving).format("HH:mm")
+  //     ));
+
   const isWorkStatus =
     (!data.serving &&
       selectedAffiliate?.options?.work &&
       selectedAffiliate.options.work[weekday]?.end &&
       selectedAffiliate.options.work[weekday]?.start &&
       isWork(
+        // Используем исправленную isWork
         selectedAffiliate.options.work[weekday].start,
         selectedAffiliate.options.work[weekday].end
-      )) ||
+      )) || // <--- ВАЖНО: Здесь нужен || (ИЛИ), а не && (И)
     (data.serving &&
       selectedAffiliate?.options?.work &&
       selectedAffiliate.options.work[moment(data.serving).weekday()]?.end &&
       selectedAffiliate.options.work[moment(data.serving).weekday()]?.start &&
-      moment(data.serving).isAfter(moment()) &&
+      moment(data.serving).isSameOrAfter(moment()) && // Используем isSameOrAfter
       isWork(
+        // Используем исправленную isWork
         selectedAffiliate.options.work[moment(data.serving).weekday()].start,
         selectedAffiliate.options.work[moment(data.serving).weekday()].end,
         moment(data.serving).format("HH:mm")
-      )) ||
-    (moment(data.serving).isBefore(moment()) &&
+      )) || // <--- ВАЖНО: Здесь нужен || (ИЛИ), а не && (И)
+    (moment(data.serving).isBefore(moment()) && // Если нужно включить текущее время, используйте isSameOrBefore
       isWork(
+        // Используем исправленную isWork
         moment()
-          .add((selectedAffiliate?.options?.preorderMin ?? 90) - 1, "minutes")
+          .add(selectedAffiliate?.options?.preorderMin ?? 90, "minutes")
           .format("HH:mm"),
         selectedAffiliate.options.work[moment(data.serving).weekday()].end,
         moment(data.serving).format("HH:mm")
@@ -230,12 +262,11 @@ const Checkout = () => {
     !isValid ||
     !user?.id ||
     !zone?.data ||
-    !(
+    (!(
       data?.delivery === "delivery" && zone?.data?.minPrice > totalNoDelivery
-    ) ||
-    (data?.delivery === "delivery" &&
-      (!Array.isArray(address) || address.length <= 0));
-
+    ) &&
+      !(data?.delivery === "delivery" && address.length === 0));
+  console.log(data?.delivery === "delivery" && address.length === 0, "214214");
   const CartItems = memo(({ items }) => {
     return items.map((e) => (
       <li key={e.id} className="mb-2">
@@ -474,39 +505,42 @@ const Checkout = () => {
     [data, selectedAffiliate, zone?.data]
   );
 
-  useEffect(() => {
-    const selectedTime = data.servingTime;
-    const currentDate = data.servingDate
-      ? moment(data.servingDate).format("YYYY-MM-DD")
-      : moment().format("YYYY-MM-DD");
+  // useEffect(() => {
+  //   const selectedTime = data.servingTime;
+  //   const currentDate = data.servingDate
+  //     ? moment(data.servingDate).format("YYYY-MM-DD")
+  //     : moment().format("YYYY-MM-DD");
 
-    // Проверяем, попадает ли выбранное время в диапазон
-    const minTime = moment(
-      selectedAffiliate.options.work[weekday].start,
-      "HH:mm"
-    ).add(selectedAffiliate?.options?.preorderMin ?? 90, "minutes");
+  //   // Проверяем, попадает ли выбранное время в диапазон
+  //   const minTime = moment(
+  //     selectedAffiliate.options.work[weekday].start,
+  //     "HH:mm"
+  //   ).add(selectedAffiliate?.options?.preorderMin ?? 90, "minutes");
 
-    const maxTime = moment(
-      selectedAffiliate.options.work[weekday].end,
-      "HH:mm"
-    );
+  //   const maxTime = moment(
+  //     selectedAffiliate.options.work[weekday].end,
+  //     "HH:mm"
+  //   );
 
-    if (moment(selectedTime, "HH:mm").isBetween(minTime, maxTime, null, "[]")) {
-      setValue(
-        "serving",
-        moment(currentDate + "T" + selectedTime).format("YYYY-MM-DDTHH:mm")
-      );
-    } else {
-      setValue("serving", null);
-    }
-  }, [data.servingTime, data.servingDate]);
+  //   if (moment(selectedTime, "HH:mm").isBetween(minTime, maxTime, null, "[]")) {
+  //     setValue(
+  //       "serving",
+  //       moment(currentDate + "T" + selectedTime).format("YYYY-MM-DDTHH:mm")
+  //     );
+  //   } else {
+  //     setValue("serving", null);
+  //   }
+  // }, [data.servingTime, data.servingDate]);
 
   useEffect(() => {
     if (data.serving && (!data.servingRadio || data.servingRadio === "false")) {
-      setValue("servingTime", null);
-      setValue("servingDate", null);
+      setValue("serving", null);
     }
   }, [data.servingRadio]);
+
+  if (!checking) {
+    return <Loader full />;
+  }
 
   if (!Array.isArray(cart) || cart.length <= 0) {
     return (
@@ -1005,7 +1039,6 @@ const Checkout = () => {
                           maxDayDate={selectedAffiliate?.options?.preorderMax}
                           value={data.serving}
                           onChange={(e) => {
-                            console.log(e);
                             setValue("serving", e);
                           }}
                         />
