@@ -5592,11 +5592,11 @@ ACCOUNT END
 }
 
 .time-item-slide {
-  max-width: 120px;
+  max-width: 125px;
 }
 
 .time-item {
-  background-color: var(--main-color-outline);
+  background-color: var(--bg-second);
   border-radius: 0.625em;
   border: 2px solid transparent;
   padding: 5px;
@@ -5612,6 +5612,10 @@ ACCOUNT END
   background-color: var(--main-color-outline);
   color: var(--main-color);
   font-weight: 600;
+}
+.time-item:hover, .time-item:active {
+  background-color: var(--main-color-outline);
+  color: var(--main-color);
 }
 .time-item:disabled, .time-item.disabled {
   cursor: default;

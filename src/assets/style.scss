@@ -4900,19 +4900,23 @@ ACCOUNT END
   }
 }
 .time-item-slide {
-  max-width: 120px;
+  max-width: 125px;
 }
 .time-item {
-  background-color: var(--main-color-outline);
+  background-color: var(--bg-second);
   border-radius: $radius * 0.5;
   border: 2px solid transparent;
+  // color: var(--main-color);
   &.active {
     border-color: var(--main-color);
     background-color: var(--main-color-outline);
     color: var(--main-color);
     font-weight: 600;
   }
-
+  &:hover, &:active{
+    background-color: var(--main-color-outline);
+    color: var(--main-color);
+  }
   padding: 5px;
   height: 43px;
   @include flex();
