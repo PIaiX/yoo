@@ -15,16 +15,10 @@ const TimePicker = memo(
     maxDayDate = 3,
     onChange = false,
   }) => {
-    console.log(value);
-    const [selectedDate, setSelectedDate] = useState(
-      value?.length > 0 ? moment(value).format("YYYY-MM-DD") : null
-    );
-    const [selectedTime, setSelectedTime] = useState({
-      index: 0,
-      time: value?.length > 0 ? moment(value).format("HH:mm") : null,
-    });
     const swiperRef = useRef(null);
-
+    const handleLabelClick = () => {
+      document.getElementById("date").showPicker();
+    };
     // // Генерация интервалов времени
     // const generateTimeSlots = (start, end, interval, minMinuteTime) => {
     //   const slots = [];
@@ -67,6 +61,18 @@ const TimePicker = memo(
       interval,
       minMinuteTime
     );
+
+    const [selectedDate, setSelectedDate] = useState(
+      value?.length > 0 ? moment(value).format("YYYY-MM-DD") : null
+    );
+    const [selectedTime, setSelectedTime] = useState({
+      index:
+        value?.length > 0
+          ? timeSlots.findIndex((e) => e === moment(value).format("HH:mm"))
+          : 0,
+      time: value?.length > 0 ? moment(value).format("HH:mm") : null,
+    });
+
     const isValid =
       selectedDate &&
       timeSlots.filter(
@@ -79,6 +85,7 @@ const TimePicker = memo(
             )
           )
       )?.length > 0;
+
     // Обработчик выбора даты
     const handleDateChange = (e) => {
       setSelectedDate(e.target.value);
@@ -165,8 +172,10 @@ const TimePicker = memo(
           <input
             type="date"
             id="date"
+            readOnly={false}
             className="input-date"
             value={selectedDate}
+            onClick={handleLabelClick}
             onChange={handleDateChange}
             min={moment().format("YYYY-MM-DD")}
             max={moment().add(maxDayDate, "days").format("YYYY-MM-DD")}
@@ -182,28 +191,29 @@ const TimePicker = memo(
           )}
         </div>
         {isValid && (
-          <div className="mt-3 time-container">
+          <div className="mt-3 ">
             <Swiper
               ref={swiperRef}
+              className="time-container"
               // initialSlide={selectedTime.index > 0 ? selectedTime.index : false}
               loop={false}
               freeMode={{ enabled: true, sticky: true }}
               mousewheel={true}
               modules={[FreeMode, Mousewheel]}
-              slidesPerView={4}
+              slidesPerView="auto"
               spaceBetween={10}
               // centeredSlides={true}
-              breakpoints={{
-                320: {
-                  slidesPerView: 3, // 1 слайд на маленьких экранах
-                },
-                768: {
-                  slidesPerView: 4, // 2 слайда на планшетах
-                },
-                1024: {
-                  slidesPerView: 4, // 4 слайда на десктопах
-                },
-              }}
+              // breakpoints={{
+              //   320: {
+              //     slidesPerView: 3, // 1 слайд на маленьких экранах
+              //   },
+              //   768: {
+              //     slidesPerView: 4, // 2 слайда на планшетах
+              //   },
+              //   1024: {
+              //     slidesPerView: 4, // 4 слайда на десктопах
+              //   },
+              // }}
             >
               {timeSlots
                 .filter(
@@ -218,7 +228,7 @@ const TimePicker = memo(
                 )
                 .map((time, index) => {
                   return (
-                    <SwiperSlide key={index}>
+                    <SwiperSlide key={index} className="time-item-slide">
                       <div>
                         <a
                           onClick={() => handleTimeSelect({ index, time })}

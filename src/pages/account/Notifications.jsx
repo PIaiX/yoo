@@ -47,7 +47,9 @@ const Notifications = () => {
   }
   return (
     <section className="notifications">
-      <AccountTitleReturn link={"/account"} title={t("Уведомления")} />
+      <div className="d-flex align-items-center justify-content-between">
+        <AccountTitleReturn link={"/account"} title={t("Уведомления")} />
+      </div>
       <ul className="notifications-list">
         {notifications?.items?.length > 0 &&
           notifications.items.map((e) => <LiNotification data={e} />)}
