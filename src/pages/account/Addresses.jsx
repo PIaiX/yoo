@@ -57,7 +57,8 @@ const Addresses = () => {
     <section className="addresses">
       <div className="d-flex flex-column">
         <div className="d-flex align-items-center justify-content-between">
-          <AccountTitleReturn link="/account" title={t("Адреса")} />
+          <AccountTitleReturn  title={t("Адреса")} />
+ 
           <Link to="add" className="w-xs-100 btn-primary mb-3">
             {t("Добавить адрес")}
           </Link>

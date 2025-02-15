@@ -266,7 +266,7 @@ const Checkout = () => {
       data?.delivery === "delivery" && zone?.data?.minPrice > totalNoDelivery
     ) &&
       !(data?.delivery === "delivery" && address.length === 0));
-  console.log(data?.delivery === "delivery" && address.length === 0, "214214");
+
   const CartItems = memo(({ items }) => {
     return items.map((e) => (
       <li key={e.id} className="mb-2">
@@ -591,13 +591,27 @@ const Checkout = () => {
     <main>
       <Meta title={t("Оформление заказа")} />
       <Container>
-        <NavTop toBack={true} breadcrumbs={false} />
+        <NavTop
+          toBack={true}
+          home={false}
+          breadcrumbs={[
+            {
+              title: t("Корзина"),
+              link: "/cart",
+              count: 1,
+              active: true
+            },
+            {
+              title: t("Оформление заказа"),
+              count: 2,
+              active: true
+            },
+          ]}
+        />
+
         <form className="cart">
           <Row className="g-4 g-xxl-5 d-flex justify-content-between">
             <Col xs={12} xl={6}>
-              <h1 className="text-center text-md-start">
-                {t("Оформление заказа")}
-              </h1>
               <Row>
                 <Col md={12}>
                   <div className="d-flex align-items-center mb-4">

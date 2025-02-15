@@ -266,7 +266,23 @@ const Cart = () => {
         }
       />
       <Container>
-        <NavTop breadcrumbs={false} />
+        <NavTop
+          toBack={true}
+          home={false}
+          breadcrumbs={[
+            {
+              title: t("Корзина"),
+              count: 1,
+              active: true
+            },
+            {
+              title: t("Оформление заказа"),
+              count: 2,
+              active: false,
+              link: '/checkout'
+            },
+          ]}
+        />
         <div className="cart">
           <Row className="g-4 g-xxl-5">
             <Col xs={12} lg={8}>

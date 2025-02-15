@@ -315,10 +315,11 @@ function App() {
           dispatch(updateNotification(data));
         }
       });
-      socket.on("logout/" + auth.user.id, () => dispatch(logout()));
+
+      apiId && socket.on("logout/" + apiId, () => dispatch(logout()));
       return () => {
         socket.off("notifications/" + auth.user.id);
-        socket.off("logout/" + auth.user.id);
+        apiId && socket.off("logout/" + apiId);
       };
     }
   }, [auth.isAuth]);

@@ -1442,7 +1442,7 @@ select {
   justify-content: center;
   align-items: center;
   flex-wrap: nowrap;
-  margin-right: 5em;
+  margin-right: 1em;
 }
 .navTop-back svg {
   font-size: 1.35em;
@@ -1453,7 +1453,7 @@ select {
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
-  align-items: baseline;
+  align-items: center;
   flex-wrap: wrap;
   list-style: none;
   padding-left: 0px;
@@ -1639,7 +1639,10 @@ header ul {
 }
 header ul li > .dropdown > a {
   border: none !important;
-  background-color: var(--bg-header-active);
+  background-color: var(--bg-header-active) !important;
+  min-height: 40px !important;
+  padding: 0.5em 1em !important;
+  font-size: 14px !important;
 }
 header ul li > a {
   display: flex;
@@ -6645,4 +6648,22 @@ img.show {
   -webkit-user-select: none;
      -moz-user-select: none;
           user-select: none;
+}
+
+.badge-sm {
+  padding: 0.2em 0.55em !important;
+  font-size: 0.7em !important;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  align-self: center;
+  line-height: 14px;
+}
+
+.badge-main {
+  background-color: var(--main-color) !important;
+}
+.badge-main-light {
+  background-color: var(--main-color-outline) !important;
+  color: var(--main-color);
 }/*# sourceMappingURL=style.css.map */

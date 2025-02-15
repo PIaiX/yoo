@@ -39,10 +39,19 @@ const ButtonCart = memo(
             discount: product.discount,
             code: product.code,
             categoryId: product.categoryId,
-            medias: product.medias,
-            modifiers: product?.modifiers ?? [],
-            additions: product?.additions ?? [],
-            wishes: product?.wishes ?? [],
+            medias: product.medias ?? [],
+            modifiers:
+              product?.modifiers && product?.modifiers?.length > 0
+                ? product.modifiers
+                : [],
+            additions:
+              product?.additions && product?.additions?.length > 0
+                ? product.additions
+                : [],
+            wishes:
+              product?.wishes && product?.wishes?.length > 0
+                ? product.wishes
+                : [],
           },
           plus: false,
         };
@@ -65,7 +74,11 @@ const ButtonCart = memo(
 
         dispatch(updateCart(newProduct));
 
-        if (full && product?.modifiers?.length > 0 && newCount <= 1) {
+        if (
+          full &&
+          (product?.modifiers?.length > 0 || product?.additions?.length > 0) &&
+          newCount <= 1
+        ) {
           NotificationManager.success(t("Товар успешно добавлен в корзину"));
           navigate(-1);
         }
@@ -73,11 +86,11 @@ const ButtonCart = memo(
       },
       [data, product, cart, full]
     );
-
+console.log(product)
     if (
       (isCartData &&
-        !product?.modifiers?.length &&
-        !product?.additions?.length) ||
+        product?.modifiers?.length === 0 &&
+        product?.additions?.length === 0) ||
       cart
     ) {
       if (product.type == "gift" || product.type == "promo") {

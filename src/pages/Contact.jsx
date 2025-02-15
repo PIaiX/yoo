@@ -23,7 +23,7 @@ const Contact = () => {
   const [mainAffiliate, setMainAffiliate] = useState();
   const [showModalOrganization, setModalOrganization] = useState(false);
   const [showModalDelivery, setModalDelivery] = useState(false);
-  console.log(zones);
+
   const mapPoligone = useMemo(() => {
     return (
       <>

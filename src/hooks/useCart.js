@@ -13,24 +13,35 @@ const makeSelectIsCart = () =>
     }
 
     return items.find((cartItem) => {
-      if (cartItem.id !== product.id) {
+      if (!cartItem || cartItem.id !== product.id) {
         return false;
       }
-      return (
-        isEqual(
-          cartItem.cart?.data?.modifiers,
-          product?.cart?.data?.modifiers
-        ) &&
-        isEqual(cartItem.cart?.data?.additions, product?.cart?.data?.additions)
-      );
+   
+      if (
+        (cartItem?.cart?.data?.additions?.length > 0 ||
+          cartItem?.cart?.data?.modifiers?.length > 0) &&
+        (product?.modifiers?.length > 0 || product?.additions?.length > 0)
+      ) {
+        return (
+          isEqual(cartItem?.cart?.data?.modifiers, product?.modifiers) &&
+          isEqual(cartItem?.cart?.data?.additions, product?.additions)
+        );
+      } else {
+        return true;
+      }
     });
   });
 
 const isCart = (product = false) => {
   const selectIsCart = makeSelectIsCart();
-  const items = useSelector((state) =>
-    selectIsCart({ product, items: state?.cart?.items ?? [] })
-  );
+  const items = product?.id
+    ? useSelector(
+        (state) =>
+          state?.cart?.items?.length > 0 &&
+          selectIsCart({ product, items: state?.cart?.items ?? [] })
+      )
+    : [];
+
   return items;
 };
 
