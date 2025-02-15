@@ -32,7 +32,12 @@ import {
   updateCities,
   updateZone,
 } from "./store/reducers/affiliateSlice";
-import { setAuth, setUser } from "./store/reducers/authSlice";
+import {
+  setAuth,
+  setLoadingLogin,
+  setToken,
+  setUser,
+} from "./store/reducers/authSlice";
 import { editDeliveryCheckout } from "./store/reducers/checkoutSlice";
 import { updateNotification } from "./store/reducers/notificationSlice";
 import {
@@ -316,13 +321,33 @@ function App() {
         }
       });
 
-      apiId && socket.on("logout/" + apiId, () => dispatch(logout()));
+      apiId &&
+        socket.on("logout/" + apiId, () => {
+          socket.disconnect();
+          window.location.reload();
+        });
       return () => {
         socket.off("notifications/" + auth.user.id);
         apiId && socket.off("logout/" + apiId);
       };
+    } else if (apiId && options?.brand?.id) {
+      socket.io.opts.query = {
+        brandId: options?.brand?.id,
+      };
+      socket.connect();
+
+      socket.on("login/" + apiId, (response) => {
+        dispatch(setUser(response.user));
+        dispatch(setToken(response.token));
+        dispatch(updateAddresses(response?.user?.addresses ?? []));
+        dispatch(setAuth(true));
+        dispatch(setLoadingLogin(false));
+      });
+      return () => {
+        socket.off("login/" + apiId);
+      };
     }
-  }, [auth.isAuth]);
+  }, [auth.isAuth, apiId]);
 
   if (loading) {
     return <Loader full />;

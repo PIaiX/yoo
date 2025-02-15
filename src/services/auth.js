@@ -40,7 +40,7 @@ const login = createAsyncThunk("auth/login", async (data, thunkAPI) => {
 const logout = createAsyncThunk("auth/logout", async (_, thunkAPI) => {
   try {
     socket.disconnect()
-    const response = await $api.post(apiRoutes.AUTH_LOGOUT).finally(async () => {
+    const response = await $authApi.post(apiRoutes.AUTH_LOGOUT).finally(async () => {
       thunkAPI.dispatch(setAuth(false))
       thunkAPI.dispatch(setUser(false))
       thunkAPI.dispatch(setToken(false))

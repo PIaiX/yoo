@@ -11,6 +11,25 @@ const customPrice = (value, currency = true) => {
   }
   return value;
 };
+const groupByCategoryIdToArray = (modifiers) => {
+  const grouped = modifiers.reduce((acc, modifier) => {
+    const { categoryId } = modifier;
+    if (!acc[categoryId]) {
+      acc[categoryId] = [];
+    }
+    acc[categoryId].push(modifier);
+    return acc;
+  }, {});
+
+  return Object.keys(grouped).map((key, index) => ({
+    categoryId: key ?? index,
+    modifiers:
+      grouped[key]?.length > 0
+        ? grouped[key].sort((a, b) => a?.price - b?.price)
+        : [],
+  }));
+};
+
 const generateToken = (length = 50, type) => {
   let chars =
     type == "number"
@@ -442,5 +461,6 @@ export {
   declination,
   childrenArray,
   tagsData,
-  weekday
+  weekday,
+  groupByCategoryIdToArray
 };

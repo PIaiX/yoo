@@ -50,7 +50,7 @@ const cartSlice = createSlice({
     },
     updateCartSync: (state, action) => {
       const isCart = state.items.findIndex((cartItem) => {
-        if (cartItem.id !== action.payload.data.id) {
+        if (cartItem?.id !== action.payload?.data?.id) {
           return false;
         }
         return (

@@ -1,5 +1,5 @@
-import { memo, useCallback } from "react";
-import { useDispatch } from "react-redux";
+import { memo, useCallback, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { isCart } from "../hooks/useCart";
 import { HiOutlineShoppingBag } from "react-icons/hi2";
 import { useNavigate } from "react-router-dom";
@@ -7,6 +7,8 @@ import { updateCart } from "../services/cart";
 import CountInput from "./utils/CountInput";
 import { NotificationManager } from "react-notifications";
 import { useTranslation } from "react-i18next";
+import { getProduct } from "../services/product";
+import { groupByCategoryIdToArray } from "../helpers/all";
 
 const ButtonCart = memo(
   ({
@@ -23,70 +25,94 @@ const ButtonCart = memo(
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const { t } = useTranslation();
+    const selectedAffiliate = useSelector((state) => state.affiliate.active);
+    const options = useSelector((state) => state.settings.options);
+    const [loading, setLoading] = useState(null);
 
     const onPress = useCallback(
       (newCount) => {
-        let newProduct = {
-          data: {
-            cart: product.cart ?? {},
-            id: product.id,
-            options: product.options,
-            title: product.title,
-            description: product.description,
-            type: product.type,
-            enegry: product.enegry,
-            price: product.price,
-            discount: product.discount,
-            code: product.code,
-            categoryId: product.categoryId,
-            medias: product.medias ?? [],
-            modifiers:
-              product?.modifiers && product?.modifiers?.length > 0
-                ? product.modifiers
-                : [],
-            additions:
-              product?.additions && product?.additions?.length > 0
-                ? product.additions
-                : [],
-            wishes:
-              product?.wishes && product?.wishes?.length > 0
-                ? product.wishes
-                : [],
-          },
-          plus: false,
-        };
+        setLoading(true);
+        getProduct({
+          id: product.id,
+          affiliateId: selectedAffiliate?.id ?? false,
+          required: true,
+          multiBrand: options?.multiBrand,
+          type: "site",
+        })
+          .then((res) => {
+            console.log(res)
+            const modifiers =
+              options?.brand?.options?.priceAffiliateType &&
+              Array.isArray(res.modifiers) &&
+              res?.modifiers?.length > 0
+                ? groupByCategoryIdToArray(
+                    res.modifiers.filter((e) => e?.modifierOptions?.length > 0)
+                  )
+                : Array.isArray(res.modifiers) && res?.modifiers?.length > 0
+                ? groupByCategoryIdToArray(res.modifiers)
+                : [];
 
-        if (
-          product?.modifiers?.length > 0 ||
-          (product?.additions?.length > 0 && data?.cart?.data)
-        ) {
-          newProduct.data.cart = { ...newProduct.data.cart, ...data.cart };
-        }
+            let newProduct = {
+              data: {
+                cart: res.cart ?? {},
+                id: res.id,
+                options: res.options,
+                title: res.title,
+                description: res.description,
+                type: res.type,
+                enegry: res.enegry,
+                price: res.price,
+                discount: res.discount,
+                code: res.code,
+                categoryId: res.categoryId,
+                medias: res.medias ?? [],
+                modifiers: modifiers && modifiers?.length > 0 ? modifiers : [],
+                additions:
+                  res?.additions && res?.additions?.length > 0
+                    ? res.additions
+                    : [],
+                wishes:
+                  res?.wishes && res?.wishes?.length > 0 ? res.wishes : [],
+              },
+              plus: false,
+            };
 
-        newProduct.data.cart = {
-          ...newProduct.data.cart,
-          count: newCount ?? 0,
-        };
+            if (
+              (res?.modifiers?.length > 0 || res?.additions?.length > 0) &&
+              data?.cart?.data
+            ) {
+              newProduct.data.cart = { ...newProduct.data.cart, ...data.cart };
+            }
 
-        if (full) {
-          newProduct.plus = true;
-        }
+            newProduct.data.cart = {
+              ...newProduct.data.cart,
+              count: newCount ?? 0,
+            };
 
-        dispatch(updateCart(newProduct));
+            if (full) {
+              newProduct.plus = true;
+            }
 
-        if (
-          full &&
-          (product?.modifiers?.length > 0 || product?.additions?.length > 0) &&
-          newCount <= 1
-        ) {
-          NotificationManager.success(t("Товар успешно добавлен в корзину"));
-          navigate(-1);
-        }
-        onAddCart && onAddCart();
+            dispatch(updateCart(newProduct));
+
+            if (
+              full &&
+              (res?.modifiers?.length > 0 || res?.additions?.length > 0) &&
+              newCount <= 1
+            ) {
+              NotificationManager.success(
+                t("Товар успешно добавлен в корзину")
+              );
+              navigate(-1);
+            }
+            onAddCart && onAddCart();
+          })
+          .finally(() => setLoading(false));
+        // .catch(() => setProduct((data) => ({ ...data, loading: false })));
       },
-      [data, product, cart, full]
+      [data, product, loading, onAddCart, cart, full]
     );
-console.log(product)
+
     if (
       (isCartData &&
         product?.modifiers?.length === 0 &&
@@ -124,9 +150,9 @@ console.log(product)
             : onPress(1)
         }
         type="button"
-        className={`${className} ${
-          isCartData ? "btn-primary active" : "btn-primary"
-        }`}
+        className={`${className}${
+          isCartData ? " btn-primary active" : " btn-primary"
+        }${loading ? " loading" : ""}`}
       >
         {children ?? (
           <>

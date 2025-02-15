@@ -123,7 +123,7 @@ const TimePicker = memo(
         if (moment(selectedDate).isValid() && time) {
           setSelectedTime({ index, time, noUpdate: true });
           const selectedDateTime = `${selectedDate}T${time}`;
-          console.log(1);
+   
           onChange && onChange(selectedDateTime);
         } else {
           NotificationManager.error(t("Пожалуйста, выберите дату и время"));

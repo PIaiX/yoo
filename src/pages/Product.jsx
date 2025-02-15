@@ -29,31 +29,13 @@ import {
   customWeight,
   generateSeoText,
   getImageURL,
+  groupByCategoryIdToArray,
   sortMain,
 } from "../helpers/all";
 import { getProduct } from "../services/product";
 import { useTranslation } from "react-i18next";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import Notice from "../components/Notice";
-
-const groupByCategoryIdToArray = (modifiers) => {
-  const grouped = modifiers.reduce((acc, modifier) => {
-    const { categoryId } = modifier;
-    if (!acc[categoryId]) {
-      acc[categoryId] = [];
-    }
-    acc[categoryId].push(modifier);
-    return acc;
-  }, {});
-
-  return Object.keys(grouped).map((key, index) => ({
-    categoryId: key ?? index,
-    modifiers:
-      grouped[key]?.length > 0
-        ? grouped[key].sort((a, b) => a?.price - b?.price)
-        : [],
-  }));
-};
 
 const Product = () => {
   const { t } = useTranslation();
