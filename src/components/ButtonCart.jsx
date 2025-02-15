@@ -40,7 +40,6 @@ const ButtonCart = memo(
           type: "site",
         })
           .then((res) => {
-            console.log(res)
             const modifiers =
               options?.brand?.options?.priceAffiliateType &&
               Array.isArray(res.modifiers) &&
