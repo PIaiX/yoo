@@ -13,7 +13,6 @@ import { groupByCategoryIdToArray } from "../helpers/all";
 const ButtonCart = memo(
   ({
     product,
-    data,
     isValid = true,
     full = false,
     onAddCart,
@@ -53,7 +52,7 @@ const ButtonCart = memo(
 
             let newProduct = {
               data: {
-                cart: res.cart ?? {},
+                // cart: res.cart ?? {},
                 id: res.id,
                 options: res.options,
                 title: res.title,
@@ -65,22 +64,25 @@ const ButtonCart = memo(
                 code: res.code,
                 categoryId: res.categoryId,
                 medias: res.medias ?? [],
-                modifiers: modifiers && modifiers?.length > 0 ? modifiers : [],
-                additions:
-                  res?.additions && res?.additions?.length > 0
-                    ? res.additions
-                    : [],
-                wishes:
-                  res?.wishes && res?.wishes?.length > 0 ? res.wishes : [],
+                //   modifiers: modifiers && modifiers?.length > 0 ? modifiers : [],
+                //   additions:
+                //     res?.additions && res?.additions?.length > 0
+                //       ? res.additions
+                //       : [],
+                //   wishes:
+                //     res?.wishes && res?.wishes?.length > 0 ? res.wishes : [],
               },
               plus: false,
             };
 
             if (
               (res?.modifiers?.length > 0 || res?.additions?.length > 0) &&
-              data?.cart?.data
+              product?.cart?.data
             ) {
-              newProduct.data.cart = { ...newProduct.data.cart, ...data.cart };
+              newProduct.data.cart = {
+                ...newProduct.data.cart,
+                ...product.cart,
+              };
             }
 
             newProduct.data.cart = {
@@ -91,7 +93,7 @@ const ButtonCart = memo(
             if (full) {
               newProduct.plus = true;
             }
-
+            console.log(newProduct, product);
             dispatch(updateCart(newProduct));
 
             if (
@@ -109,7 +111,7 @@ const ButtonCart = memo(
           .finally(() => setLoading(false));
         // .catch(() => setProduct((data) => ({ ...data, loading: false })));
       },
-      [data, product, loading, onAddCart, cart, full]
+      [product, loading, onAddCart, cart, full]
     );
 
     if (
@@ -142,7 +144,7 @@ const ButtonCart = memo(
       <button
         disabled={!isValid}
         onClick={() =>
-          data?.cart?.data?.modifiers
+          product?.cart?.data?.modifiers
             ? onPress(1)
             : product?.modifiers?.length > 0 && !full
             ? navigate("/product/" + product.id, product)

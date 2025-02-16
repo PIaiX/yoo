@@ -48,10 +48,6 @@ const Product = () => {
 
   const [product, setProduct] = useState({
     loading: true,
-    item: {},
-  });
-
-  const [data, setData] = useState({
     cart: {
       data: {
         modifiers: [],
@@ -99,17 +95,17 @@ const Product = () => {
 
         setProduct({
           loading: false,
-          item: {
-            ...res,
-            modifiers: modifiers,
-            recommends: recommends,
-            cart: {
-              data: {
-                modifiers:
-                  modifiers?.length > 0
-                    ? modifiers.map((e) => e.modifiers[0])
-                    : [],
-              },
+          ...res,
+          modifiers: modifiers,
+          recommends: recommends,
+          cart: {
+            data: {
+              modifiers:
+                modifiers?.length > 0
+                  ? modifiers.map((e) => e.modifiers[0])
+                  : [],
+              additions: [],
+              wishes: [],
             },
           },
         });
@@ -122,58 +118,58 @@ const Product = () => {
   }, [productId, selectedAffiliate]);
 
   useLayoutEffect(() => {
-    if (product.item) {
+    if (product?.id) {
       let price = 0;
       let discount = 0;
-      if (product.item?.cart?.data?.modifiers?.length > 0) {
-        if (product.item?.options?.modifierPriceSum) {
+      if (product?.cart?.data?.modifiers?.length > 0) {
+        if (product?.options?.modifierPriceSum) {
           price +=
-            product.item.cart.data.modifiers.reduce(
+            product.cart.data.modifiers.reduce(
               (sum, item) => sum + (item?.price ?? 0),
               0
-            ) + product.item.price;
+            ) + product.price;
         } else {
-          price += product.item.cart.data.modifiers.reduce(
+          price += product.cart.data.modifiers.reduce(
             (sum, item) => sum + (item?.price ?? 0),
             0
           );
         }
       } else {
-        price += product.item.price;
+        price += product.price;
       }
 
-      if (product.item?.cart?.data?.modifiers?.length > 0) {
-        if (product.item?.options?.modifierPriceSum) {
+      if (product?.cart?.data?.modifiers?.length > 0) {
+        if (product?.options?.modifierPriceSum) {
           discount +=
-            product.item.cart.data.modifiers.reduce(
+            product.cart.data.modifiers.reduce(
               (sum, item) => sum + (item?.discount ?? 0),
               0
-            ) + product.item.discount;
+            ) + product.discount;
         } else {
-          discount += product.item.cart.data.modifiers.reduce(
+          discount += product.cart.data.modifiers.reduce(
             (sum, item) => sum + (item?.discount ?? 0),
             0
           );
         }
       } else {
-        discount += product.item.discount;
+        discount += product.discount;
       }
 
-      if (product.item?.cart?.data?.additions?.length > 0) {
-        price += product.item.cart.data.additions.reduce(
+      if (product?.cart?.data?.additions?.length > 0) {
+        price += product.cart.data.additions.reduce(
           (sum, item) => sum + (item?.price ?? 0),
           0
         );
       }
       setPrices({ price, discount });
     }
-  }, [product.item]);
+  }, [product?.id]);
 
   if (product?.loading) {
     return <Loader full />;
   }
 
-  if (!product?.item?.id) {
+  if (!product?.id) {
     return (
       <Empty
         text={t("Такого товара нет")}
@@ -192,35 +188,35 @@ const Product = () => {
     <main>
       <Meta
         title={
-          options?.seo?.product?.title && product?.item?.title
+          options?.seo?.product?.title && product?.title
             ? generateSeoText({
                 text: options.seo.product.title,
-                name: product.item.title,
+                name: product.title,
                 site: options?.title,
               })
-            : selectedAffiliate?.title && product?.item?.title
-            ? selectedAffiliate?.title + " - " + product.item.title
-            : options?.title && product?.item?.title
-            ? options.title + " - " + product.item.title
-            : product?.item?.title ?? t("Товар")
+            : selectedAffiliate?.title && product?.title
+            ? selectedAffiliate?.title + " - " + product.title
+            : options?.title && product?.title
+            ? options.title + " - " + product.title
+            : product?.title ?? t("Товар")
         }
         description={
           options?.seo?.product?.description
             ? generateSeoText({
                 text: options.seo.product.description,
-                name: product.item.title,
+                name: product.title,
                 site: options?.title,
               })
-            : product.item?.description ??
+            : product?.description ??
               t(
                 "Добавьте это блюдо в корзину и наслаждайтесь вкусной едой прямо сейчас!"
               )
         }
         image={
-          Array.isArray(product?.item?.medias) &&
-          product?.item?.medias[0]?.media
+          Array.isArray(product?.medias) &&
+          product?.medias[0]?.media
             ? getImageURL({
-                path: sortMain(product.item.medias)[0].main,
+                path: sortMain(product.medias)[0].main,
                 size: "full",
                 type: "product",
               })
@@ -232,13 +228,13 @@ const Product = () => {
           toBack={true}
           breadcrumbs={[
             {
-              title: product?.item?.category?.title ?? t("Нет категории"),
-              link: product?.item?.category?.id
-                ? "/category/" + product.item.category.id
+              title: product?.category?.title ?? t("Нет категории"),
+              link: product?.category?.id
+                ? "/category/" + product.category.id
                 : "/menu",
             },
             {
-              title: product?.item?.title ?? t("Не названия"),
+              title: product?.title ?? t("Не названия"),
             },
           ]}
         />
@@ -246,21 +242,20 @@ const Product = () => {
         <form className="productPage mb-5">
           <Row className="gx-4 gx-xxl-5">
             <Col xs={12} md={5} lg={6}>
-              {product.item.cart.data?.modifiers[0]?.medias[0]?.media &&
-              product.item?.medias?.length === 1 ? (
+              {product?.cart?.data?.modifiers[0]?.medias[0]?.media &&
+              product?.medias?.length === 1 ? (
                 <LazyLoadImage
                   loading="lazy"
                   src={getImageURL({
-                    path: product.item.cart.data?.modifiers[0]?.medias[0]
-                      ?.media,
+                    path: product.cart.data?.modifiers[0]?.medias[0]?.media,
                     size: "full",
                     type: "modifier",
                   })}
-                  alt={product.item.title}
+                  alt={product.title}
                   className="productPage-img"
                 />
-              ) : Array.isArray(product.item?.medias) &&
-                product.item.medias?.length > 1 ? (
+              ) : Array.isArray(product?.medias) &&
+                product.medias?.length > 1 ? (
                 <div className="productPage-photo">
                   <Swiper
                     className="thumbSlider"
@@ -273,14 +268,14 @@ const Product = () => {
                     slidesPerView={"auto"}
                     freeMode={true}
                   >
-                    {sortMain(product.item.medias).map((e) => (
+                    {sortMain(product.medias).map((e) => (
                       <SwiperSlide>
                         <img
                           src={getImageURL({
                             path: e.media,
                             size: "full",
                           })}
-                          alt={product.item.title}
+                          alt={product.title}
                           className="productPage-img"
                         />
                       </SwiperSlide>
@@ -298,7 +293,7 @@ const Product = () => {
                           : null,
                     }}
                   >
-                    {sortMain(product.item.medias).map((e, index) => (
+                    {sortMain(product.medias).map((e, index) => (
                       <SwiperSlide key={index}>
                         <LazyLoadImage
                           loading="lazy"
@@ -306,7 +301,7 @@ const Product = () => {
                             path: e.media,
                             size: "full",
                           })}
-                          alt={product.item.title}
+                          alt={product.title}
                           className="productPage-img"
                         />
                       </SwiperSlide>
@@ -316,8 +311,8 @@ const Product = () => {
               ) : (
                 <LazyLoadImage
                   loading="lazy"
-                  src={getImageURL({ path: product.item.medias, size: "full" })}
-                  alt={product.item.title}
+                  src={getImageURL({ path: product.medias, size: "full" })}
+                  alt={product.title}
                   className="productPage-img"
                 />
               )}
@@ -326,13 +321,13 @@ const Product = () => {
               <div
                 className={
                   "d-flex align-items-center justify-content-between" +
-                  (!product.item.options?.subtitle ? " mb-4" : "")
+                  (!product.options?.subtitle ? " mb-4" : "")
                 }
               >
-                <h1 className="mb-0">{product.item.title}</h1>
+                <h1 className="mb-0">{product.title}</h1>
 
                 {options?.productEnergyVisible &&
-                product.item.cart.data?.modifiers[0]?.energy?.kkal > 0 ? (
+                product?.cart?.data?.modifiers[0]?.energy?.kkal > 0 ? (
                   <OverlayTrigger
                     trigger={["focus", "click"]}
                     rootClose
@@ -349,10 +344,8 @@ const Product = () => {
                             <div>{t("Энерг. ценность")}</div>
                             <div>
                               {Math.round(
-                                product.item.cart.data.modifiers[0].energy
-                                  .kkal ??
-                                  product.item.cart.data.modifiers[0].energy
-                                    .kkalAll
+                                product.cart.data.modifiers[0].energy.kkal ??
+                                  product.cart.data.modifiers[0].energy.kkalAll
                               )}
                               &nbsp;
                               {t("ккал")}
@@ -362,8 +355,7 @@ const Product = () => {
                             <div>{t("Белки")}</div>
                             <div>
                               {Math.round(
-                                product.item.cart.data.modifiers[0].energy
-                                  .protein
+                                product.cart.data.modifiers[0].energy.protein
                               )}
                               г
                             </div>
@@ -372,7 +364,7 @@ const Product = () => {
                             <div>{t("Жиры")}</div>
                             <div>
                               {Math.round(
-                                product.item.cart.data.modifiers[0].energy.fat
+                                product.cart.data.modifiers[0].energy.fat
                               )}
                               г
                             </div>
@@ -381,7 +373,7 @@ const Product = () => {
                             <div>{t("Углеводы")}</div>
                             <div>
                               {Math.round(
-                                product.item.cart.data.modifiers[0].energy
+                                product.cart.data.modifiers[0].energy
                                   .carbohydrate
                               )}
                               г
@@ -391,8 +383,7 @@ const Product = () => {
                             <div>{t("Вес")}</div>
                             <div>
                               {Math.round(
-                                product.item.cart.data.modifiers[0].energy
-                                  .weight
+                                product.cart.data.modifiers[0].energy.weight
                               )}
                               г
                             </div>
@@ -407,8 +398,7 @@ const Product = () => {
                   </OverlayTrigger>
                 ) : (
                   options?.productEnergyVisible &&
-                  (product.item?.energy?.kkal > 0 ||
-                    product.item?.energy?.kkalAll) && (
+                  (product?.energy?.kkal > 0 || product?.energy?.kkalAll) && (
                     <OverlayTrigger
                       trigger={["focus", "click"]}
                       rootClose
@@ -425,8 +415,7 @@ const Product = () => {
                               <div>{t("Энерг. ценность")}</div>
                               <div>
                                 {Math.round(
-                                  product.item.energy.kkal ??
-                                    product.item.energy.kkalAll
+                                  product.energy.kkal ?? product.energy.kkalAll
                                 )}
                                 &nbsp;
                                 {t("ккал")}
@@ -434,25 +423,21 @@ const Product = () => {
                             </div>
                             <div className="d-flex mb-1 fs-09 justify-content-between">
                               <div>{t("Белки")}</div>
-                              <div>
-                                {Math.round(product.item.energy.protein)}г
-                              </div>
+                              <div>{Math.round(product.energy.protein)}г</div>
                             </div>
                             <div className="d-flex mb-1 fs-09 justify-content-between">
                               <div>{t("Жиры")}</div>
-                              <div>{Math.round(product.item.energy.fat)}г</div>
+                              <div>{Math.round(product.energy.fat)}г</div>
                             </div>
                             <div className="d-flex mb-1 fs-09 justify-content-between">
                               <div>{t("Углеводы")}</div>
                               <div>
-                                {Math.round(product.item.energy.carbohydrate)}г
+                                {Math.round(product.energy.carbohydrate)}г
                               </div>
                             </div>
                             <div className="d-flex mt-2 fs-09 justify-content-between">
                               <div>{t("Вес")}</div>
-                              <div>
-                                {Math.round(product.item.energy.weight)}г
-                              </div>
+                              <div>{Math.round(product.energy.weight)}г</div>
                             </div>
                           </Popover.Body>
                         </Popover>
@@ -465,31 +450,27 @@ const Product = () => {
                   )
                 )}
               </div>
-              {product.item.options?.subtitle && (
+              {product?.options?.subtitle && (
                 <>
                   <div className="mb-4 fw-5 fs-14 d-block main-color subtitle">
-                    {product.item.options.subtitle}
+                    {product.options.subtitle}
                   </div>
                 </>
               )}
               <div className="mb-2">
-                {product.item?.tags?.length > 0 && (
-                  <Tags data={product.item.tags} />
-                )}
+                {product?.tags?.length > 0 && <Tags data={product.tags} />}
               </div>
-              {product.item.cart.data?.modifiers[0]?.description ? (
+              {product?.cart?.data?.modifiers[0]?.description ? (
                 <div className="mb-4 white-space">
-                  {product.item.cart.data.modifiers[0].description}
+                  {product.cart.data.modifiers[0].description}
                 </div>
               ) : (
-                product.item.description && (
-                  <div className="mb-4 white-space">
-                    {product.item.description}
-                  </div>
+                product.description && (
+                  <div className="mb-4 white-space">{product.description}</div>
                 )
               )}
-              {product?.item?.modifiers?.length > 0 &&
-                product.item.modifiers.map((modifier) => (
+              {product?.modifiers?.length > 0 &&
+                product.modifiers.map((modifier) => (
                   <>
                     {modifier.modifiers?.length > 3 ? (
                       <div className="mb-4">
@@ -499,7 +480,7 @@ const Product = () => {
                             value: e,
                           }))}
                           value={
-                            product.item?.cart?.data?.modifiers?.find(
+                            product?.cart?.data?.modifiers?.find(
                               (modifierItem) =>
                                 modifier.modifiers.some(
                                   (cartModifier) =>
@@ -510,17 +491,16 @@ const Product = () => {
                           }
                           onClick={(e) => {
                             let isModifierIndex =
-                              product.item.cart.data.modifiers.findIndex(
+                              product.cart.data.modifiers.findIndex(
                                 (item) =>
                                   item?.categoryId === e.value.categoryId ||
                                   item?.categoryId === 0
                               );
                             if (isModifierIndex != -1) {
-                              product.item.cart.data.modifiers[
-                                isModifierIndex
-                              ] = e.value;
+                              product.cart.data.modifiers[isModifierIndex] =
+                                e.value;
                             } else {
-                              product.item.cart.data.modifiers.push(e.value);
+                              product.cart.data.modifiers.push(e.value);
                             }
                             setProduct(product);
                           }}
@@ -539,19 +519,17 @@ const Product = () => {
                                     defaultChecked={index === 0}
                                     onChange={() => {
                                       let isModifierIndex =
-                                        product.item.cart.data.modifiers.findIndex(
+                                        product.cart.data.modifiers.findIndex(
                                           (item) =>
                                             item?.categoryId === e.categoryId ||
                                             item?.categoryId === 0
                                         );
                                       if (isModifierIndex != -1) {
-                                        product.item.cart.data.modifiers[
+                                        product.cart.data.modifiers[
                                           isModifierIndex
                                         ] = e;
                                       } else {
-                                        product.item.cart.data.modifiers.push(
-                                          e
-                                        );
+                                        product.cart.data.modifiers.push(e);
                                       }
                                       setProduct(product);
                                     }}
@@ -580,11 +558,11 @@ const Product = () => {
                     )}
                   </>
                 ))}
-              {product.item.options?.сompound && (
+              {product?.options?.сompound && (
                 <>
                   <p className="fw-6 mb-2">{t("Состав")}</p>
                   <div className="mb-4 text-muted fs-09 white-space">
-                    {product.item.options.сompound}
+                    {product.options.сompound}
                   </div>
                 </>
               )}
@@ -597,44 +575,39 @@ const Product = () => {
                     </div>
                   )}
                 </div>
-                {product.item.cart.data?.modifiers[0]?.energy?.weight > 0 ? (
+                {product?.cart?.data?.modifiers[0]?.energy?.weight > 0 ? (
                   <div className="text-muted py-2 me-2 fw-4 fs-09">
                     {"/ "}
                     {options?.productWeightDiscrepancy ? "±" : ""}
                     {customWeight({
-                      value: product.item.cart.data.modifiers[0].energy.weight,
-                      type: product.item.cart.data.modifiers[0].energy
-                        .weightType,
+                      value: product.cart.data.modifiers[0].energy.weight,
+                      type: product.cart.data.modifiers[0].energy.weightType,
                     })}
                   </div>
                 ) : (
-                  product.item.energy.weight > 0 && (
+                  product?.energy?.weight > 0 && (
                     <div className="text-muted py-2 me-2 fw-4 fs-09">
                       {"/ "}
                       {options?.productWeightDiscrepancy ? "±" : ""}
                       {customWeight({
-                        value: product.item.energy.weight,
-                        type: product.item.energy?.weightType,
+                        value: product.energy.weight,
+                        type: product.energy?.weightType,
                       })}
                     </div>
                   )
                 )}
-                <ButtonCart
-                  full
-                  product={product.item}
-                  className="py-2 ms-2 btn-lg"
-                >
+                <ButtonCart full product={product} className="py-2 ms-2 btn-lg">
                   {t("В корзину")}
                   <HiOutlineShoppingBag className="fs-13 ms-2" />
                 </ButtonCart>
               </div>
 
-              {(product?.item?.additions?.length > 0 ||
-                product?.item?.wishes?.length > 0) && (
+              {(product?.additions?.length > 0 ||
+                product?.wishes?.length > 0) && (
                 <div className="mt-5">
                   <div className="productPage-edit mb-3">
                     <div className="top">
-                      {product.item?.additions?.length > 0 && (
+                      {product?.additions?.length > 0 && (
                         <button
                           type="button"
                           className={isRemove ? "" : "active"}
@@ -645,13 +618,13 @@ const Product = () => {
                           <Corner className="corner-right" />
                         </button>
                       )}
-                      {product.item?.wishes?.length > 0 && (
+                      {product?.wishes?.length > 0 && (
                         <button
                           type="button"
                           className={
                             isRemove
                               ? "active"
-                              : product.item?.additions?.length === 0
+                              : product?.additions?.length === 0
                               ? "active"
                               : ""
                           }
@@ -659,7 +632,7 @@ const Product = () => {
                         >
                           <HiMinus />
                           <span>{t("Убрать")}</span>
-                          {product.item?.additions?.length > 0 && (
+                          {product?.additions?.length > 0 && (
                             <Corner className="corner-left" />
                           )}
                           <Corner className="corner-right" />
@@ -674,24 +647,39 @@ const Product = () => {
                         xl={4}
                         className={isRemove ? "d-none gx-3" : "gx-3 d-flex"}
                       >
-                        {product.item?.additions?.length > 0 &&
-                          product.item.additions.map((e) => {
+                        {product?.additions?.length > 0 &&
+                          product.additions.map((e) => {
                             const isAddition = () =>
-                              !!product.item?.cart?.data?.additions?.find(
+                              !!product?.cart?.data?.additions?.find(
                                 (addition) => addition.id === e.id
                               );
                             const onPressAddition = () => {
                               if (isAddition()) {
-                                let newAdditions =
-                                product.item.cart.data.additions.filter(
-                                    (addition) => addition.id != e.id
-                                  );
-
-                                product.item.cart.data.additions = newAdditions;
-                                setProduct(product);
+                                setProduct((prev) => ({
+                                  ...prev,
+                                  cart: {
+                                    data: {
+                                      ...prev.cart.data,
+                                      additions:
+                                        product.cart.data.additions.filter(
+                                          (addition) => addition.id != e.id
+                                        ),
+                                    },
+                                  },
+                                }));
                               } else {
-                                product.item.cart.data.additions.push(e);
-                                setProduct(product);
+                                setProduct((prev) => ({
+                                  ...prev,
+                                  cart: {
+                                    data: {
+                                      ...prev.cart.data,
+                                      additions: [
+                                        ...prev.cart.data.additions,
+                                        e,
+                                      ],
+                                    },
+                                  },
+                                }));
                               }
                             };
                             return (
@@ -710,27 +698,28 @@ const Product = () => {
                         className={
                           isRemove
                             ? "d-block"
-                            : product.item?.wishes?.length === 0
+                            : product?.wishes?.length === 0
                             ? "d-block"
                             : "d-none"
                         }
                       >
-                        {product.item?.wishes?.length > 0 &&
-                          product.item.wishes.map((e) => {
+                        {product?.wishes?.length > 0 &&
+                          product.wishes.map((e) => {
                             const isAddition = () =>
-                              !!product.item?.cart?.data?.wishes.find(
+                              !!product?.cart?.data?.wishes.find(
                                 (addition) => addition.id === e.id
                               );
                             const onPressAddition = () => {
                               if (isAddition()) {
-                                let newAdditions = product.item.cart.data.wishes.filter(
-                                  (addition) => addition.id != e.id
-                                );
+                                let newAdditions =
+                                  product.cart.data.wishes.filter(
+                                    (addition) => addition.id != e.id
+                                  );
 
-                                product.item.cart.data.wishes = newAdditions;
+                                product.cart.data.wishes = newAdditions;
                                 setProduct(product);
                               } else {
-                                product.item.cart.data.wishes.push(e);
+                                product.cart.data.wishes.push(e);
                                 setProduct(product);
                               }
                             };
@@ -755,7 +744,7 @@ const Product = () => {
             </Col>
           </Row>
         </form>
-        {product?.item?.recommends?.length > 0 && (
+        {product?.recommends?.length > 0 && (
           <section className="d-none d-md-block mb-5">
             <h2>{t("Вам может понравиться")}</h2>
             <Swiper
@@ -782,7 +771,7 @@ const Product = () => {
                 },
               }}
             >
-              {product.item.recommends.map((e) => (
+              {product.recommends.map((e) => (
                 <SwiperSlide key={e.id}>
                   <ProductCard data={e} />
                 </SwiperSlide>

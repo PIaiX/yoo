@@ -4035,8 +4035,8 @@ html.theme-font-title-amaticsc .filterGrid h4 {
   order: 3;
 }
 .cart-item img {
-  width: 100px;
-  height: 100px;
+  width: 90px;
+  height: 90px;
   -o-object-fit: cover;
      object-fit: cover;
   border-radius: 1.25em;
