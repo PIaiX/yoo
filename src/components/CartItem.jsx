@@ -16,15 +16,21 @@ const CartItem = memo(({ data }) => {
       : data.price;
 
   const [open, setOpen] = useState({ additions: false, wishes: false });
-
+  console.log(
+    data?.cart?.data?.additions?.length,
+    data?.cart?.data?.modifiers?.length,
+    data?.cart?.data?.wishes?.length
+  );
   return (
     <div
       className={
-        "cart-item " +
-        (!data?.cart?.data?.additions &&
-        !data?.cart?.data?.modifiers &&
-        !data?.cart?.data?.wishes
-          ? "mini-cart-item"
+        "cart-item" +
+        ((!data?.cart?.data?.additions ||
+          data?.cart?.data?.additions?.length === 0) &&
+        (!data?.cart?.data?.modifiers ||
+          data?.cart?.data?.modifiers?.length === 0) &&
+        (!data?.cart?.data?.wishes || data?.cart?.data?.wishes?.length === 0)
+          ? " mini-cart-item"
           : "")
       }
       key={data.id}

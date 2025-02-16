@@ -24,7 +24,7 @@ const CountInput = memo(
             <HiMinus />
           </button>
         )}
-        <input type="number" value={Number(value)} readOnly={false} />
+        <div className="d-flex px-2 fs-09">{value}</div>
         {!dis && (
           <button type="button" onClick={() => onCount(Number(value) + 1)}>
             <HiPlus />

@@ -26,7 +26,7 @@ const AccountLayout = ({ isMobile }) => {
           <div>
             <div className="row">
               <div className="col-4 col-lg-3">
-                <div className="box p-3 w-100 d-flex align-items-center justify-content-between mb-3">
+                <div className="box p-3 w-100 d-flex align-items-start justify-content-between mb-3">
                   <div>
                     <h6 className="mb-0 fs-10">
                       {t(user?.firstName ? user.firstName : "Имя")}

@@ -33,7 +33,7 @@ const ScrollToTop = memo(({ count = 0 }) => {
     };
   });
 
-  return (
+  return ( 
     visible && (
       <nav className={visible ? "sidebar" : "sidebar hide"}>
         <ul>

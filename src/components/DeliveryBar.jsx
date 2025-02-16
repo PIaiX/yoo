@@ -1,11 +1,13 @@
-import React from "react";
+import React, { memo } from "react";
 import { useSelector } from "react-redux";
 import useIsMobile from "../hooks/isMobile";
 import { useTotalCart } from "../hooks/useCart";
 import { customPrice } from "../helpers/all";
 import { useTranslation } from "react-i18next";
+import { useLocation } from "react-router-dom";
 
-const DeliveryBar = () => {
+const DeliveryBar = memo(() => {
+  const { pathname } = useLocation();
   const isMobileLG = useIsMobile("991px");
   const delivery = useSelector((state) => state.checkout.delivery);
   const isAuth = useSelector((state) => state.auth.isAuth);
@@ -13,7 +15,7 @@ const DeliveryBar = () => {
   const { totalNoDelivery = 0 } = useTotalCart();
   const { t } = useTranslation();
 
-  if (delivery != "delivery" || !isAuth || !zone?.data) {
+  if (delivery != "delivery" || !isAuth || pathname.indexOf("account") != -1) {
     return null;
   }
 
@@ -142,6 +144,6 @@ const DeliveryBar = () => {
       </div>
     );
   }
-};
+});
 
 export default DeliveryBar;

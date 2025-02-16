@@ -6,6 +6,7 @@ import {
   HiOutlineArrowRightOnRectangle,
   HiOutlineHeart,
   HiOutlineBellAlert,
+  HiOutlineLifebuoy,
 } from "react-icons/hi2";
 import { useDispatch } from "react-redux";
 import { logout } from "../../services/auth";
@@ -44,6 +45,12 @@ const AccountMenu = () => {
           </NavLink>
         </li>
         <li>
+          <NavLink to="support">
+            <HiOutlineLifebuoy />
+            <div>{t("Чат с поддержкой")}</div>
+          </NavLink>
+        </li>
+        <li>
           <a
             onClick={() => {
               dispatch(logout());
@@ -54,6 +61,7 @@ const AccountMenu = () => {
             <div>{t("Выйти")}</div>
           </a>
         </li>
+
         {/* <li>
           <NavLink to="bonus">
             <HiOutlineStar/>

@@ -172,6 +172,7 @@ const Footer = memo(() => {
                 {options.app?.accountApple && options.app?.titleIos && (
                   <li>
                     <a
+                      target="_blank"
                       href={
                         "https://apps.apple.com/ru/app/" +
                         (options.app?.titleIos?.length > 0
@@ -190,6 +191,7 @@ const Footer = memo(() => {
                 )}
                 <li className="ms-2">
                   <a
+                    target="_blank"
                     href={
                       "https://play.google.com/store/apps/details?id=" +
                       (options.app?.nameAndroid?.length > 0

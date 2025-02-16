@@ -303,7 +303,7 @@ const Cart = () => {
                     Удалить выбранные
                   </span>
                 </button> */}
-                <h6 className="mb-0">
+                <h6 className="mb-0 ps-2">
                   {t("Вы добавили")}{" "}
                   {declination(
                     count,

@@ -401,7 +401,7 @@ textarea,
   width: 100%;
   outline: none;
   display: block;
-  transition: border 300ms ease-in;
+  transition: border 200ms ease-in;
 }
 input::-moz-placeholder, textarea::-moz-placeholder, .input::-moz-placeholder {
   color: #c2c2c2;
@@ -457,8 +457,8 @@ input[type=checkbox]:checked {
 }
 input[type=checkbox][role=switch] {
   cursor: pointer;
-  width: 3.4375em;
-  height: 1.8125em;
+  width: 2.5em;
+  height: 1.3em;
   background-color: var(--light-gray);
   border: none;
   border-radius: 1.25em;
@@ -468,19 +468,19 @@ input[type=checkbox][role=switch] {
 input[type=checkbox][role=switch]::before {
   content: "";
   position: absolute;
-  left: 0.125em;
-  top: 0.125em;
-  height: 1.5625em;
-  width: 1.5625em;
+  left: 0.25em;
+  top: 0.15em;
+  height: 0.95em;
+  width: 0.95em;
   background-color: var(--bg-second);
   border-radius: 50%;
-  transition: left 300ms ease-in;
+  transition: left 200ms ease-in;
 }
 input[type=checkbox][role=switch]:checked {
   background-color: #00ab55;
 }
 input[type=checkbox][role=switch]:checked::before {
-  left: 1.75em;
+  left: 1.3em;
 }
 input[type=radio] {
   appearance: none;
@@ -499,7 +499,7 @@ input[type=radio] {
   border-radius: 50%;
   box-shadow: none;
   cursor: pointer;
-  transition: background-color 300ms ease-in;
+  transition: background-color 200ms ease-in;
   position: relative;
 }
 input[type=radio]::before {
@@ -511,7 +511,7 @@ input[type=radio]::before {
   width: 10px;
   border-radius: 50%;
   background-color: var(--main-color);
-  transition: background-color 300ms ease-in;
+  transition: background-color 200ms ease-in;
   opacity: 0;
 }
 input[type=radio]:checked::before {
@@ -591,7 +591,7 @@ input[type=number]::-webkit-outer-spin-button, input[type=number]::-webkit-inner
   font-weight: 500;
   padding: 0.7em 1em;
   font-size: 0.9em;
-  transition: background-color 300ms ease-in;
+  transition: background-color 200ms ease-in;
   text-align: center;
 }
 .inputGroup label input {
@@ -693,7 +693,7 @@ input[type=number]::-webkit-outer-spin-button, input[type=number]::-webkit-inner
   align-items: center;
   flex-wrap: nowrap;
   box-shadow: 0px 2px 20px rgba(0, 0, 0, 0.04);
-  transition: 300ms ease-in;
+  transition: 200ms ease-in;
   transition-property: color, background-color, border;
 }
 .countInput button svg {
@@ -883,7 +883,7 @@ button {
 }
 .btn-8 svg {
   color: var(--main-color);
-  transition: color 300ms ease-in;
+  transition: color 200ms ease-in;
 }
 .btn-8:hover, .btn-8:focus, .btn-8:active, .btn-8.active {
   background-color: var(--main-color);
@@ -980,7 +980,7 @@ button {
   stroke-width: 1px;
   stroke: #ddd;
   fill: transparent;
-  transition: 300ms ease-in;
+  transition: 200ms ease-in;
   transition-property: stroke, fill;
 }
 .btn-fav.active svg {
@@ -1186,7 +1186,7 @@ select {
   width: 100%;
   cursor: pointer;
   background-color: var(--bg-second);
-  transition: background-color 300ms ease-in;
+  transition: background-color 200ms ease-in;
   padding: 0.5em 1em;
 }
 .select-options label.active {
@@ -1225,7 +1225,7 @@ select {
   align-items: center;
   position: relative;
   border-radius: 1.25em;
-  transition: border-color 300ms ease-in;
+  transition: border-color 200ms ease-in;
   background-color: var(--bg-second);
   border: 1px solid var(--bg-btn);
   position: relative;
@@ -1286,7 +1286,7 @@ select {
   border-radius: 0.25em;
   margin: 0 0.75em !important;
   background-color: var(--main-color-outline);
-  transition: width 300ms ease-in;
+  transition: width 200ms ease-in;
 }
 .swiper-pagination-bullet-active {
   width: 1.8em;
@@ -1305,7 +1305,7 @@ select {
   align-items: center;
   flex-wrap: nowrap;
   transform: scale(100%);
-  transition: transform 300ms ease-in;
+  transition: transform 200ms ease-in;
   cursor: pointer;
   color: #fff;
 }
@@ -1343,7 +1343,7 @@ select {
   font-size: 1.7em;
   color: var(--main-color-text);
   transform: translateY(-50%);
-  transition: color 300ms ease-in;
+  transition: color 200ms ease-in;
 }
 @media (max-width: 770px) {
   .swiper-arrow, .swiper-arrow-next, .swiper-arrow-prev {
@@ -1719,7 +1719,7 @@ header .phone {
   align-items: center;
   flex-wrap: nowrap;
   color: var(--main-color-text);
-  transition: color 300ms ease-in;
+  transition: color 200ms ease-in;
 }
 header .phone:hover, header .phone:focus, header .phone:active {
   color: var(--main-color);
@@ -1750,7 +1750,7 @@ header .btn-menu {
   justify-content: center;
   align-items: center;
   flex-wrap: nowrap;
-  transition: color 300ms ease-in;
+  transition: color 200ms ease-in;
 }
 header .btn-menu:hover, header .btn-menu:focus, header .btn-menu:active {
   color: var(--main-color);
@@ -2405,7 +2405,7 @@ main {
   justify-content: center;
   align-items: center;
   flex-wrap: nowrap;
-  transition: 300ms ease-in;
+  transition: 200ms ease-in;
   transition-property: color, background-color;
   background-color: transparent;
   border-radius: 0.1875em;
@@ -2492,7 +2492,7 @@ main {
   text-align: center;
 }
 .category-card figcaption a {
-  transition: color 300ms ease-in;
+  transition: color 200ms ease-in;
 }
 .category-card figcaption a:hover {
   color: var(--main-color);
@@ -2685,7 +2685,7 @@ main {
   }
 }
 .product-card-mini figcaption a {
-  transition: color 300ms ease-in;
+  transition: color 200ms ease-in;
 }
 .product-card-mini figcaption a:hover {
   color: var(--main-color);
@@ -3376,7 +3376,7 @@ html.theme-font-title-amaticsc .productPage h1 {
   justify-content: center;
   align-items: center;
   flex-wrap: nowrap;
-  transition: 300ms ease-in;
+  transition: 200ms ease-in;
   transition-property: background-color, color;
 }
 .productPage-edit .top button:first-child {
@@ -3395,7 +3395,7 @@ html.theme-font-title-amaticsc .productPage h1 {
   bottom: 0px;
   font-size: 1.25em;
   color: #3f3f3f;
-  transition: color 300ms ease-in;
+  transition: color 200ms ease-in;
 }
 .productPage-edit .top button .corner-right {
   left: 100%;
@@ -3595,7 +3595,7 @@ html.theme-font-title-amaticsc .filterGrid h4 {
   border: 1px solid var(--light-gray);
   box-shadow: none !important;
   background-color: var(--bg-second);
-  transition: max-width 300ms ease-in, border 300ms ease-in;
+  transition: max-width 200ms ease-in, border 200ms ease-in;
 }
 @media (max-width: 770px) {
   .searchForm input {
@@ -3613,7 +3613,7 @@ html.theme-font-title-amaticsc .filterGrid h4 {
   padding: 0px;
   background-color: transparent;
   color: var(--light-gray);
-  transition: color 300ms ease-in;
+  transition: color 200ms ease-in;
 }
 @media (max-width: 770px) {
   .searchForm button {
@@ -4072,8 +4072,14 @@ html.theme-font-title-amaticsc .filterGrid h4 {
   color: #e01e00;
   margin-right: 0.5em;
 }
-.cart-item.mini-cart-item .left, .cart-item.mini-cart-item {
-  align-items: center !important;
+.cart-item.mini-cart-item .left img, .cart-item.mini-cart-item img {
+  border-radius: 0.6em;
+  width: 45px !important;
+  height: 45px !important;
+}
+.cart-item.mini-cart-item .left .text p.consist, .cart-item.mini-cart-item .text p.consist {
+  -webkit-line-clamp: 1 !important;
+  height: 1.2em !important;
 }
 .cart-box {
   background-color: var(--bg-second);
@@ -4085,16 +4091,16 @@ html.theme-font-title-amaticsc .filterGrid h4 {
   font-size: 0.9em;
   background-color: var(--bg-main);
   padding: 0.625em;
-  border-radius: 1.25em;
+  border-radius: 1.2em;
   box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.06);
 }
 .checkoutProduct img {
-  width: 50px;
-  height: 50px;
+  width: 45px;
+  height: 45px;
   -o-object-fit: cover;
      object-fit: cover;
-  border-radius: 0.9em;
-  margin-right: 1em;
+  border-radius: 0.8em;
+  margin-right: 0.6em;
 }
 .checkoutProduct-count {
   display: inline-block;
@@ -4314,7 +4320,7 @@ ACCOUNT
   flex-wrap: nowrap;
   padding: 0.75em 1em;
   border-radius: 1.25em;
-  transition: 300ms ease-in;
+  transition: 200ms ease-in;
   transition-property: color, background-color;
 }
 .account-nav ul li a svg {
@@ -4866,23 +4872,11 @@ ACCOUNT
   }
 }
 .account .support {
-  display: grid;
-  grid-template-columns: 7fr 3fr;
-  grid-template-rows: 75px auto 75px;
-  grid-template-areas: "top top" "chat choose" "form choose";
   background-color: var(--bg-second);
   border-radius: 1.25em;
   box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.06);
 }
-@media (max-width: 991px) {
-  .account .support {
-    grid-template-columns: 1fr;
-    grid-template-rows: auto;
-    grid-template-areas: "choose" "chat";
-  }
-}
 .account .support-top {
-  grid-area: top;
   padding: 1em 1.5em;
   border-bottom: 1px solid var(--bg-btn);
   display: flex;
@@ -4919,62 +4913,17 @@ ACCOUNT
   border: 2px solid #fff;
   background-color: var(--light-gray);
   box-sizing: content-box;
-  transition: background-color 300ms ease-in;
+  transition: background-color 200ms ease-in;
 }
 .account .support-top-icon .indicator.active {
   background-color: var(--main-color);
 }
-.account .support-chat {
-  grid-area: chat;
-}
-.account .support-choose {
-  grid-area: choose;
-  border-left: 1px solid var(--bg-btn);
-  padding: 1.25em;
-}
-.account .support-choose .select-button {
-  border-color: var(--light-gray);
-}
-.account .support-choose ul {
-  list-style: none;
-  padding-left: 0px;
-}
-.account .support-choose ul li {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: stretch;
-  flex-wrap: nowrap;
-  font-size: 0.9em;
-}
-.account .support-choose ul li:not(:first-child) {
-  margin-top: 1.5em;
-}
-.account .support-choose ul li .text {
-  color: #3f3f3f;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-.account .support-choose ul li .indicator {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  border: 2px solid #fff;
-  background-color: var(--light-gray);
-  box-sizing: content-box;
-  transition: background-color 300ms ease-in;
-}
-.account .support-choose ul li .indicator.active {
-  background-color: var(--main-color);
-}
 .account .support-form {
-  grid-area: form;
   border-top: 1px solid var(--bg-btn);
   padding: 0.5em 1em;
   display: flex;
   flex-direction: row;
-  justify-content: flex-start;
+  justify-content: space-between;
   align-items: center;
   flex-wrap: nowrap;
 }
@@ -4993,49 +4942,51 @@ ACCOUNT
 }
 
 .chat {
-  min-height: 300px;
-  max-height: 550px;
+  min-height: 550px;
+  height: 100%;
+  max-height: 90vh;
   overflow: auto;
   padding: 1.5em;
+  display: flex;
+  flex-direction: column-reverse;
 }
-.chat-message {
+.chat::-webkit-scrollbar {
+  display: block;
+  width: 6px;
+  height: 6px;
+}
+.chat::-webkit-scrollbar-thumb {
+  background-color: var(--bg-btn);
+  border-radius: 7px;
+}
+.chat::-webkit-scrollbar-button:vertical:start:decrement, .chat::-webkit-scrollbar-button:vertical:end:increment, .chat::-webkit-scrollbar-button:horizontal:start:decrement, .chat::-webkit-scrollbar-button:horizontal:end:increment {
+  display: none;
+}
+.chat .message {
   margin-bottom: 2em;
 }
-.chat-message time {
+.chat .message time {
   display: block;
   color: var(--light-gray);
-  text-align: right;
-  font-size: 0.9em;
+  text-align: left;
+  font-size: 0.7em;
 }
-.chat-message.mine .bubble {
-  width: 85%;
-  margin-left: auto;
-  margin-top: 0.5em;
-  padding: 1em;
-  border-radius: 0.625em 0.625em 0px 0.625em;
-  background-color: var(--main-color);
+.chat .message .text {
+  background-color: var(--bg-second-hover);
+  border-radius: 12px;
+  padding: 0.6em 0.8em;
+  max-width: 450px;
+  margin-right: 56px;
+  margin-left: 0px;
+  word-break: break-word;
 }
-.chat-message.manager {
-  width: 85%;
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: flex-start;
-  flex-wrap: nowrap;
+.chat .message .text.my {
+  background-color: var(--main-color-outline);
+  margin-left: 56px;
+  margin-right: 0;
 }
-.chat-message.manager .avatar {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  -o-object-fit: cover;
-     object-fit: cover;
-  margin-right: 1em;
-}
-.chat-message.manager .bubble {
-  margin-top: 0.5em;
-  padding: 1em;
-  border-radius: 0px 1.25em 1.25em 1.25em;
-  background-color: var(--bg-btn);
+.chat .message .text.my time {
+  text-align: right !important;
 }
 
 .login {
@@ -5165,7 +5116,7 @@ ACCOUNT END
   align-items: center;
   flex-wrap: nowrap;
   opacity: 0.6;
-  transition: opacity 300ms ease-in;
+  transition: opacity 200ms ease-in;
 }
 .modal-body .close:hover, .modal-body .close:focus, .modal-body .close:active {
   opacity: 1;
@@ -5282,7 +5233,7 @@ ACCOUNT END
   border-radius: 0.75em 0px 0px 0.75em;
   padding: 0.35em;
   opacity: 1;
-  transition: opacity 300ms ease-in;
+  transition: opacity 200ms ease-in;
 }
 @media (max-width: 991px) {
   .sidebar {
@@ -5368,7 +5319,7 @@ ACCOUNT END
   justify-content: center;
   align-items: center;
   flex-wrap: nowrap;
-  transition: 300ms ease-in;
+  transition: 200ms ease-in;
   opacity: 1;
   transform: scale(1);
 }

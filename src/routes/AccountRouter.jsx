@@ -1,6 +1,5 @@
-import React from "react";
+import React, { memo } from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
-// import useIsMobile from "../hooks/isMobile";
 import AccountLayout from "../layouts/AccountLayout";
 import AccountMenuMobile from "../pages/account/AccountMenuMobile";
 import Orders from "../pages/account/Orders";
@@ -14,11 +13,11 @@ import Offers from "../pages/account/Offers";
 import Notifications from "../pages/account/Notifications";
 import Payment from "../pages/account/Payment";
 import Support from "../pages/account/Support";
-import { isMobile } from "react-device-detect";
 import Error from "../components/Error";
-// import Favorites from "../pages/account/Favorites";
+import useIsMobile from "../hooks/isMobile";
 
-const AccountRouter = () => {
+const AccountRouter = memo(() => {
+  const isMobile = useIsMobile("991px");
   return (
     <Routes>
       <Route
@@ -44,13 +43,15 @@ const AccountRouter = () => {
         <Route path="support" element={<Support />} />
       </Route>
       <Route path="settings" element={<Settings />} errorElement={<Error />} />
-      <Route
-        path="/*"
-        element={<Navigate to="orders" replace={true} />}
-        errorElement={<Error />}
-      />
+      {!isMobile && (
+        <Route
+          path="/*"
+          element={<Navigate to="orders" replace={true} />}
+          errorElement={<Error />}
+        />
+      )}
     </Routes>
   );
-};
+});
 
 export default AccountRouter;

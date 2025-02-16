@@ -42,13 +42,13 @@ const ProductCardMini = memo(({ data }) => {
         : modifiers.reduce((sum, item) => sum + item.price, 0)
       : data.price;
 
-  const discount =
-    modifiers?.length > 0
-      ? data.options.modifierPriceSum
-        ? modifiers.reduce((sum, item) => sum + item.discount, 0) +
-          data.discount
-        : modifiers.reduce((sum, item) => sum + item.discount, 0)
-      : data.discount;
+  // const discount =
+  //   modifiers?.length > 0
+  //     ? data.options.modifierPriceSum
+  //       ? modifiers.reduce((sum, item) => sum + item.discount, 0) +
+  //         data.discount
+  //       : modifiers.reduce((sum, item) => sum + item.discount, 0)
+  //     : data.discount;
 
   const image = getImageURL({
     path:

@@ -599,12 +599,12 @@ const Checkout = () => {
               title: t("Корзина"),
               link: "/cart",
               count: 1,
-              active: true
+              active: true,
             },
             {
               title: t("Оформление заказа"),
               count: 2,
-              active: true
+              active: true,
             },
           ]}
         />
@@ -1116,7 +1116,7 @@ const Checkout = () => {
                 </ul>
               </div>
               {user?.point > 0 && profilePointVisible && (
-                <div className="cart-box mb-4 d-flex flex-row align-items-center justify-content-between">
+                <div className="cart-box px-3 mb-4 d-flex flex-row align-items-center justify-content-between">
                   <div>
                     <a>
                       <b>
@@ -1129,16 +1129,15 @@ const Checkout = () => {
                       </p>
                     </a>
                   </div>
-                  <div>
-                    <label>
-                      <input
-                        type="checkbox"
-                        role="switch"
-                        control={control}
-                        {...register("pointSwitch")}
-                      />
-                    </label>
-                  </div>
+
+                  <label>
+                    <input
+                      type="checkbox"
+                      role="switch"
+                      control={control}
+                      {...register("pointSwitch")}
+                    />
+                  </label>
                 </div>
               )}
               <div className="d-flex justify-content-between my-2">

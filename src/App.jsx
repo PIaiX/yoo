@@ -48,6 +48,8 @@ import {
   updateSettingsCountry,
 } from "./store/reducers/settingsSlice";
 import { updateStatus } from "./store/reducers/statusSlice";
+import { getDelivery } from "./services/order";
+import { cartZone } from "./store/reducers/cartSlice";
 
 function App() {
   const { i18n } = useTranslation();
@@ -61,6 +63,9 @@ function App() {
   const delivery = useSelector((state) => state.checkout.delivery);
   const auth = useSelector((state) => state.auth);
   const city = useSelector((state) => state.affiliate.city);
+  const zone = useSelector((state) => state.cart?.zone);
+  const addressData = useSelector((state) => state.address.items);
+  const cart = useSelector((state) => state.cart.items);
 
   useEffect(() => {
     if (options?.themeType) {
@@ -315,6 +320,33 @@ function App() {
 
   useEffect(() => {
     if (auth.isAuth) {
+      if (!zone?.data && addressData?.length > 0) {
+        const fetchDeliveryData = async () => {
+          try {
+            const selectedAddress =
+              addressData?.find((e) => e.main) || addressData[0];
+
+            if (!selectedAddress) return false;
+
+            const weight = cart.reduce((sum, item) => {
+              return sum + (item.energy?.weight ?? 0) * (item.cart?.count ?? 0);
+            }, 0);
+
+            const res = await getDelivery({
+              addressId: selectedAddress?.id,
+              distance: true,
+              weight,
+            });
+
+            if (res) {
+              dispatch(cartZone({ data: res?.zone, distance: res?.distance }));
+            }
+          } catch (error) {}
+        };
+
+        fetchDeliveryData();
+      }
+
       socket.on("notifications/" + auth.user.id, (data) => {
         if (data) {
           dispatch(updateNotification(data));

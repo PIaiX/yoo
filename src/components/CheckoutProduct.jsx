@@ -15,7 +15,7 @@ const CheckoutProduct = memo(({ data }) => {
   const [open, setOpen] = useState({ additions: false, wishes: false });
 
   return (
-    <div className="checkoutProduct d-flex align-items-start ">
+    <div className="checkoutProduct d-flex align-items-start">
       <img src={getImageURL({ path: data.medias })} alt={data.title} />
       <div className="flex-1">
         <h6 className="fs-09">{data.title}</h6>
