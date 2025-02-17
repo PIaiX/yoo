@@ -185,15 +185,20 @@ const Cart = () => {
             dispatch(cartDeletePromo());
           }
         })
-        .catch((err) => {
+        .catch((error) => {
           if (promo?.type === "integration_coupon") {
             dispatch(updateCartChecking([]));
             setValue("promo", "");
             dispatch(cartDeletePromo());
+            NotificationManager.error(
+              typeof error?.response?.data?.error === "string"
+                ? error.response.data.error
+                : "Условия не выполнены"
+            );
           }
           setData({ ...data, loading: false });
         });
-    }else{
+    } else {
       setData({ ...data, loading: false });
     }
   };
@@ -275,13 +280,13 @@ const Cart = () => {
             {
               title: t("Корзина"),
               count: 1,
-              active: true
+              active: true,
             },
             {
               title: t("Оформление заказа"),
               count: 2,
               active: false,
-              link: '/checkout'
+              link: "/checkout",
             },
           ]}
         />
