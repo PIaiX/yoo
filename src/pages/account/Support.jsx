@@ -10,7 +10,7 @@ import socket from "../../config/socket";
 import { createMessage, getMessages } from "../../services/message";
 import { updateNotification } from "../../store/reducers/notificationSlice";
 
-const Support = ({ noAuth = false }) => {
+const Support = () => {
   const { t } = useTranslation();
   const { state } = useLocation();
   const dispatch = useDispatch();
@@ -110,18 +110,15 @@ const Support = ({ noAuth = false }) => {
   return (
     <>
       <Meta title={t("Чат с поддержкой")} />
-      <div className="comment-box">
-        <SupportForm
-          support
-          input={!noAuth}
-          placeholder={t("Введите сообщение")}
-          emptyText={t("Нет сообщений")}
-          data={messages?.items?.length > 0 ? messages.items : []}
-          form={data}
-          onChange={(e) => setValue("text", e)}
-          onSubmit={handleSubmit(onNewMessage)}
-        />
-      </div>
+
+      <SupportForm
+        placeholder={t("Введите сообщение")}
+        emptyText={t("Нет сообщений")}
+        data={messages?.items?.length > 0 ? messages.items : []}
+        form={data}
+        onChange={(e) => setValue("text", e)}
+        onSubmit={handleSubmit(onNewMessage)}
+      />
     </>
   );
 };

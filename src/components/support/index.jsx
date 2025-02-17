@@ -1,37 +1,56 @@
 import { memo } from "react";
 import { IoSend } from "react-icons/io5";
-// import { useSelector } from "react-redux";
-// import { getImageURL } from "../../helpers/all";
 import Input from "../utils/Input";
 import SupportItem from "./SupportItem";
 import { useTranslation } from "react-i18next";
+import { useSelector } from "react-redux";
+import { isWork, weekday } from "../../helpers/all";
 
 const SupportForm = memo(
   ({
-    support = false,
     data,
     form,
-    input = true,
     placeholder = "Введите сообщение",
     emptyText = "Нет сообщений",
     onChange,
     onSubmit,
   }) => {
-    // const user = useSelector((state) => state.auth.user);
-    // const image = getImageURL({ path: user, type: "user", size: "mini" });
-    const {t} = useTranslation()
-
+    const { t } = useTranslation();
+    const supportVisible = useSelector((state) => state.settings.options.supportVisible)
+    const affiliate = useSelector((state) => state.affiliate.items)
+    const zone = useSelector((state) => state.cart.zone)
+    const checkout = useSelector((state) => state.checkout)
+    const selectedAffiliate =
+    affiliate?.length > 0
+        ? affiliate.find(
+              (e) =>
+                  (checkout?.delivery === 'delivery' && e.id === zone?.data?.affiliateId) ||
+                  (checkout?.delivery === 'pickup' && e.main)
+          )
+        : false
+    const time =
+        selectedAffiliate?.options?.work &&
+        selectedAffiliate.options.work[weekday]?.end &&
+        selectedAffiliate.options.work[weekday]?.start &&
+        selectedAffiliate?.status !== 0
+            ? isWork(selectedAffiliate.options.work[weekday].start, selectedAffiliate.options.work[weekday].end)
+                ? t('Онлайн')
+                : `${t('Мы работаем с')} ${selectedAffiliate.options.work[weekday].start} ${t('до')} ${
+                      selectedAffiliate.options.work[weekday].end
+                  }`
+            : t('Оффлайн')
     return (
       <div className="support">
         <div className="support-top">
           <h6 className="mb-0">{t("Чат с поддержкой")}</h6>
+          {time && <p className="text-muted fs-08">{time}</p>}
         </div>
 
         {data.length > 0 ? (
           <div className="support-chat">
             <div className="chat">
               {data.map((item) => (
-                <SupportItem support={support} {...item} />
+                <SupportItem {...item} />
               ))}
             </div>
           </div>
@@ -40,25 +59,22 @@ const SupportForm = memo(
             {emptyText}
           </div>
         )}
-        {input && (
-          <form className="support-form">
-            <div className="w-100 pe-3">
-              <Input
-                value={form.text}
-                placeholder={placeholder}
-                onChange={(e) => onChange(e)}
-              />
-            </div>
-            <a onClick={() => onSubmit()} className="">
-              <IoSend
-                size={22}
-                className={
-                  form?.text?.length > 0 ? "text-success" : "text-muted"
-                }
-              />
-            </a>
-          </form>
-        )}
+
+        <form className="support-form">
+          <div className="w-100 pe-3">
+            <Input
+              value={form.text}
+              placeholder={placeholder}
+              onChange={(e) => onChange(e)}
+            />
+          </div>
+          <a onClick={() => onSubmit()} className="">
+            <IoSend
+              size={22}
+              className={form?.text?.length > 0 ? "text-success" : "text-muted"}
+            />
+          </a>
+        </form>
       </div>
     );
   }

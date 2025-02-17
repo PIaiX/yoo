@@ -32,15 +32,15 @@ const cartSlice = createSlice({
                 ...cartItem.cart.data,
                 modifiers:
                   cartItem?.cart?.data?.modifiers?.length > 0 &&
-                    isProduct?.modifiers?.length > 0
+                  isProduct?.modifiers?.length > 0
                     ? cartItem.cart.data.modifiers.map((e) => {
-                      let isModifier = isProduct?.modifiers.find(
-                        (e2) => e2.id === e.id
-                      );
-                      if (isModifier) {
-                        return { ...e, ...isModifier };
-                      }
-                    })
+                        let isModifier = isProduct?.modifiers.find(
+                          (e2) => e2.id === e.id
+                        );
+                        if (isModifier) {
+                          return { ...e, ...isModifier };
+                        }
+                      })
                     : [],
               },
             },
@@ -68,11 +68,7 @@ const cartSlice = createSlice({
       if (isCart != -1 && action?.payload?.data?.cart?.count === 0) {
         state.items.splice(isCart, 1);
       } else if (isCart != -1 && action?.payload?.data) {
-        if (action.payload?.plus) {
-          state.items[isCart].cart.count += 1;
-        } else {
-          state.items[isCart] = action.payload.data;
-        }
+        state.items[isCart] = action.payload.data;
       } else if (isCart == -1 && action?.payload?.data) {
         state.items.push(action.payload.data);
       }
@@ -82,7 +78,8 @@ const cartSlice = createSlice({
         ...state,
         checking: action.payload ?? state.checking,
         items: state.items.map((cartItem, index) => {
-          const discount = action.payload[0]?.discounts?.[index]?.discountSum || 0;
+          const discount =
+            action.payload[0]?.discounts?.[index]?.discountSum || 0;
           return {
             ...cartItem,
             discount: discount,

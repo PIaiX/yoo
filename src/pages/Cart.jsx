@@ -34,7 +34,7 @@ const Cart = () => {
   const { t } = useTranslation();
 
   const user = useSelector((state) => state.auth.user);
-  const checking = useSelector((state) => state.cart.checking);
+  // const checking = useSelector((state) => state.cart.checking);
   const cart = useSelector((state) => state.cart.items);
   const promo = useSelector((state) => state.cart.promo);
   const stateDelivery = useSelector((state) => state.stateDelivery);
@@ -193,6 +193,8 @@ const Cart = () => {
           }
           setData({ ...data, loading: false });
         });
+    }else{
+      setData({ ...data, loading: false });
     }
   };
 

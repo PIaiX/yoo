@@ -37,6 +37,17 @@ const ProductCard = memo(({ data }) => {
         : modifiers[0].price
       : data.price;
 
+  data = {
+    ...data,
+    cart: {
+      data: {
+        modifiers: [],
+        additions: [],
+        wishes: [],
+      },
+    },
+  };
+
   // const discount =
   //   modifiers?.length > 0
   //     ? data.options.modifierPriceSum

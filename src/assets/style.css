@@ -4871,54 +4871,16 @@ ACCOUNT
     font-size: 0.9em;
   }
 }
-.account .support {
+
+.support {
   background-color: var(--bg-second);
   border-radius: 1.25em;
-  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.06);
 }
-.account .support-top {
+.support-top {
   padding: 1em 1.5em;
   border-bottom: 1px solid var(--bg-btn);
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: center;
-  flex-wrap: nowrap;
 }
-@media (max-width: 991px) {
-  .account .support-top {
-    display: none;
-  }
-}
-.account .support-top-icon {
-  position: relative;
-}
-.account .support-top-icon img {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  -o-object-fit: cover;
-     object-fit: cover;
-  position: relative;
-  z-index: 1;
-}
-.account .support-top-icon .indicator {
-  position: absolute;
-  bottom: -2px;
-  right: -2px;
-  z-index: 10;
-  width: 0.625em;
-  height: 0.625em;
-  border-radius: 50%;
-  border: 2px solid #fff;
-  background-color: var(--light-gray);
-  box-sizing: content-box;
-  transition: background-color 200ms ease-in;
-}
-.account .support-top-icon .indicator.active {
-  background-color: var(--main-color);
-}
-.account .support-form {
+.support-form {
   border-top: 1px solid var(--bg-btn);
   padding: 0.5em 1em;
   display: flex;
@@ -4928,7 +4890,7 @@ ACCOUNT
   flex-wrap: nowrap;
 }
 @media (max-width: 991px) {
-  .account .support-form {
+  .support-form {
     position: fixed;
     bottom: var(--f-height);
     left: 0px;
@@ -4936,7 +4898,7 @@ ACCOUNT
     z-index: 100;
   }
 }
-.account .support-form input {
+.support-form input {
   border-color: transparent;
   box-shadow: none;
 }
@@ -4975,7 +4937,7 @@ ACCOUNT
   background-color: var(--bg-second-hover);
   border-radius: 12px;
   padding: 0.6em 0.8em;
-  max-width: 450px;
+  max-width: 400px;
   margin-right: 56px;
   margin-left: 0px;
   word-break: break-word;
@@ -4987,6 +4949,25 @@ ACCOUNT
 }
 .chat .message .text.my time {
   text-align: right !important;
+}
+
+.chat-bar {
+  position: absolute;
+  z-index: 9999;
+  top: 0em;
+  border-radius: 12px;
+  overflow: hidden;
+  right: 3.5em;
+  width: 320px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.6);
+  background-color: var(--bg-second);
+}
+.chat-bar .chat {
+  height: 350px !important;
+  min-height: 350px !important;
+}
+.chat-bar .text {
+  max-width: 280px !important;
 }
 
 .login {
@@ -5973,10 +5954,10 @@ ACCOUNT END
 .freeDeliveryBar {
   position: fixed;
   z-index: 1;
-  bottom: 2em;
+  bottom: 1em;
   right: 1em;
-  width: 100px;
-  font-size: 12px;
+  width: 80px;
+  font-size: 11px;
   text-align: center;
 }
 @media (max-width: 991px) {
@@ -6050,7 +6031,7 @@ ACCOUNT END
   top: 0px;
   right: 0px;
   z-index: 10;
-  width: 40px;
+  width: 30px;
   height: 40px;
   -o-object-fit: contain;
      object-fit: contain;

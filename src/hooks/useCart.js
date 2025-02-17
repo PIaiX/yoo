@@ -16,19 +16,11 @@ const makeSelectIsCart = () =>
       if (!cartItem || cartItem.id !== product.id) {
         return false;
       }
-   
-      if (
-        (cartItem?.cart?.data?.additions?.length > 0 ||
-          cartItem?.cart?.data?.modifiers?.length > 0) &&
-        (product?.modifiers?.length > 0 || product?.additions?.length > 0)
-      ) {
-        return (
-          isEqual(cartItem?.cart?.data?.modifiers, product?.modifiers) &&
-          isEqual(cartItem?.cart?.data?.additions, product?.additions)
-        );
-      } else {
-        return true;
-      }
+
+      return (
+        isEqual(cartItem?.cart?.data?.modifiers, product?.cart?.data?.modifiers) &&
+        isEqual(cartItem?.cart?.data?.additions, product?.cart?.data?.additions)
+      );
     });
   });
 

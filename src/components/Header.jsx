@@ -36,14 +36,12 @@ const Header = memo(() => {
   const isAuth = useSelector((state) => state.auth.isAuth);
   const user = useSelector((state) => state.auth.user);
   const cart = useSelector((state) => state.cart.items);
-  // const favorite = useSelector((state) => state.favorite.items);
   const city = useSelector((state) => state.affiliate.city);
   const gps = useSelector((state) => state.affiliate.gps);
   const affiliate = useSelector((state) => state.affiliate.items);
   const cities = useSelector((state) => state.affiliate.cities);
   const selectedAffiliate = useSelector((state) => state.affiliate.active);
   const options = useSelector((state) => state.settings.options);
-
   const delivery = useSelector((state) => state.checkout.delivery);
   const settingsCity = useSelector((state) => state.settings.city);
 

@@ -15,18 +15,18 @@ const ButtonCart = memo(
     product,
     isValid = true,
     full = false,
-    onAddCart,
     cart = false,
     className,
     children,
   }) => {
-    const isCartData = isCart(product);
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const { t } = useTranslation();
     const selectedAffiliate = useSelector((state) => state.affiliate.active);
     const options = useSelector((state) => state.settings.options);
-    const [loading, setLoading] = useState(null);
+    const [loading, setLoading] = useState(false);
+    const [data, setData] = useState(false);
+    const isCartData = data?.id ? isCart(data) : isCart(product);
 
     const onPress = useCallback(
       (newCount) => {
@@ -39,6 +39,14 @@ const ButtonCart = memo(
           type: "site",
         })
           .then((res) => {
+            if (
+              !full &&
+              !cart &&
+              (res?.modifiers?.length > 0 || res?.additions?.length > 0)
+            ) {
+              return navigate("/product/" + product.id, res);
+            }
+
             const modifiers =
               options?.brand?.options?.priceAffiliateType &&
               Array.isArray(res.modifiers) &&
@@ -52,7 +60,9 @@ const ButtonCart = memo(
 
             let newProduct = {
               data: {
-                // cart: res.cart ?? {},
+                cart: product.cart
+                  ? { ...product.cart, count: newCount ?? 0 }
+                  : { count: newCount ?? 0 },
                 id: res.id,
                 options: res.options,
                 title: res.title,
@@ -64,36 +74,16 @@ const ButtonCart = memo(
                 code: res.code,
                 categoryId: res.categoryId,
                 medias: res.medias ?? [],
-                //   modifiers: modifiers && modifiers?.length > 0 ? modifiers : [],
-                //   additions:
-                //     res?.additions && res?.additions?.length > 0
-                //       ? res.additions
-                //       : [],
-                //   wishes:
-                //     res?.wishes && res?.wishes?.length > 0 ? res.wishes : [],
+                modifiers: modifiers && modifiers?.length > 0 ? modifiers : [],
+                additions:
+                  res?.additions && res?.additions?.length > 0
+                    ? res.additions
+                    : [],
+                wishes:
+                  res?.wishes && res?.wishes?.length > 0 ? res.wishes : [],
               },
-              plus: false,
             };
 
-            if (
-              (res?.modifiers?.length > 0 || res?.additions?.length > 0) &&
-              product?.cart?.data
-            ) {
-              newProduct.data.cart = {
-                ...newProduct.data.cart,
-                ...product.cart,
-              };
-            }
-
-            newProduct.data.cart = {
-              ...newProduct.data.cart,
-              count: newCount ?? 0,
-            };
-
-            if (full) {
-              newProduct.plus = true;
-            }
-            console.log(newProduct, product);
             dispatch(updateCart(newProduct));
 
             if (
@@ -106,21 +96,30 @@ const ButtonCart = memo(
               );
               navigate(-1);
             }
-            onAddCart && onAddCart();
+            setData(newProduct);
           })
           .finally(() => setLoading(false));
         // .catch(() => setProduct((data) => ({ ...data, loading: false })));
       },
-      [product, loading, onAddCart, cart, full]
+      [product, data, loading, cart, full]
     );
-
+console.log(isCartData, 124)
     if (
-      (isCartData &&
-        product?.modifiers?.length === 0 &&
-        product?.additions?.length === 0) ||
+      (isCartData?.id && // Проверяем, что isCartData.id существует
+        (!data?.modifiers || data.modifiers.length === 0) && // Проверяем, что modifiers либо отсутствуют, либо пусты
+        (!data?.additions || data.additions.length === 0) && // Проверяем, что additions либо отсутствуют, либо пусты
+        (!isCartData?.cart?.data?.modifiers ||
+          isCartData.cart.data.modifiers.length === 0) && // Проверяем, что cart.data.modifiers либо отсутствуют, либо пусты
+        (!isCartData?.cart?.data?.additions ||
+          isCartData.cart.data.additions.length === 0) &&
+        (!data?.cart?.data?.modifiers ||
+          data.cart.data.modifiers.length === 0) && // Проверяем, что cart.data.modifiers либо отсутствуют, либо пусты
+        (!data?.cart?.data?.additions ||
+          data.cart.data.additions.length === 0)) || // Проверяем, что cart.data.additions либо отсутствуют, либо пусты
       cart
     ) {
-      if (product.type == "gift" || product.type == "promo") {
+      // Если все условия выполнены, проверяем тип продукта
+      if (product.type === "gift" || product.type === "promo") {
         return (
           <button
             type="button"
@@ -131,11 +130,21 @@ const ButtonCart = memo(
           </button>
         );
       }
+
+      // Если тип продукта не "gift" или "promo", возвращаем CountInput
       return (
         <CountInput
           full={full}
           onChange={onPress}
-          value={isCartData?.cart?.count > 0 ? isCartData.cart.count : 0}
+          value={
+            isCartData?.cart?.count > 0
+              ? isCartData.cart.count
+              : data?.cart?.count > 0
+              ? data.cart.count
+              : data?.data?.cart?.count > 0
+              ? data.data.cart.count
+              : 0
+          }
         />
       );
     }
@@ -144,16 +153,16 @@ const ButtonCart = memo(
       <button
         disabled={!isValid}
         onClick={() =>
-          product?.cart?.data?.modifiers
+          product?.cart?.data?.modifiers?.length > 0
             ? onPress(1)
             : product?.modifiers?.length > 0 && !full
             ? navigate("/product/" + product.id, product)
             : onPress(1)
         }
         type="button"
-        className={`${className}${
-          isCartData ? " btn-primary active" : " btn-primary"
-        }${loading ? " loading" : ""}`}
+        className={`btn-primary${className ? " " + className : ""}${
+          loading ? " loading" : ""
+        }`}
       >
         {children ?? (
           <>
