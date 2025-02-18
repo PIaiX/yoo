@@ -12,7 +12,8 @@ import useIsMobile from "../hooks/isMobile";
 import { HiOutlineChevronDoubleUp } from "react-icons/hi2";
 import { IoChatbubbleEllipses, IoClose } from "react-icons/io5";
 
-const ScrollToTop = memo(({ count = 0 }) => {
+const ScrollToTop = memo(() => {
+  const messageCount = useSelector((state) => state.notification?.message);
   const [visible, setVisible] = useState(false);
   const [showChat, setShowChat] = useState(false);
   const { t } = useTranslation();
@@ -72,7 +73,7 @@ const ScrollToTop = memo(({ count = 0 }) => {
   }, [data?.text]);
 
   useEffect(() => {
-    if (isValid) {
+    if (isValid && showChat) {
       dispatch(updateNotification({ message: -1 }));
       getMessages()
         .then((res) => {
@@ -121,7 +122,7 @@ const ScrollToTop = memo(({ count = 0 }) => {
         socket.off("message/print/" + userId);
       };
     }
-  }, [isValid]);
+  }, [isValid, showChat]);
 
   const onNewMessage = useCallback(
     (data) => {
@@ -133,8 +134,7 @@ const ScrollToTop = memo(({ count = 0 }) => {
   );
 
   return (
-    (isValid ||
-    visible) && (
+    (isValid || visible) && (
       <nav className="sidebar">
         <ul>
           {isValid && (
@@ -142,6 +142,7 @@ const ScrollToTop = memo(({ count = 0 }) => {
               {showChat && (
                 <div className="chat-bar">
                   <SupportForm
+                    className="sidebar-chat"
                     placeholder={t("Введите сообщение")}
                     emptyText={t("Нет сообщений")}
                     data={messages?.items?.length > 0 ? messages.items : []}
@@ -151,8 +152,15 @@ const ScrollToTop = memo(({ count = 0 }) => {
                   />
                 </div>
               )}
-              <button type="button" onClick={() => setShowChat(!showChat)}>
+              <button
+                className="position-relative"
+                type="button"
+                onClick={() => setShowChat(!showChat)}
+              >
                 {showChat ? <IoClose /> : <IoChatbubbleEllipses />}
+                {messageCount > 0 && (
+                  <span className="badge">{messageCount}</span>
+                )}
               </button>
             </li>
           )}

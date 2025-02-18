@@ -8,11 +8,13 @@ import {
   HiOutlineBellAlert,
   HiOutlineLifebuoy,
 } from "react-icons/hi2";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../services/auth";
 import { useTranslation } from "react-i18next";
+import { memo } from "react";
 
-const AccountMenu = () => {
+const AccountMenu = memo(() => {
+  const notification = useSelector((state) => state.notification);
   const dispatch = useDispatch();
   const navigaion = useNavigate();
   const { t } = useTranslation();
@@ -24,6 +26,9 @@ const AccountMenu = () => {
           <NavLink to="orders">
             <HiOutlineShoppingBag />
             <div>{t("Заказы")}</div>
+            {notification?.order > 0 && (
+              <span className="badge px-2">{notification.order}</span>
+            )}
           </NavLink>
         </li>
         <li>
@@ -42,12 +47,18 @@ const AccountMenu = () => {
           <NavLink to="notifications">
             <HiOutlineBellAlert />
             <div>{t("Уведомления")}</div>
+            {notification?.notification > 0 && (
+              <span className="badge px-2">{notification.notification}</span>
+            )}
           </NavLink>
         </li>
         <li>
           <NavLink to="support">
             <HiOutlineLifebuoy />
-            <div>{t("Чат с поддержкой")}</div>
+            <div>{t("Тех поддержка")}</div>
+            {notification?.message > 0 && (
+              <span className="badge px-2">{notification.message}</span>
+            )}
           </NavLink>
         </li>
         <li>
@@ -89,6 +100,6 @@ const AccountMenu = () => {
       </ul>
     </nav>
   );
-};
+});
 
 export default AccountMenu;

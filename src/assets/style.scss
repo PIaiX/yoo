@@ -2499,7 +2499,7 @@ main {
 }
 .sticky-box {
   position: sticky;
-  z-index: 1000;
+  z-index: 10;
   top: var(--h-height);
   left: 0px;
   width: 100%;
@@ -4299,7 +4299,7 @@ ACCOUNT
   @include scrollCustomized();
   min-height: 550px;
   height: 100%;
-  max-height: 90vh;
+  max-height: 65vh;
   overflow: auto;
   padding: 1.5em;
   display: flex;
@@ -4331,17 +4331,33 @@ ACCOUNT
     }
   }
 }
-
+.sidebar-chat {
+  background-color: var(--bg-card) !important;
+  .support-top {
+    padding: 10px 15px !important;
+  }
+  .support-form {
+    padding-left: 0px !important;
+    padding-top: 2px !important;
+    padding-bottom: 2px !important;
+    input {
+      background-color: transparent !important;
+    }
+  }
+  .chat {
+    padding: 0.6em !important;
+  }
+}
 .chat-bar {
   position: absolute;
   z-index: 9999;
   top: 0em;
-  border-radius: 12px;
+  border-radius: 18px;
   overflow: hidden;
   right: 3.5em;
   width: 320px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.6);
-  background-color: var(--bg-second);
+  box-shadow: 0 3px 30px rgba(0, 0, 0, 0.2);
+  background-color: var(--bg-card);
   .chat {
     height: 350px !important;
     min-height: 350px !important;
@@ -4573,9 +4589,9 @@ ACCOUNT END
 .sidebar {
   position: fixed;
   z-index: 100;
-  top: 50%;
+  top: 40%;
   right: 0px;
-  transform: translateY(-50%);
+  transform: translateY(-40%);
   background-color: var(--bg-second);
   border-radius: 0.75em 0px 0px 0.75em;
   padding: 0.35em;
@@ -4608,8 +4624,8 @@ ACCOUNT END
         .badge {
           position: absolute;
           z-index: 2;
-          top: 0em;
-          right: 0.6em;
+          top: -0.2em;
+          right: -0.2em;
           background-color: var(--main-color);
           font-size: 0.6em;
           font-weight: 600;

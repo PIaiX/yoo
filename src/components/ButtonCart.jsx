@@ -18,6 +18,7 @@ const ButtonCart = memo(
     cart = false,
     className,
     children,
+    strict = false,
   }) => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -26,10 +27,16 @@ const ButtonCart = memo(
     const options = useSelector((state) => state.settings.options);
     const [loading, setLoading] = useState(false);
     const [data, setData] = useState(false);
-    const isCartData = data?.id ? isCart(data) : isCart(product);
+    const isCartData = data?.id
+      ? isCart(data, strict)
+      : isCart(product, strict);
 
     const onPress = useCallback(
       (newCount) => {
+        if (full) {
+          newCount =
+            isCartData?.cart?.count > 0 ? isCartData.cart.count + 1 : newCount;
+        }
         setLoading(true);
         getProduct({
           id: product.id,
@@ -103,7 +110,7 @@ const ButtonCart = memo(
       },
       [product, data, loading, cart, full]
     );
-console.log(isCartData, 124)
+
     if (
       (isCartData?.id && // Проверяем, что isCartData.id существует
         (!data?.modifiers || data.modifiers.length === 0) && // Проверяем, что modifiers либо отсутствуют, либо пусты
@@ -112,6 +119,8 @@ console.log(isCartData, 124)
           isCartData.cart.data.modifiers.length === 0) && // Проверяем, что cart.data.modifiers либо отсутствуют, либо пусты
         (!isCartData?.cart?.data?.additions ||
           isCartData.cart.data.additions.length === 0) &&
+        (!isCartData?.additions || isCartData.additions.length === 0) &&
+        (!isCartData?.modifiers || isCartData.modifiers.length === 0) &&
         (!data?.cart?.data?.modifiers ||
           data.cart.data.modifiers.length === 0) && // Проверяем, что cart.data.modifiers либо отсутствуют, либо пусты
         (!data?.cart?.data?.additions ||
@@ -160,9 +169,9 @@ console.log(isCartData, 124)
             : onPress(1)
         }
         type="button"
-        className={`btn-primary${className ? " " + className : ""}${
-          loading ? " loading" : ""
-        }`}
+        className={`${isCartData ? "btn-light" : "btn-primary"}${
+          className ? " " + className : ""
+        }${loading ? " loading" : ""}`}
       >
         {children ?? (
           <>

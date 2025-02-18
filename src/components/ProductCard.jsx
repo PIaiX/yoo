@@ -416,7 +416,7 @@ const ProductCard = memo(({ data }) => {
             })}
           </Link>
         )}
-        <ButtonCart product={data} />
+        <ButtonCart strict={false} product={data} />
       </div>
     </div>
   );

@@ -357,6 +357,7 @@ const keyGenerator = (data) => {
   if (data?.cart?.data?.modifiers?.length > 0) {
     key += data.cart.data.modifiers.map(e => e.id).join('_')
   }
+
   if (data?.cart?.data?.additions?.length > 0) {
     key += data.cart.data.additions.map(e => e.id).join('_')
   }

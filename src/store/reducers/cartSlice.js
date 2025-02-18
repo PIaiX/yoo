@@ -32,15 +32,15 @@ const cartSlice = createSlice({
                 ...cartItem.cart.data,
                 modifiers:
                   cartItem?.cart?.data?.modifiers?.length > 0 &&
-                  isProduct?.modifiers?.length > 0
+                    isProduct?.modifiers?.length > 0
                     ? cartItem.cart.data.modifiers.map((e) => {
-                        let isModifier = isProduct?.modifiers.find(
-                          (e2) => e2.id === e.id
-                        );
-                        if (isModifier) {
-                          return { ...e, ...isModifier };
-                        }
-                      })
+                      let isModifier = isProduct?.modifiers.find(
+                        (e2) => e2.id === e.id
+                      );
+                      if (isModifier) {
+                        return { ...e, ...isModifier };
+                      }
+                    })
                     : [],
               },
             },
@@ -64,7 +64,7 @@ const cartSlice = createSlice({
           )
         );
       });
-
+      console.log(isCart, action?.payload)
       if (isCart != -1 && action?.payload?.data?.cart?.count === 0) {
         state.items.splice(isCart, 1);
       } else if (isCart != -1 && action?.payload?.data) {

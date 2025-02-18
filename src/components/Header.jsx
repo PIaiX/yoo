@@ -44,7 +44,7 @@ const Header = memo(() => {
   const options = useSelector((state) => state.settings.options);
   const delivery = useSelector((state) => state.checkout.delivery);
   const settingsCity = useSelector((state) => state.settings.city);
-
+  const notification = useSelector((state) => state.notification);
   const dispatch = useDispatch();
   const [showMenu, setShowMenu] = useState(false);
   const [showCity, setShowCity] = useState(false);
@@ -367,8 +367,20 @@ const Header = memo(() => {
                       : "/login"
                   }
                 >
-                  <img src="/imgs/cap.png" className="cap" />
+                  {!options?.holiday &&
+                    (moment().format("MM") === "12" ||
+                      moment().format("MM") == "01" ||
+                      moment().format("MM") == "02") && (
+                      <img src="/imgs/cap.png" className="cap" />
+                    )}
                   <HiOutlineUserCircle size={25} />
+                  {(notification?.message > 0 || notification?.order > 0) && (
+                    <span className="position-absolute top-100 start-100 translate-middle badge rounded-pill">
+                      {notification.message +
+                        notification.order +
+                        notification.notification}
+                    </span>
+                  )}
                 </Link>
               </li>
               {options?.cart && (
@@ -864,7 +876,7 @@ const Header = memo(() => {
           </div>
         </Modal.Body>
       </Modal>
-      <ScrollToTop count={count} />
+      <ScrollToTop />
     </>
   );
 });

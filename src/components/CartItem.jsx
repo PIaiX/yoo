@@ -1,13 +1,17 @@
 import React, { memo, useState } from "react";
 import { Badge, Collapse } from "react-bootstrap";
 import { IoChevronDown, IoChevronUp } from "react-icons/io5";
-import { customPrice, customWeight, getImageURL } from "../helpers/all";
+import {
+  customPrice,
+  customWeight,
+  getImageURL,
+  keyGenerator,
+} from "../helpers/all";
 import ButtonCart from "./ButtonCart";
 // import BtnFav from "./utils/BtnFav";
 // import { useSelector } from "react-redux";
 
 const CartItem = memo(({ data }) => {
-
   const price =
     data?.cart?.data?.modifiers?.length > 0
       ? data.options.modifierPriceSum
@@ -30,7 +34,13 @@ const CartItem = memo(({ data }) => {
           ? " mini-cart-item"
           : "")
       }
-      key={data.id}
+      key={
+        data?.cart?.data?.additions?.length > 0 ||
+        data?.cart?.data?.modifiers?.length > 0 ||
+        data?.cart?.data?.wishes?.length > 0
+          ? keyGenerator(data)
+          : data.id
+      }
     >
       <div className="left">
         <img src={getImageURL({ path: data.medias })} alt={data.title} />
@@ -49,13 +59,16 @@ const CartItem = memo(({ data }) => {
           )}
           {data?.cart?.data?.modifiers?.length > 0 &&
             data.cart.data.modifiers.map((e) => (
-              <span className="fs-09 fw-7 card d-inline-block p-1 px-2 mb-3 me-2">
+              <span
+                key={e.id}
+                className="fs-09 fw-7 card d-inline-block p-1 px-2 mb-3 me-2"
+              >
                 {e.title}
               </span>
             ))}
 
           {data?.cart?.data?.additions?.length > 0 && (
-            <p>
+            <>
               <a
                 className="fs-09 fw-6 d-flex align-items-center mb-0"
                 onClick={() =>
@@ -78,7 +91,7 @@ const CartItem = memo(({ data }) => {
                 <div id="collapse-additions">
                   <ul className="cart-item-ingredients">
                     {data.cart.data.additions.map((e) => (
-                      <li>
+                      <li key={e.id}>
                         {e.title}{" "}
                         <span className="fw-7">+{customPrice(e.price)}</span>
                       </li>
@@ -86,10 +99,10 @@ const CartItem = memo(({ data }) => {
                   </ul>
                 </div>
               </Collapse>
-            </p>
+            </>
           )}
           {data?.cart?.data?.wishes?.length > 0 && (
-            <p>
+            <>
               <a
                 className="fs-09 fw-6 d-flex align-items-center mb-0"
                 onClick={() =>
@@ -112,7 +125,7 @@ const CartItem = memo(({ data }) => {
                 <div id="collapse-wishes">
                   <ul className="cart-item-ingredients-minus">
                     {data.cart.data.wishes.map((e) => (
-                      <li>
+                      <li key={e.id}>
                         {e.title}{" "}
                         <span className="fw-7">+{customPrice(e.price)}</span>
                       </li>
@@ -120,7 +133,7 @@ const CartItem = memo(({ data }) => {
                   </ul>
                 </div>
               </Collapse>
-            </p>
+            </>
           )}
         </div>
       </div>

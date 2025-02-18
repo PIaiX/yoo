@@ -27,7 +27,6 @@ import {
 import { IoTrashOutline } from "react-icons/io5";
 import Loader from "../components/utils/Loader";
 import Extras from "../components/utils/Extras";
-import { keyGenerator } from "../hooks/all";
 import { useTranslation } from "react-i18next";
 
 const Cart = () => {
@@ -37,7 +36,6 @@ const Cart = () => {
   // const checking = useSelector((state) => state.cart.checking);
   const cart = useSelector((state) => state.cart.items);
   const promo = useSelector((state) => state.cart.promo);
-  const stateDelivery = useSelector((state) => state.stateDelivery);
   const pointSwitch = useSelector((state) => state.checkout?.data?.pointSwitch);
   const address = useSelector((state) => state.address.items);
   const options = useSelector((state) => state.settings.options);
@@ -79,13 +77,50 @@ const Cart = () => {
     async (e) => {
       if (e?.promo?.length > 0 || promo?.name?.length > 0) {
         isPromo({
-          promo: e?.promo
-            ? e.promo.trim().toLowerCase()
-            : promo?.name
-            ? promo.name.trim().toLowerCase()
-            : "",
-          delivery: stateDelivery,
+          name: user?.firstName ?? "",
+          phone: checkout?.data?.phone ?? user.phone ?? "",
+          serving: checkout?.data?.serving ?? "",
+          delivery: checkout.delivery ?? "delivery",
+          payment: checkout?.data?.payment ?? "cash",
+          person: person > 0 ? person : checkout?.data?.person ?? 1,
+          comment: checkout?.data?.comment ?? "",
+
+          address: address ? address.find((e) => e.main) : false,
+          affiliateId: selectedAffiliate?.id ? selectedAffiliate.id : false,
+
+          // Сохранение адреса по умолчанию
+          save: checkout?.data?.save ?? false,
+
+          products: cart ?? [],
+
+          promo: e?.promo ?? promo?.name,
+
+          // Списание баллов
+          pointWriting:
+            checkout?.data?.pointSwitch && checkout?.data?.pointWriting
+              ? checkout.data.pointWriting
+              : 0,
+          pointSwitch: checkout?.data?.pointSwitch,
+
+          //Скидка за самовывоз
+          pickupDiscount: checkout?.data?.pickupDiscount ?? 0,
+
+          // Начисление баллов
+          pointAccrual: checkout?.data?.pointAccrual ?? 0,
+
+          // Сумма товаров
+          price: price,
+
+          //Сумма доставки
+          deliveryPrice: delivery,
+
+          // Сумма скидки
+          discount: discount,
+
+          // Итоговая сумма
           total: totalNoDelivery,
+
+          type: "site",
         })
           .then((res) => {
             dispatch(cartPromo(res));
@@ -93,6 +128,17 @@ const Cart = () => {
               dispatch(
                 updateCart({ data: { ...res.product, cart: { count: 1 } } })
               );
+            }
+
+            dispatch(updateCartChecking(res.checking));
+
+            if (
+              promo?.type === "integration_coupon" &&
+              (!res?.checking || res?.checking?.length === 0)
+            ) {
+              NotificationManager.error("Условия не выполнены");
+              setValue("promo", "");
+              dispatch(cartDeletePromo());
             }
           })
           .catch((error) => {
@@ -105,7 +151,7 @@ const Cart = () => {
           });
       }
     },
-    [promo, stateDelivery, totalNoDelivery, total]
+    [promo, checkout, totalNoDelivery, total]
   );
 
   useEffect(() => {
@@ -207,11 +253,11 @@ const Cart = () => {
     getCartData();
   }, [user?.id, count, address, selectedAffiliate]);
 
-  useEffect(() => {
-    if (promo && promo?.type === "integration_coupon") {
-      getCartData();
-    }
-  }, [promo]);
+  // useEffect(() => {
+  //   if (promo && promo?.type === "integration_coupon") {
+  //     getCartData();
+  //   }
+  // }, [promo]);
 
   if (!Array.isArray(cart) || cart.length <= 0) {
     return (
@@ -327,9 +373,7 @@ const Cart = () => {
               </div>
               <ul className="list-unstyled">
                 {cart.map((e) => (
-                  <li key={e?.modifiers?.length > 0 ? keyGenerator(e) : e.id}>
-                    <CartItem data={e} />
-                  </li>
+                  <CartItem data={e} />
                 ))}
               </ul>
             </Col>
@@ -454,7 +498,7 @@ const Cart = () => {
                 <Link
                   to={
                     user?.id
-                      ? address?.length === 0 && stateDelivery == "delivery"
+                      ? address?.length === 0 && checkout.delivery == "delivery"
                         ? "/account/addresses/add"
                         : "/checkout"
                       : "/login"
@@ -464,7 +508,8 @@ const Cart = () => {
                   <span className="fw-6">
                     {t(
                       user?.id
-                        ? address?.length === 0 && stateDelivery == "delivery"
+                        ? address?.length === 0 &&
+                          checkout.delivery == "delivery"
                           ? "Добавить адрес"
                           : "Далее"
                         : "Войти в профиль"

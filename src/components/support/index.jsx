@@ -10,37 +10,42 @@ const SupportForm = memo(
   ({
     data,
     form,
+    className = false,
     placeholder = "Введите сообщение",
     emptyText = "Нет сообщений",
     onChange,
     onSubmit,
   }) => {
     const { t } = useTranslation();
-    const supportVisible = useSelector((state) => state.settings.options.supportVisible)
-    const affiliate = useSelector((state) => state.affiliate.items)
-    const zone = useSelector((state) => state.cart.zone)
-    const checkout = useSelector((state) => state.checkout)
+    // const supportVisible = useSelector((state) => state.settings.options.supportVisible)
+    const affiliate = useSelector((state) => state.affiliate.items);
+    const zone = useSelector((state) => state.cart.zone);
+    const checkout = useSelector((state) => state.checkout);
     const selectedAffiliate =
-    affiliate?.length > 0
+      affiliate?.length > 0
         ? affiliate.find(
-              (e) =>
-                  (checkout?.delivery === 'delivery' && e.id === zone?.data?.affiliateId) ||
-                  (checkout?.delivery === 'pickup' && e.main)
+            (e) =>
+              (checkout?.delivery === "delivery" &&
+                e.id === zone?.data?.affiliateId) ||
+              (checkout?.delivery === "pickup" && e.main)
           )
-        : false
+        : false;
     const time =
-        selectedAffiliate?.options?.work &&
-        selectedAffiliate.options.work[weekday]?.end &&
-        selectedAffiliate.options.work[weekday]?.start &&
-        selectedAffiliate?.status !== 0
-            ? isWork(selectedAffiliate.options.work[weekday].start, selectedAffiliate.options.work[weekday].end)
-                ? t('Онлайн')
-                : `${t('Мы работаем с')} ${selectedAffiliate.options.work[weekday].start} ${t('до')} ${
-                      selectedAffiliate.options.work[weekday].end
-                  }`
-            : t('Оффлайн')
+      selectedAffiliate?.options?.work &&
+      selectedAffiliate.options.work[weekday]?.end &&
+      selectedAffiliate.options.work[weekday]?.start &&
+      selectedAffiliate?.status !== 0
+        ? isWork(
+            selectedAffiliate.options.work[weekday].start,
+            selectedAffiliate.options.work[weekday].end
+          )
+          ? t("Онлайн")
+          : `${t("Мы работаем с")} ${
+              selectedAffiliate.options.work[weekday].start
+            } ${t("до")} ${selectedAffiliate.options.work[weekday].end}`
+        : t("Оффлайн");
     return (
-      <div className="support">
+      <div className={`support${className ? " " + className : ""}`}>
         <div className="support-top">
           <h6 className="mb-0">{t("Чат с поддержкой")}</h6>
           {time && <p className="text-muted fs-08">{time}</p>}
@@ -71,7 +76,7 @@ const SupportForm = memo(
           <a onClick={() => onSubmit()} className="">
             <IoSend
               size={22}
-              className={form?.text?.length > 0 ? "text-success" : "text-muted"}
+              className={form?.text?.length > 0 ? "text-main" : "text-muted"}
             />
           </a>
         </form>
