@@ -79,8 +79,8 @@ const Product = () => {
                 res.modifiers.filter((e) => e?.modifierOptions?.length > 0)
               )
             : Array.isArray(res.modifiers) && res?.modifiers?.length > 0
-            ? groupByCategoryIdToArray(res.modifiers)
-            : [];
+              ? groupByCategoryIdToArray(res.modifiers)
+              : [];
 
         const recommends =
           options?.brand?.options?.priceAffiliateType &&
@@ -90,8 +90,8 @@ const Product = () => {
                 (e) => productId != e.id && e?.productOptions?.length > 0
               )
             : Array.isArray(res.recommends) && res?.recommends?.length > 0
-            ? res.recommends.filter((e) => productId != e.id)
-            : [];
+              ? res.recommends.filter((e) => productId != e.id)
+              : [];
 
         setProduct({
           loading: false,
@@ -195,10 +195,10 @@ const Product = () => {
                 site: options?.title,
               })
             : selectedAffiliate?.title && product?.title
-            ? selectedAffiliate?.title + " - " + product.title
-            : options?.title && product?.title
-            ? options.title + " - " + product.title
-            : product?.title ?? t("Товар")
+              ? selectedAffiliate?.title + " - " + product.title
+              : options?.title && product?.title
+                ? options.title + " - " + product.title
+                : (product?.title ?? t("Товар"))
         }
         description={
           options?.seo?.product?.description
@@ -207,14 +207,13 @@ const Product = () => {
                 name: product.title,
                 site: options?.title,
               })
-            : product?.description ??
+            : (product?.description ??
               t(
                 "Добавьте это блюдо в корзину и наслаждайтесь вкусной едой прямо сейчас!"
-              )
+              ))
         }
         image={
-          Array.isArray(product?.medias) &&
-          product?.medias[0]?.media
+          Array.isArray(product?.medias) && product?.medias[0]?.media
             ? getImageURL({
                 path: sortMain(product.medias)[0].main,
                 size: "full",
@@ -511,7 +510,10 @@ const Product = () => {
                         <div className="d-xxl-flex mb-4">
                           <ul className="inputGroup d-flex w-100">
                             {modifier.modifiers.map((e, index) => (
-                              <li className="d-flex text-center w-100">
+                              <li
+                                key={e.id}
+                                className="d-flex text-center w-100"
+                              >
                                 <label>
                                   <input
                                     type="radio"
@@ -625,8 +627,8 @@ const Product = () => {
                             isRemove
                               ? "active"
                               : product?.additions?.length === 0
-                              ? "active"
-                              : ""
+                                ? "active"
+                                : ""
                           }
                           onClick={() => setIsRemove(true)}
                         >
@@ -683,9 +685,8 @@ const Product = () => {
                               }
                             };
                             return (
-                              <Col>
+                              <Col key={e.id}>
                                 <Addition
-                                  key={e.id}
                                   data={e}
                                   active={isAddition()}
                                   onChange={onPressAddition}
@@ -699,8 +700,8 @@ const Product = () => {
                           isRemove
                             ? "d-block"
                             : product?.wishes?.length === 0
-                            ? "d-block"
-                            : "d-none"
+                              ? "d-block"
+                              : "d-none"
                         }
                       >
                         {product?.wishes?.length > 0 &&
@@ -724,7 +725,7 @@ const Product = () => {
                               }
                             };
                             return (
-                              <li>
+                              <li key={e.id}>
                                 <Wish
                                   data={e}
                                   active={isAddition()}

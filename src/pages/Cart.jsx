@@ -154,7 +154,20 @@ const Cart = () => {
           .finally(() => setValue("loading", false));
       }
     },
-    [promo, checkout, totalNoDelivery, total]
+    [
+      promo,
+      checkout,
+      discount,
+      totalNoDelivery,
+      delivery,
+      price,
+      address,
+      total,
+      cart,
+      user,
+      person,
+      selectedAffiliate,
+    ]
   );
 
   useEffect(() => {

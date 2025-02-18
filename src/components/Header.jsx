@@ -461,7 +461,7 @@ const Header = memo(() => {
                 {selectedAffiliate &&
                   selectedAffiliate?.phone &&
                   selectedAffiliate?.phone[0] && (
-                    <li key={-1}>
+                    <li key={0}>
                       <a
                         href={"tel:" + selectedAffiliate.phone[0]}
                         className="phone"
@@ -537,7 +537,7 @@ const Header = memo(() => {
                   {/iPhone|iPad/i.test(navigator.userAgent) &&
                   options.app?.accountApple &&
                   options.app.titleIos ? (
-                    <li>
+                    <li key={0}>
                       <a
                         target="_blank"
                         href={
@@ -556,7 +556,7 @@ const Header = memo(() => {
                       </a>
                     </li>
                   ) : /Android/i.test(navigator.userAgent) ? (
-                    <li className="list-unstyled d-flex justify-content-center">
+                    <li key={0} className="list-unstyled d-flex justify-content-center">
                       <a
                         target="_blank"
                         href={
@@ -570,7 +570,7 @@ const Header = memo(() => {
                       </a>
                     </li>
                   ) : (
-                    <div className="list-unstyled d-flex justify-content-center">
+                    <div key={0}className="list-unstyled d-flex justify-content-center">
                       {options.app?.accountApple && options.app?.titleIos && (
                         <li>
                           <a
@@ -722,7 +722,7 @@ const Header = memo(() => {
                   )
                 : list?.length > 0 &&
                   list.map((item) => (
-                    <>
+                    <React.Fragment key={item.country}>
                       {item?.country && (
                         <h6 className="fw-7 p-2">{item.country}</h6>
                       )}
@@ -779,7 +779,7 @@ const Header = memo(() => {
                           ))}
                         </div>
                       )}
-                    </>
+                    </React.Fragment>
                   ))}
             </div>
             <div className="box-shadow-bottom"></div>

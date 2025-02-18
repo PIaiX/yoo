@@ -5,17 +5,16 @@
   "dependencies": {
     "@pbe/react-yandex-maps": "^1.2.5",
     "@reduxjs/toolkit": "^1.9.1",
+    "ajv": "^8.17.1",
     "axios": "^1.7.2",
     "bootstrap": "^5.3.0-alpha3",
     "clientjs": "^0.2.1",
-    "gh-pages": "^5.0.0",
     "i18next": "^23.15.2",
     "lodash": "^4.17.21",
     "moment": "^2.29.4",
     "moment-timezone": "^0.5.45",
     "react": "^18.2.0",
     "react-bootstrap": "^2.7.2",
-    "react-device-detect": "^2.2.3",
     "react-dom": "^18.2.0",
     "react-helmet": "^6.1.0",
     "react-hook-form": "^7.39.5",
@@ -32,22 +31,16 @@
     "react-scroll": "^1.8.9",
     "react-slick": "^0.30.2",
     "react-snowfall": "^2.2.0",
-    "react-ui-scrollspy": "^2.3.0",
     "redux-persist": "^6.0.0",
     "redux-persist-transform-encrypt": "^5.0.0",
     "reselect": "^5.1.0",
     "slick-carousel": "^1.8.1",
     "socket.io-client": "^4.6.1",
-    "swiper": "^11.0.7",
-    "web-vitals": "^2.1.4"
+    "swiper": "^11.0.7"
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"
+    "build": "react-scripts build"
   },
   "browserslist": {
     "production": [

@@ -53,9 +53,9 @@ const Footer = memo(() => {
             </li>
             {options?.menu?.length > 0 ? (
               options.menu.map(
-                (e) =>
+                (e, index) =>
                   e?.mobile && (
-                    <li>
+                    <li key={index}>
                       <NavLink to={e?.page ? e.page : ""}>
                         {e?.page
                           ? iconComponents[e.page]
