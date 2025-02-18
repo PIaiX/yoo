@@ -66,6 +66,7 @@ const Cart = () => {
     reValidateMode: "onSubmit",
     defaultValues: {
       promo: promo?.name ? promo.name : "",
+      loading: false,
     },
   });
   const form = useWatch({ control });
@@ -76,6 +77,7 @@ const Cart = () => {
   const onPromo = useCallback(
     async (e) => {
       if (e?.promo?.length > 0 || promo?.name?.length > 0) {
+        setValue("loading", true);
         isPromo({
           name: user?.firstName ?? "",
           phone: checkout?.data?.phone ?? user.phone ?? "",
@@ -148,7 +150,8 @@ const Cart = () => {
                 ? error.response.data.error
                 : "Такого промокода не существует"
             );
-          });
+          })
+          .finally(() => setValue("loading", false));
       }
     },
     [promo, checkout, totalNoDelivery, total]
@@ -397,12 +400,14 @@ const Cart = () => {
                       />
                       <button
                         type="button"
-                        disabled={!isValid}
+                        disabled={!isValid || form?.loading}
                         onClick={handleSubmit(onPromo)}
                         className={
                           form?.promo?.length > 1
-                            ? "btn-primary w-100 rounded-3"
-                            : "btn-10 w-100 rounded-3"
+                            ? "btn-primary w-100 rounded-3" +
+                              (form?.loading ? " loading" : "")
+                            : "btn-10 w-100 rounded-3" +
+                              (form?.loading ? " loading" : "")
                         }
                       >
                         {t("Применить")}
