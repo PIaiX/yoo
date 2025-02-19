@@ -43,7 +43,7 @@ const Cart = () => {
   const checkout = useSelector((state) => state.checkout);
   const selectedAffiliate = useSelector((state) => state.affiliate?.active);
   const [isGift, setIsGift] = useState(false);
-
+  console.log(cart);
   const {
     total = 0,
     totalNoDelivery = 0,
@@ -177,8 +177,12 @@ const Cart = () => {
   }, [promo]);
 
   const getCartData = () => {
-    setIsGift(count > 0 ? !!cart.find((e) => e.type == "gift") : false);
-    if (count > 0) {
+    setIsGift(
+      count > 0 && Array.isArray(cart) && cart?.length > 0
+        ? !!cart.find((e) => e.type == "gift")
+        : false
+    );
+    if (count > 0 && Array.isArray(cart) && cart?.length > 0) {
       getCart({
         name: user?.firstName ?? "",
         phone: checkout?.data?.phone ?? user.phone ?? "",

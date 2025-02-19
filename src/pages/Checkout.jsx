@@ -193,7 +193,7 @@ const Checkout = () => {
   });
 
   const data = useWatch({ control });
-
+  console.log(data);
   const deliveryText = data?.delivery ? deliveryData[data.delivery] : null;
 
   const paymentText = data?.payment ? paymentData[data.payment] : null;
@@ -1081,8 +1081,8 @@ const Checkout = () => {
                           <Col
                             key={index}
                             xs={12}
-                            sm={count > 2 ? 4 : count === 1 ? 1 : 6}
-                            md={count > 2 ? 4 : count === 1 ? 1 : 6}
+                            sm={count > 2 ? 4 : count === 1 ? 12 : 6}
+                            md={count > 2 ? 4 : count === 1 ? 12 : 6}
                           >
                             <PaymentItem
                               onClick={(e) => setValue("payment", e.value)}
