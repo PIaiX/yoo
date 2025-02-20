@@ -83,7 +83,7 @@ const ProductCardMini = memo(({ data }) => {
               ? "от " + customPrice(price > 0 ? price : data.price)
               : customPrice(data.price)}
           </p>
-          <ButtonCart product={data} />
+          <ButtonCart product={data} strict={true} />
         </div>
       </figcaption>
     </figure>

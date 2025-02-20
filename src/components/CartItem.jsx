@@ -21,7 +21,7 @@ const CartItem = memo(({ data }) => {
       : data.price;
 
   const [open, setOpen] = useState({ additions: false, wishes: false });
-
+  console.log(data, "cartItem");
   return (
     <div
       className={
@@ -140,7 +140,7 @@ const CartItem = memo(({ data }) => {
       <div className="right d-flex justify-content-between flex-row">
         {!data?.noCount ? (
           <div className="order-2 order-md-1 me-3">
-            <ButtonCart cart product={data} />
+            <ButtonCart cart product={data} strict={true} />
           </div>
         ) : (
           <div className="d-flex flex-1 w-100 me-3">

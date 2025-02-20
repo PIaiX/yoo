@@ -79,8 +79,8 @@ const Product = () => {
                 res.modifiers.filter((e) => e?.modifierOptions?.length > 0)
               )
             : Array.isArray(res.modifiers) && res?.modifiers?.length > 0
-              ? groupByCategoryIdToArray(res.modifiers)
-              : [];
+            ? groupByCategoryIdToArray(res.modifiers)
+            : [];
 
         const recommends =
           options?.brand?.options?.priceAffiliateType &&
@@ -90,8 +90,8 @@ const Product = () => {
                 (e) => productId != e.id && e?.productOptions?.length > 0
               )
             : Array.isArray(res.recommends) && res?.recommends?.length > 0
-              ? res.recommends.filter((e) => productId != e.id)
-              : [];
+            ? res.recommends.filter((e) => productId != e.id)
+            : [];
 
         setProduct({
           loading: false,
@@ -163,7 +163,7 @@ const Product = () => {
       }
       setPrices({ price, discount });
     }
-  }, [product?.id]);
+  }, [product]);
 
   if (product?.loading) {
     return <Loader full />;
@@ -195,10 +195,10 @@ const Product = () => {
                 site: options?.title,
               })
             : selectedAffiliate?.title && product?.title
-              ? selectedAffiliate?.title + " - " + product.title
-              : options?.title && product?.title
-                ? options.title + " - " + product.title
-                : (product?.title ?? t("Товар"))
+            ? selectedAffiliate?.title + " - " + product.title
+            : options?.title && product?.title
+            ? options.title + " - " + product.title
+            : product?.title ?? t("Товар")
         }
         description={
           options?.seo?.product?.description
@@ -207,10 +207,10 @@ const Product = () => {
                 name: product.title,
                 site: options?.title,
               })
-            : (product?.description ??
+            : product?.description ??
               t(
                 "Добавьте это блюдо в корзину и наслаждайтесь вкусной едой прямо сейчас!"
-              ))
+              )
         }
         image={
           Array.isArray(product?.medias) && product?.medias[0]?.media
@@ -488,20 +488,37 @@ const Product = () => {
                                 )
                             ) || null
                           }
-                          onClick={(e) => {
-                            let isModifierIndex =
-                              product.cart.data.modifiers.findIndex(
-                                (item) =>
-                                  item?.categoryId === e.value.categoryId ||
-                                  item?.categoryId === 0
-                              );
-                            if (isModifierIndex != -1) {
-                              product.cart.data.modifiers[isModifierIndex] =
-                                e.value;
+                          onChange={() => {
+                            // Создаем копию массива modifiers
+                            const updatedModifiers = [
+                              ...product.cart.data.modifiers,
+                            ];
+
+                            // Ищем индекс модификатора
+                            const isModifierIndex = updatedModifiers.findIndex(
+                              (item) =>
+                                item?.categoryId === e.categoryId ||
+                                item?.categoryId === 0
+                            );
+
+                            // Обновляем или добавляем модификатор
+                            if (isModifierIndex !== -1) {
+                              updatedModifiers[isModifierIndex] = e; // Заменяем модификатор
                             } else {
-                              product.cart.data.modifiers.push(e.value);
+                              updatedModifiers.push(e); // Добавляем новый модификатор
                             }
-                            setProduct(product);
+
+                            // Обновляем состояние иммутабельно
+                            setProduct((prevProduct) => ({
+                              ...prevProduct,
+                              cart: {
+                                ...prevProduct.cart,
+                                data: {
+                                  ...prevProduct.cart.data,
+                                  modifiers: updatedModifiers, // Обновляем modifiers
+                                },
+                              },
+                            }));
                           }}
                         />
                       </div>
@@ -520,20 +537,37 @@ const Product = () => {
                                     name={e.categoryId ?? 0}
                                     defaultChecked={index === 0}
                                     onChange={() => {
-                                      let isModifierIndex =
-                                        product.cart.data.modifiers.findIndex(
+                                      // Создаем копию массива modifiers
+                                      const updatedModifiers = [
+                                        ...product.cart.data.modifiers,
+                                      ];
+
+                                      // Ищем индекс модификатора
+                                      const isModifierIndex =
+                                        updatedModifiers.findIndex(
                                           (item) =>
                                             item?.categoryId === e.categoryId ||
                                             item?.categoryId === 0
                                         );
-                                      if (isModifierIndex != -1) {
-                                        product.cart.data.modifiers[
-                                          isModifierIndex
-                                        ] = e;
+
+                                      // Обновляем или добавляем модификатор
+                                      if (isModifierIndex !== -1) {
+                                        updatedModifiers[isModifierIndex] = e; // Заменяем модификатор
                                       } else {
-                                        product.cart.data.modifiers.push(e);
+                                        updatedModifiers.push(e); // Добавляем новый модификатор
                                       }
-                                      setProduct(product);
+
+                                      // Обновляем состояние иммутабельно
+                                      setProduct((prevProduct) => ({
+                                        ...prevProduct,
+                                        cart: {
+                                          ...prevProduct.cart,
+                                          data: {
+                                            ...prevProduct.cart.data,
+                                            modifiers: updatedModifiers, // Обновляем modifiers
+                                          },
+                                        },
+                                      }));
                                     }}
                                   />
                                   <div className="text d-flex flex-row justify-content-center">
@@ -598,7 +632,12 @@ const Product = () => {
                     </div>
                   )
                 )}
-                <ButtonCart full product={product} className="py-2 ms-2 btn-lg">
+                <ButtonCart
+                  full
+                  product={product}
+                  strict={true}
+                  className="py-2 ms-2 btn-lg"
+                >
                   {t("В корзину")}
                   <HiOutlineShoppingBag className="fs-13 ms-2" />
                 </ButtonCart>
@@ -627,8 +666,8 @@ const Product = () => {
                             isRemove
                               ? "active"
                               : product?.additions?.length === 0
-                                ? "active"
-                                : ""
+                              ? "active"
+                              : ""
                           }
                           onClick={() => setIsRemove(true)}
                         >
@@ -700,8 +739,8 @@ const Product = () => {
                           isRemove
                             ? "d-block"
                             : product?.wishes?.length === 0
-                              ? "d-block"
-                              : "d-none"
+                            ? "d-block"
+                            : "d-none"
                         }
                       >
                         {product?.wishes?.length > 0 &&

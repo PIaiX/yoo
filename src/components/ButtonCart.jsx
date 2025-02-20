@@ -30,7 +30,7 @@ const ButtonCart = memo(
     const isCartData = data?.id
       ? isCart(data, strict)
       : isCart(product, strict);
-
+    console.log(isCartData, 21412214124);
     const onPress = useCallback(
       (newCount) => {
         if (full) {
@@ -80,7 +80,10 @@ const ButtonCart = memo(
                 discount: res.discount,
                 code: res.code,
                 categoryId: res.categoryId,
-                medias: res.medias ?? [],
+                medias:
+                  !product?.medias?.length === 0 && res.medias?.length > 0
+                    ? res.medias
+                    : product?.medias ?? [],
                 modifiers: modifiers && modifiers?.length > 0 ? modifiers : [],
                 additions:
                   res?.additions && res?.additions?.length > 0
@@ -139,7 +142,15 @@ const ButtonCart = memo(
           </button>
         );
       }
-
+      console.log(
+        isCartData?.cart?.count > 0
+          ? isCartData.cart.count
+          : data?.cart?.count > 0
+          ? data.cart.count
+          : data?.data?.cart?.count > 0
+          ? data.data.cart.count
+          : 0
+      );
       // Если тип продукта не "gift" или "promo", возвращаем CountInput
       return (
         <CountInput

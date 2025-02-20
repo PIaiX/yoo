@@ -43,7 +43,7 @@ const Cart = () => {
   const checkout = useSelector((state) => state.checkout);
   const selectedAffiliate = useSelector((state) => state.affiliate?.active);
   const [isGift, setIsGift] = useState(false);
-  console.log(cart);
+
   const {
     total = 0,
     totalNoDelivery = 0,

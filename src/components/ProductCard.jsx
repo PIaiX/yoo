@@ -234,6 +234,7 @@ const ProductCard = memo(({ data }) => {
             )}
 
             <ButtonCart
+              strict={true}
               product={data}
               isValid={data.total >= data.options.minCart}
             />

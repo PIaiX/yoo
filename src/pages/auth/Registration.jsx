@@ -5,14 +5,13 @@ import React, {
   useEffect,
   useMemo,
 } from "react";
-import Container from "react-bootstrap/Container";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import Input from "../../components/utils/Input";
 import { authQrGenerate, authRegister, login } from "../../services/auth";
 import Meta from "../../components/Meta";
-import { Badge, Button, Modal } from "react-bootstrap";
+import { Badge, Button, Form, Modal, Container } from "react-bootstrap";
 import { NotificationManager } from "react-notifications";
 import { getImageURL } from "../../helpers/all";
 import { useTranslation } from "react-i18next";
@@ -443,18 +442,27 @@ const Registration = () => {
         />
       </div>
       <input type="text" className="d-none" {...registerReg("comment")} />
-      <label className="d-flex pale-blue mb-4">
-        <input
+      <Form.Check className="mb-4">
+        <Form.Check.Input
           type="checkbox"
-          className="checkbox me-2"
+          name="accept"
+          id="accept"
+          value={true}
           {...registerReg("accept", {
             required: t("Примите условия пользовательского соглашения"),
           })}
         />
-        <span className="fs-09">
-          {t("Принять условия Пользовательского соглашения")}
-        </span>
-      </label>
+        <Form.Check.Label htmlFor="accept" className="ms-2">
+          {t("Принять условия")}{" "}
+          <a
+            className="text-decoration-underline text-main"
+            href="/policy"
+            target="_blank"
+          >
+            {t("Пользовательского соглашения")}
+          </a>
+        </Form.Check.Label>
+      </Form.Check>
       <Button
         type="submit"
         variant="primary"
