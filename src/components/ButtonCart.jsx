@@ -30,7 +30,7 @@ const ButtonCart = memo(
     const isCartData = data?.id
       ? isCart(data, strict)
       : isCart(product, strict);
-    console.log(isCartData, 21412214124);
+
     const onPress = useCallback(
       (newCount) => {
         if (full) {
