@@ -175,7 +175,7 @@ const Checkout = () => {
 
       // Начисление баллов
       pointAccrual: checkout?.data?.pointAccrual ?? 0,
-
+      zoneId: zone?.data?.id ?? null,
       // Сумма товаров
       price: price,
 
@@ -376,10 +376,15 @@ const Checkout = () => {
     if (address?.length > 0) {
       setValue("address", address.find((e) => e.main) || address[0] || false);
     }
-
+    if (zone?.data?.id) {
+      setValue("zoneId", zone.data.id);
+    }
     if (zone?.data?.affiliateId && checkout.delivery === "delivery") {
       setValue("affiliateId", zone.data.affiliateId);
-    } else if (selectedAffiliate?.id && checkout.delivery == "pickup") {
+    } else if (
+      selectedAffiliate?.id &&
+      (checkout.delivery == "pickup" || checkout.delivery == "hall")
+    ) {
       setValue("affiliateId", selectedAffiliate.id);
     }
   }, [address, zone, checkout.delivery, selectedAffiliate]);

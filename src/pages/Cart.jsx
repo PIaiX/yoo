@@ -131,7 +131,7 @@ const Cart = () => {
                 updateCart({ data: { ...res.product, cart: { count: 1 } } })
               );
             }
-            console.log(res.checking, 1);
+
             dispatch(updateCartChecking(res.checking));
 
             if (
