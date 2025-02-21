@@ -26,13 +26,6 @@ const Order = () => {
     item: {},
   });
 
-  const affiliate =
-    order?.item?.delivery === "pickup" &&
-    order?.item?.affilateId &&
-    affiliates?.length > 0
-      ? affiliates.find((e) => e.id === order.item.affilateId)
-      : false;
-
   const deliveryText = order?.item?.delivery
     ? deliveryData[order.item.delivery]
     : null;
@@ -125,9 +118,7 @@ const Order = () => {
               )}
 
               <p className="fs-09 mb-3">
-                <div className="text-muted fs-08">
-                  {affiliate?.options?.hall ?? deliveryText}
-                </div>
+                <div className="text-muted fs-08">{deliveryText}</div>
                 {order?.item?.delivery == "delivery" ? (
                   <div>
                     {`${order.item.street} ${order.item.home}${
@@ -140,24 +131,23 @@ const Order = () => {
                   </div>
                 ) : order?.item?.delivery == "pickup" ? (
                   <div>
-                    {affiliate && affiliate?.full
-                      ? affiliate.full
-                      : affiliate.title
-                      ? affiliate.title
+                    {order.item?.affiliate[0] && order.item?.affiliate[0]?.full
+                      ? order.item.affiliate[0].full
+                      : order.item.affiliate[0].title
+                      ? order.item.affiliate[0].title
                       : t("Нет информации")}
-                    {affiliate && affiliate?.comment
-                      ? "(" + affiliate.comment + ")"
+                    {order.item?.affiliate[0] &&
+                    order.item?.affiliate[0]?.comment
+                      ? "(" + order.item.affiliate[0].comment + ")"
                       : ""}
                   </div>
                 ) : (
                   <div>
-                    {affiliate && affiliate?.full
-                      ? affiliate.full
-                      : affiliate.title
-                      ? affiliate.title
+                    {order.item?.table[0] && order.item?.table[0]?.title
+                      ? order.item?.table[0].title
                       : t("Нет информации")}
-                    {affiliate && affiliate?.comment
-                      ? "(" + affiliate.comment + ")"
+                    {order.item?.table[0] && order.item?.table[0]?.options?.hall
+                      ? "(" + order.item.table[0].options.hall + ")"
                       : ""}
                   </div>
                 )}
@@ -170,6 +160,12 @@ const Order = () => {
                 <p>{t("Приборов")}</p>
                 <div className="fs-09">{order.item.person}</div>
               </p>
+              {order.item?.promo && order.item?.promo[0]?.title && (
+                <p className="fs-09 mb-3">
+                  <div className="text-muted fs-08">{t("Промокод")}</div>
+                  <div>{order.item.promo[0].title}</div>
+                </p>
+              )}
               {order.item?.comment && (
                 <p className="fs-09 mb-3">
                   <div className="text-muted fs-08">{t("Комментарий")}</div>
@@ -185,24 +181,44 @@ const Order = () => {
               {order.item.pointAccrual > 0 && (
                 <div className="d-flex justify-content-between fs-09 fw-5 mb-2">
                   <div>{t("Начисление")}</div>
-                  <div>{customPrice(order.item.pointAccrual)}</div>
+                  <div>+{customPrice(order.item.pointAccrual)}</div>
                 </div>
               )}
               {order.item.pointWriting > 0 && (
                 <div className="d-flex justify-content-between fs-09 fw-5 mb-2">
                   <div>{t("Списание")}</div>
-                  <div>{customPrice(order.item.pointAccrual)}</div>
+                  <div>-{customPrice(order.item.pointAccrual)}</div>
                 </div>
               )}
               {order.item.pickupDiscount > 0 && (
                 <div className="d-flex justify-content-between fs-09 fw-5 mb-2">
                   <div>{t("Самовывоз")}</div>
-                  <div>{customPrice(order.item.pickupDiscount)}</div>
+                  <div>-{customPrice(order.item.pickupDiscount)}</div>
+                </div>
+              )}
+              {order.item.deliveryPrice > 0 && (
+                <div className="d-flex justify-content-between fs-09 fw-5 mb-2">
+                  <div>{t("Доставка")}</div>
+                  <div>+{customPrice(order.item.deliveryPrice)}</div>
+                </div>
+              )}
+              {order.item.total > 0 && (
+                <div className="d-flex justify-content-between fs-09 fw-5 mb-2">
+                  <div>{t("Сумма товаров")}</div>
+                  <div>{customPrice(order.item.total)}</div>
                 </div>
               )}
               <div className="d-flex justify-content-between fw-7">
                 <div className="fs-11">{t("Итого")}</div>
-                <div>{customPrice(order.item.total)}</div>
+                <div>
+                  {customPrice(
+                    order.item.total -
+                      (order.item.pickupDiscount ?? 0) -
+                      (order.item.discount ?? 0) -
+                      (order.item.pointWriting ?? 0) +
+                      (order.item.deliveryPrice ?? 0)
+                  )}
+                </div>
               </div>
             </div>
           </div>

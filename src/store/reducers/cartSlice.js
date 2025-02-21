@@ -64,7 +64,7 @@ const cartSlice = createSlice({
           )
         );
       });
-      console.log(isCart, action?.payload)
+
       if (isCart != -1 && action?.payload?.data?.cart?.count === 0) {
         state.items.splice(isCart, 1);
       } else if (isCart != -1 && action?.payload?.data) {
@@ -76,15 +76,15 @@ const cartSlice = createSlice({
     updateCartChecking: (state, action) => {
       return {
         ...state,
-        checking: action.payload ?? state.checking,
-        items: state.items.map((cartItem, index) => {
+        checking: action.payload ?? state.checking ?? [],
+        items: state?.items?.length > 0 ? state.items.map((cartItem, index) => {
           const discount =
-            action.payload[0]?.discounts?.[index]?.discountSum || 0;
+            action.payload[0] && action.payload[0]?.discounts && action.payload[0]?.discounts?.[index]?.discountSum ? action.payload[0].discounts[index].discountSum : 0;
           return {
             ...cartItem,
             discount: discount,
           };
-        }),
+        }) : state?.items,
       };
     },
     cartEditOptions: (state, action) => {

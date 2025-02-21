@@ -4379,7 +4379,7 @@ ACCOUNT
   background-color: var(--main-color);
   padding: 0.34em;
   border-radius: 1.25em;
-  color: #212b36;
+  color: #fff !important;
 }
 .account-nav ul li a:hover {
   color: var(--main-color-text);
@@ -4388,6 +4388,10 @@ ACCOUNT
 .account-nav ul li a.active {
   background-color: var(--main-color);
   color: var(--main-color-text-revers);
+}
+.account-nav ul li a.active .badge {
+  background-color: #fff !important;
+  color: var(--main-color) !important;
 }
 .account-menu .btn-settings {
   background-color: var(--bg-btn);

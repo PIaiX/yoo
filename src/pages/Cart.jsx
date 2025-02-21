@@ -131,7 +131,7 @@ const Cart = () => {
                 updateCart({ data: { ...res.product, cart: { count: 1 } } })
               );
             }
-
+            console.log(res.checking, 1);
             dispatch(updateCartChecking(res.checking));
 
             if (
@@ -144,6 +144,7 @@ const Cart = () => {
             }
           })
           .catch((error) => {
+            console.log(error);
             dispatch(cartDeletePromo());
             NotificationManager.error(
               typeof error?.response?.data?.error === "string"
@@ -272,12 +273,6 @@ const Cart = () => {
   useEffect(() => {
     getCartData();
   }, [user?.id, count, address, selectedAffiliate]);
-
-  // useEffect(() => {
-  //   if (promo && promo?.type === "integration_coupon") {
-  //     getCartData();
-  //   }
-  // }, [promo]);
 
   if (!Array.isArray(cart) || cart.length <= 0) {
     return (

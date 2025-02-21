@@ -3855,7 +3855,7 @@ ACCOUNT
             background-color: var(--main-color);
             padding: 0.34em;
             border-radius: $radius;
-            color: $black;
+            color: #fff !important;
           }
           &:hover {
             color: var(--main-color-text);
@@ -3864,6 +3864,10 @@ ACCOUNT
           &.active {
             background-color: var(--main-color);
             color: var(--main-color-text-revers);
+            .badge {
+              background-color: #fff !important;
+              color: var(--main-color) !important;
+            }
           }
         }
       }

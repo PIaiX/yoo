@@ -4,7 +4,6 @@ import {
   HiOutlineShoppingBag,
   HiOutlineMapPin,
   HiOutlineArrowRightOnRectangle,
-  HiOutlineHeart,
   HiOutlineBellAlert,
   HiOutlineLifebuoy,
 } from "react-icons/hi2";
@@ -83,12 +82,6 @@ const AccountMenu = memo(() => {
           <NavLink to="payment">
             <HiOutlineCreditCard/>
             <div>Способы оплаты</div>
-          </NavLink>
-        </li>
-        <li>
-          <NavLink to="support">
-            <HiOutlineLifebuoy/>
-            <div>Тех. подержка</div>
           </NavLink>
         </li>
         <li>

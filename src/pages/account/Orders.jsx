@@ -16,6 +16,7 @@ import { useTranslation } from "react-i18next";
 import { checkAuth } from "../../services/auth";
 import { setUser } from "../../store/reducers/authSlice";
 import AccountTitleReturn from "../../components/AccountTitleReturn";
+import { updateNotification } from "../../store/reducers/notificationSlice";
 
 const Orders = () => {
   const { t } = useTranslation();
@@ -60,8 +61,13 @@ const Orders = () => {
       cell: (row) => paymentData[row.payment],
     },
     {
+      name: t("Товары"),
+      selector: "payment",
+      cell: (row) => row?.products?.length,
+    },
+    {
       name: t("Итого"),
-      width: "150px",
+      width: "130px",
       align: "right",
       selector: "total",
       cell: (row) => (
@@ -77,6 +83,7 @@ const Orders = () => {
   };
 
   useLayoutEffect(() => {
+    dispatch(updateNotification({ order: -1 }));
     getOrders()
       .then((res) => setOrders((data) => ({ ...data, loading: false, ...res })))
       .catch(() => setOrders((data) => ({ ...data, loading: false })));
@@ -129,7 +136,7 @@ const Orders = () => {
   return (
     <section className="sec-orders">
       <Meta title={t("Заказы")} />
-      <AccountTitleReturn  title={t("Заказы")} />
+      <AccountTitleReturn title={t("Заказы")} />
       <DataTable
         onClick={(e) => navigate("/account/orders/" + e.id)}
         columns={orderColumns}

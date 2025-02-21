@@ -193,7 +193,7 @@ const Checkout = () => {
   });
 
   const data = useWatch({ control });
-  console.log(data);
+
   const deliveryText = data?.delivery ? deliveryData[data.delivery] : null;
 
   const paymentText = data?.payment ? paymentData[data.payment] : null;

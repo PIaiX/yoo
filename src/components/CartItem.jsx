@@ -21,7 +21,7 @@ const CartItem = memo(({ data }) => {
       : data.price;
 
   const [open, setOpen] = useState({ additions: false, wishes: false });
-  console.log(data, "cartItem");
+
   return (
     <div
       className={

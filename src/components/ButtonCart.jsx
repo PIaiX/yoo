@@ -142,15 +142,7 @@ const ButtonCart = memo(
           </button>
         );
       }
-      console.log(
-        isCartData?.cart?.count > 0
-          ? isCartData.cart.count
-          : data?.cart?.count > 0
-          ? data.cart.count
-          : data?.data?.cart?.count > 0
-          ? data.data.cart.count
-          : 0
-      );
+
       // Если тип продукта не "gift" или "promo", возвращаем CountInput
       return (
         <CountInput
