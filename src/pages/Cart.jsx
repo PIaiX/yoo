@@ -144,7 +144,6 @@ const Cart = () => {
             }
           })
           .catch((error) => {
-            console.log(error);
             dispatch(cartDeletePromo());
             NotificationManager.error(
               typeof error?.response?.data?.error === "string"

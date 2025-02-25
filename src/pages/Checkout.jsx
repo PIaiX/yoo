@@ -51,6 +51,7 @@ import { getDelivery } from "../services/order";
 import { cartZone } from "../store/reducers/cartSlice";
 import TimePicker from "../components/TimePicker";
 import Loader from "../components/utils/Loader";
+import useDebounce from "../hooks/useDebounce";
 
 const Checkout = () => {
   const { t } = useTranslation();
@@ -143,7 +144,7 @@ const Checkout = () => {
     mode: "all",
     reValidateMode: "onSubmit",
     defaultValues: {
-      name: user.firstName ?? "",
+      name: checkout?.data?.name ?? user.firstName ?? "",
       phone: checkout?.data?.phone ?? user.phone ?? "",
       email: checkout?.data?.email ?? user.email ?? "",
       serving: checkout?.data?.serving ?? "",
@@ -193,10 +194,80 @@ const Checkout = () => {
   });
 
   const data = useWatch({ control });
-
+  const updateCheckout = useDebounce(data, 400);
   const deliveryText = data?.delivery ? deliveryData[data.delivery] : null;
 
   const paymentText = data?.payment ? paymentData[data.payment] : null;
+
+  const validateServing = useCallback(
+    (value) => {
+      const selectedDate = moment(value);
+      const today = moment().startOf("day");
+      const minTime = moment().add(
+        selectedAffiliate?.options?.preorderMin ?? 90,
+        "minutes"
+      );
+      const maxTime = moment().add(
+        selectedAffiliate?.options?.preorderMax ?? 30,
+        "days"
+      );
+
+      // Получаем рабочее время филиала для выбранной даты
+      const workHours =
+        selectedAffiliate?.options?.work[selectedDate.weekday()];
+      if (!workHours) {
+        return "Филиал не работает в выбранный день.";
+      }
+
+      const openingTime = moment(selectedDate).set({
+        hour: moment(workHours.start, "HH:mm").hour(),
+        minute: moment(workHours.start, "HH:mm").minute(),
+      });
+      const closingTime = moment(selectedDate).set({
+        hour: moment(workHours.end, "HH:mm").hour(),
+        minute: moment(workHours.end, "HH:mm").minute(),
+      });
+
+      // Проверка для сегодняшней даты
+      if (selectedDate.isSame(today, "day")) {
+        // Время заказа должно быть не раньше, чем preorderMin
+        if (selectedDate.isBefore(minTime)) {
+          return `Заказ можно сделать только после ${minTime.format("HH:mm")}`;
+        }
+
+        // Время заказа должно быть в рамках рабочего времени филиала
+        if (
+          selectedDate.isBefore(openingTime) ||
+          selectedDate.isAfter(closingTime)
+        ) {
+          return `Сегодня мы работаем с ${openingTime.format(
+            "HH:mm"
+          )} до ${closingTime.format("HH:mm")}`;
+        }
+      }
+
+      // Проверка для будущих дат
+      if (selectedDate.isAfter(today, "day")) {
+        // Время заказа должно быть в рамках рабочего времени филиала
+        if (
+          selectedDate.isBefore(openingTime) ||
+          selectedDate.isAfter(closingTime)
+        ) {
+          return `Мы работаем с ${openingTime.format(
+            "HH:mm"
+          )} до ${closingTime.format("HH:mm")}`;
+        }
+      }
+
+      // Проверка, что выбранная дата не превышает максимальную
+      if (selectedDate.isAfter(maxTime)) {
+        return `Максимальная дата заказа: ${maxTime.format("YYYY-MM-DD")}`;
+      }
+
+      return true; // Валидация пройдена
+    },
+    [selectedAffiliate]
+  );
 
   // const isWorkStatus =
   //   (!data.serving &&
@@ -232,24 +303,21 @@ const Checkout = () => {
       selectedAffiliate.options.work[weekday]?.end &&
       selectedAffiliate.options.work[weekday]?.start &&
       isWork(
-        // Используем исправленную isWork
         selectedAffiliate.options.work[weekday].start,
         selectedAffiliate.options.work[weekday].end
-      )) || // <--- ВАЖНО: Здесь нужен || (ИЛИ), а не && (И)
+      )) ||
     (data.serving &&
       selectedAffiliate?.options?.work &&
       selectedAffiliate.options.work[moment(data.serving).weekday()]?.end &&
       selectedAffiliate.options.work[moment(data.serving).weekday()]?.start &&
-      moment(data.serving).isSameOrAfter(moment()) && // Используем isSameOrAfter
+      moment(data.serving).isSameOrAfter(moment()) &&
       isWork(
-        // Используем исправленную isWork
         selectedAffiliate.options.work[moment(data.serving).weekday()].start,
         selectedAffiliate.options.work[moment(data.serving).weekday()].end,
         moment(data.serving).format("HH:mm")
-      )) || // <--- ВАЖНО: Здесь нужен || (ИЛИ), а не && (И)
-    (moment(data.serving).isBefore(moment()) && // Если нужно включить текущее время, используйте isSameOrBefore
+      )) ||
+    (moment(data.serving).isBefore(moment()) &&
       isWork(
-        // Используем исправленную isWork
         moment()
           .add(selectedAffiliate?.options?.preorderMin ?? 90, "minutes")
           .format("HH:mm"),
@@ -302,7 +370,9 @@ const Checkout = () => {
 
   useEffect(() => {
     if (!end && isAuth) {
-      setValue("name", user.firstName);
+      if (!data?.name && user.firstName) {
+        setValue("name", user.firstName);
+      }
       if (user.phone) {
         setValue("phone", user.phone);
       }
@@ -312,7 +382,7 @@ const Checkout = () => {
 
   useEffect(() => {
     if (data) dispatch(setCheckout(data));
-  }, [data, end]);
+  }, [updateCheckout, end]);
 
   useEffect(() => {
     if (isAuth && !end) {
@@ -865,202 +935,96 @@ const Checkout = () => {
                     </label>
                     {data?.servingRadio === "true" && (
                       <div className="text-muted ms-4">
-                        {/* <div>
-                          <Input
-                            errors={errors}
-                            register={register}
-                            name="servingDate"
-                            type="date"
-                            defaultValue={moment(data.serving).format(
-                              "YYYY-MM-DD"
-                            )}
-                            validation={{
-                              min: {
-                                value: moment()
-                                  .add(
-                                    selectedAffiliate?.options?.preorderMin ??
-                                      90,
-                                    "minutes"
-                                  )
-                                  .format("YYYY-MM-DD"),
-                                message: `${t("Минимум ")} ${moment()
-                                  .add(
-                                    selectedAffiliate?.options?.preorderMin ??
-                                      90,
-                                    "minutes"
-                                  )
-                                  .format("YYYY-MM-DD")}`,
-                              },
-                              max: {
-                                value: moment()
-                                  .add(
-                                    selectedAffiliate?.options?.preorderMax ??
-                                      30,
-                                    "days"
-                                  )
-                                  .format("YYYY-MM-DD"),
-                                message: `${t("Максимум ")} ${moment()
-                                  .add(
-                                    selectedAffiliate?.options?.preorderMax ??
-                                      30,
-                                    "days"
-                                  )
-                                  .format("YYYY-MM-DD")}`,
-                              },
-                            }}
-                            min={moment()
-                              .add(
-                                selectedAffiliate?.options?.preorderMin ?? 90,
-                                "minutes"
-                              )
-                              .format("YYYY-MM-DD")}
-                            max={moment()
-                              .add(
-                                selectedAffiliate?.options?.preorderMax ?? 30,
-                                "days"
-                              )
-                              .format("YYYY-MM-DD")}
-                            className="input-date me-2"
-                          />
-                        </div> */}
-                        {/* <div>
-                          <Input
-                            errors={errors}
-                            register={register}
-                            type="time"
-                            name="servingTime"
-                            className="input-time"
-                            defaultValue={
-                              data.serving
-                                ? moment(data.serving).format("HH:mm")
-                                : null
+                        {selectedAffiliate?.options?.interval &&
+                        Number(selectedAffiliate?.options?.interval) > 0 ? (
+                          <TimePicker
+                            startTime={
+                              selectedAffiliate.options.work[weekday].start
                             }
-                            validation={{
-                              min: {
-                                value:
-                                  moment().isSame(
-                                    moment(data.serving),
-                                    "day"
-                                  ) &&
-                                  moment().isAfter(
-                                    moment(
-                                      selectedAffiliate.options.work[weekday]
-                                        .start,
-                                      "HH:mm"
-                                    )
-                                  )
-                                    ? moment
-                                        .max(
-                                          moment(
-                                            selectedAffiliate.options.work[
-                                              weekday
-                                            ].start,
-                                            "HH:mm"
-                                          ).add(
-                                            selectedAffiliate?.options
-                                              ?.preorderMin ?? 90,
-                                            "minutes"
-                                          ),
-                                          moment() // Текущее время
-                                        )
-                                        .format("HH:mm")
-                                    : moment(
-                                        selectedAffiliate.options.work[weekday]
-                                          .start,
-                                        "HH:mm"
-                                      )
-                                        .add(
-                                          selectedAffiliate?.options
-                                            ?.preorderMin ?? 90,
-                                          "minutes"
-                                        )
-                                        .format("HH:mm"),
-                                message: `${t("Минимум ")} ${
-                                  moment().isSame(
-                                    moment(data.serving),
-                                    "day"
-                                  ) &&
-                                  moment().isAfter(
-                                    moment(
-                                      selectedAffiliate.options.work[weekday]
-                                        .start,
-                                      "HH:mm"
-                                    )
-                                  )
-                                    ? moment
-                                        .max(
-                                          moment(
-                                            selectedAffiliate.options.work[
-                                              weekday
-                                            ].start,
-                                            "HH:mm"
-                                          ).add(
-                                            selectedAffiliate?.options
-                                              ?.preorderMin ?? 90,
-                                            "minutes"
-                                          ),
-                                          moment() // Текущее время
-                                        )
-                                        .format("HH:mm")
-                                    : moment(
-                                        selectedAffiliate.options.work[weekday]
-                                          .start,
-                                        "HH:mm"
-                                      )
-                                        .add(
-                                          selectedAffiliate?.options
-                                            ?.preorderMin ?? 90,
-                                          "minutes"
-                                        )
-                                        .format("HH:mm")
-                                }`,
-                              },
-                              max: {
-                                value: data.servingDate
-                                  ? moment(
-                                      selectedAffiliate.options.work[
-                                        moment(data.servingDate).weekday()
-                                      ].end,
-                                      "HH:mm"
-                                    ).format("HH:mm")
-                                  : moment(
-                                      selectedAffiliate.options.work[weekday]
-                                        .end,
-                                      "HH:mm"
-                                    ).format("HH:mm"), // Используем значение end для выбранного дня
-                                message: `${t("Максимум ")} ${
-                                  data.servingDate
-                                    ? moment(
-                                        selectedAffiliate.options.work[
-                                          moment(data.servingDate).weekday()
-                                        ].end,
-                                        "HH:mm"
-                                      ).format("HH:mm")
-                                    : moment(
-                                        selectedAffiliate.options.work[weekday]
-                                          .end,
-                                        "HH:mm"
-                                      ).format("HH:mm")
-                                }`, // Сообщение с максимальным временем для выбранного дня
-                              },
+                            endTime={
+                              selectedAffiliate.options.work[weekday].end
+                            }
+                            interval={selectedAffiliate?.options?.interval}
+                            minMinuteTime={
+                              selectedAffiliate?.options?.preorderMin
+                            }
+                            maxDayDate={selectedAffiliate?.options?.preorderMax}
+                            value={data.serving}
+                            onChange={(e) => {
+                              setValue("serving", e);
                             }}
                           />
-                        </div> */}
-                        <TimePicker
-                          startTime={
-                            selectedAffiliate.options.work[weekday].start
-                          }
-                          endTime={selectedAffiliate.options.work[weekday].end}
-                          interval={selectedAffiliate?.options?.interval}
-                          minMinuteTime={
-                            selectedAffiliate?.options?.preorderMin
-                          }
-                          maxDayDate={selectedAffiliate?.options?.preorderMax}
-                          value={data.serving}
-                          onChange={(e) => {
-                            setValue("serving", e);
-                          }}
-                        />
+                        ) : (
+                          <div>
+                            <Input
+                              errors={errors}
+                              register={register}
+                              name="serving"
+                              type="datetime-local"
+                              defaultValue={
+                                data.serving
+                                  ? moment(data.serving).format(
+                                      "YYYY-MM-DDTHH:mm"
+                                    )
+                                  : moment()
+                                      .add(
+                                        selectedAffiliate?.options
+                                          ?.preorderMin ?? 90,
+                                        "minutes"
+                                      )
+                                      .format("YYYY-MM-DDTHH:mm")
+                              }
+                              validation={{
+                                min: {
+                                  value: moment()
+                                    .add(
+                                      selectedAffiliate?.options?.preorderMin ??
+                                        90,
+                                      "minutes"
+                                    )
+                                    .format("YYYY-MM-DDTHH:mm"),
+                                  message: `${t("Минимум ")} ${moment()
+                                    .add(
+                                      selectedAffiliate?.options?.preorderMin ??
+                                        90,
+                                      "minutes"
+                                    )
+                                    .format("YYYY-MM-DD HH:mm")}`,
+                                },
+                                max: {
+                                  value: moment()
+                                    .add(
+                                      selectedAffiliate?.options?.preorderMax ??
+                                        30,
+                                      "days"
+                                    )
+                                    .format("YYYY-MM-DDTHH:mm"),
+                                  message: `${t("Максимум ")} ${moment()
+                                    .add(
+                                      selectedAffiliate?.options?.preorderMax ??
+                                        30,
+                                      "days"
+                                    )
+                                    .format("YYYY-MM-DD HH:mm")}`,
+                                },
+                                validate: validateServing, // Добавляем кастомную валидацию
+                              }}
+                              min={moment()
+                                .add(
+                                  selectedAffiliate?.options?.preorderMin ?? 90,
+                                  "minutes"
+                                )
+                                .format("YYYY-MM-DDTHH:mm")}
+                              max={moment()
+                                .add(
+                                  selectedAffiliate?.options?.preorderMax ?? 30,
+                                  "days"
+                                )
+                                .format("YYYY-MM-DDTHH:mm")}
+                              className="input-date me-2"
+                            />
+                          </div>
+                        )}
                       </div>
                     )}
                   </div>
@@ -1182,21 +1146,27 @@ const Checkout = () => {
                     <div className="fw-6">{promo.title.toUpperCase()}</div>
                   </div>
                   <span className="d-flex align-items-center">
-                    {Number(promo.options?.discount) > 0 && (
+                    {promo.options?.discount &&
+                    Number(promo.options?.discount) > 0 ? (
                       <span className="text-success">
                         -{" "}
                         {Number.isInteger(Number(promo.options?.discount)) > 0
                           ? customPrice(promo.options.discount)
                           : promo.options?.discount}
                       </span>
+                    ) : (
+                      ""
                     )}
-                    {Number(promo.options?.percent > 0) && (
+                    {promo.options?.percent &&
+                    Number(promo.options?.percent > 0) ? (
                       <span className="text-success">
                         -{" "}
                         {Number.isInteger(Number(promo.options?.percent)) > 0
                           ? promo.options?.percent + "%"
                           : promo.options?.percent}
                       </span>
+                    ) : (
+                      ""
                     )}
                     <a
                       onClick={() => {

@@ -19,30 +19,50 @@ const TimePicker = memo(
     const handleLabelClick = () => {
       document.getElementById("date").showPicker();
     };
-    // // Генерация интервалов времени
-    // const generateTimeSlots = (start, end, interval, minMinuteTime) => {
-    //   const slots = [];
-    //   let currentTime = moment(start, "HH:mm");
-
-    //   while (currentTime.isSameOrBefore(moment(end, "HH:mm"))) {
-    //     slots.push(currentTime.format("HH:mm")); // Формат "HH:MM"
-
-    //     currentTime = currentTime.add(interval, "minutes"); // Добавляем интервал
-    //   }
-
-    //   return slots;
-    // };
 
     const generateTimeSlots = (start, end, interval, minMinuteTime) => {
       const slots = [];
+
+      // Проверяем, что входные данные корректны
+      if (
+        !start ||
+        !end ||
+        !interval ||
+        interval <= 0 ||
+        !minMinuteTime ||
+        minMinuteTime < 0
+      ) {
+        console.error("Некорректные входные данные");
+        return slots;
+      }
+
       const startTime = moment(start, "HH:mm");
       const endTime = moment(end, "HH:mm");
+
+      // Проверяем, что startTime и endTime являются валидными датами
+      if (!startTime.isValid() || !endTime.isValid()) {
+        console.error("Некорректный формат времени");
+        return slots;
+      }
+
+      // Если startTime больше endTime, возвращаем пустой массив
+      if (startTime.isAfter(endTime)) {
+        console.error("Время начала больше времени окончания");
+        return slots;
+      }
 
       // Вычисляем минимальное время заказа относительно начала рабочего дня
       const minOrderTime = startTime.clone().add(minMinuteTime, "minutes");
 
+      // Если minOrderTime больше endTime, возвращаем пустой массив
+      if (minOrderTime.isAfter(endTime)) {
+        console.error("Минимальное время заказа больше времени окончания");
+        return slots;
+      }
+
       let currentTime = moment(startTime); // Инициализируем currentTime началом рабочего дня
 
+      // Генерация слотов времени
       while (currentTime.isSameOrBefore(endTime)) {
         // Проверяем, учитываем минимальное время заказа
         if (currentTime.isSameOrAfter(minOrderTime)) {
@@ -50,7 +70,15 @@ const TimePicker = memo(
         }
         currentTime.add(interval, "minutes");
       }
-      slots.pop();
+
+      // Удаляем последний элемент, если он выходит за рамки endTime
+      if (slots.length > 0) {
+        const lastSlot = moment(slots[slots.length - 1], "HH:mm");
+        if (lastSlot.add(interval, "minutes").isAfter(endTime)) {
+          slots.pop();
+        }
+      }
+
       return slots;
     };
 
@@ -88,28 +116,14 @@ const TimePicker = memo(
 
     // Обработчик выбора даты
     const handleDateChange = (e) => {
-      setSelectedDate(e.target.value);
+      const newDate = e.target.value;
+      setSelectedDate(newDate);
       setSelectedTime({ index: 0, time: null });
-      // if (e.target.value?.length === 0) {
-      //   setSelectedTime({ index: 0, time: null });
-      // } else {
-      //   let index = timeSlots.findIndex((e) =>
-      //     moment(e, "HH:mm").isAfter(
-      //       moment(
-      //         moment().add(minMinuteTime, "minutes").format("HH:mm"),
-      //         "HH:mm"
-      //       )
-      //     )
-      //   );
-      //   if (index != -1) {
-      //     setSelectedTime({ index, time: timeSlots[index] });
-      //     if (moment(selectedDate).isValid()) {
-      //       const selectedDateTime = `${selectedDate}T${timeSlots[index]}`;
-      //       console.log(2);
-      //       onChange && onChange(selectedDateTime);
-      //     }
-      //   }
-      // }
+
+      // Если дата изменилась, сбрасываем время и вызываем onChange с новой датой
+      if (onChange) {
+        onChange(`${newDate}T00:00`); // Указываем время по умолчанию
+      }
     };
 
     // Обработчик выбора времени
@@ -121,50 +135,29 @@ const TimePicker = memo(
         )
       ) {
         if (moment(selectedDate).isValid() && time) {
-          setSelectedTime({ index, time, noUpdate: true });
-          const selectedDateTime = `${selectedDate}T${time}`;
-   
-          onChange && onChange(selectedDateTime);
+          setSelectedTime({ index, time });
+
+          // Вызываем onChange только если время изменилось
+          if (onChange) {
+            const selectedDateTime = `${selectedDate}T${time}`;
+            onChange(selectedDateTime);
+          }
         } else {
           NotificationManager.error(t("Пожалуйста, выберите дату и время"));
         }
       }
     };
 
-    // useLayoutEffect(() => {
-    //   if (timeSlots?.length > 0) {
-    //     let index = timeSlots.findIndex((e) =>
-    //       value?.length > 0
-    //         ? e === moment(value).format("HH:mm")
-    //         : moment(e, "HH:mm").isAfter(
-    //             moment(
-    //               moment().add(minMinuteTime, "minutes").format("HH:mm"),
-    //               "HH:mm"
-    //             )
-    //           )
-    //     );
-    //     console.log(value, index);
-    //     if (index != -1) {
-    //       setSelectedTime({ index, time: timeSlots[index] });
-    //       if (moment(selectedDate).isValid()) {
-    //         const selectedDateTime = `${selectedDate}T${timeSlots[index]}`;
-    //         onChange && onChange(selectedDateTime);
-    //       }
-    //     }
-    //   }
-    // }, [minMinuteTime]);
-
     useLayoutEffect(() => {
       if (
         swiperRef?.current?.swiper &&
         moment(selectedDate).isValid() &&
-        !selectedTime?.noUpdate
+        selectedTime.time
       ) {
-        // Проверяем, чтобы индекс был больше 0, иначе ставим 0
         const slideIndex = selectedTime.index > 0 ? selectedTime.index : 0;
-        swiperRef.current.swiper.slideTo(slideIndex, 0); // Двигаем слайдер на нужный индекс
+        swiperRef.current.swiper.slideTo(slideIndex, 0);
       }
-    }, [selectedTime.index, selectedDate]);
+    }, [selectedDate]);
 
     return (
       <div>
@@ -195,64 +188,40 @@ const TimePicker = memo(
             <Swiper
               ref={swiperRef}
               className="time-container"
-              // initialSlide={selectedTime.index > 0 ? selectedTime.index : false}
               loop={false}
               freeMode={{ enabled: true, sticky: true }}
               mousewheel={true}
               modules={[FreeMode, Mousewheel]}
               slidesPerView="auto"
               spaceBetween={10}
-              // centeredSlides={true}
-              // breakpoints={{
-              //   320: {
-              //     slidesPerView: 3, // 1 слайд на маленьких экранах
-              //   },
-              //   768: {
-              //     slidesPerView: 4, // 2 слайда на планшетах
-              //   },
-              //   1024: {
-              //     slidesPerView: 4, // 4 слайда на десктопах
-              //   },
-              // }}
             >
-              {timeSlots
-                .filter(
-                  (time) =>
-                    selectedTime?.time?.length > 0 ||
-                    !(
-                      moment(selectedDate).isBefore(moment()) &&
-                      moment(time, "HH:mm").isBefore(
-                        moment().add(minMinuteTime, "minutes")
-                      )
-                    )
-                )
-                .map((time, index) => {
-                  return (
-                    <SwiperSlide key={index} className="time-item-slide">
-                      <div>
-                        <a
-                          onClick={() => handleTimeSelect({ index, time })}
-                          className={
-                            selectedTime?.time?.length === 0 ||
-                            (moment(selectedDate).isBefore(moment()) &&
-                              moment(time, "HH:mm").isBefore(
-                                moment().add(minMinuteTime, "minutes")
-                              ))
-                              ? "time-item w-100 disabled"
-                              : selectedTime.time === time
-                              ? "time-item w-100 active"
-                              : "time-item w-100"
-                          }
-                        >
-                          {time} -{" "}
-                          {moment(time, "HH:mm")
-                            .add(interval, "minutes")
-                            .format("HH:mm")}
-                        </a>
-                      </div>
-                    </SwiperSlide>
-                  );
-                })}
+              {timeSlots.map((time, index) => {
+                return (
+                  <SwiperSlide key={index} className="time-item-slide">
+                    <div>
+                      <a
+                        onClick={() => handleTimeSelect({ index, time })}
+                        className={
+                          selectedTime?.time?.length === 0 ||
+                          (moment(selectedDate).isBefore(moment()) &&
+                            moment(time, "HH:mm").isBefore(
+                              moment().add(minMinuteTime, "minutes")
+                            ))
+                            ? "time-item w-100 disabled"
+                            : selectedTime.time === time
+                            ? "time-item w-100 active"
+                            : "time-item w-100"
+                        }
+                      >
+                        {time} -{" "}
+                        {moment(time, "HH:mm")
+                          .add(interval, "minutes")
+                          .format("HH:mm")}
+                      </a>
+                    </div>
+                  </SwiperSlide>
+                );
+              })}
             </Swiper>
           </div>
         )}
