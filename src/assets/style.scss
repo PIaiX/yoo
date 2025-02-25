@@ -5885,3 +5885,9 @@ img.show {
     color: var(--main-color);
   }
 }
+.modal-header {
+  border-bottom-color: var(--bg-second) !important;
+}
+.modal-footer {
+  border-top-color: var(--bg-second) !important;
+}

@@ -80,6 +80,7 @@ const ButtonCart = memo(
                 discount: res.discount,
                 code: res.code,
                 categoryId: res.categoryId,
+                comment: product?.comment ? product.comment : null,
                 medias:
                   !product?.medias?.length === 0 && res.medias?.length > 0
                     ? res.medias

@@ -441,12 +441,15 @@ const Cart = () => {
                       <div className="fw-6">{promo.title.toUpperCase()}</div>
                     </div>
                     <span className="d-flex align-items-center">
-                      {Number(promo.options?.discount) > 0 ? (
+                      {promo?.options?.discount &&
+                      Number(promo.options?.discount) > 0 ? (
                         <span className="text-success">
                           -{" "}
                           {Number.isInteger(Number(promo.options?.discount)) > 0
                             ? customPrice(promo.options.discount)
-                            : promo.options?.discount ?? ""}
+                            : promo.options?.discount > 0
+                            ? promo.options.discount
+                            : ""}
                         </span>
                       ) : (
                         ""

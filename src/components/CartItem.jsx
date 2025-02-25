@@ -1,6 +1,8 @@
-import React, { memo, useState } from "react";
-import { Badge, Collapse } from "react-bootstrap";
+import React, { memo, useCallback, useState } from "react";
+import { Badge, Collapse, Modal } from "react-bootstrap";
+import { useTranslation } from "react-i18next";
 import { IoChevronDown, IoChevronUp } from "react-icons/io5";
+import { useDispatch } from "react-redux";
 import {
   customPrice,
   customWeight,
@@ -8,10 +10,29 @@ import {
   keyGenerator,
 } from "../helpers/all";
 import ButtonCart from "./ButtonCart";
+import Textarea from "./utils/Textarea";
+import { useForm } from "react-hook-form";
+import { updateCart } from "../services/cart";
 // import BtnFav from "./utils/BtnFav";
 // import { useSelector } from "react-redux";
 
 const CartItem = memo(({ data }) => {
+  const { t } = useTranslation();
+
+  const {
+    register,
+    formState: { errors, isValid },
+    setValue,
+    handleSubmit,
+  } = useForm({
+    mode: "onChange",
+    reValidateMode: "onSubmit",
+    defaultValues: {
+      ...data,
+      comment: null,
+    },
+  });
+
   const price =
     data?.cart?.data?.modifiers?.length > 0
       ? data.options.modifierPriceSum
@@ -20,7 +41,15 @@ const CartItem = memo(({ data }) => {
         : data.cart.data.modifiers.reduce((sum, item) => sum + item.price, 0)
       : data.price;
 
+  const [showComment, setShowComment] = useState(false);
   const [open, setOpen] = useState({ additions: false, wishes: false });
+  const dispatch = useDispatch();
+
+  const onSubmit = useCallback(async (data) => {
+    dispatch(updateCart({ data }));
+    setShowComment(false);
+    setValue("comment", null);
+  }, []);
 
   return (
     <div
@@ -54,9 +83,28 @@ const CartItem = memo(({ data }) => {
               })}
             </p>
           )}
-          {data?.description && (
+          {data?.description && data?.description?.length > 0 && (
             <p className="text-muted fs-08 consist pe-3">{data.description}</p>
           )}
+          <div className="mb-3 fs-09 fw-6">
+            {data?.comment ? (
+              <>
+                <p>{data.comment}</p>
+                <a
+                  onClick={() =>
+                    dispatch(updateCart({ data: { ...data, comment: null } }))
+                  }
+                  className="text-danger"
+                >
+                  {t("Удалить комментарий")}
+                </a>
+              </>
+            ) : (
+              <a onClick={() => setShowComment(true)}>
+                {t("Добавить комментарий")}
+              </a>
+            )}
+          </div>
           {data?.cart?.data?.modifiers?.length > 0 &&
             data.cart.data.modifiers.map((e) => (
               <span
@@ -72,12 +120,15 @@ const CartItem = memo(({ data }) => {
               <a
                 className="fs-09 fw-6 d-flex align-items-center mb-0"
                 onClick={() =>
-                  setOpen((prev) => ({ ...prev, additions: !open.additions }))
+                  setOpen((prev) => ({
+                    ...prev,
+                    additions: !open.additions,
+                  }))
                 }
                 aria-controls="collapse-additions"
                 aria-expanded={open}
               >
-                <span>Добавки</span>{" "}
+                <span>{t("Добавки")}</span>{" "}
                 <Badge bg="secondary" className="mx-2">
                   {data?.cart?.data?.additions?.length}
                 </Badge>
@@ -111,7 +162,7 @@ const CartItem = memo(({ data }) => {
                 aria-controls="collapse-wishes"
                 aria-expanded={open}
               >
-                <span>Пожелания</span>{" "}
+                <span>{t("Пожелания")}</span>{" "}
                 <Badge bg="secondary" className="mx-2">
                   {data?.cart?.data?.wishes?.length}
                 </Badge>
@@ -152,7 +203,7 @@ const CartItem = memo(({ data }) => {
 
         <div className="order-md-2 fw-7 d-flex justify-content-center flex-column align-items-md-end align-self-center">
           {data.type == "gift" ? (
-            "Бесплатно"
+            t("Бесплатно")
           ) : data?.discount > 0 ? (
             <>
               <div className="text-right">
@@ -171,6 +222,36 @@ const CartItem = memo(({ data }) => {
 
         {/* {isAuth && <BtnFav checked={false} />} */}
       </div>
+      <Modal show={showComment} onHide={setShowComment} centered>
+        <Modal.Header closeButton>
+          {t("Комментарий")} {t("на")} <b className="ms-1">{data.title}</b>
+        </Modal.Header>
+        <Modal.Body>
+          <Textarea
+            name="comment"
+            placeholder={t("Введите комментарий")}
+            errors={errors}
+            register={register}
+            validation={{
+              required: t("Введите комментарий"),
+              maxLength: {
+                value: 250,
+                message: t("Максимально 250 символов"),
+              },
+            }}
+          />
+        </Modal.Body>
+        <Modal.Footer>
+          <button
+            type="submit"
+            disabled={!isValid}
+            onClick={handleSubmit(onSubmit)}
+            className="btn btn-primary"
+          >
+            {t("Добавить")}
+          </button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 });

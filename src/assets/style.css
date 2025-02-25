@@ -6934,4 +6934,12 @@ img.show {
 .badge-main-light {
   background-color: var(--main-color-outline) !important;
   color: var(--main-color);
+}
+
+.modal-header {
+  border-bottom-color: var(--bg-second) !important;
+}
+
+.modal-footer {
+  border-top-color: var(--bg-second) !important;
 }/*# sourceMappingURL=style.css.map */

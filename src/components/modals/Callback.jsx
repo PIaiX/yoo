@@ -1,10 +1,9 @@
-import React, { useState, useCallback } from "react";
-import Modal from "react-bootstrap/Modal";
+import React, { useCallback } from "react";
 import { useSelector } from "react-redux";
 import Input from "../utils/Input";
 import { useForm } from "react-hook-form";
 import Textarea from "../utils/Textarea";
-import { Col, Row } from "react-bootstrap";
+import { Col, Row, Modal } from "react-bootstrap";
 import { createFeedback } from "../../services/order";
 import { NotificationManager } from "react-notifications";
 
