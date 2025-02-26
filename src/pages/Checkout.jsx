@@ -38,6 +38,7 @@ import {
   cartDeleteProduct,
   cartDeletePromo,
   resetCart,
+  updateCartChecking,
 } from "../store/reducers/cartSlice";
 import {
   editDeliveryCheckout,
@@ -194,7 +195,6 @@ const Checkout = () => {
   });
 
   const data = useWatch({ control });
-  const updateCheckout = useDebounce(data, 400);
   const deliveryText = data?.delivery ? deliveryData[data.delivery] : null;
 
   const paymentText = data?.payment ? paymentData[data.payment] : null;
@@ -204,7 +204,9 @@ const Checkout = () => {
       const selectedDate = moment(value);
       const today = moment().startOf("day");
       const minTime = moment().add(
-        selectedAffiliate?.options?.preorderMin ?? 90,
+        zone.data?.options?.preorderMin ??
+          selectedAffiliate?.options?.preorderMin ??
+          90,
         "minutes"
       );
       const maxTime = moment().add(
@@ -266,7 +268,7 @@ const Checkout = () => {
 
       return true; // Валидация пройдена
     },
-    [selectedAffiliate]
+    [selectedAffiliate, zone]
   );
 
   // const isWorkStatus =
@@ -319,7 +321,12 @@ const Checkout = () => {
     (moment(data.serving).isBefore(moment()) &&
       isWork(
         moment()
-          .add(selectedAffiliate?.options?.preorderMin ?? 90, "minutes")
+          .add(
+            zone.data?.options?.preorderMin ??
+              selectedAffiliate?.options?.preorderMin ??
+              90,
+            "minutes"
+          )
           .format("HH:mm"),
         selectedAffiliate.options.work[moment(data.serving).weekday()].end,
         moment(data.serving).format("HH:mm")
@@ -382,7 +389,7 @@ const Checkout = () => {
 
   useEffect(() => {
     if (data) dispatch(setCheckout(data));
-  }, [updateCheckout, end]);
+  }, [data, end]);
 
   useEffect(() => {
     if (isAuth && !end) {
@@ -398,6 +405,30 @@ const Checkout = () => {
       setValue("delivery", checkout.delivery);
     }
   }, [checkout.delivery, end]);
+
+  useEffect(() => {
+    console.log(
+      promo?.options?.summed,
+      checkout?.data?.pickupDiscount,
+      promo && !promo?.options?.summed && checkout?.data?.pickupDiscount > 0
+    );
+    if (
+      promo &&
+      !promo?.options?.summed &&
+      checkout?.data?.pickupDiscount > 0
+    ) {
+      NotificationManager.error("Промокод не суммируется со скидками");
+      if (promo?.product?.id) {
+        dispatch(cartDeleteProduct({ data: promo.product }));
+      }
+
+      if (promo?.type === "integration_coupon") {
+        dispatch(updateCartChecking([]));
+      }
+      setValue("promo", "");
+      dispatch(cartDeletePromo());
+    }
+  }, [checkout.delivery, checkout?.data?.pickupDiscount, promo]);
 
   useEffect(() => {
     if (checking) {
@@ -946,6 +977,7 @@ const Checkout = () => {
                             }
                             interval={selectedAffiliate?.options?.interval}
                             minMinuteTime={
+                              zone.data?.options?.preorderMin ??
                               selectedAffiliate?.options?.preorderMin
                             }
                             maxDayDate={selectedAffiliate?.options?.preorderMax}
@@ -968,8 +1000,10 @@ const Checkout = () => {
                                     )
                                   : moment()
                                       .add(
-                                        selectedAffiliate?.options
-                                          ?.preorderMin ?? 90,
+                                        zone.data?.options?.preorderMin ??
+                                          selectedAffiliate?.options
+                                            ?.preorderMin ??
+                                          90,
                                         "minutes"
                                       )
                                       .format("YYYY-MM-DDTHH:mm")
@@ -978,14 +1012,18 @@ const Checkout = () => {
                                 min: {
                                   value: moment()
                                     .add(
-                                      selectedAffiliate?.options?.preorderMin ??
+                                      zone.data?.options?.preorderMin ??
+                                        selectedAffiliate?.options
+                                          ?.preorderMin ??
                                         90,
                                       "minutes"
                                     )
                                     .format("YYYY-MM-DDTHH:mm"),
                                   message: `${t("Минимум ")} ${moment()
                                     .add(
-                                      selectedAffiliate?.options?.preorderMin ??
+                                      zone.data?.options?.preorderMin ??
+                                        selectedAffiliate?.options
+                                          ?.preorderMin ??
                                         90,
                                       "minutes"
                                     )
@@ -1011,7 +1049,9 @@ const Checkout = () => {
                               }}
                               min={moment()
                                 .add(
-                                  selectedAffiliate?.options?.preorderMin ?? 90,
+                                  zone.data?.options?.preorderMin ??
+                                    selectedAffiliate?.options?.preorderMin ??
+                                    90,
                                   "minutes"
                                 )
                                 .format("YYYY-MM-DDTHH:mm")}

@@ -125,6 +125,14 @@ const Cart = () => {
           type: "site",
         })
           .then((res) => {
+            if (
+              !res?.options?.summed &&
+              (checkout?.data?.pickupDiscount > 0 || discount > 0)
+            ) {
+              return NotificationManager.error(
+                "Промокод не суммируется со скидками"
+              );
+            }
             dispatch(cartPromo(res));
             if (res?.product?.id) {
               dispatch(
@@ -182,6 +190,15 @@ const Cart = () => {
         ? !!cart.find((e) => e.type == "gift")
         : false
     );
+    if (
+      promo &&
+      !promo?.options?.summed &&
+      checkout?.data?.pickupDiscount > 0
+    ) {
+      NotificationManager.error("Промокод не суммируется со скидками");
+      setValue("promo", "");
+      dispatch(cartDeletePromo());
+    }
     if (count > 0 && Array.isArray(cart) && cart?.length > 0) {
       getCart({
         name: user?.firstName ?? "",
@@ -249,6 +266,11 @@ const Cart = () => {
             NotificationManager.error("Условия не выполнены");
             setValue("promo", "");
             dispatch(cartDeletePromo());
+          } else if (promo?.id && !res.promo) {
+            setValue("promo", "");
+            dispatch(cartDeletePromo());
+          } else if (promo?.id && res.promo) {
+            dispatch(cartPromo(res.promo));
           }
         })
         .catch((error) => {
