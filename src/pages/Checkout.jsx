@@ -407,11 +407,6 @@ const Checkout = () => {
   }, [checkout.delivery, end]);
 
   useEffect(() => {
-    console.log(
-      promo?.options?.summed,
-      checkout?.data?.pickupDiscount,
-      promo && !promo?.options?.summed && checkout?.data?.pickupDiscount > 0
-    );
     if (
       promo &&
       !promo?.options?.summed &&

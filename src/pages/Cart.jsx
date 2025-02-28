@@ -247,11 +247,12 @@ const Cart = () => {
         type: "site",
       })
         .then((res) => {
-          setData({
+          setData((prev) => ({
+            ...prev,
             loading: false,
-            extras: res?.extras || [],
-            gifts: res?.gifts || [],
-          });
+            extras: res?.extras ?? [],
+            gifts: res?.gifts ?? [],
+          }));
 
           if (res?.products) {
             dispatch(updateCartAll(res.products));
@@ -284,10 +285,10 @@ const Cart = () => {
                 : "Условия не выполнены"
             );
           }
-          setData({ ...data, loading: false });
+          setData((prev) => ({ ...prev, loading: false }));
         });
     } else {
-      setData({ ...data, loading: false });
+      setData((prev) => ({ ...prev, loading: false }));
     }
   };
 

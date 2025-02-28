@@ -5,7 +5,6 @@ import { customPrice } from "../../helpers/all";
 import ProductCard from "../ProductCard";
 
 const Gifts = memo(({ total, items }) => {
-
   if (!items || items?.length === 0) {
     return null;
   }

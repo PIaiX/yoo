@@ -6942,4 +6942,8 @@ img.show {
 
 .modal-footer {
   border-top-color: var(--bg-second) !important;
+}
+
+.zone:hover {
+  font-weight: 600 !important;
 }/*# sourceMappingURL=style.css.map */

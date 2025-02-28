@@ -1,6 +1,12 @@
 import { Map, Placemark, Polygon, YMaps } from "@pbe/react-yandex-maps";
 import moment from "moment-timezone";
-import React, { useLayoutEffect, useMemo, useState } from "react";
+import React, {
+  useCallback,
+  useLayoutEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { Modal } from "react-bootstrap";
 import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
@@ -23,6 +29,46 @@ const Contact = () => {
   const [mainAffiliate, setMainAffiliate] = useState();
   const [showModalOrganization, setModalOrganization] = useState(false);
   const [showModalDelivery, setModalDelivery] = useState(false);
+  const mapRef = useRef(null); // Ссылка на карту
+  const polygonsRef = useRef({}); // Храним ссылки на полигоны
+  // Проверка корректности координат
+  const isValidCoordinate = (coord) => {
+    const [lat, lon] = coord;
+    return lat >= -90 && lat <= 90 && lon >= -180 && lon <= 180;
+  };
+  const handleZoneClick = useCallback(
+    async (zone) => {
+      if (!mapRef.current || !zone?.id || !polygonsRef.current[zone.id]) {
+        return false;
+      }
+      const polygon = polygonsRef.current[zone.id];
+
+      if (!polygon) {
+        return false;
+      }
+      // Открываем балун
+      polygon.balloon.open();
+
+      // Вычисляем центр зоны
+      const bounds = polygon.geometry.getBounds();
+
+      if (!bounds || bounds?.length === 0) {
+        return false;
+      }
+
+      const center = bounds[0].map(
+        (coord, index) => (coord + bounds[1][index]) / 2
+      );
+
+      if (isValidCoordinate(center)) {
+        // Устанавливаем центр карты
+        mapRef.current.setCenter(center);
+      } else {
+        console.error("Некорректные координаты:", center);
+      }
+    },
+    [mapRef, polygonsRef]
+  );
 
   const mapPoligone = useMemo(() => {
     return (
@@ -63,46 +109,52 @@ const Contact = () => {
             return (
               <Polygon
                 key={e.id}
+                id={e.id}
+                instanceRef={(ref) => (polygonsRef.current[e.id] = ref)}
                 defaultGeometry={[geodata]}
                 options={{
                   fillColor: e?.color ? e.color : "#f56057",
                   strokeColor: e?.color ? e.color : "#f56057",
-                  opacity: 0.3,
+                  opacity: mainAffiliate?.id === e.id ? 0.6 : 0.3,
                   strokeWidth: 2,
                   strokeStyle: "solid",
                   visible: true,
                 }}
                 properties={{
                   balloonContent: `<address class='my-info'>
-        <div class='my-info-body'>
-        <h6 class='mb-0 fw-6'>${e.title}</h6>
-        ${e.desc ? `<p>${e.desc}</p>` : ""}
-        ${
-          e.minPrice > 0
-            ? `<p>${t("Минимальная сумма заказа")} ${customPrice(
-                e.minPrice
-              )}</p>`
-            : ""
-        }
-        ${
-          e.priceFree > 0
-            ? `<p>${t("Бесплатная доставка от")} ${customPrice(
-                e.priceFree
-              )}</p>`
-            : ""
-        }
-        ${
-          e.price > 0
-            ? `<p>${t("Стоимость доставки")} ${customPrice(e.price)}</p>`
-            : ""
-        }
-        ${
-          e.time > 0
-            ? `<p>${t("Время доставки от")} ${e.time} ${t("мин")}</p>`
-            : ""
-        }
-        </div>
-        </address>`,
+                    <div class='my-info-body'>
+                      <h6 class='mb-0 fw-6'>${e.title}</h6>
+                      ${e.desc ? `<p>${e.desc}</p>` : ""}
+                      ${
+                        e.minPrice > 0
+                          ? `<p>${t("Минимальная сумма заказа")} ${customPrice(
+                              e.minPrice
+                            )}</p>`
+                          : ""
+                      }
+                      ${
+                        e.priceFree > 0
+                          ? `<p>${t("Бесплатная доставка от")} ${customPrice(
+                              e.priceFree
+                            )}</p>`
+                          : ""
+                      }
+                      ${
+                        e.price > 0
+                          ? `<p>${t("Стоимость доставки")} ${customPrice(
+                              e.price
+                            )}</p>`
+                          : ""
+                      }
+                      ${
+                        e.time > 0
+                          ? `<p>${t("Время доставки от")} ${e.time} ${t(
+                              "мин"
+                            )}</p>`
+                          : ""
+                      }
+                    </div>
+                  </address>`,
                 }}
               />
             );
@@ -118,7 +170,6 @@ const Contact = () => {
         : affiliate[0] ?? false
     );
   }, [selectedAffiliate]);
-
   if (!mainAffiliate) {
     return (
       <>
@@ -219,6 +270,36 @@ const Contact = () => {
                           </p>
                         )}
                       </li>
+
+                      {mainAffiliate.id === e.id &&
+                        zones.find((zone) => zone.affiliateId === e.id) &&
+                        zones
+                          .filter((zone) => zone.affiliateId === e.id)
+                          .map((zone, index) => (
+                            <p
+                              key={zone.id}
+                              onClick={() => handleZoneClick(zone)} // Используем новый обработчик
+                              className={
+                                mainAffiliate.id === zone.affiliateId
+                                  ? "active zone fs-08 pb-3 d-flex"
+                                  : "pb-3 zone fs-08 d-flex"
+                              }
+                            >
+                              <div>
+                                <div
+                                  className="badge badge-sm d-block me-2"
+                                  style={{
+                                    backgroundColor:
+                                      zone?.color ?? "rgba(0,0,0,0.2)",
+                                    marginTop: 4,
+                                    width: 12,
+                                    height: 12,
+                                  }}
+                                />
+                              </div>
+                              <div>{zone.title}</div>
+                            </p>
+                          ))}
                     </a>
                   ))}
                 </ul>
@@ -251,6 +332,7 @@ const Contact = () => {
                   mainAffiliate?.options?.coordinates?.lon && (
                     <YMaps>
                       <Map
+                        instanceRef={mapRef}
                         onLoad={() => setLoading(false)}
                         state={{
                           center: [
@@ -272,6 +354,8 @@ const Contact = () => {
           </Row>
         </Container>
       </section>
+
+      {/* Модальные окна для организации и доставки */}
       <Modal
         centered
         show={showModalOrganization}
