@@ -33,10 +33,10 @@ const ButtonCart = memo(
 
     const onPress = useCallback(
       (newCount) => {
-        if (full) {
-          newCount =
-            isCartData?.cart?.count > 0 ? isCartData.cart.count + 1 : newCount;
-        }
+        // if (full) {
+        //   newCount =
+        //     isCartData?.cart?.count > 0 ? isCartData.cart.count + 1 : newCount;
+        // }
         setLoading(true);
         getProduct({
           id: product.id,
@@ -112,7 +112,7 @@ const ButtonCart = memo(
           .finally(() => setLoading(false));
         // .catch(() => setProduct((data) => ({ ...data, loading: false })));
       },
-      [product, data, loading, cart, full]
+      [product, data, loading, isCartData, cart, full]
     );
 
     if (
