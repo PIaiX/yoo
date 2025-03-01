@@ -1,75 +1,64 @@
 import { memo, useCallback, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { isCart } from "../hooks/useCart";
 import { HiOutlineShoppingBag } from "react-icons/hi2";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { groupByCategoryIdToArray } from "../helpers/all";
+import { isCart } from "../hooks/useCart";
 import { updateCart } from "../services/cart";
+import { getProduct } from "../services/product";
 import CountInput from "./utils/CountInput";
 import { NotificationManager } from "react-notifications";
 import { useTranslation } from "react-i18next";
-import { getProduct } from "../services/product";
-import { groupByCategoryIdToArray } from "../helpers/all";
 
 const ButtonCartProduct = memo(
-  ({
-    product,
-    isValid = true,
-    full = false,
-    cart = false,
-    className,
-    children,
-    strict = false,
-  }) => {
+  ({ product, isValid = true, className, children }) => {
+
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const { t } = useTranslation();
     const selectedAffiliate = useSelector((state) => state.affiliate.active);
     const options = useSelector((state) => state.settings.options);
     const [loading, setLoading] = useState(false);
-    const [data, setData] = useState(false);
-    const isCartData = data?.id
-      ? isCart(data, strict)
-      : isCart(product, strict);
+    const isCartData = product?.id ? isCart(product) : false;
 
     const onPress = useCallback(
-      (newCount) => {
-        // if (full) {
-        //   newCount =
-        //     isCartData?.cart?.count > 0 ? isCartData.cart.count + 1 : newCount;
-        // }
-        setLoading(true);
-        getProduct({
-          id: product.id,
-          affiliateId: selectedAffiliate?.id ?? false,
-          required: true,
-          multiBrand: options?.multiBrand,
-          type: "site",
-        })
-          .then((res) => {
-            if (
-              !full &&
-              !cart &&
-              (res?.modifiers?.length > 0 || res?.additions?.length > 0)
-            ) {
-              return navigate("/product/" + product.id, res);
-            }
+      (newCount = 1, inputCount = false) => {
+        if (isCartData && inputCount) {
+          dispatch(
+            updateCart({
+              ...product,
+              cart: product?.cart
+                ? { ...product.cart, count: newCount }
+                : { count: newCount },
+            })
+          );
+        } else {
+          setLoading(true);
+          getProduct({
+            id: product.id,
+            affiliateId: selectedAffiliate?.id ?? false,
+            required: true,
+            multiBrand: options?.multiBrand,
+            type: "site",
+          })
+            .then((res) => {
+              const modifiers =
+                options?.brand?.options?.priceAffiliateType &&
+                Array.isArray(res.modifiers) &&
+                res?.modifiers?.length > 0
+                  ? groupByCategoryIdToArray(
+                      res.modifiers.filter(
+                        (e) => e?.modifierOptions?.length > 0
+                      )
+                    )
+                  : Array.isArray(res.modifiers) && res?.modifiers?.length > 0
+                  ? groupByCategoryIdToArray(res.modifiers)
+                  : [];
 
-            const modifiers =
-              options?.brand?.options?.priceAffiliateType &&
-              Array.isArray(res.modifiers) &&
-              res?.modifiers?.length > 0
-                ? groupByCategoryIdToArray(
-                    res.modifiers.filter((e) => e?.modifierOptions?.length > 0)
-                  )
-                : Array.isArray(res.modifiers) && res?.modifiers?.length > 0
-                ? groupByCategoryIdToArray(res.modifiers)
-                : [];
-
-            let newProduct = {
-              data: {
-                cart: product.cart
-                  ? { ...product.cart, count: newCount ?? 0 }
-                  : { count: newCount ?? 0 },
+              let newProduct = {
+                cart: product?.cart
+                  ? { ...product.cart, count: newCount }
+                  : { count: newCount },
                 id: res.id,
                 options: res.options,
                 title: res.title,
@@ -92,72 +81,40 @@ const ButtonCartProduct = memo(
                     : [],
                 wishes:
                   res?.wishes && res?.wishes?.length > 0 ? res.wishes : [],
-              },
-            };
+              };
 
-            dispatch(updateCart(newProduct));
+              dispatch(updateCart(newProduct));
 
-            if (
-              full &&
-              (res?.modifiers?.length > 0 || res?.additions?.length > 0) &&
-              newCount <= 1
-            ) {
-              NotificationManager.success(
-                t("Товар успешно добавлен в корзину")
-              );
-              navigate(-1);
-            }
-            setData(newProduct);
-          })
-          .finally(() => setLoading(false));
-        // .catch(() => setProduct((data) => ({ ...data, loading: false })));
+              if (res?.modifiers?.length > 0 || res?.additions?.length > 0) {
+                NotificationManager.success(
+                  t("Товар успешно добавлен в корзину")
+                );
+                navigate(-1);
+              }
+            })
+            .finally(() => setLoading(false));
+        }
       },
-      [product, data, loading, isCartData, cart, full]
+      [product, loading, options, selectedAffiliate, isCartData]
     );
 
     if (
-      (isCartData?.id && // Проверяем, что isCartData.id существует
-        (!data?.modifiers || data.modifiers.length === 0) && // Проверяем, что modifiers либо отсутствуют, либо пусты
-        (!data?.additions || data.additions.length === 0) && // Проверяем, что additions либо отсутствуют, либо пусты
-        (!isCartData?.cart?.data?.modifiers ||
-          isCartData.cart.data.modifiers.length === 0) && // Проверяем, что cart.data.modifiers либо отсутствуют, либо пусты
-        (!isCartData?.cart?.data?.additions ||
-          isCartData.cart.data.additions.length === 0) &&
-        (!isCartData?.additions || isCartData.additions.length === 0) &&
-        (!isCartData?.modifiers || isCartData.modifiers.length === 0) &&
-        (!data?.cart?.data?.modifiers ||
-          data.cart.data.modifiers.length === 0) && // Проверяем, что cart.data.modifiers либо отсутствуют, либо пусты
-        (!data?.cart?.data?.additions ||
-          data.cart.data.additions.length === 0)) || // Проверяем, что cart.data.additions либо отсутствуют, либо пусты
-      cart
+      isCartData?.id &&
+      (!product?.modifiers || product.modifiers.length === 0) &&
+      (!product?.additions || product.additions.length === 0) &&
+      (!isCartData?.cart?.modifiers ||
+        isCartData.cart.modifiers.length === 0) &&
+      (!isCartData?.cart?.additions ||
+        isCartData.cart.additions.length === 0) &&
+      (!isCartData?.additions || isCartData.additions.length === 0) &&
+      (!isCartData?.modifiers || isCartData.modifiers.length === 0) &&
+      (!product?.cart?.modifiers || product.cart.modifiers.length === 0) &&
+      (!product?.cart?.additions || product.cart.additions.length === 0)
     ) {
-      // Если все условия выполнены, проверяем тип продукта
-      if (product.type === "gift" || product.type === "promo") {
-        return (
-          <button
-            type="button"
-            className="btn-light active"
-            onClick={() => onPress(0)}
-          >
-            {t("Удалить")}
-          </button>
-        );
-      }
-
-      // Если тип продукта не "gift" или "promo", возвращаем CountInput
       return (
         <CountInput
-          full={full}
-          onChange={onPress}
-          value={
-            isCartData?.cart?.count > 0
-              ? isCartData.cart.count
-              : data?.cart?.count > 0
-              ? data.cart.count
-              : data?.data?.cart?.count > 0
-              ? data.data.cart.count
-              : 0
-          }
+          onChange={(e) => onPress(e, true)}
+          value={isCartData?.cart?.count}
         />
       );
     }
@@ -165,23 +122,13 @@ const ButtonCartProduct = memo(
     return (
       <button
         disabled={!isValid}
-        onClick={() =>
-          product?.cart?.data?.modifiers?.length > 0
-            ? onPress(1)
-            : product?.modifiers?.length > 0 && !full
-            ? navigate("/product/" + product.id, product)
-            : onPress(1)
-        }
+        onClick={() => onPress()}
         type="button"
         className={`${isCartData ? "btn-light" : "btn-primary"}${
           className ? " " + className : ""
         }${loading ? " loading" : ""}`}
       >
-        {children ?? (
-          <>
-            <HiOutlineShoppingBag className="fs-15" />
-          </>
-        )}
+        {children ?? <HiOutlineShoppingBag className="fs-15" />}
       </button>
     );
   }

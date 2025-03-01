@@ -36,6 +36,7 @@ import { getProduct } from "../services/product";
 import { useTranslation } from "react-i18next";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import Notice from "../components/Notice";
+import ButtonCartProduct from "../components/ButtonCartProduct";
 
 const Product = () => {
   const { t } = useTranslation();
@@ -49,11 +50,9 @@ const Product = () => {
   const [product, setProduct] = useState({
     loading: true,
     cart: {
-      data: {
-        modifiers: [],
-        additions: [],
-        wishes: [],
-      },
+      modifiers: [],
+      additions: [],
+      wishes: [],
     },
   });
 
@@ -99,14 +98,10 @@ const Product = () => {
           modifiers: modifiers,
           recommends: recommends,
           cart: {
-            data: {
-              modifiers:
-                modifiers?.length > 0
-                  ? modifiers.map((e) => e.modifiers[0])
-                  : [],
-              additions: [],
-              wishes: [],
-            },
+            modifiers:
+              modifiers?.length > 0 ? modifiers.map((e) => e.modifiers[0]) : [],
+            additions: [],
+            wishes: [],
           },
         });
       })
@@ -121,15 +116,15 @@ const Product = () => {
     if (product?.id) {
       let price = 0;
       let discount = 0;
-      if (product?.cart?.data?.modifiers?.length > 0) {
+      if (product?.cart?.modifiers?.length > 0) {
         if (product?.options?.modifierPriceSum) {
           price +=
-            product.cart.data.modifiers.reduce(
+            product.cart.modifiers.reduce(
               (sum, item) => sum + (item?.price ?? 0),
               0
             ) + product.price;
         } else {
-          price += product.cart.data.modifiers.reduce(
+          price += product.cart.modifiers.reduce(
             (sum, item) => sum + (item?.price ?? 0),
             0
           );
@@ -138,15 +133,15 @@ const Product = () => {
         price += product.price;
       }
 
-      if (product?.cart?.data?.modifiers?.length > 0) {
+      if (product?.cart?.modifiers?.length > 0) {
         if (product?.options?.modifierPriceSum) {
           discount +=
-            product.cart.data.modifiers.reduce(
+            product.cart.modifiers.reduce(
               (sum, item) => sum + (item?.discount ?? 0),
               0
             ) + product.discount;
         } else {
-          discount += product.cart.data.modifiers.reduce(
+          discount += product.cart.modifiers.reduce(
             (sum, item) => sum + (item?.discount ?? 0),
             0
           );
@@ -155,8 +150,8 @@ const Product = () => {
         discount += product.discount;
       }
 
-      if (product?.cart?.data?.additions?.length > 0) {
-        price += product.cart.data.additions.reduce(
+      if (product?.cart?.additions?.length > 0) {
+        price += product.cart.additions.reduce(
           (sum, item) => sum + (item?.price ?? 0),
           0
         );
@@ -241,12 +236,12 @@ const Product = () => {
         <form className="productPage mb-5">
           <Row className="gx-4 gx-xxl-5">
             <Col xs={12} md={5} lg={6}>
-              {product?.cart?.data?.modifiers[0]?.medias[0]?.media &&
+              {product?.cart?.modifiers[0]?.medias[0]?.media &&
               product?.medias?.length === 1 ? (
                 <LazyLoadImage
                   loading="lazy"
                   src={getImageURL({
-                    path: product.cart.data?.modifiers[0]?.medias[0]?.media,
+                    path: product.cart?.modifiers[0]?.medias[0]?.media,
                     size: "full",
                     type: "modifier",
                   })}
@@ -326,7 +321,7 @@ const Product = () => {
                 <h1 className="mb-0">{product.title}</h1>
 
                 {options?.productEnergyVisible &&
-                product?.cart?.data?.modifiers[0]?.energy?.kkal > 0 ? (
+                product?.cart?.modifiers[0]?.energy?.kkal > 0 ? (
                   <OverlayTrigger
                     trigger={["focus", "click"]}
                     rootClose
@@ -343,8 +338,8 @@ const Product = () => {
                             <div>{t("Энерг. ценность")}</div>
                             <div>
                               {Math.round(
-                                product.cart.data.modifiers[0].energy.kkal ??
-                                  product.cart.data.modifiers[0].energy.kkalAll
+                                product.cart.modifiers[0].energy.kkal ??
+                                  product.cart.modifiers[0].energy.kkalAll
                               )}
                               &nbsp;
                               {t("ккал")}
@@ -354,7 +349,7 @@ const Product = () => {
                             <div>{t("Белки")}</div>
                             <div>
                               {Math.round(
-                                product.cart.data.modifiers[0].energy.protein
+                                product.cart.modifiers[0].energy.protein
                               )}
                               г
                             </div>
@@ -362,9 +357,7 @@ const Product = () => {
                           <div className="d-flex mb-1 fs-09 justify-content-between">
                             <div>{t("Жиры")}</div>
                             <div>
-                              {Math.round(
-                                product.cart.data.modifiers[0].energy.fat
-                              )}
+                              {Math.round(product.cart.modifiers[0].energy.fat)}
                               г
                             </div>
                           </div>
@@ -372,8 +365,7 @@ const Product = () => {
                             <div>{t("Углеводы")}</div>
                             <div>
                               {Math.round(
-                                product.cart.data.modifiers[0].energy
-                                  .carbohydrate
+                                product.cart.modifiers[0].energy.carbohydrate
                               )}
                               г
                             </div>
@@ -382,7 +374,7 @@ const Product = () => {
                             <div>{t("Вес")}</div>
                             <div>
                               {Math.round(
-                                product.cart.data.modifiers[0].energy.weight
+                                product.cart.modifiers[0].energy.weight
                               )}
                               г
                             </div>
@@ -459,9 +451,9 @@ const Product = () => {
               <div className="mb-2">
                 {product?.tags?.length > 0 && <Tags data={product.tags} />}
               </div>
-              {product?.cart?.data?.modifiers[0]?.description ? (
+              {product?.cart?.modifiers[0]?.description ? (
                 <div className="mb-4 white-space">
-                  {product.cart.data.modifiers[0].description}
+                  {product.cart.modifiers[0].description}
                 </div>
               ) : (
                 product.description && (
@@ -479,19 +471,18 @@ const Product = () => {
                             value: e,
                           }))}
                           value={
-                            product?.cart?.data?.modifiers?.find(
-                              (modifierItem) =>
-                                modifier.modifiers.some(
-                                  (cartModifier) =>
-                                    cartModifier.categoryId ===
-                                    modifierItem.categoryId
-                                )
+                            product?.cart?.modifiers?.find((modifierItem) =>
+                              modifier.modifiers.some(
+                                (cartModifier) =>
+                                  cartModifier.categoryId ===
+                                  modifierItem.categoryId
+                              )
                             ) || null
                           }
                           onChange={() => {
                             // Создаем копию массива modifiers
                             const updatedModifiers = [
-                              ...product.cart.data.modifiers,
+                              ...product.cart.modifiers,
                             ];
 
                             // Ищем индекс модификатора
@@ -507,16 +498,13 @@ const Product = () => {
                             } else {
                               updatedModifiers.push(e); // Добавляем новый модификатор
                             }
-
+                     
                             // Обновляем состояние иммутабельно
                             setProduct((prevProduct) => ({
                               ...prevProduct,
                               cart: {
                                 ...prevProduct.cart,
-                                data: {
-                                  ...prevProduct.cart.data,
-                                  modifiers: updatedModifiers, // Обновляем modifiers
-                                },
+                                modifiers: updatedModifiers, // Обновляем modifiers
                               },
                             }));
                           }}
@@ -539,7 +527,7 @@ const Product = () => {
                                     onChange={() => {
                                       // Создаем копию массива modifiers
                                       const updatedModifiers = [
-                                        ...product.cart.data.modifiers,
+                                        ...product.cart.modifiers,
                                       ];
 
                                       // Ищем индекс модификатора
@@ -562,10 +550,7 @@ const Product = () => {
                                         ...prevProduct,
                                         cart: {
                                           ...prevProduct.cart,
-                                          data: {
-                                            ...prevProduct.cart.data,
-                                            modifiers: updatedModifiers, // Обновляем modifiers
-                                          },
+                                          modifiers: updatedModifiers, // Обновляем modifiers
                                         },
                                       }));
                                     }}
@@ -611,13 +596,13 @@ const Product = () => {
                     </div>
                   )}
                 </div>
-                {product?.cart?.data?.modifiers[0]?.energy?.weight > 0 ? (
+                {product?.cart?.modifiers[0]?.energy?.weight > 0 ? (
                   <div className="text-muted py-2 me-2 fw-4 fs-09">
                     {"/ "}
                     {options?.productWeightDiscrepancy ? "±" : ""}
                     {customWeight({
-                      value: product.cart.data.modifiers[0].energy.weight,
-                      type: product.cart.data.modifiers[0].energy.weightType,
+                      value: product.cart.modifiers[0].energy.weight,
+                      type: product.cart.modifiers[0].energy.weightType,
                     })}
                   </div>
                 ) : (
@@ -632,15 +617,13 @@ const Product = () => {
                     </div>
                   )
                 )}
-                <ButtonCart
-                  full
+                <ButtonCartProduct
                   product={product}
-                  strict={true}
                   className="py-2 ms-2 btn-lg"
                 >
                   {t("В корзину")}
                   <HiOutlineShoppingBag className="fs-13 ms-2" />
-                </ButtonCart>
+                </ButtonCartProduct>
               </div>
 
               {(product?.additions?.length > 0 ||
@@ -691,7 +674,7 @@ const Product = () => {
                         {product?.additions?.length > 0 &&
                           product.additions.map((e) => {
                             const isAddition = () =>
-                              !!product?.cart?.data?.additions?.find(
+                              !!product?.cart?.additions?.find(
                                 (addition) => addition.id === e.id
                               );
                             const onPressAddition = () => {
@@ -699,26 +682,16 @@ const Product = () => {
                                 setProduct((prev) => ({
                                   ...prev,
                                   cart: {
-                                    data: {
-                                      ...prev.cart.data,
-                                      additions:
-                                        product.cart.data.additions.filter(
-                                          (addition) => addition.id != e.id
-                                        ),
-                                    },
+                                    additions: product.cart.additions.filter(
+                                      (addition) => addition.id != e.id
+                                    ),
                                   },
                                 }));
                               } else {
                                 setProduct((prev) => ({
                                   ...prev,
                                   cart: {
-                                    data: {
-                                      ...prev.cart.data,
-                                      additions: [
-                                        ...prev.cart.data.additions,
-                                        e,
-                                      ],
-                                    },
+                                    additions: [...prev.cart.additions, e],
                                   },
                                 }));
                               }
@@ -746,20 +719,19 @@ const Product = () => {
                         {product?.wishes?.length > 0 &&
                           product.wishes.map((e) => {
                             const isAddition = () =>
-                              !!product?.cart?.data?.wishes.find(
+                              !!product?.cart?.wishes.find(
                                 (addition) => addition.id === e.id
                               );
                             const onPressAddition = () => {
                               if (isAddition()) {
-                                let newAdditions =
-                                  product.cart.data.wishes.filter(
-                                    (addition) => addition.id != e.id
-                                  );
+                                let newAdditions = product.cart.wishes.filter(
+                                  (addition) => addition.id != e.id
+                                );
 
-                                product.cart.data.wishes = newAdditions;
+                                product.cart.wishes = newAdditions;
                                 setProduct(product);
                               } else {
-                                product.cart.data.wishes.push(e);
+                                product.cart.wishes.push(e);
                                 setProduct(product);
                               }
                             };

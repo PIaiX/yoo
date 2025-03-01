@@ -32,11 +32,11 @@ const CartItem = memo(({ data }) => {
   });
 
   const price =
-    data?.cart?.data?.modifiers?.length > 0
+    data?.cart?.modifiers?.length > 0
       ? data.options.modifierPriceSum
-        ? data.cart.data.modifiers.reduce((sum, item) => sum + item.price, 0) +
+        ? data.cart.modifiers.reduce((sum, item) => sum + item.price, 0) +
           data.price
-        : data.cart.data.modifiers.reduce((sum, item) => sum + item.price, 0)
+        : data.cart.modifiers.reduce((sum, item) => sum + item.price, 0)
       : data.price;
 
   const [showComment, setShowComment] = useState(false);
@@ -53,18 +53,18 @@ const CartItem = memo(({ data }) => {
     <div
       className={
         "cart-item" +
-        ((!data?.cart?.data?.additions ||
-          data?.cart?.data?.additions?.length === 0) &&
-        (!data?.cart?.data?.modifiers ||
-          data?.cart?.data?.modifiers?.length === 0) &&
-        (!data?.cart?.data?.wishes || data?.cart?.data?.wishes?.length === 0)
+        ((!data?.cart?.additions ||
+          data?.cart?.additions?.length === 0) &&
+        (!data?.cart?.modifiers ||
+          data?.cart?.modifiers?.length === 0) &&
+        (!data?.cart?.wishes || data?.cart?.wishes?.length === 0)
           ? " mini-cart-item"
           : "")
       }
       key={
-        data?.cart?.data?.additions?.length > 0 ||
-        data?.cart?.data?.modifiers?.length > 0 ||
-        data?.cart?.data?.wishes?.length > 0
+        data?.cart?.additions?.length > 0 ||
+        data?.cart?.modifiers?.length > 0 ||
+        data?.cart?.wishes?.length > 0
           ? keyGenerator(data)
           : data.id
       }
@@ -103,8 +103,8 @@ const CartItem = memo(({ data }) => {
               </a>
             )}
           </div>
-          {data?.cart?.data?.modifiers?.length > 0 &&
-            data.cart.data.modifiers.map((e) => (
+          {data?.cart?.modifiers?.length > 0 &&
+            data.cart.modifiers.map((e) => (
               <span
                 key={e.id}
                 className="fs-09 fw-7 card d-inline-block p-1 px-2 mb-3 me-2"
@@ -113,7 +113,7 @@ const CartItem = memo(({ data }) => {
               </span>
             ))}
 
-          {data?.cart?.data?.additions?.length > 0 && (
+          {data?.cart?.additions?.length > 0 && (
             <>
               <a
                 className="fs-09 fw-6 d-flex align-items-center mb-0"
@@ -128,7 +128,7 @@ const CartItem = memo(({ data }) => {
               >
                 <span>{t("Добавки")}</span>{" "}
                 <Badge bg="secondary" className="mx-2">
-                  {data?.cart?.data?.additions?.length}
+                  {data?.cart?.additions?.length}
                 </Badge>
                 {open.additions ? (
                   <IoChevronUp color="#666" />
@@ -139,7 +139,7 @@ const CartItem = memo(({ data }) => {
               <Collapse in={open.additions}>
                 <div id="collapse-additions">
                   <ul className="cart-item-ingredients">
-                    {data.cart.data.additions.map((e) => (
+                    {data.cart.additions.map((e) => (
                       <li key={e.id}>
                         {e.title}{" "}
                         <span className="fw-7">+{customPrice(e.price)}</span>
@@ -150,7 +150,7 @@ const CartItem = memo(({ data }) => {
               </Collapse>
             </>
           )}
-          {data?.cart?.data?.wishes?.length > 0 && (
+          {data?.cart?.wishes?.length > 0 && (
             <>
               <a
                 className="fs-09 fw-6 d-flex align-items-center mb-0"
@@ -162,7 +162,7 @@ const CartItem = memo(({ data }) => {
               >
                 <span>{t("Пожелания")}</span>{" "}
                 <Badge bg="secondary" className="mx-2">
-                  {data?.cart?.data?.wishes?.length}
+                  {data?.cart?.wishes?.length}
                 </Badge>
                 {open.wishes ? (
                   <IoChevronUp color="#666" />
@@ -173,7 +173,7 @@ const CartItem = memo(({ data }) => {
               <Collapse in={open.wishes}>
                 <div id="collapse-wishes">
                   <ul className="cart-item-ingredients-minus">
-                    {data.cart.data.wishes.map((e) => (
+                    {data.cart.wishes.map((e) => (
                       <li key={e.id}>
                         {e.title}{" "}
                         <span className="fw-7">+{customPrice(e.price)}</span>

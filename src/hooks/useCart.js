@@ -19,10 +19,10 @@ const makeSelectIsCart = () =>
 
       return (
         isEqual(
-          cartItem?.cart?.data?.modifiers,
-          product?.cart?.data?.modifiers
+          cartItem?.cart?.modifiers,
+          product?.cart?.modifiers
         ) &&
-        isEqual(cartItem?.cart?.data?.additions, product?.cart?.data?.additions)
+        isEqual(cartItem?.cart?.additions, product?.cart?.additions)
       );
     });
   });
@@ -82,8 +82,8 @@ const useTotalCart = () => {
 
         const modifiersPrice =
           product?.cart?.count > 0 &&
-          product?.cart?.data?.modifiers?.length > 0 &&
-          product.cart?.data.modifiers.reduce(
+          product?.cart?.modifiers?.length > 0 &&
+          product.cart.modifiers.reduce(
             (sum, item) => sum + Number(item?.price ?? 0),
             0
           ) * Number(product.cart.count);
@@ -159,8 +159,8 @@ const useTotalCart = () => {
           }
         }
         price += productPrice;
-        if (product?.cart?.data?.additions?.length > 0) {
-          product.cart.data.additions.forEach((e) => {
+        if (product?.cart?.additions?.length > 0) {
+          product.cart.additions.forEach((e) => {
             const count = e?.count || 1;
             const additionPrice =
               e?.price > 0 && product?.cart?.count > 0

@@ -38,11 +38,9 @@ const ProductCard = memo(({ data }) => {
   data = {
     ...data,
     cart: {
-      data: {
-        modifiers: [],
-        additions: [],
-        wishes: [],
-      },
+      modifiers: [],
+      additions: [],
+      wishes: [],
     },
   };
 

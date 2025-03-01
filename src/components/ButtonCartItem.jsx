@@ -12,18 +12,14 @@ const ButtonCartItem = memo(({ product }) => {
 
   const onPress = useCallback(
     (newCount = 1) => {
-      if (newCount != product?.cart?.count) {
-        dispatch(
-          updateCart({
-            data: {
-              ...product,
-              cart: product?.cart
-                ? { ...product.cart, count: newCount }
-                : { count: newCount },
-            },
-          })
-        );
-      }
+      dispatch(
+        updateCart({
+          ...product,
+          cart: product?.cart
+            ? { ...product.cart, count: newCount }
+            : { count: newCount },
+        })
+      );
     },
     [product]
   );

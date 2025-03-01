@@ -28,12 +28,11 @@ const cartSlice = createSlice({
             options: isProduct.options,
             cart: {
               ...cartItem.cart,
-              data: {
-                ...cartItem.cart.data,
-                modifiers:
-                  cartItem?.cart?.data?.modifiers?.length > 0 &&
-                    isProduct?.modifiers?.length > 0
-                    ? cartItem.cart.data.modifiers.map((e) => {
+
+              modifiers:
+                cartItem?.cart?.modifiers?.length > 0 &&
+                isProduct?.modifiers?.length > 0
+                  ? cartItem.cart.modifiers.map((e) => {
                       let isModifier = isProduct?.modifiers.find(
                         (e2) => e2.id === e.id
                       );
@@ -41,8 +40,7 @@ const cartSlice = createSlice({
                         return { ...e, ...isModifier };
                       }
                     })
-                    : [],
-              },
+                  : [],
             },
           };
         }
@@ -50,41 +48,42 @@ const cartSlice = createSlice({
     },
     updateCartSync: (state, action) => {
       const isCart = state.items.findIndex((cartItem) => {
-        if (cartItem?.id !== action.payload?.data?.id) {
+        if (cartItem?.id !== action.payload?.id) {
           return false;
         }
         return (
-          isEqual(
-            cartItem?.cart?.data?.modifiers,
-            action.payload?.data?.cart?.data?.modifiers
-          ) &&
-          isEqual(
-            cartItem?.cart?.data?.additions,
-            action.payload?.data?.cart?.data?.additions
-          )
+          isEqual(cartItem?.cart?.modifiers, action.payload?.cart?.modifiers) &&
+          isEqual(cartItem?.cart?.additions, action.payload?.cart?.additions)
         );
       });
 
-      if (isCart != -1 && action?.payload?.data?.cart?.count === 0) {
+      if (isCart != -1 && action?.payload?.cart?.count === 0) {
         state.items.splice(isCart, 1);
-      } else if (isCart != -1 && action?.payload?.data) {
-        state.items[isCart] = action.payload.data;
-      } else if (isCart == -1 && action?.payload?.data) {
-        state.items.push(action.payload.data);
+      } else if (isCart != -1 && action?.payload) {
+        state.items[isCart] = action.payload;
+      } else if (isCart == -1 && action?.payload) {
+        state.items.push(action.payload);
       }
     },
     updateCartChecking: (state, action) => {
       return {
         ...state,
         checking: action.payload ?? state.checking ?? [],
-        items: state?.items?.length > 0 ? state.items.map((cartItem, index) => {
-          const discount =
-            action.payload[0] && action.payload[0]?.discounts && action.payload[0]?.discounts?.[index]?.discountSum ? action.payload[0].discounts[index].discountSum : 0;
-          return {
-            ...cartItem,
-            discount: discount,
-          };
-        }) : state?.items,
+        items:
+          state?.items?.length > 0
+            ? state.items.map((cartItem, index) => {
+                const discount =
+                  action.payload[0] &&
+                  action.payload[0]?.discounts &&
+                  action.payload[0]?.discounts?.[index]?.discountSum
+                    ? action.payload[0].discounts[index].discountSum
+                    : 0;
+                return {
+                  ...cartItem,
+                  discount: discount,
+                };
+              })
+            : state?.items,
       };
     },
     cartEditOptions: (state, action) => {
@@ -119,11 +118,11 @@ const cartSlice = createSlice({
         return (
           isEqual(
             cartItem?.cart?.data?.modifiers,
-            action.payload?.data?.cart?.data?.modifiers
+            action.payload?.data?.cart?.modifiers
           ) &&
           isEqual(
             cartItem?.cart?.data?.additions,
-            action.payload?.data?.cart?.data?.additions
+            action.payload?.data?.cart?.additions
           )
         );
       });

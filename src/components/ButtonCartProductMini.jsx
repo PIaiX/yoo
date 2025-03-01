@@ -15,39 +15,52 @@ const ButtonCartProductMini = memo(
     const selectedAffiliate = useSelector((state) => state.affiliate.active);
     const options = useSelector((state) => state.settings.options);
     const [loading, setLoading] = useState(false);
-    const [data, setData] = useState(product);
-    const isCartData = data?.id ? isCart(data) : false;
+    const isCartData = product?.id ? isCart(product) : false;
 
     const onPress = useCallback(
-      (newCount = 1) => {
-        setLoading(true);
-        getProduct({
-          id: data.id,
-          affiliateId: selectedAffiliate?.id ?? false,
-          required: true,
-          multiBrand: options?.multiBrand,
-          type: "site",
-        })
-          .then((res) => {
-            if (res?.modifiers?.length > 0 || res?.additions?.length > 0) {
-              return navigate("/product/" + data.id, res);
-            }
+      (newCount = 1, inputCount = false) => {
+        if (product?.modifiers?.length > 0) {
+          return navigate("/product/" + product.id, product);
+        }
+        if (isCartData && inputCount) {
+          dispatch(
+            updateCart({
+              ...product,
+              cart: product?.cart
+                ? { ...product.cart, count: newCount }
+                : { count: newCount },
+            })
+          );
+        } else {
+          setLoading(true);
+          getProduct({
+            id: product.id,
+            affiliateId: selectedAffiliate?.id ?? false,
+            required: true,
+            multiBrand: options?.multiBrand,
+            type: "site",
+          })
+            .then((res) => {
+              if (res?.modifiers?.length > 0 || res?.additions?.length > 0) {
+                return navigate("/product/" + product.id, res);
+              }
 
-            const modifiers =
-              options?.brand?.options?.priceAffiliateType &&
-              Array.isArray(res.modifiers) &&
-              res?.modifiers?.length > 0
-                ? groupByCategoryIdToArray(
-                    res.modifiers.filter((e) => e?.modifierOptions?.length > 0)
-                  )
-                : Array.isArray(res.modifiers) && res?.modifiers?.length > 0
-                ? groupByCategoryIdToArray(res.modifiers)
-                : [];
+              const modifiers =
+                options?.brand?.options?.priceAffiliateType &&
+                Array.isArray(res.modifiers) &&
+                res?.modifiers?.length > 0
+                  ? groupByCategoryIdToArray(
+                      res.modifiers.filter(
+                        (e) => e?.modifierOptions?.length > 0
+                      )
+                    )
+                  : Array.isArray(res.modifiers) && res?.modifiers?.length > 0
+                  ? groupByCategoryIdToArray(res.modifiers)
+                  : [];
 
-            let newProduct = {
-              data: {
-                cart: data?.cart
-                  ? { ...data.cart, count: newCount }
+              let newProduct = {
+                cart: product?.cart
+                  ? { ...product.cart, count: newCount }
                   : { count: newCount },
                 id: res.id,
                 options: res.options,
@@ -59,11 +72,11 @@ const ButtonCartProductMini = memo(
                 discount: res.discount,
                 code: res.code,
                 categoryId: res.categoryId,
-                comment: data?.comment ? data.comment : null,
+                comment: product?.comment ? product.comment : null,
                 medias:
-                  !data?.medias?.length === 0 && res.medias?.length > 0
+                  !product?.medias?.length === 0 && res.medias?.length > 0
                     ? res.medias
-                    : data?.medias ?? [],
+                    : product?.medias ?? [],
                 modifiers: modifiers && modifiers?.length > 0 ? modifiers : [],
                 additions:
                   res?.additions && res?.additions?.length > 0
@@ -71,34 +84,35 @@ const ButtonCartProductMini = memo(
                     : [],
                 wishes:
                   res?.wishes && res?.wishes?.length > 0 ? res.wishes : [],
-              },
-            };
+              };
 
-            dispatch(updateCart(newProduct));
-
-            if (res?.modifiers?.length > 0 || res?.additions?.length > 0) {
-              setData({ ...data, ...newProduct });
-            }
-          })
-          .finally(() => setLoading(false));
+              dispatch(updateCart(newProduct));
+            })
+            .finally(() => setLoading(false));
+        }
       },
-      [data, loading, options, selectedAffiliate, isCartData]
+      [product, loading, options, selectedAffiliate, isCartData]
     );
 
     if (
       isCartData?.id &&
-      (!data?.modifiers || data.modifiers.length === 0) &&
-      (!data?.additions || data.additions.length === 0) &&
-      (!isCartData?.cart?.data?.modifiers ||
-        isCartData.cart.data.modifiers.length === 0) &&
-      (!isCartData?.cart?.data?.additions ||
-        isCartData.cart.data.additions.length === 0) &&
+      (!product?.modifiers || product.modifiers.length === 0) &&
+      (!product?.additions || product.additions.length === 0) &&
+      (!isCartData?.cart?.modifiers ||
+        isCartData.cart.modifiers.length === 0) &&
+      (!isCartData?.cart?.additions ||
+        isCartData.cart.additions.length === 0) &&
       (!isCartData?.additions || isCartData.additions.length === 0) &&
       (!isCartData?.modifiers || isCartData.modifiers.length === 0) &&
-      (!data?.cart?.data?.modifiers || data.cart.data.modifiers.length === 0) &&
-      (!data?.cart?.data?.additions || data.cart.data.additions.length === 0)
+      (!product?.cart?.modifiers || product.cart.modifiers.length === 0) &&
+      (!product?.cart?.additions || product.cart.additions.length === 0)
     ) {
-      return <CountInput onChange={onPress} value={isCartData?.cart?.count} />;
+      return (
+        <CountInput
+          onChange={(e) => onPress(e, true)}
+          value={isCartData?.cart?.count}
+        />
+      );
     }
 
     return (
