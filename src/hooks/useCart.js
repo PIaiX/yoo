@@ -6,7 +6,7 @@ import { isEqual } from "lodash";
 const selectProduct = (state) => state.product;
 const selectCartItems = (state) => state.items;
 
-const makeSelectIsCart = (strict = true) =>
+const makeSelectIsCart = () =>
   createSelector([selectProduct, selectCartItems], (product, items) => {
     if (!product || !product.id || !items || items.length === 0) {
       return false;
@@ -17,21 +17,24 @@ const makeSelectIsCart = (strict = true) =>
         return false;
       }
 
-      return strict ? (
-        isEqual(cartItem?.cart?.data?.modifiers, product?.cart?.data?.modifiers) &&
+      return (
+        isEqual(
+          cartItem?.cart?.data?.modifiers,
+          product?.cart?.data?.modifiers
+        ) &&
         isEqual(cartItem?.cart?.data?.additions, product?.cart?.data?.additions)
-      ) : cartItem.id === product.id;
+      );
     });
   });
 
-const isCart = (product = false, strict = true) => {
-  const selectIsCart = makeSelectIsCart(strict);
+const isCart = (product = false) => {
+  const selectIsCart = makeSelectIsCart();
   const items = product?.id
     ? useSelector(
-      (state) =>
-        state?.cart?.items?.length > 0 &&
-        selectIsCart({ product, items: state?.cart?.items ?? [] })
-    )
+        (state) =>
+          state?.cart?.items?.length > 0 &&
+          selectIsCart({ product, items: state?.cart?.items ?? [] })
+      )
     : [];
 
   return items;
@@ -72,8 +75,8 @@ const useTotalCart = () => {
             : 0;
         point +=
           product?.type === "gift" &&
-            product?.cart?.count > 0 &&
-            product?.price > 0
+          product?.cart?.count > 0 &&
+          product?.price > 0
             ? Number(product.price) * Number(product.cart.count)
             : 0;
 
@@ -103,15 +106,15 @@ const useTotalCart = () => {
 
         pickupDiscount +=
           Number(affiliateActive?.options?.discountPickup) > 0 &&
-            stateDelivery === "pickup" &&
-            affiliateActive?.options?.discountExceptions?.length > 0 &&
-            !affiliateActive?.options?.discountExceptions.includes(
-              String(product.categoryId)
-            )
+          stateDelivery === "pickup" &&
+          affiliateActive?.options?.discountExceptions?.length > 0 &&
+          !affiliateActive?.options?.discountExceptions.includes(
+            String(product.categoryId)
+          )
             ? Math.floor(
-              (productPrice / 100) *
-              Number(affiliateActive.options.discountPickup)
-            )
+                (productPrice / 100) *
+                  Number(affiliateActive.options.discountPickup)
+              )
             : 0;
 
         if (statePromo?.options) {
@@ -127,8 +130,8 @@ const useTotalCart = () => {
                 Number(statePromo?.options?.percent) > 0
                   ? (productPrice / 100) * Number(statePromo.options.percent)
                   : Number(statePromo?.options?.sum) > 0
-                    ? Number(statePromo.options.sum)
-                    : 0;
+                  ? Number(statePromo.options.sum)
+                  : 0;
             }
           } else if (
             statePromo?.type === "category_one" &&
@@ -139,8 +142,8 @@ const useTotalCart = () => {
               Number(statePromo?.options?.percent) > 0
                 ? (productPrice / 100) * Number(statePromo.options.percent)
                 : Number(statePromo?.options?.sum) > 0
-                  ? Number(statePromo.options.sum)
-                  : 0;
+                ? Number(statePromo.options.sum)
+                : 0;
           } else if (
             statePromo?.type === "product_one" &&
             statePromo?.options?.productId
@@ -150,8 +153,8 @@ const useTotalCart = () => {
                 Number(statePromo?.options?.percent) > 0
                   ? (productPrice / 100) * Number(statePromo.options.percent)
                   : Number(statePromo?.options?.sum) > 0
-                    ? Number(statePromo.options.sum)
-                    : 0;
+                  ? Number(statePromo.options.sum)
+                  : 0;
             }
           }
         }
@@ -240,22 +243,22 @@ const useTotalCart = () => {
         if (pointOptions?.type === "yooapp" || !pointOptions?.type) {
           pointAccrual = isEligible
             ? Math.floor(
-              (totalCalcul / 100) *
+                (totalCalcul / 100) *
+                  Number(
+                    userOptions?.cashback
+                      ? userOptions?.cashback
+                      : pointOptions.accrual.value ?? 0
+                  )
+              )
+            : 0;
+        } else {
+          pointAccrual = Math.floor(
+            (totalCalcul / 100) *
               Number(
                 userOptions?.cashback
                   ? userOptions?.cashback
                   : pointOptions.accrual.value ?? 0
               )
-            )
-            : 0;
-        } else {
-          pointAccrual = Math.floor(
-            (totalCalcul / 100) *
-            Number(
-              userOptions?.cashback
-                ? userOptions?.cashback
-                : pointOptions.accrual.value ?? 0
-            )
           );
         }
       }

@@ -250,7 +250,7 @@ const Header = memo(() => {
                       )}
                     </a>
                   )}
-                  {!gps && city?.title && (
+                  {!gps && city?.title && cities?.length > 1 && (
                     <div className="no-city">
                       <p className="mb-3">
                         {t("Ваш город")} <b>{city.title}</b>?
@@ -556,7 +556,10 @@ const Header = memo(() => {
                       </a>
                     </li>
                   ) : /Android/i.test(navigator.userAgent) ? (
-                    <li key={0} className="list-unstyled d-flex justify-content-center">
+                    <li
+                      key={0}
+                      className="list-unstyled d-flex justify-content-center"
+                    >
                       <a
                         target="_blank"
                         href={
@@ -570,7 +573,10 @@ const Header = memo(() => {
                       </a>
                     </li>
                   ) : (
-                    <div key={0}className="list-unstyled d-flex justify-content-center">
+                    <div
+                      key={0}
+                      className="list-unstyled d-flex justify-content-center"
+                    >
                       {options.app?.accountApple && options.app?.titleIos && (
                         <li>
                           <a
@@ -625,257 +631,263 @@ const Header = memo(() => {
           </Container>
         </Offcanvas.Body>
       </Offcanvas>
-
-      <Modal
-        size="lg"
-        centered
-        backdrop={city?.title ? true : "static"}
-        keyboard={!!city?.title}
-        className="city"
-        show={showCity}
-        onHide={() => setShowCity(false)}
-      >
-        <Modal.Body className="p-4">
-          <img
-            src={
-              options?.logo
-                ? getImageURL({
-                    path: options.logo,
-                    type: "all/web/logo",
-                    size: "full",
-                  })
-                : "/logo.png"
-            }
-            alt={options?.title ?? "YOOAPP"}
-            className="logo mb-4"
-          />
-
-          {city?.title && (
-            <button
-              type="button"
-              className="btn-close close"
-              aria-label="Close"
-              onClick={() => setShowCity(false)}
-            ></button>
-          )}
-          <div>
-            <Input
-              name="search"
-              type="search"
-              placeholder={t("Поиск...")}
-              className="mb-3"
-              onChange={handleChange}
-              value={searchInput}
+      {cities?.length > 1 && (
+        <Modal
+          size="lg"
+          centered
+          backdrop={city?.title ? true : "static"}
+          keyboard={!!city?.title}
+          className="city"
+          show={showCity}
+          onHide={() => setShowCity(false)}
+        >
+          <Modal.Body className="p-4">
+            <img
+              src={
+                options?.logo
+                  ? getImageURL({
+                      path: options.logo,
+                      type: "all/web/logo",
+                      size: "full",
+                    })
+                  : "/logo.png"
+              }
+              alt={options?.title ?? "YOOAPP"}
+              className="logo mb-4"
             />
-          </div>
-          <div className="box-shadow">
-            <div className="box-shadow-top"></div>
-            <div className="search-box">
-              {searchInput?.length > 0 && search && search?.length > 0
-                ? search.length > 0 && (
-                    <div className="cities">
-                      {Object.entries(
-                        search
-                          .sort((a, b) => a.title.localeCompare(b.title))
-                          .reduce((acc, city) => {
-                            const firstLetter = city.title[0].toUpperCase();
-                            if (!acc[firstLetter]) {
-                              acc[firstLetter] = [];
-                            }
-                            acc[firstLetter].push(city);
-                            return acc;
-                          }, {})
-                      ).map(([letter, cities]) => (
-                        <div key={letter} className="cities-box">
-                          <b className="d-block cities-box-letter text-main">
-                            {letter}
-                          </b>
-                          <Row>
-                            {cities.map((e, index) => (
-                              <Col md={12} key={index} className="pb-2 ps-3">
-                                <a
-                                  onClick={() => {
-                                    dispatch(updateAffiliate(e.affiliates));
-                                    dispatch(updateCity(e));
-                                    dispatch(updateGps(true));
-                                    dispatch(deleteCart());
-                                    setShowCity(false);
-                                  }}
-                                  className={
-                                    "py-2 fw-6" +
-                                    (e.title === city?.title &&
-                                    e.options?.alias === city?.options?.alias
-                                      ? " active"
-                                      : "")
-                                  }
-                                >
-                                  {e?.options?.alias?.length > 0
-                                    ? e.options.alias
-                                    : e.title}
-                                </a>
-                              </Col>
-                            ))}
-                          </Row>
-                        </div>
-                      ))}
-                    </div>
-                  )
-                : list?.length > 0 &&
-                  list.map((item) => (
-                    <React.Fragment key={item.country}>
-                      {item?.country && (
-                        <h6 className="fw-7 p-2">{item.country}</h6>
-                      )}
-                      {item?.cities?.length > 0 && (
-                        <div className="cities">
-                          {Object.entries(
-                            item.cities
-                              .sort((a, b) => a.title.localeCompare(b.title))
-                              .reduce((acc, city) => {
-                                const firstLetter = city.title[0].toUpperCase();
-                                if (!acc[firstLetter]) {
-                                  acc[firstLetter] = [];
-                                }
-                                acc[firstLetter].push(city);
-                                return acc;
-                              }, {})
-                          ).map(([letter, cities]) => (
-                            <div key={letter} className="cities-box">
-                              <b className="d-block cities-box-letter text-main">
-                                {letter}
-                              </b>
-                              <Row>
-                                {cities.map((e, index) => (
-                                  <Col
-                                    md={12}
-                                    key={index}
-                                    className="pb-2 ps-3"
-                                  >
-                                    <a
-                                      onClick={() => {
-                                        dispatch(updateAffiliate(e.affiliates));
-                                        dispatch(updateCity(e));
-                                        dispatch(updateGps(true));
-                                        dispatch(deleteCart());
-                                        setShowCity(false);
-                                      }}
-                                      className={
-                                        "py-2 fw-6" +
-                                        (e.title === city?.title &&
-                                        e.options?.alias ===
-                                          city?.options?.alias
-                                          ? " active"
-                                          : "")
-                                      }
-                                    >
-                                      {e?.options?.alias?.length > 0
-                                        ? e.options.alias
-                                        : e.title}
-                                    </a>
-                                  </Col>
-                                ))}
-                              </Row>
-                            </div>
-                          ))}
-                        </div>
-                      )}
-                    </React.Fragment>
-                  ))}
+
+            {city?.title && (
+              <button
+                type="button"
+                className="btn-close close"
+                aria-label="Close"
+                onClick={() => setShowCity(false)}
+              ></button>
+            )}
+            <div>
+              <Input
+                name="search"
+                type="search"
+                placeholder={t("Поиск...")}
+                className="mb-3"
+                onChange={handleChange}
+                value={searchInput}
+              />
             </div>
-            <div className="box-shadow-bottom"></div>
-          </div>
-        </Modal.Body>
-      </Modal>
-      <Modal
-        size="lg"
-        centered
-        className="brand"
-        show={showBrand}
-        backdrop={city?.title ? true : "static"}
-        keyboard={!!city?.title}
-        onHide={() => setShowBrand(false)}
-      >
-        <Modal.Body className="p-4">
-          {city?.title && (
-            <button
-              type="button"
-              className="btn-close close"
-              aria-label="Close"
-              onClick={() => setShowBrand(false)}
-            ></button>
-          )}
-          <h5 className="fw-7 mb-4">{t("Выберите заведение")}</h5>
-          <div className="search-box">
-            {affiliate?.length > 0 && (
-              <Row>
-                {affiliate.map((e, index) => (
-                  <Col md={6} key={index} className="pb-3">
-                    <a
-                      onClick={() => {
-                        dispatch(mainAffiliateEdit(e));
-                        dispatch(deleteCart());
-                        setShowBrand(false);
-                      }}
-                      className={
-                        "brand-item" +
-                        (e.id === selectedAffiliate?.id ? " active" : "")
-                      }
-                    >
-                      <Row className="align-items-center">
-                        {e.media && (
-                          <Col xs="auto">
-                            <img
-                              src={getImageURL({
-                                path: e.media,
-                                type: "affiliate",
-                                size: "full",
-                              })}
-                              alt={options?.title ?? "YOOAPP"}
-                              className="logo"
-                            />
-                          </Col>
-                        )}
-                        <Col>
-                          <div className="fw-7 mb-1">
-                            {e?.title ? e.title : e.full}
+            <div className="box-shadow">
+              <div className="box-shadow-top"></div>
+              <div className="search-box">
+                {searchInput?.length > 0 && search && search?.length > 0
+                  ? search.length > 0 && (
+                      <div className="cities">
+                        {Object.entries(
+                          search
+                            .sort((a, b) => a.title.localeCompare(b.title))
+                            .reduce((acc, city) => {
+                              const firstLetter = city.title[0].toUpperCase();
+                              if (!acc[firstLetter]) {
+                                acc[firstLetter] = [];
+                              }
+                              acc[firstLetter].push(city);
+                              return acc;
+                            }, {})
+                        ).map(([letter, cities]) => (
+                          <div key={letter} className="cities-box">
+                            <b className="d-block cities-box-letter text-main">
+                              {letter}
+                            </b>
+                            <Row>
+                              {cities.map((e, index) => (
+                                <Col md={12} key={index} className="pb-2 ps-3">
+                                  <a
+                                    onClick={() => {
+                                      dispatch(updateAffiliate(e.affiliates));
+                                      dispatch(updateCity(e));
+                                      dispatch(updateGps(true));
+                                      dispatch(deleteCart());
+                                      setShowCity(false);
+                                    }}
+                                    className={
+                                      "py-2 fw-6" +
+                                      (e.title === city?.title &&
+                                      e.options?.alias === city?.options?.alias
+                                        ? " active"
+                                        : "")
+                                    }
+                                  >
+                                    {e?.options?.alias?.length > 0
+                                      ? e.options.alias
+                                      : e.title}
+                                  </a>
+                                </Col>
+                              ))}
+                            </Row>
                           </div>
-                          <div>
-                            {e.status === 0 ? (
-                              <span className="text-danger">
-                                {t("Сейчас закрыто")}
-                              </span>
-                            ) : e?.options?.work &&
-                              e?.options?.work[moment().weekday()].start &&
-                              e?.options?.work[moment().weekday()].end ? (
-                              isWork(
-                                e?.options?.work[moment().weekday()].start,
-                                e?.options?.work[moment().weekday()].end
-                              ) ? (
-                                <span className="text-muted">
-                                  {t("Работает c")}{" "}
-                                  {e?.options?.work[moment().weekday()].start}{" "}
-                                  {t("до")}{" "}
-                                  {e?.options?.work[moment().weekday()].end}
-                                </span>
-                              ) : (
+                        ))}
+                      </div>
+                    )
+                  : list?.length > 0 &&
+                    list.map((item) => (
+                      <React.Fragment key={item.country}>
+                        {item?.country && (
+                          <h6 className="fw-7 p-2">{item.country}</h6>
+                        )}
+                        {item?.cities?.length > 0 && (
+                          <div className="cities">
+                            {Object.entries(
+                              item.cities
+                                .sort((a, b) => a.title.localeCompare(b.title))
+                                .reduce((acc, city) => {
+                                  const firstLetter =
+                                    city.title[0].toUpperCase();
+                                  if (!acc[firstLetter]) {
+                                    acc[firstLetter] = [];
+                                  }
+                                  acc[firstLetter].push(city);
+                                  return acc;
+                                }, {})
+                            ).map(([letter, cities]) => (
+                              <div key={letter} className="cities-box">
+                                <b className="d-block cities-box-letter text-main">
+                                  {letter}
+                                </b>
+                                <Row>
+                                  {cities.map((e, index) => (
+                                    <Col
+                                      md={12}
+                                      key={index}
+                                      className="pb-2 ps-3"
+                                    >
+                                      <a
+                                        onClick={() => {
+                                          dispatch(
+                                            updateAffiliate(e.affiliates)
+                                          );
+                                          dispatch(updateCity(e));
+                                          dispatch(updateGps(true));
+                                          dispatch(deleteCart());
+                                          setShowCity(false);
+                                        }}
+                                        className={
+                                          "py-2 fw-6" +
+                                          (e.title === city?.title &&
+                                          e.options?.alias ===
+                                            city?.options?.alias
+                                            ? " active"
+                                            : "")
+                                        }
+                                      >
+                                        {e?.options?.alias?.length > 0
+                                          ? e.options.alias
+                                          : e.title}
+                                      </a>
+                                    </Col>
+                                  ))}
+                                </Row>
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                      </React.Fragment>
+                    ))}
+              </div>
+              <div className="box-shadow-bottom"></div>
+            </div>
+          </Modal.Body>
+        </Modal>
+      )}
+      {affiliate?.length > 1 && (
+        <Modal
+          size="lg"
+          centered
+          className="brand"
+          show={showBrand}
+          backdrop={city?.title ? true : "static"}
+          keyboard={!!city?.title}
+          onHide={() => setShowBrand(false)}
+        >
+          <Modal.Body className="p-4">
+            {city?.title && (
+              <button
+                type="button"
+                className="btn-close close"
+                aria-label="Close"
+                onClick={() => setShowBrand(false)}
+              ></button>
+            )}
+            <h5 className="fw-7 mb-4">{t("Выберите заведение")}</h5>
+            <div className="search-box">
+              {affiliate?.length > 0 && (
+                <Row>
+                  {affiliate.map((e, index) => (
+                    <Col md={6} key={index} className="pb-3">
+                      <a
+                        onClick={() => {
+                          dispatch(mainAffiliateEdit(e));
+                          dispatch(deleteCart());
+                          setShowBrand(false);
+                        }}
+                        className={
+                          "brand-item" +
+                          (e.id === selectedAffiliate?.id ? " active" : "")
+                        }
+                      >
+                        <Row className="align-items-center">
+                          {e.media && (
+                            <Col xs="auto">
+                              <img
+                                src={getImageURL({
+                                  path: e.media,
+                                  type: "affiliate",
+                                  size: "full",
+                                })}
+                                alt={options?.title ?? "YOOAPP"}
+                                className="logo"
+                              />
+                            </Col>
+                          )}
+                          <Col>
+                            <div className="fw-7 mb-1">
+                              {e?.title ? e.title : e.full}
+                            </div>
+                            <div>
+                              {e.status === 0 ? (
                                 <span className="text-danger">
                                   {t("Сейчас закрыто")}
                                 </span>
-                              )
-                            ) : e?.desc ? (
-                              <span className="text-muted">{e.desc}</span>
-                            ) : null}
-                          </div>
-                        </Col>
-                      </Row>
-                    </a>
-                  </Col>
-                ))}
-              </Row>
-            )}
-          </div>
-        </Modal.Body>
-      </Modal>
+                              ) : e?.options?.work &&
+                                e?.options?.work[moment().weekday()].start &&
+                                e?.options?.work[moment().weekday()].end ? (
+                                isWork(
+                                  e?.options?.work[moment().weekday()].start,
+                                  e?.options?.work[moment().weekday()].end
+                                ) ? (
+                                  <span className="text-muted">
+                                    {t("Работает c")}{" "}
+                                    {e?.options?.work[moment().weekday()].start}{" "}
+                                    {t("до")}{" "}
+                                    {e?.options?.work[moment().weekday()].end}
+                                  </span>
+                                ) : (
+                                  <span className="text-danger">
+                                    {t("Сейчас закрыто")}
+                                  </span>
+                                )
+                              ) : e?.desc ? (
+                                <span className="text-muted">{e.desc}</span>
+                              ) : null}
+                            </div>
+                          </Col>
+                        </Row>
+                      </a>
+                    </Col>
+                  ))}
+                </Row>
+              )}
+            </div>
+          </Modal.Body>
+        </Modal>
+      )}
       <ScrollToTop />
     </>
   );

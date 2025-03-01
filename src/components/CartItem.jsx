@@ -8,13 +8,11 @@ import {
   customWeight,
   getImageURL,
   keyGenerator,
-} from "../helpers/all";
-import ButtonCart from "./ButtonCart";
-import Textarea from "./utils/Textarea";
+} from "../helpers/all"; 
 import { useForm } from "react-hook-form";
 import { updateCart } from "../services/cart";
-// import BtnFav from "./utils/BtnFav";
-// import { useSelector } from "react-redux";
+import ButtonCartItem from "./ButtonCartItem";
+import Textarea from "./utils/Textarea";
 
 const CartItem = memo(({ data }) => {
   const { t } = useTranslation();
@@ -191,7 +189,7 @@ const CartItem = memo(({ data }) => {
       <div className="right d-flex justify-content-between flex-row">
         {!data?.noCount ? (
           <div className="order-2 order-md-1 me-3">
-            <ButtonCart cart product={data} strict={true} />
+            <ButtonCartItem product={data} />
           </div>
         ) : (
           <div className="d-flex flex-1 w-100 me-3">

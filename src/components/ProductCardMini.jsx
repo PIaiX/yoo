@@ -8,6 +8,7 @@ import {
   sortMain,
 } from "../helpers/all";
 import ButtonCart from "./ButtonCart";
+import ButtonCartProductMini from "./ButtonCartProductMini";
 
 const ProductCardMini = memo(({ data }) => {
   const modifiersData =
@@ -83,7 +84,7 @@ const ProductCardMini = memo(({ data }) => {
               ? "от " + customPrice(price > 0 ? price : data.price)
               : customPrice(data.price)}
           </p>
-          <ButtonCart product={data} strict={true} />
+          <ButtonCartProductMini product={data} />
         </div>
       </figcaption>
     </figure>

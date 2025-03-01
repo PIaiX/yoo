@@ -10,10 +10,8 @@ import {
   getImageURL,
   sortMain,
 } from "../helpers/all";
-import ButtonCart from "./ButtonCart";
+import ButtonCartProductMini from "./ButtonCartProductMini";
 import Tags from "./Tags";
-// import { HiOutlineInformationCircle } from "react-icons/hi2";
-// import BtnFav from "./utils/BtnFav";
 
 const ProductCard = memo(({ data }) => {
   const { t } = useTranslation();
@@ -57,6 +55,7 @@ const ProductCard = memo(({ data }) => {
   //     : data.discount;
 
   const [activeIndex, setActiveIndex] = useState(0);
+
   if (data?.type == "gift") {
     return (
       <div className="product product-gift" key={data?.id}>
@@ -233,8 +232,7 @@ const ProductCard = memo(({ data }) => {
               </Link>
             )}
 
-            <ButtonCart
-              strict={true}
+            <ButtonCartProductMini
               product={data}
               isValid={data.total >= data.options.minCart}
             />
@@ -417,7 +415,7 @@ const ProductCard = memo(({ data }) => {
             })}
           </Link>
         )}
-        <ButtonCart strict={false} product={data} />
+        <ButtonCartProductMini product={data} />
       </div>
     </div>
   );

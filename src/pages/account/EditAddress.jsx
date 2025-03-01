@@ -33,6 +33,7 @@ const EditAddress = () => {
   const [loading, setLoading] = useState(true);
   const affiliate = useSelector((state) => state.affiliate.items);
   const cities = useSelector((state) => state.affiliate.cities);
+  const options = useSelector((state) => state.settings.options);
   var locations = [];
 
   if (affiliate?.length > 0 && cities?.length > 0) {
@@ -169,7 +170,11 @@ const EditAddress = () => {
 
   useEffect(() => {
     if (streetText) {
-      getDadataStreets({ query: streetText, locations }).then((res) => {
+      getDadataStreets({
+        query: streetText,
+        locations,
+        token: options.dadataToken,
+      }).then((res) => {
         if (res?.data?.suggestions) {
           setStreets(res.data.suggestions);
         }
