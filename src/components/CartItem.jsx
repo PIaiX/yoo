@@ -8,7 +8,7 @@ import {
   customWeight,
   getImageURL,
   keyGenerator,
-} from "../helpers/all"; 
+} from "../helpers/all";
 import { useForm } from "react-hook-form";
 import { updateCart } from "../services/cart";
 import ButtonCartItem from "./ButtonCartItem";
@@ -53,10 +53,8 @@ const CartItem = memo(({ data }) => {
     <div
       className={
         "cart-item" +
-        ((!data?.cart?.additions ||
-          data?.cart?.additions?.length === 0) &&
-        (!data?.cart?.modifiers ||
-          data?.cart?.modifiers?.length === 0) &&
+        ((!data?.cart?.additions || data?.cart?.additions?.length === 0) &&
+        (!data?.cart?.modifiers || data?.cart?.modifiers?.length === 0) &&
         (!data?.cart?.wishes || data?.cart?.wishes?.length === 0)
           ? " mini-cart-item"
           : "")
@@ -217,12 +215,30 @@ const CartItem = memo(({ data }) => {
             customPrice(price)
           )}
         </div>
-
-        {/* {isAuth && <BtnFav checked={false} />} */}
       </div>
       <Modal show={showComment} onHide={setShowComment} centered>
         <Modal.Header closeButton>
-          {t("Комментарий")} {t("на")} <b className="ms-1">{data.title}</b>
+          <div className="d-flex flex-row align-items-center">
+            <img
+              height={40}
+              src={getImageURL({ path: data.medias })}
+              alt={data.title}
+              className="me-2"
+            />
+            <div>
+              <b>
+                {data.title}{" "}
+                {data?.cart?.modifiers?.length > 0
+                  ? data?.cart?.modifiers.map((e) => " - " + e.title)
+                  : ""}{" "}
+              </b>
+              <p className="text-muted fs-08">
+                {data?.cart?.additions?.length > 0
+                  ? data?.cart?.additions.map((e) => " + " + e.title)
+                  : ""}
+              </p>
+            </div>
+          </div>
         </Modal.Header>
         <Modal.Body>
           <Textarea

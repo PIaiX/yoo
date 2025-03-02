@@ -2,11 +2,11 @@ import moment from 'moment-timezone'
 
 const keyGenerator = (data) => {
     let key = data.id + '_'
-    if (data?.cart?.data?.modifiers?.length > 0) {
-        key += data.cart.data.modifiers.map(e => e.id).join('_')
+    if (data?.cart?.modifiers?.length > 0) {
+        key += data.cart.modifiers.map(e => e.id).join('_')
     }
-    if (data?.cart?.data?.additions?.length > 0) {
-        key += data.cart.data.additions.map(e => e.id).join('_')
+    if (data?.cart?.additions?.length > 0) {
+        key += data.cart.additions.map(e => e.id).join('_')
     }
     return key
 }

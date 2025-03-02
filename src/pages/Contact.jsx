@@ -290,7 +290,9 @@ const Contact = () => {
                                   className="badge badge-sm d-block me-2"
                                   style={{
                                     backgroundColor:
-                                      zone?.color ?? "rgba(0,0,0,0.2)",
+                                      zone?.color && zone?.color?.length > 0
+                                        ? zone.color
+                                        : "rgba(0,0,0,0.3)",
                                     marginTop: 4,
                                     width: 12,
                                     height: 12,

@@ -14,8 +14,8 @@ import { updateSales } from "../store/reducers/catalogSlice";
 
 const Promo = () => {
   const { t } = useTranslation();
-  const [loading, setLoading] = useState(true);
   const selectedAffiliate = useSelector((state) => state.affiliate.active);
+  const [loading, setLoading] = useState(true);
   const options = useSelector((state) => state.settings.options);
   const catalog = useSelector((state) => state.catalog);
   const dispatch = useDispatch();
@@ -34,6 +34,8 @@ const Promo = () => {
         .finally(() => {
           setLoading(false);
         });
+    }else{
+      setLoading(false)
     }
   }, [options, selectedAffiliate]);
 

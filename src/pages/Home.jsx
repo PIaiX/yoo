@@ -18,10 +18,10 @@ import EmptyWork from "../components/empty/work";
 
 const Home = () => {
   const { t } = useTranslation();
+  const selectedAffiliate = useSelector((state) => state.affiliate.active);
   const [loading, setLoading] = useState(false);
   const options = useSelector((state) => state.settings.options);
   const city = useSelector((state) => state.affiliate.city);
-  const selectedAffiliate = useSelector((state) => state.affiliate.active);
   const catalog = useSelector((state) => state.catalog);
   const dispatch = useDispatch();
   const [isFirstLoad, setIsFirstLoad] = useState(true);
@@ -54,7 +54,7 @@ const Home = () => {
       options?.title &&
       options?.title != "YooApp"
     ) {
-      if (catalog?.widgets?.length === 0 && catalog?.categories?.length === 0) {
+      if (catalog?.widgets?.length === 0 && catalog?.categories?.length === 0 && selectedAffiliate) {
         setLoading(true);
       }
       getData();

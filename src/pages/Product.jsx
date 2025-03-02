@@ -498,7 +498,7 @@ const Product = () => {
                             } else {
                               updatedModifiers.push(e); // Добавляем новый модификатор
                             }
-                     
+
                             // Обновляем состояние иммутабельно
                             setProduct((prevProduct) => ({
                               ...prevProduct,
@@ -673,25 +673,29 @@ const Product = () => {
                       >
                         {product?.additions?.length > 0 &&
                           product.additions.map((e) => {
-                            const isAddition = () =>
-                              !!product?.cart?.additions?.find(
-                                (addition) => addition.id === e.id
-                              );
+                            const isAddition = !!product?.cart?.additions?.find(
+                              (addition) => addition.id === e.id
+                            );
                             const onPressAddition = () => {
-                              if (isAddition()) {
-                                setProduct((prev) => ({
-                                  ...prev,
+                              if (isAddition) {
+                                setProduct((prevProduct) => ({
+                                  ...prevProduct,
                                   cart: {
+                                    ...prevProduct.cart,
                                     additions: product.cart.additions.filter(
                                       (addition) => addition.id != e.id
                                     ),
                                   },
                                 }));
                               } else {
-                                setProduct((prev) => ({
-                                  ...prev,
+                                setProduct((prevProduct) => ({
+                                  ...prevProduct,
                                   cart: {
-                                    additions: [...prev.cart.additions, e],
+                                    ...prevProduct.cart,
+                                    additions: [
+                                      ...prevProduct.cart.additions,
+                                      e,
+                                    ],
                                   },
                                 }));
                               }
@@ -700,7 +704,7 @@ const Product = () => {
                               <Col key={e.id}>
                                 <Addition
                                   data={e}
-                                  active={isAddition()}
+                                  active={isAddition}
                                   onChange={onPressAddition}
                                 />
                               </Col>
@@ -718,12 +722,12 @@ const Product = () => {
                       >
                         {product?.wishes?.length > 0 &&
                           product.wishes.map((e) => {
-                            const isAddition = () =>
+                            const isAddition  =
                               !!product?.cart?.wishes.find(
                                 (addition) => addition.id === e.id
                               );
                             const onPressAddition = () => {
-                              if (isAddition()) {
+                              if (isAddition) {
                                 let newAdditions = product.cart.wishes.filter(
                                   (addition) => addition.id != e.id
                                 );
@@ -739,7 +743,7 @@ const Product = () => {
                               <li key={e.id}>
                                 <Wish
                                   data={e}
-                                  active={isAddition()}
+                                  active={isAddition}
                                   onChange={onPressAddition}
                                 />
                               </li>

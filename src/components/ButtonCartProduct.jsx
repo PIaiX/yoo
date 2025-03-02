@@ -12,7 +12,6 @@ import { useTranslation } from "react-i18next";
 
 const ButtonCartProduct = memo(
   ({ product, isValid = true, className, children }) => {
-
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const { t } = useTranslation();
@@ -83,13 +82,17 @@ const ButtonCartProduct = memo(
                   res?.wishes && res?.wishes?.length > 0 ? res.wishes : [],
               };
 
-              dispatch(updateCart(newProduct));
-
               if (res?.modifiers?.length > 0 || res?.additions?.length > 0) {
+                if (isCartData) {
+                  newProduct.cart.count += 1;
+                }
+                dispatch(updateCart(newProduct));
                 NotificationManager.success(
                   t("Товар успешно добавлен в корзину")
                 );
                 navigate(-1);
+              } else {
+                dispatch(updateCart(newProduct));
               }
             })
             .finally(() => setLoading(false));

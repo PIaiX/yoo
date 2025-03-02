@@ -69,8 +69,8 @@ const settingsSlice = createSlice({
         let categoryIndex =
           state?.filter?.length > 0
             ? state.filter.findIndex(
-              (e) => e.categoryId === action.payload.categoryId
-            )
+                (e) => e.categoryId === action.payload.categoryId
+              )
             : -1;
 
         if (categoryIndex != -1) {
@@ -85,10 +85,14 @@ const settingsSlice = createSlice({
     removeFilter: (state) => {
       state.filter = [];
     },
+    resetSettings: (state) => {
+      state = { ...initialState };
+    },
   },
 });
 
 export const {
+  resetSettings,
   updateConnect,
   updateOptions,
   updateIp,
@@ -96,7 +100,7 @@ export const {
   updateFilter,
   removeFilter,
   updateSettingsCity,
-  updateSettingsCountry
+  updateSettingsCountry,
 } = settingsSlice.actions;
 
 export default settingsSlice.reducer;
