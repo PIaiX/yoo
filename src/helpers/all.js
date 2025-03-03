@@ -110,7 +110,7 @@ const customWeight = ({ value, type = "г" }) => {
     Number(value) < 1 && typeData === "г"
       ? Math.pow(10, value.toString().split(".")[1].length) * Number(value)
       : Number(value);
-  value = value + " " + typeData;
+  value = value + typeData;
 
   return value;
 };
@@ -354,12 +354,12 @@ const sortMain = (medias) => {
 
 const keyGenerator = (data) => {
   let key = data.id + '_'
-  if (data?.cart?.data?.modifiers?.length > 0) {
-    key += data.cart.data.modifiers.map(e => e.id).join('_')
+  if (data?.cart?.modifiers?.length > 0) {
+    key += data.cart.modifiers.map(e => e.id).join('_')
   }
 
-  if (data?.cart?.data?.additions?.length > 0) {
-    key += data.cart.data.additions.map(e => e.id).join('_')
+  if (data?.cart?.additions?.length > 0) {
+    key += data.cart.additions.map(e => e.id).join('_')
   }
   return key
 }

@@ -5,11 +5,11 @@ import { customPrice, customWeight, getImageURL } from "../helpers/all";
 
 const CheckoutProduct = memo(({ data }) => {
   const price =
-    data?.cart?.data?.modifiers?.length > 0
+    data?.cart?.modifiers?.length > 0
       ? data.options.modifierPriceSum
-        ? data.cart.data.modifiers.reduce((sum, item) => sum + item.price, 0) +
+        ? data.cart.modifiers.reduce((sum, item) => sum + item.price, 0) +
           data.price
-        : data.cart.data.modifiers.reduce((sum, item) => sum + item.price, 0)
+        : data.cart.modifiers.reduce((sum, item) => sum + item.price, 0)
       : data.price;
 
   const [open, setOpen] = useState({ additions: false, wishes: false });
@@ -62,7 +62,7 @@ const CheckoutProduct = memo(({ data }) => {
             <Collapse in={open.additions}>
               <div id="collapse-additions">
                 <ul className="cart-item-ingredients">
-                  {data.cart.data.additions.map((e) => (
+                  {data.cart.additions.map((e) => (
                     <li>
                       {e.title}{" "}
                       <span className="fw-7">+{customPrice(e.price)}</span>
@@ -96,7 +96,7 @@ const CheckoutProduct = memo(({ data }) => {
             <Collapse in={open.wishes}>
               <div id="collapse-wishes">
                 <ul className="cart-item-ingredients-minus">
-                  {data.cart.data.wishes.map((e) => (
+                  {data.cart.wishes.map((e) => (
                     <li>
                       {e.title}{" "}
                       <span className="fw-7">+{customPrice(e.price)}</span>

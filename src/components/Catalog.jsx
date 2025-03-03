@@ -11,9 +11,21 @@ import Categories from "./Categories";
 import CategoryCard from "./CategoryCard";
 import CategoryGroup from "./CategoryGroup";
 import GridIcon from "./svgs/GridIcon";
+import { Modal } from "react-bootstrap";
+import Loader from "./utils/Loader";
+import NavTop from "./utils/NavTop";
+import { useTranslation } from "react-i18next";
+import ProductModal from "./ProductModal";
 
 const Catalog = memo(({ data }) => {
   const [viewCategories, setViewCategories] = useState(false);
+  const [product, setProduct] = useState({
+    show: false,
+    loading: true,
+    data: false,
+  });
+  const { t } = useTranslation();
+
   if (!data || data?.length === 0) {
     return null;
   }
@@ -53,13 +65,46 @@ const Catalog = memo(({ data }) => {
             {data?.length > 0 && (
               <div className="categories-box">
                 {data.map((e, index) => (
-                  <CategoryGroup key={index} data={e} />
+                  <CategoryGroup
+                    key={index}
+                    data={e}
+                    onOpen={(e) =>
+                      setProduct((prev) => ({ ...prev, show: true, data: e }))
+                    }
+                  />
                 ))}
               </div>
             )}
           </Container>
         </>
       )}
+      {/* <Modal
+        className="product-modal"
+        show={product.show}
+        onHide={() => setProduct({ show: false, loading: true, data: false })}
+        centered
+        size="xl"
+        scrollable
+      >
+        <Modal.Body className="scroll-custom">
+          {product.show && product.data ? (
+            <ProductModal
+              {...product.data}
+              onLoad={(e) => {
+                console.log(e);
+                setProduct((prev) => ({
+                  ...prev,
+                  show: true,
+                  loading: false,
+                  data: e,
+                }));
+              }}
+            />
+          ) : (
+            <Loader full />
+          )}
+        </Modal.Body>
+      </Modal> */}
     </section>
   );
 });

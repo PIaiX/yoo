@@ -34,21 +34,25 @@ const SupportForm = memo(
       selectedAffiliate?.options?.work &&
       selectedAffiliate.options.work[weekday]?.end &&
       selectedAffiliate.options.work[weekday]?.start &&
-      selectedAffiliate?.status !== 0
-        ? isWork(
-            selectedAffiliate.options.work[weekday].start,
-            selectedAffiliate.options.work[weekday].end
-          )
-          ? t("Онлайн")
-          : `${t("Мы работаем с")} ${
-              selectedAffiliate.options.work[weekday].start
-            } ${t("до")} ${selectedAffiliate.options.work[weekday].end}`
-        : t("Оффлайн");
+      selectedAffiliate?.status !== 0 ? (
+        isWork(
+          selectedAffiliate.options.work[weekday].start,
+          selectedAffiliate.options.work[weekday].end
+        ) ? (
+          <span className="text-success">{t("Онлайн")}</span>
+        ) : (
+          `${t("Мы работаем с")} ${
+            selectedAffiliate.options.work[weekday].start
+          } ${t("до")} ${selectedAffiliate.options.work[weekday].end}`
+        )
+      ) : (
+        t("Оффлайн")
+      );
     return (
       <div className={`support${className ? " " + className : ""}`}>
         <div className="support-top">
           <h6 className="mb-0">{t("Чат с поддержкой")}</h6>
-          {time && <p className="text-muted fs-08">{time}</p>}
+          {time && <p className="text-muted fs-07">{time}</p>}
         </div>
 
         {data.length > 0 ? (

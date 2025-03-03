@@ -5,7 +5,10 @@ const OrderItem = memo(({ data }) => {
   return (
     <div className="order-item d-flex justify-content-between">
       <div className="text">
-        <h6>{data.title}</h6>
+        <h6>
+          {data.title}
+          {data.additions?.length > 0 ? " с добавками" : ""}
+        </h6>
         {data?.energy?.weight > 0 && (
           <p className="text-muted fs-09">
             {customWeight({
@@ -17,41 +20,63 @@ const OrderItem = memo(({ data }) => {
         {data?.description && (
           <p className="fs-09 mb-2 text-muted">{data.description}</p>
         )}
-        {data?.cart?.data?.modifiers?.length > 0 &&
-          data.cart.data.modifiers.map((e) => (
-            <p className="fs-09 fw-6">{e.title}</p>
-          ))}
-        {data?.cart?.data?.wishes?.length > 0 &&
-          data.cart.data.wishes.map((e) => (
-            <p className="fs-09 fw-6">{e.title}</p>
-          ))}
-
-        {data?.cart?.data?.additions?.length > 0 && (
-          <>
-            <ul className="cart-item-ingredients">
-              {data.cart.data.additions.map((e) => (
-                <li>
-                  {e.title}{" "}
-                  <span className="fw-7">+{customPrice(e.price)}</span>
-                </li>
-              ))}
-            </ul>
-          </>
+        {data?.modifiers?.length > 0 &&
+          data.modifiers.map((e) => <p className="fs-09 fw-6">{e.title}</p>)}
+        {data?.wishes?.length > 0 &&
+          data.wishes.map((e) => <p className="fs-09 fw-6">{e.title}</p>)}
+        {data.additions.reduce((sum, item) => sum + item.price, 0) > 0 && (
+          <li className="ms-3 fs-09">
+            {data.title}{" "}
+            <span className="fw-7">
+              {customPrice(
+                data?.modifiers?.price
+                  ? data.options.modifierPriceSum
+                    ? data.modifiers.price + data.price
+                    : data.modifiers.price
+                  : data.price
+              )}
+            </span>
+          </li>
+        )}
+        {data?.additions?.length > 0 && (
+          <ul className="cart-item-ingredients">
+            {data.additions.map((e) => (
+              <li>
+                {e.title} <span className="fw-7">+{customPrice(e.price)}</span>
+              </li>
+            ))}
+          </ul>
         )}
       </div>
       <div className="d-flex">
-        <div className="quantity me-2">
-          <div className="checkoutProduct-count">x{data?.count ?? 1}</div>
-        </div>
-        <div className="price">
+        <div className="price d-flex flex-column justify-content-start align-items-end">
+          {data.additions.reduce((sum, item) => sum + item.price, 0) > 0 && (
+            <div className="checkoutProduct-count fs-08 fw-4 mb-2">
+              {customPrice(
+                (data?.modifiers?.price
+                  ? data.options.modifierPriceSum
+                    ? data.modifiers.price + data.price
+                    : data.modifiers.price
+                  : data.price) +
+                  data.additions.reduce((sum, item) => sum + item.price, 0)
+              )}
+            </div>
+          )}
+          {data?.count > 1 && (
+            <div className="checkoutProduct-count fs-08 fw-4 mb-2">
+              х&nbsp;{data?.count ?? 1}
+            </div>
+          )}
           {data?.type == "gift"
             ? "Бесплатно"
             : customPrice(
-                data?.modifiers?.price
+                (data?.modifiers?.price
                   ? data.options.modifierPriceSum
                     ? (data.modifiers.price + data.price) * data.count
                     : data.modifiers.price * data.count
-                  : data.price * data.count
+                  : data.price * data.count) +
+                  data.additions.reduce((sum, item) => sum + item.price, 0) *
+                    data.count
               )}
         </div>
       </div>

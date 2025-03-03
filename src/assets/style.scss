@@ -29,6 +29,7 @@ html {
   --main-color-text-subtitle: #000;
   --main-color-text-revers: #fff;
   --bs-secondary-color: #444;
+  --bs-progress-bg-new: #999;
   --color-light-gray: #d1d1d1;
   --bg-main: #fff;
   --bg-btn: #dadada;
@@ -68,6 +69,7 @@ html {
   --main-color-text-subtitle: #fff;
   --main-color-text-revers: #111;
   --bs-secondary-color: #777;
+  --bs-progress-bg-new: #333;
   --color-light-gray: #444;
   --bg-main: #131313;
   --bg-btn: #333;
@@ -783,8 +785,7 @@ button {
     &:hover,
     &:focus,
     &:active,
-    &.active,
-    &:not(.btn-check) + .btn:active {
+    &.active {
       color: #fff !important;
       opacity: 0.8;
       background-color: var(--main-color-btn) !important;
@@ -1488,9 +1489,11 @@ select {
     }
   }
 }
-
+.progress {
+  background-color: var(--bs-progress-bg-new) !important;
+}
 .gifts {
-  margin: 2em 0px;
+  margin-bottom: 1.5em;
   ul {
     @include list();
     @include flex(row, flex-start, center, nowrap);
@@ -1506,6 +1509,7 @@ select {
         border-radius: 40px;
         .progress-bar {
           border-radius: 40px !important;
+          background-color: var(--main-color) !important;
         }
       }
       .icon {
@@ -1534,9 +1538,7 @@ select {
         z-index: 999;
         text-align: center;
         font-weight: bold;
-
         margin-bottom: 5px;
-        color: var(--light-gray);
         &.active {
           color: var(--main-color);
         }
@@ -3512,7 +3514,7 @@ html.theme-font-title-amaticsc .filterGrid h4 {
     position: relative;
     @include flex(row, space-between, flex-start, nowrap);
     padding: 0.8em;
-    // border-bottom: 1px solid var(--bg-btn);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
     @media (max-width: $bp-md) {
       flex-wrap: wrap;
     }
@@ -4298,6 +4300,20 @@ ACCOUNT
       box-shadow: none;
     }
   }
+}
+.product-modal {
+  .modal-content {
+    min-height: 500px !important;
+    max-height: 600px !important;
+    border-radius: 20px !important;
+  }
+}
+.fixed-price-product {
+  padding: 15px 0px !important;
+  bottom: -20px !important;
+}
+.scroll-custom {
+  @include scrollCustomized();
 }
 .chat {
   @include scrollCustomized();

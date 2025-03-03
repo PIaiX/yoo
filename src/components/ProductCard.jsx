@@ -13,7 +13,7 @@ import {
 import ButtonCartProductMini from "./ButtonCartProductMini";
 import Tags from "./Tags";
 
-const ProductCard = memo(({ data }) => {
+const ProductCard = memo(({ data, onOpen }) => {
   const { t } = useTranslation();
   const options = useSelector((state) => state.settings?.options);
 

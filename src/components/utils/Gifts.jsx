@@ -3,6 +3,7 @@ import React, { useMemo, useState, memo } from "react";
 import { HiOutlineGift } from "react-icons/hi2";
 import { customPrice } from "../../helpers/all";
 import ProductCard from "../ProductCard";
+import { IoArrowForward } from "react-icons/io5";
 
 const Gifts = memo(({ total, items }) => {
   if (!items || items?.length === 0) {
@@ -51,53 +52,59 @@ const Gifts = memo(({ total, items }) => {
   return (
     <>
       <div className="gifts">
-        <ul>
-          {prices.map((e, index) => {
-            let percent =
-              Number(
-                Number(total) -
-                  (prices[index - 1] != undefined
-                    ? Number(prices[index - 1])
-                    : 0)
-              ) > 0
-                ? (Number(Number(total)) / Number(e)) * 100
-                : 0;
+        {total < price && (
+          <ul className="mb-2">
+            {prices.map((e, index) => {
+              let percent =
+                Number(
+                  Number(total) -
+                    (prices[index - 1] != undefined
+                      ? Number(prices[index - 1])
+                      : 0)
+                ) > 0
+                  ? (Number(Number(total)) / Number(e)) * 100
+                  : 0;
 
-            return (
-              <li>
-                <ProgressBar
-                  animated
-                  variant="danger"
-                  now={percent}
-                  className="bar"
-                />
-                <a
-                  onClick={() => percent >= 100 && setShow(true)}
-                  className={percent >= 100 ? "icon active" : "icon"}
-                >
-                  <HiOutlineGift />
-                  <div className={percent >= 100 ? "text active" : "text"}>
-                    {customPrice(e)}
-                  </div>
-                </a>
-              </li>
-            );
-          })}
-        </ul>
+              return (
+                <li>
+                  <ProgressBar
+                    animated
+                    variant="danger"
+                    now={percent}
+                    className="bar"
+                  />
+                  <a
+                    onClick={() => percent >= 100 && setShow(true)}
+                    className={percent >= 100 ? "icon active" : "icon"}
+                  >
+                    <HiOutlineGift />
+                    <div className={percent >= 100 ? "text active" : "text"}>
+                      {customPrice(e)}
+                    </div>
+                  </a>
+                </li>
+              );
+            })}
+          </ul>
+        )}
         {total < price ? (
-          <p className="mt-2 text-muted fs-09">
+          <p className="text-muted fs-08">
             Добавьте товар на сумму {customPrice(price)}{" "}
             {priceIndex > 0
               ? " чтобы улучшить подарок"
               : " чтобы получить подарок"}
           </p>
         ) : (
-          <p className="mt-2 fw-6">
-            Вам доступен подарок!{" "}
-            <a className="color-main" onClick={() => setShow(true)}>
-              Выберите из списка
-            </a>
-          </p>
+          <a
+            onClick={() => setShow(true)}
+            className="fw-6 d-block cart-box px-3"
+          >
+            <b className="fs-12">Вам доступен подарок!</b>
+            <br />
+            <p className="color-main">
+              Выберите из списка <IoArrowForward />
+            </p>
+          </a>
         )}
       </div>
       <Modal size="md" show={show} onHide={setShow} centered>

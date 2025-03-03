@@ -70,7 +70,19 @@ const CartItem = memo(({ data }) => {
       <div className="left">
         <img src={getImageURL({ path: data.medias })} alt={data.title} />
         <div className="text">
-          <h6>{data.title}</h6>
+          <h6>
+            {data.title}
+            {data?.cart?.additions?.length > 0 ? " с добавками" : ""}
+            {data?.cart?.modifiers?.length > 0 &&
+              data.cart.modifiers.map((e) => (
+                <span
+                  key={e.id}
+                  className="fs-09 fw-7 card d-inline-block p-1 px-2 mx-2"
+                >
+                  {e.title}
+                </span>
+              ))}
+          </h6>
           {data?.energy?.weight > 0 && (
             <p className="text-muted fs-09">
               {customWeight({
@@ -82,7 +94,7 @@ const CartItem = memo(({ data }) => {
           {data?.description && data?.description?.length > 0 && (
             <p className="text-muted fs-08 consist pe-3">{data.description}</p>
           )}
-          <div className="mb-3 fs-09 fw-6">
+          <div className="mt-2 fs-09 fw-6">
             {data?.comment ? (
               <>
                 <p>{data.comment}</p>
@@ -101,20 +113,10 @@ const CartItem = memo(({ data }) => {
               </a>
             )}
           </div>
-          {data?.cart?.modifiers?.length > 0 &&
-            data.cart.modifiers.map((e) => (
-              <span
-                key={e.id}
-                className="fs-09 fw-7 card d-inline-block p-1 px-2 mb-3 me-2"
-              >
-                {e.title}
-              </span>
-            ))}
-
           {data?.cart?.additions?.length > 0 && (
             <>
               <a
-                className="fs-09 fw-6 d-flex align-items-center mb-0"
+                className="fs-09 fw-6 d-flex align-items-center mt-2 mb-0"
                 onClick={() =>
                   setOpen((prev) => ({
                     ...prev,
@@ -124,10 +126,7 @@ const CartItem = memo(({ data }) => {
                 aria-controls="collapse-additions"
                 aria-expanded={open}
               >
-                <span>{t("Добавки")}</span>{" "}
-                <Badge bg="secondary" className="mx-2">
-                  {data?.cart?.additions?.length}
-                </Badge>
+                <span className="me-2">{t("Состав товара")}</span>
                 {open.additions ? (
                   <IoChevronUp color="#666" />
                 ) : (
@@ -136,6 +135,10 @@ const CartItem = memo(({ data }) => {
               </a>
               <Collapse in={open.additions}>
                 <div id="collapse-additions">
+                  <li className="fs-09 ms-3 mt-2">
+                    {data.title}{" "}
+                    <span className="fw-7">{customPrice(price)}</span>
+                  </li>
                   <ul className="cart-item-ingredients">
                     {data.cart.additions.map((e) => (
                       <li key={e.id}>
@@ -198,21 +201,54 @@ const CartItem = memo(({ data }) => {
         )}
 
         <div className="order-md-2 fw-7 d-flex justify-content-center flex-column align-items-md-end align-self-center">
+          {data?.cart?.count > 1 && (
+            <div className="text-muted fs-07 fw-4">
+              {customPrice(
+                price +
+                  data?.cart?.additions.reduce(
+                    (sum, item) => sum + item.price,
+                    0
+                  )
+              )}
+            </div>
+          )}
           {data.type == "gift" ? (
             t("Бесплатно")
           ) : data?.discount > 0 ? (
             <>
               <div className="text-right">
-                {customPrice(price * data.cart.count - data.discount)}
+                {customPrice(
+                  price * data.cart.count -
+                    data.discount +
+                    data?.cart?.additions.reduce(
+                      (sum, item) => sum + item.price,
+                      0
+                    ) *
+                      data.cart.count
+                )}
               </div>
               <div className="text-right">
                 <s class="text-muted fw-4 fs-08">
-                  {customPrice(price * data.cart.count)}
+                  {customPrice(
+                    (price +
+                      data?.cart?.additions.reduce(
+                        (sum, item) => sum + item.price,
+                        0
+                      )) *
+                      data.cart.count
+                  )}
                 </s>
               </div>
             </>
           ) : (
-            customPrice(price)
+            customPrice(
+              (price +
+                data?.cart?.additions.reduce(
+                  (sum, item) => sum + item.price,
+                  0
+                )) *
+                data.cart.count
+            )
           )}
         </div>
       </div>

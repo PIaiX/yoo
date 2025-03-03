@@ -786,10 +786,7 @@ const Checkout = () => {
                       />
                       <p className="text-muted fs-09 mt-2">
                         {t("Нет нужного адреса?")}{" "}
-                        <Link
-                          to="/account/addresses/add"
-                          className="text-success"
-                        >
+                        <Link to="/account/addresses/add" className="text-main">
                           {t("Добавить новый адрес")}
                         </Link>
                       </p>
@@ -1165,13 +1162,17 @@ const Checkout = () => {
               {pointCheckout > 0 && pointSwitch && (
                 <div className="d-flex justify-content-between my-2">
                   <span>{t("Списание баллов")}</span>
-                  <span>-{customPrice(pointCheckout)}</span>
+                  <span className="text-success">
+                    -{customPrice(pointCheckout)}
+                  </span>
                 </div>
               )}
               {pointAccrual > 0 && (
                 <div className="d-flex justify-content-between my-2">
                   <span>{t("Начислится баллов")}</span>
-                  <span>+{customPrice(pointAccrual)}</span>
+                  <span className="text-success">
+                    +{customPrice(pointAccrual)}
+                  </span>
                 </div>
               )}
               {options?.promoVisible && promo && (
@@ -1227,7 +1228,7 @@ const Checkout = () => {
                 {data?.delivery == "delivery" && zone?.data && (
                   <div className="d-flex justify-content-between mb-2">
                     <span className="fw-6 fs-10">{t("Доставка")}</span>
-                    <span className="text-success fw-6">
+                    <span className="fw-6">
                       {delivery > 0
                         ? "+" + customPrice(delivery)
                         : t("Бесплатно")}
@@ -1360,7 +1361,7 @@ const Checkout = () => {
                   {data?.delivery == "delivery" && zone?.data && (
                     <div className="px-md-3 d-flex justify-content-between mb-2">
                       <span className="fw-6 fs-10">{t("Доставка")}</span>
-                      <span className="text-success fw-6">
+                      <span className="fw-6">
                         {delivery > 0
                           ? "+" + customPrice(delivery)
                           : t("Бесплатно")}

@@ -1,10 +1,10 @@
 import React, { useCallback, useLayoutEffect, useState } from "react";
 import { Col, Container, OverlayTrigger, Popover, Row } from "react-bootstrap";
 // import Notice from "../components/Notice";
-import ProductCard from "../components/ProductCard";
-import Corner from "../components/svgs/Corner";
-import Addition from "../components/utils/Addition";
-import Wish from "../components/utils/Wish";
+import ProductCard from "./ProductCard";
+import Corner from "./svgs/Corner";
+import Addition from "./utils/Addition";
+import Wish from "./utils/Wish";
 // swiper
 import {
   HiMinus,
@@ -16,14 +16,12 @@ import { useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
 import { FreeMode, Navigation, Thumbs } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
-import ButtonCart from "../components/ButtonCart";
-import Empty from "../components/Empty";
-import EmptyCatalog from "../components/empty/catalog";
-import Meta from "../components/Meta";
-import Tags from "../components/Tags";
-import Loader from "../components/utils/Loader";
-import NavTop from "../components/utils/NavTop";
-import Select from "../components/utils/Select";
+import Empty from "./Empty";
+import EmptyCatalog from "./empty/catalog";
+import Meta from "./Meta";
+import Tags from "./Tags";
+import Loader from "./utils/Loader";
+import Select from "./utils/Select";
 import {
   customPrice,
   customWeight,
@@ -35,10 +33,11 @@ import {
 import { getProduct } from "../services/product";
 import { useTranslation } from "react-i18next";
 import { LazyLoadImage } from "react-lazy-load-image-component";
-import Notice from "../components/Notice";
-import ButtonCartProduct from "../components/ButtonCartProduct";
+import Notice from "./Notice";
+import ButtonCartProduct from "./ButtonCartProduct";
+import { memo } from "react";
 
-const Product = (data) => {
+const ProductModal = memo((data) => {
   const { t } = useTranslation();
   const { productId = data?.id } = useParams();
 
@@ -104,9 +103,24 @@ const Product = (data) => {
             wishes: [],
           },
         });
+        if (data?.onLoad) {
+          data.onLoad({
+            ...res,
+            modifiers: modifiers,
+            recommends: recommends,
+            cart: {
+              modifiers:
+                modifiers?.length > 0
+                  ? modifiers.map((e) => e.modifiers[0])
+                  : [],
+              additions: [],
+              wishes: [],
+            },
+          });
+        }
       })
       .catch(() => setProduct((data) => ({ ...data, loading: false })));
-  }, [options, productId, selectedAffiliate]);
+  }, [options, data, productId, selectedAffiliate]);
 
   useLayoutEffect(() => {
     onLoad();
@@ -180,7 +194,7 @@ const Product = (data) => {
   }
 
   return (
-    <main>
+    <>
       <Meta
         title={
           options?.seo?.product?.title && product?.title
@@ -218,22 +232,7 @@ const Product = (data) => {
         }
       />
       <Container>
-        <NavTop
-          toBack={true}
-          breadcrumbs={[
-            {
-              title: product?.category?.title ?? t("Нет категории"),
-              link: product?.category?.id
-                ? "/category/" + product.category.id
-                : "/menu",
-            },
-            {
-              title: product?.title ?? t("Не названия"),
-            },
-          ]}
-        />
-
-        <form className="productPage mb-5">
+        <form className="productPage">
           <Row className="gx-4 gx-xxl-5">
             <Col xs={12} md={5} lg={6}>
               {product?.cart?.modifiers[0]?.medias[0]?.media &&
@@ -587,44 +586,6 @@ const Product = (data) => {
                   </div>
                 </>
               )}
-              <div className="productPage-price">
-                <div className="py-2 fw-5 me-2 fs-12 rounded-pill">
-                  {customPrice(prices.price)}
-                  {prices.discount > 0 && (
-                    <div className="fs-08 text-muted text-decoration-line-through">
-                      {customPrice(prices.discount)}
-                    </div>
-                  )}
-                </div>
-                {product?.cart?.modifiers[0]?.energy?.weight > 0 ? (
-                  <div className="text-muted py-2 me-2 fw-4 fs-09">
-                    {"/ "}
-                    {options?.productWeightDiscrepancy ? "±" : ""}
-                    {customWeight({
-                      value: product.cart.modifiers[0].energy.weight,
-                      type: product.cart.modifiers[0].energy.weightType,
-                    })}
-                  </div>
-                ) : (
-                  product?.energy?.weight > 0 && (
-                    <div className="text-muted py-2 me-2 fw-4 fs-09">
-                      {"/ "}
-                      {options?.productWeightDiscrepancy ? "±" : ""}
-                      {customWeight({
-                        value: product.energy.weight,
-                        type: product.energy?.weightType,
-                      })}
-                    </div>
-                  )
-                )}
-                <ButtonCartProduct
-                  product={product}
-                  className="py-2 ms-2 btn-lg"
-                >
-                  {t("В корзину")}
-                  <HiOutlineShoppingBag className="fs-13 ms-2" />
-                </ButtonCartProduct>
-              </div>
 
               {(product?.additions?.length > 0 ||
                 product?.wishes?.length > 0) && (
@@ -756,10 +717,48 @@ const Product = (data) => {
               {options?.productNotice && (
                 <Notice className="mt-4" text={options?.productNoticeText} />
               )}
+              <div className="position-sticky bottom-0 fixed-price-product bg-white productPage-price">
+                <div className="py-2 fw-5 me-2 fs-12 rounded-pill">
+                  {customPrice(prices.price)}
+                  {prices.discount > 0 && (
+                    <div className="fs-08 text-muted text-decoration-line-through">
+                      {customPrice(prices.discount)}
+                    </div>
+                  )}
+                </div>
+                {product?.cart?.modifiers[0]?.energy?.weight > 0 ? (
+                  <div className="text-muted py-2 me-2 fw-4 fs-09">
+                    /&nbsp;
+                    {options?.productWeightDiscrepancy ? "±" : ""}
+                    {customWeight({
+                      value: product.cart.modifiers[0].energy.weight,
+                      type: product.cart.modifiers[0].energy.weightType,
+                    })}
+                  </div>
+                ) : (
+                  product?.energy?.weight > 0 && (
+                    <div className="text-muted py-2 me-2 fw-4 fs-09">
+                      {"/ "}
+                      {options?.productWeightDiscrepancy ? "±" : ""}
+                      {customWeight({
+                        value: product.energy.weight,
+                        type: product.energy?.weightType,
+                      })}
+                    </div>
+                  )
+                )}
+                <ButtonCartProduct
+                  product={product}
+                  className="py-2 ms-2 btn-lg w-100"
+                >
+                  {t("В корзину")}
+                  <HiOutlineShoppingBag className="fs-13 ms-2" />
+                </ButtonCartProduct>
+              </div>
             </Col>
           </Row>
         </form>
-        {product?.recommends?.length > 0 && (
+        {/* {product?.recommends?.length > 0 && (
           <section className="d-none d-md-block mb-5">
             <h2>{t("Вам может понравиться")}</h2>
             <Swiper
@@ -793,10 +792,10 @@ const Product = (data) => {
               ))}
             </Swiper>
           </section>
-        )}
+        )} */}
       </Container>
-    </main>
+    </>
   );
-};
+});
 
-export default Product;
+export default ProductModal;

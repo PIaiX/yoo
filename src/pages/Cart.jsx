@@ -438,10 +438,9 @@ const Cart = () => {
                         onClick={handleSubmit(onPromo)}
                         className={
                           form?.promo?.length > 1
-                            ? "btn-primary w-100 rounded-3" +
+                            ? "btn-primary w-100" +
                               (form?.loading ? " loading" : "")
-                            : "btn-10 w-100 rounded-3" +
-                              (form?.loading ? " loading" : "")
+                            : "btn-10 w-100" + (form?.loading ? " loading" : "")
                         }
                       >
                         {t("Применить")}
@@ -519,13 +518,17 @@ const Cart = () => {
                 {pointCheckout > 0 && pointSwitch && (
                   <div className="d-flex justify-content-between my-2">
                     <span>{t("Списание баллов")}</span>
-                    <span>-{customPrice(pointCheckout)}</span>
+                    <span className="text-success">
+                      -{customPrice(pointCheckout)}
+                    </span>
                   </div>
                 )}
                 {pointAccrual > 0 && (
                   <div className="d-flex justify-content-between my-2">
                     <span>{t("Начислится баллов")}</span>
-                    <span>+{customPrice(pointAccrual)}</span>
+                    <span className="text-success">
+                      +{customPrice(pointAccrual)}
+                    </span>
                   </div>
                 )}
                 <hr className="my-3" />
