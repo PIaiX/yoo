@@ -34,8 +34,8 @@ import { getProduct } from "../services/product";
 import { useTranslation } from "react-i18next";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import Notice from "./Notice";
-import ButtonCartProduct from "./ButtonCartProduct";
 import { memo } from "react";
+import ButtonCartProductModal from "./ButtonCartProductModal";
 
 const ProductModal = memo((data) => {
   const { t } = useTranslation();
@@ -47,6 +47,7 @@ const ProductModal = memo((data) => {
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
 
   const [product, setProduct] = useState({
+    ...data,
     loading: true,
     cart: {
       modifiers: [],
@@ -61,6 +62,7 @@ const ProductModal = memo((data) => {
   });
 
   const onLoad = useCallback(() => {
+    document.location.href = "/#" + productId;
     getProduct({
       id: productId,
       affiliateId: selectedAffiliate?.id ?? false,
@@ -231,94 +233,93 @@ const ProductModal = memo((data) => {
             : false
         }
       />
-      <Container>
-        <form className="productPage">
-          <Row className="gx-4 gx-xxl-5">
-            <Col xs={12} md={5} lg={6}>
-              {product?.cart?.modifiers[0]?.medias[0]?.media &&
-              product?.medias?.length === 1 ? (
-                <LazyLoadImage
-                  loading="lazy"
-                  src={getImageURL({
-                    path: product.cart?.modifiers[0]?.medias[0]?.media,
-                    size: "full",
-                    type: "modifier",
-                  })}
-                  alt={product.title}
-                  className="productPage-img"
-                />
-              ) : Array.isArray(product?.medias) &&
-                product.medias?.length > 1 ? (
-                <div className="productPage-photo">
-                  <Swiper
-                    className="thumbSlider"
-                    modules={[Thumbs, FreeMode]}
-                    watchSlidesProgress
-                    onSwiper={setThumbsSwiper}
-                    direction="vertical"
-                    loop={true}
-                    spaceBetween={20}
-                    slidesPerView={"auto"}
-                    freeMode={true}
-                  >
-                    {sortMain(product.medias).map((e) => (
-                      <SwiperSlide>
-                        <img
-                          src={getImageURL({
-                            path: e.media,
-                            size: "full",
-                          })}
-                          alt={product.title}
-                          className="productPage-img"
-                        />
-                      </SwiperSlide>
-                    ))}
-                  </Swiper>
-                  <Swiper
-                    className="mainSlider"
-                    modules={[Thumbs]}
-                    loop={true}
-                    spaceBetween={20}
-                    thumbs={{
-                      swiper:
-                        thumbsSwiper && !thumbsSwiper.destroyed
-                          ? thumbsSwiper
-                          : null,
-                    }}
-                  >
-                    {sortMain(product.medias).map((e, index) => (
-                      <SwiperSlide key={index}>
-                        <LazyLoadImage
-                          loading="lazy"
-                          src={getImageURL({
-                            path: e.media,
-                            size: "full",
-                          })}
-                          alt={product.title}
-                          className="productPage-img"
-                        />
-                      </SwiperSlide>
-                    ))}
-                  </Swiper>
-                </div>
-              ) : (
-                <LazyLoadImage
-                  loading="lazy"
-                  src={getImageURL({ path: product.medias, size: "full" })}
-                  alt={product.title}
-                  className="productPage-img"
-                />
-              )}
-            </Col>
-            <Col xs={12} md={7} lg={6}>
-              <div
-                className={
-                  "d-flex align-items-center justify-content-between" +
-                  (!product.options?.subtitle ? " mb-4" : "")
-                }
-              >
-                <h1 className="mb-0">{product.title}</h1>
 
+      <Row className="gx-2">
+        <Col xs={12} md={5} lg={6}>
+          {product?.cart?.modifiers[0]?.medias[0]?.media &&
+          product?.medias?.length === 1 ? (
+            <LazyLoadImage
+              loading="lazy"
+              src={getImageURL({
+                path: product.cart?.modifiers[0]?.medias[0]?.media,
+                size: "full",
+                type: "modifier",
+              })}
+              alt={product.title}
+              className="productPage-img"
+            />
+          ) : Array.isArray(product?.medias) && product.medias?.length > 1 ? (
+            <div className="productPage-photo">
+              <Swiper
+                className="thumbSlider"
+                modules={[Thumbs, FreeMode]}
+                watchSlidesProgress
+                onSwiper={setThumbsSwiper}
+                direction="vertical"
+                loop={true}
+                spaceBetween={20}
+                slidesPerView={"auto"}
+                freeMode={true}
+              >
+                {sortMain(product.medias).map((e) => (
+                  <SwiperSlide>
+                    <img
+                      src={getImageURL({
+                        path: e.media,
+                        size: "full",
+                      })}
+                      alt={product.title}
+                      className="productPage-img"
+                    />
+                  </SwiperSlide>
+                ))}
+              </Swiper>
+              <Swiper
+                className="mainSlider"
+                modules={[Thumbs]}
+                loop={true}
+                spaceBetween={20}
+                thumbs={{
+                  swiper:
+                    thumbsSwiper && !thumbsSwiper.destroyed
+                      ? thumbsSwiper
+                      : null,
+                }}
+              >
+                {sortMain(product.medias).map((e, index) => (
+                  <SwiperSlide key={index}>
+                    <LazyLoadImage
+                      loading="lazy"
+                      src={getImageURL({
+                        path: e.media,
+                        size: "full",
+                      })}
+                      alt={product.title}
+                      className="productPage-img"
+                    />
+                  </SwiperSlide>
+                ))}
+              </Swiper>
+            </div>
+          ) : (
+            <LazyLoadImage
+              loading="lazy"
+              src={getImageURL({ path: product.medias, size: "full" })}
+              alt={product.title}
+              className="productPage-img"
+            />
+          )}
+        </Col>
+        <Col xs={12} md={7} lg={6}>
+          <div className="pt-2">
+            <div
+              className={
+                "d-flex align-items-center justify-content-between" +
+                (!product.options?.subtitle ? " mb-2" : "")
+              }
+            >
+              <h1 className="mb-0">
+                {product.title}
                 {options?.productEnergyVisible &&
                 product?.cart?.modifiers[0]?.energy?.kkal > 0 ? (
                   <OverlayTrigger
@@ -439,326 +440,321 @@ const ProductModal = memo((data) => {
                     </OverlayTrigger>
                   )
                 )}
-              </div>
-              {product?.options?.subtitle && (
-                <>
-                  <div className="mb-4 fw-5 fs-14 d-block main-color subtitle">
-                    {product.options.subtitle}
-                  </div>
-                </>
-              )}
-              <div className="mb-2">
-                {product?.tags?.length > 0 && <Tags data={product.tags} />}
-              </div>
-              {product?.cart?.modifiers[0]?.description ? (
-                <div className="mb-4 white-space">
-                  {product.cart.modifiers[0].description}
+              </h1>
+            </div>
+            {product?.options?.subtitle && (
+              <>
+                <div className="mb-3 fw-5 fs-14 d-block main-color subtitle">
+                  {product.options.subtitle}
                 </div>
-              ) : (
-                product.description && (
-                  <div className="mb-4 white-space">{product.description}</div>
-                )
-              )}
-              {product?.modifiers?.length > 0 &&
-                product.modifiers.map((modifier) => (
-                  <>
-                    {modifier.modifiers?.length > 3 ? (
-                      <div className="mb-4">
-                        <Select
-                          data={modifier.modifiers.map((e) => ({
-                            title: e.title,
-                            value: e,
-                          }))}
-                          value={
-                            product?.cart?.modifiers?.find((modifierItem) =>
-                              modifier.modifiers.some(
-                                (cartModifier) =>
-                                  cartModifier.categoryId ===
-                                  modifierItem.categoryId
-                              )
-                            ) || null
-                          }
-                          onChange={() => {
-                            // Создаем копию массива modifiers
-                            const updatedModifiers = [
-                              ...product.cart.modifiers,
-                            ];
-
-                            // Ищем индекс модификатора
-                            const isModifierIndex = updatedModifiers.findIndex(
-                              (item) =>
-                                item?.categoryId === e.categoryId ||
-                                item?.categoryId === 0
-                            );
-
-                            // Обновляем или добавляем модификатор
-                            if (isModifierIndex !== -1) {
-                              updatedModifiers[isModifierIndex] = e; // Заменяем модификатор
-                            } else {
-                              updatedModifiers.push(e); // Добавляем новый модификатор
-                            }
-
-                            // Обновляем состояние иммутабельно
-                            setProduct((prevProduct) => ({
-                              ...prevProduct,
-                              cart: {
-                                ...prevProduct.cart,
-                                modifiers: updatedModifiers, // Обновляем modifiers
-                              },
-                            }));
-                          }}
-                        />
-                      </div>
-                    ) : (
-                      modifier?.modifiers?.length > 0 && (
-                        <div className="d-xxl-flex mb-4">
-                          <ul className="inputGroup d-flex w-100">
-                            {modifier.modifiers.map((e, index) => (
-                              <li
-                                key={e.id}
-                                className="d-flex text-center w-100"
-                              >
-                                <label>
-                                  <input
-                                    type="radio"
-                                    name={e.categoryId ?? 0}
-                                    defaultChecked={index === 0}
-                                    onChange={() => {
-                                      // Создаем копию массива modifiers
-                                      const updatedModifiers = [
-                                        ...product.cart.modifiers,
-                                      ];
-
-                                      // Ищем индекс модификатора
-                                      const isModifierIndex =
-                                        updatedModifiers.findIndex(
-                                          (item) =>
-                                            item?.categoryId === e.categoryId ||
-                                            item?.categoryId === 0
-                                        );
-
-                                      // Обновляем или добавляем модификатор
-                                      if (isModifierIndex !== -1) {
-                                        updatedModifiers[isModifierIndex] = e; // Заменяем модификатор
-                                      } else {
-                                        updatedModifiers.push(e); // Добавляем новый модификатор
-                                      }
-
-                                      // Обновляем состояние иммутабельно
-                                      setProduct((prevProduct) => ({
-                                        ...prevProduct,
-                                        cart: {
-                                          ...prevProduct.cart,
-                                          modifiers: updatedModifiers, // Обновляем modifiers
-                                        },
-                                      }));
-                                    }}
-                                  />
-                                  <div className="text d-flex flex-row justify-content-center">
-                                    <div className="line-height-100">
-                                      {e.title}
-                                    </div>
-                                    {e?.energy?.weight > 0 &&
-                                      options?.productVisibleModifierWeight && (
-                                        <div className="text-muted fw-4 ms-1 line-height-100">
-                                          /{" "}
-                                          {customWeight({
-                                            value: e.energy.weight,
-                                            type: e.energy?.weightType,
-                                          })}
-                                        </div>
-                                      )}
-                                  </div>
-                                </label>
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                      )
-                    )}
-                  </>
-                ))}
-              {product?.options?.сompound && (
+              </>
+            )}
+            <div className="mb-2">
+              {product?.tags?.length > 0 && <Tags data={product.tags} />}
+            </div>
+            {product?.cart?.modifiers[0]?.description ? (
+              <div className="mb-3 white-space">
+                {product.cart.modifiers[0].description}
+              </div>
+            ) : (
+              product.description && (
+                <div className="mb-3 white-space">{product.description}</div>
+              )
+            )}
+            {product?.modifiers?.length > 0 &&
+              product.modifiers.map((modifier) => (
                 <>
-                  <p className="fw-6 mb-2">{t("Состав")}</p>
-                  <div className="mb-4 text-muted fs-09 white-space">
-                    {product.options.сompound}
-                  </div>
-                </>
-              )}
+                  {modifier.modifiers?.length > 3 ? (
+                    <div className="mb-3">
+                      <Select
+                        data={modifier.modifiers.map((e) => ({
+                          title: e.title,
+                          value: e,
+                        }))}
+                        value={
+                          product?.cart?.modifiers?.find((modifierItem) =>
+                            modifier.modifiers.some(
+                              (cartModifier) =>
+                                cartModifier.categoryId ===
+                                modifierItem.categoryId
+                            )
+                          ) || null
+                        }
+                        onChange={() => {
+                          // Создаем копию массива modifiers
+                          const updatedModifiers = [...product.cart.modifiers];
 
-              {(product?.additions?.length > 0 ||
-                product?.wishes?.length > 0) && (
-                <div className="mt-5">
-                  <div className="productPage-edit mb-3">
-                    <div className="top">
-                      {product?.additions?.length > 0 && (
-                        <button
-                          type="button"
-                          className={isRemove ? "" : "active"}
-                          onClick={() => setIsRemove(false)}
-                        >
-                          <HiPlus />
-                          <span>{t("Добавить")}</span>
-                          <Corner className="corner-right" />
-                        </button>
-                      )}
-                      {product?.wishes?.length > 0 && (
-                        <button
-                          type="button"
-                          className={
-                            isRemove
-                              ? "active"
-                              : product?.additions?.length === 0
-                              ? "active"
-                              : ""
+                          // Ищем индекс модификатора
+                          const isModifierIndex = updatedModifiers.findIndex(
+                            (item) =>
+                              item?.categoryId === e.categoryId ||
+                              item?.categoryId === 0
+                          );
+
+                          // Обновляем или добавляем модификатор
+                          if (isModifierIndex !== -1) {
+                            updatedModifiers[isModifierIndex] = e; // Заменяем модификатор
+                          } else {
+                            updatedModifiers.push(e); // Добавляем новый модификатор
                           }
-                          onClick={() => setIsRemove(true)}
-                        >
-                          <HiMinus />
-                          <span>{t("Убрать")}</span>
-                          {product?.additions?.length > 0 && (
-                            <Corner className="corner-left" />
-                          )}
-                          <Corner className="corner-right" />
-                        </button>
-                      )}
+
+                          // Обновляем состояние иммутабельно
+                          setProduct((prevProduct) => ({
+                            ...prevProduct,
+                            cart: {
+                              ...prevProduct.cart,
+                              modifiers: updatedModifiers, // Обновляем modifiers
+                            },
+                          }));
+                        }}
+                      />
                     </div>
-                    <div className="box bg-gray">
-                      <Row
-                        xs={3}
-                        sm={3}
-                        lg={3}
-                        xl={4}
-                        className={isRemove ? "d-none gx-3" : "gx-3 d-flex"}
-                      >
-                        {product?.additions?.length > 0 &&
-                          product.additions.map((e) => {
-                            const isAddition = !!product?.cart?.additions?.find(
-                              (addition) => addition.id === e.id
-                            );
-                            const onPressAddition = () => {
-                              if (isAddition) {
-                                setProduct((prevProduct) => ({
-                                  ...prevProduct,
-                                  cart: {
-                                    ...prevProduct.cart,
-                                    additions: product.cart.additions.filter(
-                                      (addition) => addition.id != e.id
-                                    ),
-                                  },
-                                }));
-                              } else {
-                                setProduct((prevProduct) => ({
-                                  ...prevProduct,
-                                  cart: {
-                                    ...prevProduct.cart,
-                                    additions: [
-                                      ...prevProduct.cart.additions,
-                                      e,
-                                    ],
-                                  },
-                                }));
-                              }
-                            };
-                            return (
-                              <Col key={e.id}>
-                                <Addition
-                                  data={e}
-                                  active={isAddition}
-                                  onChange={onPressAddition}
+                  ) : (
+                    modifier?.modifiers?.length > 0 && (
+                      <div className="d-xxl-flex mb-3">
+                        <ul className="inputGroup d-flex w-100">
+                          {modifier.modifiers.map((e, index) => (
+                            <li key={e.id} className="d-flex text-center w-100">
+                              <label>
+                                <input
+                                  type="radio"
+                                  name={e.categoryId ?? 0}
+                                  defaultChecked={index === 0}
+                                  onChange={() => {
+                                    // Создаем копию массива modifiers
+                                    const updatedModifiers = [
+                                      ...product.cart.modifiers,
+                                    ];
+
+                                    // Ищем индекс модификатора
+                                    const isModifierIndex =
+                                      updatedModifiers.findIndex(
+                                        (item) =>
+                                          item?.categoryId === e.categoryId ||
+                                          item?.categoryId === 0
+                                      );
+
+                                    // Обновляем или добавляем модификатор
+                                    if (isModifierIndex !== -1) {
+                                      updatedModifiers[isModifierIndex] = e; // Заменяем модификатор
+                                    } else {
+                                      updatedModifiers.push(e); // Добавляем новый модификатор
+                                    }
+
+                                    // Обновляем состояние иммутабельно
+                                    setProduct((prevProduct) => ({
+                                      ...prevProduct,
+                                      cart: {
+                                        ...prevProduct.cart,
+                                        modifiers: updatedModifiers, // Обновляем modifiers
+                                      },
+                                    }));
+                                  }}
                                 />
-                              </Col>
-                            );
-                          })}
-                      </Row>
-                      <ul
+                                <div className="text d-flex flex-row justify-content-center">
+                                  <div className="line-height-100">
+                                    {e.title}
+                                  </div>
+                                  {e?.energy?.weight > 0 &&
+                                    options?.productVisibleModifierWeight && (
+                                      <div className="text-muted fw-4 ms-1 line-height-100">
+                                        /{" "}
+                                        {customWeight({
+                                          value: e.energy.weight,
+                                          type: e.energy?.weightType,
+                                        })}
+                                      </div>
+                                    )}
+                                </div>
+                              </label>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    )
+                  )}
+                </>
+              ))}
+            {product?.options?.сompound && (
+              <>
+                <p className="fw-6 mb-2">{t("Состав")}</p>
+                <div className="mb-3 text-muted fs-09 white-space">
+                  {product.options.сompound}
+                </div>
+              </>
+            )}
+
+            {(product?.additions?.length > 0 ||
+              product?.wishes?.length > 0) && (
+              <div>
+                <div className="productPage-edit mb-0">
+                  <div className="top">
+                    {product?.additions?.length > 0 && (
+                      <button
+                        type="button"
+                        className={isRemove ? "" : "active"}
+                        onClick={() => setIsRemove(false)}
+                      >
+                        <HiPlus />
+                        <span>{t("Добавить")}</span>
+                        <Corner className="corner-right" />
+                      </button>
+                    )}
+                    {product?.wishes?.length > 0 && (
+                      <button
+                        type="button"
                         className={
                           isRemove
-                            ? "d-block"
-                            : product?.wishes?.length === 0
-                            ? "d-block"
-                            : "d-none"
+                            ? "active"
+                            : product?.additions?.length === 0
+                            ? "active"
+                            : ""
                         }
+                        onClick={() => setIsRemove(true)}
                       >
-                        {product?.wishes?.length > 0 &&
-                          product.wishes.map((e) => {
-                            const isAddition = !!product?.cart?.wishes.find(
-                              (addition) => addition.id === e.id
-                            );
-                            const onPressAddition = () => {
-                              if (isAddition) {
-                                let newAdditions = product.cart.wishes.filter(
-                                  (addition) => addition.id != e.id
-                                );
+                        <HiMinus />
+                        <span>{t("Убрать")}</span>
+                        {product?.additions?.length > 0 && (
+                          <Corner className="corner-left" />
+                        )}
+                        <Corner className="corner-right" />
+                      </button>
+                    )}
+                  </div>
+                  <div className="box bg-gray">
+                    <Row
+                      xs={3}
+                      sm={3}
+                      lg={3}
+                      xl={4}
+                      className={isRemove ? "d-none gx-3" : "gx-3 d-flex"}
+                    >
+                      {product?.additions?.length > 0 &&
+                        product.additions.map((e) => {
+                          const isAddition = !!product?.cart?.additions?.find(
+                            (addition) => addition.id === e.id
+                          );
+                          const onPressAddition = () => {
+                            if (isAddition) {
+                              setProduct((prevProduct) => ({
+                                ...prevProduct,
+                                cart: {
+                                  ...prevProduct.cart,
+                                  additions: product.cart.additions.filter(
+                                    (addition) => addition.id != e.id
+                                  ),
+                                },
+                              }));
+                            } else {
+                              setProduct((prevProduct) => ({
+                                ...prevProduct,
+                                cart: {
+                                  ...prevProduct.cart,
+                                  additions: [...prevProduct.cart.additions, e],
+                                },
+                              }));
+                            }
+                          };
+                          return (
+                            <Col key={e.id}>
+                              <Addition
+                                data={e}
+                                active={isAddition}
+                                onChange={onPressAddition}
+                              />
+                            </Col>
+                          );
+                        })}
+                    </Row>
+                    <ul
+                      className={
+                        isRemove
+                          ? "d-block"
+                          : product?.wishes?.length === 0
+                          ? "d-block"
+                          : "d-none"
+                      }
+                    >
+                      {product?.wishes?.length > 0 &&
+                        product.wishes.map((e) => {
+                          const isAddition = !!product?.cart?.wishes.find(
+                            (addition) => addition.id === e.id
+                          );
+                          const onPressAddition = () => {
+                            if (isAddition) {
+                              let newAdditions = product.cart.wishes.filter(
+                                (addition) => addition.id != e.id
+                              );
 
-                                product.cart.wishes = newAdditions;
-                                setProduct(product);
-                              } else {
-                                product.cart.wishes.push(e);
-                                setProduct(product);
-                              }
-                            };
-                            return (
-                              <li key={e.id}>
-                                <Wish
-                                  data={e}
-                                  active={isAddition}
-                                  onChange={onPressAddition}
-                                />
-                              </li>
-                            );
-                          })}
-                      </ul>
-                    </div>
+                              product.cart.wishes = newAdditions;
+                              setProduct(product);
+                            } else {
+                              product.cart.wishes.push(e);
+                              setProduct(product);
+                            }
+                          };
+                          return (
+                            <li key={e.id}>
+                              <Wish
+                                data={e}
+                                active={isAddition}
+                                onChange={onPressAddition}
+                              />
+                            </li>
+                          );
+                        })}
+                    </ul>
                   </div>
                 </div>
-              )}
-              {options?.productNotice && (
-                <Notice className="mt-4" text={options?.productNoticeText} />
-              )}
-              <div className="position-sticky bottom-0 fixed-price-product bg-white productPage-price">
-                <div className="py-2 fw-5 me-2 fs-12 rounded-pill">
-                  {customPrice(prices.price)}
-                  {prices.discount > 0 && (
-                    <div className="fs-08 text-muted text-decoration-line-through">
-                      {customPrice(prices.discount)}
-                    </div>
-                  )}
-                </div>
-                {product?.cart?.modifiers[0]?.energy?.weight > 0 ? (
-                  <div className="text-muted py-2 me-2 fw-4 fs-09">
-                    /&nbsp;
-                    {options?.productWeightDiscrepancy ? "±" : ""}
-                    {customWeight({
-                      value: product.cart.modifiers[0].energy.weight,
-                      type: product.cart.modifiers[0].energy.weightType,
-                    })}
-                  </div>
-                ) : (
-                  product?.energy?.weight > 0 && (
-                    <div className="text-muted py-2 me-2 fw-4 fs-09">
-                      {"/ "}
-                      {options?.productWeightDiscrepancy ? "±" : ""}
-                      {customWeight({
-                        value: product.energy.weight,
-                        type: product.energy?.weightType,
-                      })}
-                    </div>
-                  )
-                )}
-                <ButtonCartProduct
-                  product={product}
-                  className="py-2 ms-2 btn-lg w-100"
-                >
-                  {t("В корзину")}
-                  <HiOutlineShoppingBag className="fs-13 ms-2" />
-                </ButtonCartProduct>
               </div>
-            </Col>
-          </Row>
-        </form>
-        {/* {product?.recommends?.length > 0 && (
+            )}
+            {options?.productNotice && (
+              <Notice className="mt-4" text={options?.productNoticeText} />
+            )}
+          </div>
+          <div className="position-sticky bottom-0 fixed-price-product productPage-price">
+            <div className="py-2 fw-5 me-2 fs-12 rounded-pill">
+              {customPrice(prices.price)}
+              {prices.discount > 0 && (
+                <div className="fs-08 text-muted text-decoration-line-through">
+                  {customPrice(prices.discount)}
+                </div>
+              )}
+            </div>
+            {product?.cart?.modifiers[0]?.energy?.weight > 0 ? (
+              <div className="text-muted py-2 me-2 fw-4 fs-09">
+                /&nbsp;
+                {options?.productWeightDiscrepancy ? "±" : ""}
+                {customWeight({
+                  value: product.cart.modifiers[0].energy.weight,
+                  type: product.cart.modifiers[0].energy.weightType,
+                })}
+              </div>
+            ) : (
+              product?.energy?.weight > 0 && (
+                <div className="text-muted py-2 me-2 fw-4 fs-09">
+                  /&nbsp;
+                  {options?.productWeightDiscrepancy ? "±" : ""}
+                  {customWeight({
+                    value: product.energy.weight,
+                    type: product.energy?.weightType,
+                  })}
+                </div>
+              )
+            )}
+            <ButtonCartProductModal
+              product={product}
+              className="py-2 ms-2 btn-lg w-100"
+              onExit={data.onExit}
+            >
+              {t("В корзину")}
+              <HiOutlineShoppingBag className="fs-13 ms-2" />
+            </ButtonCartProductModal>
+          </div>
+        </Col>
+      </Row>
+
+      {/* {product?.recommends?.length > 0 && (
           <section className="d-none d-md-block mb-5">
             <h2>{t("Вам может понравиться")}</h2>
             <Swiper
@@ -793,7 +789,6 @@ const ProductModal = memo((data) => {
             </Swiper>
           </section>
         )} */}
-      </Container>
     </>
   );
 });

@@ -7,11 +7,13 @@ import { isCart } from "../hooks/useCart";
 import { updateCart } from "../services/cart";
 import { getProduct } from "../services/product";
 import CountInput from "./utils/CountInput";
+import { NotificationManager } from "react-notifications";
+import { useTranslation } from "react-i18next";
 
-const ButtonCartProductMini = memo(
-  ({ product, isValid = true, onLoad, className, children }) => {
+const ButtonCartProductModal = memo(
+  ({ product, isValid = true, className, children, onExit }) => {
     const dispatch = useDispatch();
-    const navigate = useNavigate();
+    const { t } = useTranslation();
     const selectedAffiliate = useSelector((state) => state.affiliate.active);
     const options = useSelector((state) => state.settings.options);
     const [loading, setLoading] = useState(false);
@@ -19,12 +21,6 @@ const ButtonCartProductMini = memo(
 
     const onPress = useCallback(
       (newCount = 1, inputCount = false) => {
-        if (product?.modifiers?.length > 0) {
-          if(onLoad){
-            return onLoad(product)
-          }
-          return navigate("/product/" + product.id, product);
-        }
         if (isCartData && inputCount) {
           dispatch(
             updateCart({
@@ -44,13 +40,6 @@ const ButtonCartProductMini = memo(
             type: "site",
           })
             .then((res) => {
-              if (res?.modifiers?.length > 0 || res?.additions?.length > 0) {
-                if(onLoad){
-                  return onLoad(product)
-                }
-                return navigate("/product/" + product.id, res);
-              }
-
               const modifiers =
                 options?.brand?.options?.priceAffiliateType &&
                 Array.isArray(res.modifiers) &&
@@ -92,7 +81,19 @@ const ButtonCartProductMini = memo(
                   res?.wishes && res?.wishes?.length > 0 ? res.wishes : [],
               };
 
-              dispatch(updateCart(newProduct));
+              if (res?.modifiers?.length > 0 || res?.additions?.length > 0) {
+                if (isCartData) {
+                  newProduct.cart.count += 1;
+                }
+                dispatch(updateCart(newProduct));
+                NotificationManager.success(
+                  t("Товар успешно добавлен в корзину")
+                );
+                onExit && onExit()
+              } else {
+                dispatch(updateCart(newProduct));
+                onExit && onExit()
+              }
             })
             .finally(() => setLoading(false));
         }
@@ -135,4 +136,4 @@ const ButtonCartProductMini = memo(
     );
   }
 );
-export default ButtonCartProductMini;
+export default ButtonCartProductModal;

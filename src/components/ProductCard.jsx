@@ -3,7 +3,6 @@ import { OverlayTrigger, Popover } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
 import {
   customPrice,
   customWeight,
@@ -13,7 +12,7 @@ import {
 import ButtonCartProductMini from "./ButtonCartProductMini";
 import Tags from "./Tags";
 
-const ProductCard = memo(({ data, onOpen }) => {
+const ProductCard = memo(({ data, onLoad }) => {
   const { t } = useTranslation();
   const options = useSelector((state) => state.settings?.options);
 
@@ -66,7 +65,7 @@ const ProductCard = memo(({ data, onOpen }) => {
                 : "")
             }
           >
-            <Link to={"/product/" + data?.id} state={data}>
+            <a onClick={() => onLoad(data)}>
               {data?.tags?.length > 0 && (
                 <div className="p-2 z-3 position-absolute">
                   <Tags data={data.tags} mini />
@@ -117,11 +116,11 @@ const ProductCard = memo(({ data, onOpen }) => {
                   effect="blur"
                 />
               )}
-            </Link>
+            </a>
           </div>
         </div>
         <div className="right w-100">
-          <Link to={"/product/" + data?.id} state={data}>
+          <a onClick={() => onLoad(data)}>
             <h6 className={"title" + (data?.options?.subtitle ? " fs-09" : "")}>
               {data.title}
               {data?.options?.subtitle ? (
@@ -137,7 +136,7 @@ const ProductCard = memo(({ data, onOpen }) => {
             ) : (
               <p className="desc d-none d-md-block fs-09">{data.description}</p>
             )}
-          </Link>
+          </a>
           {data?.options?.сompound && (
             <div className="d-flex d-lg-none justify-content-center align-items-center">
               <OverlayTrigger
@@ -206,20 +205,15 @@ const ProductCard = memo(({ data, onOpen }) => {
 
             <div className="d-flex justify-content-between align-items-center">
               <div>
-                <Link
-                  to={"/product/" + data?.id}
-                  state={data}
-                  className="price fw-5"
-                >
+                <a onClick={() => onLoad(data)} className="price fw-5">
                   {"от " + customPrice(data.options.minCart)}
-                </Link>
+                </a>
               </div>
             </div>
 
             {data?.energy?.weight > 0 && !data?.options?.сompound && (
-              <Link
-                to={"/product/" + data?.id}
-                state={data}
+              <a
+                onClick={() => onLoad(data)}
                 className="text-muted d-none d-md-block"
               >
                 {options?.productWeightDiscrepancy ? "±" : ""}
@@ -227,12 +221,13 @@ const ProductCard = memo(({ data, onOpen }) => {
                   value: data.energy.weight,
                   type: data.energy?.weightType,
                 })}
-              </Link>
+              </a>
             )}
 
             <ButtonCartProductMini
               product={data}
               isValid={data.total >= data.options.minCart}
+              onLoad={onLoad}
             />
           </div>
         </div>
@@ -252,7 +247,7 @@ const ProductCard = memo(({ data, onOpen }) => {
             : "")
         }
       >
-        <Link to={"/product/" + data?.id} state={data}>
+        <a onClick={() => onLoad(data)}>
           {data?.tags?.length > 0 && (
             <div className="p-2 z-3 position-absolute">
               <Tags data={data.tags} mini />
@@ -303,9 +298,9 @@ const ProductCard = memo(({ data, onOpen }) => {
               effect="blur"
             />
           )}
-        </Link>
+        </a>
       </div>
-      <Link to={"/product/" + data?.id} state={data}>
+      <a onClick={() => onLoad(data)}>
         <h6 className={"title" + (data?.options?.subtitle ? " fs-09" : "")}>
           {data.title}
           {data?.options?.subtitle ? (
@@ -322,7 +317,7 @@ const ProductCard = memo(({ data, onOpen }) => {
           ) : (
             <p className="desc d-none d-md-block fs-09">{data.description}</p>
           ))}
-      </Link>
+      </a>
       <hr className="d-none d-md-block" />
       {data?.options?.сompound && (
         <div className="d-flex d-lg-none justify-content-center align-items-center">
@@ -389,21 +384,16 @@ const ProductCard = memo(({ data, onOpen }) => {
         )}
         <div className="d-flex justify-content-between align-items-center">
           <div>
-            <Link
-              to={"/product/" + data?.id}
-              state={data}
-              className="price fw-5"
-            >
+            <a onClick={() => onLoad(data)} className="price fw-5">
               {modifiers?.length > 1 && Array.isArray(modifiers)
                 ? "от " + customPrice(price > 0 ? price : data.price)
                 : customPrice(price > 0 ? price : data.price)}
-            </Link>
+            </a>
           </div>
         </div>
         {data?.energy?.weight > 0 && !data?.options?.сompound && (
-          <Link
-            to={"/product/" + data?.id}
-            state={data}
+          <a
+            onClick={() => onLoad(data)}
             className="text-muted d-none d-md-block"
           >
             {options?.productWeightDiscrepancy ? "±" : ""}
@@ -411,9 +401,9 @@ const ProductCard = memo(({ data, onOpen }) => {
               value: data.energy.weight,
               type: data.energy?.weightType,
             })}
-          </Link>
+          </a>
         )}
-        <ButtonCartProductMini product={data} />
+        <ButtonCartProductMini product={data}  onLoad={onLoad}/>
       </div>
     </div>
   );

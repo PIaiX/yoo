@@ -68,7 +68,7 @@ const Catalog = memo(({ data }) => {
                   <CategoryGroup
                     key={index}
                     data={e}
-                    onOpen={(e) =>
+                    onLoad={(e) =>
                       setProduct((prev) => ({ ...prev, show: true, data: e }))
                     }
                   />
@@ -78,7 +78,7 @@ const Catalog = memo(({ data }) => {
           </Container>
         </>
       )}
-      {/* <Modal
+      <Modal
         className="product-modal"
         show={product.show}
         onHide={() => setProduct({ show: false, loading: true, data: false })}
@@ -86,12 +86,12 @@ const Catalog = memo(({ data }) => {
         size="xl"
         scrollable
       >
+        <button type="button" onClick={() => setProduct({ show: false, loading: true, data: false })} className="btn-close btn-close-fixed" aria-label="Close"></button>
         <Modal.Body className="scroll-custom">
           {product.show && product.data ? (
             <ProductModal
               {...product.data}
               onLoad={(e) => {
-                console.log(e);
                 setProduct((prev) => ({
                   ...prev,
                   show: true,
@@ -99,12 +99,20 @@ const Catalog = memo(({ data }) => {
                   data: e,
                 }));
               }}
+              onExit={() => {
+                setProduct((prev) => ({
+                  ...prev,
+                  show: false,
+                  loading: false,
+                  data: false,
+                }));
+              }}
             />
           ) : (
             <Loader full />
           )}
         </Modal.Body>
-      </Modal> */}
+      </Modal>
     </section>
   );
 });
