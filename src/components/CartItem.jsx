@@ -205,10 +205,12 @@ const CartItem = memo(({ data }) => {
             <div className="text-muted fs-07 fw-4">
               {customPrice(
                 price +
-                  data?.cart?.additions.reduce(
-                    (sum, item) => sum + item.price,
-                    0
-                  )
+                  (data?.cart?.additions?.length > 0
+                    ? data?.cart?.additions.reduce(
+                        (sum, item) => sum + item.price,
+                        0
+                      )
+                    : 0)
               )}
             </div>
           )}
@@ -220,10 +222,12 @@ const CartItem = memo(({ data }) => {
                 {customPrice(
                   price * data.cart.count -
                     data.discount +
-                    data?.cart?.additions.reduce(
-                      (sum, item) => sum + item.price,
-                      0
-                    ) *
+                    (data?.cart?.additions?.length > 0
+                      ? data?.cart?.additions.reduce(
+                          (sum, item) => sum + item.price,
+                          0
+                        )
+                      : 0) *
                       data.cart.count
                 )}
               </div>
@@ -231,10 +235,12 @@ const CartItem = memo(({ data }) => {
                 <s class="text-muted fw-4 fs-08">
                   {customPrice(
                     (price +
-                      data?.cart?.additions.reduce(
-                        (sum, item) => sum + item.price,
-                        0
-                      )) *
+                      (data?.cart?.additions?.length > 0
+                        ? data?.cart?.additions.reduce(
+                            (sum, item) => sum + item.price,
+                            0
+                          )
+                        : 0)) *
                       data.cart.count
                   )}
                 </s>
@@ -243,10 +249,12 @@ const CartItem = memo(({ data }) => {
           ) : (
             customPrice(
               (price +
-                data?.cart?.additions.reduce(
-                  (sum, item) => sum + item.price,
-                  0
-                )) *
+                (data?.cart?.additions?.length > 0
+                  ? data?.cart?.additions.reduce(
+                      (sum, item) => sum + item.price,
+                      0
+                    )
+                  : 0)) *
                 data.cart.count
             )
           )}

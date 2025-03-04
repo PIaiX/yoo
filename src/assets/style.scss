@@ -2950,6 +2950,28 @@ html.theme-font-title-amaticsc .productPage h1 {
     margin-top: 10px;
   }
   min-height: 450px;
+  &-content{
+    position: sticky; 
+    top: 0px;
+    min-height: 565px; 
+    @media (max-width: $bp-sm) {
+      min-height: auto !important; 
+    }
+  }
+  &-img-modal{
+    width: 100%;
+    min-height: 100% !important;
+    justify-content: center;
+    object-fit: contain;
+    border-radius: $radius;
+    @media (max-width: $bp-lg) {
+      height: auto;
+      margin-bottom: 1em;
+    }
+    @media (max-width: $bp-sm) {
+      height: 85vw;
+    }
+  }
   &-img {
     position: sticky;
     top: 50px;
@@ -2975,6 +2997,9 @@ html.theme-font-title-amaticsc .productPage h1 {
   &-photo {
     position: sticky;
     top: 80px;
+    &-modal{
+      top: 0px !important;
+    }
     justify-content: center;
     .lazy-load-image-loaded {
       align-self: center;
@@ -4302,11 +4327,18 @@ ACCOUNT
   }
 }
 .product-modal {
+  .modal-dialog{
+    @media (max-width: $bp-sm) {
+      height: 100% !important;
+      max-height: 100% !important;
+    }
+  }
   .modal-content {
     min-height: 600px !important;
     max-height: 600px !important;
     border-radius: 20px !important;
     @media (max-width: $bp-sm) {
+      height: 100% !important;
       max-height: 100% !important;
       border-radius: 0px !important;
     }

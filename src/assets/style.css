@@ -3293,6 +3293,35 @@ html.theme-font-title-amaticsc .productPage h1 {
 .productPage .subtitle {
   margin-top: 10px;
 }
+.productPage-content {
+  position: sticky;
+  top: 0px;
+  min-height: 565px;
+}
+@media (max-width: 580px) {
+  .productPage-content {
+    min-height: auto !important;
+  }
+}
+.productPage-img-modal {
+  width: 100%;
+  min-height: 100% !important;
+  justify-content: center;
+  -o-object-fit: contain;
+     object-fit: contain;
+  border-radius: 1.25em;
+}
+@media (max-width: 991px) {
+  .productPage-img-modal {
+    height: auto;
+    margin-bottom: 1em;
+  }
+}
+@media (max-width: 580px) {
+  .productPage-img-modal {
+    height: 85vw;
+  }
+}
 .productPage-img {
   position: sticky;
   top: 50px;
@@ -3333,6 +3362,9 @@ html.theme-font-title-amaticsc .productPage h1 {
   justify-content: flex-start;
   align-items: flex-start;
   flex-wrap: nowrap;
+}
+.productPage-photo-modal {
+  top: 0px !important;
 }
 .productPage-photo .lazy-load-image-loaded {
   align-self: center;
@@ -4914,6 +4946,12 @@ ACCOUNT
   box-shadow: none;
 }
 
+@media (max-width: 580px) {
+  .product-modal .modal-dialog {
+    height: 100% !important;
+    max-height: 100% !important;
+  }
+}
 .product-modal .modal-content {
   min-height: 600px !important;
   max-height: 600px !important;
@@ -4921,6 +4959,7 @@ ACCOUNT
 }
 @media (max-width: 580px) {
   .product-modal .modal-content {
+    height: 100% !important;
     max-height: 100% !important;
     border-radius: 0px !important;
   }

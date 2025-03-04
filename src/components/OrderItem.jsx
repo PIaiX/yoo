@@ -24,20 +24,21 @@ const OrderItem = memo(({ data }) => {
           data.modifiers.map((e) => <p className="fs-09 fw-6">{e.title}</p>)}
         {data?.wishes?.length > 0 &&
           data.wishes.map((e) => <p className="fs-09 fw-6">{e.title}</p>)}
-        {data.additions.reduce((sum, item) => sum + item.price, 0) > 0 && (
-          <li className="ms-3 fs-09">
-            {data.title}{" "}
-            <span className="fw-7">
-              {customPrice(
-                data?.modifiers?.price
-                  ? data.options.modifierPriceSum
-                    ? data.modifiers.price + data.price
-                    : data.modifiers.price
-                  : data.price
-              )}
-            </span>
-          </li>
-        )}
+        {data?.additions?.length > 0 &&
+          data.additions.reduce((sum, item) => sum + item.price, 0) > 0 && (
+            <li className="ms-3 fs-09">
+              {data.title}{" "}
+              <span className="fw-7">
+                {customPrice(
+                  data?.modifiers?.price
+                    ? data.options.modifierPriceSum
+                      ? data.modifiers.price + data.price
+                      : data.modifiers.price
+                    : data.price
+                )}
+              </span>
+            </li>
+          )}
         {data?.additions?.length > 0 && (
           <ul className="cart-item-ingredients">
             {data.additions.map((e) => (
@@ -50,18 +51,19 @@ const OrderItem = memo(({ data }) => {
       </div>
       <div className="d-flex">
         <div className="price d-flex flex-column justify-content-start align-items-end">
-          {data.additions.reduce((sum, item) => sum + item.price, 0) > 0 && (
-            <div className="checkoutProduct-count fs-08 fw-4 mb-2">
-              {customPrice(
-                (data?.modifiers?.price
-                  ? data.options.modifierPriceSum
-                    ? data.modifiers.price + data.price
-                    : data.modifiers.price
-                  : data.price) +
-                  data.additions.reduce((sum, item) => sum + item.price, 0)
-              )}
-            </div>
-          )}
+          {data?.additions?.length > 0 &&
+            data.additions.reduce((sum, item) => sum + item.price, 0) > 0 && (
+              <div className="checkoutProduct-count fs-08 fw-4 mb-2">
+                {customPrice(
+                  (data?.modifiers?.price
+                    ? data.options.modifierPriceSum
+                      ? data.modifiers.price + data.price
+                      : data.modifiers.price
+                    : data.price) +
+                    data.additions.reduce((sum, item) => sum + item.price, 0)
+                )}
+              </div>
+            )}
           {data?.count > 1 && (
             <div className="checkoutProduct-count fs-08 fw-4 mb-2">
               х&nbsp;{data?.count ?? 1}
@@ -75,7 +77,9 @@ const OrderItem = memo(({ data }) => {
                     ? (data.modifiers.price + data.price) * data.count
                     : data.modifiers.price * data.count
                   : data.price * data.count) +
-                  data.additions.reduce((sum, item) => sum + item.price, 0) *
+                  (data?.additions?.length > 0
+                    ? data.additions.reduce((sum, item) => sum + item.price, 0)
+                    : 0) *
                     data.count
               )}
         </div>

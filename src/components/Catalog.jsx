@@ -1,7 +1,9 @@
 import React, { memo, useState } from "react";
+import { Modal } from "react-bootstrap";
 import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
+import { useTranslation } from "react-i18next";
 import {
   // HiOutlineAdjustmentsHorizontal,
   HiOutlineArrowUturnDown,
@@ -10,19 +12,19 @@ import Choose from "../assets/imgs/choose.svg";
 import Categories from "./Categories";
 import CategoryCard from "./CategoryCard";
 import CategoryGroup from "./CategoryGroup";
-import GridIcon from "./svgs/GridIcon";
-import { Modal } from "react-bootstrap";
-import Loader from "./utils/Loader";
-import NavTop from "./utils/NavTop";
-import { useTranslation } from "react-i18next";
 import ProductModal from "./ProductModal";
+import GridIcon from "./svgs/GridIcon";
+import Loader from "./utils/Loader";
+import { useLocation } from "react-router-dom";
 
 const Catalog = memo(({ data }) => {
   const [viewCategories, setViewCategories] = useState(false);
+  const { hash } = useLocation();
+
   const [product, setProduct] = useState({
-    show: false,
+    show: !!hash,
     loading: true,
-    data: false,
+    data: hash ? { id: hash.slice(1) } : false,
   });
   const { t } = useTranslation();
 
@@ -81,12 +83,25 @@ const Catalog = memo(({ data }) => {
       <Modal
         className="product-modal"
         show={product.show}
-        onHide={() => setProduct({ show: false, loading: true, data: false })}
+        onHide={() => {
+          const urlWithoutHash = window.location.href.split("#")[0];
+          window.history.replaceState(null, null, urlWithoutHash);
+          setProduct({ show: false, loading: true, data: false });
+        }}
         centered
         size="xl"
         scrollable
       >
-        <button type="button" onClick={() => setProduct({ show: false, loading: true, data: false })} className="btn-close btn-close-fixed" aria-label="Close"></button>
+        <button
+          type="button"
+          onClick={() => {
+            const urlWithoutHash = window.location.href.split("#")[0];
+            window.history.replaceState(null, null, urlWithoutHash);
+            setProduct({ show: false, loading: true, data: false });
+          }}
+          className="btn-close btn-close-fixed"
+          aria-label="Close"
+        ></button>
         <Modal.Body className="scroll-custom">
           {product.show && product.data ? (
             <ProductModal
@@ -100,6 +115,8 @@ const Catalog = memo(({ data }) => {
                 }));
               }}
               onExit={() => {
+                const urlWithoutHash = window.location.href.split("#")[0];
+                window.history.replaceState(null, null, urlWithoutHash);
                 setProduct((prev) => ({
                   ...prev,
                   show: false,
