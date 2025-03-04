@@ -16,15 +16,16 @@ import ProductModal from "./ProductModal";
 import GridIcon from "./svgs/GridIcon";
 import Loader from "./utils/Loader";
 import { useLocation } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const Catalog = memo(({ data }) => {
   const [viewCategories, setViewCategories] = useState(false);
   const { hash } = useLocation();
-
+  const city = useSelector((state) => state.affiliate.city);
   const [product, setProduct] = useState({
-    show: !!hash,
+    show: !!hash && !!city,
     loading: true,
-    data: hash ? { id: hash.slice(1) } : false,
+    data: !!hash && !!city ? { id: hash.slice(1) } : false,
   });
   const { t } = useTranslation();
 
