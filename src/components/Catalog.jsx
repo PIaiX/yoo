@@ -1,13 +1,7 @@
 import React, { memo, useState } from "react";
-import { Modal } from "react-bootstrap";
-import Col from "react-bootstrap/Col";
-import Container from "react-bootstrap/Container";
-import Row from "react-bootstrap/Row";
+import { Row, Container, Col, Modal } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
-import {
-  // HiOutlineAdjustmentsHorizontal,
-  HiOutlineArrowUturnDown,
-} from "react-icons/hi2";
+import { HiOutlineArrowUturnDown } from "react-icons/hi2";
 import Choose from "../assets/imgs/choose.svg";
 import Categories from "./Categories";
 import CategoryCard from "./CategoryCard";
