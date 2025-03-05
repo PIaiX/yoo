@@ -214,13 +214,13 @@ const CartItem = memo(({ data }) => {
               )}
             </div>
           )}
-          {data.type == "gift" ? (
+          {data.type == "gift" || data.type == "promo" ? (
             t("Бесплатно")
           ) : data?.discount > 0 ? (
             <>
               <div className="text-right">
                 {customPrice(
-                  price * data.cart.count -
+                  price * (data?.cart?.count ?? 0) -
                     data.discount +
                     (data?.cart?.additions?.length > 0
                       ? data?.cart?.additions.reduce(
@@ -228,7 +228,7 @@ const CartItem = memo(({ data }) => {
                           0
                         )
                       : 0) *
-                      data.cart.count
+                      (data?.cart?.count ?? 0)
                 )}
               </div>
               <div className="text-right">
@@ -241,7 +241,7 @@ const CartItem = memo(({ data }) => {
                             0
                           )
                         : 0)) *
-                      data.cart.count
+                      (data?.cart?.count ?? 1)
                   )}
                 </s>
               </div>
@@ -255,7 +255,7 @@ const CartItem = memo(({ data }) => {
                       0
                     )
                   : 0)) *
-                data.cart.count
+                (data?.cart?.count ?? 1)
             )
           )}
         </div>

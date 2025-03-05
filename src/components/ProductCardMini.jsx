@@ -7,7 +7,6 @@ import {
   getImageURL,
   sortMain,
 } from "../helpers/all";
-import ButtonCart from "./ButtonCart";
 import ButtonCartProductMini from "./ButtonCartProductMini";
 
 const ProductCardMini = memo(({ data }) => {

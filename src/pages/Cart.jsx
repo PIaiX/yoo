@@ -135,9 +135,7 @@ const Cart = () => {
             }
             dispatch(cartPromo(res));
             if (res?.product?.id) {
-              dispatch(
-                updateCart({ data: { ...res.product, cart: { count: 1 } } })
-              );
+              dispatch(updateCart({ ...res.product, cart: { count: 1 } }));
             }
 
             dispatch(updateCartChecking(res.checking));

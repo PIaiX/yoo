@@ -39,18 +39,37 @@ import Select from "./utils/Select";
 
 const ProductModal = memo((data) => {
   const { t } = useTranslation();
-  const { productId = data?.id, ...params } = useParams();
+  const { productId = data?.id } = useParams();
 
   const options = useSelector((state) => state.settings.options);
   const selectedAffiliate = useSelector((state) => state.affiliate.active);
   const [isRemove, setIsRemove] = useState(false);
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
 
+  const modifiersData =
+    options?.brand?.options?.priceAffiliateType &&
+    Array.isArray(data.modifiers) &&
+    data?.modifiers?.length > 0
+      ? groupByCategoryIdToArray(
+          data.modifiers.filter((e) => e?.modifierOptions?.length > 0)
+        )
+      : Array.isArray(data.modifiers) && data?.modifiers?.length > 0
+      ? groupByCategoryIdToArray(data.modifiers)
+      : [];
   const [product, setProduct] = useState({
+    loading: false,
     ...data,
-    loading: true,
+    modifiers: modifiersData,
     cart: {
-      modifiers: [],
+      modifiers:
+        modifiersData?.length > 0
+          ? modifiersData.map((group) => {
+              // Ищем модификатор с main: true
+              const mainModifier = group.modifiers.find((m) => m.main === true);
+              // Если не нашли, берем первый модификатор
+              return mainModifier || group.modifiers[0];
+            })
+          : [],
       additions: [],
       wishes: [],
     },
@@ -82,43 +101,41 @@ const ProductModal = memo((data) => {
             ? groupByCategoryIdToArray(res.modifiers)
             : [];
 
-        const recommends =
-          options?.brand?.options?.priceAffiliateType &&
-          Array.isArray(res.recommends) &&
-          res?.recommends?.length > 0
-            ? res.recommends.filter(
-                (e) => productId != e.id && e?.productOptions?.length > 0
-              )
-            : Array.isArray(res.recommends) && res?.recommends?.length > 0
-            ? res.recommends.filter((e) => productId != e.id)
-            : [];
-
-        setProduct({
+        // const recommends =
+        //   options?.brand?.options?.priceAffiliateType &&
+        //   Array.isArray(res.recommends) &&
+        //   res?.recommends?.length > 0
+        //     ? res.recommends.filter(
+        //         (e) => productId != e.id && e?.productOptions?.length > 0
+        //       )
+        //     : Array.isArray(res.recommends) && res?.recommends?.length > 0
+        //     ? res.recommends.filter((e) => productId != e.id)
+        //     : [];
+        let productData = {
           loading: false,
           ...res,
           modifiers: modifiers,
-          recommends: recommends,
+          // recommends: recommends,
           cart: {
             modifiers:
-              modifiers?.length > 0 ? modifiers.map((e) => e.modifiers[0]) : [],
+              modifiers?.length > 0
+                ? modifiers.map((group) => {
+                    // Ищем модификатор с main: true
+                    const mainModifier = group.modifiers.find(
+                      (m) => m.main === true
+                    );
+                    // Если не нашли, берем первый модификатор
+                    return mainModifier || group.modifiers[0];
+                  })
+                : [],
             additions: [],
             wishes: [],
           },
-        });
+        };
+        setProduct(productData);
+
         if (data?.onLoad) {
-          data.onLoad({
-            ...res,
-            modifiers: modifiers,
-            recommends: recommends,
-            cart: {
-              modifiers:
-                modifiers?.length > 0
-                  ? modifiers.map((e) => e.modifiers[0])
-                  : [],
-              additions: [],
-              wishes: [],
-            },
-          });
+          data.onLoad(productData);
         }
       })
       .catch(() => setProduct((data) => ({ ...data, loading: false })));
@@ -236,84 +253,87 @@ const ProductModal = memo((data) => {
 
       <Row className="gx-4 h-100">
         <Col xs={12} md={5} lg={6}>
-        <div className="productPage-content">
-          {product?.cart?.modifiers[0]?.medias[0]?.media &&
-          product?.medias?.length === 1 ? (
-            <LazyLoadImage
-              loading="lazy"
-              src={getImageURL({
-                path: product.cart?.modifiers[0]?.medias[0]?.media,
-                size: "full",
-                type: "modifier",
-              })}
-              alt={product.title}
-              className="productPage-img-modal"
-            />
-          ) : Array.isArray(product?.medias) && product.medias?.length > 1 ? (
-            <div className="productPage-photo productPage-photo-modal">
-              <Swiper
-                className="thumbSlider"
-                modules={[Thumbs, FreeMode]}
-                watchSlidesProgress
-                onSwiper={setThumbsSwiper}
-                direction="vertical"
-                loop={true}
-                spaceBetween={20}
-                slidesPerView={"auto"}
-                freeMode={true}
-              >
-                {sortMain(product.medias).map((e) => (
-                  <SwiperSlide>
-                    <img
-                      src={getImageURL({
-                        path: e.media,
-                        size: "full",
-                      })}
-                      alt={product.title}
-                      className="productPage-img-modal"
-                    />
-                  </SwiperSlide>
-                ))}
-              </Swiper>
-              <Swiper
-                className="mainSlider"
-                modules={[Thumbs]}
-                loop={true}
-                spaceBetween={20}
-                thumbs={{
-                  swiper:
-                    thumbsSwiper && !thumbsSwiper.destroyed
-                      ? thumbsSwiper
-                      : null,
-                }}
-              >
-                {sortMain(product.medias).map((e, index) => (
-                  <SwiperSlide key={index}>
-                    <LazyLoadImage
-                      loading="lazy"
-                      src={getImageURL({
-                        path: e.media,
-                        size: "full",
-                      })}
-                      alt={product.title}
-                      className="productPage-img-modal"
-                    />
-                  </SwiperSlide>
-                ))}
-              </Swiper>
-            </div>
-          ) : (
-            <LazyLoadImage
-              loading="lazy"
-              src={getImageURL({ path: product.medias, size: "full" })}
-              alt={product.title}
-              className="productPage-img-modal"
-            />
-          )}
+          <div className="productPage-content">
+            {product?.cart?.modifiers[0]?.medias[0]?.media &&
+            product?.medias?.length === 1 ? (
+              <LazyLoadImage
+                loading="lazy"
+                src={getImageURL({
+                  path: product.cart?.modifiers[0]?.medias[0]?.media,
+                  size: "full",
+                  type: "modifier",
+                })}
+                alt={product.title}
+                className="productPage-img-modal"
+              />
+            ) : Array.isArray(product?.medias) && product.medias?.length > 1 ? (
+              <div className="productPage-photo productPage-photo-modal">
+                <Swiper
+                  className="thumbSlider"
+                  modules={[Thumbs, FreeMode]}
+                  watchSlidesProgress
+                  onSwiper={setThumbsSwiper}
+                  direction="vertical"
+                  loop={true}
+                  spaceBetween={20}
+                  slidesPerView={"auto"}
+                  freeMode={true}
+                >
+                  {sortMain(product.medias).map((e) => (
+                    <SwiperSlide>
+                      <img
+                        src={getImageURL({
+                          path: e.media,
+                          size: "full",
+                        })}
+                        alt={product.title}
+                        className="productPage-img-modal"
+                      />
+                    </SwiperSlide>
+                  ))}
+                </Swiper>
+                <Swiper
+                  className="mainSlider"
+                  modules={[Thumbs]}
+                  loop={true}
+                  spaceBetween={20}
+                  thumbs={{
+                    swiper:
+                      thumbsSwiper && !thumbsSwiper.destroyed
+                        ? thumbsSwiper
+                        : null,
+                  }}
+                >
+                  {sortMain(product.medias).map((e, index) => (
+                    <SwiperSlide key={index}>
+                      <LazyLoadImage
+                        loading="lazy"
+                        src={getImageURL({
+                          path: e.media,
+                          size: "full",
+                        })}
+                        alt={product.title}
+                        className="productPage-img-modal"
+                      />
+                    </SwiperSlide>
+                  ))}
+                </Swiper>
+              </div>
+            ) : (
+              <LazyLoadImage
+                loading="lazy"
+                src={getImageURL({ path: product.medias, size: "full" })}
+                alt={product.title}
+                className="productPage-img-modal"
+              />
+            )}
           </div>
         </Col>
         <Col xs={12} md={7} lg={6}>
-          <div className="d-flex flex-column justify-content-between h-100" style={{minHeight: 565}}>
+          <div
+            className="d-flex flex-column justify-content-between h-100"
+            style={{ minHeight: 565 }}
+          >
             <div className="pt-2 h-100">
               <div
                 className={
@@ -530,7 +550,12 @@ const ProductModal = memo((data) => {
                                   <input
                                     type="radio"
                                     name={e.categoryId ?? 0}
-                                    defaultChecked={index === 0}
+                                    defaultChecked={
+                                      !!product?.cart?.modifiers?.find(
+                                        (modifierItem) =>
+                                          modifierItem.id === e.id
+                                      ) || index === 0
+                                    }
                                     onChange={() => {
                                       // Создаем копию массива modifiers
                                       const updatedModifiers = [

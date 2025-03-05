@@ -1,4 +1,4 @@
-import React, { memo, useState } from "react";
+import React, { memo, useState, useCallback, Suspense } from "react";
 import { Row, Container, Col, Modal } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 import { HiOutlineArrowUturnDown } from "react-icons/hi2";
@@ -6,11 +6,65 @@ import Choose from "../assets/imgs/choose.svg";
 import Categories from "./Categories";
 import CategoryCard from "./CategoryCard";
 import CategoryGroup from "./CategoryGroup";
-import ProductModal from "./ProductModal";
 import GridIcon from "./svgs/GridIcon";
 import Loader from "./utils/Loader";
 import { useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
+
+// Ленивая загрузка ProductModal
+const ProductModal = React.lazy(() => import("./ProductModal"));
+
+const ProductModalComponent = memo(({ product, setProduct }) => {
+  const handleClose = useCallback(() => {
+    const urlWithoutHash = window.location.href.split("#")[0];
+    window.history.replaceState(null, null, urlWithoutHash);
+    setProduct((prev) => ({
+      ...prev,
+      show: false,
+      loading: true,
+      data: false,
+    }));
+  }, [setProduct]);
+
+  return (
+    <Modal
+      fullscreen="sm-down"
+      className="product-modal"
+      show={product.show}
+      onHide={handleClose}
+      centered
+      size="xl"
+      scrollable
+    >
+      <button
+        type="button"
+        onClick={handleClose}
+        className="btn-close btn-close-fixed"
+        aria-label="Close"
+      ></button>
+      <Modal.Body className="scroll-custom">
+        {product.show && product.data ? (
+          <Suspense fallback={<Loader full />}>
+            <ProductModal
+              {...product.data}
+              onLoad={(e) => {
+                setProduct((prev) => ({
+                  ...prev,
+                  show: true,
+                  loading: false,
+                  data: e,
+                }));
+              }}
+              onExit={handleClose}
+            />
+          </Suspense>
+        ) : (
+          <Loader full />
+        )}
+      </Modal.Body>
+    </Modal>
+  );
+});
 
 const Catalog = memo(({ data }) => {
   const [viewCategories, setViewCategories] = useState(false);
@@ -23,6 +77,10 @@ const Catalog = memo(({ data }) => {
   });
   const { t } = useTranslation();
 
+  const toggleViewCategories = useCallback(() => {
+    setViewCategories((prev) => !prev);
+  }, []);
+
   if (!data || data?.length === 0) {
     return null;
   }
@@ -33,7 +91,7 @@ const Catalog = memo(({ data }) => {
         <Container className="box">
           <button
             type="button"
-            onClick={() => setViewCategories(!viewCategories)}
+            onClick={toggleViewCategories}
             className="d-none d-md-flex btn-view mb-3 ms-auto me-4"
           >
             <img src={Choose} alt="Choose" />
@@ -43,7 +101,7 @@ const Catalog = memo(({ data }) => {
             <>
               <Row xs={2} md={3} xl={4} className="g-3 g-sm-4">
                 {data.map((e) => (
-                  <Col>
+                  <Col key={e.id}>
                     <CategoryCard data={e} />
                   </Col>
                 ))}
@@ -61,12 +119,17 @@ const Catalog = memo(({ data }) => {
           <Container>
             {data?.length > 0 && (
               <div className="categories-box">
-                {data.map((e, index) => (
+                {data.map((e) => (
                   <CategoryGroup
-                    key={index}
+                    key={e.id}
                     data={e}
                     onLoad={(e) =>
-                      setProduct((prev) => ({ ...prev, show: true, data: e }))
+                      setProduct((prev) => ({
+                        ...prev,
+                        show: true,
+                        loading: false,
+                        data: e,
+                      }))
                     }
                   />
                 ))}
@@ -75,56 +138,9 @@ const Catalog = memo(({ data }) => {
           </Container>
         </>
       )}
-      <Modal
-        className="product-modal"
-        show={product.show}
-        onHide={() => {
-          const urlWithoutHash = window.location.href.split("#")[0];
-          window.history.replaceState(null, null, urlWithoutHash);
-          setProduct({ show: false, loading: true, data: false });
-        }}
-        centered
-        size="xl"
-        scrollable
-      >
-        <button
-          type="button"
-          onClick={() => {
-            const urlWithoutHash = window.location.href.split("#")[0];
-            window.history.replaceState(null, null, urlWithoutHash);
-            setProduct({ show: false, loading: true, data: false });
-          }}
-          className="btn-close btn-close-fixed"
-          aria-label="Close"
-        ></button>
-        <Modal.Body className="scroll-custom">
-          {product.show && product.data ? (
-            <ProductModal
-              {...product.data}
-              onLoad={(e) => {
-                setProduct((prev) => ({
-                  ...prev,
-                  show: true,
-                  loading: false,
-                  data: e,
-                }));
-              }}
-              onExit={() => {
-                const urlWithoutHash = window.location.href.split("#")[0];
-                window.history.replaceState(null, null, urlWithoutHash);
-                setProduct((prev) => ({
-                  ...prev,
-                  show: false,
-                  loading: false,
-                  data: false,
-                }));
-              }}
-            />
-          ) : (
-            <Loader full />
-          )}
-        </Modal.Body>
-      </Modal>
+      <Suspense fallback={<Loader full />}>
+        <ProductModalComponent product={product} setProduct={setProduct} />
+      </Suspense>
     </section>
   );
 });

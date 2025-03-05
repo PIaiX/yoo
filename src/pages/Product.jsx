@@ -99,7 +99,16 @@ const Product = (data) => {
           recommends: recommends,
           cart: {
             modifiers:
-              modifiers?.length > 0 ? modifiers.map((e) => e.modifiers[0]) : [],
+              modifiers?.length > 0
+                ? modifiers.map((group) => {
+                    // Ищем модификатор с main: true
+                    const mainModifier = group.modifiers.find(
+                      (m) => m.main === true
+                    );
+                    // Если не нашли, берем первый модификатор
+                    return mainModifier || group.modifiers[0];
+                  })
+                : [],
             additions: [],
             wishes: [],
           },
@@ -523,7 +532,12 @@ const Product = (data) => {
                                   <input
                                     type="radio"
                                     name={e.categoryId ?? 0}
-                                    defaultChecked={index === 0}
+                                    defaultChecked={
+                                      !!product?.cart?.modifiers?.find(
+                                        (modifierItem) =>
+                                          modifierItem.id === e.id
+                                      ) || index === 0
+                                    }
                                     onChange={() => {
                                       // Создаем копию массива modifiers
                                       const updatedModifiers = [

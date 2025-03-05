@@ -1,8 +1,9 @@
 import { memo, useCallback, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { HiOutlineShoppingBag } from "react-icons/hi2";
+import { NotificationManager } from "react-notifications";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { groupByCategoryIdToArray } from "../helpers/all";
 import { isCart } from "../hooks/useCart";
 import { updateCart } from "../services/cart";
 import { getProduct } from "../services/product";
@@ -12,6 +13,7 @@ const ButtonCartProductMini = memo(
   ({ product, isValid = true, onLoad, className, children }) => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const { t } = useTranslation();
     const selectedAffiliate = useSelector((state) => state.affiliate.active);
     const options = useSelector((state) => state.settings.options);
     const [loading, setLoading] = useState(false);
@@ -19,11 +21,17 @@ const ButtonCartProductMini = memo(
 
     const onPress = useCallback(
       (newCount = 1, inputCount = false) => {
-        if (product?.modifiers?.length > 0) {
-          if(onLoad){
-            return onLoad(product)
+        const modifiers =
+          options?.brand?.options?.priceAffiliateType &&
+          Array.isArray(product.modifiers) &&
+          product?.modifiers?.length > 0
+            ? product.modifiers.filter((e) => e?.modifierOptions?.length > 0)
+            : product?.modifiers ?? [];
+        if (modifiers?.length > 1) {
+          if (onLoad) {
+            return onLoad(product);
           }
-          return navigate("/product/" + product.id, product);
+          return navigate("/product/" + product.id, res);
         }
         if (isCartData && inputCount) {
           dispatch(
@@ -44,29 +52,28 @@ const ButtonCartProductMini = memo(
             type: "site",
           })
             .then((res) => {
-              if (res?.modifiers?.length > 0 || res?.additions?.length > 0) {
-                if(onLoad){
-                  return onLoad(product)
-                }
-                return navigate("/product/" + product.id, res);
-              }
-
               const modifiers =
                 options?.brand?.options?.priceAffiliateType &&
                 Array.isArray(res.modifiers) &&
                 res?.modifiers?.length > 0
-                  ? groupByCategoryIdToArray(
-                      res.modifiers.filter(
-                        (e) => e?.modifierOptions?.length > 0
-                      )
-                    )
-                  : Array.isArray(res.modifiers) && res?.modifiers?.length > 0
-                  ? groupByCategoryIdToArray(res.modifiers)
-                  : [];
+                  ? res.modifiers.filter((e) => e?.modifierOptions?.length > 0)
+                  : res?.modifiers ?? [];
+              if (modifiers?.length > 1 || res?.additions?.length > 0) {
+                if (onLoad) {
+                  return onLoad(res);
+                }
+                return navigate("/product/" + product.id, res);
+              }
 
               let newProduct = {
                 cart: product?.cart
-                  ? { ...product.cart, count: newCount }
+                  ? modifiers?.length === 1
+                    ? {
+                        ...product.cart,
+                        modifiers: modifiers,
+                        count: newCount,
+                      }
+                    : { ...product.cart, count: newCount }
                   : { count: newCount },
                 id: res.id,
                 options: res.options,
@@ -83,7 +90,10 @@ const ButtonCartProductMini = memo(
                   !product?.medias?.length === 0 && res.medias?.length > 0
                     ? res.medias
                     : product?.medias ?? [],
-                modifiers: modifiers && modifiers?.length > 0 ? modifiers : [],
+                modifiers:
+                  product?.modifiers && product?.modifiers?.length > 0
+                    ? product.modifiers
+                    : [],
                 additions:
                   res?.additions && res?.additions?.length > 0
                     ? res.additions
@@ -93,6 +103,9 @@ const ButtonCartProductMini = memo(
               };
 
               dispatch(updateCart(newProduct));
+              NotificationManager.success(
+                t("Товар успешно добавлен в корзину")
+              );
             })
             .finally(() => setLoading(false));
         }

@@ -29,7 +29,7 @@ html {
   --main-color-text-subtitle: #000;
   --main-color-text-revers: #fff;
   --bs-secondary-color: #444;
-  --bs-progress-bg-new: #999;
+  --bs-progress-bg-new: #e9e9e9;
   --color-light-gray: #d1d1d1;
   --bg-main: #fff;
   --bg-btn: #dadada;
@@ -2950,15 +2950,15 @@ html.theme-font-title-amaticsc .productPage h1 {
     margin-top: 10px;
   }
   min-height: 450px;
-  &-content{
-    position: sticky; 
+  &-content {
+    position: sticky;
     top: 0px;
-    min-height: 565px; 
+    min-height: 565px;
     @media (max-width: $bp-sm) {
-      min-height: auto !important; 
+      min-height: auto !important;
     }
   }
-  &-img-modal{
+  &-img-modal {
     width: 100%;
     min-height: 100% !important;
     justify-content: center;
@@ -2997,7 +2997,7 @@ html.theme-font-title-amaticsc .productPage h1 {
   &-photo {
     position: sticky;
     top: 80px;
-    &-modal{
+    &-modal {
       top: 0px !important;
     }
     justify-content: center;
@@ -4327,7 +4327,7 @@ ACCOUNT
   }
 }
 .product-modal {
-  .modal-dialog{
+  .modal-dialog {
     @media (max-width: $bp-sm) {
       height: 100% !important;
       max-height: 100% !important;
@@ -5622,6 +5622,10 @@ ACCOUNT END
 }
 .text-main {
   color: var(--main-color);
+  &:hover{
+    opacity: 0.8;
+    color: var(--main-color);
+  }
 }
 .cities {
   columns: 3;
@@ -5651,6 +5655,9 @@ ACCOUNT END
   max-height: 79vh;
   @include scrollCustomized();
   overflow: auto;
+  @media (max-width: $bp-sm) {
+    max-height: 100% !important;
+  }
 }
 .box-shadow {
   position: relative;
@@ -5949,7 +5956,7 @@ img.show {
     font-weight: 600 !important;
   }
 }
-.btn-close-fixed{
+.btn-close-fixed {
   position: fixed;
   right: 0px;
   z-index: 9999;

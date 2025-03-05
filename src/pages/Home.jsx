@@ -54,7 +54,11 @@ const Home = () => {
       options?.title &&
       options?.title != "YooApp"
     ) {
-      if (catalog?.widgets?.length === 0 && catalog?.categories?.length === 0 && selectedAffiliate) {
+      if (
+        catalog?.widgets?.length === 0 &&
+        catalog?.categories?.length === 0 &&
+        selectedAffiliate
+      ) {
         setLoading(true);
       }
       getData();

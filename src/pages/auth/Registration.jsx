@@ -341,7 +341,10 @@ const Registration = () => {
       {options?.qr && (
         <Button
           variant="light"
-          className={"w-100 mt-3 btn-lg " + (loadingLogin ? "loading" : "")}
+          className={
+            "w-100 d-none d-md-flex mt-3 btn-lg " +
+            (loadingLogin ? "loading" : "")
+          }
           onClick={() => setModalQr(true)}
         >
           <IoQrCodeOutline size={22} className="me-2" />

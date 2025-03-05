@@ -1,17 +1,22 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
+import { isEqual } from "lodash";
 
 const useDebounce = (value, delay = 400) => {
-    const [debouncedValue, setDebouncedValue] = useState(value)
+    const [debouncedValue, setDebouncedValue] = useState(value);
+    const previousValueRef = useRef();
 
     useEffect(() => {
         const handler = setTimeout(() => {
-            setDebouncedValue(value)
-        }, delay)
+            if (!isEqual(previousValueRef.current, value)) {
+                setDebouncedValue(value);
+                previousValueRef.current = value;
+            }
+        }, delay);
 
         return () => {
-            clearTimeout(handler)
-        }
-    }, [delay, value])
+            clearTimeout(handler);
+        };
+    }, [value, delay]);
 
     return debouncedValue
 }

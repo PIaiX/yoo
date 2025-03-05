@@ -24,7 +24,13 @@ const Extras = memo(({ person = 0, items }) => {
           </Col>
         </Row>
       </a>
-      <Modal size="md" show={show} onHide={setShow} centered>
+      <Modal
+        size="md"
+        fullscreen="sm-down"
+        show={show}
+        onHide={setShow}
+        centered
+      >
         <Modal.Header closeButton className="fw-7">
           Выберите товар
         </Modal.Header>

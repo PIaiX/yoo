@@ -32,7 +32,7 @@ const Addresses = () => {
                 e?.region?.toLowerCase() === city?.region?.toLowerCase() ||
                 e?.area?.toLowerCase() === city?.area?.toLowerCase()
             )
-          : addressData
+          : addressData?.items ?? []
       );
     }
   }, [addressData, city]);
@@ -57,8 +57,8 @@ const Addresses = () => {
     <section className="addresses">
       <div className="d-flex flex-column">
         <div className="d-flex align-items-center justify-content-between">
-          <AccountTitleReturn  title={t("Адреса")} />
- 
+          <AccountTitleReturn title={t("Адреса")} />
+
           <Link to="add" className="w-xs-100 btn-primary mb-3">
             {t("Добавить адрес")}
           </Link>

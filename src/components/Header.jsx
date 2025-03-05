@@ -635,6 +635,7 @@ const Header = memo(() => {
         <Modal
           size="lg"
           centered
+          fullscreen="sm-down"
           backdrop={city?.title ? true : "static"}
           keyboard={!!city?.title}
           className="city"
@@ -791,7 +792,7 @@ const Header = memo(() => {
                       </React.Fragment>
                     ))}
               </div>
-              <div className="box-shadow-bottom"></div>
+              {/* <div className="box-shadow-bottom"></div> */}
             </div>
           </Modal.Body>
         </Modal>

@@ -154,6 +154,7 @@ const Checkout = () => {
       payment: checkout?.data?.payment ?? "cash",
       person: person > 0 ? person : checkout?.data?.person ?? 1,
       comment: checkout?.data?.comment ?? "",
+      commentСourier: checkout?.data?.commentСourier ?? "",
       address: checkout?.data?.address ?? false,
       affiliateId: selectedAffiliate?.id ? selectedAffiliate.id : false,
       tableId: selectedTable?.id ? selectedTable.id : false,
@@ -195,6 +196,8 @@ const Checkout = () => {
   });
 
   const data = useWatch({ control });
+  const editData = useDebounce(data, 1000);
+
   const deliveryText = data?.delivery ? deliveryData[data.delivery] : null;
 
   const paymentText = data?.payment ? paymentData[data.payment] : null;
@@ -270,34 +273,6 @@ const Checkout = () => {
     },
     [selectedAffiliate, zone]
   );
-
-  // const isWorkStatus =
-  //   (!data.serving &&
-  //     selectedAffiliate?.options?.work &&
-  //     selectedAffiliate.options.work[weekday]?.end &&
-  //     selectedAffiliate.options.work[weekday]?.start &&
-  //     isWork(
-  //       selectedAffiliate.options.work[weekday].start,
-  //       selectedAffiliate.options.work[weekday].end
-  //     )) ||
-  //   (data.serving &&
-  //     selectedAffiliate?.options?.work &&
-  //     selectedAffiliate.options.work[moment(data.serving).weekday()]?.end &&
-  //     selectedAffiliate.options.work[moment(data.serving).weekday()]?.start &&
-  //     moment(data.serving).isAfter(moment()) &&
-  //     isWork(
-  //       selectedAffiliate.options.work[moment(data.serving).weekday()].start,
-  //       selectedAffiliate.options.work[moment(data.serving).weekday()].end,
-  //       moment(data.serving).format("HH:mm")
-  //     )) ||
-  //   (moment(data.serving).isBefore(moment()) &&
-  //     isWork(
-  //       moment()
-  //         .add((selectedAffiliate?.options?.preorderMin ?? 90) - 1, "minutes")
-  //         .format("HH:mm"),
-  //       selectedAffiliate.options.work[moment(data.serving).weekday()].end,
-  //       moment(data.serving).format("HH:mm")
-  //     ));
 
   const isWorkStatus =
     (!data.serving &&
@@ -388,8 +363,8 @@ const Checkout = () => {
   }, [user, end]);
 
   useEffect(() => {
-    if (data) dispatch(setCheckout(data));
-  }, [data, end]);
+    if (editData) dispatch(setCheckout(editData));
+  }, [editData, end]);
 
   useEffect(() => {
     if (isAuth && !end) {
@@ -603,35 +578,8 @@ const Checkout = () => {
         })
         .finally(() => setIsLoading(false));
     },
-    [data, selectedAffiliate, zone?.data]
+    [editData, selectedAffiliate, zone?.data]
   );
-
-  // useEffect(() => {
-  //   const selectedTime = data.servingTime;
-  //   const currentDate = data.servingDate
-  //     ? moment(data.servingDate).format("YYYY-MM-DD")
-  //     : moment().format("YYYY-MM-DD");
-
-  //   // Проверяем, попадает ли выбранное время в диапазон
-  //   const minTime = moment(
-  //     selectedAffiliate.options.work[weekday].start,
-  //     "HH:mm"
-  //   ).add(selectedAffiliate?.options?.preorderMin ?? 90, "minutes");
-
-  //   const maxTime = moment(
-  //     selectedAffiliate.options.work[weekday].end,
-  //     "HH:mm"
-  //   );
-
-  //   if (moment(selectedTime, "HH:mm").isBetween(minTime, maxTime, null, "[]")) {
-  //     setValue(
-  //       "serving",
-  //       moment(currentDate + "T" + selectedTime).format("YYYY-MM-DDTHH:mm")
-  //     );
-  //   } else {
-  //     setValue("serving", null);
-  //   }
-  // }, [data.servingTime, data.servingDate]);
 
   useEffect(() => {
     if (data.serving && (!data.servingRadio || data.servingRadio === "false")) {
@@ -769,28 +717,41 @@ const Checkout = () => {
                       </Link>
                     </p>
                   ) : data.delivery == "delivery" ? (
-                    <div className="mb-4">
-                      <Select
-                        label={t("Адрес")}
-                        value={data?.address?.id}
-                        data={address.map((e) => ({
-                          title: e?.title?.length > 0 ? e.title : e.full,
-                          desc: e?.title?.length > 0 ? e.full : false,
-                          value: e.id,
-                        }))}
-                        onClick={(e) =>
-                          dispatch(
-                            mainAddress(address.find((a) => a.id === e.value))
-                          )
-                        }
-                      />
-                      <p className="text-muted fs-09 mt-2">
+                    <>
+                      <div className="mb-2">
+                        <Select
+                          label={t("Адрес")}
+                          value={data?.address?.id}
+                          data={address.map((e) => ({
+                            title: e?.title?.length > 0 ? e.title : e.full,
+                            desc: e?.title?.length > 0 ? e.full : false,
+                            value: e.id,
+                          }))}
+                          onClick={(e) =>
+                            dispatch(
+                              mainAddress(address.find((a) => a.id === e.value))
+                            )
+                          }
+                        />
+                      </div>
+                      <div className="mb-2">
+                        <Textarea
+                          label={t("Комментарий курьеру")}
+                          name="commentСourier"
+                          placeholder={t("Введите комментарий курьеру")}
+                          errors={errors}
+                          rows={2}
+                          register={register}
+                        />
+                      </div>
+
+                      <p className="text-muted fs-09 mb-4">
                         {t("Нет нужного адреса?")}{" "}
                         <Link to="/account/addresses/add" className="text-main">
                           {t("Добавить новый адрес")}
                         </Link>
                       </p>
-                    </div>
+                    </>
                   ) : data.delivery == "pickup" ? (
                     !options?.multiBrand &&
                     affiliate?.length > 1 && (
@@ -1276,6 +1237,7 @@ const Checkout = () => {
             </Col>
           </Row>
           <Modal
+            fullscreen="sm-down"
             size="md"
             show={confirmation}
             onHide={setConfirmation}

@@ -36,6 +36,7 @@ const ProductCard = memo(({ data, onLoad }) => {
 
   data = {
     ...data,
+    modifiers: modifiers,
     cart: {
       modifiers: [],
       additions: [],
@@ -403,7 +404,7 @@ const ProductCard = memo(({ data, onLoad }) => {
             })}
           </a>
         )}
-        <ButtonCartProductMini product={data}  onLoad={onLoad}/>
+        <ButtonCartProductMini product={data} onLoad={onLoad} />
       </div>
     </div>
   );

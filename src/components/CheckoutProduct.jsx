@@ -6,7 +6,7 @@ import { customPrice, customWeight, getImageURL } from "../helpers/all";
 const CheckoutProduct = memo(({ data }) => {
   const price =
     data?.cart?.modifiers?.length > 0
-      ? data.options.modifierPriceSum
+      ? data.options?.modifierPriceSum
         ? data.cart.modifiers.reduce((sum, item) => sum + item.price, 0) +
           data.price
         : data.cart.modifiers.reduce((sum, item) => sum + item.price, 0)
@@ -18,7 +18,19 @@ const CheckoutProduct = memo(({ data }) => {
     <div className="checkoutProduct d-flex align-items-start">
       <img src={getImageURL({ path: data.medias })} alt={data.title} />
       <div className="flex-1">
-        <h6 className="fs-09">{data.title}</h6>
+        <h6 className="fs-09">
+          {data.title}
+          {data?.cart?.additions?.length > 0 ? " с добавками" : ""}
+          {data?.cart?.modifiers?.length > 0 &&
+            data.cart.modifiers.map((e) => (
+              <span
+                key={e.id}
+                className="fs-09 fw-7 card d-inline-block p-1 px-2 mx-2"
+              >
+                {e.title}
+              </span>
+            ))}
+        </h6>
         <div className="d-flex justify-content-between align-items-center">
           {data?.energy?.weight > 0 && (
             <p>
@@ -35,11 +47,11 @@ const CheckoutProduct = memo(({ data }) => {
             x{data?.cart?.count ?? 1}
           </p>
         </div>
-        {(data?.cart?.data?.additions?.length > 0 ||
-          data?.cart?.data?.wishes?.length > 0) && (
+        {(data?.cart?.additions?.length > 0 ||
+          data?.cart?.wishes?.length > 0) && (
           <div className="border-bottom my-2" />
         )}
-        {data?.cart?.data?.additions?.length > 0 && (
+        {data?.cart?.additions?.length > 0 && (
           <p className="mb-1">
             <a
               className="fs-09 fw-6 d-flex align-items-center mb-0"
@@ -51,7 +63,7 @@ const CheckoutProduct = memo(({ data }) => {
             >
               <span>Добавки</span>{" "}
               <Badge bg="secondary" className="mx-2">
-                {data?.cart?.data?.additions?.length}
+                {data?.cart?.additions?.length}
               </Badge>
               {open.additions ? (
                 <IoChevronUp color="#666" />
@@ -73,7 +85,7 @@ const CheckoutProduct = memo(({ data }) => {
             </Collapse>
           </p>
         )}
-        {data?.cart?.data?.wishes?.length > 0 && (
+        {data?.cart?.wishes?.length > 0 && (
           <p>
             <a
               className="fs-09 fw-6 d-flex align-items-center mb-0"
@@ -85,7 +97,7 @@ const CheckoutProduct = memo(({ data }) => {
             >
               <span>Пожелания</span>{" "}
               <Badge bg="secondary" className="mx-2">
-                {data?.cart?.data?.wishes?.length}
+                {data?.cart?.wishes?.length}
               </Badge>
               {open.wishes ? (
                 <IoChevronUp color="#666" />
