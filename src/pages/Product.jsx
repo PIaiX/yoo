@@ -48,6 +48,7 @@ const Product = (data) => {
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
 
   const [product, setProduct] = useState({
+    ...data,
     loading: true,
     cart: {
       modifiers: [],

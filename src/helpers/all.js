@@ -342,13 +342,13 @@ const languageCode = (value) => {
 };
 const weekday = moment().isoWeekday() - 1
 const sortMain = (medias) => {
-  return medias.slice().sort((a, b) => {
+  return medias?.length > 0 ? medias.slice().sort((a, b) => {
     // Если a.main истинно, он должен быть первым
     if (a.main === b.main) {
-      return 0; // Оба равны по этому критерию
+      return 0 // Оба равны по этому критерию
     }
-    return a.main ? -1 : 1; // Если a.main истинно, возвращаем -1 (a перед b), иначе 1
-  });
+    return a.main ? -1 : 1 // Если a.main истинно, возвращаем -1 (a перед b), иначе 1
+  }) : []
 };
 
 

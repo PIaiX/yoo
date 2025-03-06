@@ -31,15 +31,15 @@ const cartSlice = createSlice({
 
               modifiers:
                 cartItem?.cart?.modifiers?.length > 0 &&
-                isProduct?.modifiers?.length > 0
+                  isProduct?.modifiers?.length > 0
                   ? cartItem.cart.modifiers.map((e) => {
-                      let isModifier = isProduct?.modifiers.find(
-                        (e2) => e2.id === e.id
-                      );
-                      if (isModifier) {
-                        return { ...e, ...isModifier };
-                      }
-                    })
+                    let isModifier = isProduct?.modifiers.find(
+                      (e2) => e2.id === e.id
+                    );
+                    if (isModifier) {
+                      return { ...e, ...isModifier };
+                    }
+                  })
                   : [],
             },
           };
@@ -72,17 +72,17 @@ const cartSlice = createSlice({
         items:
           state?.items?.length > 0
             ? state.items.map((cartItem, index) => {
-                const discount =
-                  action.payload[0] &&
+              const discount =
+                action.payload[0] &&
                   action.payload[0]?.discounts &&
                   action.payload[0]?.discounts?.[index]?.discountSum
-                    ? action.payload[0].discounts[index].discountSum
-                    : 0;
-                return {
-                  ...cartItem,
-                  discount: discount,
-                };
-              })
+                  ? action.payload[0].discounts[index].discountSum
+                  : 0;
+              return {
+                ...cartItem,
+                discount: discount,
+              };
+            })
             : state?.items,
       };
     },
@@ -117,12 +117,12 @@ const cartSlice = createSlice({
         }
         return (
           isEqual(
-            cartItem?.cart?.data?.modifiers,
-            action.payload?.data?.cart?.modifiers
+            cartItem?.cart?.modifiers,
+            action.payload?.modifiers
           ) &&
           isEqual(
-            cartItem?.cart?.data?.additions,
-            action.payload?.data?.cart?.additions
+            cartItem?.cart?.additions,
+            action.payload?.additions
           )
         );
       });

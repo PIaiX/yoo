@@ -51,19 +51,20 @@ const OrderItem = memo(({ data }) => {
       </div>
       <div className="d-flex">
         <div className="price d-flex flex-column justify-content-start align-items-end">
-          {data?.additions?.length > 0 &&
-            data.additions.reduce((sum, item) => sum + item.price, 0) > 0 && (
-              <div className="checkoutProduct-count fs-08 fw-4 mb-2">
-                {customPrice(
-                  (data?.modifiers?.price
-                    ? data.options.modifierPriceSum
-                      ? data.modifiers.price + data.price
-                      : data.modifiers.price
-                    : data.price) +
-                    data.additions.reduce((sum, item) => sum + item.price, 0)
-                )}
-              </div>
-            )}
+          {data?.count > 1 && (
+            <div className="checkoutProduct-count fs-08 fw-4 mb-2">
+              {customPrice(
+                (data?.modifiers?.price
+                  ? data.options.modifierPriceSum
+                    ? data.modifiers.price + data.price
+                    : data.modifiers.price
+                  : data.price) +
+                  (data.additions?.length > 0
+                    ? data.additions.reduce((sum, item) => sum + item.price, 0)
+                    : 0)
+              )}
+            </div>
+          )}
           {data?.count > 1 && (
             <div className="checkoutProduct-count fs-08 fw-4 mb-2">
               х&nbsp;{data?.count ?? 1}
