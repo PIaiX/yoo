@@ -19,6 +19,7 @@ import socket from "../../config/socket";
 import {
   setAuth,
   setQr,
+  setRefreshToken,
   setToken,
   setUser,
 } from "../../store/reducers/authSlice";
@@ -138,6 +139,7 @@ const Registration = () => {
           if (res?.user?.id) {
             dispatch(setUser(res.user));
             dispatch(setToken(res.token));
+            dispatch(setRefreshToken(res.refreshToken));
             dispatch(setAuth(true));
 
             socket.io.opts.query = {
@@ -261,6 +263,7 @@ const Registration = () => {
         if (data?.user && data?.token) {
           dispatch(setUser(data.user));
           dispatch(setToken(data.token));
+          dispatch(setRefreshToken(data.refreshToken));
           dispatch(setAuth(true));
         }
       });

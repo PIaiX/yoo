@@ -35,6 +35,7 @@ import {
 import {
   setAuth,
   setLoadingLogin,
+  setRefreshToken,
   setToken,
   setUser,
 } from "./store/reducers/authSlice";
@@ -376,6 +377,7 @@ function App() {
       socket.on("login/" + apiId, (response) => {
         dispatch(setUser(response.user));
         dispatch(setToken(response.token));
+        dispatch(setRefreshToken(response.refreshToken));
         dispatch(updateAddresses(response?.user?.addresses ?? []));
         dispatch(setAuth(true));
         dispatch(setLoadingLogin(false));

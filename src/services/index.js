@@ -55,6 +55,9 @@ $authApi.interceptors.request.use(
       config.headers.authorization = `Access ${token}`;
     }
     config.headers.device = JSON.stringify(device);
+    if (state?.auth?.refreshToken) {
+      config.data = { ...config.data, refreshToken: state.auth.refreshToken }
+    }
     return config;
   },
   (error) => Promise.reject(error)

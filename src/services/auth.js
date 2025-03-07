@@ -3,7 +3,7 @@ import { $api, $authApi } from ".";
 import { apiRoutes } from "../config/api";
 import { resetAddresses, updateAddresses } from "../store/reducers/addressSlice";
 import socket from "../config/socket";
-import { setAuth, setLoadingLogin, setToken, setUser } from "../store/reducers/authSlice";
+import { setAuth, setLoadingLogin, setRefreshToken, setToken, setUser } from "../store/reducers/authSlice";
 import { resetCart } from "../store/reducers/cartSlice";
 import { resetCheckout } from "../store/reducers/checkoutSlice";
 import { NotificationManager } from "react-notifications";
@@ -13,11 +13,11 @@ const login = createAsyncThunk("auth/login", async (data, thunkAPI) => {
   try {
     const response = await $api.post(apiRoutes.AUTH_LOGIN, data);
 
-    if (response?.data?.user && response?.data?.token) {
+    if (response?.data?.user && response?.data?.token && response.data?.refreshToken) {
 
       thunkAPI.dispatch(setUser(response.data.user))
       thunkAPI.dispatch(setToken(response.data.token))
-
+      thunkAPI.dispatch(setRefreshToken(response.data.refreshToken));
       thunkAPI.dispatch(updateAddresses(response?.data?.user?.addresses ?? []))
 
       thunkAPI.dispatch(setAuth(true))
@@ -44,6 +44,7 @@ const logout = createAsyncThunk("auth/logout", async (_, thunkAPI) => {
       thunkAPI.dispatch(setAuth(false))
       thunkAPI.dispatch(setUser(false))
       thunkAPI.dispatch(setToken(false))
+      thunkAPI.dispatch(setRefreshToken(false));
       thunkAPI.dispatch(resetCart())
       thunkAPI.dispatch(resetAddresses())
       thunkAPI.dispatch(resetCheckout())
@@ -69,12 +70,16 @@ const refreshAuth = createAsyncThunk("auth/refresh", async (_, thunkAPI) => {
     const response = await $authApi.post(apiRoutes.AUTH_REFRESH);
     if (response?.data && response.status === 200) {
       thunkAPI.dispatch(setToken(response.data.token))
+      if (response.data.refreshToken) {
+        thunkAPI.dispatch(setRefreshToken(response.data.refreshToken))
+      }
     }
     return response.data
   } catch (error) {
     thunkAPI.dispatch(setUser(false))
     thunkAPI.dispatch(setAuth(false))
     thunkAPI.dispatch(setToken(false))
+    thunkAPI.dispatch(setRefreshToken(false))
     socket.disconnect()
     return thunkAPI.rejectWithValue(error);
   }
