@@ -18,6 +18,7 @@ var device = {
   osName: client.getOS() ?? "",
   osVersion: client.getOSVersion() ?? "",
   language: language ?? "ru",
+  lang: language ?? "ru",
 };
 
 $api.interceptors.request.use(

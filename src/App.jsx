@@ -57,7 +57,6 @@ function App() {
   const { i18n } = useTranslation();
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState();
   const apiId = useSelector((state) => state.settings.apiId);
   const options = useSelector((state) => state.settings.options);
   // const notification = useSelector((state) => state.notification);
@@ -273,7 +272,6 @@ function App() {
               }
 
               if (auth?.token) {
-                console.log(auth?.user);
                 if (!auth?.user?.brandId) {
                   return dispatch(logout());
                 }
@@ -292,7 +290,6 @@ function App() {
                     // dispatch(getFavorites());
                   })
                   .catch((err) => {
-                    setError(err);
                     err?.response?.status === 404 && dispatch(logout());
                   });
               }
@@ -396,7 +393,6 @@ function App() {
     <>
       <Holiday />
       <YandexMetrika />
-      {JSON.stringify(error)}
       <AppRouter />
     </>
   );
