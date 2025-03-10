@@ -1069,7 +1069,8 @@ button {
 }
 
 .spinner {
-  display: inline-block;
+  display: block;
+  margin: 0px auto;
   width: 70px;
   height: 70px;
   border-radius: 50%;

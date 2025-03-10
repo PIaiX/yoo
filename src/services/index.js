@@ -1,8 +1,10 @@
 import axios from "axios";
 import { BASE_URL } from "../config/api";
 import store from "../store";
-import { refreshAuth } from "./auth";
+import { logout, refreshAuth } from "./auth";
 import { ClientJS } from "clientjs";
+import { setRefreshToken, setToken } from "../store/reducers/authSlice";
+
 
 const $api = axios.create({
   baseURL: BASE_URL,
@@ -35,6 +37,20 @@ $api.interceptors.request.use(
   },
   (error) => Promise.reject(error)
 );
+let isRefreshing = false; // Флаг для отслеживания процесса обновления токена
+let failedQueue = []; // Очередь для запросов, ожидающих обновления токена
+
+// Функция для обработки очереди запросов
+const processQueue = (error, token = null) => {
+  failedQueue.forEach((prom) => {
+    if (error) {
+      prom.reject(error);
+    } else {
+      prom.resolve(token);
+    }
+  });
+  failedQueue = [];
+};
 
 const $authApi = axios.create({
   baseURL: BASE_URL,
@@ -57,29 +73,72 @@ $authApi.interceptors.request.use(
     }
     config.headers.device = JSON.stringify(device);
     if (state?.auth?.refreshToken) {
-      config.data = { ...config.data, refreshToken: state.auth.refreshToken }
+      config.data = { ...config.data, refreshToken: state.auth.refreshToken };
     }
     return config;
   },
   (error) => Promise.reject(error)
 );
 
+// Интерцептор для обработки ответов
 $authApi.interceptors.response.use(
-  (config) => {
-    return config;
-  },
+  (response) => response,
   async (error) => {
-    const {
-      config,
-      response: { status },
-    } = error;
-    const originalRequest = config;
-    if (status === 401 && originalRequest && !originalRequest._isRetry) {
+    const originalRequest = error.config;
+
+    // Если запрос НЕ для обновления токена и статус 401
+    if (
+      error.response?.status === 401 &&
+      !originalRequest._isRetry &&
+      originalRequest.url !== apiRoutes.AUTH_REFRESH // Важно: исключаем запрос refresh
+    ) {
+      if (isRefreshing) {
+        // Если токен уже обновляется, добавляем запрос в очередь
+        return new Promise((resolve, reject) => {
+          failedQueue.push({ resolve, reject });
+        })
+          .then((token) => {
+            originalRequest.headers.Authorization = `Access ${token}`;
+            return $authApi(originalRequest);
+          })
+          .catch((err) => {
+            return Promise.reject(err);
+          });
+      }
+
       originalRequest._isRetry = true;
-      return store
-        .dispatch(refreshAuth())
-        .then(() => $authApi(originalRequest));
+      isRefreshing = true;
+
+      try {
+        // Обновляем токен
+        const { token, refreshToken } = await refreshAuth();
+
+        // Обновляем заголовки для исходного запроса
+        originalRequest.headers.Authorization = `Access ${token}`;
+
+        // Сохраняем новые токены в хранилище
+        store.dispatch(setToken(token));
+        store.dispatch(setRefreshToken(refreshToken));
+
+        // Повторяем исходный запрос с новым токеном
+        return $authApi(originalRequest);
+      } catch (refreshError) {
+        // Если обновление токена не удалось
+        if (refreshError.response?.status === 401 || refreshError.response?.status === 403) {
+          store.dispatch(logout()); // Выход из аккаунта
+        }
+        return Promise.reject(refreshError);
+      } finally {
+        isRefreshing = false;
+        processQueue(null, token); // Обрабатываем очередь
+      }
     }
+
+    // Обработка 403
+    if (error.response?.status === 403) {
+      store.dispatch(logout());
+    }
+
     return Promise.reject(error);
   }
 );

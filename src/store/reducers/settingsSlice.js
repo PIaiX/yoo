@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import moment from "moment-timezone";
+import { generateToken } from "../../helpers/all";
 
 const initialState = {
   isConnected: true,
@@ -48,12 +49,12 @@ const settingsSlice = createSlice({
       state.isConnected = action.payload;
     },
     updateOptions: (state, action) => {
-      return {
-        ...state,
-        updateTime: moment().toISOString(),
-        options: { ...(action.payload?.options ?? initialState.options) },
-        token: action.payload?.token,
-      };
+      if (!state?.apiId || state?.apiId?.length === 0) {
+        state.apiId = generateToken(100); // Изменение черновика
+      }
+      state.updateTime = moment().toISOString(); // Изменение черновика
+      state.options = { ...(action.payload?.options ?? initialState.options) }; // Изменение черновика
+      state.token = action.payload?.token; // Изменение черновика
     },
     updateIp: (state, action) => {
       state.ip = action.payload;
@@ -69,8 +70,8 @@ const settingsSlice = createSlice({
         let categoryIndex =
           state?.filter?.length > 0
             ? state.filter.findIndex(
-                (e) => e.categoryId === action.payload.categoryId
-              )
+              (e) => e.categoryId === action.payload.categoryId
+            )
             : -1;
 
         if (categoryIndex != -1) {
@@ -86,7 +87,16 @@ const settingsSlice = createSlice({
       state.filter = [];
     },
     resetSettings: (state) => {
-      state = { ...initialState };
+      // Мутабельное обновление состояния
+      state.isConnected = initialState.isConnected;
+      state.ip = initialState.ip;
+      state.apiId = initialState.apiId;
+      state.city = initialState.city;
+      state.country = initialState.country;
+      state.token = initialState.token;
+      state.options = initialState.options;
+      state.filter = initialState.filter;
+      state.updateTime = initialState.updateTime;
     },
   },
 });

@@ -7,6 +7,7 @@ import { setAuth, setLoadingLogin, setRefreshToken, setToken, setUser } from "..
 import { resetCart } from "../store/reducers/cartSlice";
 import { resetCheckout } from "../store/reducers/checkoutSlice";
 import { NotificationManager } from "react-notifications";
+import store from "../store";
 
 const login = createAsyncThunk("auth/login", async (data, thunkAPI) => {
   thunkAPI.dispatch(setLoadingLogin(true))
@@ -65,26 +66,31 @@ const checkAuth = async () => {
   return response?.data
 }
 
-const refreshAuth = createAsyncThunk("auth/refresh", async (_, thunkAPI) => {
-  try {
-    const response = await $authApi.post(apiRoutes.AUTH_REFRESH);
-    if (response?.data && response.status === 200) {
-      thunkAPI.dispatch(setToken(response.data.token))
-      if (response.data.refreshToken) {
-        thunkAPI.dispatch(setRefreshToken(response.data.refreshToken))
-      }
-    }
-    return response.data
-  } catch (error) {
-    thunkAPI.dispatch(setUser(false))
-    thunkAPI.dispatch(setAuth(false))
-    thunkAPI.dispatch(setToken(false))
-    thunkAPI.dispatch(setRefreshToken(false))
-    socket.disconnect()
-    return thunkAPI.rejectWithValue(error);
-  }
-});
 
+
+const refreshAuth = async () => {
+  try {
+    const state = store.getState();
+    const refreshToken = state.auth.refreshToken;
+
+    // Отправляем запрос с явным указанием refreshToken
+    const response = await $authApi.post(apiRoutes.AUTH_REFRESH, {
+      refreshToken: refreshToken,
+    });
+
+    if (!response.data?.token || !response.data?.refreshToken) {
+      throw new Error("Invalid tokens received");
+    }
+
+    return {
+      token: response.data.token,
+      refreshToken: response.data.refreshToken,
+    };
+  } catch (error) {
+    console.error("Refresh token failed:", error);
+    throw error; // Пробрасываем ошибку для обработки в интерцепторе
+  }
+};
 const authRegister = async (params) => {
   const response = await $api.post(apiRoutes.AUTH_REGISTRATION, params);
   return response?.data;

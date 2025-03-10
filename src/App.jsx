@@ -160,12 +160,6 @@ function App() {
               );
           });
 
-          let apiIdCode = apiId;
-          if (!apiIdCode || apiIdCode.length === 0) {
-            apiIdCode = generateToken(50);
-            dispatch(updateApiId(apiIdCode));
-          }
-
           await getOptions()
             .then(async (res) => {
               if (res?.options) {
