@@ -1,5 +1,5 @@
 import axios from "axios";
-import { BASE_URL } from "../config/api";
+import { apiRoutes, BASE_URL } from "../config/api";
 import store from "../store";
 import { logout, refreshAuth } from "./auth";
 import { ClientJS } from "clientjs";
