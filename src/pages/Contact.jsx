@@ -17,7 +17,7 @@ import Empty from "../components/Empty";
 import EmptyWork from "../components/empty/work";
 import Meta from "../components/Meta";
 import Loader from "../components/utils/Loader";
-import { customPrice } from "../helpers/all";
+import { customPrice, weekday } from "../helpers/all";
 
 const Contact = () => {
   const { t } = useTranslation();
@@ -248,20 +248,26 @@ const Contact = () => {
                     >
                       <li>
                         <h6>{e.full}</h6>
-                        {e?.options?.work?.length > 0 &&
-                        e.options.work[moment().weekday()]?.start &&
-                        e.options.work[moment().weekday()]?.end ? (
-                          <>
-                            <p className="mt-2">{`${t("Работает с")} ${
-                              e.options.work[moment().weekday()].start
-                            } ${t("до")} ${
-                              e.options.work[moment().weekday()].end
-                            }`}</p>
-                          </>
-                        ) : null}
-
+                        <h6>Режим работы</h6>
+                        {e.options.work?.length > 0 &&
+                          e.options.work.map((e, index) => (
+                            <p
+                              className={
+                                "d-flex mb-1" +
+                                (index === weekday ? " fw-6 text-main" : "")
+                              }
+                            >
+                              <b style={{ width: 25 }}>
+                                {moment.weekdaysShort(index + 1)}
+                              </b>
+                              {`${t("с")} ${e.start} ${t("до")} ${e.end}`}
+                            </p>
+                          ))}
                         {e?.phone && e?.phone[0] && (
-                          <p className="mt-2 mt-0 fw-5">{e.phone[0]}</p>
+                          <>
+                            <h6 className="mt-3">Номер телефона</h6>
+                            <p className="mt-1 mt-0 fw-5">{e.phone[0]}</p>
+                          </>
                         )}
 
                         {e?.desc && (

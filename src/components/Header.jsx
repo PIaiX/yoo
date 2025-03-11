@@ -1,6 +1,6 @@
 import moment from "moment-timezone";
 import React, { memo, useEffect, useState, useTransition } from "react";
-import { Col, Modal, Row } from "react-bootstrap";
+import { Col, Modal, OverlayTrigger, Popover, Row } from "react-bootstrap";
 import Container from "react-bootstrap/Container";
 import Offcanvas from "react-bootstrap/Offcanvas";
 import { useTranslation } from "react-i18next";
@@ -14,7 +14,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import AppStore from "../assets/imgs/appstore-black.svg";
 import GooglePlay from "../assets/imgs/googleplay-black.svg";
-import { getCount, getImageURL } from "../helpers/all";
+import { getCount, getImageURL, weekday } from "../helpers/all";
 import { isWork } from "../hooks/all";
 import { deleteCart } from "../services/cart";
 import {
@@ -55,7 +55,17 @@ const Header = memo(() => {
   const [searchInput, setSearchInput] = useState("");
   const [search, setSearch] = useState();
   const [isPending, startTransition] = useTransition();
+  const [showPopover, setShowPopover] = useState(false);
 
+  // Обработчик для открытия Popover
+  const handleMouseEnter = () => {
+    setShowPopover(true);
+  };
+
+  // Обработчик для закрытия Popover
+  const handleMouseLeave = () => {
+    setShowPopover(false);
+  };
   const deliveryArray = [
     ...(options?.delivery?.status
       ? [{ title: t("Доставка"), value: "delivery" }]
@@ -333,20 +343,60 @@ const Header = memo(() => {
                   {selectedAffiliate?.options?.work?.length > 0 &&
                   selectedAffiliate.options.work[moment().weekday()]?.start &&
                   selectedAffiliate.options.work[moment().weekday()]?.end ? (
-                    <>
-                      <div className="d-none d-lg-flex text-muted fs-08">
-                        {`${t("с")} ${
-                          selectedAffiliate.options.work[moment().weekday()]
-                            .start
-                        } ${t("до")} ${
-                          selectedAffiliate.options.work[moment().weekday()].end
-                        }`}
-                        {selectedAffiliate.options.work[5].status &&
-                        selectedAffiliate.options.work[5].status
-                          ? t(", без выходных")
-                          : null}
-                      </div>
-                    </>
+                    <div
+                      onMouseEnter={handleMouseEnter}
+                      onMouseLeave={handleMouseLeave}
+                    >
+                      <OverlayTrigger
+                        trigger={[]}
+                        show={showPopover}
+                        className="ms-2"
+                        key="bottom"
+                        placement="bottom"
+                        overlay={
+                          <Popover id="popover-positioned-bottom">
+                            <Popover.Header className="fs-09 fw-6 text-center">
+                              {t("Режим работы")}
+                            </Popover.Header>
+                            <Popover.Body>
+                              {selectedAffiliate.options.work?.length > 0 &&
+                                selectedAffiliate.options.work.map(
+                                  (e, index) => (
+                                    <p
+                                      className={
+                                        "d-flex mb-1" +
+                                        (index === weekday
+                                          ? " fw-6 text-main"
+                                          : "")
+                                      }
+                                    >
+                                      <b style={{ width: 25 }}>
+                                        {moment.weekdaysShort(index + 1)}
+                                      </b>
+                                      {`${t("с")} ${e.start} ${t("до")} ${
+                                        e.end
+                                      }`}
+                                    </p>
+                                  )
+                                )}
+                            </Popover.Body>
+                          </Popover>
+                        }
+                      >
+                        <a className="d-none d-lg-block text-muted fs-08 text-center">
+                          {moment.weekdaysShort(moment().weekday() + 1)}&nbsp;
+                          {t("с")}&nbsp;
+                          <b className="text-main">
+                            {selectedAffiliate.options.work[weekday].start}
+                          </b>
+                          &nbsp;
+                          {t("до")}&nbsp;
+                          <b className="text-main">
+                            {selectedAffiliate.options.work[weekday].end}
+                          </b>
+                        </a>
+                      </OverlayTrigger>
+                    </div>
                   ) : null}
                 </div>
               )}
@@ -461,39 +511,68 @@ const Header = memo(() => {
                 {selectedAffiliate &&
                   selectedAffiliate?.phone &&
                   selectedAffiliate?.phone[0] && (
-                    <li key={0}>
-                      <a
-                        href={"tel:" + selectedAffiliate.phone[0]}
-                        className="phone"
-                      >
-                        <span className="fw-6">
-                          {selectedAffiliate.phone[0]}
-                          {selectedAffiliate?.options?.work?.length > 0 &&
-                          selectedAffiliate.options.work[moment().weekday()]
-                            ?.start &&
-                          selectedAffiliate.options.work[moment().weekday()]
-                            ?.end ? (
-                            <>
-                              <div className="d-flex text-muted fw-4 fs-08">
-                                {`${t("с")} ${
-                                  selectedAffiliate.options.work[
-                                    moment().weekday()
-                                  ].start
-                                } ${t("до")} ${
-                                  selectedAffiliate.options.work[
-                                    moment().weekday()
-                                  ].end
-                                }`}
-                                {selectedAffiliate.options.work[5].status &&
-                                selectedAffiliate.options.work[5].status
-                                  ? t(", без выходных")
-                                  : null}
-                              </div>
-                            </>
-                          ) : null}
-                        </span>
-                      </a>
-                    </li>
+                    <>
+                      <li key={0}>
+                        <a
+                          href={"tel:" + selectedAffiliate.phone[0]}
+                          className="phone"
+                        >
+                          <span className="fw-6">
+                            {selectedAffiliate.phone[0]}
+                          </span>
+                        </a>
+                      </li>
+                      <li>
+                        <OverlayTrigger
+                          trigger={["click", "focus"]}
+                          rootClose
+                          className="ms-2"
+                          key="bottom"
+                          placement="auto"
+                          overlay={
+                            <Popover id="popover-positioned-bottom">
+                              <Popover.Header className="fs-09 fw-6 text-center">
+                                {t("Режим работы")}
+                              </Popover.Header>
+                              <Popover.Body>
+                                {selectedAffiliate.options.work?.length > 0 &&
+                                  selectedAffiliate.options.work.map(
+                                    (e, index) => (
+                                      <p
+                                        className={
+                                          "d-flex mb-1" +
+                                          (index === weekday
+                                            ? " fw-6 text-main"
+                                            : "")
+                                        }
+                                      >
+                                        <b style={{ width: 25 }}>
+                                          {moment.weekdaysShort(index + 1)}
+                                        </b>
+                                        {`${t("с")} ${e.start} ${t("до")} ${
+                                          e.end
+                                        }`}
+                                      </p>
+                                    )
+                                  )}
+                              </Popover.Body>
+                            </Popover>
+                          }
+                        >
+                          <a className="d-flex text-muted fw-4 fs-08">
+                            {moment.weekdaysShort(moment().weekday() + 1)}&nbsp;
+                            {t("с")}&nbsp;
+                            <b className="text-main">
+                              {selectedAffiliate.options.work[weekday].start}
+                            </b>
+                            &nbsp;{t("до")}&nbsp;
+                            <b className="text-main">
+                              {selectedAffiliate.options.work[weekday].end}
+                            </b>
+                          </a>
+                        </OverlayTrigger>
+                      </li>
+                    </>
                   )}
                 {options?.menu && options?.menu?.length > 0 ? (
                   options.menu.map(
@@ -851,6 +930,7 @@ const Header = memo(() => {
                             <div className="fw-7 mb-1">
                               {e?.title ? e.title : e.full}
                             </div>
+
                             <div>
                               {e.status === 0 ? (
                                 <span className="text-danger">
