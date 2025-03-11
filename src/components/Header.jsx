@@ -371,7 +371,7 @@ const Header = memo(() => {
                                       }
                                     >
                                       <b style={{ width: 25 }}>
-                                        {moment.weekdaysShort(index + 1)}
+                                        {moment.weekdaysShort(index + 1)}:
                                       </b>
                                       {`${t("с")} ${e.start} ${t("до")} ${
                                         e.end
@@ -384,7 +384,7 @@ const Header = memo(() => {
                         }
                       >
                         <a className="d-none d-lg-block text-muted fs-08 text-center">
-                          {moment.weekdaysShort(moment().weekday() + 1)}&nbsp;
+                          {moment.weekdaysShort(moment().weekday() + 1)}:&nbsp;
                           {t("с")}&nbsp;
                           <b className="text-main">
                             {selectedAffiliate.options.work[weekday].start}
@@ -547,7 +547,7 @@ const Header = memo(() => {
                                         }
                                       >
                                         <b style={{ width: 25 }}>
-                                          {moment.weekdaysShort(index + 1)}
+                                          {moment.weekdaysShort(index + 1)}:
                                         </b>
                                         {`${t("с")} ${e.start} ${t("до")} ${
                                           e.end
@@ -560,7 +560,8 @@ const Header = memo(() => {
                           }
                         >
                           <a className="d-flex text-muted fw-4 fs-08">
-                            {moment.weekdaysShort(moment().weekday() + 1)}&nbsp;
+                            {moment.weekdaysShort(moment().weekday() + 1)}
+                            :&nbsp;
                             {t("с")}&nbsp;
                             <b className="text-main">
                               {selectedAffiliate.options.work[weekday].start}
