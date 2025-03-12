@@ -73,10 +73,10 @@ const cartSlice = createSlice({
           state?.items?.length > 0
             ? state.items.map((cartItem, index) => {
               const discount =
-                action.payload[0] &&
+                action.payload && action.payload[0] &&
                   action.payload[0]?.discounts &&
                   action.payload[0]?.discounts?.[index]?.discountSum
-                  ? action.payload[0].discounts[index].discountSum
+                  ? Number(action.payload[0].discounts[index].discountSum)
                   : 0;
               return {
                 ...cartItem,

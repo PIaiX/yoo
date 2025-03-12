@@ -147,9 +147,11 @@ const Cart = () => {
               NotificationManager.error("Условия не выполнены");
               setValue("promo", "");
               dispatch(cartDeletePromo());
+            } else if (promo?.type === "birthday_list_gift") {
             }
           })
           .catch((error) => {
+            console.log(error);
             dispatch(cartDeletePromo());
             NotificationManager.error(
               typeof error?.response?.data?.error === "string"
@@ -414,9 +416,11 @@ const Cart = () => {
             </Col>
             <Col xs={12} lg={4}>
               <div className="position-sticky top-h">
-                {options?.giftVisible && !isGift && (
-                  <Gifts total={totalNoDelivery} items={data?.gifts} />
-                )}
+                {(options?.giftVisible ||
+                  promo?.type === "birthday_list_gift") &&
+                  !isGift && (
+                    <Gifts total={totalNoDelivery} items={data?.gifts} />
+                  )}
                 {options?.promoVisible && user?.id && !promo && (
                   <>
                     <div className="fs-11 mb-1">{t("Промокод")}</div>
@@ -435,10 +439,7 @@ const Cart = () => {
                         disabled={!isValid || form?.loading}
                         onClick={handleSubmit(onPromo)}
                         className={
-                          form?.promo?.length > 1
-                            ? "btn-primary w-100" +
-                              (form?.loading ? " loading" : "")
-                            : "btn-10 w-100" + (form?.loading ? " loading" : "")
+                          "btn-10 w-100" + (form?.loading ? " loading" : "")
                         }
                       >
                         {t("Применить")}
