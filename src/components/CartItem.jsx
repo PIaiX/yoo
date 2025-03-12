@@ -51,14 +51,7 @@ const CartItem = memo(({ data }) => {
 
   return (
     <div
-      className={
-        "cart-item" +
-        ((!data?.cart?.additions || data?.cart?.additions?.length === 0) &&
-        (!data?.cart?.modifiers || data?.cart?.modifiers?.length === 0) &&
-        (!data?.cart?.wishes || data?.cart?.wishes?.length === 0)
-          ? " mini-cart-item"
-          : "")
-      }
+      className={"cart-item"}
       key={
         data?.cart?.additions?.length > 0 ||
         data?.cart?.modifiers?.length > 0 ||

@@ -364,26 +364,28 @@ const Contact = () => {
       {/* Модальные окна для организации и доставки */}
       <Modal
         centered
+        fullscreen="sm-down"
         show={showModalOrganization}
         onHide={() => setModalOrganization(false)}
       >
         <Modal.Header closeButton className="fw-6 h5">
           {t("Информация")}
         </Modal.Header>
-        <Modal.Body className="p-4">
+        <Modal.Body className="p-4 white-space">
           {mainAffiliate?.options?.organization &&
             mainAffiliate.options.organization}
         </Modal.Body>
       </Modal>
       <Modal
         centered
+        fullscreen="sm-down"
         show={showModalDelivery}
         onHide={() => setModalDelivery(false)}
       >
         <Modal.Header closeButton className="fw-6 h5">
           {t("Условия доставки")}
         </Modal.Header>
-        <Modal.Body className="p-4">
+        <Modal.Body className="p-4 white-space">
           {mainAffiliate?.options?.delivery && mainAffiliate.options.delivery}
         </Modal.Body>
       </Modal>
