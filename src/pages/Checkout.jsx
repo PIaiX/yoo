@@ -311,9 +311,9 @@ const Checkout = () => {
     isLoading ||
     !isValid ||
     !user?.id ||
-    !zone?.data ||
     (!(
-      data?.delivery === "delivery" && zone?.data?.minPrice > totalNoDelivery
+      data?.delivery === "delivery" &&
+      (!zone?.data || zone?.data?.minPrice > totalNoDelivery)
     ) &&
       !(data?.delivery === "delivery" && address.length === 0));
 
@@ -470,11 +470,11 @@ const Checkout = () => {
   useEffect(() => {
     const fetchDeliveryData = async () => {
       try {
-        if (checkout?.delivery !== "delivery" || !user?.id) return false;
+        if (checkout?.delivery !== "delivery" || !user?.id) throw false;
 
         const selectedAddress = address?.find((e) => e.main) || address[0];
 
-        if (!selectedAddress) return false;
+        if (!selectedAddress) throw false;
 
         const weight = cart.reduce((sum, item) => {
           return sum + (item.energy?.weight ?? 0) * (item.cart?.count ?? 0);
@@ -486,11 +486,11 @@ const Checkout = () => {
           weight,
         });
 
-        if (res) {
-          dispatch(cartZone({ data: res?.zone, distance: res?.distance }));
-        }
+        dispatch(cartZone({ data: res?.zone, distance: res?.distance }));
       } catch (error) {
-        dispatch(cartZone({ data: false, distance: false }));
+        if (checkout.delivery === "delivery") {
+          dispatch(cartZone({ data: false, distance: false }));
+        }
         return false;
       }
     };
@@ -1215,7 +1215,8 @@ const Checkout = () => {
                 </div>
               ) : (
                 data?.delivery == "delivery" &&
-                !zone?.data && (
+                !zone?.data &&
+                address.length > 0 && (
                   <div className="text-danger text-center">
                     {t("Доставка на данный адрес не производится")}
                   </div>

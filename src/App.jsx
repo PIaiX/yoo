@@ -290,9 +290,7 @@ function App() {
             })
             // .catch(() => dispatch(resetSettings()))
             .finally(() => setLoading(false));
-        } catch (err) {
-          console.error(err);
-        }
+        } catch (err) {}
       } else {
         if (auth?.token) {
           if (!auth?.user?.brandId) {
@@ -320,10 +318,19 @@ function App() {
       if (!zone?.data && addressData?.length > 0) {
         const fetchDeliveryData = async () => {
           try {
+            if (delivery !== "delivery" || !auth?.user?.id) throw false;
+            const newAddresses = city?.title
+              ? addressData.filter(
+                  (e) =>
+                    e?.city?.toLowerCase() === city?.title?.toLowerCase() ||
+                    e?.region?.toLowerCase() === city?.region?.toLowerCase() ||
+                    e?.area?.toLowerCase() === city?.area?.toLowerCase()
+                )
+              : newAddresses[0];
             const selectedAddress =
-              addressData?.find((e) => e.main) || addressData[0];
+              newAddresses?.find((e) => e.main) || newAddresses[0];
 
-            if (!selectedAddress) return false;
+            if (!selectedAddress) throw false;
 
             const weight = cart.reduce((sum, item) => {
               return sum + (item.energy?.weight ?? 0) * (item.cart?.count ?? 0);
@@ -335,13 +342,17 @@ function App() {
               weight,
             });
 
-            if (res) {
-              dispatch(cartZone({ data: res?.zone, distance: res?.distance }));
+            dispatch(cartZone({ data: res?.zone, distance: res?.distance }));
+          } catch (error) {
+            if (delivery === "delivery") {
+              dispatch(cartZone({ data: false, distance: false }));
             }
-          } catch (error) {}
+          }
         };
 
         fetchDeliveryData();
+      } else if (zone?.data && delivery === "delivery") {
+        dispatch(cartZone({ data: false, distance: false }));
       }
 
       socket.on("notifications/" + auth.user.id, (data) => {

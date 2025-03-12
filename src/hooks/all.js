@@ -32,7 +32,7 @@ const isWork = (start, end, now) => {
         const endTime = moment.tz(end, 'HH:mm', timezone);
 
         if (!startTime.isValid() || !endTime.isValid()) {
-            console.error("Invalid start or end time");
+
             return false;
         }
 
@@ -50,7 +50,6 @@ const isWork = (start, end, now) => {
         // Проверка, находится ли текущее время в пределах рабочего времени
         return nowUtc.isBetween(startUtc, endUtc, null, '()');
     } catch (err) {
-        console.error(err);
         return false;
     }
 }

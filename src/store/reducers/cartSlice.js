@@ -98,14 +98,10 @@ const cartSlice = createSlice({
       }
     },
     cartPromo: (state, action) => {
-      if (action?.payload) {
-        state.promo = action.payload;
-      }
+      state.promo = action.payload;
     },
     cartZone: (state, action) => {
-      if (action?.payload) {
-        state.zone = action.payload;
-      }
+      state.zone = action.payload;
     },
     cartDeletePromo: (state) => {
       state.promo = false;

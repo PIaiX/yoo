@@ -87,8 +87,7 @@ const refreshAuth = async () => {
       refreshToken: response.data.refreshToken,
     };
   } catch (error) {
-    console.error("Refresh token failed:", error);
-    throw error; // Пробрасываем ошибку для обработки в интерцепторе
+    throw error;
   }
 };
 const authRegister = async (params) => {

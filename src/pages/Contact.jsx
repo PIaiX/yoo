@@ -63,8 +63,6 @@ const Contact = () => {
       if (isValidCoordinate(center)) {
         // Устанавливаем центр карты
         mapRef.current.setCenter(center);
-      } else {
-        console.error("Некорректные координаты:", center);
       }
     },
     [mapRef, polygonsRef]

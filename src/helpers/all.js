@@ -428,7 +428,6 @@ const isWork = (start, end, now) => {
     const startTime = moment.tz(start, 'HH:mm', timezone);
 
     if (!startTime.isValid() || !endTime.isValid() || !nowTime.isValid()) {
-      console.error("Invalid start, end, or now time", start, end, now, timezone);
       return false;
     }
 
@@ -436,7 +435,6 @@ const isWork = (start, end, now) => {
     // Проверка, находится ли nowTime между startTime и endTime, включая границы
     return nowTime.isBetween(startTime, endTime, null, '[]');
   } catch (err) {
-    console.error(err);
     return false;
   }
 };

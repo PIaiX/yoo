@@ -236,9 +236,7 @@ const Registration = () => {
           if (token) {
             dispatch(setQr(token));
           }
-        } catch (error) {
-          console.error("Ошибка при генерации QR-кода:", error);
-        }
+        } catch (error) {}
       };
 
       updateQrToken();

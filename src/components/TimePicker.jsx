@@ -32,7 +32,6 @@ const TimePicker = memo(
         !minMinuteTime ||
         minMinuteTime < 0
       ) {
-        console.error("Некорректные входные данные");
         return slots;
       }
 
@@ -41,13 +40,11 @@ const TimePicker = memo(
 
       // Проверяем, что startTime и endTime являются валидными датами
       if (!startTime.isValid() || !endTime.isValid()) {
-        console.error("Некорректный формат времени");
         return slots;
       }
 
       // Если startTime больше endTime, возвращаем пустой массив
       if (startTime.isAfter(endTime)) {
-        console.error("Время начала больше времени окончания");
         return slots;
       }
 
@@ -56,7 +53,6 @@ const TimePicker = memo(
 
       // Если minOrderTime больше endTime, возвращаем пустой массив
       if (minOrderTime.isAfter(endTime)) {
-        console.error("Минимальное время заказа больше времени окончания");
         return slots;
       }
 
