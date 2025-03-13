@@ -18,9 +18,11 @@ import { useTotalCart } from "../hooks/useCart";
 import { deleteCart, getCart, updateCart } from "../services/cart";
 import { isPromo } from "../services/promo";
 import {
+  cartDeleteGifts,
   cartDeleteProduct,
   cartDeletePromo,
   cartPromo,
+  createPromoProduct,
   updateCartAll,
   updateCartChecking,
 } from "../store/reducers/cartSlice";
@@ -133,9 +135,22 @@ const Cart = () => {
                 "Промокод не суммируется со скидками"
               );
             }
+
             dispatch(cartPromo(res));
+
             if (res?.product?.id) {
-              dispatch(updateCart({ ...res.product, cart: { count: 1 } }));
+              if (
+                res?.product?.options?.minPrice > 0 &&
+                res?.product?.options?.minPrice > totalNoDelivery
+              ) {
+                dispatch(
+                  cartDeletePromo({ ...res.product, cart: { count: 1 } })
+                );
+              } else {
+                dispatch(
+                  createPromoProduct({ ...res.product, cart: { count: 1 } })
+                );
+              }
             }
 
             dispatch(updateCartChecking(res.checking));
@@ -181,8 +196,31 @@ const Cart = () => {
   useEffect(() => {
     if (!promo) {
       setValue("promo", "");
+    } else if (
+      (promo &&
+        !promo?.options?.summed &&
+        checkout?.data?.pickupDiscount > 0) ||
+      Number(promo?.options?.minTotalCart) > totalNoDelivery
+    ) {
+      if (Number(promo?.options?.minTotalCart) > totalNoDelivery) {
+        NotificationManager.error("Условия промокода не выполнены");
+      } else {
+        NotificationManager.error("Промокод не суммируется со скидками");
+      }
+      setValue("promo", "");
+
+      dispatch(cartDeletePromo());
     }
-  }, [promo]);
+    if (
+      cart?.length > 0 &&
+      Number(cart.find((e) => e.type == "gift")?.options?.minCart) >
+        totalNoDelivery
+    ) {
+      NotificationManager.error("Условия для подарка не выполнены");
+
+      dispatch(cartDeleteGifts());
+    }
+  }, [promo, cart]);
 
   const getCartData = () => {
     setIsGift(
@@ -190,15 +228,7 @@ const Cart = () => {
         ? !!cart.find((e) => e.type == "gift")
         : false
     );
-    if (
-      promo &&
-      !promo?.options?.summed &&
-      checkout?.data?.pickupDiscount > 0
-    ) {
-      NotificationManager.error("Промокод не суммируется со скидками");
-      setValue("promo", "");
-      dispatch(cartDeletePromo());
-    }
+
     if (count > 0 && Array.isArray(cart) && cart?.length > 0) {
       getCart({
         name: user?.firstName ?? "",
@@ -494,7 +524,10 @@ const Cart = () => {
 
                           if (promo?.type === "integration_coupon") {
                             dispatch(updateCartChecking([]));
+                          } else if (promo?.type === "birthday_list_gift") {
+                            dispatch(cartDeleteGifts());
                           }
+
                           setValue("promo", "");
                           dispatch(cartDeletePromo());
                         }}

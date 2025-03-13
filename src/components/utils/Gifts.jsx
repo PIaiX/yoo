@@ -6,6 +6,7 @@ import ProductCard from "../ProductCard";
 import { IoArrowForward } from "react-icons/io5";
 
 const Gifts = memo(({ total, items }) => {
+
   if (!items || items?.length === 0) {
     return null;
   }

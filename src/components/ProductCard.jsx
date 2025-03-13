@@ -11,6 +11,7 @@ import {
 } from "../helpers/all";
 import ButtonCartProductMini from "./ButtonCartProductMini";
 import Tags from "./Tags";
+import ButtonCartProductGift from "./ButtonCartProductGift";
 
 const ProductCard = memo(({ data, onLoad }) => {
   const { t } = useTranslation();
@@ -122,7 +123,7 @@ const ProductCard = memo(({ data, onLoad }) => {
         </div>
         <div className="right w-100">
           <a onClick={() => onLoad(data)}>
-            <h6 className={"title" + (data?.options?.subtitle ? " fs-09" : "")}>
+            <h6 className={data?.options?.subtitle ? " fs-09" : ""}>
               {data.title}
               {data?.options?.subtitle ? (
                 <div className="subtitle fw-5">{data.options.subtitle}</div>
@@ -225,7 +226,7 @@ const ProductCard = memo(({ data, onLoad }) => {
               </a>
             )}
 
-            <ButtonCartProductMini
+            <ButtonCartProductGift
               product={data}
               isValid={data.total >= data.options.minCart}
               onLoad={onLoad}

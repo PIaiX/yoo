@@ -31,15 +31,15 @@ const cartSlice = createSlice({
 
               modifiers:
                 cartItem?.cart?.modifiers?.length > 0 &&
-                  isProduct?.modifiers?.length > 0
+                isProduct?.modifiers?.length > 0
                   ? cartItem.cart.modifiers.map((e) => {
-                    let isModifier = isProduct?.modifiers.find(
-                      (e2) => e2.id === e.id
-                    );
-                    if (isModifier) {
-                      return { ...e, ...isModifier };
-                    }
-                  })
+                      let isModifier = isProduct?.modifiers.find(
+                        (e2) => e2.id === e.id
+                      );
+                      if (isModifier) {
+                        return { ...e, ...isModifier };
+                      }
+                    })
                   : [],
             },
           };
@@ -65,6 +65,15 @@ const cartSlice = createSlice({
         state.items.push(action.payload);
       }
     },
+    createPromoProduct: (state, action) => {
+      const isCart = state.items.findIndex(
+        (cartItem) => cartItem?.id === action.payload?.id
+      );
+
+      if (isCart === -1) {
+        state.items.push(action.payload);
+      }
+    },
     updateCartChecking: (state, action) => {
       return {
         ...state,
@@ -72,17 +81,18 @@ const cartSlice = createSlice({
         items:
           state?.items?.length > 0
             ? state.items.map((cartItem, index) => {
-              const discount =
-                action.payload && action.payload[0] &&
+                const discount =
+                  action.payload &&
+                  action.payload[0] &&
                   action.payload[0]?.discounts &&
                   action.payload[0]?.discounts?.[index]?.discountSum
-                  ? Number(action.payload[0].discounts[index].discountSum)
-                  : 0;
-              return {
-                ...cartItem,
-                discount: discount,
-              };
-            })
+                    ? Number(action.payload[0].discounts[index].discountSum)
+                    : 0;
+                return {
+                  ...cartItem,
+                  discount: discount,
+                };
+              })
             : state?.items,
       };
     },
@@ -105,6 +115,8 @@ const cartSlice = createSlice({
     },
     cartDeletePromo: (state) => {
       state.promo = false;
+      state.items = state.items.filter((item) => item.type != "promo");
+      return state
     },
     cartDeleteProduct: (state, action) => {
       const isCart = state.items.findIndex((cartItem) => {
@@ -112,20 +124,17 @@ const cartSlice = createSlice({
           return false;
         }
         return (
-          isEqual(
-            cartItem?.cart?.modifiers,
-            action.payload?.modifiers
-          ) &&
-          isEqual(
-            cartItem?.cart?.additions,
-            action.payload?.additions
-          )
+          isEqual(cartItem?.cart?.modifiers, action.payload?.modifiers) &&
+          isEqual(cartItem?.cart?.additions, action.payload?.additions)
         );
       });
       if (isCart != -1) {
         state.items.splice(isCart, 1);
       }
       return state;
+    },
+    cartDeleteGifts: (state, action) => {
+      state.items = state.items.filter((item) => item.type != "gift");
     },
     resetCart: (state) => {
       state.promo = false;
@@ -138,10 +147,12 @@ const cartSlice = createSlice({
 export const {
   updateCartAll,
   updateCartSync,
+  createPromoProduct,
   updateCartChecking,
   cartEditOptions,
   cartZone,
   cartPromo,
+  cartDeleteGifts,
   cartDeliveryPrice,
   cartDeletePromo,
   cartDeleteProduct,
