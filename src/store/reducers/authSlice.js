@@ -6,16 +6,12 @@ const initialState = {
   token: false,
   refreshToken: false,
   user: {},
-  pushToken: false,
 };
 
 const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    setPushToken: (state, action) => {
-      state.pushToken = action.payload;
-    },
     setUser: (state, action) => {
       state.user = action.payload;
     },

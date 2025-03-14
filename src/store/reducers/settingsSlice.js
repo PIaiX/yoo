@@ -3,12 +3,12 @@ import moment from "moment-timezone";
 import { generateToken } from "../../helpers/all";
 
 const initialState = {
-  isConnected: true,
   ip: false,
   apiId: false,
   city: false,
   country: false,
   token: false,
+  startSettings: false,
   options: {
     name: "ru.yooapp.app",
     title: "YooApp",
@@ -45,9 +45,6 @@ const settingsSlice = createSlice({
     updateApiId: (state, action) => {
       state.apiId = action.payload;
     },
-    updateConnect: (state, action) => {
-      state.isConnected = action.payload;
-    },
     updateOptions: (state, action) => {
       if (!state?.apiId || state?.apiId?.length === 0) {
         state.apiId = generateToken(100); // Изменение черновика
@@ -58,6 +55,9 @@ const settingsSlice = createSlice({
     },
     updateIp: (state, action) => {
       state.ip = action.payload;
+    },
+    updateStartSettings: (state, action) => {
+      state.startSettings = action.payload;
     },
     updateSettingsCity: (state, action) => {
       state.city = action.payload;
@@ -70,8 +70,8 @@ const settingsSlice = createSlice({
         let categoryIndex =
           state?.filter?.length > 0
             ? state.filter.findIndex(
-              (e) => e.categoryId === action.payload.categoryId
-            )
+                (e) => e.categoryId === action.payload.categoryId
+              )
             : -1;
 
         if (categoryIndex != -1) {
@@ -87,8 +87,6 @@ const settingsSlice = createSlice({
       state.filter = [];
     },
     resetSettings: (state) => {
-      // Мутабельное обновление состояния
-      state.isConnected = initialState.isConnected;
       state.ip = initialState.ip;
       state.apiId = initialState.apiId;
       state.city = initialState.city;
@@ -103,7 +101,6 @@ const settingsSlice = createSlice({
 
 export const {
   resetSettings,
-  updateConnect,
   updateOptions,
   updateIp,
   updateApiId,
@@ -111,6 +108,7 @@ export const {
   removeFilter,
   updateSettingsCity,
   updateSettingsCountry,
+  updateStartSettings
 } = settingsSlice.actions;
 
 export default settingsSlice.reducer;

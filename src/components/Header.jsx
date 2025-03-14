@@ -29,6 +29,7 @@ import ScrollToTop from "./ScrollToTop";
 import MenuIcon from "./svgs/MenuIcon";
 import Input from "./utils/Input";
 import Select from "./utils/Select";
+import { updateStartSettings } from "../store/reducers/settingsSlice";
 
 const Header = memo(() => {
   const { t } = useTranslation();
@@ -44,6 +45,7 @@ const Header = memo(() => {
   const options = useSelector((state) => state.settings.options);
   const delivery = useSelector((state) => state.checkout.delivery);
   const settingsCity = useSelector((state) => state.settings.city);
+  const startSettings = useSelector((state) => state.settings.startSettings);
   const notification = useSelector((state) => state.notification);
   const dispatch = useDispatch();
   const [showMenu, setShowMenu] = useState(false);
@@ -761,16 +763,16 @@ const Header = memo(() => {
         </Offcanvas.Body>
       </Offcanvas>
 
-      {cities?.length > 1 && (
+      {!startSettings && (
         <Modal
           size="lg"
           centered
           fullscreen="sm-down"
-          backdrop={city?.title ? true : "static"}
-          keyboard={!!city?.title}
+          backdrop="static"
+          keyboard={false}
           className="city"
-          show={showCity}
-          onHide={() => setShowCity(false)}
+          show={!startSettings}
+          onHide={() => dispatch(updateStartSettings(true))}
         >
           <Modal.Body className="p-4">
             <img
@@ -788,15 +790,14 @@ const Header = memo(() => {
               className="logo mb-4"
             />
 
-            {city?.title && (
-              <button
-                draggable={false}
-                type="button"
-                className="btn-close close"
-                aria-label="Close"
-                onClick={() => setShowCity(false)}
-              ></button>
-            )}
+            <button
+              draggable={false}
+              type="button"
+              className="btn-close close"
+              aria-label="Close"
+              onClick={() => dispatch(updateStartSettings(true))}
+            ></button>
+
             <div>
               <Input
                 name="search"
@@ -807,7 +808,6 @@ const Header = memo(() => {
                 value={searchInput}
               />
             </div>
-       
           </Modal.Body>
         </Modal>
       )}
