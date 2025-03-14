@@ -44,7 +44,7 @@ const CartItem = memo(({ data }) => {
   const dispatch = useDispatch();
 
   const onSubmit = useCallback(async (data) => {
-    dispatch(updateCart({ data }));
+    dispatch(updateCart(data));
     setShowComment(false);
     setValue("comment", null);
   }, []);
@@ -64,13 +64,15 @@ const CartItem = memo(({ data }) => {
         <img src={getImageURL({ path: data.medias })} alt={data.title} />
         <div className="text">
           <h6>
-            {data.title}
-            {data?.cart?.additions?.length > 0 ? " с добавками" : ""}
+            <span className={data?.cart?.modifiers?.length > 0 ? "me-2" : ""}>
+              {data.title}
+              {data?.cart?.additions?.length > 0 ? " с добавками" : ""}
+            </span>
             {data?.cart?.modifiers?.length > 0 &&
               data.cart.modifiers.map((e) => (
                 <span
                   key={e.id}
-                  className="fs-09 fw-7 card d-inline-block p-1 px-2 mx-2"
+                  className="fs-09 fw-7 card d-inline-block p-1 px-2"
                 >
                   {e.title}
                 </span>
@@ -87,25 +89,27 @@ const CartItem = memo(({ data }) => {
           {data?.description && data?.description?.length > 0 && (
             <p className="text-muted fs-08 consist pe-3">{data.description}</p>
           )}
-          <div className="mt-2 fs-09 fw-6">
-            {data?.comment ? (
-              <>
-                <p>{data.comment}</p>
-                <a
-                  onClick={() =>
-                    dispatch(updateCart({ data: { ...data, comment: null } }))
-                  }
-                  className="text-danger"
-                >
-                  {t("Удалить комментарий")}
+          {!data?.noComment && (
+            <div className="mt-2 fs-09 fw-6">
+              {data?.comment ? (
+                <>
+                  <p>{data.comment}</p>
+                  <a
+                    onClick={() =>
+                      dispatch(updateCart({ ...data, comment: null }))
+                    }
+                    className="text-danger"
+                  >
+                    {t("Удалить комментарий")}
+                  </a>
+                </>
+              ) : (
+                <a onClick={() => setShowComment(true)}>
+                  {t("Добавить комментарий")}
                 </a>
-              </>
-            ) : (
-              <a onClick={() => setShowComment(true)}>
-                {t("Добавить комментарий")}
-              </a>
-            )}
-          </div>
+              )}
+            </div>
+          )}
           {data?.cart?.additions?.length > 0 && (
             <>
               <a
@@ -193,7 +197,7 @@ const CartItem = memo(({ data }) => {
           </div>
         )}
 
-        <div className="order-md-2 fw-7 d-flex justify-content-center flex-column align-items-md-end align-self-center">
+        <div className="order-md-2 fw-7 d-flex justify-content-center flex-column align-items-end align-self-center">
           {data?.cart?.count > 1 && (
             <div className="text-muted fs-07 fw-4">
               {customPrice(
@@ -253,56 +257,58 @@ const CartItem = memo(({ data }) => {
           )}
         </div>
       </div>
-      <Modal show={showComment} onHide={setShowComment} centered>
-        <Modal.Header closeButton>
-          <div className="d-flex flex-row align-items-center">
-            <img
-              height={40}
-              src={getImageURL({ path: data.medias })}
-              alt={data.title}
-              className="me-2"
-            />
-            <div>
-              <b>
-                {data.title}{" "}
-                {data?.cart?.modifiers?.length > 0
-                  ? data?.cart?.modifiers.map((e) => " - " + e.title)
-                  : ""}{" "}
-              </b>
-              <p className="text-muted fs-08">
-                {data?.cart?.additions?.length > 0
-                  ? data?.cart?.additions.map((e) => " + " + e.title)
-                  : ""}
-              </p>
+      {!data?.noComment && (
+        <Modal show={showComment} onHide={setShowComment} centered>
+          <Modal.Header closeButton>
+            <div className="d-flex flex-row align-items-center">
+              <img
+                height={25}
+                src={getImageURL({ path: data.medias })}
+                alt={data.title}
+                className="me-2"
+              />
+              <div>
+                <b>
+                  {data.title}{" "}
+                  {data?.cart?.modifiers?.length > 0
+                    ? data?.cart?.modifiers.map((e) => " - " + e.title)
+                    : ""}{" "}
+                </b>
+                <p className="text-muted fs-08">
+                  {data?.cart?.additions?.length > 0
+                    ? data?.cart?.additions.map((e) => " + " + e.title)
+                    : ""}
+                </p>
+              </div>
             </div>
-          </div>
-        </Modal.Header>
-        <Modal.Body>
-          <Textarea
-            name="comment"
-            placeholder={t("Введите комментарий")}
-            errors={errors}
-            register={register}
-            validation={{
-              required: t("Введите комментарий"),
-              maxLength: {
-                value: 250,
-                message: t("Максимально 250 символов"),
-              },
-            }}
-          />
-        </Modal.Body>
-        <Modal.Footer>
-          <button
-            type="submit"
-            disabled={!isValid}
-            onClick={handleSubmit(onSubmit)}
-            className="btn btn-primary"
-          >
-            {t("Добавить")}
-          </button>
-        </Modal.Footer>
-      </Modal>
+          </Modal.Header>
+          <Modal.Body>
+            <Textarea
+              name="comment"
+              placeholder={t("Введите комментарий")}
+              errors={errors}
+              register={register}
+              validation={{
+                required: t("Введите комментарий"),
+                maxLength: {
+                  value: 250,
+                  message: t("Максимально 250 символов"),
+                },
+              }}
+            />
+          </Modal.Body>
+          <Modal.Footer>
+            <button
+              type="submit"
+              disabled={!isValid}
+              onClick={handleSubmit(onSubmit)}
+              className="btn btn-primary"
+            >
+              {t("Добавить")}
+            </button>
+          </Modal.Footer>
+        </Modal>
+      )}
     </div>
   );
 });

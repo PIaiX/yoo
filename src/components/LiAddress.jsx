@@ -9,10 +9,12 @@ import { Link } from "react-router-dom";
 import Modal from "react-bootstrap/Modal";
 import { useDispatch } from "react-redux";
 import { deleteAddress } from "../services/address";
+import { useTranslation } from "react-i18next";
 
 const LiAddress = memo(({ data }) => {
   const [showDelConfirmation, setShowDelConfirmation] = useState(false);
   const dispatch = useDispatch();
+  const { t } = useTranslation();
 
   return (
     <>
@@ -47,40 +49,34 @@ const LiAddress = memo(({ data }) => {
       </li>
       <Modal
         show={showDelConfirmation}
-        onHide={() => setShowDelConfirmation(false)}
+        onHide={setShowDelConfirmation}
         centered
       >
-        <Modal.Body className="p-5">
-          <button
-            type="button"
-            onClick={() => setShowDelConfirmation(false)}
-            className="close m-2"
-          >
-            <HiXMark size={30} />
-          </button>
-          <h6 className="text-center">
-            Вы уверены, что хотите удалить данный адрес?
-          </h6>
-          <div className="d-flex">
-            <button
-              type="button"
-              className="btn-primary px-5 mx-auto mt-3"
-              onClick={() => {
-                dispatch(deleteAddress(data.id));
-                setShowDelConfirmation(false);
-              }}
-            >
-              Да, удалить
-            </button>
-            <button
-              type="button"
-              className="btn btn-light mx-auto px-5 mt-3"
-              onClick={() => setShowDelConfirmation(false)}
-            >
-              Нет
-            </button>
-          </div>
+        <Modal.Header className="h5" closeButton>
+          {t("Подтверждение")}
+        </Modal.Header>
+        <Modal.Body>
+          {t(" Вы уверены, что хотите удалить данный адрес?")}
         </Modal.Body>
+        <Modal.Footer>
+          <button
+            onClick={() => {
+              setShowDelConfirmation(false);
+            }}
+            className="btn btn-light"
+          >
+            {t("Отмена")}
+          </button>
+          <button
+            onClick={() => {
+              dispatch(deleteAddress(data.id));
+              setShowDelConfirmation(false);
+            }}
+            className="btn btn-danger"
+          >
+            {t("Да, удалить")}
+          </button>
+        </Modal.Footer>
       </Modal>
     </>
   );

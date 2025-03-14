@@ -1129,6 +1129,11 @@ button {
   z-index: 1000;
   transition: opacity 0.3s ease-in-out;
   opacity: 1;
+  &.mini {
+    position: relative !important;
+    height: auto !important;
+    min-height: 350px !important;
+  }
 }
 
 .loading-indicator.active {
@@ -2219,6 +2224,9 @@ main {
   @media (max-width: $bp-sm) {
     border-radius: 0px !important;
   }
+}
+.modal {
+  backdrop-filter: blur(10px);
 }
 .story-modal {
   backdrop-filter: blur(10px);
@@ -4636,7 +4644,7 @@ ACCOUNT END
 }
 .delivery {
   min-height: 55px;
-  padding: 0px 15px;
+  padding: 5px 15px;
   display: flex;
   font-size: 14px;
   margin-right: 10px;
@@ -5545,6 +5553,8 @@ ACCOUNT END
 .btn-close {
   filter: var(--modal-close);
   margin: 8px;
+  outline: hidden !important;
+  box-shadow: none !important;
 }
 .status {
   border-radius: 30px;

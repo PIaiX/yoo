@@ -7,6 +7,7 @@ import {
   customPrice,
   customWeight,
   getImageURL,
+  keyGenerator,
   sortMain,
 } from "../helpers/all";
 import ButtonCartProductMini from "./ButtonCartProductMini";
@@ -236,8 +237,9 @@ const ProductCard = memo(({ data, onLoad }) => {
       </div>
     );
   }
+
   return (
-    <div className="product" key={data?.id}>
+    <div className="product" key={keyGenerator(data)}>
       <div
         className={
           (options?.themeProductImage == 1

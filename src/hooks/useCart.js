@@ -31,10 +31,10 @@ const isCart = (product = false) => {
   const selectIsCart = makeSelectIsCart();
   const items = product?.id
     ? useSelector(
-        (state) =>
-          state?.cart?.items?.length > 0 &&
-          selectIsCart({ product, items: state?.cart?.items ?? [] })
-      )
+      (state) =>
+        state?.cart?.items?.length > 0 &&
+        selectIsCart({ product, items: state?.cart?.items ?? [] })
+    )
     : [];
 
   return items;
@@ -63,7 +63,8 @@ const useTotalCart = () => {
       pointAccrual = 0,
       totalNoDelivery = 0,
       pickupDiscount = 0,
-      count = 0;
+      count = 0,
+      deliveryPriceText = 0;
 
     if (stateCart?.length > 0) {
       stateCart.forEach((product) => {
@@ -75,8 +76,8 @@ const useTotalCart = () => {
             : 0;
         point +=
           product?.type === "gift" &&
-          product?.cart?.count > 0 &&
-          product?.price > 0
+            product?.cart?.count > 0 &&
+            product?.price > 0
             ? Number(product.price) * Number(product.cart.count)
             : 0;
 
@@ -106,15 +107,15 @@ const useTotalCart = () => {
 
         pickupDiscount +=
           Number(affiliateActive?.options?.discountPickup) > 0 &&
-          stateDelivery === "pickup" &&
-          affiliateActive?.options?.discountExceptions?.length > 0 &&
-          !affiliateActive?.options?.discountExceptions.includes(
-            String(product.categoryId)
-          )
+            stateDelivery === "pickup" &&
+            affiliateActive?.options?.discountExceptions?.length > 0 &&
+            !affiliateActive?.options?.discountExceptions.includes(
+              String(product.categoryId)
+            )
             ? Math.floor(
-                (productPrice / 100) *
-                  Number(affiliateActive.options.discountPickup)
-              )
+              (productPrice / 100) *
+              Number(affiliateActive.options.discountPickup)
+            )
             : 0;
 
         if (statePromo?.options) {
@@ -130,8 +131,8 @@ const useTotalCart = () => {
                 Number(statePromo?.options?.percent) > 0
                   ? (productPrice / 100) * Number(statePromo.options.percent)
                   : Number(statePromo?.options?.sum) > 0
-                  ? Number(statePromo.options.sum)
-                  : 0;
+                    ? Number(statePromo.options.sum)
+                    : 0;
             }
           } else if (
             statePromo?.type === "category_one" &&
@@ -142,8 +143,8 @@ const useTotalCart = () => {
               Number(statePromo?.options?.percent) > 0
                 ? (productPrice / 100) * Number(statePromo.options.percent)
                 : Number(statePromo?.options?.sum) > 0
-                ? Number(statePromo.options.sum)
-                : 0;
+                  ? Number(statePromo.options.sum)
+                  : 0;
           } else if (
             statePromo?.type === "product_one" &&
             statePromo?.options?.productId
@@ -153,8 +154,8 @@ const useTotalCart = () => {
                 Number(statePromo?.options?.percent) > 0
                   ? (productPrice / 100) * Number(statePromo.options.percent)
                   : Number(statePromo?.options?.sum) > 0
-                  ? Number(statePromo.options.sum)
-                  : 0;
+                    ? Number(statePromo.options.sum)
+                    : 0;
             }
           }
         }
@@ -243,26 +244,31 @@ const useTotalCart = () => {
         if (pointOptions?.type === "yooapp" || !pointOptions?.type) {
           pointAccrual = isEligible
             ? Math.floor(
-                (totalCalcul / 100) *
-                  Number(
-                    userOptions?.cashback
-                      ? userOptions?.cashback
-                      : pointOptions.accrual.value ?? 0
-                  )
-              )
-            : 0;
-        } else {
-          pointAccrual = Math.floor(
-            (totalCalcul / 100) *
+              (totalCalcul / 100) *
               Number(
                 userOptions?.cashback
                   ? userOptions?.cashback
                   : pointOptions.accrual.value ?? 0
               )
+            )
+            : 0;
+        } else {
+          pointAccrual = Math.floor(
+            (totalCalcul / 100) *
+            Number(
+              userOptions?.cashback
+                ? userOptions?.cashback
+                : pointOptions.accrual.value ?? 0
+            )
           );
         }
       }
-
+      if (
+        stateZone?.price > 0 &&
+        (!stateZone?.options?.freeStatus || stateZone?.priceFree > totalCalcul)
+      ) {
+        deliveryPriceText += stateZone.price;
+      }
       if (
         stateDelivery === "delivery" &&
         stateZone?.price > 0 &&
@@ -279,6 +285,7 @@ const useTotalCart = () => {
         point: parseInt(point),
         discount: parseInt(discount),
         delivery: parseInt(delivery),
+        deliveryPriceText: parseInt(deliveryPriceText),
         pointAccrual: parseInt(pointAccrual),
         pickupDiscount: parseInt(pickupDiscount),
         pointCheckout: parseInt(pointCheckout),
@@ -293,6 +300,7 @@ const useTotalCart = () => {
         point: 0,
         discount: 0,
         delivery: 0,
+        deliveryPriceText: 0,
         pointAccrual: 0,
         pickupDiscount: 0,
         pointCheckout: 0,

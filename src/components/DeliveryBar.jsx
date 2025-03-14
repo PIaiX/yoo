@@ -15,11 +15,17 @@ const DeliveryBar = memo(() => {
   const { totalNoDelivery = 0 } = useTotalCart();
   const { t } = useTranslation();
 
-  if (delivery != "delivery" || !isAuth || pathname.indexOf("account") != -1) {
+  if (
+    delivery != "delivery" ||
+    !isAuth ||
+    pathname.indexOf("account") != -1 ||
+    (totalNoDelivery > zone?.data?.minPrice &&
+      totalNoDelivery > zone?.data?.priceFree)
+  ) {
     return null;
   }
 
-  if (isMobileLG && totalNoDelivery < zone?.data?.minPrice) {
+  if (isMobileLG) {
     return (
       <div className="freeDeliveryBar">
         <div className="py-2 px-3">
@@ -52,7 +58,7 @@ const DeliveryBar = memo(() => {
         </div>
       </div>
     );
-  } else if (totalNoDelivery < zone?.data?.minPrice) {
+  } else {
     return (
       <div className="freeDeliveryBar">
         <svg

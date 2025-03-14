@@ -30,6 +30,7 @@ import { IoTrashOutline } from "react-icons/io5";
 import Loader from "../components/utils/Loader";
 import Extras from "../components/utils/Extras";
 import { useTranslation } from "react-i18next";
+import { Modal } from "react-bootstrap";
 
 const Cart = () => {
   const { t } = useTranslation();
@@ -45,6 +46,7 @@ const Cart = () => {
   const checkout = useSelector((state) => state.checkout);
   const selectedAffiliate = useSelector((state) => state.affiliate?.active);
   const [isGift, setIsGift] = useState(false);
+  const [showReset, setShowReset] = useState(false);
 
   const {
     total = 0,
@@ -136,8 +138,6 @@ const Cart = () => {
               );
             }
 
-            dispatch(cartPromo(res));
-
             if (res?.product?.id) {
               if (
                 res?.product?.options?.minPrice > 0 &&
@@ -156,17 +156,19 @@ const Cart = () => {
             dispatch(updateCartChecking(res.checking));
 
             if (
-              promo?.type === "integration_coupon" &&
+              res?.type === "integration_coupon" &&
               (!res?.checking || res?.checking?.length === 0)
             ) {
-              NotificationManager.error("Условия не выполнены");
+              NotificationManager.error(res?.error ?? "Условия не выполнены");
               setValue("promo", "");
-              dispatch(cartDeletePromo());
-            } else if (promo?.type === "birthday_list_gift") {
+              return dispatch(cartDeletePromo());
             }
+
+            // else if (promo?.type === "birthday_list_gift") - Если нужно будет показать список подарко
+
+            dispatch(cartPromo(res));
           })
           .catch((error) => {
-            console.log(error);
             dispatch(cartDeletePromo());
             NotificationManager.error(
               typeof error?.response?.data?.error === "string"
@@ -433,7 +435,7 @@ const Cart = () => {
                 <button
                   type="button"
                   className="btn-9 py-1 ms-4 ms-sm-5"
-                  onClick={() => dispatch(deleteCart())}
+                  onClick={() => setShowReset(true)}
                 >
                   {t("Очистить")}
                 </button>
@@ -598,6 +600,31 @@ const Cart = () => {
           </Row>
         </div>
       </Container>
+      <Modal show={showReset} onHide={setShowReset} centered>
+        <Modal.Header className="h5" closeButton>
+          {t("Подтверждение")}
+        </Modal.Header>
+        <Modal.Body>{t("Вы подтверждаете очистку корзину?")}</Modal.Body>
+        <Modal.Footer>
+          <button
+            onClick={() => {
+              setShowReset(false);
+            }}
+            className="btn btn-light"
+          >
+            {t("Отмена")}
+          </button>
+          <button
+            onClick={() => {
+              dispatch(deleteCart());
+              setShowReset(false);
+            }}
+            className="btn btn-danger"
+          >
+            {t("Очистить")}
+          </button>
+        </Modal.Footer>
+      </Modal>
     </main>
   );
 };

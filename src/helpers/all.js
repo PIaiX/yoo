@@ -351,11 +351,13 @@ const sortMain = (medias) => {
   }) : []
 };
 
-
 const keyGenerator = (data) => {
-  let key = data.id + '_'
+  let key = data.id + (data?.cart?.modifiers?.length > 0 || data?.modifiers?.length > 0 || data?.cart?.additions?.length > 0 ? '_' : '')
+
   if (data?.cart?.modifiers?.length > 0) {
     key += data.cart.modifiers.map(e => e.id).join('_')
+  } else if (data?.modifiers?.length > 0) {
+    key += data.modifiers.map(e => e.id).join('_')
   }
 
   if (data?.cart?.additions?.length > 0) {
@@ -363,50 +365,7 @@ const keyGenerator = (data) => {
   }
   return key
 }
-// const isWork = (start, end, now) => {
-//   try {
-//     const timezone = moment.tz.guess();
 
-//     // Если now не передан, используем текущее время
-//     if (!now) {
-//       now = moment.tz();
-//     } else {
-//       now = moment.tz(now, 'HH:mm', timezone);
-//     }
-
-//     if (!start || !end) {
-//       return false;
-//     }
-//     if (end === "00:00") {
-//       end = "23:59";
-//     }
-
-//     const startTime = moment.tz(start, 'HH:mm', timezone);
-//     const endTime = moment.tz(end, 'HH:mm', timezone);
-
-//     if (!startTime.isValid() || !endTime.isValid()) {
-//       console.error("Invalid start or end time");
-//       return false;
-//     }
-
-//     // Переводим время в UTC
-//     const startUtc = startTime.utc();
-//     const endUtc = endTime.utc();
-
-//     if (endUtc.isSameOrBefore(startUtc)) {
-//       endUtc.add(1, 'day');
-//     }
-
-//     // Текущее время в UTC
-//     const nowUtc = moment.tz(now, timezone).utc();
-
-//     // Проверка, находится ли текущее время в пределах рабочего времени
-//     return nowUtc.isBetween(startUtc, endUtc, null, '()');
-//   } catch (err) {
-//     console.error(err);
-//     return false;
-//   }
-// }
 const isWork = (start, end, now) => {
   try {
     const timezone = moment.tz.guess();
@@ -438,6 +397,19 @@ const isWork = (start, end, now) => {
     return false;
   }
 };
+
+const formatDeliveryTime = (timeInMinutes) => {
+  if (timeInMinutes >= 60) {
+    const hours = Math.floor(timeInMinutes / 60);
+    const minutes = timeInMinutes % 60;
+    const nextHours = hours + 1;
+    return `${hours} ч ${minutes > 0 ? `${minutes} мин` : ''} - ${nextHours} ч`;
+  } else {
+    const nextMinutes = timeInMinutes + 30;
+    return `${timeInMinutes} мин - ${nextMinutes} мин`;
+  }
+};
+
 export {
   keyGenerator, isWork,
   generateToken,
@@ -451,6 +423,7 @@ export {
   convertColor,
   customWeight,
   getLang,
+  formatDeliveryTime,
   languageCode,
   localeData,
   statusData,

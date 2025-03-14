@@ -13,8 +13,8 @@ const CountInput = memo(
     return (
       <div
         className={
-          "countInput" +
-          (className ? " " + className : "") +
+          "countInput w-100" +
+          (className ? " " + className : " justify-content-end") +
           (full ? " full" : "") +
           (dis ? " disabled" : "")
         }

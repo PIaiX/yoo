@@ -24,7 +24,12 @@ import NavTop from "../components/utils/NavTop";
 import PaymentItem from "../components/utils/PaymentItem";
 import Select from "../components/utils/Select";
 import Textarea from "../components/utils/Textarea";
-import { customPrice, deliveryData, paymentData } from "../helpers/all";
+import {
+  customPrice,
+  deliveryData,
+  formatDeliveryTime,
+  paymentData,
+} from "../helpers/all";
 import { isWork, weekday } from "../helpers/all";
 import { useTotalCart } from "../hooks/useCart";
 import { mainAddress } from "../services/address";
@@ -121,6 +126,7 @@ const Checkout = () => {
     price = 0,
     discount = 0,
     delivery,
+    deliveryPriceText,
     person = 0,
     pointAccrual,
     pickupDiscount,
@@ -130,6 +136,7 @@ const Checkout = () => {
 
   const [end, setEnd] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [loadingDelivery, setLoadingDelivery] = useState(true);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -470,6 +477,8 @@ const Checkout = () => {
   useEffect(() => {
     const fetchDeliveryData = async () => {
       try {
+        setLoadingDelivery(true);
+
         if (checkout?.delivery !== "delivery" || !user?.id) throw false;
 
         const selectedAddress = address?.find((e) => e.main) || address[0];
@@ -492,6 +501,8 @@ const Checkout = () => {
           dispatch(cartZone({ data: false, distance: false }));
         }
         return false;
+      } finally {
+        setLoadingDelivery(false);
       }
     };
 
@@ -658,106 +669,153 @@ const Checkout = () => {
           ]}
         />
 
-        <form className="cart">
-          <Row className="g-4 g-xxl-5 d-flex justify-content-between">
-            <Col xs={12} xl={6}>
-              <Row>
-                <Col md={12}>
-                  <div className="d-flex align-items-center mb-4">
-                    {options?.delivery?.status && (
-                      <a
-                        className={
-                          "delivery" +
-                          (data.delivery === "delivery" ? " active" : "")
-                        }
-                        onClick={() =>
-                          dispatch(editDeliveryCheckout("delivery"))
-                        }
-                      >
-                        <b>{t("Доставка")}</b>
-                        <p>
-                          {delivery > 0
-                            ? customPrice(delivery)
+        <Row className="g-4 g-xxl-5 d-flex justify-content-between">
+          <Col xs={12} xl={6}>
+            <Row>
+              <Col md={12}>
+                <div className="d-flex align-items-center mb-4">
+                  {options?.delivery?.status && (
+                    <a
+                      className={
+                        "delivery" +
+                        (data.delivery === "delivery" ? " active" : "")
+                      }
+                      onClick={() => dispatch(editDeliveryCheckout("delivery"))}
+                    >
+                      <b>
+                        <span>{t("Доставка")}</span>
+                        <span className="ms-1 text-main">
+                          {deliveryPriceText > 0
+                            ? customPrice(deliveryPriceText)
                             : t("Бесплатно")}
-                        </p>
-                      </a>
-                    )}
-                    {options?.pickup?.status && (
-                      <a
-                        className={
-                          "delivery" +
-                          (data.delivery === "pickup" ? " active" : "")
+                        </span>
+                      </b>
+                      <p>
+                        {!data?.serving && zone?.data?.time > 0 && (
+                          <span className="fw-4 fs-09">
+                            {formatDeliveryTime(zone.data.time)}
+                          </span>
+                        )}
+                      </p>
+                    </a>
+                  )}
+                  {options?.pickup?.status && (
+                    <a
+                      className={
+                        "delivery" +
+                        (data.delivery === "pickup" ? " active" : "")
+                      }
+                      onClick={() => dispatch(editDeliveryCheckout("pickup"))}
+                    >
+                      <b className="d-flex justify-content-between w-100">
+                        <span>{t("Самовывоз")}</span>
+                        <span className="fw-4 fs-09">
+                          {selectedAffiliate?.options?.time > 0
+                            ? selectedAffiliate?.options?.time >= 60
+                              ? `${selectedAffiliate.options.time / 60}ч - ${
+                                  selectedAffiliate.options.time / 60 + 0.3
+                                }ч`
+                              : `${selectedAffiliate.options.time} - ${
+                                  selectedAffiliate.options.time + 30
+                                } мин`
+                            : null}
+                        </span>
+                      </b>
+                      <p>
+                        {selectedAffiliate?.options?.city &&
+                        selectedAffiliate?.options?.house &&
+                        selectedAffiliate?.options?.street
+                          ? `${selectedAffiliate.options.city}, ${selectedAffiliate.options.street} ${selectedAffiliate.options.house}`
+                          : selectedAffiliate.full ?? t("Адреса нет")}
+                      </p>
+                    </a>
+                  )}
+                  {options?.hall?.status && (
+                    <a
+                      className={
+                        "delivery" + (data.delivery === "hall" ? " active" : "")
+                      }
+                      onClick={() => dispatch(editDeliveryCheckout("hall"))}
+                    >
+                      <b>{t("В зале")}</b>
+                      <p>{selectedTable?.title ?? t("Нет стола")}</p>
+                    </a>
+                  )}
+                </div>
+              </Col>
+              <Col md={12}>
+                {data?.delivery == "delivery" &&
+                (!Array.isArray(address) || address.length <= 0) ? (
+                  <p className="text-muted fs-09 mt-2 mb-4 fw-6 btn btn-light">
+                    <Link to="/account/addresses/add">
+                      {t("Добавить адрес доставки")}
+                    </Link>
+                  </p>
+                ) : data.delivery == "delivery" ? (
+                  <>
+                    <div className="mb-2">
+                      <Select
+                        label={t("Адрес")}
+                        value={data?.address?.id}
+                        data={address.map((e) => ({
+                          title: e?.title?.length > 0 ? e.title : e.full,
+                          desc: e?.title?.length > 0 ? e.full : false,
+                          value: e.id,
+                        }))}
+                        onClick={(e) =>
+                          dispatch(
+                            mainAddress(address.find((a) => a.id === e.value))
+                          )
                         }
-                        onClick={() => dispatch(editDeliveryCheckout("pickup"))}
-                      >
-                        <b>{t("Самовывоз")}</b>
-                        <p>{selectedAffiliate?.full ?? t("Адреса нет")}</p>
-                      </a>
-                    )}
-                    {options?.hall?.status && (
-                      <a
-                        className={
-                          "delivery" +
-                          (data.delivery === "hall" ? " active" : "")
-                        }
-                        onClick={() => dispatch(editDeliveryCheckout("hall"))}
-                      >
-                        <b>{t("В зале")}</b>
-                        <p>{selectedTable?.title ?? t("Нет стола")}</p>
-                      </a>
-                    )}
-                  </div>
-                </Col>
-                <Col md={12}>
-                  {data?.delivery == "delivery" &&
-                  (!Array.isArray(address) || address.length <= 0) ? (
-                    <p className="text-muted fs-09 mt-2 mb-4 fw-6 btn btn-light">
-                      <Link to="/account/addresses/add">
-                        {t("Добавить адрес доставки")}
+                      />
+                    </div>
+                    <div className="mb-2">
+                      <Textarea
+                        label={t("Комментарий курьеру")}
+                        name="commentСourier"
+                        placeholder={t("Введите комментарий курьеру")}
+                        errors={errors}
+                        rows={2}
+                        register={register}
+                      />
+                    </div>
+
+                    <p className="text-muted fs-09 mb-4">
+                      {t("Нет нужного адреса?")}{" "}
+                      <Link to="/account/addresses/add" className="text-main">
+                        {t("Добавить новый адрес")}
                       </Link>
                     </p>
-                  ) : data.delivery == "delivery" ? (
-                    <>
-                      <div className="mb-2">
-                        <Select
-                          label={t("Адрес")}
-                          value={data?.address?.id}
-                          data={address.map((e) => ({
-                            title: e?.title?.length > 0 ? e.title : e.full,
-                            desc: e?.title?.length > 0 ? e.full : false,
-                            value: e.id,
-                          }))}
-                          onClick={(e) =>
-                            dispatch(
-                              mainAddress(address.find((a) => a.id === e.value))
+                  </>
+                ) : data.delivery == "pickup" ? (
+                  !options?.multiBrand &&
+                  affiliate?.length > 1 && (
+                    <div className="mb-4">
+                      <Select
+                        label={t("Адрес")}
+                        value={data?.affiliateId}
+                        data={affiliate.map((e) => ({
+                          title: e?.title?.length > 0 ? e.title : e.full,
+                          desc: e?.title?.length > 0 ? e.full : false,
+                          value: e.id,
+                        }))}
+                        onClick={(e) =>
+                          dispatch(
+                            mainAffiliateEdit(
+                              affiliate.find((item) => item.id === e.value)
                             )
-                          }
-                        />
-                      </div>
-                      <div className="mb-2">
-                        <Textarea
-                          label={t("Комментарий курьеру")}
-                          name="commentСourier"
-                          placeholder={t("Введите комментарий курьеру")}
-                          errors={errors}
-                          rows={2}
-                          register={register}
-                        />
-                      </div>
-
-                      <p className="text-muted fs-09 mb-4">
-                        {t("Нет нужного адреса?")}{" "}
-                        <Link to="/account/addresses/add" className="text-main">
-                          {t("Добавить новый адрес")}
-                        </Link>
-                      </p>
-                    </>
-                  ) : data.delivery == "pickup" ? (
-                    !options?.multiBrand &&
-                    affiliate?.length > 1 && (
-                      <div className="mb-4">
+                          )
+                        }
+                      />
+                    </div>
+                  )
+                ) : (
+                  data.delivery == "hall" && (
+                    <div className="mb-4">
+                      {!options?.multiBrand && affiliate?.length > 1 && (
                         <Select
-                          label={t("Адрес")}
+                          label={t("Филиал")}
+                          className="mb-3"
                           value={data?.affiliateId}
                           data={affiliate.map((e) => ({
                             title: e?.title?.length > 0 ? e.title : e.full,
@@ -772,557 +830,404 @@ const Checkout = () => {
                             )
                           }
                         />
-                      </div>
-                    )
-                  ) : (
-                    data.delivery == "hall" && (
-                      <div className="mb-4">
-                        {!options?.multiBrand && affiliate?.length > 1 && (
-                          <Select
-                            label={t("Филиал")}
-                            className="mb-3"
-                            value={data?.affiliateId}
-                            data={affiliate.map((e) => ({
-                              title: e?.title?.length > 0 ? e.title : e.full,
-                              desc: e?.title?.length > 0 ? e.full : false,
-                              value: e.id,
-                            }))}
-                            onClick={(e) =>
-                              dispatch(
-                                mainAffiliateEdit(
-                                  affiliate.find((item) => item.id === e.value)
-                                )
-                              )
-                            }
-                          />
-                        )}
-                        <Select
-                          label={t("Стол")}
-                          value={data?.tableId}
-                          data={tables.map((e) => ({
-                            title: e.title,
-                            value: e.id,
-                          }))}
-                          onClick={(e) =>
-                            dispatch(
-                              mainTableEdit(
-                                tables.find((item) => item.id === e.value)
-                              )
+                      )}
+                      <Select
+                        label={t("Стол")}
+                        value={data?.tableId}
+                        data={tables.map((e) => ({
+                          title: e.title,
+                          value: e.id,
+                        }))}
+                        onClick={(e) =>
+                          dispatch(
+                            mainTableEdit(
+                              tables.find((item) => item.id === e.value)
                             )
-                          }
-                        />
-                      </div>
-                    )
-                  )}
-                </Col>
-                <Col md={6}>
-                  <div className="mb-4">
-                    <Input
-                      label={t("Имя")}
-                      name="name"
-                      placeholder={t("Введите имя")}
-                      errors={errors}
-                      register={register}
-                    />
-                  </div>
-                </Col>
-                <Col md={6}>
-                  <div className="mb-4">
-                    <Input
-                      label={t("Номер телефона")}
-                      type="custom"
-                      name="phone"
-                      inputMode="tel"
-                      pattern="[0-9]*"
-                      mask="+7(999)999-99-99"
-                      keyboardType="phone-pad"
-                      control={control}
-                      placeholder={t("Введите номер телефона")}
-                      autoCapitalize="none"
-                      leftIcon="call-outline"
-                      errors={errors}
-                      register={register}
-                    />
-                  </div>
-                </Col>
-                {options?.payment?.email && (
-                  <Col>
-                    <div className="mb-4">
-                      <Input
-                        label="Email"
-                        type="email"
-                        name="email"
-                        inputMode="email"
-                        placeholder={t("Введите email")}
-                        errors={errors}
-                        register={register}
-                        validation={{
-                          required: t("Введите email"),
-                          maxLength: {
-                            value: 250,
-                            message: t("Максимально 250 символов"),
-                          },
-                          pattern: {
-                            value: /\S+@\S+\.\S+/,
-                            message: t("Неверный формат Email"),
-                          },
-                        }}
-                      />
-                    </div>
-                  </Col>
-                )}
-                {!options?.person && (
-                  <Col md={12}>
-                    <div className="mb-4">
-                      <p className="mb-2 fs-09">{t("Кол-во персон")}</p>
-                      <CountInput
-                        dis={person > 0}
-                        value={data.person}
-                        onChange={(e) => setValue("person", e)}
-                      />
-                    </div>
-                  </Col>
-                )}
-                <Col md={12}>
-                  <div className="mb-4">
-                    <label className="d-flex align-items-center flex-row mb-3">
-                      <input
-                        type="radio"
-                        name="servingRadio"
-                        id="servingRadio"
-                        defaultChecked={data.servingRadio === false}
-                        value={false}
-                        {...register("servingRadio")}
-                      />
-                      <span className="ms-2">
-                        {data.delivery == "delivery"
-                          ? t("Привезем")
-                          : t("Подадим")}{" "}
-                        {t("в")} <b>{t("ближайшее время")}</b>
-                      </span>
-                    </label>
-                    <label className="d-flex align-items-center mb-3">
-                      <input
-                        type="radio"
-                        name="servingRadio"
-                        id="servingRadio2"
-                        defaultChecked={data.servingRadio === true}
-                        value={true}
-                        {...register("servingRadio")}
-                      />
-                      <span className="ms-2">
-                        {data.delivery == "delivery"
-                          ? t("Привезем")
-                          : t("Подадим")}{" "}
-                        {t("ко")} <b>{t("времени")}</b>
-                      </span>
-                    </label>
-                    {data?.servingRadio === "true" && (
-                      <div className="text-muted ms-4">
-                        {selectedAffiliate?.options?.interval &&
-                        Number(selectedAffiliate?.options?.interval) > 0 ? (
-                          <TimePicker
-                            startTime={
-                              selectedAffiliate.options.work[weekday].start
-                            }
-                            endTime={
-                              selectedAffiliate.options.work[weekday].end
-                            }
-                            interval={selectedAffiliate?.options?.interval}
-                            minMinuteTime={
-                              zone.data?.options?.preorderMin ??
-                              selectedAffiliate?.options?.preorderMin
-                            }
-                            maxDayDate={selectedAffiliate?.options?.preorderMax}
-                            value={data.serving}
-                            onChange={(e) => {
-                              setValue("serving", e);
-                            }}
-                          />
-                        ) : (
-                          <div>
-                            <Input
-                              errors={errors}
-                              register={register}
-                              name="serving"
-                              type="datetime-local"
-                              defaultValue={
-                                data.serving
-                                  ? moment(data.serving).format(
-                                      "YYYY-MM-DDTHH:mm"
-                                    )
-                                  : moment()
-                                      .add(
-                                        zone.data?.options?.preorderMin ??
-                                          selectedAffiliate?.options
-                                            ?.preorderMin ??
-                                          90,
-                                        "minutes"
-                                      )
-                                      .format("YYYY-MM-DDTHH:mm")
-                              }
-                              validation={{
-                                min: {
-                                  value: moment()
-                                    .add(
-                                      zone.data?.options?.preorderMin ??
-                                        selectedAffiliate?.options
-                                          ?.preorderMin ??
-                                        90,
-                                      "minutes"
-                                    )
-                                    .format("YYYY-MM-DDTHH:mm"),
-                                  message: `${t("Минимум ")} ${moment()
-                                    .add(
-                                      zone.data?.options?.preorderMin ??
-                                        selectedAffiliate?.options
-                                          ?.preorderMin ??
-                                        90,
-                                      "minutes"
-                                    )
-                                    .format("YYYY-MM-DD HH:mm")}`,
-                                },
-                                max: {
-                                  value: moment()
-                                    .add(
-                                      selectedAffiliate?.options?.preorderMax ??
-                                        30,
-                                      "days"
-                                    )
-                                    .format("YYYY-MM-DDTHH:mm"),
-                                  message: `${t("Максимум ")} ${moment()
-                                    .add(
-                                      selectedAffiliate?.options?.preorderMax ??
-                                        30,
-                                      "days"
-                                    )
-                                    .format("YYYY-MM-DD HH:mm")}`,
-                                },
-                                validate: validateServing, // Добавляем кастомную валидацию
-                              }}
-                              min={moment()
-                                .add(
-                                  zone.data?.options?.preorderMin ??
-                                    selectedAffiliate?.options?.preorderMin ??
-                                    90,
-                                  "minutes"
-                                )
-                                .format("YYYY-MM-DDTHH:mm")}
-                              max={moment()
-                                .add(
-                                  selectedAffiliate?.options?.preorderMax ?? 30,
-                                  "days"
-                                )
-                                .format("YYYY-MM-DDTHH:mm")}
-                              className="input-date me-2"
-                            />
-                          </div>
-                        )}
-                      </div>
-                    )}
-                  </div>
-                </Col>
-                <Col md={12}>
-                  <div className="mb-4">
-                    <p className="mb-2 fs-09">{t("Способ оплаты")}</p>
-                    <Row className="gx-2 gy-2">
-                      {paymentsData.map((e, index) => {
-                        let pay =
-                          checkout.delivery == "delivery"
-                            ? options?.delivery ?? []
-                            : options?.pickup ?? [];
-
-                        let count = paymentsData.filter(
-                          (item) => pay[item.value]
-                        )?.length;
-
-                        if (!pay[e.value]) {
-                          return null;
+                          )
                         }
-                        return (
-                          <Col
-                            key={index}
-                            xs={12}
-                            sm={count > 2 ? 4 : count === 1 ? 12 : 6}
-                            md={count > 2 ? 4 : count === 1 ? 12 : 6}
-                          >
-                            <PaymentItem
-                              onClick={(e) => setValue("payment", e.value)}
-                              data={e}
-                              active={e.value === data.payment}
-                            />
-                          </Col>
-                        );
-                      })}
-                    </Row>
-                  </div>
-                </Col>
-                <Col md={12}>
-                  <Textarea
-                    label={t("Комментарий")}
-                    name="comment"
-                    placeholder={t("Введите комментарий")}
+                      />
+                    </div>
+                  )
+                )}
+              </Col>
+              <Col md={6}>
+                <div className="mb-4">
+                  <Input
+                    label={t("Имя")}
+                    name="name"
+                    placeholder={t("Введите имя")}
                     errors={errors}
-                    defaultValue={data?.comment}
                     register={register}
                   />
-                </Col>
-              </Row>
-            </Col>
-            <Col xs={12} xl={4}>
-              <div className="cart-box mb-4">
-                <h6>{t("Ваш заказ")}</h6>
-
-                <ul className="list-unstyled">
-                  <CartItems items={cart} />
-                </ul>
-              </div>
-              {user?.point > 0 && profilePointVisible && (
-                <div className="cart-box px-3 mb-4 d-flex flex-row align-items-center justify-content-between">
-                  <div>
-                    <a>
-                      <b>
-                        {t("Потратить")} {customPrice(pointCheckout, false)}{" "}
-                        {t("баллов")}
-                      </b>
-                      <p className="fs-09 text-muted">
-                        {t("У вас всего")} {customPrice(user.point, false)}{" "}
-                        {t("баллов")}
-                      </p>
-                    </a>
-                  </div>
-
-                  <label>
-                    <input
-                      type="checkbox"
-                      role="switch"
-                      control={control}
-                      {...register("pointSwitch")}
-                    />
-                  </label>
                 </div>
-              )}
-              <div className="d-flex justify-content-between my-2">
-                <span>{t("Стоимость товаров")}</span>
-                <span>{customPrice(price)}</span>
-              </div>
-              {discount > 0 && (
-                <div className="d-flex justify-content-between my-2">
-                  <span>{t("Скидка")}</span>
-                  <span className="text-success">-{customPrice(discount)}</span>
+              </Col>
+              <Col md={6}>
+                <div className="mb-4">
+                  <Input
+                    label={t("Номер телефона")}
+                    type="custom"
+                    name="phone"
+                    inputMode="tel"
+                    pattern="[0-9]*"
+                    mask="+7(999)999-99-99"
+                    keyboardType="phone-pad"
+                    control={control}
+                    placeholder={t("Введите номер телефона")}
+                    autoCapitalize="none"
+                    leftIcon="call-outline"
+                    errors={errors}
+                    register={register}
+                  />
                 </div>
-              )}
-              {pickupDiscount > 0 && (
-                <div className="d-flex justify-content-between my-2">
-                  <span>{t("Скидка за самовывоз")}</span>
-                  <span className="text-success">
-                    -{customPrice(pickupDiscount)}
-                  </span>
-                </div>
-              )}
-              {pointCheckout > 0 && pointSwitch && (
-                <div className="d-flex justify-content-between my-2">
-                  <span>{t("Списание баллов")}</span>
-                  <span className="text-success">
-                    -{customPrice(pointCheckout)}
-                  </span>
-                </div>
-              )}
-              {pointAccrual > 0 && (
-                <div className="d-flex justify-content-between my-2">
-                  <span>{t("Начислится баллов")}</span>
-                  <span className="text-success">
-                    +{customPrice(pointAccrual)}
-                  </span>
-                </div>
-              )}
-              {options?.promoVisible && promo && (
-                <div className="d-flex justify-content-between my-2">
-                  <div>
-                    <div className="text-muted fs-08">{t("Промокод")}</div>
-                    <div className="fw-6">{promo.title.toUpperCase()}</div>
-                  </div>
-                  <span className="d-flex align-items-center">
-                    {promo.options?.discount &&
-                    Number(promo.options?.discount) > 0 ? (
-                      <span className="text-success">
-                        -{" "}
-                        {Number.isInteger(Number(promo.options?.discount)) > 0
-                          ? customPrice(promo.options.discount)
-                          : promo.options?.discount}
-                      </span>
-                    ) : (
-                      ""
-                    )}
-                    {promo.options?.percent &&
-                    Number(promo.options?.percent > 0) ? (
-                      <span className="text-success">
-                        -{" "}
-                        {Number.isInteger(Number(promo.options?.percent)) > 0
-                          ? promo.options?.percent + "%"
-                          : promo.options?.percent}
-                      </span>
-                    ) : (
-                      ""
-                    )}
-                    <a
-                      onClick={() => {
-                        dispatch(cartDeleteProduct(promo.product));
-                        setValue("promo", "");
-                        dispatch(cartDeletePromo());
+              </Col>
+              {options?.payment?.email && (
+                <Col>
+                  <div className="mb-4">
+                    <Input
+                      label="Email"
+                      type="email"
+                      name="email"
+                      inputMode="email"
+                      placeholder={t("Введите email")}
+                      errors={errors}
+                      register={register}
+                      validation={{
+                        required: t("Введите email"),
+                        maxLength: {
+                          value: 250,
+                          message: t("Максимально 250 символов"),
+                        },
+                        pattern: {
+                          value: /\S+@\S+\.\S+/,
+                          message: t("Неверный формат Email"),
+                        },
                       }}
-                      className="ms-2 text-danger"
-                    >
-                      <IoTrashOutline size={18} />
-                    </a>
-                  </span>
-                </div>
-              )}
-              <hr className="my-3" />
-              <div className="mb-5">
-                {totalNoDelivery != total && (
-                  <div className="d-flex justify-content-between mb-2">
-                    <span className="fw-6 fs-10">{t("Сумма заказа")}</span>
-                    <span className="fw-6">{customPrice(totalNoDelivery)}</span>
+                    />
                   </div>
-                )}
-                {data?.delivery == "delivery" && zone?.data && (
-                  <div className="d-flex justify-content-between mb-2">
-                    <span className="fw-6 fs-10">{t("Доставка")}</span>
-                    <span className="fw-6">
-                      {delivery > 0
-                        ? "+" + customPrice(delivery)
-                        : t("Бесплатно")}
+                </Col>
+              )}
+              {!options?.person && (
+                <Col md={12}>
+                  <div className="mb-4 d-flex flex-row align-items-center justify-content-start">
+                    <p className="fs-09 me-2">{t("Приборов")}</p>
+                    <CountInput
+                      dis={person > 0}
+                      value={data.person}
+                      className="justify-content-start"
+                      onChange={(e) => setValue("person", e)}
+                    />
+                  </div>
+                </Col>
+              )}
+              <Col md={12}>
+                <div className="mb-4">
+                  <label className="d-flex align-items-center flex-row mb-3">
+                    <input
+                      type="radio"
+                      name="servingRadio"
+                      id="servingRadio"
+                      defaultChecked={data.servingRadio === false}
+                      value={false}
+                      {...register("servingRadio")}
+                    />
+                    <span className="ms-2">
+                      {data.delivery == "delivery"
+                        ? t("Привезем")
+                        : t("Подадим")}{" "}
+                      {t("в")} <b>{t("ближайшее время")}</b>
                     </span>
-                  </div>
-                )}
-                <div className="d-flex justify-content-between">
-                  <span className="fw-7 fs-11">{t("Итого")}</span>
-                  <span className="fw-7">{customPrice(total)}</span>
-                </div>
-              </div>
-              {checkout.delivery == "delivery" &&
-              zone?.data?.minPrice > totalNoDelivery ? (
-                <div className="text-danger text-center">
-                  {t("Минимальная сумма для доставки")}{" "}
-                  {customPrice(zone?.data.minPrice)}
-                </div>
-              ) : !isWorkStatus ? (
-                <div className="text-danger text-center">
-                  {`${t("Мы работаем с")} ${
-                    selectedAffiliate.options.work[weekday].start
-                  } ${t("до")} ${selectedAffiliate.options.work[weekday].end}`}
-                </div>
-              ) : (
-                data?.delivery == "delivery" &&
-                !zone?.data &&
-                address.length > 0 && (
-                  <div className="text-danger text-center">
-                    {t("Доставка на данный адрес не производится")}
-                  </div>
-                )
-              )}
-              {data?.delivery == "delivery" &&
-                (!Array.isArray(address) || address.length <= 0) && (
-                  <div className="text-danger text-center">
-                    {t("Добавьте адрес доставки")}
-                  </div>
-                )}
-              <Button
-                disabled={!isValidBtn() || !isWorkStatus}
-                className="mt-3 btn-lg fw-6 w-100"
-                onClick={() => setConfirmation(true)}
-              >
-                {t("Оформить заказ")}
-              </Button>
-            </Col>
-          </Row>
-          <Modal
-            fullscreen="sm-down"
-            size="md"
-            show={confirmation}
-            onHide={setConfirmation}
-            centered
-            closeButton
-          >
-            <Modal.Body>
-              <h5 className="fw-7 h5 mt-2 mb-4 text-center">
-                {t("Подтвердите заказ")}
-              </h5>
-              {!cart || cart?.length === 0 ? (
-                <Empty
-                  mini
-                  text={t("Ничего нет")}
-                  image={() => <EmptyCatalog />}
-                />
-              ) : (
-                <>
-                  <div className="box p-3 mb-3">
-                    <div className="fs-09">
-                      <div className="text-muted fs-08">
-                        {selectedAffiliate?.options?.hall ?? deliveryText}
-                      </div>
-                      {data?.delivery == "delivery" ? (
-                        <div>
-                          {`${data.address.street} ${data.address.home}${
-                            data.address.block
-                              ? " (корпус " + data.address.block + ")"
-                              : ""
-                          }, подъезд ${data.address.apartment}, этаж ${
-                            data.address.floor
-                          }, кв ${data.address.apartment}`}
-                        </div>
-                      ) : data?.delivery == "pickup" ? (
-                        <div>
-                          {selectedAffiliate && selectedAffiliate?.full
-                            ? selectedAffiliate.full
-                            : selectedAffiliate.title
-                            ? selectedAffiliate.title
-                            : t("Нет информации")}
-                          {selectedAffiliate && selectedAffiliate?.comment
-                            ? "(" + selectedAffiliate.comment + ")"
-                            : ""}
-                        </div>
+                  </label>
+                  <label className="d-flex align-items-center mb-3">
+                    <input
+                      type="radio"
+                      name="servingRadio"
+                      id="servingRadio2"
+                      defaultChecked={data.servingRadio === true}
+                      value={true}
+                      {...register("servingRadio")}
+                    />
+                    <span className="ms-2">
+                      {data.delivery == "delivery"
+                        ? t("Привезем")
+                        : t("Подадим")}{" "}
+                      {t("ко")} <b>{t("времени")}</b>
+                    </span>
+                  </label>
+                  {data?.servingRadio === "true" && (
+                    <div className="text-muted ms-4">
+                      {selectedAffiliate?.options?.interval &&
+                      Number(selectedAffiliate?.options?.interval) > 0 ? (
+                        <TimePicker
+                          startTime={
+                            selectedAffiliate.options.work[weekday].start
+                          }
+                          endTime={selectedAffiliate.options.work[weekday].end}
+                          interval={selectedAffiliate?.options?.interval}
+                          minMinuteTime={
+                            zone.data?.options?.preorderMin ??
+                            selectedAffiliate?.options?.preorderMin
+                          }
+                          maxDayDate={selectedAffiliate?.options?.preorderMax}
+                          value={data.serving}
+                          onChange={(e) => {
+                            setValue("serving", e);
+                          }}
+                        />
                       ) : (
                         <div>
-                          {selectedAffiliate && selectedAffiliate?.full
-                            ? selectedAffiliate.full
-                            : selectedAffiliate.title
-                            ? selectedAffiliate.title
-                            : t("Нет информации")}
-                          {selectedAffiliate && selectedAffiliate?.comment
-                            ? "(" + selectedAffiliate.comment + ")"
-                            : ""}
+                          <Input
+                            errors={errors}
+                            register={register}
+                            name="serving"
+                            type="datetime-local"
+                            defaultValue={
+                              data.serving
+                                ? moment(data.serving).format(
+                                    "YYYY-MM-DDTHH:mm"
+                                  )
+                                : moment()
+                                    .add(
+                                      zone.data?.options?.preorderMin ??
+                                        selectedAffiliate?.options
+                                          ?.preorderMin ??
+                                        90,
+                                      "minutes"
+                                    )
+                                    .format("YYYY-MM-DDTHH:mm")
+                            }
+                            validation={{
+                              min: {
+                                value: moment()
+                                  .add(
+                                    zone.data?.options?.preorderMin ??
+                                      selectedAffiliate?.options?.preorderMin ??
+                                      90,
+                                    "minutes"
+                                  )
+                                  .format("YYYY-MM-DDTHH:mm"),
+                                message: `${t("Минимум ")} ${moment()
+                                  .add(
+                                    zone.data?.options?.preorderMin ??
+                                      selectedAffiliate?.options?.preorderMin ??
+                                      90,
+                                    "minutes"
+                                  )
+                                  .format("YYYY-MM-DD HH:mm")}`,
+                              },
+                              max: {
+                                value: moment()
+                                  .add(
+                                    selectedAffiliate?.options?.preorderMax ??
+                                      30,
+                                    "days"
+                                  )
+                                  .format("YYYY-MM-DDTHH:mm"),
+                                message: `${t("Максимум ")} ${moment()
+                                  .add(
+                                    selectedAffiliate?.options?.preorderMax ??
+                                      30,
+                                    "days"
+                                  )
+                                  .format("YYYY-MM-DD HH:mm")}`,
+                              },
+                              validate: validateServing, // Добавляем кастомную валидацию
+                            }}
+                            min={moment()
+                              .add(
+                                zone.data?.options?.preorderMin ??
+                                  selectedAffiliate?.options?.preorderMin ??
+                                  90,
+                                "minutes"
+                              )
+                              .format("YYYY-MM-DDTHH:mm")}
+                            max={moment()
+                              .add(
+                                selectedAffiliate?.options?.preorderMax ?? 30,
+                                "days"
+                              )
+                              .format("YYYY-MM-DDTHH:mm")}
+                            className="input-date me-2"
+                          />
                         </div>
                       )}
                     </div>
-                    <div className="fs-09 mt-3">
-                      <div className="text-muted fs-08">
-                        {t("Способ оплаты")}
-                      </div>
-                      <div>{paymentText}</div>
+                  )}
+                </div>
+              </Col>
+              <Col md={12}>
+                <div className="mb-4">
+                  <p className="mb-2 fs-09">{t("Способ оплаты")}</p>
+                  <Row className="gx-2 gy-2">
+                    {paymentsData.map((e, index) => {
+                      let pay =
+                        checkout.delivery == "delivery"
+                          ? options?.delivery ?? []
+                          : options?.pickup ?? [];
+
+                      let count = paymentsData.filter(
+                        (item) => pay[item.value]
+                      )?.length;
+
+                      if (!pay[e.value]) {
+                        return null;
+                      }
+                      return (
+                        <Col
+                          key={index}
+                          xs={12}
+                          sm={count > 2 ? 4 : count === 1 ? 12 : 6}
+                          md={count > 2 ? 4 : count === 1 ? 12 : 6}
+                        >
+                          <PaymentItem
+                            onClick={(e) => setValue("payment", e.value)}
+                            data={e}
+                            active={e.value === data.payment}
+                          />
+                        </Col>
+                      );
+                    })}
+                  </Row>
+                </div>
+              </Col>
+              <Col md={12}>
+                <Textarea
+                  label={t("Комментарий")}
+                  name="comment"
+                  placeholder={t("Введите комментарий")}
+                  errors={errors}
+                  defaultValue={data?.comment}
+                  register={register}
+                />
+              </Col>
+            </Row>
+          </Col>
+          <Col xs={12} xl={4}>
+            {loadingDelivery ? (
+              <Loader mini />
+            ) : (
+              <>
+                <div className="cart-box mb-4">
+                  <h6>{t("Ваш заказ")}</h6>
+
+                  <ul className="list-unstyled">
+                    <CartItems items={cart} />
+                  </ul>
+                </div>
+                {user?.point > 0 && profilePointVisible && (
+                  <div className="cart-box px-3 mb-4 d-flex flex-row align-items-center justify-content-between">
+                    <div>
+                      <a>
+                        <b>
+                          {t("Потратить")} {customPrice(pointCheckout, false)}{" "}
+                          {t("баллов")}
+                        </b>
+                        <p className="fs-09 text-muted">
+                          {t("У вас всего")} {customPrice(user.point, false)}{" "}
+                          {t("баллов")}
+                        </p>
+                      </a>
                     </div>
-                    <div className="d-flex fs-09 align-items-center mt-3">
-                      <p>{t("Приборов")}:</p>
-                      <div className="fs-09 ms-1">{data.person}</div>
-                    </div>
-                    {data.comment && (
-                      <div className="fs-09 mt-3">
-                        <div className="text-muted fs-08">
-                          {t("Комментарий")}
-                        </div>
-                        <div>{data.comment}</div>
-                      </div>
-                    )}
+
+                    <label>
+                      <input
+                        type="checkbox"
+                        role="switch"
+                        control={control}
+                        {...register("pointSwitch")}
+                      />
+                    </label>
                   </div>
-                  <p className="fw-7 px-md-3">Товары</p>
-                  {cart.map((item) => (
-                    <CartItem
-                      data={{ ...item, themeProduct: 0, noCount: true }}
-                    />
-                  ))}
+                )}
+                <div className="d-flex justify-content-between my-2">
+                  <span>{t("Стоимость товаров")}</span>
+                  <span>{customPrice(price)}</span>
+                </div>
+                {discount > 0 && (
+                  <div className="d-flex justify-content-between my-2">
+                    <span>{t("Скидка")}</span>
+                    <span className="text-success">
+                      -{customPrice(discount)}
+                    </span>
+                  </div>
+                )}
+                {pickupDiscount > 0 && (
+                  <div className="d-flex justify-content-between my-2">
+                    <span>{t("Скидка за самовывоз")}</span>
+                    <span className="text-success">
+                      -{customPrice(pickupDiscount)}
+                    </span>
+                  </div>
+                )}
+                {pointCheckout > 0 && pointSwitch && (
+                  <div className="d-flex justify-content-between my-2">
+                    <span>{t("Списание баллов")}</span>
+                    <span className="text-success">
+                      -{customPrice(pointCheckout)}
+                    </span>
+                  </div>
+                )}
+                {pointAccrual > 0 && (
+                  <div className="d-flex justify-content-between my-2">
+                    <span>{t("Начислится баллов")}</span>
+                    <span className="text-success">
+                      +{customPrice(pointAccrual)}
+                    </span>
+                  </div>
+                )}
+                {options?.promoVisible && promo && (
+                  <div className="d-flex justify-content-between my-2">
+                    <div>
+                      <div className="text-muted fs-08">{t("Промокод")}</div>
+                      <div className="fw-6">{promo.title.toUpperCase()}</div>
+                    </div>
+                    <span className="d-flex align-items-center">
+                      {promo.options?.discount &&
+                      Number(promo.options?.discount) > 0 ? (
+                        <span className="text-success">
+                          -{" "}
+                          {Number.isInteger(Number(promo.options?.discount)) > 0
+                            ? customPrice(promo.options.discount)
+                            : promo.options?.discount}
+                        </span>
+                      ) : (
+                        ""
+                      )}
+                      {promo.options?.percent &&
+                      Number(promo.options?.percent > 0) ? (
+                        <span className="text-success">
+                          -{" "}
+                          {Number.isInteger(Number(promo.options?.percent)) > 0
+                            ? promo.options?.percent + "%"
+                            : promo.options?.percent}
+                        </span>
+                      ) : (
+                        ""
+                      )}
+                      <a
+                        onClick={() => {
+                          dispatch(cartDeleteProduct(promo.product));
+                          setValue("promo", "");
+                          dispatch(cartDeletePromo());
+                        }}
+                        className="ms-2 text-danger"
+                      >
+                        <IoTrashOutline size={18} />
+                      </a>
+                    </span>
+                  </div>
+                )}
+                <hr className="my-3" />
+                <div className="mb-5">
+                  {totalNoDelivery != total && (
+                    <div className="d-flex justify-content-between mb-2">
+                      <span className="fw-6 fs-10">{t("Сумма заказа")}</span>
+                      <span className="fw-6">
+                        {customPrice(totalNoDelivery)}
+                      </span>
+                    </div>
+                  )}
                   {data?.delivery == "delivery" && zone?.data && (
-                    <div className="px-md-3 d-flex justify-content-between mb-2">
+                    <div className="d-flex justify-content-between mb-2">
                       <span className="fw-6 fs-10">{t("Доставка")}</span>
                       <span className="fw-6">
                         {delivery > 0
@@ -1331,31 +1236,231 @@ const Checkout = () => {
                       </span>
                     </div>
                   )}
-                  <div className="px-md-3 d-flex justify-content-between">
+                  <div className="d-flex justify-content-between">
                     <span className="fw-7 fs-11">{t("Итого")}</span>
                     <span className="fw-7">{customPrice(total)}</span>
                   </div>
-                </>
-              )}
-            </Modal.Body>
-            <Modal.Footer closeButton className="fw-7">
-              <Button
-                type="submit"
-                disabled={!isValidBtn() || !isWorkStatus}
-                className={"fw-6 btn-lg w-100 " + (isLoading ? "loading" : "")}
-                onClick={handleSubmit(onSubmit)}
-              >
-                {t("Подтвердить заказ")}
-              </Button>
-              <Button
-                className="mt-3 btn-lg fw-6 w-100 btn-light"
-                onClick={() => setConfirmation(false)}
-              >
-                {t("Отмена")}
-              </Button>
-            </Modal.Footer>
-          </Modal>
-        </form>
+                </div>
+                {checkout.delivery == "delivery" &&
+                zone?.data?.minPrice > totalNoDelivery ? (
+                  <div className="text-danger text-center">
+                    {t("Минимальная сумма для доставки")}{" "}
+                    {customPrice(zone?.data.minPrice)}
+                  </div>
+                ) : !isWorkStatus ? (
+                  <div className="text-danger text-center">
+                    {`${t("Мы работаем с")} ${
+                      selectedAffiliate.options.work[weekday].start
+                    } ${t("до")} ${
+                      selectedAffiliate.options.work[weekday].end
+                    }`}
+                  </div>
+                ) : (
+                  data?.delivery == "delivery" &&
+                  !zone?.data &&
+                  address.length > 0 && (
+                    <div className="text-danger text-center">
+                      {t("Доставка на данный адрес не производится")}
+                    </div>
+                  )
+                )}
+                {data?.delivery == "delivery" &&
+                  (!Array.isArray(address) || address.length <= 0) && (
+                    <div className="text-danger text-center">
+                      {t("Добавьте адрес доставки")}
+                    </div>
+                  )}
+                <Button
+                  disabled={!isValidBtn() || !isWorkStatus}
+                  className={
+                    "mt-3 mb-3 btn-lg fw-6 w-100" +
+                    (isLoading ? " loading" : "")
+                  }
+                  onClick={() => setConfirmation(true)}
+                >
+                  {t("Оформить заказ")}
+                </Button>
+              </>
+            )}
+          </Col>
+        </Row>
+        <Modal
+          fullscreen="sm-down"
+          size="md"
+          show={confirmation}
+          onHide={setConfirmation}
+          centered
+          closeButton
+        >
+          <Modal.Body>
+            <h5 className="fw-7 h5 mt-2 mb-4 text-center">
+              {t("Подтвердите заказ")}
+            </h5>
+            {!cart || cart?.length === 0 ? (
+              <Empty
+                mini
+                text={t("Ничего нет")}
+                image={() => <EmptyCatalog />}
+              />
+            ) : (
+              <>
+                <div className="box p-3 mb-3">
+                  {data?.name && (
+                    <div className="fs-09 mb-3">
+                      <div className="text-muted fs-08">{t("Имя")}</div>
+                      <div>{data.name}</div>
+                    </div>
+                  )}
+                  {data?.phone && (
+                    <div className="fs-09 mb-3">
+                      <div className="text-muted fs-08">
+                        {t("Номер телефона")}
+                      </div>
+                      <div>+{data.phone}</div>
+                    </div>
+                  )}
+                  <div className="fs-09">
+                    <div className="text-muted fs-08">
+                      {selectedAffiliate?.options?.hall ?? deliveryText}
+                    </div>
+                    {data?.delivery == "delivery" ? (
+                      <div>
+                        {data?.address?.full ??
+                          `${data.address.street} ${data.address.home}${
+                            data.address.block
+                              ? " (корпус " + data.address.block + ")"
+                              : ""
+                          }, подъезд ${data.address.apartment}, этаж ${
+                            data.address.floor
+                          }, кв ${data.address.apartment}`}
+                      </div>
+                    ) : data?.delivery == "pickup" ? (
+                      <div>
+                        {selectedAffiliate && selectedAffiliate?.full
+                          ? selectedAffiliate.full
+                          : selectedAffiliate.title
+                          ? selectedAffiliate.title
+                          : t("Нет информации")}
+                        {selectedAffiliate && selectedAffiliate?.comment
+                          ? "(" + selectedAffiliate.comment + ")"
+                          : ""}
+                      </div>
+                    ) : (
+                      <div>
+                        {selectedAffiliate && selectedAffiliate?.full
+                          ? selectedAffiliate.full
+                          : selectedAffiliate.title
+                          ? selectedAffiliate.title
+                          : t("Нет информации")}
+                        {selectedAffiliate && selectedAffiliate?.comment
+                          ? "(" + selectedAffiliate.comment + ")"
+                          : ""}
+                      </div>
+                    )}
+                  </div>
+                  {!data?.serving &&
+                  Number(zone?.data?.time) > 0 &&
+                  data?.delivery == "delivery" ? (
+                    <div className="fs-09 mt-3">
+                      <div className="text-muted fs-08">
+                        {t("Среднее время доставки")}
+                      </div>
+                      <div>{formatDeliveryTime(zone.data.time)}</div>
+                    </div>
+                  ) : (
+                    !data?.serving &&
+                    Number(selectedAffiliate?.options?.time) > 0 &&
+                    data?.delivery == "pickup" && (
+                      <div className="fs-09 mt-3">
+                        <div className="text-muted fs-08">
+                          {t("Среднее время приготовления")}
+                        </div>
+                        <div>
+                          {formatDeliveryTime(selectedAffiliate.options.time)}
+                        </div>
+                      </div>
+                    )
+                  )}
+                  <div className="fs-09 mt-3">
+                    <div className="text-muted fs-08">{t("Способ оплаты")}</div>
+                    <div>{paymentText}</div>
+                  </div>
+                  {data?.serving && (
+                    <div className="fs-09 mt-3">
+                      <div className="text-muted fs-08">{t("Предзаказ")}</div>
+                      <div>
+                        {moment(data.serving).format("DD.MM.YYYY HH:mm")}
+                      </div>
+                    </div>
+                  )}
+                  {data.person > 1 && (
+                    <div className="d-flex fs-09 align-items-center mt-3">
+                      <p>{t("Приборов")}:</p>
+                      <div className="fs-09 ms-1">{data.person}</div>
+                    </div>
+                  )}
+                  {data.commentСourier && (
+                    <div className="fs-09 mt-3">
+                      <div className="text-muted fs-08">
+                        {t("Комментарий курьеру")}
+                      </div>
+                      <div>{data.commentСourier}</div>
+                    </div>
+                  )}
+                  {data.comment && (
+                    <div className="fs-09 mt-3">
+                      <div className="text-muted fs-08">{t("Комментарий")}</div>
+                      <div>{data.comment}</div>
+                    </div>
+                  )}
+                </div>
+                <p className="fw-7 px-md-3">Товары</p>
+                <div className="mb-3">
+                  {cart.map((item) => (
+                    <CartItem
+                      data={{
+                        ...item,
+                        themeProduct: 0,
+                        noCount: true,
+                        noComment: true,
+                      }}
+                    />
+                  ))}
+                </div>
+                {data?.delivery == "delivery" && zone?.data && (
+                  <div className="px-md-3 d-flex justify-content-between mb-2">
+                    <span className="fw-6 fs-10">{t("Доставка")}</span>
+                    <span className="fw-6">
+                      {delivery > 0
+                        ? "+" + customPrice(delivery)
+                        : t("Бесплатно")}
+                    </span>
+                  </div>
+                )}
+                <div className="px-md-3 d-flex justify-content-between">
+                  <span className="fw-7 fs-11">{t("Итого")}</span>
+                  <span className="fw-7">{customPrice(total)}</span>
+                </div>
+              </>
+            )}
+          </Modal.Body>
+          <Modal.Footer closeButton className="fw-7">
+            <Button
+              type="submit"
+              disabled={!isValidBtn() || !isWorkStatus}
+              className={"fw-6 btn-lg w-100" + (isLoading ? " loading" : "")}
+              onClick={handleSubmit(onSubmit)}
+            >
+              {t("Подтвердить заказ")}
+            </Button>
+            <Button
+              className="mt-3 btn-lg fw-6 w-100 btn-light"
+              onClick={() => setConfirmation(false)}
+            >
+              {t("Отмена")}
+            </Button>
+          </Modal.Footer>
+        </Modal>
       </Container>
     </main>
   );
