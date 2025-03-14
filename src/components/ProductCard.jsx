@@ -267,6 +267,7 @@ const ProductCard = memo(({ data, onLoad }) => {
             >
               {sortMain(data?.medias).map((e, index) => (
                 <LazyLoadImage
+                  draggable="false"
                   className={activeIndex === index ? "show" : "hide"}
                   src={getImageURL({
                     path: e.media,

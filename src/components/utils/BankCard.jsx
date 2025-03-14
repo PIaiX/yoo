@@ -9,7 +9,7 @@ const BankCard = () => {
     <div className="bankcard">
       <div className="d-flex justify-content-between align-items-center">
         <img src="imgs/tinkoff.jpg" alt="tinkoff" className="bankcard-logo" />
-        <button
+        <button draggable={false} 
           type="button"
           onClick={() => setShowDelConfirmation(true)}
           className="d-flex"
@@ -31,21 +31,21 @@ const BankCard = () => {
         onHide={() => setShowDelConfirmation(false)}
       >
         <Modal.Body className="p-5">
-          <button type="button" className="close">
+          <button draggable={false}  type="button" className="close">
             <HiXMark />
           </button>
           <h6 className="text-center">
             Вы уверены, что хотите удалить данную карту?
           </h6>
           <div className="d-flex">
-            <button
+            <button draggable={false} 
               type="button"
               className="btn-secondary px-5 mx-auto mt-4"
               onClick={() => setShowDelConfirmation(false)}
             >
               Нет
             </button>
-            <button
+            <button draggable={false} 
               type="button"
               className="btn-primary px-5 mx-auto mt-4"
               onClick={() => setShowDelConfirmation(false)}

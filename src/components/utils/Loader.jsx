@@ -21,7 +21,11 @@ const Loader = memo(({ mini = false }) => {
           <div className="position-relative">
             <div className="spinner"></div>
             <div className="delivery-loader">
-              <img src="/imgs/delivery-loading.png" width="35" />
+              <img
+                draggable="false"
+                src="/imgs/delivery-loading.png"
+                width="35"
+              />
             </div>
           </div>
           {show && (
@@ -29,7 +33,7 @@ const Loader = memo(({ mini = false }) => {
               <p className="fs-08">
                 Если загрузка не завершилась, попробуйте очистить кеш
               </p>
-              <button className="btn btn-light mt-2 btn-sm" onClick={onClear}>
+              <button draggable={false}  className="btn btn-light mt-2 btn-sm" onClick={onClear}>
                 Очистить кеш
               </button>
             </div>
@@ -46,7 +50,11 @@ const Loader = memo(({ mini = false }) => {
           <div className="position-relative">
             <div className="spinner"></div>
             <div className="delivery-loader">
-              <img src="/imgs/delivery-loading.png" width="35" />
+              <img
+                draggable="false"
+                src="/imgs/delivery-loading.png"
+                width="35"
+              />
             </div>
           </div>
           {show && (
@@ -54,7 +62,7 @@ const Loader = memo(({ mini = false }) => {
               <p className="fs-08">
                 Если загрузка не завершилась, попробуйте очистить кеш
               </p>
-              <button className="btn btn-light mt-2 btn-sm" onClick={onClear}>
+              <button draggable={false}  className="btn btn-light mt-2 btn-sm" onClick={onClear}>
                 Очистить кеш
               </button>
             </div>

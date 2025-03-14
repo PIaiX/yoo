@@ -5,7 +5,7 @@ const StoryBig = memo(({ data, ...props }) => {
   const image = getImageURL({ path: data.medias, size: "full", type: "story" });
   return (
     <figure className="story-big">
-      <img src={image} alt={data.title} />
+      <img  draggable="false" src={image} alt={data.title} />
     </figure>
   );
 });

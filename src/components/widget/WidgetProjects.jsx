@@ -33,7 +33,7 @@ const WidgetProjects = memo((data) => {
           <Empty
             mini
             text="Проектов нет"
-            image={() => <img src="/images/empty-catalog.png" width="30%" />}
+            image={() => <img draggable="false" src="/images/empty-catalog.png" width="30%" />}
           />
         )}
       </Container>

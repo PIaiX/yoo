@@ -36,7 +36,7 @@ const ProductModalComponent = memo(({ product, setProduct }) => {
       size="xl"
       scrollable
     >
-      <button
+      <button draggable={false} 
         type="button"
         onClick={handleClose}
         className="btn-close btn-close-fixed"
@@ -89,7 +89,7 @@ const Catalog = memo(({ data }) => {
     <section className="sec-3 mb-5">
       {viewCategories ? (
         <Container className="box">
-          <button
+          <button draggable={false} 
             type="button"
             onClick={toggleViewCategories}
             className="d-none d-md-flex btn-view mb-3 ms-auto me-4"
@@ -106,7 +106,7 @@ const Catalog = memo(({ data }) => {
                   </Col>
                 ))}
               </Row>
-              <button type="button" className="main-color mx-auto mt-4">
+              <button draggable={false}  type="button" className="main-color mx-auto mt-4">
                 <span>показать все</span>
                 <HiOutlineArrowUturnDown className="fs-15 ms-3 main-color rotateY-180" />
               </button>

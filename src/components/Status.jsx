@@ -27,7 +27,7 @@ const Status = memo((props) => {
     >
       {active && statusImage ? (
         <div className="img">
-          <img src={statusImage} />
+          <img  draggable="false" src={statusImage} />
         </div>
       ) : (
         statusIcon && statusIcon

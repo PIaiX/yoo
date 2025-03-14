@@ -626,7 +626,7 @@ const ProductModal = memo((data) => {
                   <div className="productPage-edit mb-0">
                     <div className="top">
                       {product?.additions?.length > 0 && (
-                        <button
+                        <button draggable={false} 
                           type="button"
                           className={isRemove ? "" : "active"}
                           onClick={() => setIsRemove(false)}
@@ -637,7 +637,7 @@ const ProductModal = memo((data) => {
                         </button>
                       )}
                       {product?.wishes?.length > 0 && (
-                        <button
+                        <button draggable={false} 
                           type="button"
                           className={
                             isRemove

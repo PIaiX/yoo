@@ -6,7 +6,7 @@ const SwiperButtonPrev = () => {
   const swiper = useSwiper();
   const locked = swiper.isLocked ? " locked" : "";
   return (
-    <button
+    <button draggable={false} 
       className={"swiper-arrow-prev" + locked}
       onClick={() => swiper.slidePrev()}
     >

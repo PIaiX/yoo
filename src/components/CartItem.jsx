@@ -61,7 +61,7 @@ const CartItem = memo(({ data }) => {
       }
     >
       <div className="left">
-        <img src={getImageURL({ path: data.medias })} alt={data.title} />
+        <img  draggable="false" src={getImageURL({ path: data.medias })} alt={data.title} />
         <div className="text">
           <h6>
             <span className={data?.cart?.modifiers?.length > 0 ? "me-2" : ""}>
@@ -298,7 +298,7 @@ const CartItem = memo(({ data }) => {
             />
           </Modal.Body>
           <Modal.Footer>
-            <button
+            <button draggable={false} 
               type="submit"
               disabled={!isValid}
               onClick={handleSubmit(onSubmit)}

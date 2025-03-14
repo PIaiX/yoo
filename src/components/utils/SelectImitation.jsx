@@ -60,7 +60,7 @@ const SelectImitation = (props) => {
       </Dropdown.Menu>
     </Dropdown>
     // <div ref={ref} className={'select '+props.boxClass}>
-    //   <button type='button' onClick={()=>setShowOptions(!showOptions)} className={'select-button '+props.btnClass}>
+    //   <button draggable={false}  type='button' onClick={()=>setShowOptions(!showOptions)} className={'select-button '+props.btnClass}>
     //     <div className="select-button-value">
     //       {
     //         (options.find(item => item.defaultChecked === true))

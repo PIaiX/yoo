@@ -7,7 +7,7 @@ const OfferProduct = () => {
   return (
     <div className="offer-product">
       <Link to="/product" className="offer-product-img">
-        <img src="imgs/img3.png" alt="Ролл «Филадельфия»" />
+        <img draggable="false" src="imgs/img3.png" alt="Ролл «Филадельфия»" />
       </Link>
       <div className="offer-product-about">
         <h6>
@@ -18,7 +18,7 @@ const OfferProduct = () => {
           чили, темпура,{" "}
         </p>
         <p className="d-none d-md-block">230г</p>
-        <button type="button" className="d-none d-md-flex align-items-center">
+        <button draggable={false}  type="button" className="d-none d-md-flex align-items-center">
           <span>Показать ещё</span>
           <IoCaretDownOutline className="fs-08 ms-2" />
         </button>
@@ -29,15 +29,12 @@ const OfferProduct = () => {
           <div className="gray fs-08 text-decoration-line-through"> 650 </div>
         </div>
 
-        <button
-          type="button"
-          className="d-md-none btn-light ms-3 ms-xl-4"
-        >
+        <button draggable={false}  type="button" className="d-md-none btn-light ms-3 ms-xl-4">
           <span className="fw-4 me-2">Добавить</span>
           <HiOutlineShoppingBag className="fs-13" />
         </button>
 
-        <button
+        <button draggable={false} 
           type="button"
           className="d-none d-md-flex btn-secondary ms-3 ms-xl-4"
         >

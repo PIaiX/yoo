@@ -53,7 +53,7 @@ const DeliveryBar = memo(() => {
                   : "full"
               }
             ></div>
-            <img src="/imgs/scooter.png" alt="delivery" />
+            <img draggable="false"  src="/imgs/scooter.png" alt="delivery" />
           </div>
         </div>
       </div>

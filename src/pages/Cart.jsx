@@ -415,7 +415,7 @@ const Cart = () => {
                     Все <span className="d-none d-sm-inline">товары</span>
                   </span>
                 </label> */}
-                {/* <button
+                {/* <button draggable={false} 
                   type="button"
                   className="d-flex align-items-center dark-gray ms-auto"
                 >
@@ -432,7 +432,7 @@ const Cart = () => {
                     ["товар", "товара", "товаров"].map((e) => t(e))
                   )}
                 </h6>
-                <button
+                <button draggable={false} 
                   type="button"
                   className="btn-9 py-1 ms-4 ms-sm-5"
                   onClick={() => setShowReset(true)}
@@ -466,7 +466,7 @@ const Cart = () => {
                         register={register}
                         maxLength={100}
                       />
-                      <button
+                      <button draggable={false} 
                         type="button"
                         disabled={!isValid || form?.loading}
                         onClick={handleSubmit(onPromo)}
@@ -606,7 +606,7 @@ const Cart = () => {
         </Modal.Header>
         <Modal.Body>{t("Вы подтверждаете очистку корзину?")}</Modal.Body>
         <Modal.Footer>
-          <button
+          <button draggable={false} 
             onClick={() => {
               setShowReset(false);
             }}
@@ -614,7 +614,7 @@ const Cart = () => {
           >
             {t("Отмена")}
           </button>
-          <button
+          <button draggable={false} 
             onClick={() => {
               dispatch(deleteCart());
               setShowReset(false);

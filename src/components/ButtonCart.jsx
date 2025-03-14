@@ -135,6 +135,7 @@ const ButtonCart = memo(
       if (product.type === "gift" || product.type === "promo") {
         return (
           <button
+            draggable={false}
             type="button"
             className="btn-light active"
             onClick={() => onPress(0)}
@@ -164,6 +165,7 @@ const ButtonCart = memo(
 
     return (
       <button
+        draggable={false}
         disabled={!isValid}
         onClick={() =>
           product?.cart?.data?.modifiers?.length > 0

@@ -11,6 +11,7 @@ const Offer = ({ data }) => {
     <div className="offer">
       {data?.medias && (
         <Link
+          draggable={false}
           to={
             data?.options?.link
               ? data.options.link
@@ -20,6 +21,7 @@ const Offer = ({ data }) => {
           }
         >
           <LazyLoadImage
+            draggable={false}
             src={getImageURL({
               path: data.medias,
               type: "sale",

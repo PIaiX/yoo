@@ -6,7 +6,7 @@ const WidgetCategoryItem = memo(({ data }) => {
   const image = getImageURL({ path: data.media, type: "category" });
   return (
     <figure className="category-card">
-      {image && <img src={image} alt={data.title} />}
+      {image && <img  draggable="false" src={image} alt={data.title} />}
       <figcaption>
         <h6>
           <Link to={`/category/${data.id}`} className="stretched-link">

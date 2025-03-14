@@ -87,27 +87,27 @@ const Blogs = () => {
               <h5 className="fs-12">Новости по категориям</h5>
               <ul className="fs-09 list-unstyled d-flex flex-wrap mb-4 mb-md-5">
                 <li className="me-2 mb-2">
-                  <button type="button" className="btn-secondary">
+                  <button draggable={false}  type="button" className="btn-secondary">
                     Тег 1
                   </button>
                 </li>
                 <li className="me-2 mb-2">
-                  <button type="button" className="btn-secondary">
+                  <button draggable={false}  type="button" className="btn-secondary">
                     категория новостей
                   </button>
                 </li>
                 <li className="me-2 mb-2">
-                  <button type="button" className="btn-secondary">
+                  <button draggable={false}  type="button" className="btn-secondary">
                     новости
                   </button>
                 </li>
                 <li className="me-2 mb-2">
-                  <button type="button" className="btn-secondary">
+                  <button draggable={false}  type="button" className="btn-secondary">
                     категория №2
                   </button>
                 </li>
                 <li className="me-2 mb-2">
-                  <button type="button" className="btn-secondary">
+                  <button draggable={false}  type="button" className="btn-secondary">
                     Тег 2
                   </button>
                 </li>

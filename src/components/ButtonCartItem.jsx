@@ -26,7 +26,7 @@ const ButtonCartItem = memo(({ product }) => {
 
   if (product?.type === "gift" || product?.type === "promo") {
     return (
-      <button
+      <button draggable={false} 
         type="button"
         className="btn-light active"
         onClick={() => onPress(0)}

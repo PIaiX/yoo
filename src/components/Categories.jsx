@@ -95,7 +95,7 @@ const Categories = memo(({ className, data }) => {
                 ))}
               </Swiper>
             </div>
-            <button
+            <button draggable={false} 
               type="button"
               onClick={isFull ? handleCollapse : handleExpand}
               className="categories-btn ms-auto"

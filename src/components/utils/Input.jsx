@@ -68,7 +68,7 @@ const Input = memo(
                 min={min}
                 max={max}
               />
-              <button type="button" onClick={() => setVisibility(!visible)}>
+              <button draggable={false}  type="button" onClick={() => setVisibility(!visible)}>
                 {visible ? <Eye /> : <CloseEye />}
               </button>
             </div>

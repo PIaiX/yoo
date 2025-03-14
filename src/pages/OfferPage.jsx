@@ -98,6 +98,7 @@ const OfferPage = () => {
             <Col xs={12} xl={8} lg={10} md={12} sm={12}>
               <figure className="offer full">
                 <LazyLoadImage
+                  draggable={false}
                   src={getImageURL({
                     path: sale.data.medias,
                     type: "sale",

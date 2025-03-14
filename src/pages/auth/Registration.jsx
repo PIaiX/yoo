@@ -485,7 +485,7 @@ const Registration = () => {
         <section className="align-items-center login justify-content-center justify-content-lg-between d-flex">
           <div ref={block2} className="login-forms">
             {loginView ? regForm : loginForm}
-            <button
+            <button draggable={false} 
               type="button"
               onClick={() => setLoginView(!loginView)}
               className="btn btn-lg btn-white d-block w-100 rounded-3 d-lg-none fw-6 mx-auto mt-4"
@@ -512,7 +512,7 @@ const Registration = () => {
                 <p>{t("Войдите в личный кабинет")}</p>
               </div>
             </div>
-            <button
+            <button draggable={false} 
               type="button"
               onClick={handleClick}
               className="btn btn-primary btn-lg rounded-3 fw-6 mx-auto mt-4"
@@ -533,7 +533,7 @@ const Registration = () => {
           </Modal.Header> */}
 
           <Modal.Body>
-            <button
+            <button draggable={false} 
               type="button"
               className="close"
               onClick={() => setModalQr(false)}

@@ -10,10 +10,10 @@ const ProjectItem = memo(({ data }) => {
   });
   return (
     <figure className="project-card">
-      <img src={image} alt={data.title} />
+      <img  draggable="false" src={image} alt={data.title} />
       <figcaption>
         <h6>
-          <Link to={`/project/${data.id}`} className="stretched-link">
+          <Link draggable={false} to={`/project/${data.id}`} className="stretched-link">
             {data.title}
           </Link>
         </h6>

@@ -47,12 +47,15 @@ const Select = memo(
       return (
         <>
           {label && (
-            <label className="select-label mb-2"  onClick={(e) => {
-              if (data?.length > 1) {
-                e.preventDefault();
-                onClick(e);
-              }
-            }}>
+            <label
+              className="select-label mb-2"
+              onClick={(e) => {
+                if (data?.length > 1) {
+                  e.preventDefault();
+                  onClick(e);
+                }
+              }}
+            >
               {label}
             </label>
           )}
@@ -77,7 +80,13 @@ const Select = memo(
               }
             >
               {item?.image && (
-                <img src={item.image} height={20} width={20} className="me-2" />
+                <img
+                  draggable="false"
+                  src={item.image}
+                  height={20}
+                  width={20}
+                  className="me-2"
+                />
               )}
               {titleFind}
             </span>
@@ -92,8 +101,8 @@ const Select = memo(
     });
 
     return (
-      <Dropdown  className="select">
-        <Dropdown.Toggle  as={CustomToggle} />
+      <Dropdown className="select">
+        <Dropdown.Toggle as={CustomToggle} />
         <Dropdown.Menu className="select-options">
           {data && search && (
             <div className="mb-2 bg-body position-sticky top-0">
@@ -107,6 +116,7 @@ const Select = memo(
           {searchData.length > 0
             ? searchData.map((e, index) => (
                 <Dropdown.Item
+                  draggable={false}
                   key={index}
                   active={
                     localValue?.id && e.value?.id
@@ -123,6 +133,7 @@ const Select = memo(
                 >
                   {image && (
                     <img
+                      draggable={false}
                       src="/images/lang/fr.svg"
                       height={17}
                       width={24}
@@ -135,6 +146,7 @@ const Select = memo(
             : data.length > 0 &&
               data.map((e, index) => (
                 <Dropdown.Item
+                  draggable={false}
                   key={index}
                   active={
                     localValue?.id && e.value?.id
@@ -151,6 +163,7 @@ const Select = memo(
                 >
                   {e?.image && (
                     <img
+                      draggable={false}
                       src={e.image}
                       height={20}
                       width={20}

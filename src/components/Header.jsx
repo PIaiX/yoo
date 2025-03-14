@@ -199,9 +199,10 @@ const Header = memo(() => {
       <header>
         <Container className="h-100">
           <nav className="h-100">
-            <div className="d-flex align-items-center">
-              <Link to="/" className="me-2 me-xxl-3">
+            <div className="user-select d-flex align-items-center">
+              <Link draggable="false" to="/" className="me-2 me-xxl-3">
                 <img
+                  draggable="false"
                   src={
                     options?.multiBrand
                       ? getImageURL({
@@ -267,6 +268,7 @@ const Header = memo(() => {
                       </p>
                       <div className="d-flex align-items-center justify-content-center">
                         <Link
+                          draggable="false"
                           className="btn btn-sm btn-primary me-2"
                           onClick={() => {
                             dispatch(updateGps(true));
@@ -275,6 +277,7 @@ const Header = memo(() => {
                           {t("Да")}
                         </Link>
                         <Link
+                          draggable="false"
                           className="btn btn-sm btn-light"
                           onClick={() => setShowCity(true)}
                         >
@@ -296,7 +299,7 @@ const Header = memo(() => {
                 )}
               </ul>
             </div>
-            <ul className="text-menu d-none d-lg-flex">
+            <ul className="user-select text-menu d-none d-lg-flex">
               {options?.menu && options?.menu?.length > 0 ? (
                 [...options.menu]
                   .sort((a, b) => a.order - b.order)
@@ -305,6 +308,7 @@ const Header = memo(() => {
                       e?.status && (
                         <li key={index}>
                           <Link
+                            draggable="false"
                             target={e?.link ? "_blank" : ""}
                             to={e?.link ?? e.page}
                             // className={e.type == "dark" ? "btn-primary" : ""}
@@ -318,12 +322,12 @@ const Header = memo(() => {
               ) : (
                 <>
                   <li>
-                    <Link to="/contact" className="fw-6">
+                    <Link draggable="false" to="/contact" className="fw-6">
                       {t("Контакты")}
                     </Link>
                   </li>
                   <li>
-                    <Link to="/promo" className="fw-6">
+                    <Link draggable="false" to="/promo" className="fw-6">
                       {t("Акции")}
                     </Link>
                   </li>
@@ -403,12 +407,13 @@ const Header = memo(() => {
 
             <ul className="icons-menu">
               <li className="d-none d-lg-block">
-                <Link to="/search">
+                <Link draggable="false" to="/search">
                   <HiOutlineMagnifyingGlass size={25} />
                 </Link>
               </li>
               <li className="d-none d-lg-block">
                 <Link
+                  draggable="false"
                   to={
                     isAuth
                       ? user?.status === 0
@@ -421,7 +426,11 @@ const Header = memo(() => {
                     (moment().format("MM") === "12" ||
                       moment().format("MM") == "01" ||
                       moment().format("MM") == "02") && (
-                      <img src="/imgs/cap.png" className="cap" />
+                      <img
+                        draggable="false"
+                        src="/imgs/cap.png"
+                        className="cap"
+                      />
                     )}
                   <HiOutlineUserCircle size={25} />
                   {(notification?.message > 0 || notification?.order > 0) && (
@@ -435,7 +444,11 @@ const Header = memo(() => {
               </li>
               {options?.cart && (
                 <li className="d-none d-lg-block">
-                  <Link to="/cart" className="position-relative">
+                  <Link
+                    draggable="false"
+                    to="/cart"
+                    className="position-relative"
+                  >
                     <HiOutlineShoppingBag size={25} />
                     {count > 0 && (
                       <span className="position-absolute top-100 start-100 translate-middle badge rounded-pill">
@@ -459,6 +472,7 @@ const Header = memo(() => {
               )} */}
               <li className="d-lg-none">
                 <button
+                  draggable={false}
                   type="button"
                   onClick={() => setShowMenu(!showMenu)}
                   className="btn-menu"
@@ -514,6 +528,7 @@ const Header = memo(() => {
                     <>
                       <li key={0}>
                         <a
+                          draggable="false"
                           href={"tel:" + selectedAffiliate.phone[0]}
                           className="phone"
                         >
@@ -559,7 +574,10 @@ const Header = memo(() => {
                             </Popover>
                           }
                         >
-                          <a className="d-flex text-muted fw-4 fs-08">
+                          <a
+                            draggable="false"
+                            className="d-flex text-muted fw-4 fs-08"
+                          >
                             {moment.weekdaysShort(moment().weekday() + 1)}
                             :&nbsp;
                             {t("с")}&nbsp;
@@ -581,6 +599,7 @@ const Header = memo(() => {
                       e?.status && (
                         <li key={index}>
                           <Link
+                            draggable="false"
                             to={e?.link ?? e.page}
                             onClick={() => setShowMenu(false)}
                           >
@@ -592,17 +611,27 @@ const Header = memo(() => {
                 ) : (
                   <>
                     <li>
-                      <Link to="/contact">{t("Контакты")}</Link>
+                      <Link draggable="false" to="/contact">
+                        {t("Контакты")}
+                      </Link>
                     </li>
                     <li>
-                      <Link to="/contact" onClick={() => setShowMenu(false)}>
+                      <Link
+                        draggable="false"
+                        to="/contact"
+                        onClick={() => setShowMenu(false)}
+                      >
                         {t("Оплата и доставка")}
                       </Link>
                     </li>
                   </>
                 )}
                 <li>
-                  <Link to="/policy" onClick={() => setShowMenu(false)}>
+                  <Link
+                    draggable="false"
+                    to="/policy"
+                    onClick={() => setShowMenu(false)}
+                  >
                     {t("Политика конфиденциальности")}
                   </Link>
                 </li>
@@ -632,7 +661,12 @@ const Header = memo(() => {
                             : "")
                         }
                       >
-                        <img src={AppStore} alt="App Store" height="50" />
+                        <img
+                          draggable="false"
+                          src={AppStore}
+                          alt="App Store"
+                          height="50"
+                        />
                       </a>
                     </li>
                   ) : /Android/i.test(navigator.userAgent) ? (
@@ -649,7 +683,12 @@ const Header = memo(() => {
                             : options.app.name)
                         }
                       >
-                        <img src={GooglePlay} alt="Google Play" height="50" />
+                        <img
+                          draggable="false"
+                          src={GooglePlay}
+                          alt="Google Play"
+                          height="50"
+                        />
                       </a>
                     </li>
                   ) : (
@@ -673,7 +712,12 @@ const Header = memo(() => {
                                 : "")
                             }
                           >
-                            <img src={AppStore} alt="App Store" height="35" />
+                            <img
+                              draggable="false"
+                              src={AppStore}
+                              alt="App Store"
+                              height="35"
+                            />
                           </a>
                         </li>
                       )}
@@ -687,7 +731,12 @@ const Header = memo(() => {
                               : options.app.name)
                           }
                         >
-                          <img src={GooglePlay} alt="Google Play" height="35" />
+                          <img
+                            draggable="false"
+                            src={GooglePlay}
+                            alt="Google Play"
+                            height="35"
+                          />
                         </a>
                       </li>
                     </div>
@@ -711,6 +760,7 @@ const Header = memo(() => {
           </Container>
         </Offcanvas.Body>
       </Offcanvas>
+
       {cities?.length > 1 && (
         <Modal
           size="lg"
@@ -724,6 +774,7 @@ const Header = memo(() => {
         >
           <Modal.Body className="p-4">
             <img
+              draggable={false}
               src={
                 options?.logo
                   ? getImageURL({
@@ -739,6 +790,58 @@ const Header = memo(() => {
 
             {city?.title && (
               <button
+                draggable={false}
+                type="button"
+                className="btn-close close"
+                aria-label="Close"
+                onClick={() => setShowCity(false)}
+              ></button>
+            )}
+            <div>
+              <Input
+                name="search"
+                type="search"
+                placeholder={t("Поиск...")}
+                className="mb-3"
+                onChange={handleChange}
+                value={searchInput}
+              />
+            </div>
+       
+          </Modal.Body>
+        </Modal>
+      )}
+
+      {cities?.length > 1 && (
+        <Modal
+          size="lg"
+          centered
+          fullscreen="sm-down"
+          backdrop={city?.title ? true : "static"}
+          keyboard={!!city?.title}
+          className="city"
+          show={showCity}
+          onHide={() => setShowCity(false)}
+        >
+          <Modal.Body className="p-4">
+            <img
+              draggable={false}
+              src={
+                options?.logo
+                  ? getImageURL({
+                      path: options.logo,
+                      type: "all/web/logo",
+                      size: "full",
+                    })
+                  : "/logo.png"
+              }
+              alt={options?.title ?? "YOOAPP"}
+              className="logo mb-4"
+            />
+
+            {city?.title && (
+              <button
+                draggable={false}
                 type="button"
                 className="btn-close close"
                 aria-label="Close"
@@ -890,6 +993,7 @@ const Header = memo(() => {
           <Modal.Body className="p-4">
             {city?.title && (
               <button
+                draggable={false}
                 type="button"
                 className="btn-close close"
                 aria-label="Close"

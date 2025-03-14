@@ -647,7 +647,7 @@ const Product = (data) => {
                   <div className="productPage-edit mb-3">
                     <div className="top">
                       {product?.additions?.length > 0 && (
-                        <button
+                        <button draggable={false} 
                           type="button"
                           className={isRemove ? "" : "active"}
                           onClick={() => setIsRemove(false)}
@@ -658,7 +658,7 @@ const Product = (data) => {
                         </button>
                       )}
                       {product?.wishes?.length > 0 && (
-                        <button
+                        <button draggable={false} 
                           type="button"
                           className={
                             isRemove

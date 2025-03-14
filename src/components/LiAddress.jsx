@@ -38,7 +38,7 @@ const LiAddress = memo(({ data }) => {
           <Link to={"/account/addresses/" + data.id} className="fs-09">
             <HiPencil size={18} />
           </Link>
-          <button
+          <button draggable={false} 
             type="button"
             className="text-danger fs-12 ms-4"
             onClick={() => setShowDelConfirmation(true)}
@@ -59,7 +59,7 @@ const LiAddress = memo(({ data }) => {
           {t(" Вы уверены, что хотите удалить данный адрес?")}
         </Modal.Body>
         <Modal.Footer>
-          <button
+          <button draggable={false} 
             onClick={() => {
               setShowDelConfirmation(false);
             }}
@@ -67,7 +67,7 @@ const LiAddress = memo(({ data }) => {
           >
             {t("Отмена")}
           </button>
-          <button
+          <button draggable={false} 
             onClick={() => {
               dispatch(deleteAddress(data.id));
               setShowDelConfirmation(false);

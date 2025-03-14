@@ -139,7 +139,7 @@ const WidgetStories = memo((data) => {
                 </SwiperSlide>
               ))}
             </Swiper>
-            <button className="close" onClick={closeStory}>
+            <button draggable={false}  className="close" onClick={closeStory}>
               <HiXMark />
             </button>
           </Modal.Body>

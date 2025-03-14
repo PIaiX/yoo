@@ -7,7 +7,7 @@ const Story = memo(({ data, type = "", ...props }) => {
   return (
     <figure className={"story " + type} onClick={props.onClick}>
       <div className="d-flex w-100 justify-content-center">
-        <img src={image} alt={data.title} effect="opacity" />
+        <img  draggable="false" src={image} alt={data.title} effect="opacity" />
       </div>
       {data?.title && <figcaption>{data.title}</figcaption>}
     </figure>

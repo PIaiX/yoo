@@ -6,7 +6,7 @@ const SwiperButtonNext = () => {
     const swiper = useSwiper();
     const locked = (swiper.isLocked ? ' locked' : '');
     return (
-        <button 
+        <button draggable={false}  
             className={'swiper-arrow-next' + locked} 
             onClick={() => swiper.slideNext()}
         >

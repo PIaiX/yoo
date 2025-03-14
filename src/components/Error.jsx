@@ -37,7 +37,7 @@ const Error = memo(() => {
         )}
 
         <div className="d-flex justify-content-center mt-4">
-          <button onClick={onClear}>{t("Очистить кеш")}</button>
+          <button draggable={false}  onClick={onClear}>{t("Очистить кеш")}</button>
         </div>
       </div>
     </main>

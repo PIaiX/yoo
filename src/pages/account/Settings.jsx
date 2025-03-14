@@ -204,7 +204,7 @@ const Settings = () => {
                       />
                     </Col>
                   </Row>
-                  <button
+                  <button draggable={false} 
                     type="submit"
                     disabled={!isValid}
                     onClick={handleSubmit(onSubmit)}

@@ -16,7 +16,11 @@ const CheckoutProduct = memo(({ data }) => {
 
   return (
     <div className="checkoutProduct d-flex align-items-start">
-      <img src={getImageURL({ path: data.medias })} alt={data.title} />
+      <img
+        draggable="false"
+        src={getImageURL({ path: data.medias })}
+        alt={data.title}
+      />
       <div className="flex-1">
         <h6 className="fs-09">
           {data.title}

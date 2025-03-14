@@ -11,7 +11,13 @@ const ArticleCard = memo(({ data }) => {
     <figure className="article-card">
       <Link to={"/blog/" + data.id}>
         {data?.media && (
-          <img src={image} alt={data.title} width="100%" className="mb-3" />
+          <img
+            draggable="false"
+            src={image}
+            alt={data.title}
+            width="100%"
+            className="mb-3"
+          />
         )}
         <figcaption>{data.title}</figcaption>
       </Link>

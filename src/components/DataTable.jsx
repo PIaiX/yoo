@@ -199,7 +199,7 @@ const DataTable = React.memo(
             <span className="me-4">
               Страница {pagination.currentPage} из {pagination.totalPages}
             </span>
-            <button
+            <button draggable={false} 
               className="me-2"
               onClick={() => setSearchParams(searchParams.delete("page"))}
             >
@@ -212,7 +212,7 @@ const DataTable = React.memo(
                 }
               />
             </button>
-            <button
+            <button draggable={false} 
               className="me-4"
               onClick={() => {
                 if (Number(pagination.currentPage) >= 3) {
@@ -232,7 +232,7 @@ const DataTable = React.memo(
                 }
               />
             </button>
-            <button
+            <button draggable={false} 
               className="me-2"
               onClick={() => {
                 if (
@@ -253,7 +253,7 @@ const DataTable = React.memo(
                 }
               />
             </button>
-            <button
+            <button draggable={false} 
               onClick={() => {
                 if (
                   Number(pagination.currentPage) < Number(pagination.totalPages)

@@ -12,7 +12,7 @@ const BtnFav = memo(({ product }) => {
     !!isFavoriteData.find((e) => product.id === e.id);
 
   return (
-    <button
+    <button draggable={false} 
       type="button"
       onClick={() => dispatch(toggleFavorite(product))}
       className={isFavorite ? "btn-fav active" : "btn-fav"}

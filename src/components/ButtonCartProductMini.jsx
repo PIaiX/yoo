@@ -135,7 +135,7 @@ const ButtonCartProductMini = memo(
     }
 
     return (
-      <button
+      <button draggable={false} 
         disabled={!isValid}
         onClick={() => onPress()}
         type="button"

@@ -41,7 +41,7 @@ const WidgetCategories = memo((data) => {
           <Empty
             mini
             text="Категорий нет"
-            image={() => <img src="/images/empty-catalog.png" width="30%" />}
+            image={() => <img  draggable="false" src="/images/empty-catalog.png" width="30%" />}
           />
         )}
       </Container>

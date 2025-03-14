@@ -90,7 +90,7 @@ const Callback = ({ show = false, setShow, type, page, product, ip }) => {
           </Col>
         </Row>
         <div className="d-flex justify-content-end">
-          <button
+          <button draggable={false} 
             type="submit"
             disabled={!isValid}
             onClick={handleSubmit(onSubmit)}

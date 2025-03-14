@@ -410,7 +410,7 @@ const EditAddress = () => {
       </Form.Check>
       <div className="d-md-flex d-block align-items-center ">
         <div>
-          <button
+          <button draggable={false} 
             disabled={
               !isValid ||
               showDropdown ||

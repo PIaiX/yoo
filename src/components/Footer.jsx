@@ -42,7 +42,7 @@ const Footer = memo(() => {
   }
 
   return (
-    <footer>
+    <footer className="user-select">
       <Container className="h-100">
         <nav className="h-100 mobile d-lg-none">
           <ul>
@@ -93,6 +93,7 @@ const Footer = memo(() => {
         <div className="desktop d-none d-lg-flex">
           <div className="pe-3">
             <img
+              draggable="false"
               src={
                 options?.logodark
                   ? getImageURL({
@@ -185,7 +186,12 @@ const Footer = memo(() => {
                           : "")
                       }
                     >
-                      <img src={AppStore} alt="App Store" height="35" />
+                      <img
+                        draggable="false"
+                        src={AppStore}
+                        alt="App Store"
+                        height="35"
+                      />
                     </a>
                   </li>
                 )}
@@ -199,7 +205,12 @@ const Footer = memo(() => {
                         : options.app.name)
                     }
                   >
-                    <img src={GooglePlay} alt="Google Play" height="35" />
+                    <img
+                      draggable="false"
+                      src={GooglePlay}
+                      alt="Google Play"
+                      height="35"
+                    />
                   </a>
                 </li>
               </ul>

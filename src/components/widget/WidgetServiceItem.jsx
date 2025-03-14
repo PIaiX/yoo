@@ -6,7 +6,7 @@ const ServiceItem = memo(({ data }) => {
   const image = getImageURL({ path: data.medias, type: "product" });
   return (
     <figure className="category-card">
-      <img src={image} alt={data.title} />
+      <img  draggable="false" src={image} alt={data.title} />
       <figcaption>
         <h6>
           <Link to={`/service/${data.id}`} className="stretched-link">

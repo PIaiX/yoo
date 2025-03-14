@@ -152,7 +152,7 @@ const ScrollToTop = memo(() => {
                   />
                 </div>
               )}
-              <button
+              <button draggable={false} 
                 className="position-relative"
                 type="button"
                 onClick={() => setShowChat(!showChat)}
@@ -166,7 +166,7 @@ const ScrollToTop = memo(() => {
           )}
           {visible && (
             <li>
-              <button type="button" onClick={toTop}>
+              <button draggable={false}  type="button" onClick={toTop}>
                 <HiOutlineChevronDoubleUp />
               </button>
             </li>
