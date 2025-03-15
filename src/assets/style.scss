@@ -2282,9 +2282,11 @@ main {
 }
 .modal {
   backdrop-filter: blur(10px);
+  background-color: rgb(0 0 0 / 30%);
 }
 .story-modal {
   backdrop-filter: blur(10px);
+  background-color: rgb(0 0 0 / 30%);
   .modal {
     &-dialog {
       max-width: 450px;
