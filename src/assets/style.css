@@ -437,6 +437,17 @@ textarea:active,
   border: 1px solid var(--gray);
 }
 
+.input-sm > label {
+  margin-bottom: 4px !important;
+  font-size: 13px !important;
+}
+
+.input-sm input,
+.input-sm textarea {
+  padding: 0.7em 1em !important;
+  font-size: 14px !important;
+}
+
 .error input {
   border-color: #e01e00 !important;
 }
@@ -545,6 +556,10 @@ input[type=number]::-webkit-outer-spin-button, input[type=number]::-webkit-inner
   padding: 0px;
   margin: 0px;
   margin: 0;
+}
+
+.btn-group input {
+  display: none !important;
 }
 
 .password {
@@ -1022,6 +1037,35 @@ button {
   opacity: 1;
   animation: spin 1s linear 0s infinite;
   transform: translate(-50%, -50%) rotate(0deg);
+}
+.btn-group {
+  padding: 2px;
+  border: 1px solid var(--bg-btn);
+  border-radius: 50px;
+}
+.btn-group .btn-primary,
+.btn-group .btn-primary:hover {
+  color: inherit !important;
+  background-color: transparent !important;
+  border-color: transparent !important;
+}
+.btn-group > :not(.btn-check:first-child) + .btn, .btn-group > :not(.btn-check:first-child) + .btn-10, .btn-group > :not(.btn-check:first-child) + .btn-2, .btn-group > :not(.btn-check:first-child) + .btn-secondary, .btn-group > :not(.btn-check:first-child) + .btn-30, .btn-group > :not(.btn-check:first-child) + .btn-4, .btn-group > :not(.btn-check:first-child) + .btn-white, .btn-group > :not(.btn-check:first-child) + .btn-40-light, .btn-group > :not(.btn-check:first-child) + .btn-40, .btn-group > :not(.btn-check:first-child) + .btn-green, .btn-group > :not(.btn-check:first-child) + .btn-deepgreen, .btn-group > :not(.btn-check:first-child) + .btn-light, .btn-group > :not(.btn-check:first-child) + .btn-8, .btn-group > :not(.btn-check:first-child) + .btn-9, .btn-group > :not(.btn-check:first-child) + .btn-90, .btn-group > :not(.btn-check:first-child) + .btn-99, .btn-group > :not(.btn-check:first-child) + .btn-orange, .btn-group > :not(.btn-check:first-child) + .btn-red, .btn-group > :not(.btn-check:first-child) + .btn-primary {
+  border-radius: 50px;
+  background-color: transparent;
+  border-color: transparent;
+}
+.btn-group-sm .btn, .btn-group-sm .btn-primary, .btn-group-sm .btn-10, .btn-group-sm .btn-2, .btn-group-sm .btn-secondary, .btn-group-sm .btn-30, .btn-group-sm .btn-4, .btn-group-sm .btn-white, .btn-group-sm .btn-40-light, .btn-group-sm .btn-40, .btn-group-sm .btn-green, .btn-group-sm .btn-deepgreen, .btn-group-sm .btn-light, .btn-group-sm .btn-8, .btn-group-sm .btn-9, .btn-group-sm .btn-90, .btn-group-sm .btn-99, .btn-group-sm .btn-orange, .btn-group-sm .btn-red {
+  min-height: 35px !important;
+}
+.btn-group > .btn:not(:last-child):not(.dropdown-toggle), .btn-group > .btn-10:not(:last-child):not(.dropdown-toggle), .btn-group > .btn-2:not(:last-child):not(.dropdown-toggle), .btn-group > .btn-secondary:not(:last-child):not(.dropdown-toggle), .btn-group > .btn-30:not(:last-child):not(.dropdown-toggle), .btn-group > .btn-4:not(:last-child):not(.dropdown-toggle), .btn-group > .btn-white:not(:last-child):not(.dropdown-toggle), .btn-group > .btn-40-light:not(:last-child):not(.dropdown-toggle), .btn-group > .btn-40:not(:last-child):not(.dropdown-toggle), .btn-group > .btn-green:not(:last-child):not(.dropdown-toggle), .btn-group > .btn-deepgreen:not(:last-child):not(.dropdown-toggle), .btn-group > .btn-light:not(:last-child):not(.dropdown-toggle), .btn-group > .btn-8:not(:last-child):not(.dropdown-toggle), .btn-group > .btn-9:not(:last-child):not(.dropdown-toggle), .btn-group > .btn-90:not(:last-child):not(.dropdown-toggle), .btn-group > .btn-99:not(:last-child):not(.dropdown-toggle), .btn-group > .btn-orange:not(:last-child):not(.dropdown-toggle), .btn-group > .btn-red:not(:last-child):not(.dropdown-toggle), .btn-group > .btn-primary:not(:last-child):not(.dropdown-toggle), .btn-group > .btn:not(:last-child):not(.dropdown-toggle):hover, .btn-group > .btn-primary:not(:last-child):not(.dropdown-toggle):hover {
+  border-radius: 50px;
+  background-color: transparent;
+  border-color: transparent;
+}
+.btn-check:checked + .btn, .btn-check:checked + .btn-10, .btn-check:checked + .btn-2, .btn-check:checked + .btn-secondary, .btn-check:checked + .btn-30, .btn-check:checked + .btn-4, .btn-check:checked + .btn-white, .btn-check:checked + .btn-40-light, .btn-check:checked + .btn-40, .btn-check:checked + .btn-green, .btn-check:checked + .btn-deepgreen, .btn-check:checked + .btn-light, .btn-check:checked + .btn-8, .btn-check:checked + .btn-9, .btn-check:checked + .btn-90, .btn-check:checked + .btn-99, .btn-check:checked + .btn-orange, .btn-check:checked + .btn-red, .btn-check:checked + .btn-primary {
+  background-color: var(--main-color-btn) !important;
+  border: 1px solid var(--main-color-btn) !important;
+  color: #fff !important;
 }
 
 @keyframes spin {
@@ -2351,7 +2395,7 @@ main {
 
 .modal-content {
   background-color: var(--bg-main) !important;
-  border-radius: 0.625em !important;
+  border-radius: 20px !important;
   overflow: hidden;
 }
 @media (max-width: 580px) {
@@ -3972,6 +4016,26 @@ html.theme-font-title-amaticsc .filterGrid h4 {
   .sec-7 .map {
     height: 350px;
     margin-top: 15px;
+  }
+}
+
+.map-header {
+  background-color: var(--bg-second);
+  overflow: hidden;
+  -webkit-backface-visibility: hidden;
+  -webkit-transform: translate3d(0, 0, 0);
+  isolation: isolate;
+  transform: translateZ(0);
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: nowrap;
+  height: 585px;
+}
+@media (max-width: 580px) {
+  .map-header {
+    height: 350px;
   }
 }
 
@@ -6795,4 +6859,9 @@ img.show {
   -webkit-user-select: none !important;
      -moz-user-select: none !important;
           user-select: none !important;
+}
+
+.affiliates-list-modal {
+  height: 405px !important;
+  overflow: auto;
 }/*# sourceMappingURL=style.css.map */

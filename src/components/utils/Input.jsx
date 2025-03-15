@@ -35,8 +35,7 @@ const Input = memo(
       <>
         <div
           className={
-            "labeled-input" +
-            (className ? " " + className : "") +
+            (className ? className : "") +
             (errors && errors[name] ? " error" : "")
           }
         >
@@ -68,7 +67,11 @@ const Input = memo(
                 min={min}
                 max={max}
               />
-              <button draggable={false}  type="button" onClick={() => setVisibility(!visible)}>
+              <button
+                draggable={false}
+                type="button"
+                onClick={() => setVisibility(!visible)}
+              >
                 {visible ? <Eye /> : <CloseEye />}
               </button>
             </div>

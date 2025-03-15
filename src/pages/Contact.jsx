@@ -29,13 +29,14 @@ const Contact = () => {
   const [mainAffiliate, setMainAffiliate] = useState();
   const [showModalOrganization, setModalOrganization] = useState(false);
   const [showModalDelivery, setModalDelivery] = useState(false);
-  const mapRef = useRef(null); // Ссылка на карту
-  const polygonsRef = useRef({}); // Храним ссылки на полигоны
-  // Проверка корректности координат
+  const mapRef = useRef(null); 
+  const polygonsRef = useRef({}); 
+
   const isValidCoordinate = (coord) => {
     const [lat, lon] = coord;
     return lat >= -90 && lat <= 90 && lon >= -180 && lon <= 180;
   };
+
   const handleZoneClick = useCallback(
     async (zone) => {
       if (!mapRef.current || !zone?.id || !polygonsRef.current[zone.id]) {
@@ -168,6 +169,7 @@ const Contact = () => {
         : affiliate[0] ?? false
     );
   }, [selectedAffiliate]);
+
   if (!mainAffiliate) {
     return (
       <>
@@ -242,7 +244,7 @@ const Contact = () => {
                     <a
                       key={e.id}
                       onClick={() => setMainAffiliate(e)}
-                      className={mainAffiliate.id === e.id ? "active" : ""}
+                      className={mainAffiliate?.id === e.id ? "active" : ""}
                     >
                       <li>
                         <h6>{e.full}</h6>
@@ -275,7 +277,7 @@ const Contact = () => {
                         )}
                       </li>
 
-                      {mainAffiliate.id === e.id &&
+                      {mainAffiliate?.id === e.id &&
                         zones.find((zone) => zone.affiliateId === e.id) &&
                         zones
                           .filter((zone) => zone.affiliateId === e.id)
@@ -361,7 +363,6 @@ const Contact = () => {
         </Container>
       </section>
 
-      {/* Модальные окна для организации и доставки */}
       <Modal
         centered
         fullscreen="sm-down"

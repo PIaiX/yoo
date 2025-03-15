@@ -13,13 +13,14 @@ const Textarea = memo(
     onChange,
     readOnly = true,
     type,
+    className,
     validation,
   }) => {
     return (
       <div
         className={
-          "labeled-input " +
-          (errors && errors[name]?.type === "required" ? " error" : "")
+          (className ? " " + className : "") +
+          (errors && errors[name] ? " error" : "")
         }
       >
         {label && (

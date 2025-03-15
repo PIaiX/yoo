@@ -263,7 +263,7 @@ address {
 label {
   cursor: pointer;
 }
-button{
+button {
   user-select: none;
 }
 h1,
@@ -494,6 +494,15 @@ textarea,
     border: 1px solid var(--gray);
   }
 }
+.input-sm > label{
+margin-bottom: 4px !important;
+font-size: 13px !important;
+}
+.input-sm input,
+.input-sm textarea {
+  padding: 0.7em 1em !important;
+  font-size: 14px !important;
+}
 // @media not all and (min-resolution: 0.001dpcm) {
 //   @supports (-webkit-appearance: none) {
 //     input[type="date"],
@@ -602,6 +611,11 @@ input {
       @include no-appearance();
       margin: 0;
     }
+  }
+}
+.btn-group {
+  input {
+    display: none !important;
   }
 }
 .password {
@@ -1066,6 +1080,7 @@ button {
     cursor: pointer;
     pointer-events: none;
   }
+
   &-fav {
     font-size: 1.75em;
     @include flex();
@@ -1111,7 +1126,43 @@ button {
       transform: translate(-50%, -50%) rotate(0deg);
     }
   }
+
+  &-group {
+    padding: 2px;
+    border: 1px solid var(--bg-btn);
+    border-radius: 50px;
+    .btn-primary,
+    .btn-primary:hover {
+      color: inherit !important;
+      background-color: transparent !important;
+      border-color: transparent !important;
+    }
+  }
+  &-group > :not(.btn-check:first-child) + .btn,
+  &-group > :not(.btn-check:first-child) + .btn-primary {
+    border-radius: 50px;
+    background-color: transparent;
+    border-color: transparent;
+  }
+  &-group-sm .btn {
+    min-height: 35px !important;
+  }
+  &-group > .btn:not(:last-child):not(.dropdown-toggle),
+  &-group > .btn-primary:not(:last-child):not(.dropdown-toggle),
+  &-group > .btn:not(:last-child):not(.dropdown-toggle):hover,
+  &-group > .btn-primary:not(:last-child):not(.dropdown-toggle):hover {
+    border-radius: 50px;
+    background-color: transparent;
+    border-color: transparent;
+  }
+  &-check:checked + .btn,
+  &-check:checked + .btn-primary {
+    background-color: var(--main-color-btn) !important;
+    border: 1px solid var(--main-color-btn) !important;
+    color: #fff !important;
+  }
 }
+
 @keyframes spin {
   from {
     transform: translate(-50%, -50%) rotate(0deg);
@@ -1622,7 +1673,6 @@ html.theme-font-robotocondensed body {
 }
 
 header {
-
   height: var(--h-height);
   --pad: 40px;
   background-color: var(--bg-header) !important;
@@ -2224,7 +2274,7 @@ main {
 }
 .modal-content {
   background-color: var(--bg-main) !important;
-  border-radius: $radius * 0.5 !important;
+  border-radius: 20px !important;
   overflow: hidden;
   @media (max-width: $bp-sm) {
     border-radius: 0px !important;
@@ -3532,7 +3582,17 @@ html.theme-font-title-amaticsc .filterGrid h4 {
     }
   }
 }
+.map-header {
+  background-color: var(--bg-second);
+  overflow: hidden;
+  @include safariFix();
+  @include flex();
+  height: 585px;
 
+  @media (max-width: $bp-sm) {
+    height: 350px;
+  }
+}
 .ymaps-2-1-79-map-copyrights-promo,
 .ymaps-2-1-79-copyright {
   display: none !important;
@@ -6004,6 +6064,10 @@ img.show {
   padding: 0px !important;
   margin: 0px !important;
 }
-.user-select{
+.user-select {
   user-select: none !important;
+}
+.affiliates-list-modal {
+  height: 405px !important;
+  overflow: auto;
 }

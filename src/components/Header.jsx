@@ -1,6 +1,27 @@
+import { Map, Placemark, Polygon, YMaps } from "@pbe/react-yandex-maps";
 import moment from "moment-timezone";
-import React, { memo, useEffect, useState, useTransition } from "react";
-import { Col, Modal, OverlayTrigger, Popover, Row } from "react-bootstrap";
+import React, {
+  memo,
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useMemo,
+  useRef,
+  useState,
+  useTransition,
+} from "react";
+import {
+  ButtonGroup,
+  Col,
+  Dropdown,
+  Form,
+  Modal,
+  OverlayTrigger,
+  Popover,
+  Row,
+  ToggleButton,
+  ToggleButtonGroup,
+} from "react-bootstrap";
 import Container from "react-bootstrap/Container";
 import Offcanvas from "react-bootstrap/Offcanvas";
 import { useTranslation } from "react-i18next";
@@ -9,12 +30,16 @@ import {
   HiOutlineShoppingBag,
   HiOutlineUserCircle,
 } from "react-icons/hi2";
-import { IoCloseOutline } from "react-icons/io5";
+import {
+  IoChevronDown,
+  IoChevronForward,
+  IoCloseOutline,
+} from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import AppStore from "../assets/imgs/appstore-black.svg";
 import GooglePlay from "../assets/imgs/googleplay-black.svg";
-import { getCount, getImageURL, weekday } from "../helpers/all";
+import { customPrice, getCount, getImageURL, weekday } from "../helpers/all";
 import { isWork } from "../hooks/all";
 import { deleteCart } from "../services/cart";
 import {
@@ -24,22 +49,31 @@ import {
   updateGps,
 } from "../store/reducers/affiliateSlice";
 import { editDeliveryCheckout } from "../store/reducers/checkoutSlice";
+import { updateStartSettings } from "../store/reducers/settingsSlice";
 import DeliveryBar from "./DeliveryBar";
 import ScrollToTop from "./ScrollToTop";
 import MenuIcon from "./svgs/MenuIcon";
 import Input from "./utils/Input";
+import Loader from "./utils/Loader";
 import Select from "./utils/Select";
-import { updateStartSettings } from "../store/reducers/settingsSlice";
+import { mainAddressEdit } from "../store/reducers/addressSlice";
+import Textarea from "./utils/Textarea";
+import { useForm, useWatch } from "react-hook-form";
+import useDebounce from "../hooks/useDebounce";
+import { getDadataStreets } from "../services/dadata";
+import { getDelivery } from "../services/order";
+import { NotificationManager } from "react-notifications";
 
 const Header = memo(() => {
   const { t } = useTranslation();
-
+  const [loading, setLoading] = useState(true);
   const isAuth = useSelector((state) => state.auth.isAuth);
   const user = useSelector((state) => state.auth.user);
   const cart = useSelector((state) => state.cart.items);
   const city = useSelector((state) => state.affiliate.city);
   const gps = useSelector((state) => state.affiliate.gps);
   const affiliate = useSelector((state) => state.affiliate.items);
+  const zones = useSelector((state) => state.affiliate.zones);
   const cities = useSelector((state) => state.affiliate.cities);
   const selectedAffiliate = useSelector((state) => state.affiliate.active);
   const options = useSelector((state) => state.settings.options);
@@ -58,6 +92,54 @@ const Header = memo(() => {
   const [search, setSearch] = useState();
   const [isPending, startTransition] = useTransition();
   const [showPopover, setShowPopover] = useState(false);
+  const [mainAffiliate, setMainAffiliate] = useState(selectedAffiliate);
+  const mapRef = useRef(null);
+  const polygonsRef = useRef({});
+  const dropdownRef = useRef(null);
+  var locations = [];
+
+  const [streets, setStreets] = useState([]);
+  const [showDropdown, setShowDropdown] = useState(false);
+  const {
+    control,
+    register,
+    formState: { errors, isValid },
+    handleSubmit,
+    reset,
+    setValue,
+  } = useForm({
+    mode: "all",
+    reValidateMode: "onChange",
+  });
+  const data = useWatch({ control });
+
+  const streetText = useDebounce(data.full, 1000);
+
+  if (affiliate?.length > 0 && cities?.length > 0) {
+    const affiliateIds = affiliate.map((e) => e.id);
+
+    let foundCities = cities.filter((city) =>
+      city.relationCities.some((relationCity) =>
+        affiliateIds.includes(relationCity.affiliateId)
+      )
+    );
+
+    if (foundCities?.length > 0) {
+      foundCities.forEach((city) => {
+        locations.push({ city: city.title.toLowerCase() });
+
+        if (city?.options?.settlements) {
+          city.options.settlements.forEach((settlement) => {
+            locations.push({ settlement: settlement.title.toLowerCase() });
+          });
+        }
+      });
+    } else {
+      affiliate.forEach((e) =>
+        locations.push({ city: e.options.city.toLowerCase() })
+      );
+    }
+  }
 
   // Обработчик для открытия Popover
   const handleMouseEnter = () => {
@@ -96,6 +178,111 @@ const Header = memo(() => {
       setSearch(searchList);
     });
   };
+
+  const clickAddress = useCallback(
+    async (address) => {
+      try {
+        const isValidAddress =
+          address &&
+          address.data?.geo_lat &&
+          address.data?.geo_lon &&
+          address.data?.house;
+
+        const commonData = {
+          full: address.value ?? null,
+          country: address.data.country ?? null,
+          region: address.data.region ?? null,
+          block: address.data.block ?? null,
+          city: address.data.city ?? null,
+          area: address.data.federal_district ?? null,
+          street: address.data.street ?? null,
+          home: address.data.house ?? null,
+          apartment: address.data.flat ?? null,
+          lat: address.data.geo_lat ?? null,
+          lon: address.data.geo_lon ?? null,
+          postal: address.data.postal_code ?? null,
+          options: {
+            fias_id: address.data.fias_id ?? null,
+            region_fias_id: address.data.region_fias_id ?? null,
+            city_fias_id: address.data.city_fias_id ?? null,
+            street_fias_id: address.data.street_fias_id ?? null,
+            kladr_id: address.data.kladr_id ?? null,
+            region_kladr_id: address.data.region_kladr_id ?? null,
+            city_kladr_id: address.data.city_kladr_id ?? null,
+            street_kladr_id: address.data.street_kladr_id ?? null,
+            fias_level: address.data.fias_level ?? null,
+          },
+        };
+
+        if (isValidAddress) {
+          const info = await getDelivery({
+            distance: true,
+            lat: address.data.geo_lat,
+            lon: address.data.geo_lon,
+          });
+
+          if (info?.zone?.affiliateId) {
+            setShowDropdown(false);
+
+            reset({
+              ...data,
+              affiliate: info.zone.affiliateId,
+              zone: info.zone,
+              distance: info.distance,
+              ...commonData,
+            });
+            setTimeout(() => {
+              mapRef.current.setCenter([
+                address.data.geo_lat,
+                address.data.geo_lon,
+              ]);
+              mapRef.current.setZoom(17);
+            }, 500);
+
+            return true;
+          }
+        } else if (address?.value) {
+          NotificationManager.error(t("Укажите номер дома"));
+          return reset({
+            ...data,
+            ...commonData,
+          });
+        } else {
+          setShowDropdown(false);
+        }
+      } catch (err) {
+        return NotificationManager.error(
+          t("Доставка на данный адрес не производится")
+        );
+      }
+    },
+    [data]
+  );
+
+  const onKeyDown = useCallback(
+    (e) => {
+      if (!showDropdown) {
+        setShowDropdown(true);
+      }
+      if ((e === "Enter" || e.key === "Enter") && streets?.length > 0) {
+        clickAddress(streets[0]);
+      }
+    },
+    [showDropdown, streets]
+  );
+  useEffect(() => {
+    if (streetText) {
+      getDadataStreets({
+        query: streetText,
+        locations,
+        token: options.dadataToken,
+      }).then((res) => {
+        if (res?.data?.suggestions) {
+          setStreets(res.data.suggestions);
+        }
+      });
+    }
+  }, [streetText]);
 
   useEffect(() => {
     // Сортируем города по алфавиту
@@ -191,6 +378,162 @@ const Header = memo(() => {
       // }
     }
   }, [cities]);
+
+  const onSubmitAddress = useCallback((data) => {
+    if (!data?.street) {
+      return NotificationManager.error(t("Укажите улицу"));
+    }
+    if (!data?.home) {
+      return NotificationManager.error(t("Укажите номер дома"));
+    }
+    if (!data?.zone) {
+      return NotificationManager.error(
+        t("Доставка на данный адрес не производится")
+      );
+    }
+    NotificationManager.success(t("Адрес успешно добавлен"));
+  }, []);
+
+  const mapPoligone = useMemo(() => {
+    return (
+      <>
+        {mainAffiliate?.options?.coordinates?.lat &&
+          mainAffiliate?.options?.coordinates?.lon && (
+            <YMaps>
+              <Map
+                instanceRef={mapRef}
+                onLoad={() => setLoading(false)}
+                state={{
+                  center: [
+                    mainAffiliate.options.coordinates.lat,
+                    mainAffiliate.options.coordinates.lon,
+                  ],
+                  zoom: 11,
+                }}
+                width="100%"
+                height="100%"
+                modules={["geoObject.addon.balloon"]}
+              >
+                {data?.lat &&
+                data?.lon &&
+                data?.street &&
+                data?.home &&
+                delivery === "delivery" ? (
+                  <Placemark
+                    options={{
+                      iconLayout: "default#image",
+                      iconImageHref: "imgs/marker.png",
+                      iconImageSize: [38, 54],
+                    }}
+                    geometry={[data?.lat, data?.lon]}
+                  />
+                ) : (
+                  affiliate?.length > 0 &&
+                  delivery === "pickup" &&
+                  affiliate.map(
+                    (e) =>
+                      e?.options?.coordinates?.lat &&
+                      e?.options?.coordinates?.lon && (
+                        <Placemark
+                          key={e.id}
+                          options={
+                            mainAffiliate?.id === e.id
+                              ? {
+                                  iconLayout: "default#image",
+                                  iconImageHref: "imgs/marker.png",
+                                  iconImageSize: [38, 54],
+                                }
+                              : {
+                                  iconLayout: "default#image",
+                                  iconImageHref: "imgs/marker-gray.png",
+                                  iconImageSize: [38, 54],
+                                }
+                          }
+                          geometry={[
+                            e.options.coordinates.lat,
+                            e.options.coordinates.lon,
+                          ]}
+                        />
+                      )
+                  )
+                )}
+                {zones?.length > 0 &&
+                  zones.map((e) => {
+                    const geodata =
+                      e.data.length > 0
+                        ? e.data.map((geo) => [geo[1], geo[0]])
+                        : false;
+
+                    return (
+                      <Polygon
+                        key={e.id}
+                        id={e.id}
+                        instanceRef={(ref) => (polygonsRef.current[e.id] = ref)}
+                        defaultGeometry={[geodata]}
+                        options={{
+                          fillColor: e?.color ? e.color : "#f56057",
+                          strokeColor: e?.color ? e.color : "#f56057",
+                          opacity: mainAffiliate?.id === e.id ? 0.6 : 0.3,
+                          strokeWidth: 2,
+                          strokeStyle: "solid",
+                          visible: true,
+                        }}
+                        properties={{
+                          balloonContent: `<address class='my-info'>
+                    <div class='my-info-body'>
+                      <h6 class='mb-0 fw-6'>${e.title}</h6>
+                      ${e.desc ? `<p>${e.desc}</p>` : ""}
+                      ${
+                        e.minPrice > 0
+                          ? `<p>${t("Минимальная сумма заказа")} ${customPrice(
+                              e.minPrice
+                            )}</p>`
+                          : ""
+                      }
+                      ${
+                        e.priceFree > 0
+                          ? `<p>${t("Бесплатная доставка от")} ${customPrice(
+                              e.priceFree
+                            )}</p>`
+                          : ""
+                      }
+                      ${
+                        e.price > 0
+                          ? `<p>${t("Стоимость доставки")} ${customPrice(
+                              e.price
+                            )}</p>`
+                          : ""
+                      }
+                      ${
+                        e.time > 0
+                          ? `<p>${t("Время доставки от")} ${e.time} ${t(
+                              "мин"
+                            )}</p>`
+                          : ""
+                      }
+                    </div>
+                  </address>`,
+                        }}
+                      />
+                    );
+                  })}
+              </Map>
+            </YMaps>
+          )}
+      </>
+    );
+  }, [
+    mainAffiliate,
+    delivery,
+    affiliate,
+    zones,
+    polygonsRef,
+    mapRef,
+    data?.lat,
+    data?.lon,
+    data?.street,
+    data?.home,
+  ]);
 
   if (options?.title === "YooApp") {
     return null;
@@ -763,7 +1106,7 @@ const Header = memo(() => {
         </Offcanvas.Body>
       </Offcanvas>
 
-      {!startSettings && (
+      {!startSettings && !!city?.title && !showCity && (
         <Modal
           size="lg"
           centered
@@ -774,40 +1117,256 @@ const Header = memo(() => {
           show={!startSettings}
           onHide={() => dispatch(updateStartSettings(true))}
         >
-          <Modal.Body className="p-4">
-            <img
-              draggable={false}
-              src={
-                options?.logo
-                  ? getImageURL({
-                      path: options.logo,
-                      type: "all/web/logo",
-                      size: "full",
-                    })
-                  : "/logo.png"
-              }
-              alt={options?.title ?? "YOOAPP"}
-              className="logo mb-4"
-            />
+          <Modal.Body className="p-0">
+            <Row className="gx-0">
+              <Col md={7}>
+                <div className="map-header">
+                  {loading && <Loader />}
+                  {mapPoligone}
+                </div>
+              </Col>
+              <Col md={5} className="p-3">
+                <ToggleButtonGroup
+                  size="sm"
+                  type="radio"
+                  className="mb-3 w-100"
+                  name="delivery"
+                  defaultValue={delivery}
+                  onChange={(e) => {
+                    reset({});
+                    dispatch(editDeliveryCheckout(e));
+                  }}
+                >
+                  {deliveryArray.map((e) => (
+                    <ToggleButton
+                      key={e.value}
+                      id={"radio-" + e.value}
+                      value={e.value}
+                    >
+                      {e.title}
+                    </ToggleButton>
+                  ))}
+                </ToggleButtonGroup>
+                <div className="fs-09 fw-6 d-flex align-items-center justify-content-between mb-3">
+                  <span>Ваш город</span>
+                  <a className="text-main" onClick={() => setShowCity(true)}>
+                    {city?.title} <IoChevronDown />
+                  </a>
+                </div>
+                {delivery === "pickup" ? (
+                  <ul className="list-unstyled pe-1 scroll-custom mb-3 affiliates-list-modal">
+                    {affiliate.map((e) => (
+                      <a
+                        key={e.id}
+                        onClick={() => {
+                          setMainAffiliate(e);
+                          mapRef.current.setCenter([
+                            e.options.coordinates.lat,
+                            e.options.coordinates.lon,
+                          ]);
+                          mapRef.current.setZoom(15);
+                        }}
+                        className={mainAffiliate?.id === e.id ? "active" : ""}
+                      >
+                        <li className="mb-3">
+                          <label className="d-flex flex-row align-items-start">
+                            <div className={"me-2" + (e.title ? " mt-1" : "")}>
+                              <input
+                                type="radio"
+                                name="mainAffiliate"
+                                defaultChecked={mainAffiliate?.id === e.id}
+                                onChange={() => setMainAffiliate(e)}
+                              />
+                            </div>
+                            <div>
+                              <b>{e.title ?? e.full}</b>
+                              {e.title && <p className="fs-09">{e.full}</p>}
+                            </div>
+                          </label>
+                        </li>
+                      </a>
+                    ))}
+                  </ul>
+                ) : (
+                  <div className="mb-3 pe-1 scroll-custom affiliates-list-modal">
+                    <div className="mb-2 position-relative">
+                      <Input
+                        required
+                        errors={errors}
+                        label={t("Адрес")}
+                        onKeyDown={(e) => onKeyDown(e)}
+                        onClick={() => setShowDropdown(true)}
+                        type="search"
+                        autoComplete="off"
+                        name="full"
+                        className="input-sm"
+                        placeholder={t("Введите адрес")}
+                        register={register}
+                        validation={{
+                          required: t("Обязательное поле"),
+                          maxLength: {
+                            value: 250,
+                            message: t("Максимум 250 символов"),
+                          },
+                        }}
+                      />
+                      {showDropdown && streets?.length > 0 && (
+                        <Dropdown.Menu
+                          ref={dropdownRef}
+                          show
+                          className="w-100 select-options"
+                        >
+                          {!data?.home && (
+                            <div className="fs-08 text-danger p-2 px-3">
+                              {t("Выберите адрес с номером дома")}
+                            </div>
+                          )}
+                          {streets.map(
+                            (item, key) =>
+                              item && (
+                                <Dropdown.Item
+                                  onClick={() => clickAddress(item)}
+                                  key={key}
+                                >
+                                  {item.value}
+                                </Dropdown.Item>
+                              )
+                          )}
+                        </Dropdown.Menu>
+                      )}
+                    </div>
+                    {!data?.private && (
+                      <Row className="gx-2">
+                        <Col md={6}>
+                          <div className="mb-2">
+                            <Input
+                              className="input-sm"
+                              required
+                              errors={errors}
+                              label={t("Подъезд")}
+                              name="entrance"
+                              register={register}
+                              validation={{
+                                required: t("Обязательное поле"),
+                                maxLength: {
+                                  value: 20,
+                                  message: t("Максимум 20 символов"),
+                                },
+                              }}
+                            />
+                          </div>
+                        </Col>
+                        <Col md={6}>
+                          <div className="mb-2">
+                            <Input
+                              className="input-sm"
+                              required
+                              errors={errors}
+                              label={t("Квартира")}
+                              name="apartment"
+                              register={register}
+                              validation={{
+                                required: t("Обязательное поле"),
+                                maxLength: {
+                                  value: 20,
+                                  message: t("Максимум 20 символов"),
+                                },
+                              }}
+                            />
+                          </div>
+                        </Col>
+                        <Col md={6}>
+                          <div className="mb-2">
+                            <Input
+                              className="input-sm"
+                              required
+                              errors={errors}
+                              label={t("Этаж")}
+                              type="number"
+                              name="floor"
+                              register={register}
+                              validation={{
+                                required: t("Обязательное поле"),
+                                maxLength: {
+                                  value: 20,
+                                  message: t("Максимум 20 символов"),
+                                },
+                              }}
+                            />
+                          </div>
+                        </Col>
+                        <Col md={6}>
+                          <div className="mb-2">
+                            <Input
+                              className="input-sm"
+                              errors={errors}
+                              label={t("Код домофона")}
+                              name="code"
+                              register={register}
+                              validation={{
+                                maxLength: {
+                                  value: 30,
+                                  message: t("Максимум 30 символов"),
+                                },
+                              }}
+                            />
+                          </div>
+                        </Col>
+                      </Row>
+                    )}
+                    <Form.Check className="mb-2 mt-2">
+                      <Form.Check.Input
+                        type="checkbox"
+                        name="private"
+                        id="private"
+                        value={true}
+                        {...register("private")}
+                      />
+                      <Form.Check.Label htmlFor="private" className="ms-2">
+                        {t("Частный дом")}
+                      </Form.Check.Label>
+                    </Form.Check>
 
-            <button
-              draggable={false}
-              type="button"
-              className="btn-close close"
-              aria-label="Close"
-              onClick={() => dispatch(updateStartSettings(true))}
-            ></button>
-
-            <div>
-              <Input
-                name="search"
-                type="search"
-                placeholder={t("Поиск...")}
-                className="mb-3"
-                onChange={handleChange}
-                value={searchInput}
-              />
-            </div>
+                    <Textarea
+                      className="input-sm"
+                      label={t("Комментарий")}
+                      name="comment"
+                      placeholder={t("Введите комментарий (Необязательно)")}
+                      errors={errors}
+                      register={register}
+                      validation={{
+                        maxLength: {
+                          value: 1500,
+                          message: t("Максимум 1500 символов"),
+                        },
+                      }}
+                    />
+                  </div>
+                )}
+                {delivery === "delivery" ? (
+                  <button
+                    className="btn btn-primary w-100"
+                    draggable={false}
+                    disabled={
+                      !isValid ||
+                      showDropdown ||
+                      (data?.private && (!data?.street || !data?.home))
+                    }
+                    onClick={handleSubmit(onSubmitAddress)}
+                  >
+                    Добавить адрес
+                  </button>
+                ) : (
+                  <button
+                    disabled={!!!mainAffiliate}
+                    className="btn btn-primary w-100"
+                    onClick={() => dispatch(mainAffiliateEdit(mainAffiliate))}
+                  >
+                    Закажу здесь
+                  </button>
+                )}
+              </Col>
+            </Row>
           </Modal.Body>
         </Modal>
       )}
