@@ -4590,9 +4590,10 @@ ACCOUNT
 .city {
   a.active {
     color: var(--main-color);
+    font-weight: 600;
   }
   .logo {
-    max-height: 80px;
+    max-height: 50px;
     max-width: 200px;
   }
 }
@@ -5725,7 +5726,6 @@ ACCOUNT END
 }
 .cities {
   columns: 3;
-  padding-bottom: 35px;
   overflow: hidden;
   @media (max-width: $bp-sm) {
     columns: 1;
@@ -5733,7 +5733,7 @@ ACCOUNT END
 }
 .cities-box {
   padding-left: 25px;
-  margin-bottom: 10px;
+  margin-bottom: 15px;
   position: relative;
   page-break-inside: avoid;
   max-width: 100%;
@@ -5746,9 +5746,9 @@ ACCOUNT END
   }
 }
 .search-box {
-  padding-top: 30px;
+  padding-top: 5px;
   position: relative;
-  max-height: 79vh;
+  max-height: 50vh;
   @include scrollCustomized();
   overflow: auto;
   @media (max-width: $bp-sm) {

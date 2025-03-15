@@ -1382,7 +1382,7 @@ const Header = memo(() => {
           show={showCity}
           onHide={() => setShowCity(false)}
         >
-          <Modal.Body className="p-4">
+          <Modal.Body className="p-3">
             <img
               draggable={false}
               src={
@@ -1395,7 +1395,7 @@ const Header = memo(() => {
                   : "/logo.png"
               }
               alt={options?.title ?? "YOOAPP"}
-              className="logo mb-4"
+              className="logo mb-2"
             />
 
             {city?.title && (
@@ -1412,7 +1412,7 @@ const Header = memo(() => {
                 name="search"
                 type="search"
                 placeholder={t("Поиск...")}
-                className="mb-3"
+                className="mb-2 input-sm"
                 onChange={handleChange}
                 value={searchInput}
               />
@@ -1473,7 +1473,7 @@ const Header = memo(() => {
                     list.map((item) => (
                       <React.Fragment key={item.country}>
                         {item?.country && (
-                          <h6 className="fw-7 p-2">{item.country}</h6>
+                          <h6 className="fw-7 fs-12 p-2">{item.country}</h6>
                         )}
                         {item?.cities?.length > 0 && (
                           <div className="cities">
@@ -1512,7 +1512,7 @@ const Header = memo(() => {
                                           setShowCity(false);
                                         }}
                                         className={
-                                          "py-2 fw-6" +
+                                          "py-2 fw-4" +
                                           (e.title === city?.title &&
                                           e.options?.alias ===
                                             city?.options?.alias
