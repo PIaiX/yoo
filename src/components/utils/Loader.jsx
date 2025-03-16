@@ -1,6 +1,6 @@
 import React, { useState, useEffect, memo } from "react";
 
-const Loader = memo(({ mini = false }) => {
+const Loader = memo(({ mini = false, height = 350 }) => {
   const [show, setShow] = useState(false);
 
   const onClear = () => {
@@ -16,7 +16,10 @@ const Loader = memo(({ mini = false }) => {
 
   if (mini) {
     return (
-      <div className="loading-indicator mini">
+      <div
+        className={"loading-indicator mini"}
+        style={{ minHeight: height ?? "auto" }}
+      >
         <div>
           <div className="position-relative">
             <div className="spinner"></div>
@@ -33,7 +36,11 @@ const Loader = memo(({ mini = false }) => {
               <p className="fs-08">
                 Если загрузка не завершилась, попробуйте очистить кеш
               </p>
-              <button draggable={false}  className="btn btn-light mt-2 btn-sm" onClick={onClear}>
+              <button
+                draggable={false}
+                className="btn btn-light mt-2 btn-sm"
+                onClick={onClear}
+              >
                 Очистить кеш
               </button>
             </div>
@@ -62,7 +69,11 @@ const Loader = memo(({ mini = false }) => {
               <p className="fs-08">
                 Если загрузка не завершилась, попробуйте очистить кеш
               </p>
-              <button draggable={false}  className="btn btn-light mt-2 btn-sm" onClick={onClear}>
+              <button
+                draggable={false}
+                className="btn btn-light mt-2 btn-sm"
+                onClick={onClear}
+              >
                 Очистить кеш
               </button>
             </div>

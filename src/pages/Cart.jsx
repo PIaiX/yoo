@@ -30,7 +30,7 @@ import { IoTrashOutline } from "react-icons/io5";
 import Loader from "../components/utils/Loader";
 import Extras from "../components/utils/Extras";
 import { useTranslation } from "react-i18next";
-import { Modal } from "react-bootstrap";
+import { Modal, Placeholder } from "react-bootstrap";
 
 const Cart = () => {
   const { t } = useTranslation();
@@ -363,9 +363,9 @@ const Cart = () => {
     );
   }
 
-  if (data?.loading) {
-    return <Loader full />;
-  }
+  // if (data?.loading) {
+  //   return <Loader full />;
+  // }
 
   return (
     <main>
@@ -432,7 +432,8 @@ const Cart = () => {
                     ["товар", "товара", "товаров"].map((e) => t(e))
                   )}
                 </h6>
-                <button draggable={false} 
+                <button
+                  draggable={false}
                   type="button"
                   className="btn-9 py-1 ms-4 ms-sm-5"
                   onClick={() => setShowReset(true)}
@@ -440,11 +441,15 @@ const Cart = () => {
                   {t("Очистить")}
                 </button>
               </div>
-              <ul className="list-unstyled">
-                {cart.map((e) => (
-                  <CartItem data={e} />
-                ))}
-              </ul>
+              {data?.loading ? (
+                <Loader mini height={150} />
+              ) : (
+                <ul className="list-unstyled">
+                  {cart.map((e) => (
+                    <CartItem data={e} />
+                  ))}
+                </ul>
+              )}
             </Col>
             <Col xs={12} lg={4}>
               <div className="position-sticky top-h">
@@ -466,7 +471,8 @@ const Cart = () => {
                         register={register}
                         maxLength={100}
                       />
-                      <button draggable={false} 
+                      <button
+                        draggable={false}
                         type="button"
                         disabled={!isValid || form?.loading}
                         onClick={handleSubmit(onPromo)}
@@ -576,13 +582,15 @@ const Cart = () => {
                 )}
                 <Link
                   to={
-                    user?.id
-                      ? address?.length === 0 && checkout.delivery == "delivery"
+                    !data?.loading && user?.id
+                      ? !data?.loading &&
+                        address?.length === 0 &&
+                        checkout.delivery == "delivery"
                         ? "/account/addresses/add"
-                        : "/checkout"
-                      : "/login"
+                        : !data?.loading && "/checkout"
+                      : !data?.loading && "/login"
                   }
-                  className="btn btn-primary btn-lg w-100"
+                  className={"btn btn-lg w-100" + (data?.loading ? ' btn-disabled loading' : ' btn-primary')}
                 >
                   <span className="fw-6">
                     {t(
@@ -606,7 +614,8 @@ const Cart = () => {
         </Modal.Header>
         <Modal.Body>{t("Вы подтверждаете очистку корзину?")}</Modal.Body>
         <Modal.Footer>
-          <button draggable={false} 
+          <button
+            draggable={false}
             onClick={() => {
               setShowReset(false);
             }}
@@ -614,7 +623,8 @@ const Cart = () => {
           >
             {t("Отмена")}
           </button>
-          <button draggable={false} 
+          <button
+            draggable={false}
             onClick={() => {
               dispatch(deleteCart());
               setShowReset(false);

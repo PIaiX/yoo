@@ -982,7 +982,7 @@ button {
   background-color: #e01e00;
   border: 1px solid #e01e00;
 }
-.btn[disabled], [disabled].btn-primary, [disabled].btn-10, [disabled].btn-2, [disabled].btn-secondary, [disabled].btn-30, [disabled].btn-4, [disabled].btn-white, [disabled].btn-40-light, [disabled].btn-40, [disabled].btn-green, [disabled].btn-deepgreen, [disabled].btn-light, [disabled].btn-8, [disabled].btn-9, [disabled].btn-90, [disabled].btn-99, [disabled].btn-orange, [disabled].btn-red {
+.btn[disabled], [disabled].btn-primary, [disabled].btn-10, [disabled].btn-2, [disabled].btn-secondary, [disabled].btn-30, [disabled].btn-4, [disabled].btn-white, [disabled].btn-40-light, [disabled].btn-40, [disabled].btn-green, [disabled].btn-deepgreen, [disabled].btn-light, [disabled].btn-8, [disabled].btn-9, [disabled].btn-90, [disabled].btn-99, [disabled].btn-orange, [disabled].btn-red, .btn-disabled {
   background-color: var(--bg-btn);
   border: 1px solid var(--bg-btn);
   color: var(--bs-secondary-color);
@@ -1092,7 +1092,6 @@ button {
 .loading-indicator.mini {
   position: relative !important;
   height: auto !important;
-  min-height: 350px !important;
 }
 
 .loading-indicator.active {

@@ -1089,7 +1089,7 @@ button {
       border: 1px solid $red;
     }
   }
-  &[disabled] {
+  &[disabled], &-disabled {
     background-color: var(--bg-btn);
     border: 1px solid var(--bg-btn);
     color: var(--bs-secondary-color);
@@ -1202,7 +1202,6 @@ button {
   &.mini {
     position: relative !important;
     height: auto !important;
-    min-height: 350px !important;
   }
 }
 
