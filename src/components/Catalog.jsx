@@ -1,5 +1,5 @@
 import React, { memo, useState, useCallback, Suspense } from "react";
-import { Row, Container, Col, Modal } from "react-bootstrap";
+import { Row, Container, Col, Modal, CloseButton } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 import { HiOutlineArrowUturnDown } from "react-icons/hi2";
 import Choose from "../assets/imgs/choose.svg";
@@ -36,13 +36,8 @@ const ProductModalComponent = memo(({ product, setProduct }) => {
       size="xl"
       scrollable
     >
-      <button draggable={false} 
-        type="button"
-        onClick={handleClose}
-        className="btn-close btn-close-fixed"
-        aria-label="Close"
-      ></button>
-      <Modal.Body className="scroll-custom">
+      <CloseButton draggable={false} onClick={() => handleClose()} />
+      <Modal.Body className="scroll-hide">
         {product.show && product.data ? (
           <Suspense fallback={<Loader full />}>
             <ProductModal
@@ -89,7 +84,8 @@ const Catalog = memo(({ data }) => {
     <section className="sec-3 mb-5">
       {viewCategories ? (
         <Container className="box">
-          <button draggable={false} 
+          <button
+            draggable={false}
             type="button"
             onClick={toggleViewCategories}
             className="d-none d-md-flex btn-view mb-3 ms-auto me-4"
@@ -106,7 +102,11 @@ const Catalog = memo(({ data }) => {
                   </Col>
                 ))}
               </Row>
-              <button draggable={false}  type="button" className="main-color mx-auto mt-4">
+              <button
+                draggable={false}
+                type="button"
+                className="main-color mx-auto mt-4"
+              >
                 <span>показать все</span>
                 <HiOutlineArrowUturnDown className="fs-15 ms-3 main-color rotateY-180" />
               </button>

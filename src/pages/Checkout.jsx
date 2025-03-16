@@ -6,7 +6,14 @@ import React, {
   useLayoutEffect,
   useState,
 } from "react";
-import { Button, Modal, Col, Row, Container } from "react-bootstrap";
+import {
+  Button,
+  Modal,
+  Col,
+  Row,
+  Container,
+  CloseButton,
+} from "react-bootstrap";
 import { useForm, useWatch } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { NotificationManager } from "react-notifications";
@@ -1290,8 +1297,8 @@ const Checkout = () => {
           show={confirmation}
           onHide={setConfirmation}
           centered
-          closeButton
         >
+          <CloseButton onClick={() => setConfirmation(false)} />
           <Modal.Body>
             <h5 className="fw-7 h5 mt-2 mb-4 text-center">
               {t("Подтвердите заказ")}

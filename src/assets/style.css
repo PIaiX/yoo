@@ -2396,7 +2396,6 @@ main {
 .modal-content {
   background-color: var(--bg-main) !important;
   border-radius: 20px !important;
-  overflow: hidden;
 }
 @media (max-width: 580px) {
   .modal-content {
@@ -3847,7 +3846,7 @@ html.theme-font-title-amaticsc .filterGrid h4 {
 
 .box {
   background-color: var(--bg-second);
-  padding: 1.6em;
+  padding: 1em;
   border-radius: 1.25em;
   font-size: 1.2em;
 }
@@ -5067,6 +5066,7 @@ ACCOUNT
   min-height: 600px !important;
   max-height: 600px !important;
   border-radius: 20px !important;
+  overflow: visible !important;
 }
 @media (max-width: 580px) {
   .product-modal .modal-content {
@@ -5092,6 +5092,19 @@ ACCOUNT
   border-radius: 7px;
 }
 .scroll-custom::-webkit-scrollbar-button:vertical:start:decrement, .scroll-custom::-webkit-scrollbar-button:vertical:end:increment, .scroll-custom::-webkit-scrollbar-button:horizontal:start:decrement, .scroll-custom::-webkit-scrollbar-button:horizontal:end:increment {
+  display: none;
+}
+
+.scroll-hide::-webkit-scrollbar {
+  display: block;
+  width: 0px;
+  height: 0px;
+}
+.scroll-hide::-webkit-scrollbar-thumb {
+  background-color: transparent;
+  border-radius: 0px;
+}
+.scroll-hide::-webkit-scrollbar-button:vertical:start:decrement, .scroll-hide::-webkit-scrollbar-button:vertical:end:increment, .scroll-hide::-webkit-scrollbar-button:horizontal:start:decrement, .scroll-hide::-webkit-scrollbar-button:horizontal:end:increment {
   display: none;
 }
 
@@ -5296,29 +5309,12 @@ ACCOUNT END
 }
 .modal-content {
   border: none;
-  border-radius: 1em;
   filter: drop-shadow(0px 4px 20px rgba(0, 0, 0, 0.25));
 }
 .modal-body {
   position: relative;
-}
-.modal-body .close {
-  position: absolute;
-  top: 0.25em;
-  right: 0.25em;
-  font-size: 1.2em;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  flex-wrap: nowrap;
-  opacity: 0.6;
-  transition: opacity 200ms ease-in;
-}
-.modal-body .close:hover, .modal-body .close:focus, .modal-body .close:active {
-  opacity: 1;
-  box-shadow: none;
-  outline: none;
+  overflow: hidden;
+  border-radius: 20px !important;
 }
 
 .notification-container {
@@ -6323,11 +6319,39 @@ ACCOUNT END
   z-index: -1; /* Помещает фон под изображение */
 }
 
-.btn-close {
+.close, .btn-close {
+  z-index: 99999;
   filter: var(--modal-close);
-  margin: 8px;
-  outline: hidden !important;
+  position: absolute !important;
+  top: 0px !important;
+  right: -50px !important;
+  padding: 0px !important;
   box-shadow: none !important;
+  font-size: 14px !important;
+  background-color: var(--bg-main) !important;
+  border-radius: 40px !important;
+  margin: 0px !important;
+  width: 40px !important;
+  height: 40px !important;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: nowrap;
+  opacity: 0.8;
+  transition: opacity 200ms ease-in;
+}
+.close:hover, .close:focus, .close:active, .btn-close:hover, .btn-close:focus, .btn-close:active {
+  opacity: 1;
+  box-shadow: none;
+  outline: none;
+}
+@media (max-width: 580px) {
+  .close, .btn-close {
+    right: 10px !important;
+    top: 7px !important;
+    background-color: transparent;
+  }
 }
 
 .status {

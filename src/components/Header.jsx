@@ -12,6 +12,7 @@ import React, {
 } from "react";
 import {
   ButtonGroup,
+  CloseButton,
   Col,
   Dropdown,
   Form,
@@ -1106,7 +1107,7 @@ const Header = memo(() => {
         </Offcanvas.Body>
       </Offcanvas>
 
-      {!startSettings && !!city?.title && !showCity && (
+      {!!city?.title && !showCity && (
         <Modal
           size="lg"
           centered
@@ -1117,6 +1118,10 @@ const Header = memo(() => {
           show={!startSettings}
           onHide={() => dispatch(updateStartSettings(true))}
         >
+          <CloseButton
+            draggable={false}
+            onClick={() => dispatch(updateStartSettings(true))}
+          />
           <Modal.Body className="p-0">
             <Row className="gx-0">
               <Col md={7}>
@@ -1143,14 +1148,14 @@ const Header = memo(() => {
                       id={"radio-" + e.value}
                       value={e.value}
                     >
-                      {e.title}
+                      {t(e.title)}
                     </ToggleButton>
                   ))}
                 </ToggleButtonGroup>
                 <div className="fs-09 fw-6 d-flex align-items-center justify-content-between mb-3">
-                  <span>Ваш город</span>
+                  <span>{t("Ваш город")}</span>
                   <a className="text-main" onClick={() => setShowCity(true)}>
-                    {city?.title} <IoChevronDown />
+                    {t(city?.title)} <IoChevronDown />
                   </a>
                 </div>
                 {delivery === "pickup" ? (
@@ -1354,15 +1359,18 @@ const Header = memo(() => {
                     }
                     onClick={handleSubmit(onSubmitAddress)}
                   >
-                    Добавить адрес
+                    {t("Добавить адрес")}
                   </button>
                 ) : (
                   <button
                     disabled={!!!mainAffiliate}
                     className="btn btn-primary w-100"
-                    onClick={() => dispatch(mainAffiliateEdit(mainAffiliate))}
+                    onClick={() => {
+                      dispatch(mainAffiliateEdit(mainAffiliate));
+                      dispatch(updateStartSettings(true));
+                    }}
                   >
-                    Закажу здесь
+                    {t("Закажу здесь")}
                   </button>
                 )}
               </Col>
@@ -1379,9 +1387,13 @@ const Header = memo(() => {
           backdrop={city?.title ? true : "static"}
           keyboard={!!city?.title}
           className="city"
-          show={showCity}
+          show={!city?.title || showCity}
           onHide={() => setShowCity(false)}
         >
+          {city?.title && (
+            <CloseButton draggable={false} onClick={() => setShowCity(false)} />
+          )}
+
           <Modal.Body className="p-3">
             <img
               draggable={false}
@@ -1398,15 +1410,6 @@ const Header = memo(() => {
               className="logo mb-2"
             />
 
-            {city?.title && (
-              <button
-                draggable={false}
-                type="button"
-                className="btn-close close"
-                aria-label="Close"
-                onClick={() => setShowCity(false)}
-              ></button>
-            )}
             <div>
               <Input
                 name="search"
@@ -1445,6 +1448,10 @@ const Header = memo(() => {
                                   <a
                                     onClick={() => {
                                       dispatch(updateAffiliate(e.affiliates));
+                                      setMainAffiliate(
+                                        e.affiliates.find((e) => e.main) ??
+                                          e.affiliates[0]
+                                      );
                                       dispatch(updateCity(e));
                                       dispatch(updateGps(true));
                                       dispatch(deleteCart());
@@ -1506,6 +1513,10 @@ const Header = memo(() => {
                                           dispatch(
                                             updateAffiliate(e.affiliates)
                                           );
+                                          setMainAffiliate(
+                                            e.affiliates.find((e) => e.main) ??
+                                              e.affiliates[0]
+                                          );
                                           dispatch(updateCity(e));
                                           dispatch(updateGps(true));
                                           dispatch(deleteCart());
@@ -1534,7 +1545,6 @@ const Header = memo(() => {
                       </React.Fragment>
                     ))}
               </div>
-              {/* <div className="box-shadow-bottom"></div> */}
             </div>
           </Modal.Body>
         </Modal>
@@ -1549,16 +1559,8 @@ const Header = memo(() => {
           keyboard={!!city?.title}
           onHide={() => setShowBrand(false)}
         >
+          <CloseButton draggable={false} onClick={() => setShowBrand(false)} />
           <Modal.Body className="p-4">
-            {city?.title && (
-              <button
-                draggable={false}
-                type="button"
-                className="btn-close close"
-                aria-label="Close"
-                onClick={() => setShowBrand(false)}
-              ></button>
-            )}
             <h5 className="fw-7 mb-4">{t("Выберите заведение")}</h5>
             <div className="search-box">
               {affiliate?.length > 0 && (
