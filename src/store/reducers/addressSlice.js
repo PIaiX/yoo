@@ -2,7 +2,6 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   items: [],
-  cache: false,
 };
 
 const addressSlice = createSlice({
@@ -39,9 +38,6 @@ const addressSlice = createSlice({
     updateAddresses: (state, action) => {
       state.items = action.payload;
     },
-    updateCacheAddress: (state, action) => {
-      state.cache = action.payload;
-    },
     deleteAddressSlice: (state, action) => {
       state.items = state.items.filter((item) => item.id !== action?.payload);
     },
@@ -59,7 +55,6 @@ export const {
   updateAddresses,
   deleteAddressSlice,
   resetAddresses,
-  updateCacheAddress,
 } = addressSlice.actions;
 
 export default addressSlice.reducer;

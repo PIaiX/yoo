@@ -57,7 +57,7 @@ import MenuIcon from "./svgs/MenuIcon";
 import Input from "./utils/Input";
 import Loader from "./utils/Loader";
 import Select from "./utils/Select";
-import { mainAddressEdit } from "../store/reducers/addressSlice";
+import { mainAddressEdit, setAddress } from "../store/reducers/addressSlice";
 import Textarea from "./utils/Textarea";
 import { useForm, useWatch } from "react-hook-form";
 import useDebounce from "../hooks/useDebounce";
@@ -393,6 +393,9 @@ const Header = memo(() => {
       );
     }
     NotificationManager.success(t("Адрес успешно добавлен"));
+
+    dispatch(setAddress(data));
+    dispatch(updateStartSettings(true));
   }, []);
 
   const mapPoligone = useMemo(() => {
