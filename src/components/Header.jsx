@@ -4,15 +4,12 @@ import React, {
   memo,
   useCallback,
   useEffect,
-  useLayoutEffect,
   useMemo,
   useRef,
   useState,
   useTransition,
 } from "react";
 import {
-  ButtonGroup,
-  CloseButton,
   Col,
   Dropdown,
   Form,
@@ -22,27 +19,29 @@ import {
   Row,
   ToggleButton,
   ToggleButtonGroup,
+  Offcanvas,
+  Container,
 } from "react-bootstrap";
-import Container from "react-bootstrap/Container";
-import Offcanvas from "react-bootstrap/Offcanvas";
+import { useForm, useWatch } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import {
   HiOutlineMagnifyingGlass,
   HiOutlineShoppingBag,
   HiOutlineUserCircle,
 } from "react-icons/hi2";
-import {
-  IoChevronDown,
-  IoChevronForward,
-  IoCloseOutline,
-} from "react-icons/io5";
+import { IoChevronDown, IoCloseOutline } from "react-icons/io5";
+import { NotificationManager } from "react-notifications";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import AppStore from "../assets/imgs/appstore-black.svg";
 import GooglePlay from "../assets/imgs/googleplay-black.svg";
 import { customPrice, getCount, getImageURL, weekday } from "../helpers/all";
 import { isWork } from "../hooks/all";
+import useDebounce from "../hooks/useDebounce";
 import { deleteCart } from "../services/cart";
+import { getDadataStreets } from "../services/dadata";
+import { getDelivery } from "../services/order";
+import { setAddress } from "../store/reducers/addressSlice";
 import {
   mainAffiliateEdit,
   updateAffiliate,
@@ -54,16 +53,11 @@ import { updateStartSettings } from "../store/reducers/settingsSlice";
 import DeliveryBar from "./DeliveryBar";
 import ScrollToTop from "./ScrollToTop";
 import MenuIcon from "./svgs/MenuIcon";
+import ButtonClose from "./utils/ButtonClose";
 import Input from "./utils/Input";
 import Loader from "./utils/Loader";
 import Select from "./utils/Select";
-import { mainAddressEdit, setAddress } from "../store/reducers/addressSlice";
 import Textarea from "./utils/Textarea";
-import { useForm, useWatch } from "react-hook-form";
-import useDebounce from "../hooks/useDebounce";
-import { getDadataStreets } from "../services/dadata";
-import { getDelivery } from "../services/order";
-import { NotificationManager } from "react-notifications";
 
 const Header = memo(() => {
   const { t } = useTranslation();
@@ -271,6 +265,7 @@ const Header = memo(() => {
     },
     [showDropdown, streets]
   );
+
   useEffect(() => {
     if (streetText) {
       getDadataStreets({
@@ -286,7 +281,6 @@ const Header = memo(() => {
   }, [streetText]);
 
   useEffect(() => {
-    // Сортируем города по алфавиту
     if (cities && cities?.length > 0) {
       if (settingsCity && !city) {
         let defaultCity = cities.find(
@@ -381,12 +375,14 @@ const Header = memo(() => {
   }, [cities]);
 
   const onSubmitAddress = useCallback((data) => {
+    console.log(data);
     if (!data?.street) {
       return NotificationManager.error(t("Укажите улицу"));
     }
     if (!data?.home) {
       return NotificationManager.error(t("Укажите номер дома"));
     }
+
     if (!data?.zone) {
       return NotificationManager.error(
         t("Доставка на данный адрес не производится")
@@ -1110,21 +1106,17 @@ const Header = memo(() => {
         </Offcanvas.Body>
       </Offcanvas>
 
-      {!!city?.title && !showCity && (
+      {!!city?.title && !showCity && options?.startSettings && (
         <Modal
           size="lg"
           centered
           fullscreen="sm-down"
           backdrop="static"
           keyboard={false}
-          className="city"
           show={!startSettings}
           onHide={() => dispatch(updateStartSettings(true))}
         >
-          <CloseButton
-            draggable={false}
-            onClick={() => dispatch(updateStartSettings(true))}
-          />
+          <ButtonClose onClick={() => dispatch(updateStartSettings(true))} />
           <Modal.Body className="p-0">
             <Row className="gx-0">
               <Col md={7}>
@@ -1133,7 +1125,7 @@ const Header = memo(() => {
                   {mapPoligone}
                 </div>
               </Col>
-              <Col md={5} className="p-3">
+              <Col md={5} className="pt-3 ps-3 pe-3 pb-0">
                 <ToggleButtonGroup
                   size="sm"
                   type="radio"
@@ -1157,12 +1149,20 @@ const Header = memo(() => {
                 </ToggleButtonGroup>
                 <div className="fs-09 fw-6 d-flex align-items-center justify-content-between mb-3">
                   <span>{t("Ваш город")}</span>
-                  <a className="text-main" onClick={() => setShowCity(true)}>
+                  <a
+                    className="text-main"
+                    onClick={() => {
+                      reset({});
+                      setShowDropdown(false);
+                      setStreets([]);
+                      setShowCity(true);
+                    }}
+                  >
                     {t(city?.title)} <IoChevronDown />
                   </a>
                 </div>
                 {delivery === "pickup" ? (
-                  <ul className="list-unstyled pe-1 scroll-custom mb-3 affiliates-list-modal">
+                  <ul className="list-unstyled pe-1 scroll-custom affiliates-list-modal">
                     {affiliate.map((e) => (
                       <a
                         key={e.id}
@@ -1196,7 +1196,7 @@ const Header = memo(() => {
                     ))}
                   </ul>
                 ) : (
-                  <div className="mb-3 pe-1 scroll-custom affiliates-list-modal">
+                  <div className="pe-1 scroll-custom affiliates-list-modal">
                     <div className="mb-2 position-relative">
                       <Input
                         required
@@ -1222,7 +1222,7 @@ const Header = memo(() => {
                         <Dropdown.Menu
                           ref={dropdownRef}
                           show
-                          className="w-100 select-options"
+                          className="w-100 mt-1 select-options"
                         >
                           {!data?.home && (
                             <div className="fs-08 text-danger p-2 px-3">
@@ -1352,29 +1352,49 @@ const Header = memo(() => {
                   </div>
                 )}
                 {delivery === "delivery" ? (
-                  <button
-                    className="btn btn-primary w-100"
-                    draggable={false}
-                    disabled={
-                      !isValid ||
-                      showDropdown ||
-                      (data?.private && (!data?.street || !data?.home))
-                    }
-                    onClick={handleSubmit(onSubmitAddress)}
-                  >
-                    {t("Добавить адрес")}
-                  </button>
+                  <div className="position-sticky bottom-0 bg-main py-2 d-flex flex-row align-items-center">
+                    <div className="d-flex flex-1">
+                      <button
+                        className="btn btn-primary w-100"
+                        draggable={false}
+                        disabled={
+                          !isValid ||
+                          showDropdown ||
+                          (data?.private && (!data?.street || !data?.home))
+                        }
+                        onClick={handleSubmit(onSubmitAddress)}
+                      >
+                        {t("Сохранить")}
+                      </button>
+                    </div>
+                    {!isAuth && (
+                      <div className="d-flex ps-2">
+                        <Link
+                          className="btn btn-light w-100"
+                          draggable={false}
+                          to="/login"
+                          onClick={() => {
+                            dispatch(updateStartSettings(true));
+                          }}
+                        >
+                          {t("Войти")}
+                        </Link>
+                      </div>
+                    )}
+                  </div>
                 ) : (
-                  <button
-                    disabled={!!!mainAffiliate}
-                    className="btn btn-primary w-100"
-                    onClick={() => {
-                      dispatch(mainAffiliateEdit(mainAffiliate));
-                      dispatch(updateStartSettings(true));
-                    }}
-                  >
-                    {t("Закажу здесь")}
-                  </button>
+                  <div className="position-sticky bottom-0 bg-main py-2 d-flex flex-row align-items-center">
+                    <button
+                      disabled={!!!mainAffiliate}
+                      className="btn btn-primary w-100"
+                      onClick={() => {
+                        dispatch(mainAffiliateEdit(mainAffiliate));
+                        dispatch(updateStartSettings(true));
+                      }}
+                    >
+                      {t("Закажу здесь")}
+                    </button>
+                  </div>
                 )}
               </Col>
             </Row>
@@ -1393,35 +1413,35 @@ const Header = memo(() => {
           show={!city?.title || showCity}
           onHide={() => setShowCity(false)}
         >
-          {city?.title && (
-            <CloseButton draggable={false} onClick={() => setShowCity(false)} />
-          )}
+          {city?.title && <ButtonClose onClick={() => setShowCity(false)} />}
 
           <Modal.Body className="p-3">
-            <img
-              draggable={false}
-              src={
-                options?.logo
-                  ? getImageURL({
-                      path: options.logo,
-                      type: "all/web/logo",
-                      size: "full",
-                    })
-                  : "/logo.png"
-              }
-              alt={options?.title ?? "YOOAPP"}
-              className="logo mb-2"
-            />
-
-            <div>
-              <Input
-                name="search"
-                type="search"
-                placeholder={t("Поиск...")}
-                className="mb-2 input-sm"
-                onChange={handleChange}
-                value={searchInput}
+            <div className="top-minus-3 pt-3 pb-1 pb-md-0 pt-md-0 position-sticky bg-main z-1000">
+              <img
+                draggable={false}
+                src={
+                  options?.logo
+                    ? getImageURL({
+                        path: options.logo,
+                        type: "all/web/logo",
+                        size: "full",
+                      })
+                    : "/logo.png"
+                }
+                alt={options?.title ?? "YOOAPP"}
+                className="logo mb-2"
               />
+
+              <div>
+                <Input
+                  name="search"
+                  type="search"
+                  placeholder={t("Поиск...")}
+                  className="mb-2 input-sm"
+                  onChange={handleChange}
+                  value={searchInput}
+                />
+              </div>
             </div>
             <div className="box-shadow">
               <div className="box-shadow-top"></div>
@@ -1562,7 +1582,7 @@ const Header = memo(() => {
           keyboard={!!city?.title}
           onHide={() => setShowBrand(false)}
         >
-          <CloseButton draggable={false} onClick={() => setShowBrand(false)} />
+          <ButtonClose onClick={() => setShowBrand(false)} />
           <Modal.Body className="p-4">
             <h5 className="fw-7 mb-4">{t("Выберите заведение")}</h5>
             <div className="search-box">

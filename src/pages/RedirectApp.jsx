@@ -1,7 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
 import Container from "react-bootstrap/Container";
-
-// swiper
 import { ListGroup } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 import {
@@ -13,16 +11,16 @@ import {
   FaVk,
   FaWhatsapp,
 } from "react-icons/fa6";
-import { IoChevronForward } from "react-icons/io5";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import Slider from "react-slick";
 import Empty from "../components/Empty";
 import EmptyWork from "../components/empty/work";
 import Meta from "../components/Meta";
 import { getImageURL } from "../helpers/all";
+import { IoChevronForward } from "react-icons/io5";
+import Slider from "react-slick";
 
-const Info = () => {
+const RedirectApp = () => {
   const { t } = useTranslation();
   const options = useSelector((state) => state.settings.options);
   const selectedAffiliate = useSelector((state) => state.affiliate.active);
@@ -31,7 +29,45 @@ const Info = () => {
   const [width, setWidth] = useState(hasWindow ? window.innerWidth : null);
   let timeOutId = useRef();
 
-  const [mouseMoved, setMouseMoved] = useState(false);
+  useEffect(() => {
+    const userAgent = navigator.userAgent;
+    const isIOS = /iPhone|iPad/i.test(userAgent);
+    const isAndroid = /Android/i.test(userAgent);
+
+    const redirectToStore = async () => {
+      if (isIOS && options?.app?.name) {
+        // Редирект на AppStore
+        const appStoreUrl =
+          "https://apps.apple.com/ru/app/" +
+          (options.app?.titleIos?.length > 0
+            ? options.app.titleIos
+            : options.app?.nameIos?.length > 0
+            ? options.app.nameIos
+            : options.app.name) +
+          (options.app?.accountApple ? "/id" + options.app.accountApple : "");
+        window.location.href = appStoreUrl;
+      } else if (isAndroid && options?.app?.name) {
+        // Сначала пробуем Google Play
+        const packageName =
+          options.app?.nameAndroid?.length > 0
+            ? options.app.nameAndroid
+            : options.app.name;
+        const googlePlayUrl = `https://play.google.com/store/apps/details?id=${packageName}`;
+
+        setTimeout(() => {
+          if (!document.hidden) {
+            // Проверяем, осталась ли страница активной
+            window.location.href = googlePlayUrl;
+          }
+        }, 500);
+      } else {
+        // Если устройство не определено, показываем обе ссылки
+        NotificationManager.info("Выберите магазин вручную");
+      }
+    };
+
+    redirectToStore();
+  }, [options]);
 
   useEffect(() => {
     const handleResize = () => {
@@ -312,4 +348,4 @@ const Info = () => {
   );
 };
 
-export default Info;
+export default RedirectApp;

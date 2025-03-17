@@ -53,6 +53,7 @@ import {
 import { updateStatus } from "./store/reducers/statusSlice";
 import { getDelivery } from "./services/order";
 import { cartZone } from "./store/reducers/cartSlice";
+import CookieAccept from "./components/CookieAccept";
 
 function App() {
   const { i18n } = useTranslation();
@@ -75,6 +76,10 @@ function App() {
   useEffect(() => {
     if (options?.themeType) {
       document.documentElement.dataset.theme = options?.themeType;
+      document.documentElement.setAttribute("data-bs-theme", options.themeType);
+    } else {
+      document.documentElement.dataset.theme = "light";
+      document.documentElement.setAttribute("data-bs-theme", "light");
     }
   }, [options?.themeType]);
 
@@ -432,6 +437,7 @@ function App() {
       <Holiday />
       <YandexMetrika />
       <AppRouter />
+      <CookieAccept />
     </>
   );
 }

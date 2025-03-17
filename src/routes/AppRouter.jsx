@@ -23,6 +23,7 @@ import Registration from "../pages/auth/Registration";
 import AccountRouter from "./AccountRouter";
 import AuthRoute from "./AuthRoute";
 import Policy from "../pages/Policy";
+import PolicyCookie from "../pages/PolicyCookie";
 import Error from "../components/Error";
 // import About from "../pages/About";
 import Blog from "../pages/Blog";
@@ -30,6 +31,7 @@ import Blogs from "../pages/Blogs";
 import Categories from "../pages/Categories";
 import Search from "../pages/Search";
 import Info from "../pages/Info";
+import RedirectApp from "../pages/RedirectApp";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -44,10 +46,12 @@ const router = createBrowserRouter(
       <Route path="search" element={<Search />} />
       <Route path="promo" element={<Promo />} />
       <Route path="info" element={<Info />} />
+      <Route path="redirectapp" element={<RedirectApp />} />
       <Route path="promo/:saleId" element={<OfferPage />} />
       <Route path="contact" element={<Contact />} />
       <Route path="delivery" element={<Delivery />} />
       <Route path="policy" element={<Policy />} />
+      <Route path="policy-cookie" element={<PolicyCookie />} />
       <Route path="*" element={<NotFound />} />
       <Route
         path="account/*"

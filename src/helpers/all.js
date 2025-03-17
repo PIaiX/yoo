@@ -92,12 +92,12 @@ const weightTypes = [
 ];
 
 const tagsData = [
-  { name: "chicken", value: "/imgs/tags/chicken.png" },
-  { name: "fish", value: "/imgs/tags/fish.png" },
-  { name: "halal", value: "/imgs/tags/halal.png" },
-  { name: "meat", value: "/imgs/tags/meat.png" },
-  { name: "pepper", value: "/imgs/tags/pepper.png" },
-  { name: "vegetarian", value: "/imgs/tags/vegetarian.png" },
+  { name: "chicken", title: "С курицей", value: "/imgs/tags/chicken.png" },
+  { name: "fish", title: "С рыбой", value: "/imgs/tags/fish.png" },
+  { name: "halal", title: "Халяль", value: "/imgs/tags/halal.png" },
+  { name: "meat", title: "С мясом", value: "/imgs/tags/meat.png" },
+  { name: "pepper", title: "Острое", value: "/imgs/tags/pepper.png" },
+  { name: "vegetarian", title: "Вегетарианское", value: "/imgs/tags/vegetarian.png" },
 ];
 
 const customWeight = ({ value, type = "г" }) => {

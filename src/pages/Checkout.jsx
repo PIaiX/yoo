@@ -6,27 +6,25 @@ import React, {
   useLayoutEffect,
   useState,
 } from "react";
-import {
-  Button,
-  Modal,
-  Col,
-  Row,
-  Container,
-  CloseButton,
-} from "react-bootstrap";
+import { Button, Col, Container, Modal, Row } from "react-bootstrap";
 import { useForm, useWatch } from "react-hook-form";
 import { useTranslation } from "react-i18next";
+import { IoTrashOutline } from "react-icons/io5";
 import { NotificationManager } from "react-notifications";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
+import CartItem from "../components/CartItem";
 import CheckoutProduct from "../components/CheckoutProduct";
 import Empty from "../components/Empty";
 import EmptyAuth from "../components/empty/auth";
 import EmptyCart from "../components/empty/cart";
 import EmptyWork from "../components/empty/work";
 import Meta from "../components/Meta";
+import TimePicker from "../components/TimePicker";
+import ButtonClose from "../components/utils/ButtonClose";
 import CountInput from "../components/utils/CountInput";
 import Input from "../components/utils/Input";
+import Loader from "../components/utils/Loader";
 import NavTop from "../components/utils/NavTop";
 import PaymentItem from "../components/utils/PaymentItem";
 import Select from "../components/utils/Select";
@@ -35,20 +33,24 @@ import {
   customPrice,
   deliveryData,
   formatDeliveryTime,
+  isWork,
   paymentData,
+  weekday,
 } from "../helpers/all";
-import { isWork, weekday } from "../helpers/all";
 import { useTotalCart } from "../hooks/useCart";
+import useDebounce from "../hooks/useDebounce";
 import { mainAddress } from "../services/address";
 import { checkAuth } from "../services/auth";
-import { createOrder } from "../services/order";
+import { createOrder, getDelivery } from "../services/order";
 import {
   mainAffiliateEdit,
   mainTableEdit,
 } from "../store/reducers/affiliateSlice";
+import { setUser } from "../store/reducers/authSlice";
 import {
   cartDeleteProduct,
   cartDeletePromo,
+  cartZone,
   resetCart,
   updateCartChecking,
 } from "../store/reducers/cartSlice";
@@ -57,14 +59,6 @@ import {
   resetCheckout,
   setCheckout,
 } from "../store/reducers/checkoutSlice";
-import CartItem from "../components/CartItem";
-import { setUser } from "../store/reducers/authSlice";
-import { IoTrashOutline } from "react-icons/io5";
-import { getDelivery } from "../services/order";
-import { cartZone } from "../store/reducers/cartSlice";
-import TimePicker from "../components/TimePicker";
-import Loader from "../components/utils/Loader";
-import useDebounce from "../hooks/useDebounce";
 
 const Checkout = () => {
   const { t } = useTranslation();
@@ -519,12 +513,24 @@ const Checkout = () => {
   const onSubmit = useCallback(
     (data) => {
       if (data.serving) {
+        // Получаем текущую дату и время
+        const currentDateTime = moment();
+        // Получаем выбранную дату и время
+        const selectedDateTime = moment(data.serving);
+
+        // Проверка, что выбранная дата и время не в прошлом
+        if (selectedDateTime.isBefore(currentDateTime)) {
+          return NotificationManager.error(
+            t("Нельзя заказать на прошедшую дату и время")
+          );
+        }
+
+        // Проверка рабочего времени
         if (
           !isWork(
-            selectedAffiliate.options.work[moment(data.serving).weekday()]
-              .start,
-            selectedAffiliate.options.work[moment(data.serving).weekday()].end,
-            moment(data.serving).format("HH:mm")
+            selectedAffiliate.options.work[selectedDateTime.weekday()].start,
+            selectedAffiliate.options.work[selectedDateTime.weekday()].end,
+            selectedDateTime.format("HH:mm")
           )
         ) {
           return NotificationManager.error(
@@ -1298,7 +1304,7 @@ const Checkout = () => {
           onHide={setConfirmation}
           centered
         >
-          <CloseButton onClick={() => setConfirmation(false)} />
+          <ButtonClose onClick={() => setConfirmation(false)} />
           <Modal.Body>
             <h5 className="fw-7 h5 mt-2 mb-4 text-center">
               {t("Подтвердите заказ")}

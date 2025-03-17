@@ -1,20 +1,27 @@
+import { Modal } from "react-bootstrap";
 import React, { memo, useCallback, useEffect, useRef, useState } from "react";
 import { useForm, useWatch } from "react-hook-form";
 import { useTranslation } from "react-i18next";
+import { HiOutlineChevronDoubleUp } from "react-icons/hi2";
+import {
+  IoChatbubbleEllipses,
+  IoClose,
+  IoQrCodeOutline,
+} from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
-import SupportForm from "./support";
-import Loader from "./utils/Loader";
 import socket from "../config/socket";
+import useIsMobile from "../hooks/isMobile";
 import { createMessage, getMessages } from "../services/message";
 import { updateNotification } from "../store/reducers/notificationSlice";
-import useIsMobile from "../hooks/isMobile";
-import { HiOutlineChevronDoubleUp } from "react-icons/hi2";
-import { IoChatbubbleEllipses, IoClose } from "react-icons/io5";
+import SupportForm from "./support";
+import ButtonClose from "./utils/ButtonClose";
+import QrApp from "./QrApp";
 
 const ScrollToTop = memo(() => {
   const messageCount = useSelector((state) => state.notification?.message);
   const [visible, setVisible] = useState(false);
+  const [showApp, setShowApp] = useState(false);
   const [showChat, setShowChat] = useState(false);
   const { t } = useTranslation();
   const { state } = useLocation();
@@ -135,44 +142,67 @@ const ScrollToTop = memo(() => {
 
   return (
     (isValid || visible) && (
-      <nav className="sidebar">
-        <ul>
-          {isValid && (
-            <li>
-              {showChat && (
-                <div className="chat-bar">
-                  <SupportForm
-                    className="sidebar-chat"
-                    placeholder={t("Введите сообщение")}
-                    emptyText={t("Нет сообщений")}
-                    data={messages?.items?.length > 0 ? messages.items : []}
-                    form={data}
-                    onChange={(e) => setValue("text", e)}
-                    onSubmit={handleSubmit(onNewMessage)}
-                  />
-                </div>
-              )}
-              <button draggable={false} 
-                className="position-relative"
-                type="button"
-                onClick={() => setShowChat(!showChat)}
-              >
-                {showChat ? <IoClose /> : <IoChatbubbleEllipses />}
-                {messageCount > 0 && (
-                  <span className="badge">{messageCount}</span>
+      <>
+        <nav className="sidebar">
+          <ul>
+            {isValid && (
+              <li>
+                {showChat && (
+                  <div className="chat-bar">
+                    <SupportForm
+                      className="sidebar-chat"
+                      placeholder={t("Введите сообщение")}
+                      emptyText={t("Нет сообщений")}
+                      data={messages?.items?.length > 0 ? messages.items : []}
+                      form={data}
+                      onChange={(e) => setValue("text", e)}
+                      onSubmit={handleSubmit(onNewMessage)}
+                    />
+                  </div>
                 )}
-              </button>
-            </li>
-          )}
-          {visible && (
+                <button
+                  draggable={false}
+                  className="position-relative"
+                  type="button"
+                  onClick={() => setShowChat(!showChat)}
+                >
+                  {showChat ? <IoClose /> : <IoChatbubbleEllipses />}
+                  {messageCount > 0 && (
+                    <span className="badge">{messageCount}</span>
+                  )}
+                </button>
+              </li>
+            )}
+            {visible && (
+              <li>
+                <button draggable={false} type="button" onClick={toTop}>
+                  <HiOutlineChevronDoubleUp />
+                </button>
+              </li>
+            )}
             <li>
-              <button draggable={false}  type="button" onClick={toTop}>
-                <HiOutlineChevronDoubleUp />
+              <button
+                draggable={false}
+                type="button"
+                onClick={() => setShowApp(true)}
+              >
+                <IoQrCodeOutline />
               </button>
             </li>
-          )}
-        </ul>
-      </nav>
+          </ul>
+        </nav>
+        <Modal
+          size="xl"
+          centered
+          fullscreen="sm-down"
+          className="modal-app"
+          show={showApp}
+          onHide={() => setShowApp(false)}
+        >
+          <ButtonClose onClick={() => setShowApp(false)} />
+          <QrApp />
+        </Modal>
+      </>
     )
   );
 });

@@ -18,6 +18,7 @@ import AppStore from "../assets/imgs/appstore.svg";
 import GooglePlay from "../assets/imgs/googleplay.svg";
 import { getCount, getImageURL } from "../helpers/all";
 import FlameIcon from "./svgs/FlameIcon";
+import QRCode from "react-qr-code";
 
 const iconComponents = {
   "/contact": IoCallOutline,
@@ -166,9 +167,24 @@ const Footer = memo(() => {
           </nav>
           {options?.app?.name && (
             <div>
-              <p className="text-white fs-09">
-                {t("Заказывайте через приложение")}
-              </p>
+              <div className="d-flex align-items-center flex-row">
+                <div className="pe-2">
+                  <QRCode
+                    size={50}
+                    className="p-1 bg-white rounded shadow-sm"
+                    value={"http://192.168.0.109:3000/redirectapp"}
+                    //  "https://" + window.location.hostname + "/redirectapp"
+                    viewBox={`0 0 50 50`}
+                  />
+                </div>
+                <div>
+                  <p className="text-white fs-09">
+                    {t("Заказывайте")}
+                    <br />
+                    {t("через приложение")}
+                  </p>
+                </div>
+              </div>
               <ul className="list-unstyled d-flex mt-2">
                 {options.app?.accountApple && options.app?.titleIos && (
                   <li>

@@ -1,15 +1,16 @@
-import React, { memo, useState, useCallback, Suspense } from "react";
-import { Row, Container, Col, Modal, CloseButton } from "react-bootstrap";
+import React, { memo, Suspense, useCallback, useState } from "react";
+import { Col, Container, Modal, Row } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 import { HiOutlineArrowUturnDown } from "react-icons/hi2";
+import { useSelector } from "react-redux";
+import { useLocation } from "react-router-dom";
 import Choose from "../assets/imgs/choose.svg";
 import Categories from "./Categories";
 import CategoryCard from "./CategoryCard";
 import CategoryGroup from "./CategoryGroup";
 import GridIcon from "./svgs/GridIcon";
+import ButtonClose from "./utils/ButtonClose";
 import Loader from "./utils/Loader";
-import { useLocation } from "react-router-dom";
-import { useSelector } from "react-redux";
 
 // Ленивая загрузка ProductModal
 const ProductModal = React.lazy(() => import("./ProductModal"));
@@ -36,7 +37,7 @@ const ProductModalComponent = memo(({ product, setProduct }) => {
       size="xl"
       scrollable
     >
-      <CloseButton draggable={false} onClick={() => handleClose()} />
+      <ButtonClose onClick={() => handleClose()} />
       <Modal.Body className="scroll-hide">
         {product.show && product.data ? (
           <Suspense fallback={<Loader full />}>

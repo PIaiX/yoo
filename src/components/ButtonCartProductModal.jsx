@@ -1,14 +1,13 @@
 import { memo, useCallback, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { HiOutlineShoppingBag } from "react-icons/hi2";
+import { NotificationManager } from "react-notifications";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
 import { groupByCategoryIdToArray } from "../helpers/all";
 import { isCart } from "../hooks/useCart";
 import { updateCart } from "../services/cart";
 import { getProduct } from "../services/product";
 import CountInput from "./utils/CountInput";
-import { NotificationManager } from "react-notifications";
-import { useTranslation } from "react-i18next";
 
 const ButtonCartProductModal = memo(
   ({ product, isValid = true, className, children, onExit }) => {
@@ -89,10 +88,10 @@ const ButtonCartProductModal = memo(
                 NotificationManager.success(
                   t("Товар успешно добавлен в корзину")
                 );
-                onExit && onExit()
+                onExit && onExit();
               } else {
                 dispatch(updateCart(newProduct));
-                onExit && onExit()
+                onExit && onExit();
               }
             })
             .finally(() => setLoading(false));
@@ -123,7 +122,8 @@ const ButtonCartProductModal = memo(
     }
 
     return (
-      <button draggable={false} 
+      <button
+        draggable={false}
         disabled={!isValid}
         onClick={() => onPress()}
         type="button"

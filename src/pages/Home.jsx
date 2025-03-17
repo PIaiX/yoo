@@ -15,6 +15,8 @@ import { isUpdateTime } from "../helpers/all";
 import { getCatalog } from "../services/catalog";
 import { updateCatalog } from "../store/reducers/catalogSlice";
 import EmptyWork from "../components/empty/work";
+import QrApp from "../components/QrApp";
+import { Container } from "react-bootstrap";
 
 const Home = () => {
   const { t } = useTranslation();
@@ -114,6 +116,9 @@ const Home = () => {
           image={() => <EmptyWork />}
         />
       )}
+      <Container>
+        <QrApp />
+      </Container>
     </main>
   );
 };

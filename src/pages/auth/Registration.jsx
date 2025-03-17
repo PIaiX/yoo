@@ -33,6 +33,7 @@ const Registration = () => {
   const user = useSelector((state) => state.auth.user);
   const apiId = useSelector((state) => state.settings.apiId);
   const options = useSelector((state) => state.settings.options);
+  const addresses = useSelector((state) => state.address.items);
   const loadingLogin = useSelector((state) => state.auth.loadingLogin);
   const qr = useSelector((state) => state.auth.qr);
   const [modalQr, setModalQr] = useState(false);
@@ -73,7 +74,13 @@ const Registration = () => {
     register,
     formState: { errors, isValid },
     handleSubmit,
-  } = useForm({ mode: "all", reValidateMode: "onChange" });
+  } = useForm({
+    mode: "all",
+    reValidateMode: "onChange",
+    defaultValues: {
+      address: addresses?.length > 0 ? addresses[0] : false,
+    },
+  });
 
   const {
     register: registerReg,
@@ -82,7 +89,10 @@ const Registration = () => {
   } = useForm({
     mode: "all",
     reValidateMode: "onChange",
-    defaultValues: { accept: true },
+    defaultValues: {
+      accept: true,
+      address: addresses?.length > 0 ? addresses[0] : false,
+    },
   });
 
   const dispatch = useDispatch();
@@ -485,7 +495,8 @@ const Registration = () => {
         <section className="align-items-center login justify-content-center justify-content-lg-between d-flex">
           <div ref={block2} className="login-forms">
             {loginView ? regForm : loginForm}
-            <button draggable={false} 
+            <button
+              draggable={false}
               type="button"
               onClick={() => setLoginView(!loginView)}
               className="btn btn-lg btn-white d-block w-100 rounded-3 d-lg-none fw-6 mx-auto mt-4"
@@ -512,7 +523,8 @@ const Registration = () => {
                 <p>{t("Войдите в личный кабинет")}</p>
               </div>
             </div>
-            <button draggable={false} 
+            <button
+              draggable={false}
               type="button"
               onClick={handleClick}
               className="btn btn-primary btn-lg rounded-3 fw-6 mx-auto mt-4"
@@ -533,7 +545,8 @@ const Registration = () => {
           </Modal.Header> */}
 
           <Modal.Body>
-            <button draggable={false} 
+            <button
+              draggable={false}
               type="button"
               className="close"
               onClick={() => setModalQr(false)}
