@@ -19,23 +19,19 @@ import Meta from "../components/Meta";
 import { getImageURL } from "../helpers/all";
 import { IoChevronForward } from "react-icons/io5";
 import Slider from "react-slick";
+import { isIOS, isAndroid } from "react-device-detect";
 
 const RedirectApp = () => {
   const { t } = useTranslation();
   const options = useSelector((state) => state.settings.options);
-  const selectedAffiliate = useSelector((state) => state.affiliate.active);
   const hasWindow = typeof window !== "undefined";
   const [mobile, setMobile] = useState(false);
   const [width, setWidth] = useState(hasWindow ? window.innerWidth : null);
   let timeOutId = useRef();
 
   useEffect(() => {
-    const userAgent = navigator.userAgent;
-    const isIOS = /iPhone|iPad/i.test(userAgent);
-    const isAndroid = /Android/i.test(userAgent);
-
     const redirectToStore = async () => {
-      if (isIOS && options?.app?.name) {
+      if (isIOS && (options?.app?.name || options.app?.nameIos)) {
         // Редирект на AppStore
         const appStoreUrl =
           "https://apps.apple.com/ru/app/" +
@@ -45,21 +41,31 @@ const RedirectApp = () => {
             ? options.app.nameIos
             : options.app.name) +
           (options.app?.accountApple ? "/id" + options.app.accountApple : "");
+        // Если редирект не сработал, переходим на fallback
         window.location.href = appStoreUrl;
-      } else if (isAndroid && options?.app?.name) {
-        // Сначала пробуем Google Play
-        const packageName =
-          options.app?.nameAndroid?.length > 0
-            ? options.app.nameAndroid
-            : options.app.name;
-        const googlePlayUrl = `https://play.google.com/store/apps/details?id=${packageName}`;
 
         setTimeout(() => {
           if (!document.hidden) {
-            // Проверяем, осталась ли страница активной
-            window.location.href = googlePlayUrl;
+            window.location.href = appStoreUrl;
           }
-        }, 500);
+        }, 2000);
+      } else if (
+        isAndroid &&
+        (options?.app?.name || options.app?.nameAndroid)
+      ) {
+        // Редирект на Google Play через Intent
+        const packageName = options.app?.nameAndroid || options.app.name;
+        // const intentUrl = `market://details?id=${packageName}`;
+        const fallbackUrl = `https://play.google.com/store/apps/details?id=${packageName}`;
+
+        window.location.href = fallbackUrl;
+
+        // Если редирект не сработал, переходим на fallback
+        setTimeout(() => {
+          if (!document.hidden) {
+            window.location.href = fallbackUrl;
+          }
+        }, 2000);
       } else {
         // Если устройство не определено, показываем обе ссылки
         NotificationManager.info("Выберите магазин вручную");
@@ -103,30 +109,7 @@ const RedirectApp = () => {
   }
   return (
     <main>
-      <Meta
-        title={
-          options?.seo?.info?.title
-            ? generateSeoText({
-                text: options.seo.info.title,
-                site: options?.title,
-              })
-            : selectedAffiliate?.title
-            ? selectedAffiliate?.title
-            : options?.title
-            ? options.title
-            : t("Информация")
-        }
-        description={
-          options?.seo?.info?.description
-            ? generateSeoText({
-                text: options.seo.info.description,
-                site: options?.title,
-              })
-            : t(
-                "Узнайте свежие новости о нашей службе доставки, новых ресторанах, акциях и специальных предложениях."
-              )
-        }
-      />
+      <Meta title={t("Перенаправляем...")} />
 
       <Container className="mb-4">
         {options?.info?.banner && (

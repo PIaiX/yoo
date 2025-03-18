@@ -17,8 +17,10 @@ import { updateNotification } from "../store/reducers/notificationSlice";
 import SupportForm from "./support";
 import ButtonClose from "./utils/ButtonClose";
 import QrApp from "./QrApp";
+import { isDesktop } from "react-device-detect";
 
 const ScrollToTop = memo(() => {
+  const options = useSelector((state) => state.settings.options);
   const messageCount = useSelector((state) => state.notification?.message);
   const [visible, setVisible] = useState(false);
   const [showApp, setShowApp] = useState(false);
@@ -180,28 +182,36 @@ const ScrollToTop = memo(() => {
                 </button>
               </li>
             )}
-            <li>
-              <button
-                draggable={false}
-                type="button"
-                onClick={() => setShowApp(true)}
-              >
-                <IoQrCodeOutline />
-              </button>
-            </li>
+            {options?.qrApp && isDesktop ? (
+              <li>
+                <button
+                  draggable={false}
+                  type="button"
+                  onClick={() => setShowApp(true)}
+                >
+                  <IoQrCodeOutline />
+                </button>
+              </li>
+            ) : (
+              ""
+            )}
           </ul>
         </nav>
-        <Modal
-          size="xl"
-          centered
-          fullscreen="sm-down"
-          className="modal-app"
-          show={showApp}
-          onHide={() => setShowApp(false)}
-        >
-          <ButtonClose onClick={() => setShowApp(false)} />
-          <QrApp />
-        </Modal>
+        {options?.qrApp && isDesktop ? (
+          <Modal
+            size="xl"
+            centered
+            fullscreen="sm-down"
+            className="modal-app"
+            show={showApp}
+            onHide={() => setShowApp(false)}
+          >
+            <ButtonClose onClick={() => setShowApp(false)} />
+            <QrApp />
+          </Modal>
+        ) : (
+          ""
+        )}
       </>
     )
   );

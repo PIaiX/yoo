@@ -2404,16 +2404,16 @@ main {
   }
 }
 
-.sec-4 {
+.sec-app {
   background-image: url(imgs/curve.svg), url(imgs/trapezoid.svg);
   background-repeat: no-repeat;
-  background-position: 12% 55%, center bottom;
+  background-position: 12% 50%, center bottom;
   background-size: 62% auto, 100% calc(100% - 10em);
-  padding: 15em 4em 3em;
+  padding: 10em 4em 3em;
   position: relative;
   @media (max-width: $bp-xxl) {
-    padding: 10em 3em 2em;
-    background-position: 12% 25%, center bottom;
+    padding: 8em 3em 2em;
+    background-position: 12% 22%, center bottom;
     background-size: 62% auto, 100% calc(100% - 5em);
   }
   @media (max-width: $bp-xl) {
@@ -6080,14 +6080,17 @@ img.show {
 }
 .modal-app {
   .modal-content {
-    background-color: transparent !important;
+    border-radius: 40px !important;
+    padding: 20px !important;
     .btn-close {
-      right: 10px !important;
+      top: 15px !important;
+      right: 20px !important;
       width: 50px !important;
       height: 50px !important;
-      background-color: #fff !important;
-      color: #000 !important;
+      background-color: var(--bg-second) !important;
+      // color: var(--main-color-text) !important;
       opacity: 1 !important;
+      font-size: 18px !important;
     }
   }
 }

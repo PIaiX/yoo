@@ -17,6 +17,7 @@ import { updateCatalog } from "../store/reducers/catalogSlice";
 import EmptyWork from "../components/empty/work";
 import QrApp from "../components/QrApp";
 import { Container } from "react-bootstrap";
+import { isDesktop } from "react-device-detect";
 
 const Home = () => {
   const { t } = useTranslation();
@@ -116,9 +117,13 @@ const Home = () => {
           image={() => <EmptyWork />}
         />
       )}
-      <Container>
-        <QrApp />
-      </Container>
+      {options?.qrApp && isDesktop ? (
+        <Container>
+          <QrApp />
+        </Container>
+      ) : (
+        ""
+      )}
     </main>
   );
 };
