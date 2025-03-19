@@ -177,8 +177,9 @@ const Footer = memo(() => {
                       <QRCode
                         size={50}
                         className="p-1 bg-white rounded shadow-sm"
-                        value={"http://192.168.0.109:3000/redirectapp"}
-                        //  "https://" + window.location.hostname + "/redirectapp"
+                        value={
+                          "https://" + window.location.hostname + "/redirectapp"
+                        }
                         viewBox={`0 0 50 50`}
                       />
                     </div>
