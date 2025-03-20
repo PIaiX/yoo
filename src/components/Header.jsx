@@ -11,16 +11,16 @@ import React, {
 } from "react";
 import {
   Col,
+  Container,
   Dropdown,
   Form,
   Modal,
+  Offcanvas,
   OverlayTrigger,
   Popover,
   Row,
   ToggleButton,
   ToggleButtonGroup,
-  Offcanvas,
-  Container,
 } from "react-bootstrap";
 import { useForm, useWatch } from "react-hook-form";
 import { useTranslation } from "react-i18next";
@@ -29,7 +29,12 @@ import {
   HiOutlineShoppingBag,
   HiOutlineUserCircle,
 } from "react-icons/hi2";
-import { IoChevronDown, IoCloseOutline } from "react-icons/io5";
+import {
+  IoChevronDown,
+  IoCloseOutline,
+  IoStorefrontOutline,
+} from "react-icons/io5";
+import { MdOutlineDeliveryDining } from "react-icons/md";
 import { NotificationManager } from "react-notifications";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
@@ -38,6 +43,7 @@ import GooglePlay from "../assets/imgs/googleplay-black.svg";
 import { customPrice, getCount, getImageURL, weekday } from "../helpers/all";
 import { isWork } from "../hooks/all";
 import useDebounce from "../hooks/useDebounce";
+import { mainAddress } from "../services/address";
 import { deleteCart } from "../services/cart";
 import { getDadataStreets } from "../services/dadata";
 import { getDelivery } from "../services/order";
@@ -71,6 +77,8 @@ const Header = memo(() => {
   const zones = useSelector((state) => state.affiliate.zones);
   const cities = useSelector((state) => state.affiliate.cities);
   const selectedAffiliate = useSelector((state) => state.affiliate.active);
+  const addressData = useSelector((state) => state.address.items);
+  const selectedAddress = addressData.find((e) => e.main) ?? addressData[0];
   const options = useSelector((state) => state.settings.options);
   const delivery = useSelector((state) => state.checkout.delivery);
   const settingsCity = useSelector((state) => state.settings.city);
@@ -212,6 +220,8 @@ const Header = memo(() => {
         if (isValidAddress) {
           const info = await getDelivery({
             distance: true,
+            area: address.data?.federal_district ?? null,
+            city: address.data?.city ?? null,
             lat: address.data.geo_lat,
             lon: address.data.geo_lon,
           });
@@ -371,28 +381,39 @@ const Header = memo(() => {
       // } else {
       //   setShowCity(true);
       // }
+    } else if (
+      (delivery === "delivery" && !selectedAddress) ||
+      (delivery === "pickup" && !selectedAffiliate)
+    ) {
+      dispatch(updateStartSettings(false));
     }
   }, [cities]);
 
-  const onSubmitAddress = useCallback((data) => {
-    console.log(data);
-    if (!data?.street) {
-      return NotificationManager.error(t("Укажите улицу"));
-    }
-    if (!data?.home) {
-      return NotificationManager.error(t("Укажите номер дома"));
-    }
+  const onSubmitAddress = useCallback(() => {
+    if (isAuth) {
+      dispatch(updateStartSettings(true));
+    } else {
+      if (selectedAddress) {
+        return dispatch(updateStartSettings(true));
+      }
+      if (!data?.street) {
+        return NotificationManager.error(t("Укажите улицу"));
+      }
+      if (!data?.home) {
+        return NotificationManager.error(t("Укажите номер дома"));
+      }
 
-    if (!data?.zone) {
-      return NotificationManager.error(
-        t("Доставка на данный адрес не производится")
-      );
-    }
-    NotificationManager.success(t("Адрес успешно добавлен"));
+      if (!data?.zone) {
+        return NotificationManager.error(
+          t("Доставка на данный адрес не производится")
+        );
+      }
+      NotificationManager.success(t("Адрес успешно добавлен"));
 
-    dispatch(setAddress(data));
-    dispatch(updateStartSettings(true));
-  }, []);
+      dispatch(setAddress(data));
+      dispatch(updateStartSettings(true));
+    }
+  }, [data, selectedAddress]);
 
   const mapPoligone = useMemo(() => {
     return (
@@ -405,8 +426,16 @@ const Header = memo(() => {
                 onLoad={() => setLoading(false)}
                 state={{
                   center: [
-                    mainAffiliate.options.coordinates.lat,
-                    mainAffiliate.options.coordinates.lon,
+                    selectedAddress?.coordinates?.lat
+                      ? selectedAddress.coordinates.lat
+                      : selectedAddress?.lat
+                      ? selectedAddress.lat
+                      : mainAffiliate.options.coordinates.lat,
+                    selectedAddress?.coordinates?.lon
+                      ? selectedAddress.coordinates.lon
+                      : selectedAddress?.lon
+                      ? selectedAddress.lon
+                      : mainAffiliate.options.coordinates.lon,
                   ],
                   zoom: 11,
                 }}
@@ -426,6 +455,22 @@ const Header = memo(() => {
                       iconImageSize: [38, 54],
                     }}
                     geometry={[data?.lat, data?.lon]}
+                  />
+                ) : selectedAddress && delivery === "delivery" ? (
+                  <Placemark
+                    options={{
+                      iconLayout: "default#image",
+                      iconImageHref: "imgs/marker.png",
+                      iconImageSize: [38, 54],
+                    }}
+                    geometry={[
+                      selectedAddress?.coordinates?.lat
+                        ? selectedAddress.coordinates.lat
+                        : selectedAddress?.lat,
+                      selectedAddress?.coordinates?.lon
+                        ? selectedAddress.coordinates.lon
+                        : selectedAddress?.lon,
+                    ]}
                   />
                 ) : (
                   affiliate?.length > 0 &&
@@ -524,6 +569,7 @@ const Header = memo(() => {
     );
   }, [
     mainAffiliate,
+    selectedAddress,
     delivery,
     affiliate,
     zones,
@@ -566,38 +612,10 @@ const Header = memo(() => {
                   alt={options?.title ?? "YOOAPP"}
                   className="logo"
                 />
-                {/* <span className="ms-3 logo-name">
-                {options?.title ?? "YOOAPP"}
-              </span> */}
               </Link>
               <ul className="text-menu">
-                <li>
-                  {!options?.multiBrand &&
-                    cities &&
-                    cities?.length > 0 &&
-                    cities[0]?.options?.view !== "no" && (
-                      <a
-                        onClick={() => cities?.length > 1 && setShowCity(true)}
-                        className="fw-6"
-                      >
-                        <div className="btn btn-sm btn-light rounded-7">
-                          {t(
-                            cities?.length > 1
-                              ? city?.options?.alias?.length > 0
-                                ? city.options.alias
-                                : city?.title ?? "Выберите город"
-                              : cities[0]?.options?.view === "region" &&
-                                cities[0]?.region
-                              ? cities[0].region
-                              : cities[0]?.options?.view === "country" &&
-                                cities[0]?.country
-                              ? cities[0].country
-                              : cities[0]?.title ?? "Выберите город"
-                          )}
-                        </div>
-                      </a>
-                    )}
-                  {options?.multiBrand && affiliate?.length > 0 && (
+                {options?.multiBrand && affiliate?.length > 0 && (
+                  <li>
                     <a onClick={() => setShowBrand(true)} className="fw-6">
                       {t(
                         selectedAffiliate?.title ??
@@ -605,35 +623,14 @@ const Header = memo(() => {
                           "Выберите бренд"
                       )}
                     </a>
-                  )}
-                  {!gps && city?.title && cities?.length > 1 && (
-                    <div className="no-city">
-                      <p className="mb-3">
-                        {t("Ваш город")} <b>{city.title}</b>?
-                      </p>
-                      <div className="d-flex align-items-center justify-content-center">
-                        <Link
-                          draggable="false"
-                          className="btn btn-sm btn-primary me-2"
-                          onClick={() => {
-                            dispatch(updateGps(true));
-                          }}
-                        >
-                          {t("Да")}
-                        </Link>
-                        <Link
-                          draggable="false"
-                          className="btn btn-sm btn-light"
-                          onClick={() => setShowCity(true)}
-                        >
-                          {t("Нет")}
-                        </Link>
-                      </div>
-                    </div>
-                  )}
-                </li>
-                {deliveryArray?.length > 0 && !options?.hideDeliverySelect && (
-                  <li className="d-none d-sm-inline-flex">
+                  </li>
+                )}
+
+                {deliveryArray?.length > 0 &&
+                !options?.hideDeliverySelect &&
+                affiliate?.length <= 1 &&
+                cities?.length <= 1 ? (
+                  <li className="d-sm-inline-flex">
                     <Select
                       className="fw-5"
                       data={deliveryArray}
@@ -641,6 +638,67 @@ const Header = memo(() => {
                       onClick={(e) => dispatch(editDeliveryCheckout(e.value))}
                     />
                   </li>
+                ) : (
+                  deliveryArray?.length > 0 &&
+                  !options?.hideDeliverySelect && (
+                    <li className="d-sm-inline-flex">
+                      <a
+                        className="fw-5 header-delivery d-flex align-items-center"
+                        onClick={() => dispatch(updateStartSettings(false))}
+                      >
+                        <div className="pe-2">
+                          {delivery === "delivery" ? (
+                            <MdOutlineDeliveryDining size={22} />
+                          ) : (
+                            <IoStorefrontOutline size={22} />
+                          )}
+                        </div>
+                        <div>
+                          <div className="fs-09">
+                            {t(
+                              delivery === "delivery" ? "Доставка" : "Самовывоз"
+                            )}
+                          </div>
+
+                          <div className="fs-07 fw-4 clamp-1">
+                            {delivery === "delivery"
+                              ? selectedAddress?.street && selectedAddress?.home
+                                ? `${selectedAddress.street} ${selectedAddress.home}`
+                                : selectedAddress?.full ?? t("Не указано")
+                              : selectedAffiliate?.options?.street &&
+                                selectedAffiliate?.options?.house
+                              ? `${selectedAffiliate.options.street} ${selectedAffiliate.options.house}`
+                              : selectedAffiliate?.full ?? t("Не указано")}
+                          </div>
+                        </div>
+                      </a>
+                    </li>
+                  )
+                )}
+                {!gps && city?.title && cities?.length > 1 && (
+                  <div className="no-city">
+                    <p className="mb-3">
+                      {t("Ваш город")} <b>{city.title}</b>?
+                    </p>
+                    <div className="d-flex align-items-center justify-content-center">
+                      <Link
+                        draggable="false"
+                        className="btn btn-sm btn-primary me-2"
+                        onClick={() => {
+                          dispatch(updateGps(true));
+                        }}
+                      >
+                        {t("Да")}
+                      </Link>
+                      <Link
+                        draggable="false"
+                        className="btn btn-sm btn-light"
+                        onClick={() => setShowCity(true)}
+                      >
+                        {t("Нет")}
+                      </Link>
+                    </div>
+                  </div>
                 )}
               </ul>
             </div>
@@ -857,14 +915,6 @@ const Header = memo(() => {
       >
         <Offcanvas.Body>
           <Container className="h-100">
-            {deliveryArray?.length > 0 && !options?.hideDeliverySelect && (
-              <Select
-                className="mb-3"
-                data={deliveryArray}
-                value={delivery}
-                onClick={(e) => dispatch(editDeliveryCheckout(e.value))}
-              />
-            )}
             <nav>
               <ul>
                 {selectedAffiliate &&
@@ -1106,17 +1156,25 @@ const Header = memo(() => {
         </Offcanvas.Body>
       </Offcanvas>
 
-      {!!city?.title && !showCity && options?.startSettings && (
+      {!startSettings && (
         <Modal
           size="lg"
           centered
+          key="modal-delivery"
           fullscreen="sm-down"
           backdrop="static"
           keyboard={false}
           show={!startSettings}
           onHide={() => dispatch(updateStartSettings(true))}
         >
-          <ButtonClose onClick={() => dispatch(updateStartSettings(true))} />
+          {(delivery === "delivery" &&
+            addressData?.length > 0 &&
+            selectedAddress) ||
+          (delivery === "pickup" && selectedAffiliate) ? (
+            <ButtonClose onClick={() => dispatch(updateStartSettings(true))} />
+          ) : (
+            ""
+          )}
           <Modal.Body className="p-0">
             <Row className="gx-0">
               <Col md={7}>
@@ -1147,23 +1205,25 @@ const Header = memo(() => {
                     </ToggleButton>
                   ))}
                 </ToggleButtonGroup>
-                <div className="fs-09 fw-6 d-flex align-items-center justify-content-between mb-3">
-                  <span>{t("Ваш город")}</span>
-                  <a
-                    className="text-main"
-                    onClick={() => {
-                      reset({});
-                      setShowDropdown(false);
-                      setStreets([]);
-                      setShowCity(true);
-                    }}
-                  >
-                    {t(city?.title)} <IoChevronDown />
-                  </a>
-                </div>
-                {delivery === "pickup" ? (
-                  <ul className="list-unstyled pe-1 scroll-custom affiliates-list-modal">
-                    {affiliate.map((e) => (
+                <ul className="list-unstyled pe-1 scroll-custom affiliates-list-modal">
+                  {city && (
+                    <div className="fs-09 fw-6 d-flex align-items-center justify-content-between mb-3">
+                      <span>{t("Ваш город")}</span>
+                      <a
+                        className="text-main"
+                        onClick={() => {
+                          reset({});
+                          setShowDropdown(false);
+                          setStreets([]);
+                          setShowCity(true);
+                        }}
+                      >
+                        {t(city?.title)} <IoChevronDown />
+                      </a>
+                    </div>
+                  )}
+                  {delivery === "pickup" ? (
+                    affiliate.map((e) => (
                       <a
                         key={e.id}
                         onClick={() => {
@@ -1187,170 +1247,321 @@ const Header = memo(() => {
                               />
                             </div>
                             <div>
-                              <b>{e.title ?? e.full}</b>
-                              {e.title && <p className="fs-09">{e.full}</p>}
+                              <b>{e.title?.length > 0 ? e.title : e.full}</b>
+                              {e.title?.length > 0 && (
+                                <p className="fs-09">{e.full}</p>
+                              )}
                             </div>
                           </label>
                         </li>
                       </a>
-                    ))}
-                  </ul>
-                ) : (
-                  <div className="pe-1 scroll-custom affiliates-list-modal">
-                    <div className="mb-2 position-relative">
-                      <Input
-                        required
-                        errors={errors}
-                        label={t("Адрес")}
-                        onKeyDown={(e) => onKeyDown(e)}
-                        onClick={() => setShowDropdown(true)}
-                        type="search"
-                        autoComplete="off"
-                        name="full"
-                        className="input-sm"
-                        placeholder={t("Введите адрес")}
-                        register={register}
-                        validation={{
-                          required: t("Обязательное поле"),
-                          maxLength: {
-                            value: 250,
-                            message: t("Максимум 250 символов"),
-                          },
-                        }}
-                      />
-                      {showDropdown && streets?.length > 0 && (
-                        <Dropdown.Menu
-                          ref={dropdownRef}
-                          show
-                          className="w-100 mt-1 select-options"
+                    ))
+                  ) : (
+                    <>
+                      {isAuth && (
+                        <Link
+                          to="/account/addresses/add"
+                          onClick={() => dispatch(updateStartSettings(true))}
+                          className="btn btn-light btn-sm w-100 mb-3"
                         >
-                          {!data?.home && (
-                            <div className="fs-08 text-danger p-2 px-3">
-                              {t("Выберите адрес с номером дома")}
-                            </div>
-                          )}
-                          {streets.map(
-                            (item, key) =>
-                              item && (
-                                <Dropdown.Item
-                                  onClick={() => clickAddress(item)}
-                                  key={key}
-                                >
-                                  {item.value}
-                                </Dropdown.Item>
-                              )
-                          )}
-                        </Dropdown.Menu>
+                          {t("Добавить новый адрес")}
+                        </Link>
                       )}
-                    </div>
-                    {!data?.private && (
-                      <Row className="gx-2">
-                        <Col md={6}>
-                          <div className="mb-2">
-                            <Input
-                              className="input-sm"
-                              required
-                              errors={errors}
-                              label={t("Подъезд")}
-                              name="entrance"
-                              register={register}
-                              validation={{
-                                required: t("Обязательное поле"),
-                                maxLength: {
-                                  value: 20,
-                                  message: t("Максимум 20 символов"),
-                                },
-                              }}
-                            />
-                          </div>
-                        </Col>
-                        <Col md={6}>
-                          <div className="mb-2">
-                            <Input
-                              className="input-sm"
-                              required
-                              errors={errors}
-                              label={t("Квартира")}
-                              name="apartment"
-                              register={register}
-                              validation={{
-                                required: t("Обязательное поле"),
-                                maxLength: {
-                                  value: 20,
-                                  message: t("Максимум 20 символов"),
-                                },
-                              }}
-                            />
-                          </div>
-                        </Col>
-                        <Col md={6}>
-                          <div className="mb-2">
-                            <Input
-                              className="input-sm"
-                              required
-                              errors={errors}
-                              label={t("Этаж")}
-                              type="number"
-                              name="floor"
-                              register={register}
-                              validation={{
-                                required: t("Обязательное поле"),
-                                maxLength: {
-                                  value: 20,
-                                  message: t("Максимум 20 символов"),
-                                },
-                              }}
-                            />
-                          </div>
-                        </Col>
-                        <Col md={6}>
-                          <div className="mb-2">
-                            <Input
-                              className="input-sm"
-                              errors={errors}
-                              label={t("Код домофона")}
-                              name="code"
-                              register={register}
-                              validation={{
-                                maxLength: {
-                                  value: 30,
-                                  message: t("Максимум 30 символов"),
-                                },
-                              }}
-                            />
-                          </div>
-                        </Col>
-                      </Row>
-                    )}
-                    <Form.Check className="mb-2 mt-2">
-                      <Form.Check.Input
-                        type="checkbox"
-                        name="private"
-                        id="private"
-                        value={true}
-                        {...register("private")}
-                      />
-                      <Form.Check.Label htmlFor="private" className="ms-2">
-                        {t("Частный дом")}
-                      </Form.Check.Label>
-                    </Form.Check>
+                      {addressData?.length > 0 ? (
+                        <>
+                          {addressData
+                            .filter(
+                              (e) =>
+                                e?.city?.toLowerCase() ===
+                                  city?.title?.toLowerCase() ||
+                                e?.region?.toLowerCase() ===
+                                  city?.region?.toLowerCase() ||
+                                e?.area?.toLowerCase() ===
+                                  city?.area?.toLowerCase()
+                            )
+                            .map((e) => (
+                              <a
+                                key={e.id}
+                                onClick={() => {
+                                  isAuth && dispatch(mainAddress(e));
 
-                    <Textarea
-                      className="input-sm"
-                      label={t("Комментарий")}
-                      name="comment"
-                      placeholder={t("Введите комментарий (Необязательно)")}
-                      errors={errors}
-                      register={register}
-                      validation={{
-                        maxLength: {
-                          value: 1500,
-                          message: t("Максимум 1500 символов"),
-                        },
-                      }}
-                    />
-                  </div>
-                )}
+                                  mapRef.current.setCenter([
+                                    e?.options?.coordinates?.lat ??
+                                      e?.coordinates?.lat ??
+                                      e?.lat,
+                                    e?.options?.coordinates?.lon ??
+                                      e.coordinates?.lon ??
+                                      e?.lon,
+                                  ]);
+                                  mapRef.current.setZoom(15);
+                                }}
+                                className={
+                                  selectedAddress?.id === e.id ? "active" : ""
+                                }
+                              >
+                                <li className="mb-3">
+                                  <label className="d-flex flex-row align-items-start">
+                                    <div
+                                      className={
+                                        "me-2" + (e.title ? " mt-1" : "")
+                                      }
+                                    >
+                                      <input
+                                        type="radio"
+                                        name="mainAffiliate"
+                                        defaultChecked={
+                                          selectedAddress?.id === e.id
+                                        }
+                                        onChange={() => {
+                                          isAuth && dispatch(mainAddress(e));
+
+                                          mapRef.current.setCenter([
+                                            e?.options?.coordinates?.lat ??
+                                              e?.coordinates?.lat ??
+                                              e?.lat,
+                                            e?.options?.coordinates?.lon ??
+                                              e.coordinates?.lon ??
+                                              e?.lon,
+                                          ]);
+                                          mapRef.current.setZoom(15);
+                                        }}
+                                      />
+                                    </div>
+                                    <div>
+                                      <b>
+                                        {e.title?.length > 0 ? e.title : e.full}
+                                      </b>
+                                      {e.title?.length > 0 && (
+                                        <p className="fs-09">{e.full}</p>
+                                      )}
+                                    </div>
+                                  </label>
+                                </li>
+                              </a>
+                            ))}
+                          <hr className="hr" />
+                          {addressData
+                            .filter(
+                              (e) =>
+                                e?.city?.toLowerCase() !==
+                                  city?.title?.toLowerCase() &&
+                                e?.region?.toLowerCase() !==
+                                  city?.region?.toLowerCase() &&
+                                e?.area?.toLowerCase() !==
+                                  city?.area?.toLowerCase()
+                            )
+                            .map((e) => (
+                              <a
+                                key={e.id}
+                                // onClick={() => {
+                                //   isAuth && dispatch(mainAddress(e));
+
+                                //   mapRef.current.setCenter([
+                                //     e?.options?.coordinates?.lat ??
+                                //       e?.coordinates?.lat ??
+                                //       e?.lat,
+                                //     e?.options?.coordinates?.lon ??
+                                //       e.coordinates?.lon ??
+                                //       e?.lon,
+                                //   ]);
+                                //   mapRef.current.setZoom(15);
+                                // }}
+                                className={
+                                  selectedAddress?.id === e.id
+                                    ? "active"
+                                    : "disabled"
+                                }
+                              >
+                                <li className="mb-3">
+                                  <label className="d-flex flex-row align-items-start">
+                                    <div
+                                      className={
+                                        "me-2" + (e.title ? " mt-1" : "")
+                                      }
+                                    >
+                                      <input
+                                        type="radio"
+                                        name="mainAffiliate"
+                                        disabled={true}
+                                      />
+                                    </div>
+                                    <div>
+                                      <b>
+                                        {e.title?.length > 0 ? e.title : e.full}
+                                      </b>
+                                      {e.title?.length > 0 && (
+                                        <p className="fs-09">{e.full}</p>
+                                      )}
+                                    </div>
+                                  </label>
+                                </li>
+                              </a>
+                            ))}
+                        </>
+                      ) : (
+                        <>
+                          <div className="mb-2 position-relative">
+                            <Input
+                              required
+                              errors={errors}
+                              label={t("Адрес")}
+                              onKeyDown={(e) => onKeyDown(e)}
+                              onClick={() => setShowDropdown(true)}
+                              type="search"
+                              autoComplete="off"
+                              name="full"
+                              className="input-sm"
+                              placeholder={t("Введите адрес")}
+                              register={register}
+                              validation={{
+                                required: t("Обязательное поле"),
+                                maxLength: {
+                                  value: 250,
+                                  message: t("Максимум 250 символов"),
+                                },
+                              }}
+                            />
+                            {showDropdown && streets?.length > 0 && (
+                              <Dropdown.Menu
+                                ref={dropdownRef}
+                                show
+                                className="w-100 mt-1 select-options"
+                              >
+                                {!data?.home && (
+                                  <div className="fs-08 text-danger p-2 px-3">
+                                    {t("Выберите адрес с номером дома")}
+                                  </div>
+                                )}
+                                {streets.map(
+                                  (item, key) =>
+                                    item && (
+                                      <Dropdown.Item
+                                        onClick={() => clickAddress(item)}
+                                        key={key}
+                                      >
+                                        {item.value}
+                                      </Dropdown.Item>
+                                    )
+                                )}
+                              </Dropdown.Menu>
+                            )}
+                          </div>
+                          {!data?.private && (
+                            <Row className="gx-2">
+                              <Col md={6}>
+                                <div className="mb-2">
+                                  <Input
+                                    className="input-sm"
+                                    required
+                                    errors={errors}
+                                    label={t("Подъезд")}
+                                    name="entrance"
+                                    register={register}
+                                    validation={{
+                                      required: t("Обязательное поле"),
+                                      maxLength: {
+                                        value: 20,
+                                        message: t("Максимум 20 символов"),
+                                      },
+                                    }}
+                                  />
+                                </div>
+                              </Col>
+                              <Col md={6}>
+                                <div className="mb-2">
+                                  <Input
+                                    className="input-sm"
+                                    required
+                                    errors={errors}
+                                    label={t("Квартира")}
+                                    name="apartment"
+                                    register={register}
+                                    validation={{
+                                      required: t("Обязательное поле"),
+                                      maxLength: {
+                                        value: 20,
+                                        message: t("Максимум 20 символов"),
+                                      },
+                                    }}
+                                  />
+                                </div>
+                              </Col>
+                              <Col md={6}>
+                                <div className="mb-2">
+                                  <Input
+                                    className="input-sm"
+                                    required
+                                    errors={errors}
+                                    label={t("Этаж")}
+                                    type="number"
+                                    name="floor"
+                                    register={register}
+                                    validation={{
+                                      required: t("Обязательное поле"),
+                                      maxLength: {
+                                        value: 20,
+                                        message: t("Максимум 20 символов"),
+                                      },
+                                    }}
+                                  />
+                                </div>
+                              </Col>
+                              <Col md={6}>
+                                <div className="mb-2">
+                                  <Input
+                                    className="input-sm"
+                                    errors={errors}
+                                    label={t("Код домофона")}
+                                    name="code"
+                                    register={register}
+                                    validation={{
+                                      maxLength: {
+                                        value: 30,
+                                        message: t("Максимум 30 символов"),
+                                      },
+                                    }}
+                                  />
+                                </div>
+                              </Col>
+                            </Row>
+                          )}
+                          <Form.Check className="mb-2 mt-2">
+                            <Form.Check.Input
+                              type="checkbox"
+                              name="private"
+                              id="private"
+                              value={true}
+                              {...register("private")}
+                            />
+                            <Form.Check.Label
+                              htmlFor="private"
+                              className="ms-2"
+                            >
+                              {t("Частный дом")}
+                            </Form.Check.Label>
+                          </Form.Check>
+
+                          <Textarea
+                            className="input-sm"
+                            label={t("Комментарий")}
+                            name="comment"
+                            placeholder={t(
+                              "Введите комментарий (Необязательно)"
+                            )}
+                            errors={errors}
+                            register={register}
+                            validation={{
+                              maxLength: {
+                                value: 1500,
+                                message: t("Максимум 1500 символов"),
+                              },
+                            }}
+                          />
+                        </>
+                      )}
+                    </>
+                  )}
+                </ul>
                 {delivery === "delivery" ? (
                   <div className="position-sticky bottom-0 bg-main py-2 d-flex flex-row align-items-center">
                     <div className="d-flex flex-1">
@@ -1358,29 +1569,19 @@ const Header = memo(() => {
                         className="btn btn-primary w-100"
                         draggable={false}
                         disabled={
-                          !isValid ||
+                          (!isValid && !isAuth) ||
                           showDropdown ||
                           (data?.private && (!data?.street || !data?.home))
                         }
-                        onClick={handleSubmit(onSubmitAddress)}
+                        onClick={() => onSubmitAddress()}
                       >
-                        {t("Сохранить")}
+                        {t(
+                          isAuth && selectedAddress
+                            ? "Закажу сюда"
+                            : "Сохранить"
+                        )}
                       </button>
                     </div>
-                    {!isAuth && (
-                      <div className="d-flex ps-2">
-                        <Link
-                          className="btn btn-light w-100"
-                          draggable={false}
-                          to="/login"
-                          onClick={() => {
-                            dispatch(updateStartSettings(true));
-                          }}
-                        >
-                          {t("Войти")}
-                        </Link>
-                      </div>
-                    )}
                   </div>
                 ) : (
                   <div className="position-sticky bottom-0 bg-main py-2 d-flex flex-row align-items-center">
@@ -1397,20 +1598,40 @@ const Header = memo(() => {
                   </div>
                 )}
               </Col>
+              {!isAuth && (
+                <Col md={12}>
+                  <div className="d-flex p-3 delivery-footer flex-row align-items-center justify-content-center">
+                    <div className="me-2">У вас уже есть аккаунт?</div>
+                    <div>
+                      <Link
+                        className="color-main"
+                        draggable={false}
+                        to="/login"
+                        onClick={() => {
+                          dispatch(updateStartSettings(true));
+                        }}
+                      >
+                        {t("Войти в профиль")}
+                      </Link>
+                    </div>
+                  </div>
+                </Col>
+              )}
             </Row>
           </Modal.Body>
         </Modal>
       )}
 
-      {cities?.length > 1 && (
+      {(!city?.title || showCity) && cities?.length > 1 && (
         <Modal
           size="lg"
           centered
+          key="modal-city"
           fullscreen="sm-down"
           backdrop={city?.title ? true : "static"}
           keyboard={!!city?.title}
           className="city"
-          show={!city?.title || showCity}
+          show={(!city?.title || showCity) && cities?.length > 1}
           onHide={() => setShowCity(false)}
         >
           {city?.title && <ButtonClose onClick={() => setShowCity(false)} />}
@@ -1572,10 +1793,12 @@ const Header = memo(() => {
           </Modal.Body>
         </Modal>
       )}
-      {affiliate?.length > 1 && (
+
+      {showBrand && (
         <Modal
           size="lg"
           centered
+          key="modal-brand"
           className="brand"
           show={showBrand}
           backdrop={city?.title ? true : "static"}
@@ -1658,6 +1881,7 @@ const Header = memo(() => {
           </Modal.Body>
         </Modal>
       )}
+
       <ScrollToTop />
     </>
   );

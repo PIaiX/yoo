@@ -1,4 +1,4 @@
-const DOMAIN = false; //window.location.hostname;
+const DOMAIN = 'masha.yoo-app.ru'; //window.location.hostname;
 const BASE_URL = "https://api.yooapp.ru";
 const IO_URL = "https://io.yooapp.ru";
 const DADATA_URL_STREET =

@@ -9,10 +9,10 @@ import { useTranslation } from "react-i18next";
 import { useState } from "react";
 
 const Addresses = () => {
-  const addressData = useSelector((state) => state.address);
+  const addresses = useSelector((state) => state.address.items);
   const city = useSelector((state) => state.affiliate.city);
   const user = useSelector((state) => state.auth.user);
-  const [addresses, setAddresses] = useState();
+
   const navigate = useNavigate();
   const { t } = useTranslation();
 
@@ -21,21 +21,6 @@ const Addresses = () => {
       return navigate("/activate");
     }
   }, [user]);
-
-  useLayoutEffect(() => {
-    if (addressData.items?.length > 0) {
-      setAddresses(
-        city?.title
-          ? addressData.items.filter(
-              (e) =>
-                e?.city?.toLowerCase() === city?.title?.toLowerCase() ||
-                e?.region?.toLowerCase() === city?.region?.toLowerCase() ||
-                e?.area?.toLowerCase() === city?.area?.toLowerCase()
-            )
-          : addressData?.items ?? []
-      );
-    }
-  }, [addressData, city]);
 
   if (!Array.isArray(addresses) || addresses.length <= 0) {
     return (

@@ -121,6 +121,8 @@ const CreateAddress = () => {
         if (isValidAddress) {
           const info = await getDelivery({
             distance: true,
+            area: address.data?.federal_district ?? null,
+            city: address.data?.city ?? null,
             lat: address.data.geo_lat,
             lon: address.data.geo_lon,
           });
@@ -184,7 +186,11 @@ const CreateAddress = () => {
 
   useEffect(() => {
     if (streetText) {
-      getDadataStreets({ query: streetText, locations, token: options.dadataToken }).then((res) => {
+      getDadataStreets({
+        query: streetText,
+        locations,
+        token: options.dadataToken,
+      }).then((res) => {
         if (res?.data?.suggestions) {
           setStreets(res.data.suggestions);
         }
@@ -388,7 +394,8 @@ const CreateAddress = () => {
       </Form.Check>
       <div className="d-md-flex d-block align-items-center ">
         <div>
-          <button draggable={false} 
+          <button
+            draggable={false}
             disabled={
               !isValid ||
               showDropdown ||

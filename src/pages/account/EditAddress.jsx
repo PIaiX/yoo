@@ -124,6 +124,8 @@ const EditAddress = () => {
         if (isValidAddress) {
           const info = await getDelivery({
             distance: true,
+            area: address.data?.federal_district ?? null,
+            city: address.data?.city ?? null,
             lat: address.data.geo_lat,
             lon: address.data.geo_lon,
           });
@@ -410,7 +412,8 @@ const EditAddress = () => {
       </Form.Check>
       <div className="d-md-flex d-block align-items-center ">
         <div>
-          <button draggable={false} 
+          <button
+            draggable={false}
             disabled={
               !isValid ||
               showDropdown ||

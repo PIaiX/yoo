@@ -8,17 +8,17 @@ import { useSelector } from "react-redux";
 const QrApp = memo(() => {
   const options = useSelector((state) => state.settings.options);
   return (
-    <section class="sec-app">
-      <div class="d-flex align-items-center mb-4">
+    <section className="sec-app">
+      <div className="d-flex align-items-center mb-4">
         <button
           type="button"
-          class="btn-2 fs-20 py-2 px-3 px-lg-4 me-2 me-md-3"
+          className="btn-2 fs-20 py-2 px-3 px-lg-4 me-2 me-md-3"
         >
           В приложении
         </button>
       </div>
       <h3 className="mb-5">Заказывать еще удобнее</h3>
-      <div class="d-flex flex-row align-items-center ">
+      <div className="d-flex flex-row align-items-center ">
         <div className="pe-5">
           <div className="bg-white p-3 rounded-11 shadow-sm">
             <QRCode
@@ -30,7 +30,7 @@ const QrApp = memo(() => {
             />
           </div>
         </div>
-        <div class="d flex flex-column">
+        <div className="d flex flex-column">
           {options.app?.accountApple && options.app?.titleIos && (
             <div className="mb-4">
               <a
@@ -66,7 +66,7 @@ const QrApp = memo(() => {
           </div>
         </div>
       </div>
-      <img src={Phone} alt="Phone" class="phone" />
+      <img src={Phone} alt="Phone" className="phone" />
     </section>
   );
 });

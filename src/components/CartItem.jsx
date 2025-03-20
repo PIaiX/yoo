@@ -61,7 +61,11 @@ const CartItem = memo(({ data }) => {
       }
     >
       <div className="left">
-        <img  draggable="false" src={getImageURL({ path: data.medias })} alt={data.title} />
+        <img
+          draggable="false"
+          src={getImageURL({ path: data.medias })}
+          alt={data.title}
+        />
         <div className="text">
           <h6>
             <span className={data?.cart?.modifiers?.length > 0 ? "me-2" : ""}>
@@ -229,7 +233,7 @@ const CartItem = memo(({ data }) => {
                 )}
               </div>
               <div className="text-right">
-                <s class="text-muted fw-4 fs-08">
+                <s className="text-muted fw-4 fs-08">
                   {customPrice(
                     (price +
                       (data?.cart?.additions?.length > 0
@@ -298,7 +302,8 @@ const CartItem = memo(({ data }) => {
             />
           </Modal.Body>
           <Modal.Footer>
-            <button draggable={false} 
+            <button
+              draggable={false}
               type="submit"
               disabled={!isValid}
               onClick={handleSubmit(onSubmit)}

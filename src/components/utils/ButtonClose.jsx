@@ -5,7 +5,7 @@ const ButtonClose = memo(({ onClick, size = 24 }) => {
   return (
     <button
       type="button"
-      class="btn-close"
+      className="btn-close"
       aria-label="Close"
       draggable="false"
       onClick={(e) => onClick && onClick(e)}

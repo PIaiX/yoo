@@ -117,6 +117,7 @@ const Select = memo(
             ? searchData.map((e, index) => (
                 <Dropdown.Item
                   draggable={false}
+                  disabled={e.disabled}
                   key={index}
                   active={
                     localValue?.id && e.value?.id
@@ -147,6 +148,7 @@ const Select = memo(
               data.map((e, index) => (
                 <Dropdown.Item
                   draggable={false}
+                  disabled={e.disabled}
                   key={index}
                   active={
                     localValue?.id && e.value?.id

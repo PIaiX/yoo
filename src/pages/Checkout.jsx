@@ -112,7 +112,7 @@ const Checkout = () => {
   const promo = useSelector((state) => state.cart?.promo);
   const zone = useSelector((state) => state.cart?.zone);
   const checkout = useSelector((state) => state.checkout);
-  const addressData = useSelector((state) => state.address.items);
+  const address = useSelector((state) => state.address.items);
   const affiliate = useSelector((state) => state.affiliate.items);
   const city = useSelector((state) => state.affiliate.city);
   const tables = useSelector((state) => state.affiliate.tables);
@@ -120,7 +120,7 @@ const Checkout = () => {
   const selectedTable = useSelector((state) => state.affiliate.table);
   const options = useSelector((state) => state.settings.options);
   const [confirmation, setConfirmation] = useState(false);
-  const [address, setAddress] = useState([]);
+  // const [address, setAddress] = useState([]);
 
   const {
     total = 0,
@@ -436,20 +436,20 @@ const Checkout = () => {
     }
   }, [checkout.delivery, end, options, data.payment]);
 
-  useLayoutEffect(() => {
-    if (addressData?.length > 0) {
-      setAddress(
-        city?.title
-          ? addressData.filter(
-              (e) =>
-                e?.city?.toLowerCase() === city?.title?.toLowerCase() ||
-                e?.region?.toLowerCase() === city?.region?.toLowerCase() ||
-                e?.area?.toLowerCase() === city?.area?.toLowerCase()
-            )
-          : addressData
-      );
-    }
-  }, [addressData, city]);
+  // useLayoutEffect(() => {
+  //   if (addressData?.length > 0) {
+  //     setAddress(
+  //       city?.title
+  //         ? addressData.filter(
+  //             (e) =>
+  //               e?.city?.toLowerCase() === city?.title?.toLowerCase() ||
+  //               e?.region?.toLowerCase() === city?.region?.toLowerCase() ||
+  //               e?.area?.toLowerCase() === city?.area?.toLowerCase()
+  //           )
+  //         : addressData
+  //     );
+  //   }
+  // }, [addressData, city]);
 
   useLayoutEffect(() => {
     if (address?.length > 0) {
@@ -774,6 +774,13 @@ const Checkout = () => {
                           title: e?.title?.length > 0 ? e.title : e.full,
                           desc: e?.title?.length > 0 ? e.full : false,
                           value: e.id,
+                          disabled: !!!(
+                            e?.city?.toLowerCase() ===
+                              city?.title?.toLowerCase() ||
+                            e?.region?.toLowerCase() ===
+                              city?.region?.toLowerCase() ||
+                            e?.area?.toLowerCase() === city?.area?.toLowerCase()
+                          ),
                         }))}
                         onClick={(e) =>
                           dispatch(

@@ -283,7 +283,7 @@ const Registration = () => {
 
   const regForm = useMemo(() => (
     <form className="login-form" onSubmit={handleSubmit(onSubmit)}>
-      <h4 class="fw-6 h4 mb-4">{t("Войдите в профиль")}</h4>
+      <h4 className="fw-6 h4 mb-4">{t("Войдите в профиль")}</h4>
       <div className="mb-3">
         {!options.authType || options.authType === "email" ? (
           <Input
