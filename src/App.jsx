@@ -352,7 +352,7 @@ function App() {
   }, []);
 
   useEffect(() => {
-    if (auth.isAuth) {
+    if (auth?.isAuth) {
       if (!zone?.data && addressData?.length > 0) {
         const fetchDeliveryData = async () => {
           try {
@@ -386,19 +386,22 @@ function App() {
         dispatch(cartZone({ data: false, distance: false }));
       }
 
-      socket.on("notifications/" + auth.user.id, (data) => {
-        if (data) {
-          dispatch(updateNotification(data));
-        }
-      });
+      if (auth?.user?.id) {
+        socket.on("notifications/" + auth.user.id, (data) => {
+          if (data) {
+            dispatch(updateNotification(data));
+          }
+        });
+      }
 
       apiId &&
         socket.on("logout/" + apiId, () => {
           socket.disconnect();
           window.location.reload();
         });
+
       return () => {
-        socket.off("notifications/" + auth.user.id);
+        auth?.user?.id && socket.off("notifications/" + auth.user.id);
         apiId && socket.off("logout/" + apiId);
       };
     } else if (apiId && options?.brand?.id) {

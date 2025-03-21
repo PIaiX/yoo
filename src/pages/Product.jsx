@@ -539,7 +539,7 @@ const Product = (data) => {
                                           modifierItem.id === e.id
                                       ) || index === 0
                                     }
-                                    onChange={() => {
+                                    onClick={() => {
                                       // Создаем копию массива modifiers
                                       const updatedModifiers = [
                                         ...product.cart.modifiers,
@@ -647,7 +647,8 @@ const Product = (data) => {
                   <div className="productPage-edit mb-3">
                     <div className="top">
                       {product?.additions?.length > 0 && (
-                        <button draggable={false} 
+                        <button
+                          draggable={false}
                           type="button"
                           className={isRemove ? "" : "active"}
                           onClick={() => setIsRemove(false)}
@@ -658,7 +659,8 @@ const Product = (data) => {
                         </button>
                       )}
                       {product?.wishes?.length > 0 && (
-                        <button draggable={false} 
+                        <button
+                          draggable={false}
                           type="button"
                           className={
                             isRemove

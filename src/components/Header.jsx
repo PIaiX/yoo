@@ -78,7 +78,6 @@ const Header = memo(() => {
   const cities = useSelector((state) => state.affiliate.cities);
   const selectedAffiliate = useSelector((state) => state.affiliate.active);
   const addressData = useSelector((state) => state.address.items);
-  const selectedAddress = addressData.find((e) => e.main) ?? addressData[0];
   const options = useSelector((state) => state.settings.options);
   const delivery = useSelector((state) => state.checkout.delivery);
   const settingsCity = useSelector((state) => state.settings.city);
@@ -95,7 +94,14 @@ const Header = memo(() => {
   const [search, setSearch] = useState();
   const [isPending, startTransition] = useTransition();
   const [showPopover, setShowPopover] = useState(false);
-  const [mainAffiliate, setMainAffiliate] = useState(selectedAffiliate);
+  const selectedAddress =
+    addressData.find(
+      (e) =>
+        e.main &&
+        (e?.city?.toLowerCase() === city?.title?.toLowerCase() ||
+          e?.region?.toLowerCase() === city?.region?.toLowerCase() ||
+          e?.area?.toLowerCase() === city?.area?.toLowerCase())
+    ) ?? false;
   const mapRef = useRef(null);
   const polygonsRef = useRef({});
   const dropdownRef = useRef(null);
@@ -241,8 +247,8 @@ const Header = memo(() => {
                 address.data.geo_lat,
                 address.data.geo_lon,
               ]);
-              mapRef.current.setZoom(17);
-            }, 500);
+              mapRef.current.setZoom(11);
+            }, 250);
 
             return true;
           }
@@ -415,11 +421,44 @@ const Header = memo(() => {
     }
   }, [data, selectedAddress]);
 
+  const onSubmitMainAddress = useCallback(
+    (e) => {
+      isAuth && dispatch(mainAddress(e));
+
+      mapRef.current.setCenter([
+        e?.options?.coordinates?.lat ?? e?.coordinates?.lat ?? e?.lat,
+        e?.options?.coordinates?.lon ?? e.coordinates?.lon ?? e?.lon,
+      ]);
+      mapRef.current.setZoom(11);
+    },
+    [isAuth, mapRef]
+  );
+
+  const onSubmitCite = useCallback(
+    (e) => {
+      dispatch(updateAffiliate(e.affiliates));
+      // setMainAffiliate(e.affiliates.find((e) => e.main) ?? e.affiliates[0]);
+      dispatch(updateCity(e));
+      dispatch(updateGps(true));
+      dispatch(deleteCart());
+      setShowCity(false);
+    },
+    [isAuth, mapRef]
+  );
+
   const mapPoligone = useMemo(() => {
+    const zonesData = affiliate
+      ? zones.filter((e) => affiliate.map((a) => a.id).includes(e.affiliateId))
+      : false;
+
     return (
       <>
-        {mainAffiliate?.options?.coordinates?.lat &&
-          mainAffiliate?.options?.coordinates?.lon && (
+        {(selectedAddress?.coordinates?.lat ||
+          selectedAddress?.lat ||
+          selectedAffiliate.options.coordinates.lat) &&
+          (selectedAddress?.coordinates?.lon ||
+            selectedAddress?.lon ||
+            selectedAffiliate.options.coordinates.lon) && (
             <YMaps>
               <Map
                 instanceRef={mapRef}
@@ -430,12 +469,12 @@ const Header = memo(() => {
                       ? selectedAddress.coordinates.lat
                       : selectedAddress?.lat
                       ? selectedAddress.lat
-                      : mainAffiliate.options.coordinates.lat,
+                      : selectedAffiliate.options.coordinates.lat,
                     selectedAddress?.coordinates?.lon
                       ? selectedAddress.coordinates.lon
                       : selectedAddress?.lon
                       ? selectedAddress.lon
-                      : mainAffiliate.options.coordinates.lon,
+                      : selectedAffiliate.options.coordinates.lon,
                   ],
                   zoom: 11,
                 }}
@@ -482,7 +521,7 @@ const Header = memo(() => {
                         <Placemark
                           key={e.id}
                           options={
-                            mainAffiliate?.id === e.id
+                            selectedAffiliate?.id === e.id
                               ? {
                                   iconLayout: "default#image",
                                   iconImageHref: "imgs/marker.png",
@@ -502,8 +541,8 @@ const Header = memo(() => {
                       )
                   )
                 )}
-                {zones?.length > 0 &&
-                  zones.map((e) => {
+                {zonesData?.length > 0 &&
+                  zonesData.map((e) => {
                     const geodata =
                       e.data.length > 0
                         ? e.data.map((geo) => [geo[1], geo[0]])
@@ -518,7 +557,7 @@ const Header = memo(() => {
                         options={{
                           fillColor: e?.color ? e.color : "#f56057",
                           strokeColor: e?.color ? e.color : "#f56057",
-                          opacity: mainAffiliate?.id === e.id ? 0.6 : 0.3,
+                          opacity: selectedAffiliate?.id === e.id ? 0.6 : 0.3,
                           strokeWidth: 2,
                           strokeStyle: "solid",
                           visible: true,
@@ -568,7 +607,7 @@ const Header = memo(() => {
       </>
     );
   }, [
-    mainAffiliate,
+    selectedAffiliate,
     selectedAddress,
     delivery,
     affiliate,
@@ -628,8 +667,7 @@ const Header = memo(() => {
 
                 {deliveryArray?.length > 0 &&
                 !options?.hideDeliverySelect &&
-                affiliate?.length <= 1 &&
-                cities?.length <= 1 ? (
+                !options?.startSettings ? (
                   <li className="d-sm-inline-flex">
                     <Select
                       className="fw-5"
@@ -639,6 +677,7 @@ const Header = memo(() => {
                     />
                   </li>
                 ) : (
+                  options?.startSettings &&
                   deliveryArray?.length > 0 &&
                   !options?.hideDeliverySelect && (
                     <li className="d-sm-inline-flex">
@@ -1156,7 +1195,7 @@ const Header = memo(() => {
         </Offcanvas.Body>
       </Offcanvas>
 
-      {!startSettings && (
+      {!startSettings && options?.startSettings && (
         <Modal
           size="lg"
           centered
@@ -1164,7 +1203,7 @@ const Header = memo(() => {
           fullscreen="sm-down"
           backdrop="static"
           keyboard={false}
-          show={!startSettings}
+          show={!startSettings && options?.startSettings}
           onHide={() => dispatch(updateStartSettings(true))}
         >
           {(delivery === "delivery" &&
@@ -1226,15 +1265,9 @@ const Header = memo(() => {
                     affiliate.map((e) => (
                       <a
                         key={e.id}
-                        onClick={() => {
-                          setMainAffiliate(e);
-                          mapRef.current.setCenter([
-                            e.options.coordinates.lat,
-                            e.options.coordinates.lon,
-                          ]);
-                          mapRef.current.setZoom(15);
-                        }}
-                        className={mainAffiliate?.id === e.id ? "active" : ""}
+                        className={
+                          selectedAffiliate?.id === e.id ? "active" : ""
+                        }
                       >
                         <li className="mb-3">
                           <label className="d-flex flex-row align-items-start">
@@ -1242,8 +1275,17 @@ const Header = memo(() => {
                               <input
                                 type="radio"
                                 name="mainAffiliate"
-                                defaultChecked={mainAffiliate?.id === e.id}
-                                onChange={() => setMainAffiliate(e)}
+                                defaultChecked={selectedAffiliate?.id === e.id}
+                                onChange={() => {
+                                  dispatch(mainAffiliateEdit(e));
+                                  setTimeout(() => {
+                                    mapRef.current.setCenter([
+                                      e.options.coordinates.lat,
+                                      e.options.coordinates.lon,
+                                    ]);
+                                    mapRef.current.setZoom(11);
+                                  }, 250);
+                                }}
                               />
                             </div>
                             <div>
@@ -1282,19 +1324,7 @@ const Header = memo(() => {
                             .map((e) => (
                               <a
                                 key={e.id}
-                                onClick={() => {
-                                  isAuth && dispatch(mainAddress(e));
-
-                                  mapRef.current.setCenter([
-                                    e?.options?.coordinates?.lat ??
-                                      e?.coordinates?.lat ??
-                                      e?.lat,
-                                    e?.options?.coordinates?.lon ??
-                                      e.coordinates?.lon ??
-                                      e?.lon,
-                                  ]);
-                                  mapRef.current.setZoom(15);
-                                }}
+                                onClick={() => onSubmitMainAddress(e)}
                                 className={
                                   selectedAddress?.id === e.id ? "active" : ""
                                 }
@@ -1312,19 +1342,7 @@ const Header = memo(() => {
                                         defaultChecked={
                                           selectedAddress?.id === e.id
                                         }
-                                        onChange={() => {
-                                          isAuth && dispatch(mainAddress(e));
-
-                                          mapRef.current.setCenter([
-                                            e?.options?.coordinates?.lat ??
-                                              e?.coordinates?.lat ??
-                                              e?.lat,
-                                            e?.options?.coordinates?.lon ??
-                                              e.coordinates?.lon ??
-                                              e?.lon,
-                                          ]);
-                                          mapRef.current.setZoom(15);
-                                        }}
+                                        onChange={() => onSubmitMainAddress(e)}
                                       />
                                     </div>
                                     <div>
@@ -1353,19 +1371,6 @@ const Header = memo(() => {
                             .map((e) => (
                               <a
                                 key={e.id}
-                                // onClick={() => {
-                                //   isAuth && dispatch(mainAddress(e));
-
-                                //   mapRef.current.setCenter([
-                                //     e?.options?.coordinates?.lat ??
-                                //       e?.coordinates?.lat ??
-                                //       e?.lat,
-                                //     e?.options?.coordinates?.lon ??
-                                //       e.coordinates?.lon ??
-                                //       e?.lon,
-                                //   ]);
-                                //   mapRef.current.setZoom(15);
-                                // }}
                                 className={
                                   selectedAddress?.id === e.id
                                     ? "active"
@@ -1379,11 +1384,7 @@ const Header = memo(() => {
                                         "me-2" + (e.title ? " mt-1" : "")
                                       }
                                     >
-                                      <input
-                                        type="radio"
-                                        name="mainAffiliate"
-                                        disabled={true}
-                                      />
+                                      <input type="radio" disabled={true} />
                                     </div>
                                     <div>
                                       <b>
@@ -1399,165 +1400,167 @@ const Header = memo(() => {
                             ))}
                         </>
                       ) : (
-                        <>
-                          <div className="mb-2 position-relative">
-                            <Input
-                              required
-                              errors={errors}
-                              label={t("Адрес")}
-                              onKeyDown={(e) => onKeyDown(e)}
-                              onClick={() => setShowDropdown(true)}
-                              type="search"
-                              autoComplete="off"
-                              name="full"
+                        !isAuth && (
+                          <>
+                            <div className="mb-2 position-relative">
+                              <Input
+                                required
+                                errors={errors}
+                                label={t("Адрес")}
+                                onKeyDown={(e) => onKeyDown(e)}
+                                onClick={() => setShowDropdown(true)}
+                                type="search"
+                                autoComplete="off"
+                                name="full"
+                                className="input-sm"
+                                placeholder={t("Введите адрес")}
+                                register={register}
+                                validation={{
+                                  required: t("Обязательное поле"),
+                                  maxLength: {
+                                    value: 250,
+                                    message: t("Максимум 250 символов"),
+                                  },
+                                }}
+                              />
+                              {showDropdown && streets?.length > 0 && (
+                                <Dropdown.Menu
+                                  ref={dropdownRef}
+                                  show
+                                  className="w-100 mt-1 select-options"
+                                >
+                                  {!data?.home && (
+                                    <div className="fs-08 text-danger p-2 px-3">
+                                      {t("Выберите адрес с номером дома")}
+                                    </div>
+                                  )}
+                                  {streets.map(
+                                    (item, key) =>
+                                      item && (
+                                        <Dropdown.Item
+                                          onClick={() => clickAddress(item)}
+                                          key={key}
+                                        >
+                                          {item.value}
+                                        </Dropdown.Item>
+                                      )
+                                  )}
+                                </Dropdown.Menu>
+                              )}
+                            </div>
+                            {!data?.private && (
+                              <Row className="gx-2">
+                                <Col md={6}>
+                                  <div className="mb-2">
+                                    <Input
+                                      className="input-sm"
+                                      required
+                                      errors={errors}
+                                      label={t("Подъезд")}
+                                      name="entrance"
+                                      register={register}
+                                      validation={{
+                                        required: t("Обязательное поле"),
+                                        maxLength: {
+                                          value: 20,
+                                          message: t("Максимум 20 символов"),
+                                        },
+                                      }}
+                                    />
+                                  </div>
+                                </Col>
+                                <Col md={6}>
+                                  <div className="mb-2">
+                                    <Input
+                                      className="input-sm"
+                                      required
+                                      errors={errors}
+                                      label={t("Квартира")}
+                                      name="apartment"
+                                      register={register}
+                                      validation={{
+                                        required: t("Обязательное поле"),
+                                        maxLength: {
+                                          value: 20,
+                                          message: t("Максимум 20 символов"),
+                                        },
+                                      }}
+                                    />
+                                  </div>
+                                </Col>
+                                <Col md={6}>
+                                  <div className="mb-2">
+                                    <Input
+                                      className="input-sm"
+                                      required
+                                      errors={errors}
+                                      label={t("Этаж")}
+                                      type="number"
+                                      name="floor"
+                                      register={register}
+                                      validation={{
+                                        required: t("Обязательное поле"),
+                                        maxLength: {
+                                          value: 20,
+                                          message: t("Максимум 20 символов"),
+                                        },
+                                      }}
+                                    />
+                                  </div>
+                                </Col>
+                                <Col md={6}>
+                                  <div className="mb-2">
+                                    <Input
+                                      className="input-sm"
+                                      errors={errors}
+                                      label={t("Код домофона")}
+                                      name="code"
+                                      register={register}
+                                      validation={{
+                                        maxLength: {
+                                          value: 30,
+                                          message: t("Максимум 30 символов"),
+                                        },
+                                      }}
+                                    />
+                                  </div>
+                                </Col>
+                              </Row>
+                            )}
+                            <Form.Check className="mb-2 mt-2">
+                              <Form.Check.Input
+                                type="checkbox"
+                                name="private"
+                                id="private"
+                                value={true}
+                                {...register("private")}
+                              />
+                              <Form.Check.Label
+                                htmlFor="private"
+                                className="ms-2"
+                              >
+                                {t("Частный дом")}
+                              </Form.Check.Label>
+                            </Form.Check>
+
+                            <Textarea
                               className="input-sm"
-                              placeholder={t("Введите адрес")}
+                              label={t("Комментарий")}
+                              name="comment"
+                              placeholder={t(
+                                "Введите комментарий (Необязательно)"
+                              )}
+                              errors={errors}
                               register={register}
                               validation={{
-                                required: t("Обязательное поле"),
                                 maxLength: {
-                                  value: 250,
-                                  message: t("Максимум 250 символов"),
+                                  value: 1500,
+                                  message: t("Максимум 1500 символов"),
                                 },
                               }}
                             />
-                            {showDropdown && streets?.length > 0 && (
-                              <Dropdown.Menu
-                                ref={dropdownRef}
-                                show
-                                className="w-100 mt-1 select-options"
-                              >
-                                {!data?.home && (
-                                  <div className="fs-08 text-danger p-2 px-3">
-                                    {t("Выберите адрес с номером дома")}
-                                  </div>
-                                )}
-                                {streets.map(
-                                  (item, key) =>
-                                    item && (
-                                      <Dropdown.Item
-                                        onClick={() => clickAddress(item)}
-                                        key={key}
-                                      >
-                                        {item.value}
-                                      </Dropdown.Item>
-                                    )
-                                )}
-                              </Dropdown.Menu>
-                            )}
-                          </div>
-                          {!data?.private && (
-                            <Row className="gx-2">
-                              <Col md={6}>
-                                <div className="mb-2">
-                                  <Input
-                                    className="input-sm"
-                                    required
-                                    errors={errors}
-                                    label={t("Подъезд")}
-                                    name="entrance"
-                                    register={register}
-                                    validation={{
-                                      required: t("Обязательное поле"),
-                                      maxLength: {
-                                        value: 20,
-                                        message: t("Максимум 20 символов"),
-                                      },
-                                    }}
-                                  />
-                                </div>
-                              </Col>
-                              <Col md={6}>
-                                <div className="mb-2">
-                                  <Input
-                                    className="input-sm"
-                                    required
-                                    errors={errors}
-                                    label={t("Квартира")}
-                                    name="apartment"
-                                    register={register}
-                                    validation={{
-                                      required: t("Обязательное поле"),
-                                      maxLength: {
-                                        value: 20,
-                                        message: t("Максимум 20 символов"),
-                                      },
-                                    }}
-                                  />
-                                </div>
-                              </Col>
-                              <Col md={6}>
-                                <div className="mb-2">
-                                  <Input
-                                    className="input-sm"
-                                    required
-                                    errors={errors}
-                                    label={t("Этаж")}
-                                    type="number"
-                                    name="floor"
-                                    register={register}
-                                    validation={{
-                                      required: t("Обязательное поле"),
-                                      maxLength: {
-                                        value: 20,
-                                        message: t("Максимум 20 символов"),
-                                      },
-                                    }}
-                                  />
-                                </div>
-                              </Col>
-                              <Col md={6}>
-                                <div className="mb-2">
-                                  <Input
-                                    className="input-sm"
-                                    errors={errors}
-                                    label={t("Код домофона")}
-                                    name="code"
-                                    register={register}
-                                    validation={{
-                                      maxLength: {
-                                        value: 30,
-                                        message: t("Максимум 30 символов"),
-                                      },
-                                    }}
-                                  />
-                                </div>
-                              </Col>
-                            </Row>
-                          )}
-                          <Form.Check className="mb-2 mt-2">
-                            <Form.Check.Input
-                              type="checkbox"
-                              name="private"
-                              id="private"
-                              value={true}
-                              {...register("private")}
-                            />
-                            <Form.Check.Label
-                              htmlFor="private"
-                              className="ms-2"
-                            >
-                              {t("Частный дом")}
-                            </Form.Check.Label>
-                          </Form.Check>
-
-                          <Textarea
-                            className="input-sm"
-                            label={t("Комментарий")}
-                            name="comment"
-                            placeholder={t(
-                              "Введите комментарий (Необязательно)"
-                            )}
-                            errors={errors}
-                            register={register}
-                            validation={{
-                              maxLength: {
-                                value: 1500,
-                                message: t("Максимум 1500 символов"),
-                              },
-                            }}
-                          />
-                        </>
+                          </>
+                        )
                       )}
                     </>
                   )}
@@ -1569,27 +1572,24 @@ const Header = memo(() => {
                         className="btn btn-primary w-100"
                         draggable={false}
                         disabled={
+                          !selectedAddress ||
                           (!isValid && !isAuth) ||
                           showDropdown ||
                           (data?.private && (!data?.street || !data?.home))
                         }
                         onClick={() => onSubmitAddress()}
                       >
-                        {t(
-                          isAuth && selectedAddress
-                            ? "Закажу сюда"
-                            : "Сохранить"
-                        )}
+                        {t(isAuth ? "Закажу сюда" : "Сохранить")}
                       </button>
                     </div>
                   </div>
                 ) : (
                   <div className="position-sticky bottom-0 bg-main py-2 d-flex flex-row align-items-center">
                     <button
-                      disabled={!!!mainAffiliate}
+                      disabled={!!!selectedAffiliate}
                       className="btn btn-primary w-100"
                       onClick={() => {
-                        dispatch(mainAffiliateEdit(mainAffiliate));
+                        // dispatch(mainAffiliateEdit(selectedAffiliate));
                         dispatch(updateStartSettings(true));
                       }}
                     >
@@ -1690,17 +1690,7 @@ const Header = memo(() => {
                               {cities.map((e, index) => (
                                 <Col md={12} key={index} className="pb-2 ps-3">
                                   <a
-                                    onClick={() => {
-                                      dispatch(updateAffiliate(e.affiliates));
-                                      setMainAffiliate(
-                                        e.affiliates.find((e) => e.main) ??
-                                          e.affiliates[0]
-                                      );
-                                      dispatch(updateCity(e));
-                                      dispatch(updateGps(true));
-                                      dispatch(deleteCart());
-                                      setShowCity(false);
-                                    }}
+                                    onClick={() => onSubmitCite(e)}
                                     className={
                                       "py-2 fw-6" +
                                       (e.title === city?.title &&
@@ -1753,19 +1743,7 @@ const Header = memo(() => {
                                       className="pb-2 ps-3"
                                     >
                                       <a
-                                        onClick={() => {
-                                          dispatch(
-                                            updateAffiliate(e.affiliates)
-                                          );
-                                          setMainAffiliate(
-                                            e.affiliates.find((e) => e.main) ??
-                                              e.affiliates[0]
-                                          );
-                                          dispatch(updateCity(e));
-                                          dispatch(updateGps(true));
-                                          dispatch(deleteCart());
-                                          setShowCity(false);
-                                        }}
+                                        onClick={() => onSubmitCite(e)}
                                         className={
                                           "py-2 fw-4" +
                                           (e.title === city?.title &&

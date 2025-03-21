@@ -506,7 +506,7 @@ const ProductModal = memo((data) => {
                               )
                             ) || null
                           }
-                          onChange={() => {
+                          onClick={() => {
                             // Создаем копию массива modifiers
                             const updatedModifiers = [
                               ...product.cart.modifiers,
@@ -556,7 +556,7 @@ const ProductModal = memo((data) => {
                                           modifierItem.id === e.id
                                       ) || index === 0
                                     }
-                                    onChange={() => {
+                                    onClick={() => {
                                       // Создаем копию массива modifiers
                                       const updatedModifiers = [
                                         ...product.cart.modifiers,
@@ -626,7 +626,8 @@ const ProductModal = memo((data) => {
                   <div className="productPage-edit mb-0">
                     <div className="top">
                       {product?.additions?.length > 0 && (
-                        <button draggable={false} 
+                        <button
+                          draggable={false}
                           type="button"
                           className={isRemove ? "" : "active"}
                           onClick={() => setIsRemove(false)}
@@ -637,7 +638,8 @@ const ProductModal = memo((data) => {
                         </button>
                       )}
                       {product?.wishes?.length > 0 && (
-                        <button draggable={false} 
+                        <button
+                          draggable={false}
                           type="button"
                           className={
                             isRemove

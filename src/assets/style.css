@@ -2386,13 +2386,13 @@ main {
 .modal {
   -webkit-backdrop-filter: blur(12px);
           backdrop-filter: blur(12px);
-  background-color: rgba(0, 0, 0, 0.3);
+  background-color: rgba(0, 0, 0, 0.1);
 }
 
 .story-modal {
   -webkit-backdrop-filter: blur(12px);
           backdrop-filter: blur(12px);
-  background-color: rgba(0, 0, 0, 0.3);
+  background-color: rgba(0, 0, 0, 0.1);
 }
 .story-modal .modal-dialog {
   max-width: 450px;

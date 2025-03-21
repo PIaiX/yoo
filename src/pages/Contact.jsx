@@ -29,8 +29,8 @@ const Contact = () => {
   const [mainAffiliate, setMainAffiliate] = useState();
   const [showModalOrganization, setModalOrganization] = useState(false);
   const [showModalDelivery, setModalDelivery] = useState(false);
-  const mapRef = useRef(null); 
-  const polygonsRef = useRef({}); 
+  const mapRef = useRef(null);
+  const polygonsRef = useRef({});
 
   const isValidCoordinate = (coord) => {
     const [lat, lon] = coord;
@@ -70,6 +70,10 @@ const Contact = () => {
   );
 
   const mapPoligone = useMemo(() => {
+    const zonesData = affiliate
+      ? zones.filter((e) => affiliate.map((a) => a.id).includes(e.affiliateId))
+      : false;
+
     return (
       <>
         {affiliate?.length > 0 &&
@@ -100,8 +104,8 @@ const Contact = () => {
               )
           )}
 
-        {zones?.length > 0 &&
-          zones.map((e) => {
+        {zonesData?.length > 0 &&
+          zonesData.map((e) => {
             const geodata =
               e.data.length > 0 ? e.data.map((geo) => [geo[1], geo[0]]) : false;
 

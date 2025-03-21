@@ -28,37 +28,39 @@ const ProductModalComponent = memo(({ product, setProduct }) => {
   }, [setProduct]);
 
   return (
-    <Modal
-      fullscreen="sm-down"
-      className="product-modal"
-      show={product.show}
-      onHide={handleClose}
-      centered
-      size="xl"
-      scrollable
-    >
-      <ButtonClose onClick={() => handleClose()} />
-      <Modal.Body className="scroll-hide">
-        {product.show && product.data ? (
-          <Suspense fallback={<Loader full />}>
-            <ProductModal
-              {...product.data}
-              onLoad={(e) => {
-                setProduct((prev) => ({
-                  ...prev,
-                  show: true,
-                  loading: false,
-                  data: e,
-                }));
-              }}
-              onExit={handleClose}
-            />
-          </Suspense>
-        ) : (
-          <Loader full />
-        )}
-      </Modal.Body>
-    </Modal>
+    product?.show && (
+      <Modal
+        fullscreen="sm-down"
+        className="product-modal"
+        show={product.show}
+        onHide={handleClose}
+        centered
+        size="xl"
+        scrollable
+      >
+        <ButtonClose onClick={() => handleClose()} />
+        <Modal.Body className="scroll-hide">
+          {product.show && product.data ? (
+            <Suspense fallback={<Loader full />}>
+              <ProductModal
+                {...product.data}
+                onLoad={(e) => {
+                  setProduct((prev) => ({
+                    ...prev,
+                    show: true,
+                    loading: false,
+                    data: e,
+                  }));
+                }}
+                onExit={handleClose}
+              />
+            </Suspense>
+          ) : (
+            <Loader full />
+          )}
+        </Modal.Body>
+      </Modal>
+    )
   );
 });
 
