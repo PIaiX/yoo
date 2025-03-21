@@ -506,7 +506,7 @@ const ProductModal = memo((data) => {
                               )
                             ) || null
                           }
-                          onClick={() => {
+                          onClick={(e) => {
                             // Создаем копию массива modifiers
                             const updatedModifiers = [
                               ...product.cart.modifiers,
@@ -515,15 +515,15 @@ const ProductModal = memo((data) => {
                             // Ищем индекс модификатора
                             const isModifierIndex = updatedModifiers.findIndex(
                               (item) =>
-                                item?.categoryId === e.categoryId ||
+                                item?.categoryId === e.value.categoryId ||
                                 item?.categoryId === 0
                             );
 
                             // Обновляем или добавляем модификатор
                             if (isModifierIndex !== -1) {
-                              updatedModifiers[isModifierIndex] = e; // Заменяем модификатор
+                              updatedModifiers[isModifierIndex] = e.value; // Заменяем модификатор
                             } else {
-                              updatedModifiers.push(e); // Добавляем новый модификатор
+                              updatedModifiers.push(e.value); // Добавляем новый модификатор
                             }
 
                             // Обновляем состояние иммутабельно
