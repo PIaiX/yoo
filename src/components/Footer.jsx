@@ -178,7 +178,7 @@ const Footer = memo(() => {
                         size={50}
                         className="p-1 bg-white rounded shadow-sm"
                         value={
-                          "https://" + window.location.hostname + "/redirectapp"
+                          "https://" + window.location.hostname + "/redirect/app"
                         }
                         viewBox={`0 0 50 50`}
                       />

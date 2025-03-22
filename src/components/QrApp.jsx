@@ -25,7 +25,7 @@ const QrApp = memo(() => {
               size={180}
               fgColor="#000000"
               bgColor="#ffffff"
-              value={"https://" + window.location.hostname + "/redirectapp"}
+              value={"https://" + window.location.hostname + "/redirect/app"}
               viewBox={`0 0 180 180`}
             />
           </div>
