@@ -437,7 +437,6 @@ const Header = memo(() => {
   const onSubmitCite = useCallback(
     (e) => {
       dispatch(updateAffiliate(e.affiliates));
-      // setMainAffiliate(e.affiliates.find((e) => e.main) ?? e.affiliates[0]);
       dispatch(updateCity(e));
       dispatch(updateGps(true));
       dispatch(deleteCart());
