@@ -44,7 +44,7 @@ import { editDeliveryCheckout } from "./store/reducers/checkoutSlice";
 import { updateNotification } from "./store/reducers/notificationSlice";
 import {
   // resetSettings,
-  updateApiId,
+  // updateApiId,
   updateIp,
   updateOptions,
   updateSettingsCity,
