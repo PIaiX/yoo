@@ -454,10 +454,10 @@ const Header = memo(() => {
       <>
         {(selectedAddress?.coordinates?.lat ||
           selectedAddress?.lat ||
-          selectedAffiliate.options.coordinates.lat) &&
+          selectedAffiliate?.options?.coordinates?.lat) &&
           (selectedAddress?.coordinates?.lon ||
             selectedAddress?.lon ||
-            selectedAffiliate.options.coordinates.lon) && (
+            selectedAffiliate?.options?.coordinates?.lon) && (
             <YMaps>
               <Map
                 instanceRef={mapRef}
@@ -468,12 +468,12 @@ const Header = memo(() => {
                       ? selectedAddress.coordinates.lat
                       : selectedAddress?.lat
                       ? selectedAddress.lat
-                      : selectedAffiliate.options.coordinates.lat,
+                      : selectedAffiliate.options?.coordinates?.lat,
                     selectedAddress?.coordinates?.lon
                       ? selectedAddress.coordinates.lon
                       : selectedAddress?.lon
                       ? selectedAddress.lon
-                      : selectedAffiliate.options.coordinates.lon,
+                      : selectedAffiliate.options?.coordinates?.lon,
                   ],
                   zoom: 11,
                 }}

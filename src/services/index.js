@@ -124,7 +124,7 @@ $authApi.interceptors.response.use(
         return $authApi(originalRequest);
       } catch (refreshError) {
         // Если обновление токена не удалось
-        if (refreshError.response?.status === 401 || refreshError.response?.status === 403) {
+        if (refreshError.response?.status === 401 || refreshError.response?.status === 403 || error.response?.status === 500) {
           store.dispatch(logout()); // Выход из аккаунта
         }
         return Promise.reject(refreshError);
@@ -135,7 +135,7 @@ $authApi.interceptors.response.use(
     }
 
     // Обработка 403
-    if (error.response?.status === 403) {
+    if (error.response?.status === 403 || error.response?.status === 500) {
       store.dispatch(logout());
     }
 

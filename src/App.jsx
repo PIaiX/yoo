@@ -397,7 +397,7 @@ function App() {
       apiId &&
         socket.on("logout/" + apiId, () => {
           socket.disconnect();
-          window.location.reload();
+          setTimeout(() => window.location.reload(), 1500);
         });
 
       return () => {
