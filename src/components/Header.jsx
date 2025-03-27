@@ -64,6 +64,8 @@ import Input from "./utils/Input";
 import Loader from "./utils/Loader";
 import Select from "./utils/Select";
 import Textarea from "./utils/Textarea";
+import UserIcon from "./svgs/UserIcon";
+import CartIcon from "./svgs/CartIcon";
 
 const Header = memo(() => {
   const { t } = useTranslation();
@@ -467,13 +469,13 @@ const Header = memo(() => {
                     selectedAddress?.coordinates?.lat
                       ? selectedAddress.coordinates.lat
                       : selectedAddress?.lat
-                      ? selectedAddress.lat
-                      : selectedAffiliate.options?.coordinates?.lat,
+                        ? selectedAddress.lat
+                        : selectedAffiliate.options?.coordinates?.lat,
                     selectedAddress?.coordinates?.lon
                       ? selectedAddress.coordinates.lon
                       : selectedAddress?.lon
-                      ? selectedAddress.lon
-                      : selectedAffiliate.options?.coordinates?.lon,
+                        ? selectedAddress.lon
+                        : selectedAffiliate.options?.coordinates?.lon,
                   ],
                   zoom: 11,
                 }}
@@ -482,10 +484,10 @@ const Header = memo(() => {
                 modules={["geoObject.addon.balloon"]}
               >
                 {data?.lat &&
-                data?.lon &&
-                data?.street &&
-                data?.home &&
-                delivery === "delivery" ? (
+                  data?.lon &&
+                  data?.street &&
+                  data?.home &&
+                  delivery === "delivery" ? (
                   <Placemark
                     options={{
                       iconLayout: "default#image",
@@ -522,15 +524,15 @@ const Header = memo(() => {
                           options={
                             selectedAffiliate?.id === e.id
                               ? {
-                                  iconLayout: "default#image",
-                                  iconImageHref: "imgs/marker.png",
-                                  iconImageSize: [38, 54],
-                                }
+                                iconLayout: "default#image",
+                                iconImageHref: "imgs/marker.png",
+                                iconImageSize: [38, 54],
+                              }
                               : {
-                                  iconLayout: "default#image",
-                                  iconImageHref: "imgs/marker-gray.png",
-                                  iconImageSize: [38, 54],
-                                }
+                                iconLayout: "default#image",
+                                iconImageHref: "imgs/marker-gray.png",
+                                iconImageSize: [38, 54],
+                              }
                           }
                           geometry={[
                             e.options.coordinates.lat,
@@ -566,34 +568,30 @@ const Header = memo(() => {
                     <div class='my-info-body'>
                       <h6 class='mb-0 fw-6'>${e.title}</h6>
                       ${e.desc ? `<p>${e.desc}</p>` : ""}
-                      ${
-                        e.minPrice > 0
-                          ? `<p>${t("Минимальная сумма заказа")} ${customPrice(
-                              e.minPrice
-                            )}</p>`
-                          : ""
-                      }
-                      ${
-                        e.priceFree > 0
-                          ? `<p>${t("Бесплатная доставка от")} ${customPrice(
-                              e.priceFree
-                            )}</p>`
-                          : ""
-                      }
-                      ${
-                        e.price > 0
-                          ? `<p>${t("Стоимость доставки")} ${customPrice(
-                              e.price
-                            )}</p>`
-                          : ""
-                      }
-                      ${
-                        e.time > 0
-                          ? `<p>${t("Время доставки от")} ${e.time} ${t(
-                              "мин"
-                            )}</p>`
-                          : ""
-                      }
+                      ${e.minPrice > 0
+                              ? `<p>${t("Минимальная сумма заказа")} ${customPrice(
+                                e.minPrice
+                              )}</p>`
+                              : ""
+                            }
+                      ${e.priceFree > 0
+                              ? `<p>${t("Бесплатная доставка от")} ${customPrice(
+                                e.priceFree
+                              )}</p>`
+                              : ""
+                            }
+                      ${e.price > 0
+                              ? `<p>${t("Стоимость доставки")} ${customPrice(
+                                e.price
+                              )}</p>`
+                              : ""
+                            }
+                      ${e.time > 0
+                              ? `<p>${t("Время доставки от")} ${e.time} ${t(
+                                "мин"
+                              )}</p>`
+                              : ""
+                            }
                     </div>
                   </address>`,
                         }}
@@ -628,31 +626,16 @@ const Header = memo(() => {
       <header>
         <Container className="h-100">
           <nav className="h-100">
-            <div className="user-select d-flex align-items-center">
-              <Link draggable="false" to="/" className="me-2 me-xxl-3">
-                <img
-                  draggable="false"
-                  src={
-                    options?.multiBrand
-                      ? getImageURL({
-                          path: selectedAffiliate.media,
-                          type: "affiliate",
-                          size: "full",
-                        })
-                      : options?.logo
-                      ? getImageURL({
-                          path: options.logo,
-                          type: "all/web/logo",
-                          size: "full",
-                        })
-                      : "/logo.png"
-                  }
-                  alt={options?.title ?? "YOOAPP"}
-                  className="logo"
-                />
-              </Link>
+            <div className="user-select text-menu d-none d-lg-flex">
+
               <ul className="text-menu">
-                {options?.multiBrand && affiliate?.length > 0 && (
+                <li>
+                  <button className="btn-whiteBoard">Бронь столов</button>
+                </li>
+                <li>
+                  <button className="btn-whiteFill">Доставка</button>
+                </li>
+                {/* {options?.multiBrand && affiliate?.length > 0 && (
                   <li>
                     <a onClick={() => setShowBrand(true)} className="fw-6">
                       {t(
@@ -662,11 +645,11 @@ const Header = memo(() => {
                       )}
                     </a>
                   </li>
-                )}
+                )} */}
 
-                {deliveryArray?.length > 0 &&
-                !options?.hideDeliverySelect &&
-                !options?.startSettings ? (
+                {/* {deliveryArray?.length > 0 &&
+                  !options?.hideDeliverySelect &&
+                  !options?.startSettings ? (
                   <li className="d-sm-inline-flex">
                     <Select
                       className="fw-5"
@@ -705,8 +688,8 @@ const Header = memo(() => {
                                 : selectedAddress?.full ?? t("Не указано")
                               : selectedAffiliate?.options?.street &&
                                 selectedAffiliate?.options?.house
-                              ? `${selectedAffiliate.options.street} ${selectedAffiliate.options.house}`
-                              : selectedAffiliate?.full ?? t("Не указано")}
+                                ? `${selectedAffiliate.options.street} ${selectedAffiliate.options.house}`
+                                : selectedAffiliate?.full ?? t("Не указано")}
                           </div>
                         </div>
                       </a>
@@ -737,11 +720,20 @@ const Header = memo(() => {
                       </Link>
                     </div>
                   </div>
-                )}
+                )} */}
+
               </ul>
             </div>
+            <Link draggable="false" to="/" className="me-2 me-xxl-3">
+              <img
+                draggable="false"
+                src="./imgs/Urman.png"
+                alt={options?.title ?? "YOOAPP"}
+                className="logo"
+              />
+            </Link>
             <ul className="user-select text-menu d-none d-lg-flex">
-              {options?.menu && options?.menu?.length > 0 ? (
+              {/* {options?.menu && options?.menu?.length > 0 ? (
                 [...options.menu]
                   .sort((a, b) => a.order - b.order)
                   .map(
@@ -773,7 +765,8 @@ const Header = memo(() => {
                     </Link>
                   </li>
                 </>
-              )}
+              )} */}
+
             </ul>
             {selectedAffiliate &&
               selectedAffiliate?.phone &&
@@ -786,8 +779,8 @@ const Header = memo(() => {
                     <span className="fw-6">{selectedAffiliate.phone[0]}</span>
                   </a>
                   {selectedAffiliate?.options?.work?.length > 0 &&
-                  selectedAffiliate.options.work[moment().weekday()]?.start &&
-                  selectedAffiliate.options.work[moment().weekday()]?.end ? (
+                    selectedAffiliate.options.work[moment().weekday()]?.start &&
+                    selectedAffiliate.options.work[moment().weekday()]?.end ? (
                     <div
                       onMouseEnter={handleMouseEnter}
                       onMouseLeave={handleMouseLeave}
@@ -818,9 +811,8 @@ const Header = memo(() => {
                                       <b style={{ width: 25 }}>
                                         {moment.weekdaysShort(index + 1)}:
                                       </b>
-                                      {`${t("с")} ${e.start} ${t("до")} ${
-                                        e.end
-                                      }`}
+                                      {`${t("с")} ${e.start} ${t("до")} ${e.end
+                                        }`}
                                     </p>
                                   )
                                 )}
@@ -847,12 +839,12 @@ const Header = memo(() => {
               )}
 
             <ul className="icons-menu">
-              <li className="d-none d-lg-block">
+              {/* <li className="d-none d-lg-block">
                 <Link draggable="false" to="/search">
                   <HiOutlineMagnifyingGlass size={25} />
                 </Link>
-              </li>
-              <li className="d-none d-lg-block">
+              </li> */}
+              <li className="user d-none d-lg-block">
                 <Link
                   draggable="false"
                   to={
@@ -873,7 +865,7 @@ const Header = memo(() => {
                         className="cap"
                       />
                     )}
-                  <HiOutlineUserCircle size={25} />
+                  <UserIcon size={25} />
                   {(notification?.message > 0 || notification?.order > 0) && (
                     <span className="position-absolute top-100 start-100 translate-middle badge rounded-pill">
                       {notification.message +
@@ -884,13 +876,13 @@ const Header = memo(() => {
                 </Link>
               </li>
               {options?.cart && (
-                <li className="d-none d-lg-block">
+                <li className="user d-none d-lg-block">
                   <Link
                     draggable="false"
                     to="/cart"
                     className="position-relative"
                   >
-                    <HiOutlineShoppingBag size={25} />
+                    <CartIcon size={25} />
                     {count > 0 && (
                       <span className="position-absolute top-100 start-100 translate-middle badge rounded-pill">
                         {count}
@@ -997,9 +989,8 @@ const Header = memo(() => {
                                         <b style={{ width: 25 }}>
                                           {moment.weekdaysShort(index + 1)}:
                                         </b>
-                                        {`${t("с")} ${e.start} ${t("до")} ${
-                                          e.end
-                                        }`}
+                                        {`${t("с")} ${e.start} ${t("до")} ${e.end
+                                          }`}
                                       </p>
                                     )
                                   )}
@@ -1077,8 +1068,8 @@ const Header = memo(() => {
                 </p>
                 <ul className="list-unstyled d-flex justify-content-center mt-2">
                   {/iPhone|iPad/i.test(navigator.userAgent) &&
-                  options.app?.accountApple &&
-                  options.app.titleIos ? (
+                    options.app?.accountApple &&
+                    options.app.titleIos ? (
                     <li key={0}>
                       <a
                         target="_blank"
@@ -1087,8 +1078,8 @@ const Header = memo(() => {
                           (options.app?.titleIos?.length > 0
                             ? options.app.titleIos
                             : options.app?.nameIos?.length > 0
-                            ? options.app.nameIos
-                            : options.app.name) +
+                              ? options.app.nameIos
+                              : options.app.name) +
                           (options.app?.accountApple
                             ? "/id" + options.app.accountApple
                             : "")
@@ -1138,8 +1129,8 @@ const Header = memo(() => {
                               (options.app?.titleIos?.length > 0
                                 ? options.app.titleIos
                                 : options.app?.nameIos?.length > 0
-                                ? options.app.nameIos
-                                : options.app.name) +
+                                  ? options.app.nameIos
+                                  : options.app.name) +
                               (options.app?.accountApple
                                 ? "/id" + options.app.accountApple
                                 : "")
@@ -1208,7 +1199,7 @@ const Header = memo(() => {
           {(delivery === "delivery" &&
             addressData?.length > 0 &&
             selectedAddress) ||
-          (delivery === "pickup" && selectedAffiliate) ? (
+            (delivery === "pickup" && selectedAffiliate) ? (
             <ButtonClose onClick={() => dispatch(updateStartSettings(true))} />
           ) : (
             ""
@@ -1314,11 +1305,11 @@ const Header = memo(() => {
                             .filter(
                               (e) =>
                                 e?.city?.toLowerCase() ===
-                                  city?.title?.toLowerCase() ||
+                                city?.title?.toLowerCase() ||
                                 e?.region?.toLowerCase() ===
-                                  city?.region?.toLowerCase() ||
+                                city?.region?.toLowerCase() ||
                                 e?.area?.toLowerCase() ===
-                                  city?.area?.toLowerCase()
+                                city?.area?.toLowerCase()
                             )
                             .map((e) => (
                               <a
@@ -1361,11 +1352,11 @@ const Header = memo(() => {
                             .filter(
                               (e) =>
                                 e?.city?.toLowerCase() !==
-                                  city?.title?.toLowerCase() &&
+                                city?.title?.toLowerCase() &&
                                 e?.region?.toLowerCase() !==
-                                  city?.region?.toLowerCase() &&
+                                city?.region?.toLowerCase() &&
                                 e?.area?.toLowerCase() !==
-                                  city?.area?.toLowerCase()
+                                city?.area?.toLowerCase()
                             )
                             .map((e) => (
                               <a
@@ -1642,10 +1633,10 @@ const Header = memo(() => {
                 src={
                   options?.logo
                     ? getImageURL({
-                        path: options.logo,
-                        type: "all/web/logo",
-                        size: "full",
-                      })
+                      path: options.logo,
+                      type: "all/web/logo",
+                      size: "full",
+                    })
                     : "/logo.png"
                 }
                 alt={options?.title ?? "YOOAPP"}
@@ -1668,103 +1659,103 @@ const Header = memo(() => {
               <div className="search-box">
                 {searchInput?.length > 0 && search && search?.length > 0
                   ? search.length > 0 && (
-                      <div className="cities">
-                        {Object.entries(
-                          search
-                            .sort((a, b) => a.title.localeCompare(b.title))
-                            .reduce((acc, city) => {
-                              const firstLetter = city.title[0].toUpperCase();
-                              if (!acc[firstLetter]) {
-                                acc[firstLetter] = [];
-                              }
-                              acc[firstLetter].push(city);
-                              return acc;
-                            }, {})
-                        ).map(([letter, cities]) => (
-                          <div key={letter} className="cities-box">
-                            <b className="d-block cities-box-letter text-main">
-                              {letter}
-                            </b>
-                            <Row>
-                              {cities.map((e, index) => (
-                                <Col md={12} key={index} className="pb-2 ps-3">
-                                  <a
-                                    onClick={() => onSubmitCite(e)}
-                                    className={
-                                      "py-2 fw-6" +
-                                      (e.title === city?.title &&
+                    <div className="cities">
+                      {Object.entries(
+                        search
+                          .sort((a, b) => a.title.localeCompare(b.title))
+                          .reduce((acc, city) => {
+                            const firstLetter = city.title[0].toUpperCase();
+                            if (!acc[firstLetter]) {
+                              acc[firstLetter] = [];
+                            }
+                            acc[firstLetter].push(city);
+                            return acc;
+                          }, {})
+                      ).map(([letter, cities]) => (
+                        <div key={letter} className="cities-box">
+                          <b className="d-block cities-box-letter text-main">
+                            {letter}
+                          </b>
+                          <Row>
+                            {cities.map((e, index) => (
+                              <Col md={12} key={index} className="pb-2 ps-3">
+                                <a
+                                  onClick={() => onSubmitCite(e)}
+                                  className={
+                                    "py-2 fw-6" +
+                                    (e.title === city?.title &&
                                       e.options?.alias === city?.options?.alias
-                                        ? " active"
-                                        : "")
-                                    }
-                                  >
-                                    {e?.options?.alias?.length > 0
-                                      ? e.options.alias
-                                      : e.title}
-                                  </a>
-                                </Col>
-                              ))}
-                            </Row>
-                          </div>
-                        ))}
-                      </div>
-                    )
-                  : list?.length > 0 &&
-                    list.map((item) => (
-                      <React.Fragment key={item.country}>
-                        {item?.country && (
-                          <h6 className="fw-7 fs-12 p-2">{item.country}</h6>
-                        )}
-                        {item?.cities?.length > 0 && (
-                          <div className="cities">
-                            {Object.entries(
-                              item.cities
-                                .sort((a, b) => a.title.localeCompare(b.title))
-                                .reduce((acc, city) => {
-                                  const firstLetter =
-                                    city.title[0].toUpperCase();
-                                  if (!acc[firstLetter]) {
-                                    acc[firstLetter] = [];
+                                      ? " active"
+                                      : "")
                                   }
-                                  acc[firstLetter].push(city);
-                                  return acc;
-                                }, {})
-                            ).map(([letter, cities]) => (
-                              <div key={letter} className="cities-box">
-                                <b className="d-block cities-box-letter text-main">
-                                  {letter}
-                                </b>
-                                <Row>
-                                  {cities.map((e, index) => (
-                                    <Col
-                                      md={12}
-                                      key={index}
-                                      className="pb-2 ps-3"
-                                    >
-                                      <a
-                                        onClick={() => onSubmitCite(e)}
-                                        className={
-                                          "py-2 fw-4" +
-                                          (e.title === city?.title &&
-                                          e.options?.alias ===
-                                            city?.options?.alias
-                                            ? " active"
-                                            : "")
-                                        }
-                                      >
-                                        {e?.options?.alias?.length > 0
-                                          ? e.options.alias
-                                          : e.title}
-                                      </a>
-                                    </Col>
-                                  ))}
-                                </Row>
-                              </div>
+                                >
+                                  {e?.options?.alias?.length > 0
+                                    ? e.options.alias
+                                    : e.title}
+                                </a>
+                              </Col>
                             ))}
-                          </div>
-                        )}
-                      </React.Fragment>
-                    ))}
+                          </Row>
+                        </div>
+                      ))}
+                    </div>
+                  )
+                  : list?.length > 0 &&
+                  list.map((item) => (
+                    <React.Fragment key={item.country}>
+                      {item?.country && (
+                        <h6 className="fw-7 fs-12 p-2">{item.country}</h6>
+                      )}
+                      {item?.cities?.length > 0 && (
+                        <div className="cities">
+                          {Object.entries(
+                            item.cities
+                              .sort((a, b) => a.title.localeCompare(b.title))
+                              .reduce((acc, city) => {
+                                const firstLetter =
+                                  city.title[0].toUpperCase();
+                                if (!acc[firstLetter]) {
+                                  acc[firstLetter] = [];
+                                }
+                                acc[firstLetter].push(city);
+                                return acc;
+                              }, {})
+                          ).map(([letter, cities]) => (
+                            <div key={letter} className="cities-box">
+                              <b className="d-block cities-box-letter text-main">
+                                {letter}
+                              </b>
+                              <Row>
+                                {cities.map((e, index) => (
+                                  <Col
+                                    md={12}
+                                    key={index}
+                                    className="pb-2 ps-3"
+                                  >
+                                    <a
+                                      onClick={() => onSubmitCite(e)}
+                                      className={
+                                        "py-2 fw-4" +
+                                        (e.title === city?.title &&
+                                          e.options?.alias ===
+                                          city?.options?.alias
+                                          ? " active"
+                                          : "")
+                                      }
+                                    >
+                                      {e?.options?.alias?.length > 0
+                                        ? e.options.alias
+                                        : e.title}
+                                    </a>
+                                  </Col>
+                                ))}
+                              </Row>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </React.Fragment>
+                  ))}
               </div>
             </div>
           </Modal.Body>

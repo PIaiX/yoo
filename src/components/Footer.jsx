@@ -20,6 +20,12 @@ import { getCount, getImageURL } from "../helpers/all";
 import FlameIcon from "./svgs/FlameIcon";
 import QRCode from "react-qr-code";
 import { isDesktop } from "react-device-detect";
+import TelegramFill from "./svgs/TelegramFill";
+import InstagramFill from "./svgs/InstagramFill";
+import Vk from "./svgs/Vk";
+import TelegramLine from "./svgs/TelegramLine";
+import WhatsAppLine from "./svgs/WhatsAppLine";
+import { Col, Row } from "react-bootstrap";
 
 const iconComponents = {
   "/contact": IoCallOutline,
@@ -45,7 +51,7 @@ const Footer = memo(() => {
 
   return (
     <footer className="user-select">
-      <Container className="h-100">
+      <Container className="h-100 position-relative">
         <nav className="h-100 mobile d-lg-none">
           <ul>
             <li>
@@ -93,29 +99,149 @@ const Footer = memo(() => {
           </ul>
         </nav>
         <div className="desktop d-none d-lg-flex">
-          <div className="pe-3">
+          <Row className="w-100">
+            <Col md={3}>
+              <div className="adress">
+                <div className="street">
+                  Некравсова, 9
+                </div>
+                <div className="phone">
+                  +7 986 719-00-00
+                </div>
+                <div className="mess">
+                  <Link to="/" className="me-2">
+                    <TelegramLine />
+                  </Link>        <Link to="/" >
+                    <WhatsAppLine />
+                  </Link>
+                </div>
+              </div>
+            </Col>
+            <Col md={3}>
+              <div className="adress">
+                <div className="street">
+                  Салават Купере
+                </div>
+                <div className="phone">
+                  +7 917 883-00-00
+                </div>
+                <div className="mess">
+                  <Link to="/" className="me-2">
+                    <TelegramLine />
+                  </Link>        <Link to="/" >
+                    <WhatsAppLine />
+                  </Link>
+                </div>
+              </div>
+            </Col>
+            <Col md={3}>
+              <div className="adress">
+                <div className="street">
+                  ГУМ, Баумана 51
+                </div>
+                <div className="phone">
+                  +7 917 869-00-00
+                </div>
+                <div className="mess">
+                  <Link to="/" className="me-2">
+                    <TelegramLine />
+                  </Link>        <Link to="/" >
+                    <WhatsAppLine />
+                  </Link>
+                </div>
+              </div>
+            </Col>
+            <Col md={3}>
+              <div className="adress">
+                <div className="street">
+                  Деревня Универсиады, 15а
+                </div>
+                <div className="phone">
+                  +7 917 287-00-00
+                </div>
+                <div className="mess">
+                  <Link to="/" className="me-2">
+                    <TelegramLine />
+                  </Link>        <Link to="/" >
+                    <WhatsAppLine />
+                  </Link>
+                </div>
+              </div>
+            </Col>
+            <Col md={3}>
+              <div className="adress">
+                <div className="street">
+                  Магеллан Чистопольская улица, 36
+                </div>
+                <div className="phone">
+                  +7 987 226-26-90
+                </div>
+                <div className="mess">
+                  <Link to="/" className="me-2">
+                    <TelegramLine />
+                  </Link>        <Link to="/" >
+                    <WhatsAppLine />
+                  </Link>
+                </div>
+              </div>
+            </Col>
+            <Col md={3}>
+              <div className="adress">
+                <div className="street">
+                  Царёво Габдуллы Тукая, 2
+                </div>
+                <div className="phone">
+                  +7 917 296-00-00
+                </div>
+                <div className="mess">
+                  <Link to="/" className="me-2">
+                    <TelegramLine />
+                  </Link>
+
+                </div>
+              </div>
+            </Col>
+            <Col md={3}>
+              <div className="adress">
+                <div className="street">
+                  Горкинско-Ометьевский лес Проспект Победы, 69
+                </div>
+                <div className="phone">
+                  +7 917 939-00-00
+                </div>
+                <div className="mess">
+                  <Link to="/" className="me-2">
+                    <TelegramLine />
+                  </Link>        <Link to="/" >
+                    <WhatsAppLine />
+                  </Link>
+                </div>
+              </div>
+            </Col>
+          </Row>
+          {/* <div className="pe-3">
             <img
               draggable="false"
               src={
                 options?.logodark
                   ? getImageURL({
-                      path: options.logodark,
-                      type: "all/web/logo",
-                      size: "full",
-                    })
+                    path: options.logodark,
+                    type: "all/web/logo",
+                    size: "full",
+                  })
                   : options?.logo
-                  ? getImageURL({
+                    ? getImageURL({
                       path: options.logo,
                       type: "all/web/logo",
                       size: "full",
                     })
-                  : "/logo.png"
+                    : "/logo.png"
               }
               alt={options?.title ?? "YOOAPP"}
               className="logo"
             />
-          </div>
-          <nav>
+          </div> */}
+          {/* <nav>
             <ul className="list-unstyled d-flex align-items-center">
               {options?.menu?.length > 0 ? (
                 options.menu.map(
@@ -165,10 +291,10 @@ const Footer = memo(() => {
                   </li>
                 )}
             </ul>
-          </nav>
-          {options?.app?.name ||
-          options?.app?.nameAndroid ||
-          options?.app?.nameIos ? (
+          </nav> */}
+          {/* {options?.app?.name ||
+            options?.app?.nameAndroid ||
+            options?.app?.nameIos ? (
             <div>
               <div className="d-flex align-items-center flex-row">
                 {options?.qrApp && isDesktop ? (
@@ -207,8 +333,8 @@ const Footer = memo(() => {
                         (options.app?.titleIos?.length > 0
                           ? options.app.titleIos
                           : options.app?.nameIos?.length > 0
-                          ? options.app.nameIos
-                          : options.app.name) +
+                            ? options.app.nameIos
+                            : options.app.name) +
                         (options.app?.accountApple
                           ? "/id" + options.app.accountApple
                           : "")
@@ -245,22 +371,37 @@ const Footer = memo(() => {
             </div>
           ) : (
             ""
+          )} */}
+        </div>
+        <div className="position-absolute end-0 bottom-0 pe-3">
+          <div className="social justify-content-end mt-2 d-none d-lg-flex">
+            <Link to="/" className="me-3">
+              <TelegramFill />
+            </Link>
+            <Link to="/" className="me-3">
+              <InstagramFill />
+            </Link>
+            <Link to="/">
+              <Vk />
+            </Link>
+          </div>
+          {!options?.branding && (
+
+            <div className="justify-content-end mt-2 d-none d-lg-flex">
+
+              <a href="https://yooapp.ru" target="_blank">
+                <div>
+                  <span className="fs-08 me-1">
+                    {t("Разработано на платформе")}
+                  </span>
+                  <b className="fs-08">Yooapp</b>
+                </div>
+              </a>
+            </div>
           )}
         </div>
-        {!options?.branding && (
-          <div className="justify-content-center mt-2 d-none d-lg-flex">
-            <a href="https://yooapp.ru" target="_blank">
-              <div>
-                <span className="text-muted fs-08 me-1">
-                  {t("Разработано на платформе")}
-                </span>
-                <b className="fs-08">yooapp</b>
-              </div>
-            </a>
-          </div>
-        )}
       </Container>
-    </footer>
+    </footer >
   );
 });
 

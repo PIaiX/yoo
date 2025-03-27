@@ -16,7 +16,7 @@ import { getCatalog } from "../services/catalog";
 import { updateCatalog } from "../store/reducers/catalogSlice";
 import EmptyWork from "../components/empty/work";
 import QrApp from "../components/QrApp";
-import { Container } from "react-bootstrap";
+import { Col, Container, Row } from "react-bootstrap";
 import { isDesktop } from "react-device-detect";
 
 const Home = () => {
@@ -82,26 +82,73 @@ const Home = () => {
 
   return (
     <main className="mt-0 pt-0">
-      <Meta
-        title={
-          options?.seo?.home?.title
-            ? options.seo.home.title
-            : options?.title
-            ? options.title + " - доставка еды на дом, офис"
-            : selectedAffiliate?.title
-            ? selectedAffiliate?.title + " - доставка еды на дом, офис"
-            : t("Главная")
-        }
-        description={
-          options?.seo?.home?.description
-            ? options.seo.home.description
-            : t(
+      <Container>
+        <Meta
+          title={
+            options?.seo?.home?.title
+              ? options.seo.home.title
+              : options?.title
+                ? options.title + " - доставка еды на дом, офис"
+                : selectedAffiliate?.title
+                  ? selectedAffiliate?.title + " - доставка еды на дом, офис"
+                  : t("Главная")
+          }
+          description={
+            options?.seo?.home?.description
+              ? options.seo.home.description
+              : t(
                 "Закажите еду онлайн с доставкой! Широкий выбор вкусных блюд, удобный поиск и быстрая доставка."
               )
-        }
-      />
+          }
+        />
+        <div className="urman-home">
+          <Row >
+            <Col md={4} className="mt-4">
+              <div className="home-card">
+                <img src="/imgs/adress1.jpg" alt="" />
+                <div className="title">Горкинско-Ометьевский лес</div>
+              </div>
+            </Col>
+            <Col md={4} className="mt-4">
+              <div className="home-card">
+                <img src="/imgs/adress2.jpg" alt="" />
+                <div className="title">Горкинско-Ометьевский лес</div>
+              </div>
+            </Col>
+            <Col md={4} className="mt-4">
+              <div className="home-card">
+                <img src="/imgs/adress1.jpg" alt="" />
+                <div className="title">Горкинско-Ометьевский лес</div>
+              </div>
+            </Col>
+            <Col md={3} className="mt-4">
+              <div className="home-card">
+                <img src="/imgs/adress1.jpg" alt="" />
+                <div className="title">Горкинско-Ометьевский лес</div>
+              </div>
+            </Col>
+            <Col md={3} className="mt-4">
+              <div className="home-card">
+                <img src="/imgs/adress1.jpg" alt="" />
+                <div className="title">Горкинско-Ометьевский лес</div>
+              </div>
+            </Col>
+            <Col md={3} className="mt-4">
+              <div className="home-card">
+                <img src="/imgs/adress1.jpg" alt="" />
+                <div className="title">Горкинско-Ометьевский лес</div>
+              </div>
+            </Col>
+            <Col md={3} className="mt-4">
+              <div className="home-card">
+                <img src="/imgs/adress1.jpg" alt="" />
+                <div className="title">Горкинско-Ометьевский лес</div>
+              </div>
+            </Col>
+          </Row>
+        </div>
 
-      {catalog?.widgets?.length > 0 ? (
+        {/* {catalog?.widgets?.length > 0 ? (
         <Widgets data={catalog.widgets} />
       ) : catalog?.categories?.length > 0 ? (
         <Catalog data={catalog.categories} />
@@ -123,8 +170,9 @@ const Home = () => {
         </Container>
       ) : (
         ""
-      )}
-    </main>
+      )} */}
+      </Container>
+    </main >
   );
 };
 

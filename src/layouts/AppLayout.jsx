@@ -9,6 +9,7 @@ const AppLayout = () => {
       <ScrollRestoration />
       <Header />
       <Outlet />
+      <div class="repeating-stripe d-none d-lg-flex"></div>
       <Footer />
     </>
   );
