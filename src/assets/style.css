@@ -369,7 +369,7 @@ h6 {
 }
 
 .green {
-  color: #00ab55;
+  color: #7EAA94;
 }
 
 .main-color {
@@ -494,7 +494,7 @@ input[type=checkbox][role=switch]::before {
   transition: left 200ms ease-in;
 }
 input[type=checkbox][role=switch]:checked {
-  background-color: #00ab55;
+  background-color: #7EAA94;
 }
 input[type=checkbox][role=switch]:checked::before {
   left: 1.3em;
@@ -864,24 +864,24 @@ button {
   border: 1px solid var(--main-color);
 }
 .btn-green {
-  color: #00ab55;
+  color: #7EAA94;
   border: 1px solid transparent;
-  background-color: rgba(0, 171, 85, 0.1);
+  background-color: rgba(126, 170, 148, 0.1);
 }
 .btn-green:hover, .btn-green:focus, .btn-green:active, .btn-green.active {
   color: #fff;
-  background-color: #00ab55;
-  border: 1px solid #00ab55;
+  background-color: #7EAA94;
+  border: 1px solid #7EAA94;
 }
 .btn-deepgreen {
   color: #fff;
-  background-color: #00ab55;
-  border: 1px solid #00ab55;
+  background-color: #7EAA94;
+  border: 1px solid #7EAA94;
 }
 .btn-deepgreen:hover, .btn-deepgreen:focus, .btn-deepgreen:active, .btn-deepgreen.active {
   color: #fff;
-  background-color: #00783c;
-  border: 1px solid #00783c;
+  background-color: #61947b;
+  border: 1px solid #61947b;
 }
 .btn-light {
   color: var(--main-color);
@@ -1895,7 +1895,7 @@ header .btn-menu:hover, header .btn-menu:focus, header .btn-menu:active {
   z-index: 100;
   right: 0px;
   top: calc(var(--h-height) * 2);
-  background-color: #00ab55;
+  background-color: #7EAA94;
   color: #fff;
   font-size: 2.5em;
   border-radius: 0.25em 0px 0px 0.25em;
@@ -4096,7 +4096,7 @@ html.theme-font-title-amaticsc .filterGrid h4 {
 .cart-item-ingredients li::before {
   content: "+";
   font-weight: 600;
-  color: #00ab55;
+  color: #7EAA94;
   margin-right: 0.5em;
 }
 .cart-item-ingredients-minus {
@@ -4881,8 +4881,8 @@ ACCOUNT
   justify-content: center;
   align-items: center;
   flex-wrap: nowrap;
-  background-color: rgba(0, 171, 85, 0.1);
-  color: #00ab55;
+  background-color: rgba(126, 170, 148, 0.1);
+  color: #7EAA94;
   font-weight: 600;
   padding: 0.7em;
   border-radius: 0.625em;

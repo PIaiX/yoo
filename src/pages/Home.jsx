@@ -106,7 +106,7 @@ const Home = () => {
             <Col md={4} className="mt-4">
               <div className="home-card">
                 <img src="/imgs/adress1.jpg" alt="" />
-                <div className="title">Горкинско-Ометьевский лес</div>
+                <div className="title">Некрасова</div>
               </div>
             </Col>
             <Col md={4} className="mt-4">
@@ -117,32 +117,32 @@ const Home = () => {
             </Col>
             <Col md={4} className="mt-4">
               <div className="home-card">
-                <img src="/imgs/adress1.jpg" alt="" />
-                <div className="title">Горкинско-Ометьевский лес</div>
+                <img src="/imgs/adress3.jpg" alt="" />
+                <div className="title">Салават Купере</div>
               </div>
             </Col>
             <Col md={3} className="mt-4">
               <div className="home-card">
-                <img src="/imgs/adress1.jpg" alt="" />
-                <div className="title">Горкинско-Ометьевский лес</div>
+                <img src="/imgs/adress4.jpg" alt="" />
+                <div className="title">Деревня Универсиады</div>
               </div>
             </Col>
             <Col md={3} className="mt-4">
               <div className="home-card">
-                <img src="/imgs/adress1.jpg" alt="" />
-                <div className="title">Горкинско-Ометьевский лес</div>
+                <img src="/imgs/adress5.jpg" alt="" />
+                <div className="title">ГУМ</div>
               </div>
             </Col>
             <Col md={3} className="mt-4">
               <div className="home-card">
-                <img src="/imgs/adress1.jpg" alt="" />
-                <div className="title">Горкинско-Ометьевский лес</div>
+                <img src="/imgs/adress6.jpg" alt="" />
+                <div className="title">Магеллан</div>
               </div>
             </Col>
             <Col md={3} className="mt-4">
               <div className="home-card">
-                <img src="/imgs/adress1.jpg" alt="" />
-                <div className="title">Горкинско-Ометьевский лес</div>
+                <img src="/imgs/adress7.jpg" alt="" />
+                <div className="title">Царево</div>
               </div>
             </Col>
           </Row>

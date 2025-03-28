@@ -17,17 +17,17 @@ import ButtonCartProductGift from "./ButtonCartProductGift";
 const ProductCard = memo(({ data, onLoad }) => {
   const { t } = useTranslation();
   const options = useSelector((state) => state.settings?.options);
-
+  console.log(data)
   const modifiers =
     options?.brand?.options?.priceAffiliateType &&
-    Array.isArray(data.modifiers) &&
-    data?.modifiers?.length > 0
+      Array.isArray(data.modifiers) &&
+      data?.modifiers?.length > 0
       ? data.modifiers
-          .filter((e) => e?.modifierOptions?.length > 0)
-          .sort((a, b) => a?.price - b?.price)
+        .filter((e) => e?.modifierOptions?.length > 0)
+        .sort((a, b) => a?.price - b?.price)
       : Array.isArray(data.modifiers) && data?.modifiers?.length > 0
-      ? [...data.modifiers].sort((a, b) => a?.price - b?.price)
-      : [];
+        ? [...data.modifiers].sort((a, b) => a?.price - b?.price)
+        : [];
 
   const price =
     Array.isArray(modifiers) && modifiers?.length > 0 && modifiers[0]?.price

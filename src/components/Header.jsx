@@ -727,7 +727,7 @@ const Header = memo(() => {
             <Link draggable="false" to="/" className="me-2 me-xxl-3">
               <img
                 draggable="false"
-                src="./imgs/Urman.png"
+                src="/imgs/urman.png"
                 alt={options?.title ?? "YOOAPP"}
                 className="logo"
               />

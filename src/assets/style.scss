@@ -95,7 +95,7 @@ html {
       rgb(19, 19, 19) 100%);
 }
 
-$light-green: #7EAA94;
+$green: #7EAA94;
 $dark-green: #52695F;
 
 
@@ -103,7 +103,7 @@ $radius: 1.25em;
 $radius-sm: 0.9em;
 $red: #e01e00;
 $orange: #ff9d17;
-$green: #00ab55;
+$active-green: #00ab55;
 $yellow: #fef8be;
 $black: #212b36;
 $dark: #3f3f3f;
@@ -966,7 +966,7 @@ button {
     &:focus,
     &:active,
     &.active {
-      color: $light-green;
+      color: $green;
       background-color: #fff;
       border: 2px solid #fff;
     }
@@ -974,7 +974,7 @@ button {
 
   &-whiteFill {
     @extend .btn;
-    color: $light-green;
+    color: $green;
     background-color: #fff;
     border: 2px solid #fff;
 
@@ -984,40 +984,40 @@ button {
     &.active,
     &:not(.btn-check)+.btn:active {
       color: #fff;
-      background-color: $light-green;
+      background-color: $green;
       border: 2px solid #fff;
     }
   }
 
   &-greenBoard {
     @extend .btn;
-    color: $light-green;
-    border: 2px solid $light-green;
+    color: $green;
+    border: 2px solid $green;
 
     &:hover,
     &:focus,
     &:active,
     &.active {
       color: #fff;
-      background-color: $light-green;
-      border: 2px solid $light-green;
+      background-color: $green;
+      border: 2px solid $green;
     }
   }
 
   &-greenFill {
     @extend .btn;
     color: #fff;
-    background-color: $light-green;
-    border: 2px solid $light-green;
+    background-color: $green;
+    border: 2px solid $green;
 
     &:hover,
     &:focus,
     &:active,
     &.active,
     &:not(.btn-check)+.btn:active {
-      color: $light-green;
+      color: $green;
       background-color: #fff;
-      border: 2px solid $light-green;
+      border: 2px solid $green;
     }
   }
 
@@ -2064,7 +2064,7 @@ header {
       .user {
         a {
           svg {
-            color: $light-green;
+            color: $green;
           }
 
           &:hover,

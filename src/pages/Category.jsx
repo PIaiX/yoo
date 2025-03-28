@@ -33,11 +33,11 @@ const Category = () => {
     })
       .then((res) => {
         res.products.items =
-        options?.brand?.options?.priceAffiliateType && res?.products?.items?.length > 0
+          options?.brand?.options?.priceAffiliateType && res?.products?.items?.length > 0
             ? res.products.items.filter((e) => e?.productOptions?.length > 0)
             : options?.brand?.options?.priceAffiliateType
-            ? []
-            : res?.products?.items;
+              ? []
+              : res?.products?.items;
 
         setCategory({ loading: false, item: res });
       })
@@ -77,35 +77,35 @@ const Category = () => {
         title={
           options?.seo?.category?.title && category?.item?.title
             ? generateSeoText({
-                text: options.seo.category.title,
-                name: category.item.title,
-                site: options?.title,
-              })
+              text: options.seo.category.title,
+              name: category.item.title,
+              site: options?.title,
+            })
             : selectedAffiliate?.title && category?.item?.title
-            ? selectedAffiliate?.title + " - " + category.item.title
-            : options?.title && category?.item?.title
-            ? options.title + " - " + category.item.title
-            : category?.item?.title ?? t("Категория")
+              ? selectedAffiliate?.title + " - " + category.item.title
+              : options?.title && category?.item?.title
+                ? options.title + " - " + category.item.title
+                : category?.item?.title ?? t("Категория")
         }
         description={
           options?.seo?.category?.description
             ? generateSeoText({
-                text: options.seo.category.description,
-                name: category.item.title,
-                site: options?.title,
-              })
+              text: options.seo.category.description,
+              name: category.item.title,
+              site: options?.title,
+            })
             : category.item?.description ??
-              t(
-                "Добавьте блюдо из этой категории в корзину и наслаждайтесь вкусной едой прямо сейчас!"
-              )
+            t(
+              "Добавьте блюдо из этой категории в корзину и наслаждайтесь вкусной едой прямо сейчас!"
+            )
         }
         image={
           category?.item?.media
             ? getImageURL({
-                path: category.item.media,
-                size: "full",
-                type: "category",
-              })
+              path: category.item.media,
+              size: "full",
+              type: "category",
+            })
             : false
         }
       />
