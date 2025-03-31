@@ -15,7 +15,7 @@ import Meta from "../components/Meta";
 import Input from "../components/utils/Input";
 import { customPrice, declination, getCount } from "../helpers/all";
 import { useTotalCart } from "../hooks/useCart";
-import { deleteCart, getCart, updateCart } from "../services/cart";
+import { deleteCart, getCart } from "../services/cart";
 import { isPromo } from "../services/promo";
 import {
   cartDeleteGifts,
@@ -30,13 +30,12 @@ import { IoTrashOutline } from "react-icons/io5";
 import Loader from "../components/utils/Loader";
 import Extras from "../components/utils/Extras";
 import { useTranslation } from "react-i18next";
-import { Modal, Placeholder } from "react-bootstrap";
+import { Modal } from "react-bootstrap";
 
 const Cart = () => {
   const { t } = useTranslation();
 
   const user = useSelector((state) => state.auth.user);
-  // const checking = useSelector((state) => state.cart.checking);
   const cart = useSelector((state) => state.cart.items);
   const promo = useSelector((state) => state.cart.promo);
   const pointSwitch = useSelector((state) => state.checkout?.data?.pointSwitch);
@@ -93,9 +92,6 @@ const Cart = () => {
 
           address: address ? address.find((e) => e.main) : false,
           affiliateId: selectedAffiliate?.id ? selectedAffiliate.id : false,
-
-          // Сохранение адреса по умолчанию
-          save: checkout?.data?.save ?? false,
 
           products: cart ?? [],
 
@@ -590,7 +586,10 @@ const Cart = () => {
                         : !data?.loading && "/checkout"
                       : !data?.loading && "/login"
                   }
-                  className={"btn btn-lg w-100" + (data?.loading ? ' btn-disabled loading' : ' btn-primary')}
+                  className={
+                    "btn btn-lg w-100" +
+                    (data?.loading ? " btn-disabled loading" : " btn-primary")
+                  }
                 >
                   <span className="fw-6">
                     {t(
