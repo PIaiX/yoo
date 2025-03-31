@@ -2234,7 +2234,7 @@ path[fill="#fff"] {
 }
 
 main {
-  min-height: calc(100vh - var(--h-height));
+  min-height: calc(100vh - var(--h-height) - var(--f-height));
   padding: 60px 0px;
 
   @media (max-width: $bp-lg) {
@@ -7239,34 +7239,84 @@ img.show {
   }
 }
 
-.urman-home {
-  margin-top: 3em;
-  position: relative;
+.affiliates-section {
+  margin-top: 70px;
+  width: 100%;
 
-  .home-card {
-    position: relative; // Для абсолютного позиционирования заголовка
-    height: 100%; // Занимает всю высоту колонки
+  .affiliate-card {
+    position: relative;
+    height: 250px; // Фиксированная высота для мобильных
+    border-radius: $radius;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #000;
+    margin-bottom: 8px;
 
-    img {
-      width: 100%;
-      height: 300px;
-      object-fit: cover;
-      border-radius: $radius;
-      display: block; // Убирает лишние отступы у изображения
+    &:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
     }
+  }
 
-    .title {
-      color: #fff;
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%); // Точное центрирование
-      text-align: center; // Выравнивание текста по центру
-      width: 100%; // Занимает всю ширину для корректного выравнивания
-      padding: 0 15px; // Отступы от краев
-      // text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8); // Читаемость на любом фоне
-      font-size: 1.5rem; // Размер шрифта
-      font-weight: bold; // Жирность
+  .affiliate-image-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background-color: #000;
+
+    .affiliate-image {
+      object-fit: cover;
+      object-position: center;
+      display: block;
+      transition: transform 0.5s ease;
+      width: 100%;
+      height: 100%;
+
+      &:hover {
+        transform: scale(1.03);
+      }
+    }
+  }
+
+  .affiliate-title {
+    color: #fff;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    width: 100%;
+    padding: 0 20px;
+    font-size: clamp(1.2rem, 2.5vw, 2rem);
+    font-weight: bold;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.8);
+    z-index: 2;
+  }
+
+  .affiliate-card::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.3);
+    z-index: 1;
+  }
+
+  @media (min-width: 768px) {
+    .affiliate-card {
+      height: 300px; // Фиксированная высота для планшетов
+      margin-bottom: 16px;
+    }
+  }
+
+  @media (min-width: 992px) {
+    .affiliate-card {
+      height: calc(50vh - 180px); // Оригинальная высота для больших экранов
+      min-height: 300px;
     }
   }
 }

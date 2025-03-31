@@ -145,15 +145,15 @@ function App() {
         updateFavicon(
           selectedAffiliate?.media
             ? {
-                path: selectedAffiliate?.media,
-                type: "affiliate",
-                size: "full",
-              }
+              path: selectedAffiliate?.media,
+              type: "affiliate",
+              size: "full",
+            }
             : {
-                path: options.favicon,
-                type: "all/web/favicon",
-                size: "full",
-              }
+              path: options.favicon,
+              type: "all/web/favicon",
+              size: "full",
+            }
         );
       }
       if (!updateTime || isUpdateTime(updateTime)) {
@@ -177,15 +177,15 @@ function App() {
                   updateFavicon(
                     selectedAffiliate?.media
                       ? {
-                          path: selectedAffiliate?.media,
-                          type: "affiliate",
-                          size: "full",
-                        }
+                        path: selectedAffiliate?.media,
+                        type: "affiliate",
+                        size: "full",
+                      }
                       : {
-                          path: res.options.favicon,
-                          type: "all/web/favicon",
-                          size: "full",
-                        }
+                        path: res.options.favicon,
+                        type: "all/web/favicon",
+                        size: "full",
+                      }
                   );
                 }
 
@@ -227,16 +227,16 @@ function App() {
                     affiliates:
                       city.relationCities && city.relationCities.length > 0
                         ? city.relationCities
-                            .map((relation) => relation.affiliate)
-                            .sort((a, b) => {
-                              if (a.main === b.main) {
-                                return 0;
-                              } else if (a.main) {
-                                return -1;
-                              } else {
-                                return 1;
-                              }
-                            })
+                          .map((relation) => relation.affiliate)
+                          .sort((a, b) => {
+                            if (a.main === b.main) {
+                              return 0;
+                            } else if (a.main) {
+                              return -1;
+                            } else {
+                              return 1;
+                            }
+                          })
                         : [],
                   };
                 });
@@ -251,7 +251,7 @@ function App() {
                     updateAffiliate(
                       city?.id
                         ? transformedData.find((e) => e.id === city.id)
-                            ?.affiliates ?? transformedData[0].affiliates
+                          ?.affiliates ?? transformedData[0].affiliates
                         : transformedData[0].affiliates
                     )
                   );
@@ -301,7 +301,7 @@ function App() {
             })
             // .catch(() => dispatch(resetSettings()))
             .finally(() => setLoading(false));
-        } catch (err) {}
+        } catch (err) { }
       } else {
         if (auth?.token) {
           if (!auth?.user?.brandId) {

@@ -71,24 +71,24 @@ const Info = () => {
         title={
           options?.seo?.info?.title
             ? generateSeoText({
-                text: options.seo.info.title,
-                site: options?.title,
-              })
+              text: options.seo.info.title,
+              site: options?.title,
+            })
             : selectedAffiliate?.title
-            ? selectedAffiliate?.title
-            : options?.title
-            ? options.title
-            : t("Информация")
+              ? selectedAffiliate?.title
+              : options?.title
+                ? options.title
+                : t("Информация")
         }
         description={
           options?.seo?.info?.description
             ? generateSeoText({
-                text: options.seo.info.description,
-                site: options?.title,
-              })
+              text: options.seo.info.description,
+              site: options?.title,
+            })
             : t(
-                "Узнайте свежие новости о нашей службе доставки, новых ресторанах, акциях и специальных предложениях."
-              )
+              "Узнайте свежие новости о нашей службе доставки, новых ресторанах, акциях и специальных предложениях."
+            )
         }
       />
 
@@ -218,8 +218,8 @@ const Info = () => {
                 (options.app?.titleIos?.length > 0
                   ? options.app.titleIos
                   : options.app?.nameIos?.length > 0
-                  ? options.app.nameIos
-                  : options.app.name) +
+                    ? options.app.nameIos
+                    : options.app.name) +
                 (options.app?.accountApple
                   ? "/" + options.app.accountApple
                   : "")
@@ -264,8 +264,8 @@ const Info = () => {
                 href={
                   "https://play.google.com/store/apps/details?id=" +
                   (options.app?.nameAndroid?.length > 0
-                    ? options.app.nameAndroid
-                    : options.app.name)
+                    ? options.app?.nameAndroid
+                    : options.app?.name)
                 }
                 className="d-flex flex-row align-items-center p-3"
               >
@@ -287,8 +287,8 @@ const Info = () => {
                     (options.app?.titleIos?.length > 0
                       ? options.app.titleIos
                       : options.app?.nameIos?.length > 0
-                      ? options.app.nameIos
-                      : options.app.name) +
+                        ? options.app.nameIos
+                        : options.app.name) +
                     (options.app?.accountApple
                       ? "/id" + options.app.accountApple
                       : "")

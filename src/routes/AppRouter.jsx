@@ -32,12 +32,13 @@ import Categories from "../pages/Categories";
 import Search from "../pages/Search";
 import Info from "../pages/Info";
 import RedirectApp from "../pages/RedirectApp";
+import CatalogHome from "../pages/CatalogHome";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<AppLayout />} errorElement={<Error />}>
       <Route index element={<Home />} />
-      {/* <Route path="about" element={<About />} /> */}
+      <Route path="catalog" element={<CatalogHome />} />
       <Route path="categories" element={<Categories />} />
       <Route path="category/:categoryId" element={<Category />} />
       <Route path="product/:productId" element={<Product />} />

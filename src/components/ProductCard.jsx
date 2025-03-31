@@ -17,7 +17,7 @@ import ButtonCartProductGift from "./ButtonCartProductGift";
 const ProductCard = memo(({ data, onLoad }) => {
   const { t } = useTranslation();
   const options = useSelector((state) => state.settings?.options);
-  console.log(data)
+
   const modifiers =
     options?.brand?.options?.priceAffiliateType &&
       Array.isArray(data.modifiers) &&

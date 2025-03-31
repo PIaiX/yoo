@@ -18,9 +18,8 @@ import EmptyWork from "../components/empty/work";
 import QrApp from "../components/QrApp";
 import { Col, Container, Row } from "react-bootstrap";
 import { isDesktop } from "react-device-detect";
-import WidgetAffiliates from "../components/widget/WidgetAffiliates";
 
-const Home = () => {
+const CatalogHome = () => {
   const { t } = useTranslation();
   const selectedAffiliate = useSelector((state) => state.affiliate.active);
   const [loading, setLoading] = useState(false);
@@ -28,8 +27,58 @@ const Home = () => {
   const city = useSelector((state) => state.affiliate.city);
   const catalog = useSelector((state) => state.catalog);
   const dispatch = useDispatch();
+  const [isFirstLoad, setIsFirstLoad] = useState(true);
 
+  const getData = useCallback(() => {
+    if (selectedAffiliate?.id) {
+      getCatalog({
+        affiliateId: selectedAffiliate?.id ?? false,
+        multiBrand: options?.multiBrand,
+        type: "site",
+      })
+        .then((res) => {
+          dispatch(updateCatalog(res));
+        })
+        .finally(() => {
+          if (
+            (catalog?.widgets?.length === 0 &&
+              catalog?.categories?.length === 0) ||
+            loading
+          ) {
+            setLoading(false);
+          }
+        });
+    }
+  }, [selectedAffiliate, catalog, loading, options]);
 
+  useLayoutEffect(() => {
+    if (
+      isUpdateTime(catalog.updateTime) &&
+      options?.title &&
+      options?.title != "YooApp"
+    ) {
+      if (
+        catalog?.widgets?.length === 0 &&
+        catalog?.categories?.length === 0 &&
+        selectedAffiliate
+      ) {
+        setLoading(true);
+      }
+      getData();
+    }
+  }, [options]);
+
+  useEffect(() => {
+    if (isFirstLoad) {
+      setIsFirstLoad(false);
+      return;
+    }
+    getData();
+  }, [selectedAffiliate, city]);
+
+  if (loading) {
+    return <Loader full />;
+  }
 
   return (
     <main className="mt-0 pt-0">
@@ -52,10 +101,32 @@ const Home = () => {
               )
           }
         />
-        <WidgetAffiliates />
+        {catalog?.widgets?.length > 0 ? (
+          <Widgets data={catalog.widgets} />
+        ) : catalog?.categories?.length > 0 ? (
+          <Catalog data={catalog.categories} />
+        ) : (
+          <Empty
+            text={t("На сайте ведутся работы")}
+            desc={
+              <>
+                <p>{t("Зайдите к нам немного позже.")}</p>
+                <p>{t("Либо попробуйте почистить кеш браузера.")}</p>
+              </>
+            }
+            image={() => <EmptyWork />}
+          />
+        )}
+        {options?.qrApp && isDesktop ? (
+          <Container>
+            <QrApp />
+          </Container>
+        ) : (
+          ""
+        )}
       </Container>
     </main >
   );
 };
 
-export default Home;
+export default CatalogHome;
