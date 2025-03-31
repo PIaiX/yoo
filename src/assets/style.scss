@@ -963,7 +963,6 @@ button {
     border: 2px solid #fff;
 
     &:hover,
-    &:focus,
     &:active,
     &.active {
       color: $green;
@@ -979,7 +978,6 @@ button {
     border: 2px solid #fff;
 
     &:hover,
-    &:focus,
     &:active,
     &.active,
     &:not(.btn-check)+.btn:active {
@@ -995,7 +993,6 @@ button {
     border: 2px solid $green;
 
     &:hover,
-    &:focus,
     &:active,
     &.active {
       color: #fff;
@@ -1011,7 +1008,6 @@ button {
     border: 2px solid $green;
 
     &:hover,
-    &:focus,
     &:active,
     &.active,
     &:not(.btn-check)+.btn:active {
@@ -6719,11 +6715,11 @@ ACCOUNT END
   border-radius: $radius;
 
   &.active {
-    background-color: var(--bg-second-hover);
+    background-color: var(--main-color-btn);
   }
 
   &:hover {
-    background-color: var(--bg-second);
+    background-color: var(--main-color-btn);
   }
 
   .logo {
@@ -6824,6 +6820,20 @@ ACCOUNT END
   max-height: 50vh;
   @include scrollCustomized();
   overflow: auto;
+
+  @media (max-width: $bp-sm) {
+    max-height: 100% !important;
+
+    h6 {
+      font-size: 20px !important;
+    }
+  }
+}
+
+.search-box-1 {
+  padding-top: 20px;
+  position: relative;
+  max-height: 50vh;
 
   @media (max-width: $bp-sm) {
     max-height: 100% !important;

@@ -37,7 +37,7 @@ import {
 import { MdOutlineDeliveryDining } from "react-icons/md";
 import { NotificationManager } from "react-notifications";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import AppStore from "../assets/imgs/appstore-black.svg";
 import GooglePlay from "../assets/imgs/googleplay-black.svg";
 import { customPrice, getCount, getImageURL, weekday } from "../helpers/all";
@@ -89,8 +89,10 @@ const Header = memo(() => {
   const [showMenu, setShowMenu] = useState(false);
   const [showCity, setShowCity] = useState(false);
   const [showBrand, setShowBrand] = useState(false);
+  const [showAffiliat, setShowAffiliat] = useState(false);
   const count = getCount(cart);
   const [list, setList] = useState([]);
+  const navigate = useNavigate();
 
   const [searchInput, setSearchInput] = useState("");
   const [search, setSearch] = useState();
@@ -633,7 +635,7 @@ const Header = memo(() => {
                   <button className="btn-whiteBoard">Бронь столов</button>
                 </li>
                 <li>
-                  <button className="btn-whiteFill">Доставка</button>
+                  <button className="btn-whiteFill" onClick={() => setShowAffiliat(true)}>Доставка</button>
                 </li>
                 {/* {options?.multiBrand && affiliate?.length > 0 && (
                   <li>
@@ -1790,6 +1792,92 @@ const Header = memo(() => {
                         className={
                           "brand-item" +
                           (e.id === selectedAffiliate?.id ? " active" : "")
+                        }
+                      >
+                        <Row className="align-items-center">
+                          {e.media && (
+                            <Col xs="auto">
+                              <img
+                                src={getImageURL({
+                                  path: e.media,
+                                  type: "affiliate",
+                                  size: "full",
+                                })}
+                                alt={options?.title ?? "YOOAPP"}
+                                className="logo"
+                              />
+                            </Col>
+                          )}
+                          <Col>
+                            <div className="fw-7 mb-1">
+                              {e?.title ? e.title : e.full}
+                            </div>
+
+                            <div>
+                              {e.status === 0 ? (
+                                <span className="text-danger">
+                                  {t("Сейчас закрыто")}
+                                </span>
+                              ) : e?.options?.work &&
+                                e?.options?.work[moment().weekday()].start &&
+                                e?.options?.work[moment().weekday()].end ? (
+                                isWork(
+                                  e?.options?.work[moment().weekday()].start,
+                                  e?.options?.work[moment().weekday()].end
+                                ) ? (
+                                  <span className="text-muted">
+                                    {t("Работает c")}{" "}
+                                    {e?.options?.work[moment().weekday()].start}{" "}
+                                    {t("до")}{" "}
+                                    {e?.options?.work[moment().weekday()].end}
+                                  </span>
+                                ) : (
+                                  <span className="text-danger">
+                                    {t("Сейчас закрыто")}
+                                  </span>
+                                )
+                              ) : e?.desc ? (
+                                <span className="text-muted">{e.desc}</span>
+                              ) : null}
+                            </div>
+                          </Col>
+                        </Row>
+                      </a>
+                    </Col>
+                  ))}
+                </Row>
+              )}
+            </div>
+          </Modal.Body>
+        </Modal>
+      )}
+      {showAffiliat && (
+        <Modal
+          size="lg"
+          centered
+          key="modal-brand"
+          className="brand"
+          show={showAffiliat}
+          backdrop={city?.title ? true : "static"}
+          keyboard={!!city?.title}
+          onHide={() => setShowAffiliat(false)}
+        >
+          <ButtonClose onClick={() => setShowAffiliat(false)} />
+          <Modal.Body className="p-4">
+            <h5 className="fw-7 mb-4">{t("Выберите Филиал")}</h5>
+            <div className="search-box-1">
+              {affiliate?.length > 0 && (
+                <Row>
+                  {affiliate.map((e, index) => (
+                    <Col md={6} key={index} className="pb-3">
+                      <a
+                        onClick={() => {
+                          navigate("/catalog/" + e.id)
+                          dispatch(deleteCart());
+                          setShowAffiliat(false);
+                        }}
+                        className={
+                          "brand-item"
                         }
                       >
                         <Row className="align-items-center">

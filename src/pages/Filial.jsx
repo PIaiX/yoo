@@ -19,8 +19,9 @@ import QrApp from "../components/QrApp";
 import { Col, Container, Row } from "react-bootstrap";
 import { isDesktop } from "react-device-detect";
 import { useParams } from "react-router-dom";
+import AffiliateCard from "../components/AffiliateCard";
 
-const CatalogHome = () => {
+const Filial = () => {
   const { t } = useTranslation();
   const { affiliateId } = useParams();
   const [loading, setLoading] = useState(false);
@@ -98,6 +99,7 @@ const CatalogHome = () => {
               )
           }
         />
+        <AffiliateCard id={affiliateId} />
 
 
         {catalog?.widgets?.length > 0 ? (
@@ -128,4 +130,4 @@ const CatalogHome = () => {
   );
 };
 
-export default CatalogHome;
+export default Filial;

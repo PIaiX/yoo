@@ -4,6 +4,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { getImageURL } from "../../helpers/all";
 import { Link, useNavigate } from "react-router-dom";
 import { mainAffiliateEdit } from "../../store/reducers/affiliateSlice";
+import { resetCart } from "../../store/reducers/cartSlice";
+import { deleteCart } from "../../services/cart";
 
 const WidgetAffiliates = memo(({ link }) => {
   const affiliates = useSelector((state) => state.affiliate.items);
@@ -52,9 +54,9 @@ const WidgetAffiliates = memo(({ link }) => {
 
     return chunks;
   }, [affiliates]);
-  const onChoose = useCallback((data) => {
-    dispatch(mainAffiliateEdit(data))
-    navigate(link)
+  const onChoose = useCallback((id) => {
+    dispatch(deleteCart());
+    navigate(link + "/" + id)
   }, [link]);
 
   return (
@@ -75,7 +77,7 @@ const WidgetAffiliates = memo(({ link }) => {
                   xs={12}
                   className="px-1 px-md-2"
                 >
-                  <div className="affiliate-card" onClick={() => onChoose(affiliate)}>
+                  <div className="affiliate-card" onClick={() => onChoose(affiliate.id)}>
                     <div className="affiliate-image-container">
                       <img
                         src={getImageURL({
@@ -106,7 +108,7 @@ const WidgetAffiliates = memo(({ link }) => {
                 xs={12}
                 className="px-1 px-md-2"
               >
-                <div className="affiliate-card">
+                <div className="affiliate-card" onClick={() => onChoose(affiliate.id)}>
                   <div className="affiliate-image-container">
                     <img
                       src={getImageURL({

@@ -788,7 +788,7 @@ button {
   color: #fff;
   border: 2px solid #fff;
 }
-.btn-whiteBoard:hover, .btn-whiteBoard:focus, .btn-whiteBoard:active, .btn-whiteBoard.active {
+.btn-whiteBoard:hover, .btn-whiteBoard:active, .btn-whiteBoard.active {
   color: #7EAA94;
   background-color: #fff;
   border: 2px solid #fff;
@@ -798,7 +798,7 @@ button {
   background-color: #fff;
   border: 2px solid #fff;
 }
-.btn-whiteFill:hover, .btn-whiteFill:focus, .btn-whiteFill:active, .btn-whiteFill.active, .btn-whiteFill:not(.btn-check) + .btn:active, .btn-whiteFill:not(.btn-check) + .btn-red:active, .btn-whiteFill:not(.btn-check) + .btn-orange:active, .btn-whiteFill:not(.btn-check) + .btn-99:active, .btn-whiteFill:not(.btn-check) + .btn-90:active, .btn-whiteFill:not(.btn-check) + .btn-9:active, .btn-whiteFill:not(.btn-check) + .btn-8:active, .btn-whiteFill:not(.btn-check) + .btn-light:active, .btn-whiteFill:not(.btn-check) + .btn-deepgreen:active, .btn-whiteFill:not(.btn-check) + .btn-green:active, .btn-whiteFill:not(.btn-check) + .btn-40:active, .btn-whiteFill:not(.btn-check) + .btn-40-light:active, .btn-whiteFill:not(.btn-check) + .btn-4:active, .btn-whiteFill:not(.btn-check) + .btn-white:active, .btn-whiteFill:not(.btn-check) + .btn-30:active, .btn-whiteFill:not(.btn-check) + .btn-secondary:active, .btn-whiteFill:not(.btn-check) + .btn-2:active, .btn-whiteFill:not(.btn-check) + .btn-10:active, .btn-whiteFill:not(.btn-check) + .btn-primary:active, .btn-whiteFill:not(.btn-check) + .btn-greenFill:active, .btn-whiteFill:not(.btn-check) + .btn-greenBoard:active, .btn-whiteFill:not(.btn-check) + .btn-whiteBoard:active {
+.btn-whiteFill:hover, .btn-whiteFill:active, .btn-whiteFill.active, .btn-whiteFill:not(.btn-check) + .btn:active, .btn-whiteFill:not(.btn-check) + .btn-red:active, .btn-whiteFill:not(.btn-check) + .btn-orange:active, .btn-whiteFill:not(.btn-check) + .btn-99:active, .btn-whiteFill:not(.btn-check) + .btn-90:active, .btn-whiteFill:not(.btn-check) + .btn-9:active, .btn-whiteFill:not(.btn-check) + .btn-8:active, .btn-whiteFill:not(.btn-check) + .btn-light:active, .btn-whiteFill:not(.btn-check) + .btn-deepgreen:active, .btn-whiteFill:not(.btn-check) + .btn-green:active, .btn-whiteFill:not(.btn-check) + .btn-40:active, .btn-whiteFill:not(.btn-check) + .btn-40-light:active, .btn-whiteFill:not(.btn-check) + .btn-4:active, .btn-whiteFill:not(.btn-check) + .btn-white:active, .btn-whiteFill:not(.btn-check) + .btn-30:active, .btn-whiteFill:not(.btn-check) + .btn-secondary:active, .btn-whiteFill:not(.btn-check) + .btn-2:active, .btn-whiteFill:not(.btn-check) + .btn-10:active, .btn-whiteFill:not(.btn-check) + .btn-primary:active, .btn-whiteFill:not(.btn-check) + .btn-greenFill:active, .btn-whiteFill:not(.btn-check) + .btn-greenBoard:active, .btn-whiteFill:not(.btn-check) + .btn-whiteBoard:active {
   color: #fff;
   background-color: #7EAA94;
   border: 2px solid #fff;
@@ -807,7 +807,7 @@ button {
   color: #7EAA94;
   border: 2px solid #7EAA94;
 }
-.btn-greenBoard:hover, .btn-greenBoard:focus, .btn-greenBoard:active, .btn-greenBoard.active {
+.btn-greenBoard:hover, .btn-greenBoard:active, .btn-greenBoard.active {
   color: #fff;
   background-color: #7EAA94;
   border: 2px solid #7EAA94;
@@ -817,7 +817,7 @@ button {
   background-color: #7EAA94;
   border: 2px solid #7EAA94;
 }
-.btn-greenFill:hover, .btn-greenFill:focus, .btn-greenFill:active, .btn-greenFill.active, .btn-greenFill:not(.btn-check) + .btn:active, .btn-greenFill:not(.btn-check) + .btn-red:active, .btn-greenFill:not(.btn-check) + .btn-orange:active, .btn-greenFill:not(.btn-check) + .btn-99:active, .btn-greenFill:not(.btn-check) + .btn-90:active, .btn-greenFill:not(.btn-check) + .btn-9:active, .btn-greenFill:not(.btn-check) + .btn-8:active, .btn-greenFill:not(.btn-check) + .btn-light:active, .btn-greenFill:not(.btn-check) + .btn-deepgreen:active, .btn-greenFill:not(.btn-check) + .btn-green:active, .btn-greenFill:not(.btn-check) + .btn-40:active, .btn-greenFill:not(.btn-check) + .btn-40-light:active, .btn-greenFill:not(.btn-check) + .btn-4:active, .btn-greenFill:not(.btn-check) + .btn-white:active, .btn-greenFill:not(.btn-check) + .btn-30:active, .btn-greenFill:not(.btn-check) + .btn-secondary:active, .btn-greenFill:not(.btn-check) + .btn-2:active, .btn-greenFill:not(.btn-check) + .btn-10:active, .btn-greenFill:not(.btn-check) + .btn-primary:active, .btn-greenFill:not(.btn-check) + .btn-whiteBoard:active, .btn-greenFill:not(.btn-check) + .btn-whiteFill:active, .btn-greenFill:not(.btn-check) + .btn-greenBoard:active {
+.btn-greenFill:hover, .btn-greenFill:active, .btn-greenFill.active, .btn-greenFill:not(.btn-check) + .btn:active, .btn-greenFill:not(.btn-check) + .btn-red:active, .btn-greenFill:not(.btn-check) + .btn-orange:active, .btn-greenFill:not(.btn-check) + .btn-99:active, .btn-greenFill:not(.btn-check) + .btn-90:active, .btn-greenFill:not(.btn-check) + .btn-9:active, .btn-greenFill:not(.btn-check) + .btn-8:active, .btn-greenFill:not(.btn-check) + .btn-light:active, .btn-greenFill:not(.btn-check) + .btn-deepgreen:active, .btn-greenFill:not(.btn-check) + .btn-green:active, .btn-greenFill:not(.btn-check) + .btn-40:active, .btn-greenFill:not(.btn-check) + .btn-40-light:active, .btn-greenFill:not(.btn-check) + .btn-4:active, .btn-greenFill:not(.btn-check) + .btn-white:active, .btn-greenFill:not(.btn-check) + .btn-30:active, .btn-greenFill:not(.btn-check) + .btn-secondary:active, .btn-greenFill:not(.btn-check) + .btn-2:active, .btn-greenFill:not(.btn-check) + .btn-10:active, .btn-greenFill:not(.btn-check) + .btn-primary:active, .btn-greenFill:not(.btn-check) + .btn-whiteBoard:active, .btn-greenFill:not(.btn-check) + .btn-whiteFill:active, .btn-greenFill:not(.btn-check) + .btn-greenBoard:active {
   color: #7EAA94;
   background-color: #fff;
   border: 2px solid #7EAA94;
@@ -6402,10 +6402,10 @@ ACCOUNT END
   border-radius: 1.25em;
 }
 .brand-item.active {
-  background-color: var(--bg-second-hover);
+  background-color: var(--main-color-btn);
 }
 .brand-item:hover {
-  background-color: var(--bg-second);
+  background-color: var(--main-color-btn);
 }
 .brand-item .logo {
   width: 50px;
@@ -6522,6 +6522,20 @@ ACCOUNT END
     max-height: 100% !important;
   }
   .search-box h6 {
+    font-size: 20px !important;
+  }
+}
+
+.search-box-1 {
+  padding-top: 20px;
+  position: relative;
+  max-height: 50vh;
+}
+@media (max-width: 580px) {
+  .search-box-1 {
+    max-height: 100% !important;
+  }
+  .search-box-1 h6 {
     font-size: 20px !important;
   }
 }
