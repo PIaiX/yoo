@@ -1021,6 +1021,71 @@ button {
     }
   }
 
+  &-primary {
+    @extend .btn;
+    color: #fff;
+    background-color: var(--main-color-btn);
+    border: 1px solid var(--main-color-btn);
+
+    &:hover,
+    &:focus,
+    &:active,
+    &.active {
+      color: #fff !important;
+      opacity: 0.8;
+      background-color: var(--main-color-btn) !important;
+      border: 1px solid var(--main-color-btn) !important;
+    }
+  }
+
+  &-10 {
+    @extend .btn;
+    color: var(--main-color);
+    background-color: var(--bg-main);
+    border: 1px solid var(--main-color);
+
+    &:hover,
+    &:focus,
+    &:active,
+    &.active,
+    &:not(.btn-check)+.btn:active {
+      color: #fff !important;
+      background-color: var(--main-color) !important;
+    }
+  }
+
+  &-2 {
+    @extend .btn;
+    color: #fff;
+    background-color: $red;
+
+    &:hover,
+    &:focus,
+    &:active,
+    &.active,
+    &:not(.btn-check)+.btn:active {
+      color: #fff;
+      background-color: darken($color: $red, $amount: 5%);
+    }
+  }
+
+  &-secondary {
+    @extend .btn;
+    color: #fff;
+    background-color: #202020;
+    border: 1px solid var(--main-color);
+    font-weight: 600;
+
+    &:hover,
+    &:focus,
+    &:active,
+    &.active,
+    &:not(.btn-check)+.btn:active {
+      color: #fff;
+      background-color: var(--main-color-outline);
+    }
+  }
+
   &-30 {
     @extend .btn;
     color: $black;

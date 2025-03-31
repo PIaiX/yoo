@@ -101,6 +101,8 @@ const CatalogHome = () => {
               )
           }
         />
+
+
         {catalog?.widgets?.length > 0 ? (
           <Widgets data={catalog.widgets} />
         ) : catalog?.categories?.length > 0 ? (
