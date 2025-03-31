@@ -7231,4 +7231,8 @@ img.show {
 .disabled label,
 .disabled input {
   cursor: no-drop !important;
+}
+
+.max-width-700 {
+  max-width: 700px !important;
 }/*# sourceMappingURL=style.css.map */

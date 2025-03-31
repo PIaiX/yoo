@@ -583,11 +583,12 @@ const Checkout = () => {
           reset();
           dispatch(resetCart());
           dispatch(resetCheckout());
-          setEnd(true);
 
           if (data?.pointWriting > 0 || data?.pointSwitch) {
             await checkAuth().then((auth) => auth && dispatch(setUser(auth)));
           }
+
+          setEnd(response?.data);
 
           if (response?.data?.link) {
             return window.location.replace(response.data.link);
@@ -613,6 +614,54 @@ const Checkout = () => {
 
   if (!checking) {
     return <Loader full />;
+  }
+
+  if (end) {
+    return (
+      <main
+        className={
+          "empty d-flex flex-column align-items-center justify-content-center"
+        }
+      >
+        <EmptyAuth />
+        <div className="max-width-700">
+          <p className="text-center h4 mb-3 fw-7">
+            {t("Ваш заказ")}{" "}
+            <Link
+              className="text-main fw-7"
+              to={"/account/orders/" + end?.id}
+              onClick={() => setEnd(false)}
+            >
+              #{end?.uid?.length > 0 ? end.uid.toUpperCase() : end?.id ?? ""}
+            </Link>{" "}
+            принят
+          </p>
+
+          <p className="text-center m-auto white-space">
+            {end?.createdAt
+              ? moment(end.createdAt).format("DD.MM.YYYY HH:mm")
+              : options?.checkoutSuccessText ?? ""}
+          </p>
+
+          <div className="d-flex flex-column align-items-center justify-content-center mt-4">
+            <Link
+              className="btn-primary mb-3"
+              to="/"
+              onClick={() => setEnd(false)}
+            >
+              {t("Продолжить покупки")}
+            </Link>
+            <Link
+              className="btn-light"
+              to={"/account/orders/" + end?.id}
+              onClick={() => setEnd(false)}
+            >
+              {t("Перейти к заказу")}
+            </Link>
+          </div>
+        </div>
+      </main>
+    );
   }
 
   if (!Array.isArray(cart) || cart.length <= 0) {
