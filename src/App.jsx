@@ -73,6 +73,9 @@ function App() {
   const addressData = useSelector((state) => state.address.items);
   const cart = useSelector((state) => state.cart.items);
 
+  const affiliater = useSelector((state) => state.affiliate.active);
+  console.log(affiliater)
+
   useEffect(() => {
     if (options?.themeType) {
       document.documentElement.dataset.theme = options?.themeType;

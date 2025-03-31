@@ -69,10 +69,6 @@ const CatalogHome = () => {
   }, [options]);
 
   useEffect(() => {
-    if (isFirstLoad) {
-      setIsFirstLoad(false);
-      return;
-    }
     getData();
   }, [selectedAffiliate, city]);
 

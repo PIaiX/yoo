@@ -52,7 +52,7 @@ const Home = () => {
               )
           }
         />
-        <WidgetAffiliates />
+        <WidgetAffiliates link="/catalog" />
       </Container>
     </main >
   );

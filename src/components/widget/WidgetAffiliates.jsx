@@ -1,11 +1,15 @@
-import React, { memo, useMemo } from "react";
+import React, { memo, useCallback, useMemo } from "react";
 import { Col, Container, Row } from "react-bootstrap";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getImageURL } from "../../helpers/all";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { mainAffiliateEdit } from "../../store/reducers/affiliateSlice";
 
-const WidgetAffiliates = memo(() => {
+const WidgetAffiliates = memo(({ link }) => {
   const affiliates = useSelector((state) => state.affiliate.items);
+  const dispatch = useDispatch();
+
+  const navigate = useNavigate();
 
   if (!affiliates || affiliates?.length === 0) {
     return null;
@@ -48,6 +52,10 @@ const WidgetAffiliates = memo(() => {
 
     return chunks;
   }, [affiliates]);
+  const onChoose = useCallback((data) => {
+    dispatch(mainAffiliateEdit(data))
+    navigate(link)
+  }, [link]);
 
   return (
     <section className="affiliates-section">
@@ -67,25 +75,23 @@ const WidgetAffiliates = memo(() => {
                   xs={12}
                   className="px-1 px-md-2"
                 >
-                  <Link to="/catalog">
-                    <div className="affiliate-card">
-                      <div className="affiliate-image-container">
-                        <img
-                          src={getImageURL({
-                            path: affiliate?.media,
-                            type: "affiliate",
-                            size: "full",
-                          })}
-                          alt={affiliate.title}
-                          className="affiliate-image w-100"
-                          loading="lazy"
-                        />
-                      </div>
-                      <div className="affiliate-title">
-                        {affiliate.title ?? "Название"}
-                      </div>
+                  <div className="affiliate-card" onClick={() => onChoose(affiliate)}>
+                    <div className="affiliate-image-container">
+                      <img
+                        src={getImageURL({
+                          path: affiliate?.media,
+                          type: "affiliate",
+                          size: "full",
+                        })}
+                        alt={affiliate.title}
+                        className="affiliate-image w-100"
+                        loading="lazy"
+                      />
                     </div>
-                  </Link>
+                    <div className="affiliate-title">
+                      {affiliate.title ?? "Название"}
+                    </div>
+                  </div>
                 </Col>
               ))}
             </Row>
