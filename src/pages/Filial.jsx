@@ -1,25 +1,25 @@
 import React, {
   useCallback,
-  useLayoutEffect,
   useEffect,
+  useLayoutEffect,
   useState,
 } from "react";
+import { Container } from "react-bootstrap";
+import { isDesktop } from "react-device-detect";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
+import AffiliateContent from "../components/AffiliateContent";
 import Catalog from "../components/Catalog";
 import Empty from "../components/Empty";
+import EmptyWork from "../components/empty/work";
 import Meta from "../components/Meta";
-import Widgets from "../components/Widgets";
+import QrApp from "../components/QrApp";
 import Loader from "../components/utils/Loader";
+import Widgets from "../components/Widgets";
 import { isUpdateTime } from "../helpers/all";
 import { getCatalog } from "../services/catalog";
 import { updateCatalog } from "../store/reducers/catalogSlice";
-import EmptyWork from "../components/empty/work";
-import QrApp from "../components/QrApp";
-import { Col, Container, Row } from "react-bootstrap";
-import { isDesktop } from "react-device-detect";
-import { useParams } from "react-router-dom";
-import AffiliateCard from "../components/AffiliateCard";
 
 const Filial = () => {
   const { t } = useTranslation();
@@ -73,6 +73,8 @@ const Filial = () => {
   useEffect(() => {
     getData();
   }, [affiliateId, city]);
+  const affiliateItems = useSelector(state => state.affiliate.items)
+  const affiliate = affiliateItems.find(e => e.id == affiliateId);
 
   if (loading) {
     return <Loader full />;
@@ -99,7 +101,7 @@ const Filial = () => {
               )
           }
         />
-        <AffiliateCard id={affiliateId} />
+        <AffiliateContent affiliate={affiliate} />
 
 
         {catalog?.widgets?.length > 0 ? (
