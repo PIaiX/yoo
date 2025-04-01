@@ -19,6 +19,7 @@ import QrApp from "../components/QrApp";
 import { Col, Container, Row } from "react-bootstrap";
 import { isDesktop } from "react-device-detect";
 import { useParams } from "react-router-dom";
+import CatalogUrman from "../components/CatalogUrman";
 
 const CatalogHome = () => {
   const { t } = useTranslation();
@@ -100,7 +101,7 @@ const CatalogHome = () => {
         />
 
 
-        {catalog?.widgets?.length > 0 ? (
+        {/* {catalog?.widgets?.length > 0 ? (
           <Widgets data={catalog.widgets} />
         ) : catalog?.categories?.length > 0 ? (
           <Catalog data={catalog.categories} />
@@ -115,7 +116,8 @@ const CatalogHome = () => {
             }
             image={() => <EmptyWork />}
           />
-        )}
+        )} */}
+        {catalog?.widgets?.length > 0 && <CatalogUrman data={catalog?.widgets?.find(e => e?.value == "menu")?.items} />}
         {options?.qrApp && isDesktop ? (
           <Container>
             <QrApp />

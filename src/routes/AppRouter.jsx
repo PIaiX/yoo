@@ -32,8 +32,8 @@ import Categories from "../pages/Categories";
 import Search from "../pages/Search";
 import Info from "../pages/Info";
 import RedirectApp from "../pages/RedirectApp";
-import CatalogHome from "../pages/Filial";
 import Filial from "../pages/Filial";
+import CatalogHome from "../pages/CatalogHome";
 
 const router = createBrowserRouter(
   createRoutesFromElements(

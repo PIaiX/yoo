@@ -72,9 +72,9 @@ function App() {
   const zone = useSelector((state) => state.cart?.zone);
   const addressData = useSelector((state) => state.address.items);
   const cart = useSelector((state) => state.cart.items);
-  console.log(cart)
+
   const affiliater = useSelector((state) => state.affiliate.active);
-  console.log(affiliater)
+
 
   useEffect(() => {
     if (options?.themeType) {

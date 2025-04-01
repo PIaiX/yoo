@@ -12,7 +12,7 @@ import WhatsAppLine from "./svgs/WhatsAppLine";
 const AffiliateContent = memo(({ affiliate }) => {
 
   const { t } = useTranslation();
-  console.log(affiliate)
+
   return (
     <section >
       <Container>
