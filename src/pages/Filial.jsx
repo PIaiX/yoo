@@ -20,6 +20,7 @@ import Widgets from "../components/Widgets";
 import { isUpdateTime } from "../helpers/all";
 import { getCatalog } from "../services/catalog";
 import { updateCatalog } from "../store/reducers/catalogSlice";
+import FilialUrman from "../components/FilialUrman";
 
 const Filial = () => {
   const { t } = useTranslation();
@@ -102,9 +103,9 @@ const Filial = () => {
           }
         />
         <AffiliateContent affiliate={affiliate} />
+        {catalog?.widgets?.length > 0 && <FilialUrman data={catalog?.widgets?.find(e => e?.value == "menu")?.items} />}
 
-
-        {catalog?.widgets?.length > 0 ? (
+        {/* {catalog?.widgets?.length > 0 ? (
           <Widgets data={catalog.widgets} />
         ) : catalog?.categories?.length > 0 ? (
           <Catalog data={catalog.categories} />
@@ -126,7 +127,7 @@ const Filial = () => {
           </Container>
         ) : (
           ""
-        )}
+        )} */}
       </Container>
     </main >
   );

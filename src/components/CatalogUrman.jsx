@@ -11,6 +11,8 @@ import CategoryGroup from "./CategoryGroup";
 import GridIcon from "./svgs/GridIcon";
 import ButtonClose from "./utils/ButtonClose";
 import Loader from "./utils/Loader";
+import Input from "./utils/Input";
+import SearchInput from "./utils/SearchInput";
 
 // Ленивая загрузка ProductModal
 const ProductModal = React.lazy(() => import("./ProductModal"));
@@ -64,7 +66,7 @@ const ProductModalComponent = memo(({ product, setProduct }) => {
   );
 });
 
-const CatalogUrman = memo(({ data }) => {
+const CatalogUrman = memo(({ data, search }) => {
   const [viewCategories, setViewCategories] = useState(false);
   const { hash } = useLocation();
   const city = useSelector((state) => state.affiliate.city);
@@ -74,6 +76,7 @@ const CatalogUrman = memo(({ data }) => {
     data: !!hash && !!city ? { id: hash.slice(1) } : false,
   });
   const { t } = useTranslation();
+
 
   const toggleViewCategories = useCallback(() => {
     setViewCategories((prev) => !prev);
@@ -119,6 +122,7 @@ const CatalogUrman = memo(({ data }) => {
       ) : (
         <>
           <CategoriesUrman data={data} />
+          {search && <SearchInput />}
           <Container>
             {data?.length > 0 && (
               <div className="categories-box">

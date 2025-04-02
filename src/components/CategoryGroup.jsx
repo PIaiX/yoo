@@ -23,13 +23,13 @@ const CategoryGroup = memo(({ data, onLoad }) => {
     <section className="CategoryGroup" id={"category-" + data?.id}>
       {data?.title && (
         <div className="filterGrid mb-5">
-          <h4 className="d-block fw-6 mb-0">{data.title}</h4>
+          <h4 className="d-block fw-6 mb-0 urman-dark-green">{data.title}</h4>
         </div>
       )}
       {products?.length > 0 && (
-        <ul className="list-unstyled row row-cols-2 row-cols-sm-3 row-cols-lg-4 gx-4 gx-xl-5 gy-5">
+        <ul className="list-unstyled row gx-4 gx-xl-5 gy-5">
           {products.map((e, index) => (
-            <li key={index}>
+            <li key={index} className="col-12 col-sm-6 col-md-4 col-lg-3">
               <ProductCard data={e} onLoad={onLoad} />
             </li>
           ))}

@@ -564,6 +564,10 @@ h6 {
   color: $red;
 }
 
+.urman-dark-green {
+  color: $urman-dark-green;
+}
+
 .orange {
   color: $orange;
 }
@@ -3194,9 +3198,11 @@ main {
     position: unset !important;
     padding: 0 10px !important;
     flex-grow: 1;
+    display: flex;
+    justify-content: center;
 
     .swiper-slide {
-      width: fit-content;
+      width: auto !important;
     }
 
     &-disabled {
@@ -3287,47 +3293,32 @@ main {
   }
 }
 
-.sticky-box {
-  &.h-fixed {
-    z-index: 100;
-    background: transparent;
+.sticky-box-urman {
+  position: sticky;
+  z-index: 10;
+  top: var(--h-height);
+  left: 0px;
+  width: 100%;
+  padding: 0.5em 0.75em;
 
-    &.show {
-      .categories-urman {
-        background: transparent;
-        box-shadow: none;
-      }
-    }
+  background-color: var(--bg-main);
+  @include flex(row, space-between, center, nowrap);
+
+  @media (max-width: $bp-lg) {
+    margin-top: 0 !important;
+    top: var(--h-height) !important;
+    padding: 0em;
+    box-shadow: none;
   }
+
+  &.show {
+    max-width: 100% !important;
+    @include shadow();
+  }
+
 }
 
-.sticky-box {
-  &.h-fixed {
-    z-index: 100;
-    background: transparent;
 
-    &.show {
-      .categories-urman {
-        background: transparent;
-        box-shadow: none;
-      }
-    }
-  }
-}
-
-.sticky-box {
-  &.h-fixed {
-    z-index: 100;
-    background: transparent;
-
-    &.show {
-      .categories-urman {
-        background: transparent;
-        box-shadow: none;
-      }
-    }
-  }
-}
 
 .CategoryGroup {
   &:not(:last-child) {
@@ -3710,6 +3701,8 @@ main {
   }
 }
 
+
+
 html.theme-font-align-center .filterGrid h4 {
   text-align: center !important;
 }
@@ -3728,6 +3721,8 @@ html.theme-font-align-center .product .desc {
 
 html.theme-font-title-amaticsc .product .title {
   font-family: "Amatic SC" !important;
+
+  font-family: "Acron" !important;
   font-size: 32px !important;
 
   @media (max-width: $bp-sm) {
@@ -6895,13 +6890,14 @@ ACCOUNT END
   padding: 0.9em;
   display: block;
   border-radius: $radius;
+  background-color: $urman-very-light-green;
 
   &.active {
-    background-color: var(--main-color-btn);
+    background-color: $urman-green-1;
   }
 
   &:hover {
-    background-color: var(--main-color-btn);
+    background-color: $urman-green-1;
   }
 
   .logo {
@@ -7698,6 +7694,61 @@ img.show {
       display: flex;
       flex-direction: column;
       margin-bottom: 30px;
+    }
+  }
+}
+
+.search-1 {
+  width: 100%;
+  margin: 0 auto 20px;
+  display: flex;
+  justify-content: flex-end;
+
+  .search-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%; // Добавлено для мобильной адаптации
+
+    @media(min-width: $bp-lg) {
+      width: auto; // На больших экранах ширина по содержимому
+    }
+  }
+
+  .search-icon {
+    position: absolute;
+    left: 15px;
+    color: $urman-very-dark-gray;
+    font-size: 18px;
+  }
+
+  .search-input {
+    width: 100%;
+    padding: 12px 20px 12px 45px;
+    border: 1px solid $urman-very-dark-gray;
+    border-radius: 25px;
+    font-size: 16px;
+    outline: none;
+    transition: all 0.3s ease;
+
+    // Для десктопов
+    @media(min-width: $bp-lg) {
+      min-width: 340px;
+      width: auto;
+    }
+
+    // Для мобильных
+    @media(max-width: $bp-lg) {
+      min-width: 100%;
+    }
+
+    &:focus {
+      border-color: $urman-green;
+      box-shadow: 0 0 0 2px $urman-green-1;
+    }
+
+    &::placeholder {
+      color: $urman-very-dark-gray;
     }
   }
 }

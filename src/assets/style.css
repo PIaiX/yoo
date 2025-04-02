@@ -365,6 +365,10 @@ h6 {
   color: #e01e00;
 }
 
+.urman-dark-green {
+  color: #52695F;
+}
+
 .orange {
   color: #ff9d17;
 }
@@ -2865,10 +2869,11 @@ main {
   position: unset !important;
   padding: 0 10px !important;
   flex-grow: 1;
+  display: flex;
+  justify-content: center;
 }
 .categories-urman-slider .swiper-slide {
-  width: -moz-fit-content;
-  width: fit-content;
+  width: auto !important;
 }
 .categories-urman-slider-disabled .swiper-wrapper {
   flex-wrap: wrap;
@@ -2939,31 +2944,31 @@ main {
   margin-right: 2px;
 }
 
-.sticky-box.h-fixed {
-  z-index: 100;
-  background: transparent;
+.sticky-box-urman {
+  position: sticky;
+  z-index: 10;
+  top: var(--h-height);
+  left: 0px;
+  width: 100%;
+  padding: 0.5em 0.75em;
+  background-color: var(--bg-main);
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: nowrap;
 }
-.sticky-box.h-fixed.show .categories-urman {
-  background: transparent;
-  box-shadow: none;
+@media (max-width: 991px) {
+  .sticky-box-urman {
+    margin-top: 0 !important;
+    top: var(--h-height) !important;
+    padding: 0em;
+    box-shadow: none;
+  }
 }
-
-.sticky-box.h-fixed {
-  z-index: 100;
-  background: transparent;
-}
-.sticky-box.h-fixed.show .categories-urman {
-  background: transparent;
-  box-shadow: none;
-}
-
-.sticky-box.h-fixed {
-  z-index: 100;
-  background: transparent;
-}
-.sticky-box.h-fixed.show .categories-urman {
-  background: transparent;
-  box-shadow: none;
+.sticky-box-urman.show {
+  max-width: 100% !important;
+  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.06);
 }
 
 .CategoryGroup:not(:last-child) {
@@ -3401,6 +3406,7 @@ html.theme-font-align-center .product .desc {
 
 html.theme-font-title-amaticsc .product .title {
   font-family: "Amatic SC" !important;
+  font-family: "Acron" !important;
   font-size: 32px !important;
 }
 @media (max-width: 580px) {
@@ -6532,12 +6538,13 @@ ACCOUNT END
   padding: 0.9em;
   display: block;
   border-radius: 1.25em;
+  background-color: #E0EDE6;
 }
 .brand-item.active {
-  background-color: var(--main-color-btn);
+  background-color: #C5DAC5;
 }
 .brand-item:hover {
-  background-color: var(--main-color-btn);
+  background-color: #C5DAC5;
 }
 .brand-item .logo {
   width: 50px;
@@ -7319,4 +7326,58 @@ img.show {
     flex-direction: column;
     margin-bottom: 30px;
   }
+}
+
+.search-1 {
+  width: 100%;
+  margin: 0 auto 20px;
+  display: flex;
+  justify-content: flex-end;
+}
+.search-1 .search-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+@media (min-width: 991px) {
+  .search-1 .search-container {
+    width: auto;
+  }
+}
+.search-1 .search-icon {
+  position: absolute;
+  left: 15px;
+  color: #535753;
+  font-size: 18px;
+}
+.search-1 .search-input {
+  width: 100%;
+  padding: 12px 20px 12px 45px;
+  border: 1px solid #535753;
+  border-radius: 25px;
+  font-size: 16px;
+  outline: none;
+  transition: all 0.3s ease;
+}
+@media (min-width: 991px) {
+  .search-1 .search-input {
+    min-width: 340px;
+    width: auto;
+  }
+}
+@media (max-width: 991px) {
+  .search-1 .search-input {
+    min-width: 100%;
+  }
+}
+.search-1 .search-input:focus {
+  border-color: #7EAA94;
+  box-shadow: 0 0 0 2px #C5DAC5;
+}
+.search-1 .search-input::-moz-placeholder {
+  color: #535753;
+}
+.search-1 .search-input::placeholder {
+  color: #535753;
 }/*# sourceMappingURL=style.css.map */

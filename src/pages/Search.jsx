@@ -12,6 +12,7 @@ import useDebounce from "../hooks/useDebounce";
 import { getSearch } from "../services/search";
 import { useTranslation } from "react-i18next";
 import { useSearchParams, useNavigate } from "react-router-dom";
+import CatalogUrman from "../components/CatalogUrman";
 
 const Search = () => {
   const { t } = useTranslation();
@@ -78,7 +79,7 @@ const Search = () => {
       </Container>
       {search.loading && <Loader full />}
       {Array.isArray(search.items) && search.items.length > 0 ? (
-        <Catalog data={search.items} />
+        <CatalogUrman data={search.items} />
       ) : (
         <Empty
           text={t("Ничего не найдено")}
