@@ -2854,6 +2854,12 @@ main {
   border-bottom: 1px solid #7EAA94;
   transition: background-color 0.3s ease;
 }
+.categories-urman-filial .swiper-wrapper {
+  justify-content: center;
+}
+.categories-urman-filial.categories-urman-slider {
+  margin: 0 !important;
+}
 .categories-urman.scrolled {
   background-color: var(--bg-main);
 }
@@ -2864,8 +2870,8 @@ main {
   align-items: center;
 }
 .categories-urman-slider {
-  margin: 0 !important;
-  margin-right: 20px !important;
+  margin: 0;
+  margin-right: 20px;
   position: unset !important;
   padding: 0 10px !important;
   flex-grow: 1;
@@ -2882,6 +2888,10 @@ main {
 }
 .categories-urman-slider-disabled .swiper-slide {
   margin-bottom: 0;
+}
+.categories-urman.small-block {
+  width: -moz-fit-content !important;
+  width: fit-content !important;
 }
 .categories-urman-item {
   display: block;

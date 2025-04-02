@@ -23,8 +23,8 @@ const ButtonCartProductMini = memo(
       (newCount = 1, inputCount = false) => {
         const modifiers =
           options?.brand?.options?.priceAffiliateType &&
-          Array.isArray(product.modifiers) &&
-          product?.modifiers?.length > 0
+            Array.isArray(product.modifiers) &&
+            product?.modifiers?.length > 0
             ? product.modifiers.filter((e) => e?.modifierOptions?.length > 0)
             : product?.modifiers ?? [];
         if (modifiers?.length > 1) {
@@ -54,8 +54,8 @@ const ButtonCartProductMini = memo(
             .then((res) => {
               const modifiers =
                 options?.brand?.options?.priceAffiliateType &&
-                Array.isArray(res.modifiers) &&
-                res?.modifiers?.length > 0
+                  Array.isArray(res.modifiers) &&
+                  res?.modifiers?.length > 0
                   ? res.modifiers.filter((e) => e?.modifierOptions?.length > 0)
                   : res?.modifiers ?? [];
               if (modifiers?.length > 1 || res?.additions?.length > 0) {
@@ -69,10 +69,10 @@ const ButtonCartProductMini = memo(
                 cart: product?.cart
                   ? modifiers?.length === 1
                     ? {
-                        ...product.cart,
-                        modifiers: modifiers,
-                        count: newCount,
-                      }
+                      ...product.cart,
+                      modifiers: modifiers,
+                      count: newCount,
+                    }
                     : { ...product.cart, count: newCount }
                   : { count: newCount },
                 id: res.id,
@@ -135,13 +135,12 @@ const ButtonCartProductMini = memo(
     }
 
     return (
-      <button draggable={false} 
+      <button draggable={false}
         disabled={!isValid}
         onClick={() => onPress()}
         type="button"
-        className={`${isCartData ? "btn-light" : "btn-primary"}${
-          className ? " " + className : ""
-        }${loading ? " loading" : ""}`}
+        className={`${isCartData ? "btn-light" : "btn-primary"}${className ? " " + className : ""
+          }${loading ? " loading" : ""}`}
       >
         {children ?? <HiOutlineShoppingBag className="fs-15" />}
       </button>

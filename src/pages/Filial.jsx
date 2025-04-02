@@ -103,7 +103,16 @@ const Filial = () => {
           }
         />
         <AffiliateContent affiliate={affiliate} />
-        {catalog?.widgets?.length > 0 && <FilialUrman data={catalog?.widgets?.find(e => e?.value == "menu")?.items} />}
+        {catalog?.widgets?.length > 0 &&
+          <FilialUrman
+            data={catalog?.widgets?.find(e => e?.value == "menu")?.items}
+            search={true}
+            mainMenuCategoryIds={[5673, 5661, 5653, 5676, 5677, 5679, 5678]} // ID категорий для основного меню (будут показаны первые 2)
+            otherCategoriesIds={[5715, 5694, 5693, 5685]}  // ID остальных категорий
+            productsLimit={4}
+            mainMenuPosition={2}
+          />
+        }
 
         {/* {catalog?.widgets?.length > 0 ? (
           <Widgets data={catalog.widgets} />

@@ -5,7 +5,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { HiArrowUturnUp, HiOutlineArrowUturnDown } from "react-icons/hi2";
 import { Container } from "react-bootstrap";
 
-const CategoriesUrman = memo(({ className, data }) => {
+const CategoriesUrman = memo(({ className, data, filial = false }) => {
   const [isFull, setIsFull] = useState(false);
   const swiperRef = useRef(null);
   const [isShowMenu, setIsShowMenu] = useState(false);
@@ -50,7 +50,6 @@ const CategoriesUrman = memo(({ className, data }) => {
 
   useEffect(() => {
     if (swiperRef.current && swiperRef.current.swiper && !isFull) {
-      // Центрируем активный слайд
       const swiper = swiperRef.current.swiper;
       const slideEl = swiper.slides[activeIndex];
       if (slideEl) {
@@ -73,10 +72,10 @@ const CategoriesUrman = memo(({ className, data }) => {
         className={`sticky-box-urman container p-0 mt-5 pe-md-3 ps-md-3 mb-3 mb-sm-4 mb-md-5 ${isShowMenu ? "show" : ""}`}
         ref={containerRef}
       >
-        <Container className="p-0">
+        <Container className="p-0" style={filial ? { width: 'fit-content', margin: '0 auto' } : {}}>
           <div className={`categories-urman${className ? ` ${className}` : ""} ${isShowMenu ? "scrolled" : ""}`}>
             <div className={isFull ? "p-0 categories-urman-wrap" : "categories-urman-wrap"}>
-              <div className="categories-urman-nav categories-urman-prev"></div>
+              {!filial && <div className="categories-urman-nav categories-urman-prev"></div>}
               <Swiper
                 ref={swiperRef}
                 loop={false}
@@ -85,7 +84,7 @@ const CategoriesUrman = memo(({ className, data }) => {
                 className={
                   isFull
                     ? "categories-urman-slider categories-urman-slider-disabled"
-                    : "categories-urman-slider"
+                    : `categories-urman-slider ${filial ? 'categories-urman-filial' : ''}`
                 }
                 modules={[Navigation, FreeMode, Mousewheel]}
                 speed={750}
@@ -94,10 +93,10 @@ const CategoriesUrman = memo(({ className, data }) => {
                 observer={true}
                 observeSlideChildren={true}
                 watchSlidesProgress={true}
-                navigation={{
+                navigation={!filial ? {
                   nextEl: '.categories-urman-next',
                   prevEl: '.categories-urman-prev',
-                }}
+                } : false}
                 breakpoints={{
                   576: { spaceBetween: 20 },
                   1200: { spaceBetween: 20 },
@@ -121,19 +120,23 @@ const CategoriesUrman = memo(({ className, data }) => {
                   </SwiperSlide>
                 ))}
               </Swiper>
-              <div className="categories-urman-nav categories-urman-next"></div>
-              <button
-                draggable={false}
-                type="button"
-                onClick={isFull ? handleCollapse : handleExpand}
-                className="categories-urman-btn"
-              >
-                {isFull ? (
-                  <HiArrowUturnUp className="fs-15 main-color" />
-                ) : (
-                  <HiOutlineArrowUturnDown className="fs-15 main-color rotateY-180" />
-                )}
-              </button>
+              {!filial && (
+                <>
+                  <div className="categories-urman-nav categories-urman-next"></div>
+                  <button
+                    draggable={false}
+                    type="button"
+                    onClick={isFull ? handleCollapse : handleExpand}
+                    className="categories-urman-btn"
+                  >
+                    {isFull ? (
+                      <HiArrowUturnUp className="fs-15 main-color" />
+                    ) : (
+                      <HiOutlineArrowUturnDown className="fs-15 main-color rotateY-180" />
+                    )}
+                  </button>
+                </>
+              )}
             </div>
           </div>
         </Container>

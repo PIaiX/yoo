@@ -1,122 +1,138 @@
-import React, { memo, useState, useMemo } from 'react';
-import { Container, Row, Col } from 'react-bootstrap';
-import { HiOutlineArrowUturnDown } from 'react-icons/hi2';
-import CategoriesUrman from './CategoriesUrman';
-import CategoryCard from './CategoryCard';
-import CategoryGroup from './CategoryGroup';
+import React, { memo, useCallback, useState } from "react";
+import { Col, Container, Row, Button } from "react-bootstrap";
+import { HiOutlineArrowUturnDown } from "react-icons/hi2";
+import { useNavigate } from "react-router-dom";
+import Choose from "../assets/imgs/choose.svg";
+import CategoriesUrman from "./CategoriesUrman";
+import CategoryCard from "./CategoryCard";
+import GridIcon from "./svgs/GridIcon";
+import SearchInput from "./utils/SearchInput";
+import CategoryGroupUrman from "./CategoryGroupUrman";
 
-const FilialUrman = memo(({ data }) => {
-  // Конфигурация групп и порядка отображения
-  const groupConfig = useMemo(() => ({
-    // Порядок и количество элементов для каждой группы
-    order: ['popular', 'special', 'new', 'sale'],
-    itemsCount: {
-      popular: 8,
-      special: 6,
-      new: 4,
-      sale: 6,
-      default: 4 // Для групп не указанных в конфиге
-    },
-    // Группы для верхнего меню (первые 5 или указанные)
-    menuGroups: ['popular', 'special', 'new', 'sale']
-  }), []);
+const FilialUrman = memo(({
+  data,
+  search = false,
+  mainMenuCategoryIds = [], // ID всех категорий для основного меню
+  otherCategoriesIds = [],  // ID остальных категорий
+  productsLimit = 4,
+  mainMenuPosition = 1 // Позиция основного меню среди категорий (начиная с 0)
+}) => {
+  const [viewCategories, setViewCategories] = useState(false);
+  const navigate = useNavigate();
 
-  const [activeGroup, setActiveGroup] = useState(null);
-  const [showAll, setShowAll] = useState(false);
+  const toggleViewCategories = useCallback(() => {
+    setViewCategories((prev) => !prev);
+  }, []);
 
-  // Фильтруем и сортируем группы согласно конфигурации
-  const processedGroups = useMemo(() => {
-    if (!data) return [];
+  if (!data || data?.length === 0) {
+    return null;
+  }
 
-    // Создаем мап данных для быстрого доступа
-    const dataMap = data.reduce((acc, group) => {
-      acc[group.id] = group;
-      return acc;
-    }, {});
+  // Все категории для основного меню
+  const allMainMenuCategories = data.filter(item =>
+    mainMenuCategoryIds.includes(item.id)
+  );
 
-    // Сортируем группы согласно порядку из конфига
-    const orderedGroups = groupConfig.order
-      .map(id => dataMap[id])
-      .filter(Boolean);
+  // Первые две категории для отображения продуктов
+  const displayedMainMenuCategories = allMainMenuCategories.slice(0, 2);
 
-    // Добавляем остальные группы, не указанные в конфиге
-    const remainingGroups = data.filter(
-      group => !groupConfig.order.includes(group.id)
-    );
+  // Остальные категории
+  const otherCategoriesData = data.filter(item =>
+    otherCategoriesIds.includes(item.id)
+  );
 
-    return [...orderedGroups, ...remainingGroups];
-  }, [data, groupConfig.order]);
-
-  // Группы для верхнего меню
-  const menuGroups = useMemo(() => {
-    if (!data) return [];
-
-    return groupConfig.menuGroups
-      .map(id => data.find(group => group.id === id))
-      .filter(Boolean)
-      .slice(0, 5); // Максимум 5 групп в меню
-  }, [data, groupConfig.menuGroups]);
-
-  // Обработчик клика по группе в меню
-  const handleGroupClick = (groupId) => {
-    setActiveGroup(activeGroup === groupId ? null : groupId);
+  // Создаем искусственную категорию "Основное меню"
+  const mainMenuCategory = {
+    id: "main-menu",
+    title: "Основное меню",
+    isMainMenu: true,
+    subCategories: displayedMainMenuCategories,
+    allCategories: allMainMenuCategories
   };
 
-  // Обработчик показать все/скрыть
-  const toggleShowAll = () => {
-    setShowAll(prev => !prev);
-    setActiveGroup(null);
+  // Создаем массив категорий с основным меню в нужной позиции
+  const getOrderedCategories = () => {
+    const result = [...otherCategoriesData];
+    result.splice(mainMenuPosition, 0, mainMenuCategory);
+    return result;
   };
+
+  const orderedCategories = getOrderedCategories();
 
   return (
     <section className="sec-3 mb-5">
-      {/* Верхнее меню (аналогичное CategoriesUrman) */}
-      {menuGroups.length > 0 && (
-        <CategoriesUrman
-          data={menuGroups}
-          className="filial-menu"
-        />
+      {viewCategories ? (
+        <Container className="box">
+          <Button
+            variant="link"
+            onClick={toggleViewCategories}
+            className="d-none d-md-flex btn-view mb-3 ms-auto me-4"
+          >
+            <img src={Choose} alt="Choose" />
+            <GridIcon />
+          </Button>
+          <Row xs={2} md={3} xl={4} className="g-3 g-sm-4">
+            {orderedCategories.map((e) => (
+              <Col key={e.id}>
+                <CategoryCard data={e} />
+              </Col>
+            ))}
+          </Row>
+          <Button
+            variant="link"
+            className="main-color mx-auto mt-4"
+          >
+            <span>показать все</span>
+            <HiOutlineArrowUturnDown className="fs-15 ms-3 main-color rotateY-180" />
+          </Button>
+        </Container>
+      ) : (
+        <>
+          <CategoriesUrman data={orderedCategories} filial={true} />
+          {search && <SearchInput />}
+          <Container>
+            {orderedCategories.map((category) => (
+              <div key={category.id} className="categories-box mb-5" id={"category-" + category.id}>
+                {category.isMainMenu ? (
+                  <>
+                    <div className="filterGrid">
+                      <h4 className="d-block fw-6 mb-4 urman-dark-green">{category.title}</h4>
+                    </div>
+                    <div className="d-flex flex-wrap gap-3 mb-4">
+                      {category.allCategories.map((cat) => (
+                        <button
+                          key={cat.id}
+                          onClick={() => navigate(`/category/${cat.id}`)}
+                          className="btn-10"
+                        >
+                          {cat.title}
+                        </button>
+                      ))}
+                    </div>
+                    {category.subCategories.map((subCat) => (
+                      <div key={subCat.id} className="mb-4">
+                        <h5 className="d-block fs-13 mb-3">{subCat.title}</h5>
+                        <CategoryGroupUrman
+                          data={subCat}
+                          onLoad={(product) => navigate("/product/" + product.id)}
+                          limit={productsLimit}
+                          hideTitle={true}
+                        />
+                      </div>
+                    ))}
+                  </>
+                ) : (
+                  <CategoryGroupUrman
+                    data={category}
+                    onLoad={(product) => navigate("/product/" + product.id)}
+                    limit={productsLimit}
+                  />
+                )}
+              </div>
+            ))}
+          </Container>
+        </>
       )}
-
-      <Container>
-        {/* Отображение групп */}
-        <div className="categories-box">
-          {processedGroups.map(group => {
-            const isActive = activeGroup === group.id || showAll;
-            const itemsCount = groupConfig.itemsCount[group.id] || groupConfig.itemsCount.default;
-            const itemsToShow = isActive ? group.items : (group.items || []).slice(0, itemsCount);
-
-            return (
-              <CategoryGroup
-                key={group.id}
-                data={{
-                  ...group,
-                  items: itemsToShow
-                }}
-                showTitle={true}
-                onTitleClick={() => handleGroupClick(group.id)}
-                isExpanded={isActive}
-                showMoreButton={!isActive && group?.items?.length > itemsCount}
-              />
-            );
-          })}
-        </div>
-
-        {/* Кнопка показать все/скрыть */}
-        {processedGroups.length > 1 && (
-          <div className="text-center mt-4">
-            <button
-              draggable={false}
-              type="button"
-              onClick={toggleShowAll}
-              className="main-color mx-auto"
-            >
-              <span>{showAll ? 'Скрыть все' : 'Показать все'}</span>
-              <HiOutlineArrowUturnDown className={`fs-15 ms-3 main-color ${showAll ? '' : 'rotateY-180'}`} />
-            </button>
-          </div>
-        )}
-      </Container>
     </section>
   );
 });
