@@ -7517,7 +7517,8 @@ img.show {
 
   .affiliate-card {
     position: relative;
-    height: 250px; // Фиксированная высота для мобильных
+    height: 300px; // Фиксированная высота для мобильных
+    max-height: 350px; // Ограничение максимальной высоты
     border-radius: $radius;
     overflow: hidden;
     transition: all 0.3s ease;
@@ -7538,6 +7539,7 @@ img.show {
     height: 100%;
     overflow: hidden;
     background-color: #000;
+    max-height: 300px;
 
     .affiliate-image {
       object-fit: cover;
@@ -7579,17 +7581,34 @@ img.show {
     z-index: 1;
   }
 
-  @media (min-width: 768px) {
+  @media (max-width: $bp-xxl) {
+
+    // Например, если $bp-xxl = 1440px
+    .affiliate-card {
+      height: 260px !important; // Принудительно 250px на очень широких экранах
+      max-height: 260px !important; // Дополнительное ограничение
+    }
+  }
+
+  @media (max-width: $bp-xl) {
+
+    // Например, если $bp-xxl = 1440px
+    .affiliate-card {
+      height: 215px !important; // Принудительно 250px на очень широких экранах
+      max-height: 250px !important; // Дополнительное ограничение
+    }
+  }
+
+  @media (max-width: 768px) {
     .affiliate-card {
       height: 300px; // Фиксированная высота для планшетов
       margin-bottom: 16px;
     }
   }
 
-  @media (min-width: 992px) {
+  @media (max-width: 992px) {
     .affiliate-card {
       height: calc(50vh - 180px); // Оригинальная высота для больших экранов
-      min-height: 300px;
     }
   }
 }
@@ -7688,7 +7707,7 @@ img.show {
 
     img {
       width: 100%;
-      border-radius: 8px;
+      border-radius: $radius;
       object-fit: cover;
       height: 100%;
       box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);

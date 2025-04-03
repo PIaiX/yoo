@@ -111,6 +111,7 @@ const Filial = () => {
             otherCategoriesIds={[5715, 5694, 5693, 5685]}  // ID остальных категорий
             productsLimit={4}
             mainMenuPosition={2}
+            affiliateId={affiliateId}
           />
         }
 

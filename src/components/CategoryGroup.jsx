@@ -2,7 +2,7 @@ import React, { memo } from "react";
 import ProductCard from "./ProductCard";
 import { useSelector } from "react-redux";
 
-const CategoryGroup = memo(({ data, onLoad }) => {
+const CategoryGroup = memo(({ data, onLoad, affiliateId }) => {
   const priceAffiliateType = useSelector(
     (state) => state.settings?.options?.brand?.options?.priceAffiliateType
   );
@@ -30,7 +30,7 @@ const CategoryGroup = memo(({ data, onLoad }) => {
         <ul className="list-unstyled row gx-4 gx-xl-5 gy-5">
           {products.map((e, index) => (
             <li key={index} className="col-12 col-sm-6 col-md-4 col-lg-3">
-              <ProductCard data={e} onLoad={onLoad} />
+              <ProductCard data={e} onLoad={onLoad} affiliateId={affiliateId} />
             </li>
           ))}
         </ul>

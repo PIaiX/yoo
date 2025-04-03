@@ -15,7 +15,8 @@ const FilialUrman = memo(({
   mainMenuCategoryIds = [], // ID всех категорий для основного меню
   otherCategoriesIds = [],  // ID остальных категорий
   productsLimit = 4,
-  mainMenuPosition = 1 // Позиция основного меню среди категорий (начиная с 0)
+  mainMenuPosition = 1, // Позиция основного меню среди категорий (начиная с 0)
+  affiliateId
 }) => {
   const [viewCategories, setViewCategories] = useState(false);
   const navigate = useNavigate();
@@ -102,7 +103,7 @@ const FilialUrman = memo(({
                       {category.allCategories.map((cat) => (
                         <button
                           key={cat.id}
-                          onClick={() => navigate(`/category/${cat.id}`)}
+                          onClick={() => navigate(`/catalog/${affiliateId}?category=${cat.id}`)}
                           className="btn-10"
                         >
                           {cat.title}
@@ -117,6 +118,7 @@ const FilialUrman = memo(({
                           onLoad={(product) => navigate("/product/" + product.id)}
                           limit={productsLimit}
                           hideTitle={true}
+                          affiliateId={affiliateId}
                         />
                       </div>
                     ))}
@@ -126,6 +128,7 @@ const FilialUrman = memo(({
                     data={category}
                     onLoad={(product) => navigate("/product/" + product.id)}
                     limit={productsLimit}
+                    affiliateId={affiliateId}
                   />
                 )}
               </div>

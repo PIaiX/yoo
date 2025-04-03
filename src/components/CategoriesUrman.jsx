@@ -10,8 +10,6 @@ const CategoriesUrman = memo(({ className, data, filial = false }) => {
   const swiperRef = useRef(null);
   const [isShowMenu, setIsShowMenu] = useState(false);
   const menuRef = useRef(null);
-  const [activeIndex, setActiveIndex] = useState(0);
-  const containerRef = useRef(null);
 
   const handleExpand = () => {
     swiperRef.current.swiper.disable();
@@ -24,53 +22,34 @@ const CategoriesUrman = memo(({ className, data, filial = false }) => {
   };
 
   const updateSlider = (i) => {
-    setActiveIndex(i);
-    if (swiperRef?.current?.swiper) {
-      swiperRef.current.swiper.slideTo(i);
-      if (isFull) {
-        setIsFull(false);
-        swiperRef.current.swiper.enable();
-      }
+    swiperRef?.current?.swiper && swiperRef.current.swiper.slideTo(i);
+    if (isFull && swiperRef?.current?.swiper) {
+      setIsFull(false);
+      swiperRef.current.swiper.enable();
     }
   };
 
   useEffect(() => {
-    const handleScroll = () => {
+    const updateView = () => {
       const menuNode = menuRef.current;
       if (menuNode) {
         const rect = menuNode.getBoundingClientRect();
-        setIsShowMenu(rect.top <= 0);
+        const scrollTop = window.scrollY;
+        setIsShowMenu(scrollTop > rect.top + scrollTop - 60);
       }
     };
 
-    window.addEventListener("scroll", handleScroll);
-    handleScroll();
-    return () => window.removeEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", updateView);
+    updateView();
+    return () => window.removeEventListener("scroll", updateView);
   }, []);
-
-  useEffect(() => {
-    if (swiperRef.current && swiperRef.current.swiper && !isFull) {
-      const swiper = swiperRef.current.swiper;
-      const slideEl = swiper.slides[activeIndex];
-      if (slideEl) {
-        const slideRect = slideEl.getBoundingClientRect();
-        const containerRect = containerRef.current.getBoundingClientRect();
-        const containerCenter = containerRect.left + containerRect.width / 2;
-        const slideCenter = slideRect.left + slideRect.width / 2;
-        const scrollPos = swiper.translate - (containerCenter - slideCenter);
-
-        swiper.setTransition(750);
-        swiper.setTranslate(scrollPos);
-      }
-    }
-  }, [activeIndex, isFull]);
 
   return data?.length > 0 ? (
     <>
       <div ref={menuRef} />
       <div
-        className={`sticky-box-urman container p-0 mt-5 pe-md-3 ps-md-3 mb-3 mb-sm-4 mb-md-5 ${isShowMenu ? "show" : ""}`}
-        ref={containerRef}
+        className={`sticky-box-urman container p-0 mt-5 pe-md-3 ps-md-3 mb-3 mb-sm-4 mb-md-5 ${isShowMenu ? "show" : ""
+          }`}
       >
         <Container className="p-0" style={filial ? { width: 'fit-content', margin: '0 auto' } : {}}>
           <div className={`categories-urman${className ? ` ${className}` : ""} ${isShowMenu ? "scrolled" : ""}`}>
@@ -88,7 +67,7 @@ const CategoriesUrman = memo(({ className, data, filial = false }) => {
                 }
                 modules={[Navigation, FreeMode, Mousewheel]}
                 speed={750}
-                spaceBetween={20}
+                spaceBetween={10}
                 slidesPerView="auto"
                 observer={true}
                 observeSlideChildren={true}
@@ -98,15 +77,14 @@ const CategoriesUrman = memo(({ className, data, filial = false }) => {
                   prevEl: '.categories-urman-prev',
                 } : false}
                 breakpoints={{
-                  576: { spaceBetween: 20 },
-                  1200: { spaceBetween: 20 },
+                  576: { spaceBetween: 15 },
+                  1200: { spaceBetween: 15 },
                 }}
-                onSlideChange={(swiper) => setActiveIndex(swiper.activeIndex)}
               >
                 {data.map((e, index) => (
                   <SwiperSlide key={index}>
                     <Link
-                      className={`categories-urman-item ${activeIndex === index ? 'categories-urman-item-active' : ''}`}
+                      className={"categories-urman-item"}
                       activeClass="categories-urman-item-active"
                       to={`category-${e.id}`}
                       spy={true}

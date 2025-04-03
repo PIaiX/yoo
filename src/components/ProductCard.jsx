@@ -14,7 +14,7 @@ import ButtonCartProductMini from "./ButtonCartProductMini";
 import Tags from "./Tags";
 import ButtonCartProductGift from "./ButtonCartProductGift";
 
-const ProductCard = memo(({ data, onLoad }) => {
+const ProductCard = memo(({ data, onLoad, affiliateId }) => {
   const { t } = useTranslation();
   const options = useSelector((state) => state.settings?.options);
 
@@ -408,7 +408,7 @@ const ProductCard = memo(({ data, onLoad }) => {
             })}
           </a>
         )}
-        <ButtonCartProductMini product={data} onLoad={onLoad} />
+        <ButtonCartProductMini product={data} onLoad={onLoad} affiliateId={affiliateId} />
       </div>
     </div>
   );

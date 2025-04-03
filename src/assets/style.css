@@ -7165,7 +7165,8 @@ img.show {
 }
 .affiliates-section .affiliate-card {
   position: relative;
-  height: 250px;
+  height: 300px;
+  max-height: 350px;
   border-radius: 1.25em;
   overflow: hidden;
   transition: all 0.3s ease;
@@ -7184,6 +7185,7 @@ img.show {
   height: 100%;
   overflow: hidden;
   background-color: #000;
+  max-height: 300px;
 }
 .affiliates-section .affiliate-image-container .affiliate-image {
   -o-object-fit: cover;
@@ -7222,16 +7224,27 @@ img.show {
   background: rgba(0, 0, 0, 0.3);
   z-index: 1;
 }
-@media (min-width: 768px) {
+@media (max-width: 1399px) {
+  .affiliates-section .affiliate-card {
+    height: 260px !important;
+    max-height: 260px !important;
+  }
+}
+@media (max-width: 1199px) {
+  .affiliates-section .affiliate-card {
+    height: 215px !important;
+    max-height: 250px !important;
+  }
+}
+@media (max-width: 768px) {
   .affiliates-section .affiliate-card {
     height: 300px;
     margin-bottom: 16px;
   }
 }
-@media (min-width: 992px) {
+@media (max-width: 992px) {
   .affiliates-section .affiliate-card {
     height: calc(50vh - 180px);
-    min-height: 300px;
   }
 }
 
@@ -7312,7 +7325,7 @@ img.show {
 }
 .affiliate-content .images img {
   width: 100%;
-  border-radius: 8px;
+  border-radius: 1.25em;
   -o-object-fit: cover;
      object-fit: cover;
   height: 100%;

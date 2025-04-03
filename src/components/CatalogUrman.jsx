@@ -11,7 +11,7 @@ import SearchInput from "./utils/SearchInput";
 
 
 
-const CatalogUrman = memo(({ data, search }) => {
+const CatalogUrman = memo(({ data, search, affiliateId }) => {
   const [viewCategories, setViewCategories] = useState(false);
   const navigate = useNavigate();
 
@@ -70,6 +70,7 @@ const CatalogUrman = memo(({ data, search }) => {
                     onLoad={(e) =>
                       navigate("/product/" + e.id)
                     }
+                    affiliateId={affiliateId}
                   />
                 ))}
               </div>

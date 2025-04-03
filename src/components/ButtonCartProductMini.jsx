@@ -10,11 +10,10 @@ import { getProduct } from "../services/product";
 import CountInput from "./utils/CountInput";
 
 const ButtonCartProductMini = memo(
-  ({ product, isValid = true, onLoad, className, children }) => {
+  ({ product, isValid = true, onLoad, className, children, affiliateId }) => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const { t } = useTranslation();
-    const selectedAffiliate = useSelector((state) => state.affiliate.active);
     const options = useSelector((state) => state.settings.options);
     const [loading, setLoading] = useState(false);
     const isCartData = product?.id ? isCart(product) : false;
@@ -46,7 +45,7 @@ const ButtonCartProductMini = memo(
           setLoading(true);
           getProduct({
             id: product.id,
-            affiliateId: selectedAffiliate?.id ?? false,
+            affiliateId: affiliateId ?? false,
             required: true,
             multiBrand: options?.multiBrand,
             type: "site",
@@ -110,7 +109,7 @@ const ButtonCartProductMini = memo(
             .finally(() => setLoading(false));
         }
       },
-      [product, loading, options, selectedAffiliate, isCartData]
+      [product, loading, options, affiliateId, isCartData]
     );
 
     if (

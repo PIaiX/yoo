@@ -117,7 +117,13 @@ const CatalogHome = () => {
             image={() => <EmptyWork />}
           />
         )} */}
-        {catalog?.widgets?.length > 0 && <CatalogUrman data={catalog?.widgets?.find(e => e?.value == "menu")?.items} search={true} />}
+        {catalog?.widgets?.length > 0 &&
+          <CatalogUrman
+            data={catalog?.widgets?.find(e => e?.value == "menu")?.items}
+            search={true}
+            affiliateId={affiliateId}
+          />
+        }
         {options?.qrApp && isDesktop ? (
           <Container>
             <QrApp />
