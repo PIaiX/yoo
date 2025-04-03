@@ -35,7 +35,7 @@ const CartItem = memo(({ data }) => {
     data?.cart?.modifiers?.length > 0
       ? data.options.modifierPriceSum
         ? data.cart.modifiers.reduce((sum, item) => sum + item.price, 0) +
-          data.price
+        data.price
         : data.cart.modifiers.reduce((sum, item) => sum + item.price, 0)
       : data.price;
 
@@ -51,11 +51,11 @@ const CartItem = memo(({ data }) => {
 
   return (
     <div
-      className={"cart-item"}
+      className={"cart-item-urman"}
       key={
         data?.cart?.additions?.length > 0 ||
-        data?.cart?.modifiers?.length > 0 ||
-        data?.cart?.wishes?.length > 0
+          data?.cart?.modifiers?.length > 0 ||
+          data?.cart?.wishes?.length > 0
           ? keyGenerator(data)
           : data.id
       }
@@ -206,12 +206,12 @@ const CartItem = memo(({ data }) => {
             <div className="text-muted fs-07 fw-4">
               {customPrice(
                 price +
-                  (data?.cart?.additions?.length > 0
-                    ? data?.cart?.additions.reduce(
-                        (sum, item) => sum + item.price,
-                        0
-                      )
-                    : 0)
+                (data?.cart?.additions?.length > 0
+                  ? data?.cart?.additions.reduce(
+                    (sum, item) => sum + item.price,
+                    0
+                  )
+                  : 0)
               )}
             </div>
           )}
@@ -222,14 +222,14 @@ const CartItem = memo(({ data }) => {
               <div className="text-right">
                 {customPrice(
                   price * (data?.cart?.count ?? 0) -
-                    data.discount +
-                    (data?.cart?.additions?.length > 0
-                      ? data?.cart?.additions.reduce(
-                          (sum, item) => sum + item.price,
-                          0
-                        )
-                      : 0) *
-                      (data?.cart?.count ?? 0)
+                  data.discount +
+                  (data?.cart?.additions?.length > 0
+                    ? data?.cart?.additions.reduce(
+                      (sum, item) => sum + item.price,
+                      0
+                    )
+                    : 0) *
+                  (data?.cart?.count ?? 0)
                 )}
               </div>
               <div className="text-right">
@@ -238,11 +238,11 @@ const CartItem = memo(({ data }) => {
                     (price +
                       (data?.cart?.additions?.length > 0
                         ? data?.cart?.additions.reduce(
-                            (sum, item) => sum + item.price,
-                            0
-                          )
+                          (sum, item) => sum + item.price,
+                          0
+                        )
                         : 0)) *
-                      (data?.cart?.count ?? 1)
+                    (data?.cart?.count ?? 1)
                   )}
                 </s>
               </div>
@@ -252,11 +252,11 @@ const CartItem = memo(({ data }) => {
               (price +
                 (data?.cart?.additions?.length > 0
                   ? data?.cart?.additions.reduce(
-                      (sum, item) => sum + item.price,
-                      0
-                    )
+                    (sum, item) => sum + item.price,
+                    0
+                  )
                   : 0)) *
-                (data?.cart?.count ?? 1)
+              (data?.cart?.count ?? 1)
             )
           )}
         </div>

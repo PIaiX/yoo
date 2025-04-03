@@ -977,6 +977,21 @@ button {
   width: fit-content;
   border-radius: $radius * 1.5;
 
+  &-greenWhite {
+    @extend .btn;
+    color: $green;
+    background-color: white;
+    border-radius: $radius;
+
+    &:hover,
+    &:active,
+    &.active {
+      opacity: 0.7;
+      color: #fff;
+      background-color: $green;
+    }
+  }
+
   &-whiteBoard {
     @extend .btn;
     color: #fff;
@@ -1908,7 +1923,50 @@ select {
       }
     }
   }
+
+  &.urman {
+    margin-bottom: 2em;
+    color: $urman-very-dark-gray;
+    @include flex(row, flex-start, center, wrap);
+    font-size: 1.125em;
+
+    @media (max-width: $bp-lg) {
+      margin-top: 1.5em;
+    }
+
+    @media (max-width: $bp-sm) {
+      margin-top: 1em;
+      margin-bottom: 1.5em;
+    }
+
+    &-back {
+      @include flex();
+      margin-right: 1em;
+
+      svg {
+        font-size: 1.35em;
+        stroke-width: 1.25px;
+        margin-right: 0.25em;
+      }
+    }
+
+    &-breadcrumbs {
+      @include flex(row, flex-start, center, wrap);
+      @include list();
+
+      li {
+        &:not(:first-child) {
+          &::before {
+            content: "—";
+            margin: 0em 0.5em;
+          }
+        }
+      }
+    }
+  }
 }
+
+
 
 .progress {
   background-color: var(--bs-progress-bg-new) !important;
@@ -2202,13 +2260,16 @@ header {
   }
 
   .badge {
-    font-size: 10px;
-    background-color: var(--main-color);
+    font-size: 11px;
+
+    background-color: $urman-very-dark-green;
+
     color: #fff;
     width: 1.6em;
     height: 1.6em;
     @include flex();
-    top: 45px !important;
+    top: 70px !important;
+    right: -5px;
   }
 
   .btn-menu {
@@ -4480,6 +4541,15 @@ html.theme-font-title-amaticsc .filterGrid h4 {
     padding: 0.75em 1em;
     border-radius: $radius;
     margin-bottom: 0.5em;
+
+    &-urman {
+      color: $urman-dark-green;
+      @include flex();
+      background-color: $urman-very-light-green;
+      padding: 0.75em 1em;
+      border-radius: $radius * 0.5;
+      margin-bottom: 0.5em;
+    }
   }
 
   &-item {
@@ -4555,6 +4625,192 @@ html.theme-font-title-amaticsc .filterGrid h4 {
     .right {
       max-width: 240px;
       @include flex(row, space-between, flex-start, nowrap);
+
+      @media (max-width: $bp-md) {
+        margin-top: 1em;
+        align-items: center;
+      }
+
+      @media (max-width: $bp-sm) {
+        margin-top: 0.5em;
+        min-width: 100% !important;
+        flex: 1;
+      }
+
+      .btn-fav {
+        order: 3;
+      }
+    }
+
+    img {
+      width: 90px;
+      height: 90px;
+      object-fit: cover;
+      border-radius: $radius;
+      margin-right: 1em;
+    }
+
+    &-ingredients {
+      padding-top: 0.25em;
+      @include list();
+      font-size: 0.9em;
+
+      li {
+        &:not(:last-child) {
+          margin-bottom: 0.25em;
+        }
+
+        &::before {
+          content: "+";
+          font-weight: 600;
+          color: $green;
+          margin-right: 0.5em;
+        }
+      }
+    }
+
+    &-ingredients-minus {
+      padding-top: 0.25em;
+      @include list();
+      font-size: 0.9em;
+
+      li {
+        &:not(:last-child) {
+          margin-bottom: 0.25em;
+        }
+
+        &::before {
+          content: "-";
+          font-weight: 600;
+          color: $red;
+          margin-right: 0.5em;
+        }
+      }
+    }
+
+    &.mini-cart-item .left,
+    &.mini-cart-item {
+      img {
+        border-radius: 0.6em;
+        width: 45px !important;
+        height: 45px !important;
+      }
+
+      .text p.consist {
+        -webkit-line-clamp: 1 !important;
+        height: 1.2em !important;
+      }
+    }
+  }
+
+  &-item-urman {
+    user-select: none;
+    position: relative;
+    @include flex(row, space-between, flex-start, nowrap);
+    padding: 0.8em;
+    // border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+
+    @media (max-width: $bp-md) {
+      flex-wrap: wrap;
+    }
+
+    @media (max-width: $bp-sm) {
+      padding: 1em 0em;
+    }
+
+    .order-1 {
+      padding: 0.9em 0;
+    }
+
+    .left {
+      @include flex(row, flex-start, flex-start, nowrap);
+      width: 100%;
+
+      @media (max-width: $bp-xxl) {
+        width: 100%;
+      }
+
+      @media (max-width: $bp-md) {
+        width: 100%;
+      }
+
+      .text {
+        max-width: 80%;
+        flex: 1;
+
+        h6 {
+          font-size: 16px;
+          width: fit-content;
+          color: $urman-dark-green;
+
+          .tag {
+            float: right;
+            color: var(--main-color);
+            font-size: 0.75em;
+            border: 1px solid var(--main-color);
+            border-radius: $radius;
+            padding: 0.3em 0.6em;
+            transform: rotate(-3.5deg);
+            margin-left: 1em;
+
+            @media (max-width: $bp-sm) {
+              position: absolute;
+              top: 1em;
+              left: $radius * 1.5;
+            }
+          }
+        }
+
+        a {
+          color: $urman-dark-green;
+        }
+
+        p {
+          margin-bottom: 0.5em;
+          color: $urman-dark-gray;
+
+          &.consist {
+            @include clamp(2, 1.2em, true);
+            // @media (max-width: $bp-sm) {
+            //   display: none;
+            // }
+          }
+        }
+      }
+    }
+
+    .right {
+      max-width: 240px;
+      @include flex(row, space-between, flex-start, nowrap);
+      color: $urman-green;
+      font-size: 1.1em !important;
+      font-weight: bold;
+
+      svg {
+        color: $urman-green;
+        height: 1em !important;
+      }
+
+      .countInput button {
+        padding: .3em;
+        background-color: $urman-very-light-green;
+        border-radius: 1.25em;
+        height: 1.5em !important;
+        width: 1.5em !important;
+        border: none;
+        box-shadow: none;
+        transition: 200ms ease-in;
+
+        &:hover,
+        &:focus {
+          color: $urman-very-dark-green;
+        }
+
+        &:active {
+          color: $urman-very-dark-green;
+          background-color: $urman-green-1;
+        }
+      }
 
       @media (max-width: $bp-md) {
         margin-top: 1em;
@@ -4902,6 +5158,13 @@ ACCOUNT
     &-blue {
       background-color: var(--main-color-outline);
       border-radius: $radius * 0.5;
+    }
+
+    &-urman {
+      background-color: $urman-very-light-green;
+
+      border-radius: $radius * 0.5;
+
     }
   }
 
@@ -7392,11 +7655,11 @@ img.show {
 }
 
 .badge-main {
-  background-color: var(--main-color) !important;
+  background-color: $urman-very-dark-green !important;
 
   &-light {
-    background-color: var(--main-color-outline) !important;
-    color: var(--main-color);
+    background-color: $urman-very-light-green !important;
+    color: $urman-very-dark-green;
   }
 }
 

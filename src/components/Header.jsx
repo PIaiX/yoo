@@ -90,6 +90,7 @@ const Header = memo(() => {
   const [showCity, setShowCity] = useState(false);
   const [showBrand, setShowBrand] = useState(false);
   const [showAffiliat, setShowAffiliat] = useState(false);
+  const [showAffiliatBron, setShowAffiliatBron] = useState(false);
   const count = getCount(cart);
   const [list, setList] = useState([]);
   const navigate = useNavigate();
@@ -632,7 +633,7 @@ const Header = memo(() => {
 
               <ul className="text-menu">
                 <li>
-                  <button className="btn-whiteBoard">Бронь столов</button>
+                  <button className="btn-whiteBoard" onClick={() => setShowAffiliatBron(true)}>Бронь столов</button>
                 </li>
                 <li>
                   <button className="btn-whiteFill" onClick={() => setShowAffiliat(true)}>Доставка</button>
@@ -886,7 +887,7 @@ const Header = memo(() => {
                   >
                     <CartIcon size={25} />
                     {count > 0 && (
-                      <span className="position-absolute top-100 start-100 translate-middle badge rounded-pill">
+                      <span className="position-absolute top-100  translate-middle badge rounded-pill">
                         {count}
                       </span>
                     )}
@@ -1864,7 +1865,7 @@ const Header = memo(() => {
         >
           <ButtonClose onClick={() => setShowAffiliat(false)} />
           <Modal.Body className="p-4">
-            <h5 className="fw-7 mb-4">{t("Выберите Филиал")}</h5>
+            <h5 className="fw-7 mb-4">Выберите Филиал</h5>
             <div className="search-box-1">
               {affiliate?.length > 0 && (
                 <Row>
@@ -1876,6 +1877,92 @@ const Header = memo(() => {
                           dispatch(deleteCart());
                           setShowAffiliat(false);
                         }}
+                        className={
+                          "brand-item"
+                        }
+                      >
+                        <Row className="align-items-center">
+                          {e.media && (
+                            <Col xs="auto">
+                              <img
+                                src={getImageURL({
+                                  path: e.media,
+                                  type: "affiliate",
+                                  size: "full",
+                                })}
+                                alt={options?.title ?? "YOOAPP"}
+                                className="logo"
+                              />
+                            </Col>
+                          )}
+                          <Col>
+                            <div className="fw-7 mb-1">
+                              {e?.title ? e.title : e.full}
+                            </div>
+
+                            <div>
+                              {e.status === 0 ? (
+                                <span className="text-danger">
+                                  {t("Сейчас закрыто")}
+                                </span>
+                              ) : e?.options?.work &&
+                                e?.options?.work[moment().weekday()].start &&
+                                e?.options?.work[moment().weekday()].end ? (
+                                isWork(
+                                  e?.options?.work[moment().weekday()].start,
+                                  e?.options?.work[moment().weekday()].end
+                                ) ? (
+                                  <span className="text-muted">
+                                    {t("Работает c")}{" "}
+                                    {e?.options?.work[moment().weekday()].start}{" "}
+                                    {t("до")}{" "}
+                                    {e?.options?.work[moment().weekday()].end}
+                                  </span>
+                                ) : (
+                                  <span className="text-danger">
+                                    {t("Сейчас закрыто")}
+                                  </span>
+                                )
+                              ) : e?.desc ? (
+                                <span className="text-muted">{e.desc}</span>
+                              ) : null}
+                            </div>
+                          </Col>
+                        </Row>
+                      </a>
+                    </Col>
+                  ))}
+                </Row>
+              )}
+            </div>
+          </Modal.Body>
+        </Modal>
+      )}
+      {showAffiliatBron && (
+        <Modal
+          size="lg"
+          centered
+          key="modal-brand"
+          className="brand"
+          show={showAffiliatBron}
+          backdrop={city?.title ? true : "static"}
+          keyboard={!!city?.title}
+          onHide={() => setShowAffiliatBron(false)}
+        >
+          <ButtonClose onClick={() => setShowAffiliatBron(false)} />
+          <Modal.Body className="p-4">
+            <h5 className="fw-7 mb-4">Выберите Филиал для брони</h5>
+            <div className="search-box-1">
+              {affiliate?.length > 0 && (
+                <Row>
+                  {affiliate.map((e, index) => (
+                    <Col md={6} key={index} className="pb-3">
+                      <a
+                        // onClick={() => {
+                        //   navigate("/catalog/" + e.id)
+                        //   dispatch(deleteCart());
+                        //   setShowAffiliat(false);
+                        // }}
                         className={
                           "brand-item"
                         }

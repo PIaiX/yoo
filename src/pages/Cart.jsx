@@ -216,7 +216,7 @@ const Cart = () => {
     if (
       cart?.length > 0 &&
       Number(cart.find((e) => e.type == "gift")?.options?.minCart) >
-        totalNoDelivery
+      totalNoDelivery
     ) {
       NotificationManager.error("Условия для подарка не выполнены");
 
@@ -336,17 +336,17 @@ const Cart = () => {
             options?.seo?.cart?.title
               ? options.seo.cart.title
               : selectedAffiliate?.title
-              ? selectedAffiliate?.title + " - Корзина"
-              : options?.title
-              ? options.title + " - Корзина"
-              : t("Корзина")
+                ? selectedAffiliate?.title + " - Корзина"
+                : options?.title
+                  ? options.title + " - Корзина"
+                  : t("Корзина")
           }
           description={
             options?.seo?.cart?.description
               ? options.seo.cart.description
               : t(
-                  "Оформить заказ легко и удобно. Просмотрите свою корзину, добавьте или удалите блюда, и сделайте заказ в несколько кликов."
-                )
+                "Оформить заказ легко и удобно. Просмотрите свою корзину, добавьте или удалите блюда, и сделайте заказ в несколько кликов."
+              )
           }
         />
         <Empty
@@ -374,23 +374,24 @@ const Cart = () => {
           options?.seo?.cart?.title
             ? options.seo.cart.title
             : selectedAffiliate?.title
-            ? selectedAffiliate?.title + " - Корзина"
-            : options?.title
-            ? options.title + " - Корзина"
-            : t("Корзина")
+              ? selectedAffiliate?.title + " - Корзина"
+              : options?.title
+                ? options.title + " - Корзина"
+                : t("Корзина")
         }
         description={
           options?.seo?.cart?.description
             ? options.seo.cart.description
             : t(
-                "Оформить заказ легко и удобно. Просмотрите свою корзину, добавьте или удалите блюда, и сделайте заказ в несколько кликов."
-              )
+              "Оформить заказ легко и удобно. Просмотрите свою корзину, добавьте или удалите блюда, и сделайте заказ в несколько кликов."
+            )
         }
       />
       <Container>
         <NavTop
-          toBack={true}
+          toBack={false}
           home={false}
+          className="urman"
           breadcrumbs={[
             {
               title: t("Корзина"),
@@ -408,7 +409,7 @@ const Cart = () => {
         <div className="cart">
           <Row className="g-4 g-xxl-5">
             <Col xs={12} lg={8}>
-              <div className="cart-filter d-flex justify-content-between align-items-center">
+              <div className="cart-filter-urman d-flex justify-content-between align-items-center">
                 {/* <label>
                   <input type="checkbox" />
                   <span className="fs-11 ms-2">
@@ -435,7 +436,7 @@ const Cart = () => {
                 <button
                   draggable={false}
                   type="button"
-                  className="btn-9 py-1 ms-4 ms-sm-5"
+                  className="btn-greenWhite py-1 ms-4 ms-sm-5"
                   onClick={() => setShowReset(true)}
                 >
                   {t("Очистить")}
@@ -452,7 +453,7 @@ const Cart = () => {
               )}
             </Col>
             <Col xs={12} lg={4}>
-              <div className="position-sticky top-h">
+              <div className="position-sticky top-h urman-dark-green fw-6">
                 {(options?.giftVisible ||
                   promo?.type === "birthday_list_gift") &&
                   !isGift && (
@@ -477,7 +478,7 @@ const Cart = () => {
                         disabled={!isValid || form?.loading}
                         onClick={handleSubmit(onPromo)}
                         className={
-                          "btn-10 w-100" + (form?.loading ? " loading" : "")
+                          "btn-greenBoard w-100" + (form?.loading ? " loading" : "")
                         }
                       >
                         {t("Применить")}
@@ -500,14 +501,14 @@ const Cart = () => {
                     </div>
                     <span className="d-flex align-items-center">
                       {promo?.options?.discount &&
-                      Number(promo.options?.discount) > 0 ? (
+                        Number(promo.options?.discount) > 0 ? (
                         <span className="text-success">
                           -{" "}
                           {Number.isInteger(Number(promo.options?.discount)) > 0
                             ? customPrice(promo.options.discount)
                             : promo.options?.discount > 0
-                            ? promo.options.discount
-                            : ""}
+                              ? promo.options.discount
+                              : ""}
                         </span>
                       ) : (
                         ""

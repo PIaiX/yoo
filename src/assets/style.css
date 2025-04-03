@@ -765,7 +765,7 @@ button {
   color: inherit;
 }
 
-.btn, .btn-red, .btn-orange, .btn-99, .btn-90, .btn-9, .btn-8, .btn-light, .btn-deepgreen, .btn-green, .btn-40, .btn-40-light, .btn-4, .btn-white, .btn-30, .btn-secondary, .btn-2, .btn-10, .btn-primary, .btn-greenFill, .btn-greenBoard, .btn-whiteFill, .btn-whiteBoard {
+.btn, .btn-red, .btn-orange, .btn-99, .btn-90, .btn-9, .btn-8, .btn-light, .btn-deepgreen, .btn-green, .btn-40, .btn-40-light, .btn-4, .btn-white, .btn-30, .btn-secondary, .btn-2, .btn-10, .btn-primary, .btn-greenFill, .btn-greenBoard, .btn-whiteFill, .btn-whiteBoard, .btn-greenWhite {
   -webkit-user-select: none;
      -moz-user-select: none;
           user-select: none;
@@ -789,6 +789,16 @@ button {
   /* orange */
   /* red */
 }
+.btn-greenWhite {
+  color: #7EAA94;
+  background-color: white;
+  border-radius: 1.25em;
+}
+.btn-greenWhite:hover, .btn-greenWhite:active, .btn-greenWhite.active {
+  opacity: 0.7;
+  color: #fff;
+  background-color: #7EAA94;
+}
 .btn-whiteBoard {
   color: #fff;
   border: 2px solid #fff;
@@ -804,7 +814,7 @@ button {
   background-color: #fff;
   border: 2px solid #fff;
 }
-.btn-whiteFill:hover, .btn-whiteFill:active, .btn-whiteFill.active, .btn-whiteFill:not(.btn-check) + .btn:active, .btn-whiteFill:not(.btn-check) + .btn-red:active, .btn-whiteFill:not(.btn-check) + .btn-orange:active, .btn-whiteFill:not(.btn-check) + .btn-99:active, .btn-whiteFill:not(.btn-check) + .btn-90:active, .btn-whiteFill:not(.btn-check) + .btn-9:active, .btn-whiteFill:not(.btn-check) + .btn-8:active, .btn-whiteFill:not(.btn-check) + .btn-light:active, .btn-whiteFill:not(.btn-check) + .btn-deepgreen:active, .btn-whiteFill:not(.btn-check) + .btn-green:active, .btn-whiteFill:not(.btn-check) + .btn-40:active, .btn-whiteFill:not(.btn-check) + .btn-40-light:active, .btn-whiteFill:not(.btn-check) + .btn-4:active, .btn-whiteFill:not(.btn-check) + .btn-white:active, .btn-whiteFill:not(.btn-check) + .btn-30:active, .btn-whiteFill:not(.btn-check) + .btn-secondary:active, .btn-whiteFill:not(.btn-check) + .btn-2:active, .btn-whiteFill:not(.btn-check) + .btn-10:active, .btn-whiteFill:not(.btn-check) + .btn-primary:active, .btn-whiteFill:not(.btn-check) + .btn-greenFill:active, .btn-whiteFill:not(.btn-check) + .btn-greenBoard:active, .btn-whiteFill:not(.btn-check) + .btn-whiteBoard:active {
+.btn-whiteFill:hover, .btn-whiteFill:active, .btn-whiteFill.active, .btn-whiteFill:not(.btn-check) + .btn:active, .btn-whiteFill:not(.btn-check) + .btn-red:active, .btn-whiteFill:not(.btn-check) + .btn-orange:active, .btn-whiteFill:not(.btn-check) + .btn-99:active, .btn-whiteFill:not(.btn-check) + .btn-90:active, .btn-whiteFill:not(.btn-check) + .btn-9:active, .btn-whiteFill:not(.btn-check) + .btn-8:active, .btn-whiteFill:not(.btn-check) + .btn-light:active, .btn-whiteFill:not(.btn-check) + .btn-deepgreen:active, .btn-whiteFill:not(.btn-check) + .btn-green:active, .btn-whiteFill:not(.btn-check) + .btn-40:active, .btn-whiteFill:not(.btn-check) + .btn-40-light:active, .btn-whiteFill:not(.btn-check) + .btn-4:active, .btn-whiteFill:not(.btn-check) + .btn-white:active, .btn-whiteFill:not(.btn-check) + .btn-30:active, .btn-whiteFill:not(.btn-check) + .btn-secondary:active, .btn-whiteFill:not(.btn-check) + .btn-2:active, .btn-whiteFill:not(.btn-check) + .btn-10:active, .btn-whiteFill:not(.btn-check) + .btn-primary:active, .btn-whiteFill:not(.btn-check) + .btn-greenFill:active, .btn-whiteFill:not(.btn-check) + .btn-greenBoard:active, .btn-whiteFill:not(.btn-check) + .btn-greenWhite:active, .btn-whiteFill:not(.btn-check) + .btn-whiteBoard:active {
   opacity: 0.7;
   color: #fff;
   background-color: #7EAA94;
@@ -847,7 +857,7 @@ button {
   background-color: var(--bg-main);
   border: 1px solid var(--main-color);
 }
-.btn-10:hover, .btn-10:focus, .btn-10:active, .btn-10.active, .btn-10:not(.btn-check) + .btn:active, .btn-10:not(.btn-check) + .btn-red:active, .btn-10:not(.btn-check) + .btn-orange:active, .btn-10:not(.btn-check) + .btn-99:active, .btn-10:not(.btn-check) + .btn-90:active, .btn-10:not(.btn-check) + .btn-9:active, .btn-10:not(.btn-check) + .btn-8:active, .btn-10:not(.btn-check) + .btn-light:active, .btn-10:not(.btn-check) + .btn-deepgreen:active, .btn-10:not(.btn-check) + .btn-green:active, .btn-10:not(.btn-check) + .btn-40:active, .btn-10:not(.btn-check) + .btn-40-light:active, .btn-10:not(.btn-check) + .btn-4:active, .btn-10:not(.btn-check) + .btn-white:active, .btn-10:not(.btn-check) + .btn-30:active, .btn-10:not(.btn-check) + .btn-secondary:active, .btn-10:not(.btn-check) + .btn-2:active, .btn-10:not(.btn-check) + .btn-whiteBoard:active, .btn-10:not(.btn-check) + .btn-whiteFill:active, .btn-10:not(.btn-check) + .btn-greenBoard:active, .btn-10:not(.btn-check) + .btn-greenFill:active, .btn-10:not(.btn-check) + .btn-primary:active {
+.btn-10:hover, .btn-10:focus, .btn-10:active, .btn-10.active, .btn-10:not(.btn-check) + .btn:active, .btn-10:not(.btn-check) + .btn-red:active, .btn-10:not(.btn-check) + .btn-orange:active, .btn-10:not(.btn-check) + .btn-99:active, .btn-10:not(.btn-check) + .btn-90:active, .btn-10:not(.btn-check) + .btn-9:active, .btn-10:not(.btn-check) + .btn-8:active, .btn-10:not(.btn-check) + .btn-light:active, .btn-10:not(.btn-check) + .btn-deepgreen:active, .btn-10:not(.btn-check) + .btn-green:active, .btn-10:not(.btn-check) + .btn-40:active, .btn-10:not(.btn-check) + .btn-40-light:active, .btn-10:not(.btn-check) + .btn-4:active, .btn-10:not(.btn-check) + .btn-white:active, .btn-10:not(.btn-check) + .btn-30:active, .btn-10:not(.btn-check) + .btn-secondary:active, .btn-10:not(.btn-check) + .btn-2:active, .btn-10:not(.btn-check) + .btn-greenWhite:active, .btn-10:not(.btn-check) + .btn-whiteBoard:active, .btn-10:not(.btn-check) + .btn-whiteFill:active, .btn-10:not(.btn-check) + .btn-greenBoard:active, .btn-10:not(.btn-check) + .btn-greenFill:active, .btn-10:not(.btn-check) + .btn-primary:active {
   color: #fff !important;
   background-color: var(--main-color) !important;
 }
@@ -855,7 +865,7 @@ button {
   color: #fff;
   background-color: #e01e00;
 }
-.btn-2:hover, .btn-2:focus, .btn-2:active, .btn-2.active, .btn-2:not(.btn-check) + .btn:active, .btn-2:not(.btn-check) + .btn-red:active, .btn-2:not(.btn-check) + .btn-orange:active, .btn-2:not(.btn-check) + .btn-99:active, .btn-2:not(.btn-check) + .btn-90:active, .btn-2:not(.btn-check) + .btn-9:active, .btn-2:not(.btn-check) + .btn-8:active, .btn-2:not(.btn-check) + .btn-light:active, .btn-2:not(.btn-check) + .btn-deepgreen:active, .btn-2:not(.btn-check) + .btn-green:active, .btn-2:not(.btn-check) + .btn-40:active, .btn-2:not(.btn-check) + .btn-40-light:active, .btn-2:not(.btn-check) + .btn-4:active, .btn-2:not(.btn-check) + .btn-white:active, .btn-2:not(.btn-check) + .btn-30:active, .btn-2:not(.btn-check) + .btn-secondary:active, .btn-2:not(.btn-check) + .btn-whiteBoard:active, .btn-2:not(.btn-check) + .btn-whiteFill:active, .btn-2:not(.btn-check) + .btn-greenBoard:active, .btn-2:not(.btn-check) + .btn-greenFill:active, .btn-2:not(.btn-check) + .btn-primary:active, .btn-2:not(.btn-check) + .btn-10:active {
+.btn-2:hover, .btn-2:focus, .btn-2:active, .btn-2.active, .btn-2:not(.btn-check) + .btn:active, .btn-2:not(.btn-check) + .btn-red:active, .btn-2:not(.btn-check) + .btn-orange:active, .btn-2:not(.btn-check) + .btn-99:active, .btn-2:not(.btn-check) + .btn-90:active, .btn-2:not(.btn-check) + .btn-9:active, .btn-2:not(.btn-check) + .btn-8:active, .btn-2:not(.btn-check) + .btn-light:active, .btn-2:not(.btn-check) + .btn-deepgreen:active, .btn-2:not(.btn-check) + .btn-green:active, .btn-2:not(.btn-check) + .btn-40:active, .btn-2:not(.btn-check) + .btn-40-light:active, .btn-2:not(.btn-check) + .btn-4:active, .btn-2:not(.btn-check) + .btn-white:active, .btn-2:not(.btn-check) + .btn-30:active, .btn-2:not(.btn-check) + .btn-secondary:active, .btn-2:not(.btn-check) + .btn-greenWhite:active, .btn-2:not(.btn-check) + .btn-whiteBoard:active, .btn-2:not(.btn-check) + .btn-whiteFill:active, .btn-2:not(.btn-check) + .btn-greenBoard:active, .btn-2:not(.btn-check) + .btn-greenFill:active, .btn-2:not(.btn-check) + .btn-primary:active, .btn-2:not(.btn-check) + .btn-10:active {
   color: #fff;
   background-color: #c71b00;
 }
@@ -865,7 +875,7 @@ button {
   border: 1px solid var(--main-color);
   font-weight: 600;
 }
-.btn-secondary:hover, .btn-secondary:focus, .btn-secondary:active, .btn-secondary.active, .btn-secondary:not(.btn-check) + .btn:active, .btn-secondary:not(.btn-check) + .btn-red:active, .btn-secondary:not(.btn-check) + .btn-orange:active, .btn-secondary:not(.btn-check) + .btn-99:active, .btn-secondary:not(.btn-check) + .btn-90:active, .btn-secondary:not(.btn-check) + .btn-9:active, .btn-secondary:not(.btn-check) + .btn-8:active, .btn-secondary:not(.btn-check) + .btn-light:active, .btn-secondary:not(.btn-check) + .btn-deepgreen:active, .btn-secondary:not(.btn-check) + .btn-green:active, .btn-secondary:not(.btn-check) + .btn-40:active, .btn-secondary:not(.btn-check) + .btn-40-light:active, .btn-secondary:not(.btn-check) + .btn-4:active, .btn-secondary:not(.btn-check) + .btn-white:active, .btn-secondary:not(.btn-check) + .btn-30:active, .btn-secondary:not(.btn-check) + .btn-whiteBoard:active, .btn-secondary:not(.btn-check) + .btn-whiteFill:active, .btn-secondary:not(.btn-check) + .btn-greenBoard:active, .btn-secondary:not(.btn-check) + .btn-greenFill:active, .btn-secondary:not(.btn-check) + .btn-primary:active, .btn-secondary:not(.btn-check) + .btn-10:active, .btn-secondary:not(.btn-check) + .btn-2:active {
+.btn-secondary:hover, .btn-secondary:focus, .btn-secondary:active, .btn-secondary.active, .btn-secondary:not(.btn-check) + .btn:active, .btn-secondary:not(.btn-check) + .btn-red:active, .btn-secondary:not(.btn-check) + .btn-orange:active, .btn-secondary:not(.btn-check) + .btn-99:active, .btn-secondary:not(.btn-check) + .btn-90:active, .btn-secondary:not(.btn-check) + .btn-9:active, .btn-secondary:not(.btn-check) + .btn-8:active, .btn-secondary:not(.btn-check) + .btn-light:active, .btn-secondary:not(.btn-check) + .btn-deepgreen:active, .btn-secondary:not(.btn-check) + .btn-green:active, .btn-secondary:not(.btn-check) + .btn-40:active, .btn-secondary:not(.btn-check) + .btn-40-light:active, .btn-secondary:not(.btn-check) + .btn-4:active, .btn-secondary:not(.btn-check) + .btn-white:active, .btn-secondary:not(.btn-check) + .btn-30:active, .btn-secondary:not(.btn-check) + .btn-greenWhite:active, .btn-secondary:not(.btn-check) + .btn-whiteBoard:active, .btn-secondary:not(.btn-check) + .btn-whiteFill:active, .btn-secondary:not(.btn-check) + .btn-greenBoard:active, .btn-secondary:not(.btn-check) + .btn-greenFill:active, .btn-secondary:not(.btn-check) + .btn-primary:active, .btn-secondary:not(.btn-check) + .btn-10:active, .btn-secondary:not(.btn-check) + .btn-2:active {
   color: #fff;
   background-color: var(--main-color-outline);
 }
@@ -1020,7 +1030,7 @@ button {
   background-color: #e01e00;
   border: 1px solid #e01e00;
 }
-.btn[disabled], [disabled].btn-whiteBoard, [disabled].btn-whiteFill, [disabled].btn-greenBoard, [disabled].btn-greenFill, [disabled].btn-primary, [disabled].btn-10, [disabled].btn-2, [disabled].btn-secondary, [disabled].btn-30, [disabled].btn-4, [disabled].btn-white, [disabled].btn-40-light, [disabled].btn-40, [disabled].btn-green, [disabled].btn-deepgreen, [disabled].btn-light, [disabled].btn-8, [disabled].btn-9, [disabled].btn-90, [disabled].btn-99, [disabled].btn-orange, [disabled].btn-red, .btn-disabled {
+.btn[disabled], [disabled].btn-greenWhite, [disabled].btn-whiteBoard, [disabled].btn-whiteFill, [disabled].btn-greenBoard, [disabled].btn-greenFill, [disabled].btn-primary, [disabled].btn-10, [disabled].btn-2, [disabled].btn-secondary, [disabled].btn-30, [disabled].btn-4, [disabled].btn-white, [disabled].btn-40-light, [disabled].btn-40, [disabled].btn-green, [disabled].btn-deepgreen, [disabled].btn-light, [disabled].btn-8, [disabled].btn-9, [disabled].btn-90, [disabled].btn-99, [disabled].btn-orange, [disabled].btn-red, .btn-disabled {
   background-color: var(--bg-btn);
   border: 1px solid var(--bg-btn);
   color: var(--bs-secondary-color);
@@ -1057,14 +1067,14 @@ button {
   stroke: var(--main-color);
   fill: var(--main-color);
 }
-.btn.loading, .loading.btn-whiteBoard, .loading.btn-whiteFill, .loading.btn-greenBoard, .loading.btn-greenFill, .loading.btn-primary, .loading.btn-10, .loading.btn-2, .loading.btn-secondary, .loading.btn-30, .loading.btn-4, .loading.btn-white, .loading.btn-40-light, .loading.btn-40, .loading.btn-green, .loading.btn-deepgreen, .loading.btn-light, .loading.btn-8, .loading.btn-9, .loading.btn-90, .loading.btn-99, .loading.btn-orange, .loading.btn-red {
+.btn.loading, .loading.btn-greenWhite, .loading.btn-whiteBoard, .loading.btn-whiteFill, .loading.btn-greenBoard, .loading.btn-greenFill, .loading.btn-primary, .loading.btn-10, .loading.btn-2, .loading.btn-secondary, .loading.btn-30, .loading.btn-4, .loading.btn-white, .loading.btn-40-light, .loading.btn-40, .loading.btn-green, .loading.btn-deepgreen, .loading.btn-light, .loading.btn-8, .loading.btn-9, .loading.btn-90, .loading.btn-99, .loading.btn-orange, .loading.btn-red {
   position: relative;
   color: transparent !important;
 }
-.btn.loading > *, .loading.btn-whiteBoard > *, .loading.btn-whiteFill > *, .loading.btn-greenBoard > *, .loading.btn-greenFill > *, .loading.btn-primary > *, .loading.btn-10 > *, .loading.btn-2 > *, .loading.btn-secondary > *, .loading.btn-30 > *, .loading.btn-4 > *, .loading.btn-white > *, .loading.btn-40-light > *, .loading.btn-40 > *, .loading.btn-green > *, .loading.btn-deepgreen > *, .loading.btn-light > *, .loading.btn-8 > *, .loading.btn-9 > *, .loading.btn-90 > *, .loading.btn-99 > *, .loading.btn-orange > *, .loading.btn-red > * {
+.btn.loading > *, .loading.btn-greenWhite > *, .loading.btn-whiteBoard > *, .loading.btn-whiteFill > *, .loading.btn-greenBoard > *, .loading.btn-greenFill > *, .loading.btn-primary > *, .loading.btn-10 > *, .loading.btn-2 > *, .loading.btn-secondary > *, .loading.btn-30 > *, .loading.btn-4 > *, .loading.btn-white > *, .loading.btn-40-light > *, .loading.btn-40 > *, .loading.btn-green > *, .loading.btn-deepgreen > *, .loading.btn-light > *, .loading.btn-8 > *, .loading.btn-9 > *, .loading.btn-90 > *, .loading.btn-99 > *, .loading.btn-orange > *, .loading.btn-red > * {
   opacity: 0;
 }
-.btn.loading::after, .loading.btn-whiteBoard::after, .loading.btn-whiteFill::after, .loading.btn-greenBoard::after, .loading.btn-greenFill::after, .loading.btn-primary::after, .loading.btn-10::after, .loading.btn-2::after, .loading.btn-secondary::after, .loading.btn-30::after, .loading.btn-4::after, .loading.btn-white::after, .loading.btn-40-light::after, .loading.btn-40::after, .loading.btn-green::after, .loading.btn-deepgreen::after, .loading.btn-light::after, .loading.btn-8::after, .loading.btn-9::after, .loading.btn-90::after, .loading.btn-99::after, .loading.btn-orange::after, .loading.btn-red::after {
+.btn.loading::after, .loading.btn-greenWhite::after, .loading.btn-whiteBoard::after, .loading.btn-whiteFill::after, .loading.btn-greenBoard::after, .loading.btn-greenFill::after, .loading.btn-primary::after, .loading.btn-10::after, .loading.btn-2::after, .loading.btn-secondary::after, .loading.btn-30::after, .loading.btn-4::after, .loading.btn-white::after, .loading.btn-40-light::after, .loading.btn-40::after, .loading.btn-green::after, .loading.btn-deepgreen::after, .loading.btn-light::after, .loading.btn-8::after, .loading.btn-9::after, .loading.btn-90::after, .loading.btn-99::after, .loading.btn-orange::after, .loading.btn-red::after {
   content: "";
   position: absolute;
   z-index: 1;
@@ -1087,20 +1097,20 @@ button {
   background-color: transparent !important;
   border-color: transparent !important;
 }
-.btn-group > :not(.btn-check:first-child) + .btn, .btn-group > :not(.btn-check:first-child) + .btn-whiteBoard, .btn-group > :not(.btn-check:first-child) + .btn-whiteFill, .btn-group > :not(.btn-check:first-child) + .btn-greenBoard, .btn-group > :not(.btn-check:first-child) + .btn-greenFill, .btn-group > :not(.btn-check:first-child) + .btn-10, .btn-group > :not(.btn-check:first-child) + .btn-2, .btn-group > :not(.btn-check:first-child) + .btn-secondary, .btn-group > :not(.btn-check:first-child) + .btn-30, .btn-group > :not(.btn-check:first-child) + .btn-4, .btn-group > :not(.btn-check:first-child) + .btn-white, .btn-group > :not(.btn-check:first-child) + .btn-40-light, .btn-group > :not(.btn-check:first-child) + .btn-40, .btn-group > :not(.btn-check:first-child) + .btn-green, .btn-group > :not(.btn-check:first-child) + .btn-deepgreen, .btn-group > :not(.btn-check:first-child) + .btn-light, .btn-group > :not(.btn-check:first-child) + .btn-8, .btn-group > :not(.btn-check:first-child) + .btn-9, .btn-group > :not(.btn-check:first-child) + .btn-90, .btn-group > :not(.btn-check:first-child) + .btn-99, .btn-group > :not(.btn-check:first-child) + .btn-orange, .btn-group > :not(.btn-check:first-child) + .btn-red, .btn-group > :not(.btn-check:first-child) + .btn-primary {
+.btn-group > :not(.btn-check:first-child) + .btn, .btn-group > :not(.btn-check:first-child) + .btn-greenWhite, .btn-group > :not(.btn-check:first-child) + .btn-whiteBoard, .btn-group > :not(.btn-check:first-child) + .btn-whiteFill, .btn-group > :not(.btn-check:first-child) + .btn-greenBoard, .btn-group > :not(.btn-check:first-child) + .btn-greenFill, .btn-group > :not(.btn-check:first-child) + .btn-10, .btn-group > :not(.btn-check:first-child) + .btn-2, .btn-group > :not(.btn-check:first-child) + .btn-secondary, .btn-group > :not(.btn-check:first-child) + .btn-30, .btn-group > :not(.btn-check:first-child) + .btn-4, .btn-group > :not(.btn-check:first-child) + .btn-white, .btn-group > :not(.btn-check:first-child) + .btn-40-light, .btn-group > :not(.btn-check:first-child) + .btn-40, .btn-group > :not(.btn-check:first-child) + .btn-green, .btn-group > :not(.btn-check:first-child) + .btn-deepgreen, .btn-group > :not(.btn-check:first-child) + .btn-light, .btn-group > :not(.btn-check:first-child) + .btn-8, .btn-group > :not(.btn-check:first-child) + .btn-9, .btn-group > :not(.btn-check:first-child) + .btn-90, .btn-group > :not(.btn-check:first-child) + .btn-99, .btn-group > :not(.btn-check:first-child) + .btn-orange, .btn-group > :not(.btn-check:first-child) + .btn-red, .btn-group > :not(.btn-check:first-child) + .btn-primary {
   border-radius: 50px;
   background-color: transparent;
   border-color: transparent;
 }
-.btn-group-sm .btn, .btn-group-sm .btn-whiteBoard, .btn-group-sm .btn-whiteFill, .btn-group-sm .btn-greenBoard, .btn-group-sm .btn-greenFill, .btn-group-sm .btn-primary, .btn-group-sm .btn-10, .btn-group-sm .btn-2, .btn-group-sm .btn-secondary, .btn-group-sm .btn-30, .btn-group-sm .btn-4, .btn-group-sm .btn-white, .btn-group-sm .btn-40-light, .btn-group-sm .btn-40, .btn-group-sm .btn-green, .btn-group-sm .btn-deepgreen, .btn-group-sm .btn-light, .btn-group-sm .btn-8, .btn-group-sm .btn-9, .btn-group-sm .btn-90, .btn-group-sm .btn-99, .btn-group-sm .btn-orange, .btn-group-sm .btn-red {
+.btn-group-sm .btn, .btn-group-sm .btn-greenWhite, .btn-group-sm .btn-whiteBoard, .btn-group-sm .btn-whiteFill, .btn-group-sm .btn-greenBoard, .btn-group-sm .btn-greenFill, .btn-group-sm .btn-primary, .btn-group-sm .btn-10, .btn-group-sm .btn-2, .btn-group-sm .btn-secondary, .btn-group-sm .btn-30, .btn-group-sm .btn-4, .btn-group-sm .btn-white, .btn-group-sm .btn-40-light, .btn-group-sm .btn-40, .btn-group-sm .btn-green, .btn-group-sm .btn-deepgreen, .btn-group-sm .btn-light, .btn-group-sm .btn-8, .btn-group-sm .btn-9, .btn-group-sm .btn-90, .btn-group-sm .btn-99, .btn-group-sm .btn-orange, .btn-group-sm .btn-red {
   min-height: 35px !important;
 }
-.btn-group > .btn:not(:last-child):not(.dropdown-toggle), .btn-group > .btn-whiteBoard:not(:last-child):not(.dropdown-toggle), .btn-group > .btn-whiteFill:not(:last-child):not(.dropdown-toggle), .btn-group > .btn-greenBoard:not(:last-child):not(.dropdown-toggle), .btn-group > .btn-greenFill:not(:last-child):not(.dropdown-toggle), .btn-group > .btn-10:not(:last-child):not(.dropdown-toggle), .btn-group > .btn-2:not(:last-child):not(.dropdown-toggle), .btn-group > .btn-secondary:not(:last-child):not(.dropdown-toggle), .btn-group > .btn-30:not(:last-child):not(.dropdown-toggle), .btn-group > .btn-4:not(:last-child):not(.dropdown-toggle), .btn-group > .btn-white:not(:last-child):not(.dropdown-toggle), .btn-group > .btn-40-light:not(:last-child):not(.dropdown-toggle), .btn-group > .btn-40:not(:last-child):not(.dropdown-toggle), .btn-group > .btn-green:not(:last-child):not(.dropdown-toggle), .btn-group > .btn-deepgreen:not(:last-child):not(.dropdown-toggle), .btn-group > .btn-light:not(:last-child):not(.dropdown-toggle), .btn-group > .btn-8:not(:last-child):not(.dropdown-toggle), .btn-group > .btn-9:not(:last-child):not(.dropdown-toggle), .btn-group > .btn-90:not(:last-child):not(.dropdown-toggle), .btn-group > .btn-99:not(:last-child):not(.dropdown-toggle), .btn-group > .btn-orange:not(:last-child):not(.dropdown-toggle), .btn-group > .btn-red:not(:last-child):not(.dropdown-toggle), .btn-group > .btn-primary:not(:last-child):not(.dropdown-toggle), .btn-group > .btn:not(:last-child):not(.dropdown-toggle):hover, .btn-group > .btn-primary:not(:last-child):not(.dropdown-toggle):hover {
+.btn-group > .btn:not(:last-child):not(.dropdown-toggle), .btn-group > .btn-greenWhite:not(:last-child):not(.dropdown-toggle), .btn-group > .btn-whiteBoard:not(:last-child):not(.dropdown-toggle), .btn-group > .btn-whiteFill:not(:last-child):not(.dropdown-toggle), .btn-group > .btn-greenBoard:not(:last-child):not(.dropdown-toggle), .btn-group > .btn-greenFill:not(:last-child):not(.dropdown-toggle), .btn-group > .btn-10:not(:last-child):not(.dropdown-toggle), .btn-group > .btn-2:not(:last-child):not(.dropdown-toggle), .btn-group > .btn-secondary:not(:last-child):not(.dropdown-toggle), .btn-group > .btn-30:not(:last-child):not(.dropdown-toggle), .btn-group > .btn-4:not(:last-child):not(.dropdown-toggle), .btn-group > .btn-white:not(:last-child):not(.dropdown-toggle), .btn-group > .btn-40-light:not(:last-child):not(.dropdown-toggle), .btn-group > .btn-40:not(:last-child):not(.dropdown-toggle), .btn-group > .btn-green:not(:last-child):not(.dropdown-toggle), .btn-group > .btn-deepgreen:not(:last-child):not(.dropdown-toggle), .btn-group > .btn-light:not(:last-child):not(.dropdown-toggle), .btn-group > .btn-8:not(:last-child):not(.dropdown-toggle), .btn-group > .btn-9:not(:last-child):not(.dropdown-toggle), .btn-group > .btn-90:not(:last-child):not(.dropdown-toggle), .btn-group > .btn-99:not(:last-child):not(.dropdown-toggle), .btn-group > .btn-orange:not(:last-child):not(.dropdown-toggle), .btn-group > .btn-red:not(:last-child):not(.dropdown-toggle), .btn-group > .btn-primary:not(:last-child):not(.dropdown-toggle), .btn-group > .btn:not(:last-child):not(.dropdown-toggle):hover, .btn-group > .btn-primary:not(:last-child):not(.dropdown-toggle):hover {
   border-radius: 50px;
   background-color: transparent;
   border-color: transparent;
 }
-.btn-check:checked + .btn, .btn-check:checked + .btn-whiteBoard, .btn-check:checked + .btn-whiteFill, .btn-check:checked + .btn-greenBoard, .btn-check:checked + .btn-greenFill, .btn-check:checked + .btn-10, .btn-check:checked + .btn-2, .btn-check:checked + .btn-secondary, .btn-check:checked + .btn-30, .btn-check:checked + .btn-4, .btn-check:checked + .btn-white, .btn-check:checked + .btn-40-light, .btn-check:checked + .btn-40, .btn-check:checked + .btn-green, .btn-check:checked + .btn-deepgreen, .btn-check:checked + .btn-light, .btn-check:checked + .btn-8, .btn-check:checked + .btn-9, .btn-check:checked + .btn-90, .btn-check:checked + .btn-99, .btn-check:checked + .btn-orange, .btn-check:checked + .btn-red, .btn-check:checked + .btn-primary {
+.btn-check:checked + .btn, .btn-check:checked + .btn-greenWhite, .btn-check:checked + .btn-whiteBoard, .btn-check:checked + .btn-whiteFill, .btn-check:checked + .btn-greenBoard, .btn-check:checked + .btn-greenFill, .btn-check:checked + .btn-10, .btn-check:checked + .btn-2, .btn-check:checked + .btn-secondary, .btn-check:checked + .btn-30, .btn-check:checked + .btn-4, .btn-check:checked + .btn-white, .btn-check:checked + .btn-40-light, .btn-check:checked + .btn-40, .btn-check:checked + .btn-green, .btn-check:checked + .btn-deepgreen, .btn-check:checked + .btn-light, .btn-check:checked + .btn-8, .btn-check:checked + .btn-9, .btn-check:checked + .btn-90, .btn-check:checked + .btn-99, .btn-check:checked + .btn-orange, .btn-check:checked + .btn-red, .btn-check:checked + .btn-primary {
   background-color: var(--main-color-btn) !important;
   border: 1px solid var(--main-color-btn) !important;
   color: #fff !important;
@@ -1567,6 +1577,53 @@ select {
   content: "—";
   margin: 0em 0.5em;
 }
+.navTop.urman {
+  margin-bottom: 2em;
+  color: #535753;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  flex-wrap: wrap;
+  font-size: 1.125em;
+}
+@media (max-width: 991px) {
+  .navTop.urman {
+    margin-top: 1.5em;
+  }
+}
+@media (max-width: 580px) {
+  .navTop.urman {
+    margin-top: 1em;
+    margin-bottom: 1.5em;
+  }
+}
+.navTop.urman-back {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: nowrap;
+  margin-right: 1em;
+}
+.navTop.urman-back svg {
+  font-size: 1.35em;
+  stroke-width: 1.25px;
+  margin-right: 0.25em;
+}
+.navTop.urman-breadcrumbs {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  flex-wrap: wrap;
+  list-style: none;
+  padding-left: 0px;
+}
+.navTop.urman-breadcrumbs li:not(:first-child)::before {
+  content: "—";
+  margin: 0em 0.5em;
+}
 
 .progress {
   background-color: var(--bs-progress-bg-new) !important;
@@ -1779,7 +1836,7 @@ header ul li > a:hover .cap {
   }
 }
 @media (max-width: 1399px) {
-  header ul li .btn, header ul li .btn-whiteBoard, header ul li .btn-whiteFill, header ul li .btn-greenBoard, header ul li .btn-greenFill, header ul li .btn-primary, header ul li .btn-10, header ul li .btn-2, header ul li .btn-secondary, header ul li .btn-30, header ul li .btn-4, header ul li .btn-white, header ul li .btn-40-light, header ul li .btn-40, header ul li .btn-green, header ul li .btn-deepgreen, header ul li .btn-light, header ul li .btn-8, header ul li .btn-9, header ul li .btn-90, header ul li .btn-99, header ul li .btn-orange, header ul li .btn-red {
+  header ul li .btn, header ul li .btn-greenWhite, header ul li .btn-whiteBoard, header ul li .btn-whiteFill, header ul li .btn-greenBoard, header ul li .btn-greenFill, header ul li .btn-primary, header ul li .btn-10, header ul li .btn-2, header ul li .btn-secondary, header ul li .btn-30, header ul li .btn-4, header ul li .btn-white, header ul li .btn-40-light, header ul li .btn-40, header ul li .btn-green, header ul li .btn-deepgreen, header ul li .btn-light, header ul li .btn-8, header ul li .btn-9, header ul li .btn-90, header ul li .btn-99, header ul li .btn-orange, header ul li .btn-red {
     font-size: 13px !important;
   }
 }
@@ -1844,8 +1901,8 @@ header .phone:hover, header .phone:focus, header .phone:active {
   }
 }
 header .badge {
-  font-size: 10px;
-  background-color: var(--main-color);
+  font-size: 11px;
+  background-color: #2E5943;
   color: #fff;
   width: 1.6em;
   height: 1.6em;
@@ -1854,7 +1911,8 @@ header .badge {
   justify-content: center;
   align-items: center;
   flex-wrap: nowrap;
-  top: 45px !important;
+  top: 70px !important;
+  right: -5px;
 }
 header .btn-menu {
   color: var(--main-color-text);
@@ -4157,6 +4215,18 @@ html.theme-font-title-amaticsc .filterGrid h4 {
   border-radius: 1.25em;
   margin-bottom: 0.5em;
 }
+.cart-filter-urman {
+  color: #52695F;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: nowrap;
+  background-color: #E0EDE6;
+  padding: 0.75em 1em;
+  border-radius: 0.625em;
+  margin-bottom: 0.5em;
+}
 .cart-item {
   -webkit-user-select: none;
      -moz-user-select: none;
@@ -4306,6 +4376,186 @@ html.theme-font-title-amaticsc .filterGrid h4 {
   height: 45px !important;
 }
 .cart-item.mini-cart-item .left .text p.consist, .cart-item.mini-cart-item .text p.consist {
+  -webkit-line-clamp: 1 !important;
+  height: 1.2em !important;
+}
+.cart-item-urman {
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: nowrap;
+  padding: 0.8em;
+}
+@media (max-width: 770px) {
+  .cart-item-urman {
+    flex-wrap: wrap;
+  }
+}
+@media (max-width: 580px) {
+  .cart-item-urman {
+    padding: 1em 0em;
+  }
+}
+.cart-item-urman .order-1 {
+  padding: 0.9em 0;
+}
+.cart-item-urman .left {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: flex-start;
+  flex-wrap: nowrap;
+  width: 100%;
+}
+@media (max-width: 1399px) {
+  .cart-item-urman .left {
+    width: 100%;
+  }
+}
+@media (max-width: 770px) {
+  .cart-item-urman .left {
+    width: 100%;
+  }
+}
+.cart-item-urman .left .text {
+  max-width: 80%;
+  flex: 1;
+}
+.cart-item-urman .left .text h6 {
+  font-size: 16px;
+  width: -moz-fit-content;
+  width: fit-content;
+  color: #52695F;
+}
+.cart-item-urman .left .text h6 .tag {
+  float: right;
+  color: var(--main-color);
+  font-size: 0.75em;
+  border: 1px solid var(--main-color);
+  border-radius: 1.25em;
+  padding: 0.3em 0.6em;
+  transform: rotate(-3.5deg);
+  margin-left: 1em;
+}
+@media (max-width: 580px) {
+  .cart-item-urman .left .text h6 .tag {
+    position: absolute;
+    top: 1em;
+    left: 1.875em;
+  }
+}
+.cart-item-urman .left .text a {
+  color: #52695F;
+}
+.cart-item-urman .left .text p {
+  margin-bottom: 0.5em;
+  color: #637381;
+}
+.cart-item-urman .left .text p.consist {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  line-height: 1.2em;
+  height: 2.4em;
+}
+.cart-item-urman .right {
+  max-width: 240px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: nowrap;
+  color: #7EAA94;
+  font-size: 1.1em !important;
+  font-weight: bold;
+}
+.cart-item-urman .right svg {
+  color: #7EAA94;
+  height: 1em !important;
+}
+.cart-item-urman .right .countInput button {
+  padding: 0.3em;
+  background-color: #E0EDE6;
+  border-radius: 1.25em;
+  height: 1.5em !important;
+  width: 1.5em !important;
+  border: none;
+  box-shadow: none;
+  transition: 200ms ease-in;
+}
+.cart-item-urman .right .countInput button:hover, .cart-item-urman .right .countInput button:focus {
+  color: #2E5943;
+}
+.cart-item-urman .right .countInput button:active {
+  color: #2E5943;
+  background-color: #C5DAC5;
+}
+@media (max-width: 770px) {
+  .cart-item-urman .right {
+    margin-top: 1em;
+    align-items: center;
+  }
+}
+@media (max-width: 580px) {
+  .cart-item-urman .right {
+    margin-top: 0.5em;
+    min-width: 100% !important;
+    flex: 1;
+  }
+}
+.cart-item-urman .right .btn-fav {
+  order: 3;
+}
+.cart-item-urman img {
+  width: 90px;
+  height: 90px;
+  -o-object-fit: cover;
+     object-fit: cover;
+  border-radius: 1.25em;
+  margin-right: 1em;
+}
+.cart-item-urman-ingredients {
+  padding-top: 0.25em;
+  list-style: none;
+  padding-left: 0px;
+  font-size: 0.9em;
+}
+.cart-item-urman-ingredients li:not(:last-child) {
+  margin-bottom: 0.25em;
+}
+.cart-item-urman-ingredients li::before {
+  content: "+";
+  font-weight: 600;
+  color: #7EAA94;
+  margin-right: 0.5em;
+}
+.cart-item-urman-ingredients-minus {
+  padding-top: 0.25em;
+  list-style: none;
+  padding-left: 0px;
+  font-size: 0.9em;
+}
+.cart-item-urman-ingredients-minus li:not(:last-child) {
+  margin-bottom: 0.25em;
+}
+.cart-item-urman-ingredients-minus li::before {
+  content: "-";
+  font-weight: 600;
+  color: #e01e00;
+  margin-right: 0.5em;
+}
+.cart-item-urman.mini-cart-item .left img, .cart-item-urman.mini-cart-item img {
+  border-radius: 0.6em;
+  width: 45px !important;
+  height: 45px !important;
+}
+.cart-item-urman.mini-cart-item .left .text p.consist, .cart-item-urman.mini-cart-item .text p.consist {
   -webkit-line-clamp: 1 !important;
   height: 1.2em !important;
 }
@@ -4559,6 +4809,10 @@ ACCOUNT
 }
 .account .box-blue {
   background-color: var(--main-color-outline);
+  border-radius: 0.625em;
+}
+.account .box-urman {
+  background-color: #E0EDE6;
   border-radius: 0.625em;
 }
 .account .link-return {
@@ -7040,11 +7294,11 @@ img.show {
 }
 
 .badge-main {
-  background-color: var(--main-color) !important;
+  background-color: #2E5943 !important;
 }
 .badge-main-light {
-  background-color: var(--main-color-outline) !important;
-  color: var(--main-color);
+  background-color: #E0EDE6 !important;
+  color: #2E5943;
 }
 
 .modal-header {

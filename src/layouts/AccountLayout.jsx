@@ -26,7 +26,7 @@ const AccountLayout = ({ isMobile }) => {
           <div>
             <div className="row">
               <div className="col-4 col-lg-3">
-                <div className="box p-3 w-100 d-flex align-items-start justify-content-between mb-3">
+                <div className="box-urman p-3 w-100 d-flex align-items-start justify-content-between mb-3">
                   <div>
                     <h6 className="mb-0 fs-10">
                       {t(user?.firstName ? user.firstName : "Имя")}
@@ -54,7 +54,7 @@ const AccountLayout = ({ isMobile }) => {
                   </div>
                 </div>
                 {profilePointVisible && (
-                  <div className="box w-100 p-3 d-flex flex-column justify-content-between  mb-3">
+                  <div className="box-urman w-100 p-3 d-flex flex-column justify-content-between  mb-3">
                     <p className="fs-09 fw-6">{t("Вы можете потратить")}</p>
                     <p className="main-color">
                       <span className="fw-7 fs-14">
