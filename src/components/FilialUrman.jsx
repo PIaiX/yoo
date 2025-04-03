@@ -96,14 +96,21 @@ const FilialUrman = memo(({
               <div key={category.id} className="categories-box mb-5" id={"category-" + category.id}>
                 {category.isMainMenu ? (
                   <>
-                    <div className="filterGrid">
-                      <h4 className="d-block fw-6 mb-4 urman-dark-green">{category.title}</h4>
+                    <div className="d-flex justify-content-between align-items-center mb-4">
+                      <h4 className="fw-6 urman-dark-green m-0">{category.title}</h4>
+                      <button
+                        key={category.id}
+                        onClick={() => navigate(`/catalog/${affiliateId}#category=${category.id}`)}
+                        className="btn-greenFill"
+                      >
+                        Посмотреть все
+                      </button>
                     </div>
                     <div className="d-flex flex-wrap gap-3 mb-4">
                       {category.allCategories.map((cat) => (
                         <button
                           key={cat.id}
-                          onClick={() => navigate(`/catalog/${affiliateId}?category=${cat.id}`)}
+                          onClick={() => navigate(`/catalog/${affiliateId}#category=${cat.id}`)}
                           className="btn-10"
                         >
                           {cat.title}
@@ -112,7 +119,17 @@ const FilialUrman = memo(({
                     </div>
                     {category.subCategories.map((subCat) => (
                       <div key={subCat.id} className="mb-4">
-                        <h5 className="d-block fs-13 mb-3">{subCat.title}</h5>
+
+                        <div className="d-flex justify-content-between align-items-center mt-4 mb-4">
+                          <h5 className="d-block fs-13 m-0">{subCat.title}</h5>
+                          <button
+                            key={category.id}
+                            onClick={() => navigate(`/catalog/${affiliateId}?category=${category.id}`)}
+                            className="btn-greenFill"
+                          >
+                            Посмотреть все
+                          </button>
+                        </div>
                         <CategoryGroupUrman
                           data={subCat}
                           onLoad={(product) => navigate("/product/" + product.id)}
