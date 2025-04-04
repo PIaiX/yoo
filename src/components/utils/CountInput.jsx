@@ -13,20 +13,20 @@ const CountInput = memo(
     return (
       <div
         className={
-          "countInput w-100" +
+          "countInput" +
           (className ? " " + className : " justify-content-end") +
           (full ? " full" : "") +
           (dis ? " disabled" : "")
         }
       >
         {!dis && (
-          <button draggable={false}  type="button" onClick={() => onCount(Number(value) - 1)}>
+          <button draggable={false} type="button" onClick={() => onCount(Number(value) - 1)}>
             <HiMinus />
           </button>
         )}
         <div className="d-flex px-2 fs-09">{value}</div>
         {!dis && (
-          <button draggable={false}  type="button" onClick={() => onCount(Number(value) + 1)}>
+          <button draggable={false} type="button" onClick={() => onCount(Number(value) + 1)}>
             <HiPlus />
           </button>
         )}

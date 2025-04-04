@@ -6949,7 +6949,6 @@ ACCOUNT END
 .search-box-1 {
   padding-top: 20px;
   position: relative;
-  max-height: 50vh;
 }
 @media (max-width: 580px) {
   .search-box-1 {
