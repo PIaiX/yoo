@@ -1863,7 +1863,7 @@ header ul.icons-menu .user a:hover svg, header ul.icons-menu .user a:focus svg, 
   color: var(--main-color);
 }
 header .logo {
-  max-height: 50px;
+  max-height: 70px;
   max-width: 200px;
   -o-object-fit: contain;
      object-fit: contain;
