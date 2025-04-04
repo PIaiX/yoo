@@ -47,7 +47,7 @@ const Cart = () => {
   const selectedAffiliate = useSelector((state) => state.affiliate?.active);
   const [isGift, setIsGift] = useState(false);
   const [showReset, setShowReset] = useState(false);
-
+  console.log(cart)
   const {
     total = 0,
     totalNoDelivery = 0,

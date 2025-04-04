@@ -5,12 +5,12 @@ import { useSelector } from "react-redux";
 import moment from "moment";
 import { isWork } from "../hooks/all";
 import { useTranslation } from "react-i18next";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import TelegramLine from "./svgs/TelegramLine";
 import WhatsAppLine from "./svgs/WhatsAppLine";
 
 const AffiliateContent = memo(({ affiliate }) => {
-
+  const navigate = useNavigate();
   const { t } = useTranslation();
 
   return (
@@ -63,7 +63,7 @@ const AffiliateContent = memo(({ affiliate }) => {
             {affiliate?.desc && <p className="desc">{affiliate.desc}</p>}
             <div className="buttons">
               <Link className="btn-greenFill w-100">Забронировать столик</Link>
-              <Link className="btn-greenBoard w-100">Заказать доставку</Link>
+              <Link className="btn-greenBoard w-100" onClick={() => navigate(`/catalog/${affiliate.id}`)}>Заказать доставку</Link>
             </div>
 
 
