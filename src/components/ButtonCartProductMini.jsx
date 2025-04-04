@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { isCart } from "../hooks/useCart";
 import { updateCart } from "../services/cart";
 import { getProduct } from "../services/product";
+import { cartQueue } from "../services/queue";
 import CountInput from "./utils/CountInput";
 
 const ButtonCartProductMini = memo(
@@ -112,7 +113,73 @@ const ButtonCartProductMini = memo(
       },
       [product, loading, options, selectedAffiliate, isCartData]
     );
+    // const onPress = useCallback(
+    //   async (newCount = 1, inputCount = false) => {
+    //     try {
+    //       setLoading(true);
 
+    //       await cartQueue.add(async () => {
+    //         // Получаем модификаторы товара
+    //         const modifiers =
+    //           options?.brand?.options?.priceAffiliateType &&
+    //           Array.isArray(product.modifiers) &&
+    //           product?.modifiers?.length > 0
+    //             ? product.modifiers.filter(
+    //                 (e) => e?.modifierOptions?.length > 0
+    //               )
+    //             : product?.modifiers ?? [];
+
+    //         // Если есть модификаторы - переходим на страницу товара
+    //         if (modifiers?.length > 1) {
+    //           return navigate("/product/" + product.id, product);
+    //         }
+
+    //         // Загружаем актуальные данные товара (если нужно)
+    //         const productData =
+    //           isCartData && inputCount
+    //             ? product
+    //             : await getProduct({
+    //                 id: product.id,
+    //                 affiliateId: selectedAffiliate?.id ?? false,
+    //                 required: true,
+    //                 multiBrand: options?.multiBrand,
+    //                 type: "site",
+    //               });
+
+    //         // Формируем объект для добавления в корзину
+    //         const productToAdd = {
+    //           ...productData,
+    //           cart: {
+    //             ...(productData.cart || {}),
+    //             count: newCount,
+    //             modifiers:
+    //               modifiers?.length === 1
+    //                 ? modifiers
+    //                 : productData.cart?.modifiers,
+    //             additions: productData.additions || [],
+    //           },
+    //           id: productData.id,
+    //           title: productData.title,
+    //           price: productData.price,
+    //           discount: productData.discount,
+    //           medias: productData.medias || product?.medias || [],
+    //           options: productData.options,
+    //           type: productData.type,
+    //           categoryId: productData.categoryId,
+    //         };
+
+    //         dispatch(updateCart(productToAdd));
+    //         NotificationManager.success("Товар успешно добавлен в корзину");
+    //       });
+    //     } catch (error) {
+    //       console.error("Ошибка при добавлении в корзину:", error);
+    //       NotificationManager.error("Ошибка при добавлении товара");
+    //     } finally {
+    //       setLoading(false);
+    //     }
+    //   },
+    //   [product, options, selectedAffiliate, isCartData, dispatch]
+    // );
     if (
       isCartData?.id &&
       (!product?.modifiers || product.modifiers.length === 0) &&
@@ -135,7 +202,8 @@ const ButtonCartProductMini = memo(
     }
 
     return (
-      <button draggable={false} 
+      <button
+        draggable={false}
         disabled={!isValid}
         onClick={() => onPress()}
         type="button"

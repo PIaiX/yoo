@@ -634,13 +634,16 @@ const Checkout = () => {
             >
               #{end?.uid?.length > 0 ? end.uid.toUpperCase() : end?.id ?? ""}
             </Link>{" "}
-            принят
+            {t("принят")}
           </p>
 
           <p className="text-center m-auto white-space">
-            {end?.createdAt
+            {options?.checkoutSuccessText &&
+            options?.checkoutSuccessText?.length > 0
+              ? options.checkoutSuccessText
+              : end?.createdAt
               ? moment(end.createdAt).format("DD.MM.YYYY HH:mm")
-              : options?.checkoutSuccessText ?? ""}
+              : ""}
           </p>
 
           <div className="d-flex flex-column align-items-center justify-content-center mt-4">

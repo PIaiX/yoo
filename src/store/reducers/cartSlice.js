@@ -31,15 +31,15 @@ const cartSlice = createSlice({
 
               modifiers:
                 cartItem?.cart?.modifiers?.length > 0 &&
-                isProduct?.modifiers?.length > 0
+                  isProduct?.modifiers?.length > 0
                   ? cartItem.cart.modifiers.map((e) => {
-                      let isModifier = isProduct?.modifiers.find(
-                        (e2) => e2.id === e.id
-                      );
-                      if (isModifier) {
-                        return { ...e, ...isModifier };
-                      }
-                    })
+                    let isModifier = isProduct?.modifiers.find(
+                      (e2) => e2.id === e.id
+                    );
+                    if (isModifier) {
+                      return { ...e, ...isModifier };
+                    }
+                  })
                   : [],
             },
           };
@@ -47,22 +47,28 @@ const cartSlice = createSlice({
       });
     },
     updateCartSync: (state, action) => {
-      const isCart = state.items.findIndex((cartItem) => {
-        if (cartItem?.id !== action.payload?.id) {
-          return false;
-        }
-        return (
-          isEqual(cartItem?.cart?.modifiers, action.payload?.cart?.modifiers) &&
-          isEqual(cartItem?.cart?.additions, action.payload?.cart?.additions)
-        );
-      });
+      const { payload } = action;
+      if (!payload) return;
 
-      if (isCart != -1 && action?.payload?.cart?.count === 0) {
-        state.items.splice(isCart, 1);
-      } else if (isCart != -1 && action?.payload) {
-        state.items[isCart] = action.payload;
-      } else if (isCart == -1 && action?.payload) {
-        state.items.push(action.payload);
+      const itemIndex = state.items.findIndex((cartItem) =>
+        cartItem?.id === payload?.id &&
+        isEqual(cartItem?.cart?.modifiers, payload?.cart?.modifiers) &&
+        isEqual(cartItem?.cart?.additions, payload?.cart?.additions)
+      );
+
+      if (itemIndex !== -1) {
+        if (payload?.cart?.count === 0) {
+          // Удаляем элемент (иммутабельно)
+          state.items = state.items.filter((_, index) => index !== itemIndex);
+        } else {
+          // Обновляем элемент (иммутабельно)
+          state.items = state.items.map((item, index) =>
+            index === itemIndex ? payload : item
+          );
+        }
+      } else if (payload) {
+        // Добавляем новый элемент (иммутабельно)
+        state.items = [...state.items, payload];
       }
     },
     createPromoProduct: (state, action) => {
@@ -81,18 +87,18 @@ const cartSlice = createSlice({
         items:
           state?.items?.length > 0
             ? state.items.map((cartItem, index) => {
-                const discount =
-                  action.payload &&
+              const discount =
+                action.payload &&
                   action.payload[0] &&
                   action.payload[0]?.discounts &&
                   action.payload[0]?.discounts?.[index]?.discountSum
-                    ? Number(action.payload[0].discounts[index].discountSum)
-                    : 0;
-                return {
-                  ...cartItem,
-                  discount: discount,
-                };
-              })
+                  ? Number(action.payload[0].discounts[index].discountSum)
+                  : 0;
+              return {
+                ...cartItem,
+                discount: discount,
+              };
+            })
             : state?.items,
       };
     },

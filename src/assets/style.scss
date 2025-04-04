@@ -2010,6 +2010,7 @@ main {
     bottom: 0px;
     height: 105%;
     width: 8%;
+
     &::after {
       font-size: 25px;
     }
@@ -2038,7 +2039,7 @@ main {
 .story {
   cursor: pointer;
   position: relative;
-  overflow: hidden;
+  // overflow: hidden;
   img {
     display: block;
     margin: 0 auto 0px;
@@ -2289,6 +2290,10 @@ main {
           bottom: 50%;
           transform: translateY(50%);
           font-size: 2em;
+          background-color: rgb(0 0 0 / 40%) !important;
+          border-radius: 50px !important;
+          width: 1.5em !important;
+          height: 1.5em;
           @media (max-width: $bp-md) {
             display: none;
           }
@@ -2312,7 +2317,7 @@ main {
           background-color: rgba(0, 0, 0, 0.3);
           &-drag {
             height: 3px;
-            background-color: #fff;
+            background-color: var(--main-color);
           }
         }
       }

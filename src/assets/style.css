@@ -2120,7 +2120,6 @@ main {
 .story {
   cursor: pointer;
   position: relative;
-  overflow: hidden;
 }
 .story img {
   display: block;
@@ -2431,6 +2430,10 @@ main {
   bottom: 50%;
   transform: translateY(50%);
   font-size: 2em;
+  background-color: rgba(0, 0, 0, 0.4) !important;
+  border-radius: 50px !important;
+  width: 1.5em !important;
+  height: 1.5em;
 }
 @media (max-width: 770px) {
   .story-modal .modal-body .swiper-stories-modal .swiper-button, .story-modal .modal-body .swiper-stories-modal .swiper-button-prev, .story-modal .modal-body .swiper-stories-modal .swiper-button-next {
@@ -2451,7 +2454,7 @@ main {
 }
 .story-modal .modal-body .swiper-stories-modal .swiper-scrollbar-drag {
   height: 3px;
-  background-color: #fff;
+  background-color: var(--main-color);
 }
 .story-modal .modal-body .close {
   z-index: 10;
