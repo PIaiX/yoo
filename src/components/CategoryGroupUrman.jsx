@@ -35,7 +35,7 @@ const CategoryGroupUrman = memo(({
         // <div className="filterGrid mb-5">
         //   <h4 className="d-block fw-6 mb-0 urman-dark-green">{data.title}</h4>
         // </div>
-        <div className="d-flex justify-content-between align-items-center mb-4">
+        <div className="filterGrid d-flex justify-content-between align-items-center mb-4  pt-5">
           <h4 className="fw-6 urman-dark-green m-0">{data.title}</h4>
           <button
             key={data.id}

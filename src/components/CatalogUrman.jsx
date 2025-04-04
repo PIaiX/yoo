@@ -19,14 +19,20 @@ const CatalogUrman = memo(({ data, search, affiliateId }) => {
   useEffect(() => {
     if (location.hash) {
       const hashMatch = location.hash.match(/category=([^&]+)/);
-      if (hashMatch && hashMatch[1]) {
+      if (hashMatch?.[1]) {
         setInitialActiveId(hashMatch[1]);
 
-        // Прокрутка к нужной категории после загрузки данных
         const timer = setTimeout(() => {
           const element = document.getElementById(`category-${hashMatch[1]}`);
           if (element) {
-            element.scrollIntoView({ behavior: 'smooth' });
+            // Вычисляем позицию элемента с учетом смещения
+            const yOffset = -150;
+            const y = element.getBoundingClientRect().top + window.scrollY + yOffset;
+
+            window.scrollTo({
+              top: y,
+              behavior: 'smooth'
+            });
           }
         }, 100);
 
@@ -34,7 +40,6 @@ const CatalogUrman = memo(({ data, search, affiliateId }) => {
       }
     }
   }, [location.hash, data]);
-
   const toggleViewCategories = () => {
     setViewCategories((prev) => !prev);
   };

@@ -96,7 +96,7 @@ const FilialUrman = memo(({
               <div key={category.id} className="categories-box mb-5" id={"category-" + category.id}>
                 {category.isMainMenu ? (
                   <>
-                    <div className="d-flex justify-content-between align-items-center mb-4">
+                    <div className="d-flex justify-content-between align-items-center mb-4 pt-5">
                       <h4 className="fw-6 urman-dark-green m-0">{category.title}</h4>
                       <button
                         key={category.id}

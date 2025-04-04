@@ -22,7 +22,7 @@ const CategoryGroup = memo(({ data, onLoad, affiliateId }) => {
   return (
     <section className="CategoryGroup" id={"category-" + data?.id}>
       {data?.title && (
-        <div className="filterGrid mb-5">
+        <div className="filterGrid pt-2 mb-5">
           <h4 className="d-block fw-6 mb-0 urman-dark-green">{data.title}</h4>
         </div>
       )}
