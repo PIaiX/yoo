@@ -89,7 +89,7 @@ const FilialUrman = memo(({
         </Container>
       ) : (
         <>
-          <CategoriesUrman data={orderedCategories} filial={true} />
+          <CategoriesUrman key={`filial-${affiliateId}`} data={orderedCategories} filial={true} catalogKey={`filial-${affiliateId}`} />
           {search && <SearchInput />}
           <Container>
             {orderedCategories.map((category) => (
@@ -100,7 +100,7 @@ const FilialUrman = memo(({
                       <h4 className="fw-6 urman-dark-green m-0">{category.title}</h4>
                       <button
                         key={category.id}
-                        onClick={() => navigate(`/catalog/${affiliateId}#category=${category.id}`)}
+                        onClick={() => navigate(`/catalog/${affiliateId}`)}
                         className="btn-greenFill"
                       >
                         Посмотреть все
@@ -110,7 +110,7 @@ const FilialUrman = memo(({
                       {category.allCategories.map((cat) => (
                         <button
                           key={cat.id}
-                          onClick={() => navigate(`/catalog/${affiliateId}#category=${cat.id}`)}
+                          onClick={() => navigate(`/catalog/${affiliateId}`)}
                           className="btn-10"
                         >
                           {cat.title}
@@ -124,7 +124,7 @@ const FilialUrman = memo(({
                           <h5 className="d-block fs-13 m-0">{subCat.title}</h5>
                           <button
                             key={category.id}
-                            onClick={() => navigate(`/catalog/${affiliateId}?category=${category.id}`)}
+                            onClick={() => navigate(`/catalog/${affiliateId}#category=${subCat.id}`)}
                             className="btn-greenFill"
                           >
                             Посмотреть все

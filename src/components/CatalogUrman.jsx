@@ -1,7 +1,7 @@
-import React, { memo, useCallback, useState } from "react";
+import React, { memo, useState, useEffect } from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import { HiOutlineArrowUturnDown } from "react-icons/hi2";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import Choose from "../assets/imgs/choose.svg";
 import CategoriesUrman from "./CategoriesUrman";
 import CategoryCard from "./CategoryCard";
@@ -9,15 +9,35 @@ import CategoryGroup from "./CategoryGroup";
 import GridIcon from "./svgs/GridIcon";
 import SearchInput from "./utils/SearchInput";
 
-
-
 const CatalogUrman = memo(({ data, search, affiliateId }) => {
   const [viewCategories, setViewCategories] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
+  const [initialActiveId, setInitialActiveId] = useState(null);
 
-  const toggleViewCategories = useCallback(() => {
+  // Определяем активную категорию из hash при загрузке
+  useEffect(() => {
+    if (location.hash) {
+      const hashMatch = location.hash.match(/category=([^&]+)/);
+      if (hashMatch && hashMatch[1]) {
+        setInitialActiveId(hashMatch[1]);
+
+        // Прокрутка к нужной категории после загрузки данных
+        const timer = setTimeout(() => {
+          const element = document.getElementById(`category-${hashMatch[1]}`);
+          if (element) {
+            element.scrollIntoView({ behavior: 'smooth' });
+          }
+        }, 100);
+
+        return () => clearTimeout(timer);
+      }
+    }
+  }, [location.hash, data]);
+
+  const toggleViewCategories = () => {
     setViewCategories((prev) => !prev);
-  }, []);
+  };
 
   if (!data || data?.length === 0) {
     return null;
@@ -58,7 +78,11 @@ const CatalogUrman = memo(({ data, search, affiliateId }) => {
         </Container>
       ) : (
         <>
-          <CategoriesUrman data={data} />
+          <CategoriesUrman
+            key={`categories-${affiliateId || 'main'}`}
+            data={data}
+            initialActiveId={initialActiveId}
+          />
           {search && <SearchInput />}
           <Container>
             {data?.length > 0 && (
@@ -67,9 +91,7 @@ const CatalogUrman = memo(({ data, search, affiliateId }) => {
                   <CategoryGroup
                     key={e.id}
                     data={e}
-                    onLoad={(e) =>
-                      navigate("/product/" + e.id)
-                    }
+                    onLoad={(e) => navigate("/product/" + e.id)}
                     affiliateId={affiliateId}
                   />
                 ))}
@@ -78,7 +100,6 @@ const CatalogUrman = memo(({ data, search, affiliateId }) => {
           </Container>
         </>
       )}
-
     </section>
   );
 });
