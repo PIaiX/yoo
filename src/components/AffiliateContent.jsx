@@ -8,11 +8,14 @@ import { useTranslation } from "react-i18next";
 import { Link, useNavigate } from "react-router-dom";
 import TelegramLine from "./svgs/TelegramLine";
 import WhatsAppLine from "./svgs/WhatsAppLine";
+import { AffiliateOne } from "../helpers/data";
 
 const AffiliateContent = memo(({ affiliate }) => {
   const navigate = useNavigate();
   const { t } = useTranslation();
-
+  console.log(affiliate)
+  const data = AffiliateOne(affiliate.id)
+  console.log(data)
   return (
     <section >
       <Container>
@@ -24,7 +27,12 @@ const AffiliateContent = memo(({ affiliate }) => {
                 <Link to="/" >
                   <WhatsAppLine />
                 </Link>
-                <Link to="/" className="me-2">
+                <Link
+                  to={data?.telegramLink}
+                  className="me-2"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   <TelegramLine />
                 </Link>
 
@@ -62,30 +70,26 @@ const AffiliateContent = memo(({ affiliate }) => {
             {affiliate?.phone && <p className="phone">{affiliate.phone}</p>}
             {affiliate?.desc && <p className="desc">{affiliate.desc}</p>}
             <div className="buttons">
-              <Link className="btn-greenFill w-100">Забронировать столик</Link>
+              <Link
+                to={data?.telegramLink}
+                className="btn-greenFill w-100"
+                target="_blank"
+                rel="noopener noreferrer"
+              >Забронировать столик</Link>
               <Link className="btn-greenBoard w-100" onClick={() => navigate(`/catalog/${affiliate.id}`)}>Заказать доставку</Link>
             </div>
 
 
           </div>
-          {affiliate?.media && (
+          {data?.images && (
             <div className="images">
-              <img
-                src={getImageURL({
-                  path: affiliate?.media,
-                  type: "affiliate",
-                  size: "full",
-                })}
-                alt={affiliate?.title}
-              />
-              <img
-                src={getImageURL({
-                  path: affiliate?.media,
-                  type: "affiliate",
-                  size: "full",
-                })}
-                alt={affiliate?.title}
-              />
+              {data?.images.map(item =>
+                <img
+                  src={item}
+                  alt={affiliate?.title}
+                />
+              )}
+
             </div>
           )}
 

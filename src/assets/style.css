@@ -4633,7 +4633,7 @@ footer a {
   transition: color 0.2s;
   color: #fff;
 }
-footer a:hover, footer a:focus, footer a:active {
+footer a:hover, footer a:active {
   color: var(--main-color);
 }
 footer .dev-links {

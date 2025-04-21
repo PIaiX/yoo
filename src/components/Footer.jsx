@@ -26,6 +26,7 @@ import Vk from "./svgs/Vk";
 import TelegramLine from "./svgs/TelegramLine";
 import WhatsAppLine from "./svgs/WhatsAppLine";
 import { Col, Row } from "react-bootstrap";
+import { AffiliateData } from "../helpers/data";
 
 const iconComponents = {
   "/contact": IoCallOutline,
@@ -100,7 +101,31 @@ const Footer = memo(() => {
         </nav>
         <div className="desktop d-none d-lg-flex">
           <Row className="w-100">
-            <Col md={3}>
+            {AffiliateData.map(item =>
+              <Col md={3}>
+                <div className="adress">
+                  <Link to={`/filial/${item.id}`} className="street">
+                    {item.title}
+                  </Link>
+                  <div className="phone">
+                    +7 986 719-00-00
+                  </div>
+                  <div className="mess">
+                    <Link
+                      to={item.telegramLink}
+                      className="me-2"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <TelegramLine />
+                    </Link>        <Link to="/" >
+                      <WhatsAppLine />
+                    </Link>
+                  </div>
+                </div>
+              </Col>
+            )}
+            {/* <Col md={3}>
               <div className="adress">
                 <div className="street">
                   Некравсова, 9
@@ -217,7 +242,7 @@ const Footer = memo(() => {
                   </Link>
                 </div>
               </div>
-            </Col>
+            </Col> */}
           </Row>
           {/* <div className="pe-3">
             <img
