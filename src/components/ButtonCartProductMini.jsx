@@ -7,7 +7,6 @@ import { useNavigate } from "react-router-dom";
 import { isCart } from "../hooks/useCart";
 import { updateCart } from "../services/cart";
 import { getProduct } from "../services/product";
-import { cartQueue } from "../services/queue";
 import CountInput from "./utils/CountInput";
 
 const ButtonCartProductMini = memo(

@@ -15,36 +15,38 @@ const cartSlice = createSlice({
   reducers: {
     updateCartAll: (state, action) => {
       state.items = state.items.map((cartItem) => {
-        let isProduct = action.payload.find((e) => e.id === cartItem.id);
-        if (cartItem.id === isProduct?.id) {
-          return {
-            ...cartItem,
-            title: isProduct.title,
-            description: isProduct.description,
-            code: isProduct.code,
-            price: isProduct.price,
-            discount: isProduct.discount,
-            medias: isProduct.medias,
-            options: isProduct.options,
-            cart: {
-              ...cartItem.cart,
+        const updatedProduct = action.payload.find((e) => e.id === cartItem.id);
 
-              modifiers:
-                cartItem?.cart?.modifiers?.length > 0 &&
-                  isProduct?.modifiers?.length > 0
-                  ? cartItem.cart.modifiers.map((e) => {
-                    let isModifier = isProduct?.modifiers.find(
-                      (e2) => e2.id === e.id
-                    );
-                    if (isModifier) {
-                      return { ...e, ...isModifier };
-                    }
-                  })
-                  : [],
-            },
-          };
-        }
-      });
+        // Если товар не найден в обновлении - оставляем без изменений
+        if (!updatedProduct) return cartItem;
+
+        return {
+          ...cartItem,       // Сохраняем существующие данные
+          ...updatedProduct,  // Обновляем основные поля
+          cart: {
+            ...cartItem.cart, // Сохраняем существующие данные корзины
+            // Обновляем модификаторы (с защитой от undefined)
+            modifiers: cartItem.cart?.modifiers && updatedProduct.modifiers
+              ? cartItem.cart.modifiers
+                .map((modifier) => {
+                  const updatedModifier = updatedProduct.modifiers.find(m => m.id === modifier.id);
+                  return updatedModifier ? { ...modifier, ...updatedModifier } : modifier;
+                })
+                .filter(Boolean) // Удаляем возможные undefined
+              : cartItem.cart?.modifiers || [], // Если нет новых модификаторов - оставляем старые
+
+            // Аналогично для additions (если нужно)
+            additions: cartItem.cart?.additions && updatedProduct.additions
+              ? cartItem.cart.additions
+                .map((addition) => {
+                  const updatedAddition = updatedProduct.additions.find(a => a.id === addition.id);
+                  return updatedAddition ? { ...addition, ...updatedAddition } : addition;
+                })
+                .filter(Boolean)
+              : cartItem.cart?.additions || []
+          }
+        };
+      }).filter(Boolean); // Защита на случай undefined элементов
     },
     updateCartSync: (state, action) => {
       const { payload } = action;
@@ -69,6 +71,7 @@ const cartSlice = createSlice({
       } else if (payload) {
         // Добавляем новый элемент (иммутабельно)
         state.items = [...state.items, payload];
+        console.log(payload)
       }
     },
     createPromoProduct: (state, action) => {
