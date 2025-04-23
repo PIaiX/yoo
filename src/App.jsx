@@ -11,13 +11,13 @@ import React, {
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import "./assets/style.min.css";
+import CookieAccept from "./components/CookieAccept";
 import Holiday from "./components/Holiday";
 import Loader from "./components/utils/Loader";
 import YandexMetrika from "./components/YandexMetrika";
 import socket from "./config/socket";
 import {
   convertColor,
-  generateToken,
   getImageURL,
   isUpdateTime,
   languageCode,
@@ -27,6 +27,7 @@ import {
 import AppRouter from "./routes/AppRouter";
 import { checkAuth, logout } from "./services/auth";
 import { getOptions } from "./services/option";
+import { getDelivery } from "./services/order";
 import { updateAddresses } from "./store/reducers/addressSlice";
 import {
   updateAffiliate,
@@ -40,6 +41,7 @@ import {
   setToken,
   setUser,
 } from "./store/reducers/authSlice";
+import { cartZone } from "./store/reducers/cartSlice";
 import { editDeliveryCheckout } from "./store/reducers/checkoutSlice";
 import { updateNotification } from "./store/reducers/notificationSlice";
 import {
@@ -51,9 +53,6 @@ import {
   updateSettingsCountry,
 } from "./store/reducers/settingsSlice";
 import { updateStatus } from "./store/reducers/statusSlice";
-import { getDelivery } from "./services/order";
-import { cartZone } from "./store/reducers/cartSlice";
-import CookieAccept from "./components/CookieAccept";
 
 function App() {
   const { i18n } = useTranslation();
