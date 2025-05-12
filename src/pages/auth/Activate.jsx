@@ -158,7 +158,8 @@ const Activate = () => {
               </p>
             )}
           </p>
-          <button draggable={false} 
+          <button
+            draggable={false}
             type="submit"
             disabled={!data?.key || data?.key?.length != 4}
             className="btn-primary w-100 mt-4"
@@ -170,7 +171,11 @@ const Activate = () => {
               }`
             )}
           </button>
-          <button draggable={false}  className="w-100 mt-4" onClick={() => dispatch(logout())}>
+          <button
+            draggable={false}
+            className="w-100 mt-4"
+            onClick={() => dispatch(logout())}
+          >
             {t("Выйти из аккаунта")}
           </button>
         </Form>

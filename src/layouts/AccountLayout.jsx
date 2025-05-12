@@ -58,7 +58,7 @@ const AccountLayout = ({ isMobile }) => {
                     <p className="fs-09 fw-6">{t("Вы можете потратить")}</p>
                     <p className="main-color">
                       <span className="fw-7 fs-14">
-                        {user.point}&nbsp;
+                        {user.point ?? 0}&nbsp;
                         <span className="text-light-muted">Б</span>
                       </span>
                     </p>

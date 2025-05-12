@@ -1,8 +1,8 @@
 import { apiRoutes } from '../config/api'
-import { $authApi } from '.'
+import api from '.'
 
 const getSearch = async (data) => {
-    const response = await $authApi.get(apiRoutes.SEARCH_GET, { params: data })
+    const response = await api.get(apiRoutes.SEARCH_GET, { params: data })
     return response?.data
 }
 

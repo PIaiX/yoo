@@ -37,7 +37,6 @@ import {
 import {
   setAuth,
   setLoadingLogin,
-  setRefreshToken,
   setToken,
   setUser,
 } from "./store/reducers/authSlice";
@@ -282,16 +281,12 @@ function App() {
                 await checkAuth()
                   .then((data) => {
                     dispatch(setAuth(true));
-                    dispatch(setUser(data));
+                    dispatch(setUser(data.user));
 
-                    if (data?.lang) {
-                      i18n.changeLanguage(languageCode(data.lang));
-                      moment.locale(languageCode(data.lang));
+                    if (data?.user?.lang) {
+                      i18n.changeLanguage(languageCode(data.user.lang));
+                      moment.locale(languageCode(data.user.lang));
                     }
-
-                    dispatch(updateAddresses(data?.addresses ?? []));
-
-                    // dispatch(getFavorites());
                   })
                   .catch((err) => {
                     err?.response?.status === 404 && dispatch(logout());
@@ -308,7 +303,13 @@ function App() {
           }
           await checkAuth()
             .then((data) => {
-              dispatch(setUser(data));
+              dispatch(setAuth(true));
+              dispatch(setUser(data.user));
+
+              if (data?.user?.lang) {
+                i18n.changeLanguage(languageCode(data.user.lang));
+                moment.locale(languageCode(data.user.lang));
+              }
             })
             .catch((err) => {
               err?.response?.status === 404 && dispatch(logout());
@@ -412,7 +413,6 @@ function App() {
       socket.on("login/" + apiId, (response) => {
         dispatch(setUser(response.user));
         dispatch(setToken(response.token));
-        dispatch(setRefreshToken(response.refreshToken));
         dispatch(updateAddresses(response?.user?.addresses ?? []));
         dispatch(setAuth(true));
         dispatch(setLoadingLogin(false));

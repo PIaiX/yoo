@@ -1,68 +1,109 @@
 import axios from "axios";
-import { apiRoutes, BASE_URL } from "../config/api";
-import store from "../store";
-import { logout, refreshAuth } from "./auth";
 import { ClientJS } from "clientjs";
-import { setRefreshToken, setToken } from "../store/reducers/authSlice";
+import { apiRoutes, BASE_URL } from "../config/api";
+import { languageCode } from "../helpers/all";
+import store from "../store";
+import { logout } from "./auth";
 
-
-const $api = axios.create({
+const api = axios.create({
   baseURL: BASE_URL,
   withCredentials: true,
 });
-
 const client = new ClientJS();
-
 const language = client.getLanguage();
-
+// Обработчик для обновления токена
+let isRefreshing = false;
+let failedRequests = [];
 var device = {
   brand: client.getBrowser() ?? "",
   osName: client.getOS() ?? "",
   osVersion: client.getOSVersion() ?? "",
-  language: language ?? "ru",
-  lang: language ?? "ru",
+  language: languageCode(language),
+  lang: languageCode(language),
+  brandId: null
 };
 
-$api.interceptors.request.use(
-  async (config) => {
-    const state = store.getState();
-    device.apiId = state?.settings?.apiId;
-    device.ip = state?.settings?.ip;
-    config.headers.ip = state?.settings?.ip;
-    config.headers.token = state?.settings?.token
-      ? `API ${state.settings.token}`
-      : false;
-    config.headers.device = JSON.stringify(device);
-    return config;
-  },
-  (error) => Promise.reject(error)
-);
-let isRefreshing = false; // Флаг для отслеживания процесса обновления токена
-let failedQueue = []; // Очередь для запросов, ожидающих обновления токена
-
-// Функция для обработки очереди запросов
-const processQueue = (error, token = null) => {
-  failedQueue.forEach((prom) => {
+const processFailedRequests = (error, token = null) => {
+  failedRequests.forEach((prom) => {
     if (error) {
       prom.reject(error);
     } else {
       prom.resolve(token);
     }
   });
-  failedQueue = [];
+  failedRequests = [];
 };
 
-const $authApi = axios.create({
-  baseURL: BASE_URL,
-  withCredentials: true,
-});
+api.interceptors.response.use(
+  (response) => {
+    // Если пришел новый токен - сохраняем
+    if (response.data?.newToken) {
+      const { newToken, tokenExpires } = response.data;
+      store.dispatch({ type: "auth/setToken", payload: newToken });
+    }
+    return response;
+  },
+  async (error) => {
+    const originalRequest = error.config;
 
-$authApi.interceptors.request.use(
-  async (config) => {
+    // Если ошибка 401 и это не запрос /check
+    if (error.response?.status === 401 && !originalRequest._retry) {
+      // Если уже обновляем токен - ставим в очередь
+      if (isRefreshing) {
+        return new Promise((resolve, reject) => {
+          failedRequests.push({ resolve, reject });
+        })
+          .then((token) => {
+            originalRequest.headers.authorization = `Access ${token}`;
+            return api(originalRequest);
+          })
+          .catch((err) => Promise.reject(err));
+      }
+
+      originalRequest._retry = true;
+      isRefreshing = true;
+
+      try {
+        // Пытаемся обновить токен
+        const { data } = await api.get(apiRoutes.AUTH_CHECK);
+
+        if (data.newToken) {
+          originalRequest.headers.authorization = `Access ${data.newToken}`;
+          processFailedRequests(null, data.newToken);
+          return api(originalRequest);
+        }
+
+        // Если новый токен не пришел - разлогиниваем
+        store.dispatch(logout());
+        return Promise.reject(error);
+      } catch (err) {
+        store.dispatch(logout());
+        processFailedRequests(err);
+        return Promise.reject(err);
+      } finally {
+        isRefreshing = false;
+      }
+    }
+
+    // Обработка 403 (запрещено)
+    if (error.response?.status === 403) {
+      store.dispatch(logout());
+    }
+
+    return Promise.reject(error);
+  }
+);
+
+// Добавляем токен к запросам
+api.interceptors.request.use(
+  (config) => {
     const state = store.getState();
-    device.apiId = state?.settings?.apiId;
+    device.lang = state.auth?.user?.lang ? state.auth?.user?.lang : device.lang
+    device.apiId = state?.settings?.apiId ?? null;
     device.ip = state?.settings?.ip;
     config.headers.ip = state?.settings?.ip;
+    config.headers.versionapi = 'v2'
+    config.headers.device = JSON.stringify(device);
     config.headers.token = state?.settings?.token
       ? `API ${state.settings.token}`
       : false;
@@ -71,76 +112,11 @@ $authApi.interceptors.request.use(
     if (token) {
       config.headers.authorization = `Access ${token}`;
     }
-    config.headers.device = JSON.stringify(device);
-    if (state?.auth?.refreshToken) {
-      config.data = { ...config.data, refreshToken: state.auth.refreshToken };
-    }
+
+
     return config;
   },
   (error) => Promise.reject(error)
 );
 
-// Интерцептор для обработки ответов
-$authApi.interceptors.response.use(
-  (response) => response,
-  async (error) => {
-    const originalRequest = error.config;
-
-    // Если запрос НЕ для обновления токена и статус 401
-    if (
-      error.response?.status === 401 &&
-      !originalRequest._isRetry &&
-      originalRequest.url !== apiRoutes.AUTH_REFRESH // Важно: исключаем запрос refresh
-    ) {
-      if (isRefreshing) {
-        // Если токен уже обновляется, добавляем запрос в очередь
-        return new Promise((resolve, reject) => {
-          failedQueue.push({ resolve, reject });
-        })
-          .then((token) => {
-            originalRequest.headers.Authorization = `Access ${token}`;
-            return $authApi(originalRequest);
-          })
-          .catch((err) => {
-            return Promise.reject(err);
-          });
-      }
-
-      originalRequest._isRetry = true;
-      isRefreshing = true;
-
-      try {
-        // Обновляем токен
-        const { token, refreshToken } = await refreshAuth();
-
-        // Обновляем заголовки для исходного запроса
-        originalRequest.headers.Authorization = `Access ${token}`;
-
-        // Сохраняем новые токены в хранилище
-        store.dispatch(setToken(token));
-        store.dispatch(setRefreshToken(refreshToken));
-
-        // Повторяем исходный запрос с новым токеном
-        return $authApi(originalRequest);
-      } catch (refreshError) {
-        // Если обновление токена не удалось
-        if (refreshError.response?.status === 401 || refreshError.response?.status === 403 || error.response?.status === 500) {
-          store.dispatch(logout()); // Выход из аккаунта
-        }
-        return Promise.reject(refreshError);
-      } finally {
-        isRefreshing = false;
-        processQueue(null, token); // Обрабатываем очередь
-      }
-    }
-
-    // Обработка 403
-    if (error.response?.status === 403 || error.response?.status === 500) {
-      store.dispatch(logout());
-    }
-
-    return Promise.reject(error);
-  }
-);
-
-export { $api, $authApi };
+export default api;

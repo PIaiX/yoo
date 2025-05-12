@@ -32,6 +32,7 @@ import Categories from "../pages/Categories";
 import Search from "../pages/Search";
 import Info from "../pages/Info";
 import RedirectApp from "../pages/RedirectApp";
+import ActivateTelegram from "../pages/auth/ActivateTelegram";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -78,6 +79,8 @@ const router = createBrowserRouter(
           </AuthRoute>
         }
       />
+
+      <Route path="activate-telegram" element={<ActivateTelegram />} />
 
       <Route path="recovery" element={<Recovery />} />
       <Route path="login" element={<Registration />} />

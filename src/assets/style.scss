@@ -824,6 +824,7 @@ button {
   font-weight: 500;
   width: fit-content;
   border-radius: $radius * 1.5;
+
   &-primary {
     @extend .btn;
     color: #fff;
@@ -837,6 +838,36 @@ button {
       opacity: 0.8;
       background-color: var(--main-color-btn) !important;
       border: 1px solid var(--main-color-btn) !important;
+    }
+  }
+  &-telegram {
+    @extend .btn;
+    color: #fff;
+    background-color: #0088cc;
+    border: 1px solid #0088cc;
+    &:hover,
+    &:focus,
+    &:active,
+    &.active {
+      color: #fff !important;
+      opacity: 0.8;
+      background-color: #0088cc !important;
+      border: 1px solid #0088cc !important;
+    }
+  }
+  &-dark {
+    @extend .btn;
+    color: #fff;
+    background-color: #222;
+    border: 1px solid #222;
+    &:hover,
+    &:focus,
+    &:active,
+    &.active {
+      color: #fff !important;
+      opacity: 0.8;
+      background-color: #222 !important;
+      border: 1px solid #222 !important;
     }
   }
   &-10 {
@@ -4485,17 +4516,16 @@ ACCOUNT
     @media (max-width: $bp-sm) {
       padding: 1em;
     }
-    form {
+
+    .login-form {
       background-color: var(--bg-second);
       border-radius: $radius;
       padding: 2em;
-      &.login-form {
-        width: 80%;
-        margin: 0 auto;
-        @media (max-width: $bp-lg) {
-          width: 100%;
-          padding: 1.3em;
-        }
+      width: 80%;
+      margin: 0 auto;
+      @media (max-width: $bp-lg) {
+        width: 100%;
+        padding: 1.3em;
       }
     }
   }
