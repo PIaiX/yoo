@@ -102,7 +102,6 @@ const Registration = () => {
     control: controlReg,
     register: registerReg,
     formState: { errors: errorsReg, isValid: isValidReg },
-    handleSubmit: handleSubmitReg,
     trigger: triggerReg,
   } = useForm({
     mode: "all",
@@ -136,7 +135,6 @@ const Registration = () => {
 
   const onSubmitReg = useCallback(
     (type = false) => {
-      console.log(dataReg);
       if (dataReg?.phone && dataReg.phone?.length > 0) {
         let phone = dataReg.phone.replace(/[^\d]/g, "").trim();
         if (!phone) {
@@ -726,19 +724,21 @@ const Registration = () => {
           onClick={() => {
             // Если authType не указан или это email - сразу отправляем
             if (!options?.authType || options?.authType === "email") {
-              return handleSubmitReg(onSubmitReg);
+              return onSubmitReg();
             }
 
             // Если authType phone и есть методы регистрации - показываем модалку
+
             if (
               options?.authType === "phone" &&
               options?.regMethod &&
-              (options.regMethod.telegram || options.regMethod.call)
+              (options?.regMethod?.telegram || options?.regMethod?.call)
             ) {
               setTypeReg(true);
             } else {
+              console.log(3);
               // Во всех остальных случаях - отправляем
-              handleSubmitReg(onSubmitReg);
+              onSubmitReg();
             }
           }}
         >
