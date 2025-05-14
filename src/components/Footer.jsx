@@ -118,9 +118,10 @@ const Footer = memo(() => {
                       rel="noopener noreferrer"
                     >
                       <TelegramLine />
-                    </Link>        <Link to="/" >
-                      <WhatsAppLine />
                     </Link>
+                    {/* <Link to="/" >
+                      <WhatsAppLine />
+                    </Link> */}
                   </div>
                 </div>
               </Col>

@@ -24,13 +24,14 @@ const AffiliateContent = memo(({ affiliate }) => {
             <div className="topic">
               <div className="title">{affiliate?.title}</div>
               <div className="social-content">
-                <Link
+                {/* <Link
                   to={data?.whatsappLink}
                   className="me-2"
                   target="_blank"
+                  rel="noopener noreferrer"
                 >
                   <WhatsAppLine />
-                </Link>
+                </Link> */}
                 <Link
                   to={data?.telegramLink}
                   className="me-2"
@@ -40,7 +41,7 @@ const AffiliateContent = memo(({ affiliate }) => {
                   <TelegramLine />
                 </Link>
 
-                <Link className="btn-greenBoard">Карта</Link>
+                {/* <Link className="btn-greenBoard">Карта</Link> */}
               </div>
             </div>
             {affiliate.status === 0 ? (
