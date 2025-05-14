@@ -1,13 +1,15 @@
 import React, { memo, useState, useEffect } from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import { HiOutlineArrowUturnDown } from "react-icons/hi2";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation, Link } from "react-router-dom";
 import Choose from "../assets/imgs/choose.svg";
 import CategoriesUrman from "./CategoriesUrman";
 import CategoryCard from "./CategoryCard";
 import CategoryGroup from "./CategoryGroup";
 import GridIcon from "./svgs/GridIcon";
 import SearchInput from "./utils/SearchInput";
+import Empty from "./Empty";
+import EmptyCatalog from "./empty/catalog";
 
 const CatalogUrman = memo(({ data, search, affiliateId }) => {
   const [viewCategories, setViewCategories] = useState(false);
@@ -43,13 +45,26 @@ const CatalogUrman = memo(({ data, search, affiliateId }) => {
   const toggleViewCategories = () => {
     setViewCategories((prev) => !prev);
   };
+  console.log(data)
 
   if (!data || data?.length === 0) {
-    return null;
+    return (
+      <Empty
+        text="В данном филиале нет товаров"
+        desc="Товары скоро появится"
+        image={() => <EmptyCatalog />}
+        button={
+          <Link className="btn-primary" to="/">
+            Перейти на главную
+          </Link>
+        }
+      />
+    );
   }
 
   return (
     <section className="sec-3 mb-5">
+
       {viewCategories ? (
         <Container className="box">
           <button
@@ -104,7 +119,8 @@ const CatalogUrman = memo(({ data, search, affiliateId }) => {
             )}
           </Container>
         </>
-      )}
+      )
+      }
     </section>
   );
 });

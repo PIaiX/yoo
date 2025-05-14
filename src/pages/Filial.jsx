@@ -107,8 +107,8 @@ const Filial = () => {
           <FilialUrman
             data={catalog?.widgets?.find(e => e?.value == "menu")?.items}
             search={true}
-            mainMenuCategoryIds={[5673, 5661, 5653, 5676, 5677, 5679, 5678]} // ID категорий для основного меню (будут показаны первые 2)
-            otherCategoriesIds={[5715, 5694, 5693, 5685]}  // ID остальных категорий
+            mainMenuCategoryIds={[6340, 6341, 6342, 6343, 6344, 6345, 6346]} // ID категорий для основного меню (будут показаны первые 2)
+            otherCategoriesIds={[6350, 6347, 6348, 6349,]}  // ID остальных категорий
             productsLimit={4}
             mainMenuPosition={2}
             affiliateId={affiliateId}

@@ -24,7 +24,11 @@ const AffiliateContent = memo(({ affiliate }) => {
             <div className="topic">
               <div className="title">{affiliate?.title}</div>
               <div className="social-content">
-                <Link to="/" >
+                <Link
+                  to={data?.whatsappLink}
+                  className="me-2"
+                  target="_blank"
+                >
                   <WhatsAppLine />
                 </Link>
                 <Link
