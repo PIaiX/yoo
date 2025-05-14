@@ -99,13 +99,13 @@ const ActivateTelegram = () => {
           <p className="mb-4 text-center">
             <span>
               {t(
-                "Перейдите в телеграм бот. Вам будет отправлен 6-ти значный код подтверждения"
+                "Перейдите в телеграм бот. Вам будет отправлен 4-x значный код подтверждения"
               )}
             </span>
           </p>
           <div className="mb-2">
             <InputCode
-              length={6}
+              length={4}
               autoFocus={true}
               onChange={(e) => setValue("key", e)}
             />
@@ -114,7 +114,7 @@ const ActivateTelegram = () => {
           <button
             draggable={false}
             type="submit"
-            disabled={!data?.key || data?.key?.length != 6}
+            disabled={!data?.key || data?.key?.length != 4}
             className="btn-primary w-100 mt-4"
             onClick={handleSubmit(onSubmit)}
           >
