@@ -1,10 +1,10 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { $authApi, $api } from "./index";
+import api from "./index";
 import { apiRoutes } from "../config/api";
 import { resetCart, updateCartSync } from "../store/reducers/cartSlice";
 
 const getCart = async (data) => {
-  const response = await $api.post(apiRoutes.CART, data)
+  const response = await api.post(apiRoutes.CART, data)
   return response?.data
 }
 
@@ -24,7 +24,7 @@ const deleteCart = createAsyncThunk(
 
     if (isAuth) {
       try {
-        const response = await $authApi.delete(apiRoutes.CART);
+        const response = await api.delete(apiRoutes.CART);
         return response?.data;
       } catch (error) {
         return thunkAPI.rejectWithValue(error);
