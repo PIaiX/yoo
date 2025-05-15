@@ -841,16 +841,18 @@ const Checkout = () => {
                         }
                       />
                     </div>
-                    <div className="mb-2">
-                      <Textarea
-                        label={t("Комментарий курьеру")}
-                        name="commentСourier"
-                        placeholder={t("Введите комментарий курьеру")}
-                        errors={errors}
-                        rows={2}
-                        register={register}
-                      />
-                    </div>
+                    {options?.courierComment && (
+                      <div className="mb-2">
+                        <Textarea
+                          label={t("Комментарий курьеру")}
+                          name="commentСourier"
+                          placeholder={t("Введите комментарий курьеру")}
+                          errors={errors}
+                          rows={2}
+                          register={register}
+                        />
+                      </div>
+                    )}
 
                     <p className="text-muted fs-09 mb-4">
                       {t("Нет нужного адреса?")}{" "}
