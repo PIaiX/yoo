@@ -1,8 +1,8 @@
-import { $authApi } from '.'
+import api from '.'
 import { apiRoutes } from '../config/api'
 
 const isPromo = async (data) => {
-    const response = await $authApi.post(apiRoutes.GET_PROMO, data)
+    const response = await api.post(apiRoutes.GET_PROMO, data)
     return response?.data
 }
 

@@ -13,7 +13,7 @@ const addressSlice = createSlice({
         e.main = false;
         return e;
       });
-      state.items.push({ ...action?.payload });
+      state.items.push({ ...action?.payload, main: true });
     },
     updateAddress: (state, action) => {
       if (action?.payload.main) {

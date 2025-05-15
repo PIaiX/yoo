@@ -15,54 +15,63 @@ const cartSlice = createSlice({
   reducers: {
     updateCartAll: (state, action) => {
       state.items = state.items.map((cartItem) => {
-        let isProduct = action.payload.find((e) => e.id === cartItem.id);
-        if (cartItem.id === isProduct?.id) {
-          return {
-            ...cartItem,
-            title: isProduct.title,
-            description: isProduct.description,
-            code: isProduct.code,
-            price: isProduct.price,
-            discount: isProduct.discount,
-            medias: isProduct.medias,
-            options: isProduct.options,
-            cart: {
-              ...cartItem.cart,
+        const updatedProduct = action.payload.find((e) => e.id === cartItem.id);
 
-              modifiers:
-                cartItem?.cart?.modifiers?.length > 0 &&
-                isProduct?.modifiers?.length > 0
-                  ? cartItem.cart.modifiers.map((e) => {
-                      let isModifier = isProduct?.modifiers.find(
-                        (e2) => e2.id === e.id
-                      );
-                      if (isModifier) {
-                        return { ...e, ...isModifier };
-                      }
-                    })
-                  : [],
-            },
-          };
-        }
-      });
+        // Если товар не найден в обновлении - оставляем без изменений
+        if (!updatedProduct) return cartItem;
+
+        return {
+          ...cartItem,       // Сохраняем существующие данные
+          ...updatedProduct,  // Обновляем основные поля
+          cart: {
+            ...cartItem.cart, // Сохраняем существующие данные корзины
+            // Обновляем модификаторы (с защитой от undefined)
+            modifiers: cartItem.cart?.modifiers && updatedProduct.modifiers
+              ? cartItem.cart.modifiers
+                .map((modifier) => {
+                  const updatedModifier = updatedProduct.modifiers.find(m => m.id === modifier.id);
+                  return updatedModifier ? { ...modifier, ...updatedModifier } : modifier;
+                })
+                .filter(Boolean) // Удаляем возможные undefined
+              : cartItem.cart?.modifiers || [], // Если нет новых модификаторов - оставляем старые
+
+            // Аналогично для additions (если нужно)
+            additions: cartItem.cart?.additions && updatedProduct.additions
+              ? cartItem.cart.additions
+                .map((addition) => {
+                  const updatedAddition = updatedProduct.additions.find(a => a.id === addition.id);
+                  return updatedAddition ? { ...addition, ...updatedAddition } : addition;
+                })
+                .filter(Boolean)
+              : cartItem.cart?.additions || []
+          }
+        };
+      }).filter(Boolean); // Защита на случай undefined элементов
     },
     updateCartSync: (state, action) => {
-      const isCart = state.items.findIndex((cartItem) => {
-        if (cartItem?.id !== action.payload?.id) {
-          return false;
-        }
-        return (
-          isEqual(cartItem?.cart?.modifiers, action.payload?.cart?.modifiers) &&
-          isEqual(cartItem?.cart?.additions, action.payload?.cart?.additions)
-        );
-      });
+      const { payload } = action;
+      if (!payload) return;
 
-      if (isCart != -1 && action?.payload?.cart?.count === 0) {
-        state.items.splice(isCart, 1);
-      } else if (isCart != -1 && action?.payload) {
-        state.items[isCart] = action.payload;
-      } else if (isCart == -1 && action?.payload) {
-        state.items.push(action.payload);
+      const itemIndex = state.items.findIndex((cartItem) =>
+        cartItem?.id === payload?.id &&
+        isEqual(cartItem?.cart?.modifiers, payload?.cart?.modifiers) &&
+        isEqual(cartItem?.cart?.additions, payload?.cart?.additions)
+      );
+
+      if (itemIndex !== -1) {
+        if (payload?.cart?.count === 0) {
+          // Удаляем элемент (иммутабельно)
+          state.items = state.items.filter((_, index) => index !== itemIndex);
+        } else {
+          // Обновляем элемент (иммутабельно)
+          state.items = state.items.map((item, index) =>
+            index === itemIndex ? payload : item
+          );
+        }
+      } else if (payload) {
+        // Добавляем новый элемент (иммутабельно)
+        state.items = [...state.items, payload];
+        console.log(payload)
       }
     },
     createPromoProduct: (state, action) => {
@@ -81,18 +90,18 @@ const cartSlice = createSlice({
         items:
           state?.items?.length > 0
             ? state.items.map((cartItem, index) => {
-                const discount =
-                  action.payload &&
+              const discount =
+                action.payload &&
                   action.payload[0] &&
                   action.payload[0]?.discounts &&
                   action.payload[0]?.discounts?.[index]?.discountSum
-                    ? Number(action.payload[0].discounts[index].discountSum)
-                    : 0;
-                return {
-                  ...cartItem,
-                  discount: discount,
-                };
-              })
+                  ? Number(action.payload[0].discounts[index].discountSum)
+                  : 0;
+              return {
+                ...cartItem,
+                discount: discount,
+              };
+            })
             : state?.items,
       };
     },
