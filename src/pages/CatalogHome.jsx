@@ -20,6 +20,7 @@ import { Col, Container, Row } from "react-bootstrap";
 import { isDesktop } from "react-device-detect";
 import { useParams } from "react-router-dom";
 import CatalogUrman from "../components/CatalogUrman";
+import { mainAffiliateEdit } from "../store/reducers/affiliateSlice";
 
 const CatalogHome = () => {
   const { t } = useTranslation();
@@ -30,6 +31,8 @@ const CatalogHome = () => {
   const catalog = useSelector((state) => state.catalog);
   const dispatch = useDispatch();
   const [isFirstLoad, setIsFirstLoad] = useState(true);
+  const affiliateItems = useSelector(state => state.affiliate.items)
+  const affiliate = affiliateItems.find(e => e.id == affiliateId);
 
   const getData = useCallback(() => {
     if (affiliateId) {
@@ -71,6 +74,7 @@ const CatalogHome = () => {
   }, [options]);
 
   useEffect(() => {
+    dispatch(mainAffiliateEdit(affiliate));
     getData();
   }, [affiliateId, city]);
 

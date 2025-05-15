@@ -21,6 +21,7 @@ import { isUpdateTime } from "../helpers/all";
 import { getCatalog } from "../services/catalog";
 import { updateCatalog } from "../store/reducers/catalogSlice";
 import FilialUrman from "../components/FilialUrman";
+import { mainAffiliateEdit } from "../store/reducers/affiliateSlice";
 
 const Filial = () => {
   const { t } = useTranslation();
@@ -31,6 +32,8 @@ const Filial = () => {
   const catalog = useSelector((state) => state.catalog);
   const dispatch = useDispatch();
   const [isFirstLoad, setIsFirstLoad] = useState(true);
+  const affiliateItems = useSelector(state => state.affiliate.items)
+  const affiliate = affiliateItems.find(e => e.id == affiliateId);
 
   const getData = useCallback(() => {
     if (affiliateId) {
@@ -72,10 +75,10 @@ const Filial = () => {
   }, [options]);
 
   useEffect(() => {
+    dispatch(mainAffiliateEdit(affiliate));
     getData();
   }, [affiliateId, city]);
-  const affiliateItems = useSelector(state => state.affiliate.items)
-  const affiliate = affiliateItems.find(e => e.id == affiliateId);
+
 
   if (loading) {
     return <Loader full />;

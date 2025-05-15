@@ -71,7 +71,6 @@ const cartSlice = createSlice({
       } else if (payload) {
         // Добавляем новый элемент (иммутабельно)
         state.items = [...state.items, payload];
-        console.log(payload)
       }
     },
     createPromoProduct: (state, action) => {

@@ -245,6 +245,7 @@ const Footer = memo(() => {
               </div>
             </Col> */}
           </Row>
+
           {/* <div className="pe-3">
             <img
               draggable="false"
@@ -399,6 +400,13 @@ const Footer = memo(() => {
             ""
           )} */}
         </div>
+        <div className="desktop d-none d-lg-flex mt-5 mb-3 text-center">
+          <Col md={12}>
+            <Link to="/policy">{t("Политика конфиденциальности")}</Link>
+
+          </Col>
+        </div>
+
         <div className="position-absolute end-0 bottom-0 pe-3">
           <div className="social justify-content-end mt-2 d-none d-lg-flex">
             <Link to="/" className="me-3">

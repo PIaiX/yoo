@@ -736,7 +736,6 @@ const Registration = () => {
             ) {
               setTypeReg(true);
             } else {
-              console.log(3);
               // Во всех остальных случаях - отправляем
               onSubmitReg();
             }
