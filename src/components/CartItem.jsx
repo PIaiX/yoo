@@ -13,6 +13,7 @@ import { useForm } from "react-hook-form";
 import { updateCart } from "../services/cart";
 import ButtonCartItem from "./ButtonCartItem";
 import Textarea from "./utils/Textarea";
+import ButtonClose from "./utils/ButtonClose";
 
 const CartItem = memo(({ data }) => {
   const { t } = useTranslation();
@@ -263,7 +264,8 @@ const CartItem = memo(({ data }) => {
       </div>
       {!data?.noComment && (
         <Modal show={showComment} onHide={setShowComment} centered>
-          <Modal.Header closeButton>
+          <Modal.Header>
+            <ButtonClose onClick={() => setShowComment(false)} />
             <div className="d-flex flex-row align-items-center">
               <img
                 height={25}

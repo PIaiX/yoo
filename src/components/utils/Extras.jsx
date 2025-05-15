@@ -1,9 +1,10 @@
 import React, { memo, useState } from "react";
 import { Col, Modal, Row } from "react-bootstrap";
 import { IoAddCircleOutline, IoRestaurantOutline } from "react-icons/io5";
-import CartItem from "../CartItem";
+import CartItemExtra from "../CartItemExtra";
 import Empty from "../Empty";
 import EmptyCatalog from "../empty/catalog";
+import ButtonClose from "./ButtonClose";
 
 const Extras = memo(({ person = 0, items }) => {
   const [show, setShow] = useState(false);
@@ -31,16 +32,15 @@ const Extras = memo(({ person = 0, items }) => {
         onHide={setShow}
         centered
       >
-        <Modal.Header closeButton className="fw-7">
+        <Modal.Header className="fw-7">
+          <ButtonClose onClick={() => setShow(false)} />
           Выберите товар
         </Modal.Header>
         <Modal.Body>
           {!items || items?.length === 0 ? (
             <Empty mini text="Ничего нет" image={() => <EmptyCatalog />} />
           ) : (
-            items.map((item) => (
-              <CartItem data={{ ...item, themeProduct: 0 }} />
-            ))
+            items.map((item) => <CartItemExtra data={item} />)
           )}
         </Modal.Body>
       </Modal>

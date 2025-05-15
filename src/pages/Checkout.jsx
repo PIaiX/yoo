@@ -1516,7 +1516,7 @@ const Checkout = () => {
               </>
             )}
           </Modal.Body>
-          <Modal.Footer closeButton className="fw-7">
+          <Modal.Footer className="fw-7">
             <Button
               type="submit"
               disabled={!isValidBtn() || !isWorkStatus}

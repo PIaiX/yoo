@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import Container from "react-bootstrap/Container";
 import { useForm, useWatch } from "react-hook-form";
 import { useTranslation } from "react-i18next";
@@ -72,6 +72,12 @@ const Recovery = () => {
     authNewKeyRecovery(data);
   };
 
+  useEffect(() => {
+    if (data?.step === 2 && data?.key?.length > 0 && data.key?.length === 4) {
+      onSubmit(data);
+    }
+  }, [data.key]);
+
   return (
     <main>
       <Meta title={t("Восстановление пароля")} />
@@ -127,7 +133,8 @@ const Recovery = () => {
                       />
                     )}
                   </div>
-                  <button draggable={false} 
+                  <button
+                    draggable={false}
                     type="submit"
                     className="btn btn-lg btn-primary w-100 mx-auto mt-4"
                     disabled={!isValid}
@@ -174,7 +181,8 @@ const Recovery = () => {
                       </p>
                     )}
                   </p>
-                  <button draggable={false} 
+                  <button
+                    draggable={false}
                     type="submit"
                     disabled={!data?.key || data?.key?.length < 4}
                     className="btn btn-primary w-100 mx-auto mt-4"
@@ -233,7 +241,8 @@ const Recovery = () => {
                       }}
                     />
                   </div>
-                  <button draggable={false} 
+                  <button
+                    draggable={false}
                     type="submit"
                     disabled={!isValid}
                     className="btn btn-primary w-100 mx-auto"

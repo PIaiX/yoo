@@ -71,6 +71,12 @@ const Activate = () => {
       });
   };
 
+  useEffect(() => {
+    if (data?.key?.length > 0 && data.key?.length === 4) {
+      onSubmit(data);
+    }
+  }, [data.key]);
+
   if (status) {
     return (
       <>

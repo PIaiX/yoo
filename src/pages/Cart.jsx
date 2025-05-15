@@ -31,6 +31,7 @@ import Loader from "../components/utils/Loader";
 import Extras from "../components/utils/Extras";
 import { useTranslation } from "react-i18next";
 import { Modal } from "react-bootstrap";
+import ButtonClose from "../components/utils/ButtonClose";
 
 const Cart = () => {
   const { t } = useTranslation();
@@ -608,7 +609,8 @@ const Cart = () => {
         </div>
       </Container>
       <Modal show={showReset} onHide={setShowReset} centered>
-        <Modal.Header className="h5" closeButton>
+        <Modal.Header className="h5">
+          <ButtonClose onClick={() => setShowReset(false)} />
           {t("Подтверждение")}
         </Modal.Header>
         <Modal.Body>{t("Вы подтверждаете очистку корзину?")}</Modal.Body>
