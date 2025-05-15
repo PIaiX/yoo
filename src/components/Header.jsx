@@ -66,6 +66,7 @@ import Select from "./utils/Select";
 import Textarea from "./utils/Textarea";
 import UserIcon from "./svgs/UserIcon";
 import CartIcon from "./svgs/CartIcon";
+import { AffiliateOne } from "../helpers/data";
 
 const Header = memo(() => {
   const { t } = useTranslation();
@@ -730,7 +731,7 @@ const Header = memo(() => {
             <Link draggable="false" to="/" className="me-2 me-xxl-3">
               <img
                 draggable="false"
-                src="/imgs/urman.png"
+                src="/imgs/urmanLogo.png"
                 alt={options?.title ?? "YOOAPP"}
                 className="logo"
               />
@@ -1956,13 +1957,18 @@ const Header = memo(() => {
               {affiliate?.length > 0 && (
                 <Row>
                   {affiliate.map((e, index) => (
-                    <Col md={6} key={index} className="pb-3">
+                    <Col
+                      md={6}
+                      key={index}
+                      className="pb-3"
+
+                    >
                       <a
-                        // onClick={() => {
-                        //   navigate("/catalog/" + e.id)
-                        //   dispatch(deleteCart());
-                        //   setShowAffiliat(false);
-                        // }}
+                        onClick={() => {
+                          if (AffiliateOne(e.id)?.telegramLink) {
+                            window.open(AffiliateOne(e.id).telegramLink, '_blank', 'noopener,noreferrer');
+                          }
+                        }}
                         className={
                           "brand-item"
                         }

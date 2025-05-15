@@ -13,9 +13,8 @@ import { AffiliateOne } from "../helpers/data";
 const AffiliateContent = memo(({ affiliate }) => {
   const navigate = useNavigate();
   const { t } = useTranslation();
-  console.log(affiliate)
+
   const data = AffiliateOne(affiliate.id)
-  console.log(data)
   return (
     <section >
       <Container>
