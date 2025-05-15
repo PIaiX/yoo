@@ -11,13 +11,13 @@ import React, {
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import "./assets/style.min.css";
+import CookieAccept from "./components/CookieAccept";
 import Holiday from "./components/Holiday";
 import Loader from "./components/utils/Loader";
 import YandexMetrika from "./components/YandexMetrika";
 import socket from "./config/socket";
 import {
   convertColor,
-  generateToken,
   getImageURL,
   isUpdateTime,
   languageCode,
@@ -27,6 +27,7 @@ import {
 import AppRouter from "./routes/AppRouter";
 import { checkAuth, logout } from "./services/auth";
 import { getOptions } from "./services/option";
+import { getDelivery } from "./services/order";
 import { updateAddresses } from "./store/reducers/addressSlice";
 import {
   updateAffiliate,
@@ -36,10 +37,10 @@ import {
 import {
   setAuth,
   setLoadingLogin,
-  setRefreshToken,
   setToken,
   setUser,
 } from "./store/reducers/authSlice";
+import { cartZone } from "./store/reducers/cartSlice";
 import { editDeliveryCheckout } from "./store/reducers/checkoutSlice";
 import { updateNotification } from "./store/reducers/notificationSlice";
 import {
@@ -51,9 +52,6 @@ import {
   updateSettingsCountry,
 } from "./store/reducers/settingsSlice";
 import { updateStatus } from "./store/reducers/statusSlice";
-import { getDelivery } from "./services/order";
-import { cartZone } from "./store/reducers/cartSlice";
-import CookieAccept from "./components/CookieAccept";
 
 function App() {
   const { i18n } = useTranslation();
@@ -72,9 +70,6 @@ function App() {
   const zone = useSelector((state) => state.cart?.zone);
   const addressData = useSelector((state) => state.address.items);
   const cart = useSelector((state) => state.cart.items);
-
-  const affiliater = useSelector((state) => state.affiliate.active);
-
 
   useEffect(() => {
     if (options?.themeType) {
@@ -286,16 +281,12 @@ function App() {
                 await checkAuth()
                   .then((data) => {
                     dispatch(setAuth(true));
-                    dispatch(setUser(data));
+                    dispatch(setUser(data.user));
 
-                    if (data?.lang) {
-                      i18n.changeLanguage(languageCode(data.lang));
-                      moment.locale(languageCode(data.lang));
+                    if (data?.user?.lang) {
+                      i18n.changeLanguage(languageCode(data.user.lang));
+                      moment.locale(languageCode(data.user.lang));
                     }
-
-                    dispatch(updateAddresses(data?.addresses ?? []));
-
-                    // dispatch(getFavorites());
                   })
                   .catch((err) => {
                     err?.response?.status === 404 && dispatch(logout());
@@ -312,7 +303,13 @@ function App() {
           }
           await checkAuth()
             .then((data) => {
-              dispatch(setUser(data));
+              dispatch(setAuth(true));
+              dispatch(setUser(data.user));
+
+              if (data?.user?.lang) {
+                i18n.changeLanguage(languageCode(data.user.lang));
+                moment.locale(languageCode(data.user.lang));
+              }
             })
             .catch((err) => {
               err?.response?.status === 404 && dispatch(logout());
@@ -416,7 +413,6 @@ function App() {
       socket.on("login/" + apiId, (response) => {
         dispatch(setUser(response.user));
         dispatch(setToken(response.token));
-        dispatch(setRefreshToken(response.refreshToken));
         dispatch(updateAddresses(response?.user?.addresses ?? []));
         dispatch(setAuth(true));
         dispatch(setLoadingLogin(false));
