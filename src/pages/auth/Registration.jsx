@@ -1,31 +1,44 @@
 import React, {
-  useState,
-  useRef,
   useCallback,
   useEffect,
   useMemo,
+  useRef,
+  useState,
 } from "react";
-import { useForm } from "react-hook-form";
+import {
+  Badge,
+  Button,
+  Col,
+  Container,
+  Form,
+  Modal,
+  Row,
+} from "react-bootstrap";
+import { useForm, useWatch } from "react-hook-form";
+import { useTranslation } from "react-i18next";
+import { FaTelegramPlane } from "react-icons/fa";
+import { HiXMark } from "react-icons/hi2";
+import { IoCall, IoMail, IoQrCodeOutline } from "react-icons/io5";
+import { NotificationManager } from "react-notifications";
+import QRCode from "react-qr-code";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import Input from "../../components/utils/Input";
-import { authQrGenerate, authRegister, login } from "../../services/auth";
 import Meta from "../../components/Meta";
-import { Badge, Button, Form, Modal, Container } from "react-bootstrap";
-import { NotificationManager } from "react-notifications";
-import { getImageURL } from "../../helpers/all";
-import { useTranslation } from "react-i18next";
+import Input from "../../components/utils/Input";
 import socket from "../../config/socket";
+import { getImageURL } from "../../helpers/all";
+import {
+  authQrGenerate,
+  authRegister,
+  authTelegram,
+  login,
+} from "../../services/auth";
 import {
   setAuth,
   setQr,
-  setRefreshToken,
   setToken,
   setUser,
 } from "../../store/reducers/authSlice";
-import { IoCall, IoMail, IoQrCodeOutline } from "react-icons/io5";
-import QRCode from "react-qr-code";
-import { HiXMark } from "react-icons/hi2";
 
 const Registration = () => {
   const { t } = useTranslation();
@@ -37,13 +50,14 @@ const Registration = () => {
   const loadingLogin = useSelector((state) => state.auth.loadingLogin);
   const qr = useSelector((state) => state.auth.qr);
   const [modalQr, setModalQr] = useState(false);
+  const [typeReg, setTypeReg] = useState(false);
   const timerRef = useRef(null);
   const bgImage = options.auth
     ? getImageURL({
-        path: options.auth,
-        type: "all/web/auth",
-        size: "full",
-      })
+      path: options.auth,
+      type: "all/web/auth",
+      size: "full",
+    })
     : false;
   const navigate = useNavigate();
   const [loadingReg, setLoadingReg] = useState(false);
@@ -79,22 +93,26 @@ const Registration = () => {
     reValidateMode: "onChange",
     defaultValues: {
       address: addresses?.length > 0 ? addresses[0] : false,
+      rememberBy: true,
+      accept: true,
     },
   });
 
   const {
+    control: controlReg,
     register: registerReg,
     formState: { errors: errorsReg, isValid: isValidReg },
-    handleSubmit: handleSubmitReg,
+    trigger: triggerReg,
   } = useForm({
     mode: "all",
     reValidateMode: "onChange",
     defaultValues: {
       accept: true,
+      rememberBy: true,
       address: addresses?.length > 0 ? addresses[0] : false,
     },
   });
-
+  const dataReg = useWatch({ control: controlReg });
   const dispatch = useDispatch();
 
   const onSubmit = useCallback((data) => {
@@ -116,9 +134,9 @@ const Registration = () => {
   }, []);
 
   const onSubmitReg = useCallback(
-    (data) => {
-      if (data?.phone && data.phone?.length > 0) {
-        let phone = data.phone.replace(/[^\d]/g, "").trim();
+    (type = false) => {
+      if (dataReg?.phone && dataReg.phone?.length > 0) {
+        let phone = dataReg.phone.replace(/[^\d]/g, "").trim();
         if (!phone) {
           return NotificationManager.error("Укажите номер телефона");
         }
@@ -131,25 +149,51 @@ const Registration = () => {
           );
         }
       }
-      if (data?.comment?.length > 0) {
+      if (dataReg?.password !== dataReg?.passwordConfirm) {
+        triggerReg("passwordConfirm");
+        return NotificationManager.error("Пароли не совпадают");
+      }
+      if (dataReg?.comment?.length > 0) {
         return NotificationManager.error(
           "Регистрация временно недоступна, попробуйте немного позже"
         );
       }
+
+      if (type === "telegram") {
+        if (!dataReg?.phone || dataReg?.phone?.length === 0) {
+          return NotificationManager.error("Укажите номер телефона");
+        }
+
+        authTelegram(dataReg)
+          .then(() => {
+            window.open("https://t.me/on_id_bot?start", "_blank");
+            navigate("/activate-telegram", { state: dataReg });
+            setTypeReg(false);
+          })
+          .catch((error) => {
+            return NotificationManager.error(
+              error?.response?.data?.error || t("Неизвестная ошибка")
+            );
+          });
+        // .finally(() => setLoading(false));
+
+        return;
+      }
+
       setLoadingReg(true);
 
-      authRegister(data)
+      authRegister({ ...dataReg, type })
         .then((res) => {
           NotificationManager.success(
             "Завершите регистрацию " +
-              (options.authType == "email"
-                ? "подтвердив почту"
-                : "подтвердив номер телефона")
+            (options.authType == "email"
+              ? "подтвердив почту"
+              : "подтвердив номер телефона")
           );
           if (res?.user?.id) {
             dispatch(setUser(res.user));
             dispatch(setToken(res.token));
-            dispatch(setRefreshToken(res.refreshToken));
+
             dispatch(setAuth(true));
 
             socket.io.opts.query = {
@@ -170,7 +214,7 @@ const Registration = () => {
         )
         .finally(() => setLoadingReg(false));
     },
-    [options]
+    [options, dataReg]
   );
 
   const handleClick = () => {
@@ -246,7 +290,7 @@ const Registration = () => {
           if (token) {
             dispatch(setQr(token));
           }
-        } catch (error) {}
+        } catch (error) { }
       };
 
       updateQrToken();
@@ -271,7 +315,7 @@ const Registration = () => {
         if (data?.user && data?.token) {
           dispatch(setUser(data.user));
           dispatch(setToken(data.token));
-          dispatch(setRefreshToken(data.refreshToken));
+
           dispatch(setAuth(true));
         }
       });
@@ -325,7 +369,7 @@ const Registration = () => {
           />
         )}
       </div>
-      <div className="mb-4">
+      <div className="mb-3">
         <Input
           type="password"
           name="password"
@@ -341,6 +385,18 @@ const Registration = () => {
           }}
         />
       </div>
+      <Form.Check className="mb-3">
+        <Form.Check.Input
+          type="checkbox"
+          name="rememberBy"
+          id="rememberBy"
+          value={true}
+          {...register("rememberBy")}
+        />
+        <Form.Check.Label htmlFor="rememberBy" className="ms-2">
+          {t("Запомнить вход")}{" "}
+        </Form.Check.Label>
+      </Form.Check>
       <Button
         type="submit"
         variant="primary"
@@ -369,123 +425,370 @@ const Registration = () => {
   ));
 
   const loginForm = useMemo(() => (
-    <form className="login-form" onSubmit={handleSubmitReg(onSubmitReg)}>
-      <h4 className="fw-6 mb-1">{t("Регистрация")}</h4>
-      <p className="fs-10 mb-4 text-muted">
-        {t("Заполните данные, чтобы создать профиль")}
-      </p>
-      <div className="mb-3">
+    <div className="login-form">
+      <div className={typeReg ? "d-none" : ""}>
+        <h4 className="fw-6 mb-1">{t("Регистрация")}</h4>
+        <p className="fs-10 mb-4 text-muted">
+          {t("Заполните данные, чтобы создать профиль")}
+        </p>
+
         {!options.authType || options.authType === "email" ? (
+          <>
+            <div className="mb-3">
+              <Input
+                type="email"
+                name="email"
+                inputMode="email"
+                placeholder={t("Введите email")}
+                errors={errorsReg}
+                register={registerReg}
+                validation={{
+                  required: t("Введите email"),
+                  maxLength: {
+                    value: 250,
+                    message: "Максимально 250 символов",
+                  },
+                  pattern: {
+                    value: /\S+@\S+\.\S+/,
+                    message: "Неверный формат Email",
+                  },
+                }}
+              />
+            </div>
+
+            {options?.reg?.phone && (
+              <div className="mb-3">
+                <Input
+                  type="custom"
+                  name="dopPhone"
+                  inputMode="tel"
+                  placeholder="+7(900)000-00-00"
+                  mask="+7(999)999-99-99"
+                  errors={errorsReg}
+                  register={registerReg}
+                  maxLength={16}
+                  validation={{
+                    required: options?.reg?.phoneRequired
+                      ? t("Введите номер телефона")
+                      : false,
+                    maxLength: {
+                      value: 16,
+                      message: "Максимально 16 символов",
+                    },
+                  }}
+                />
+              </div>
+            )}
+          </>
+        ) : (
+          <>
+            <div className="mb-3">
+              <Input
+                type="custom"
+                name="phone"
+                inputMode="tel"
+                placeholder="+7(900)000-00-00"
+                mask="+7(999)999-99-99"
+                errors={errorsReg}
+                register={registerReg}
+                maxLength={16}
+                validation={{
+                  required: t("Введите номер телефона"),
+                  maxLength: {
+                    value: 16,
+                    message: "Максимально 16 символов",
+                  },
+                }}
+              />
+            </div>
+            {options?.reg?.email && (
+              <div className="mb-3">
+                <Input
+                  type="email"
+                  name="dopEmail"
+                  inputMode="email"
+                  placeholder={t("Введите email")}
+                  errors={errorsReg}
+                  register={registerReg}
+                  validation={{
+                    required: options?.reg?.emailRequired
+                      ? t("Введите email")
+                      : false,
+                    maxLength: {
+                      value: 250,
+                      message: "Максимально 250 символов",
+                    },
+                    pattern: {
+                      value: /\S+@\S+\.\S+/,
+                      message: "Неверный формат Email",
+                    },
+                  }}
+                />
+              </div>
+            )}
+          </>
+        )}
+
+        <div className="mb-3">
           <Input
-            type="email"
-            name="email"
-            inputMode="email"
-            placeholder={t("Введите email")}
+            type="password"
+            placeholder={t("Придумайте пароль")}
+            name="password"
             errors={errorsReg}
             register={registerReg}
             validation={{
-              required: t("Введите email"),
+              required: t("Введите пароль"),
+              minLength: {
+                value: 6,
+                message: "Минимальное кол-во символов 6",
+              },
               maxLength: {
                 value: 250,
-                message: "Максимально 250 символов",
-              },
-              pattern: {
-                value: /\S+@\S+\.\S+/,
-                message: "Неверный формат Email",
+                message: "Максимальное кол-во символов 250",
               },
             }}
           />
-        ) : (
+        </div>
+        <div className="mb-3">
           <Input
-            type="custom"
-            name="phone"
-            inputMode="tel"
-            placeholder="+7(900)000-00-00"
-            mask="+7(999)999-99-99"
+            type="password"
+            placeholder={t("Повторите пароль")}
+            name="passwordConfirm"
             errors={errorsReg}
             register={registerReg}
-            maxLength={16}
             validation={{
-              required: t("Введите номер телефона"),
+              required: t("Введите повторный пароль"),
+              minLength: {
+                value: 6,
+                message: "Минимальное кол-во символов 6",
+              },
               maxLength: {
-                value: 16,
-                message: "Максимально 16 символов",
+                value: 250,
+                message: "Максимальное кол-во символов 250",
+              },
+              validate: (value) => {
+                const password = dataReg.password;
+                return value === password || t("Пароли не совпадают");
               },
             }}
           />
+        </div>
+        <hr />
+        <Row className="gx-2">
+          {options?.reg?.firstName && (
+            <Col className="mb-3" md={6}>
+              <Input
+                errors={errorsReg}
+                name="firstName"
+                placeholder={t("Введите имя")}
+                register={registerReg}
+                validation={{
+                  required: options?.reg?.firstNameRequired
+                    ? t("Обязательное поле")
+                    : false,
+                  maxLength: {
+                    value: 30,
+                    message: t("Максимум 30 символов"),
+                  },
+                }}
+              />
+            </Col>
+          )}
+          {options?.reg?.lastName && (
+            <Col className="mb-3" md={6}>
+              <Input
+                errors={errorsReg}
+                name="lastName"
+                placeholder={t("Введите фамилию")}
+                register={registerReg}
+                validation={{
+                  required: options?.reg?.lastNameRequired
+                    ? t("Обязательное поле")
+                    : false,
+                  maxLength: {
+                    value: 50,
+                    message: t("Максимум 50 символов"),
+                  },
+                }}
+              />
+            </Col>
+          )}
+          {options?.reg?.patronymic && (
+            <Col className="mb-3" md={6}>
+              <Input
+                errors={errorsReg}
+                name="patronymic"
+                placeholder={t("Введите отчество")}
+                register={registerReg}
+                validation={{
+                  required: options?.reg?.patronymicRequired
+                    ? t("Обязательное поле")
+                    : false,
+                  maxLength: {
+                    value: 50,
+                    message: t("Максимум 50 символов"),
+                  },
+                }}
+              />
+            </Col>
+          )}
+          {options?.reg?.birthday && (
+            <Col className="mb-3" md={6}>
+              <Input
+                type="date"
+                placeholder={t("Укажите день рождение")}
+                name="birthday"
+                errors={errorsReg}
+                register={registerReg}
+                validation={{
+                  required: options?.reg?.birthdayRequired
+                    ? t("Обязательное поле")
+                    : false,
+                  minLength: {
+                    value: 10,
+                    message: t("Минимум 10 символов"),
+                  },
+                  maxLength: {
+                    value: 10,
+                    message: t("Максимум 10 символов"),
+                  },
+                }}
+              />
+            </Col>
+          )}
+        </Row>
+        {options?.reg?.sex && (
+          <div className="mb-3">
+            <Form.Check className="d-inline-flex me-3">
+              <Form.Check.Input
+                type="radio"
+                name="sex"
+                id="sex"
+                defaultChecked={true}
+                value="man"
+                {...registerReg("sex", {
+                  required: options?.reg?.sexRequired
+                    ? t("Обязательное поле")
+                    : false,
+                })}
+              />
+              <Form.Check.Label htmlFor="sex" className="ms-2">
+                {t("Мужской")}
+              </Form.Check.Label>
+            </Form.Check>
+            <Form.Check className="d-inline-flex me-3">
+              <Form.Check.Input
+                type="radio"
+                name="sex"
+                id="sex2"
+                value="woman"
+                {...registerReg("sex", {
+                  required: options?.reg?.sexRequired
+                    ? t("Обязательное поле")
+                    : false,
+                })}
+              />
+              <Form.Check.Label htmlFor="sex2" className="ms-2">
+                {t("Женский")}
+              </Form.Check.Label>
+            </Form.Check>
+          </div>
         )}
-      </div>
-      <div className="mb-3">
-        <Input
-          type="password"
-          placeholder={t("Придумайте пароль")}
-          name="password"
-          errors={errorsReg}
-          register={registerReg}
-          validation={{
-            required: t("Введите пароль"),
-            minLength: {
-              value: 6,
-              message: "Минимальное кол-во символов 6",
-            },
-            maxLength: {
-              value: 250,
-              message: "Максимальное кол-во символов 250",
-            },
+        <input type="text" className="d-none" {...registerReg("comment")} />
+
+        <Form.Check className="mb-3">
+          <Form.Check.Input
+            type="checkbox"
+            name="accept"
+            id="accept"
+            value={true}
+            {...registerReg("accept", {
+              required: t("Примите условия пользовательского соглашения"),
+            })}
+          />
+          <Form.Check.Label htmlFor="accept" className="ms-2">
+            {t("Принять условия")}{" "}
+            <a
+              className="text-decoration-underline text-main"
+              href="/policy"
+              target="_blank"
+            >
+              {t("Пользовательского соглашения")}
+            </a>
+          </Form.Check.Label>
+        </Form.Check>
+        <Button
+          variant="primary"
+          disabled={loadingReg || !isValidReg}
+          className={"w-100 btn-lg " + (loadingReg ? "loading" : "")}
+          onClick={() => {
+            // Если authType не указан или это email - сразу отправляем
+            if (!options?.authType || options?.authType === "email") {
+              return onSubmitReg();
+            }
+
+            // Если authType phone и есть методы регистрации - показываем модалку
+
+            if (
+              options?.authType === "phone" &&
+              options?.regMethod &&
+              (options?.regMethod?.telegram || options?.regMethod?.call)
+            ) {
+              setTypeReg(true);
+            } else {
+              console.log(3);
+              // Во всех остальных случаях - отправляем
+              onSubmitReg();
+            }
           }}
-        />
+        >
+          {t("Зарегистрироваться")}
+        </Button>
       </div>
-      <div className="mb-3">
-        <Input
-          type="password"
-          placeholder={t("Повторите пароль")}
-          name="passwordConfirm"
-          errors={errorsReg}
-          register={registerReg}
-          validation={{
-            required: t("Введите повторный пароль"),
-            minLength: {
-              value: 6,
-              message: "Минимальное кол-во символов 6",
-            },
-            maxLength: {
-              value: 250,
-              message: "Максимальное кол-во символов 250",
-            },
-          }}
-        />
-      </div>
-      <input type="text" className="d-none" {...registerReg("comment")} />
-      <Form.Check className="mb-4">
-        <Form.Check.Input
-          type="checkbox"
-          name="accept"
-          id="accept"
-          value={true}
-          {...registerReg("accept", {
-            required: t("Примите условия пользовательского соглашения"),
-          })}
-        />
-        <Form.Check.Label htmlFor="accept" className="ms-2">
-          {t("Принять условия")}{" "}
-          <a
-            className="text-decoration-underline text-main"
-            href="/policy"
-            target="_blank"
+      <div className={typeReg ? "" : "d-none"}>
+        <h4 className="fw-6 mb-4">
+          {t("Выберите способ подтверждения номера")}
+        </h4>
+        {options?.authType === "phone" && options?.regMethod?.call && (
+          <Button
+            onClick={() => onSubmitReg("call")}
+            isValid={isValid}
+            className="w-100 btn-lg d-flex align-items-center btn-dark mb-3"
           >
-            {t("Пользовательского соглашения")}
-          </a>
-        </Form.Check.Label>
-      </Form.Check>
-      <Button
-        type="submit"
-        variant="primary"
-        disabled={loadingReg || !isValidReg}
-        className={"w-100 btn-lg " + (loadingReg ? "loading" : "")}
-      >
-        {t("Зарегистрироваться")}
-      </Button>
-    </form>
+            <IoCall size={20} className="me-2" />
+            {t("Подтвердить через звонок")}
+          </Button>
+        )}
+
+        {options?.authType === "phone" && options?.regMethod?.telegram && (
+          <Button
+            onClick={() => onSubmitReg("telegram")}
+            className="btn-telegram d-flex align-items-center w-100 btn-lg mb-3"
+            isValid={isValid}
+          >
+            <FaTelegramPlane size={20} className="me-2" />
+            {t("Получить код в Telegram")}
+          </Button>
+        )}
+        {options?.authType === "phone" && (
+          <Button
+            onClick={() => onSubmitReg()}
+            isValid={isValid}
+            className="w-100 d-flex align-items-center btn-lg mb-3"
+          >
+            <IoMail size={20} className="me-2" />
+            {t("Получить код по SMS")}
+          </Button>
+        )}
+        <Button
+          onClick={() => setTypeReg(false)}
+          isValid={isValid}
+          className="w-100 btn-light btn-lg"
+        >
+          {t("Отмена")}
+        </Button>
+      </div>
+    </div>
   ));
 
   return (
