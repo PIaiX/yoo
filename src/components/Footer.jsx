@@ -39,7 +39,7 @@ const iconComponents = {
 
 const Footer = memo(() => {
   const { t } = useTranslation();
-
+  const affiliateItems = useSelector(state => state.affiliate.items)
   const isAuth = useSelector((state) => state.auth.isAuth);
   const cart = useSelector((state) => state.cart.items);
   const options = useSelector((state) => state.settings.options);
@@ -108,7 +108,7 @@ const Footer = memo(() => {
                     {item.title}
                   </Link>
                   <div className="phone">
-                    +7 986 719-00-00
+                    {affiliateItems.find(e => e.id == item.id).phone && affiliateItems.find(e => e.id == item.id).phone[0]}
                   </div>
                   <div className="mess">
                     <Link

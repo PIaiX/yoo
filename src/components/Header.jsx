@@ -772,7 +772,7 @@ const Header = memo(() => {
               )} */}
 
             </ul>
-            {selectedAffiliate &&
+            {/* {selectedAffiliate &&
               selectedAffiliate?.phone &&
               selectedAffiliate?.phone[0] && (
                 <div>
@@ -840,7 +840,7 @@ const Header = memo(() => {
                     </div>
                   ) : null}
                 </div>
-              )}
+              )} */}
 
             <ul className="icons-menu">
               {/* <li className="d-none d-lg-block">
