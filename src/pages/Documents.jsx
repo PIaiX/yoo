@@ -7,6 +7,7 @@ import { getDocument, getDocuments } from "../services/document";
 import { useSelector } from "react-redux";
 import Meta from "../components/Meta";
 import { useTranslation } from "react-i18next";
+import { IoChevronForward } from "react-icons/io5";
 
 const Documents = memo(() => {
   const { t } = useTranslation();
@@ -86,10 +87,13 @@ const Documents = memo(() => {
             <ListGroup.Item
               active={false}
               action
-              // href={"tel://" + options.info.phone.value}
-              className="d-flex flex-row align-items-center p-3"
+              href={"/document/" + e.link}
+              className="d-flex flex-row align-items-center p-3 justify-content-between"
             >
-              {e.title}
+              <div>{e.title}</div>
+              <div>
+                <IoChevronForward color="#999" size={20} />
+              </div>
             </ListGroup.Item>
           ))}
         </ListGroup>

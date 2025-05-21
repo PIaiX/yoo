@@ -137,7 +137,7 @@ const Footer = memo(() => {
                 </li>
               )}
               <li className="me-4">
-                <Link to="/policy">{t("Правовая информация")}</Link>
+                <Link to="/documents">{t("Правовая информация")}</Link>
               </li>
               {selectedAffiliate &&
                 selectedAffiliate?.phone &&

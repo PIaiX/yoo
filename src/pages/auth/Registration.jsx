@@ -706,15 +706,16 @@ const Registration = () => {
               required: t("Примите условия пользовательского соглашения"),
             })}
           />
-          <Form.Check.Label htmlFor="accept" className="ms-2">
-            {t("Принять условия")}{" "}
+          <Form.Check.Label htmlFor="accept" className="ms-2 fs-09">
+            Продолжая регистрацию вы соглашайтесь с{" "}
             <a
-              className="text-decoration-underline text-main"
-              href="/policy"
+              href="/documents"
               target="_blank"
+              className="text-decoration-underline text-main"
             >
-              {t("Пользовательского соглашения")}
-            </a>
+              условиями использования
+            </a>{" "}
+            данного сайта
           </Form.Check.Label>
         </Form.Check>
         <Button
