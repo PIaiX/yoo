@@ -33,6 +33,7 @@ import Search from "../pages/Search";
 import Info from "../pages/Info";
 import RedirectApp from "../pages/RedirectApp";
 import ActivateTelegram from "../pages/auth/ActivateTelegram";
+import Documents from "../pages/Documents";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -51,6 +52,7 @@ const router = createBrowserRouter(
       <Route path="promo/:saleId" element={<OfferPage />} />
       <Route path="contact" element={<Contact />} />
       <Route path="delivery" element={<Delivery />} />
+      <Route path="documents" element={<Documents />} />
       <Route path="policy" element={<Policy />} />
       <Route path="policy-cookie" element={<PolicyCookie />} />
       <Route path="*" element={<NotFound />} />

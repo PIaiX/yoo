@@ -137,7 +137,7 @@ const Footer = memo(() => {
                 </li>
               )}
               <li className="me-4">
-                <Link to="/policy">{t("Политика конфиденциальности")}</Link>
+                <Link to="/policy">{t("Правовая информация")}</Link>
               </li>
               {selectedAffiliate &&
                 selectedAffiliate?.phone &&
@@ -178,7 +178,9 @@ const Footer = memo(() => {
                         size={50}
                         className="p-1 bg-white rounded shadow-sm"
                         value={
-                          "https://" + window.location.hostname + "/redirect/app"
+                          "https://" +
+                          window.location.hostname +
+                          "/redirect/app"
                         }
                         viewBox={`0 0 50 50`}
                       />

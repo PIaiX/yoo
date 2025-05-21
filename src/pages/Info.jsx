@@ -1,8 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import Container from "react-bootstrap/Container";
-
-// swiper
-import { ListGroup } from "react-bootstrap";
+import { ListGroup, Container } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 import {
   FaAppStoreIos,
