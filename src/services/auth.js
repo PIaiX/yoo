@@ -3,7 +3,6 @@ import { NotificationManager } from "react-notifications";
 import api from ".";
 import { apiRoutes } from "../config/api";
 import socket from "../config/socket";
-import store from "../store";
 import { resetAddresses, updateAddresses } from "../store/reducers/addressSlice";
 import { setAuth, setLoadingLogin, setToken, setUser } from "../store/reducers/authSlice";
 import { resetCart } from "../store/reducers/cartSlice";
