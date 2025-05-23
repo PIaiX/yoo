@@ -1062,10 +1062,10 @@ const Header = memo(() => {
                 <li>
                   <Link
                     draggable="false"
-                    to="/policy"
+                    to="/documents"
                     onClick={() => setShowMenu(false)}
                   >
-                    {t("Политика конфиденциальности")}
+                    {t("Правовая информация")}
                   </Link>
                 </li>
               </ul>
