@@ -357,9 +357,9 @@ function App() {
         const fetchDeliveryData = async () => {
           try {
             if (delivery !== "delivery" || !auth?.user?.id) throw false;
-            const newAddresses = city?.title ? addressData : newAddresses[0];
+
             const selectedAddress =
-              newAddresses?.find((e) => e.main) || newAddresses[0];
+              addressData?.find((e) => e.main) || addressData[0];
 
             if (!selectedAddress) throw false;
 

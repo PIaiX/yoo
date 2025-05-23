@@ -774,14 +774,17 @@ const Checkout = () => {
                     >
                       <b className="d-flex justify-content-between w-100">
                         <span>{t("Самовывоз")}</span>
-                        <span className="fw-4 fs-09">
-                          {selectedAffiliate?.options?.time > 0
-                            ? selectedAffiliate?.options?.time >= 60
-                              ? `${selectedAffiliate.options.time / 60}ч - ${
-                                  selectedAffiliate.options.time / 60 + 0.3
+                        <span className="fw-4 fs-09 ms-1">
+                          {Number(selectedAffiliate?.options?.time) > 0
+                            ? Number(selectedAffiliate?.options?.time) >= 60
+                              ? `${
+                                  Number(selectedAffiliate.options.time) / 60
+                                }ч - ${
+                                  Number(selectedAffiliate.options.time) / 60 +
+                                  0.3
                                 }ч`
                               : `${selectedAffiliate.options.time} - ${
-                                  selectedAffiliate.options.time + 30
+                                  Number(selectedAffiliate.options.time) + 30
                                 } мин`
                             : null}
                         </span>

@@ -70,6 +70,7 @@ const ProductCardMini = memo(({ data }) => {
           </h6>
           {data.energy.weight > 0 && (
             <p className="text-muted d-none d-lg-block">
+              2
               {customWeight({
                 value: data.energy.weight,
                 type: data.energy?.weightType,

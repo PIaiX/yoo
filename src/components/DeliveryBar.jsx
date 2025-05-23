@@ -15,13 +15,7 @@ const DeliveryBar = memo(() => {
   const { totalNoDelivery = 0 } = useTotalCart();
   const { t } = useTranslation();
 
-  if (
-    delivery != "delivery" ||
-    !isAuth ||
-    pathname.indexOf("account") != -1 ||
-    (totalNoDelivery > zone?.data?.minPrice &&
-      totalNoDelivery > zone?.data?.priceFree)
-  ) {
+  if (delivery != "delivery" || !isAuth || pathname.indexOf("account") != -1) {
     return null;
   }
 
@@ -53,7 +47,7 @@ const DeliveryBar = memo(() => {
                   : "full"
               }
             ></div>
-            <img draggable="false"  src="/imgs/scooter.png" alt="delivery" />
+            <img draggable="false" src="/imgs/scooter.png" alt="delivery" />
           </div>
         </div>
       </div>

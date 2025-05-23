@@ -408,7 +408,9 @@ const ProductCard = memo(({ data, onLoad }) => {
             })}
           </a>
         )}
-        <ButtonCartProductMini product={data} onLoad={onLoad} />
+        <div>
+          <ButtonCartProductMini product={data} onLoad={onLoad} />
+        </div>
       </div>
     </div>
   );
