@@ -1,25 +1,28 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { Button, Container, Row, Col } from "react-bootstrap";
+import { useRef } from "react";
+import { Button, Col, Container, Row } from "react-bootstrap";
 import { useForm, useWatch } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { FaTelegramPlane, FaWhatsapp } from "react-icons/fa";
 import { IoCall, IoMail } from "react-icons/io5";
 import { NotificationManager } from "react-notifications";
+import QRCode from "react-qr-code";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import Meta from "../../components/Meta";
 import Input from "../../components/utils/Input";
 import InputCode from "../../components/utils/InputCode";
-import QRCode from "react-qr-code";
 import { Timer } from "../../helpers/timer";
+import useIsMobile from "../../hooks/isMobile";
 import {
   authNewKeyRecovery,
   authPasswordRecovery,
   checkRegistration,
 } from "../../services/auth";
-import { BsLink } from "react-icons/bs";
 
 const Recovery = () => {
+  const inputCodeRef = useRef();
+
   const authType = useSelector((state) => state.settings.options.authType);
   const [endTimer, setEndTimer] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -30,7 +33,7 @@ const Recovery = () => {
   const { t } = useTranslation();
   const options = useSelector((state) => state.settings.options);
   const city = useSelector((state) => state.affiliate.city);
-
+  const isMobileLG = useIsMobile("991px");
   const {
     control,
     formState: { isValid, errors },
@@ -104,7 +107,8 @@ const Recovery = () => {
           }
         })
         .catch((error) => {
-          console.log(error);
+          setValue("key", null);
+          handleClear();
           NotificationManager.error(
             typeof error?.response?.data?.error === "string"
               ? error.response.data.error
@@ -118,6 +122,12 @@ const Recovery = () => {
   const onNewKey = () => {
     setEndTimer(false);
     authNewKeyRecovery(data);
+  };
+
+  const handleClear = () => {
+    if (inputCodeRef.current) {
+      inputCodeRef.current.clear(); // Вызов метода очистки
+    }
   };
 
   const onCheckRecovery = useCallback(() => {
@@ -141,7 +151,7 @@ const Recovery = () => {
 
   useEffect(() => {
     if (data?.step === 2 && data?.key?.length > 0 && data.key?.length === 4) {
-      onSubmit(data);
+      onSubmit(data?.type);
     }
   }, [data.key]);
 
@@ -303,28 +313,30 @@ const Recovery = () => {
                   options?.authType === "phone" ? (
                   <Row className="auth-icon">
                     <Col md={7}>
-                      <img src="/imgs/auth/tg.png" />
+                      <img src="/imgs/auth/whatsapp.png" />
                     </Col>
-                    <Col className="text-center" md={5}>
-                      <QRCode
-                        size={350}
-                        className="qr-recovery"
-                        value={`https://wa.me/79179268990?text=${encodeURIComponent(
-                          "Восстановить пароль"
-                        )}`}
-                        viewBox={`0 0 350 350`}
-                      />
-                      <a
-                        href={`https://web.whatsapp.com/send/?phone=79179268990&text=${encodeURIComponent(
-                          "Подтвердить телефон"
-                        )}&type=phone_number&app_absent=1`}
-                        target="_blank"
-                        className="btn-whatsapp d-flex align-items-center m-auto btn-xs mt-2"
-                      >
-                        <FaWhatsapp size={18} className="me-1" />
-                        {t("Открыть WEB WhatsApp")}
-                      </a>
-                    </Col>
+                    {!isMobileLG && (
+                      <Col className="text-center" md={5}>
+                        <QRCode
+                          size={350}
+                          className="qr-recovery"
+                          value={`https://wa.me/79179268990?text=${encodeURIComponent(
+                            "Восстановить пароль"
+                          )}`}
+                          viewBox={`0 0 350 350`}
+                        />
+                        <a
+                          href={`https://web.whatsapp.com/send/?phone=79179268990&text=${encodeURIComponent(
+                            "Подтвердить телефон"
+                          )}&type=phone_number&app_absent=1`}
+                          target="_blank"
+                          className="btn-whatsapp d-flex align-items-center m-auto btn-xs mt-2"
+                        >
+                          <FaWhatsapp size={18} className="me-1" />
+                          {t("Открыть WEB WhatsApp")}
+                        </a>
+                      </Col>
+                    )}
                   </Row>
                 ) : (
                   data?.type === "telegram" &&
@@ -407,6 +419,7 @@ const Recovery = () => {
 
                 <p className="mb-4">
                   <InputCode
+                    ref={inputCodeRef}
                     length={4}
                     autoFocus={true}
                     onChange={(e) => setValue("key", e)}

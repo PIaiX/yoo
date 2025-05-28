@@ -1,4 +1,5 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
+import { useRef } from "react";
 import { Form, Row, Col } from "react-bootstrap";
 import { useForm, useWatch } from "react-hook-form";
 import { useTranslation } from "react-i18next";
@@ -12,13 +13,16 @@ import EmptyActivate from "../../components/empty/activate";
 import Meta from "../../components/Meta";
 import InputCode from "../../components/utils/InputCode";
 import socket from "../../config/socket";
+import useIsMobile from "../../hooks/isMobile";
 import { authWhatsApp } from "../../services/auth";
 import { setToken, setUser } from "../../store/reducers/authSlice";
 
 const ActivateWhatsApp = () => {
+  const inputCodeRef = useRef();
+
   const { t } = useTranslation();
   const { state } = useLocation();
-
+  const isMobileLG = useIsMobile("991px");
   const isAuth = useSelector((state) => state.auth.isAuth);
   const [status, setStatus] = useState(false);
 
@@ -31,6 +35,12 @@ const ActivateWhatsApp = () => {
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  const handleClear = () => {
+    if (inputCodeRef.current) {
+      inputCodeRef.current.clear(); // Вызов метода очистки
+    }
+  };
 
   const onSubmit = useCallback(
     (data) => {
@@ -49,6 +59,8 @@ const ActivateWhatsApp = () => {
           setStatus(true);
         })
         .catch((error) => {
+          setValue("key", null);
+          handleClear();
           return NotificationManager.error(
             error?.response?.data?.error || t("Неизвестная ошибка")
           );
@@ -56,6 +68,12 @@ const ActivateWhatsApp = () => {
     },
     [dispatch, t]
   );
+
+  useEffect(() => {
+    if (data?.key?.length > 0 && data.key?.length === 4) {
+      onSubmit(data);
+    }
+  }, [data.key]);
 
   if (status) {
     return (
@@ -86,28 +104,30 @@ const ActivateWhatsApp = () => {
         <Form className="recovery-form">
           <Row className="auth-icon">
             <Col md={7}>
-              <img src="/imgs/auth/tg.png" />
+              <img src="/imgs/auth/whatsapp.png" />
             </Col>
-            <Col className="text-center" md={5}>
-              <QRCode
-                size={350}
-                className="qr-recovery"
-                value={`https://wa.me/79179268990?text=${encodeURIComponent(
-                  "Подтвердить телефон"
-                )}`}
-                viewBox={`0 0 350 350`}
-              />
-              <a
-                href={`https://web.whatsapp.com/send/?phone=79179268990&text=${encodeURIComponent(
-                  "Подтвердить телефон"
-                )}&type=phone_number&app_absent=1`}
-                target="_blank"
-                className="btn-whatsapp d-flex align-items-center m-auto btn-xs mt-2"
-              >
-                <FaWhatsapp size={18} className="me-1" />
-                {t("Открыть WEB WhatsApp")}
-              </a>
-            </Col>
+            {!isMobileLG && (
+              <Col className="text-center" md={5}>
+                <QRCode
+                  size={350}
+                  className="qr-recovery"
+                  value={`https://wa.me/79179268990?text=${encodeURIComponent(
+                    "Подтвердить телефон"
+                  )}`}
+                  viewBox={`0 0 350 350`}
+                />
+                <a
+                  href={`https://web.whatsapp.com/send/?phone=79179268990&text=${encodeURIComponent(
+                    "Подтвердить телефон"
+                  )}&type=phone_number&app_absent=1`}
+                  target="_blank"
+                  className="btn-whatsapp d-flex align-items-center m-auto btn-xs mt-2"
+                >
+                  <FaWhatsapp size={18} className="me-1" />
+                  {t("Открыть WEB WhatsApp")}
+                </a>
+              </Col>
+            )}
           </Row>
 
           <h5 className="mb-3 fw-6 text-center">
@@ -124,6 +144,7 @@ const ActivateWhatsApp = () => {
           </ol>
           <div className="mb-2">
             <InputCode
+              ref={inputCodeRef}
               length={4}
               autoFocus={true}
               onChange={(e) => setValue("key", e)}

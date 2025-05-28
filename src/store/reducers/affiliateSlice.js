@@ -88,6 +88,9 @@ const affiliateSlice = createSlice({
     },
     updateCities: (state, action) => {
       state.cities = action.payload;
+      if (!state.city && action.payload && action.payload[0]?.id) {
+        state.city = action.payload[0]
+      }
     },
     updateTable: (state, action) => {
       state.tables = action.payload;

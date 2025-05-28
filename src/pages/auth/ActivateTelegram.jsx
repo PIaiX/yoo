@@ -1,4 +1,5 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useState, useEffect } from "react";
+import { useRef } from "react";
 import { Form, Row, Col } from "react-bootstrap";
 import { useForm, useWatch } from "react-hook-form";
 import { useTranslation } from "react-i18next";
@@ -12,13 +13,16 @@ import EmptyActivate from "../../components/empty/activate";
 import Meta from "../../components/Meta";
 import InputCode from "../../components/utils/InputCode";
 import socket from "../../config/socket";
+import useIsMobile from "../../hooks/isMobile";
 import { authTelegram } from "../../services/auth";
 import { setToken, setUser } from "../../store/reducers/authSlice";
 
 const ActivateTelegram = () => {
+  const inputCodeRef = useRef();
+
   const { t } = useTranslation();
   const { state } = useLocation();
-
+  const isMobileLG = useIsMobile("991px");
   const isAuth = useSelector((state) => state.auth.isAuth);
   const [status, setStatus] = useState(false);
 
@@ -31,6 +35,12 @@ const ActivateTelegram = () => {
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  const handleClear = () => {
+    if (inputCodeRef.current) {
+      inputCodeRef.current.clear(); // Вызов метода очистки
+    }
+  };
 
   const onSubmit = useCallback(
     (data) => {
@@ -49,6 +59,8 @@ const ActivateTelegram = () => {
           setStatus(true);
         })
         .catch((error) => {
+          setValue("key", null);
+          handleClear();
           return NotificationManager.error(
             error?.response?.data?.error || t("Неизвестная ошибка")
           );
@@ -56,6 +68,12 @@ const ActivateTelegram = () => {
     },
     [dispatch, t]
   );
+
+  useEffect(() => {
+    if (data?.key?.length > 0 && data.key?.length === 4) {
+      onSubmit(data);
+    }
+  }, [data.key]);
 
   if (status) {
     return (
@@ -88,22 +106,24 @@ const ActivateTelegram = () => {
             <Col md={7}>
               <img src="/imgs/auth/tg.png" />
             </Col>
-            <Col className="text-center" md={5}>
-              <QRCode
-                size={350}
-                className="qr-recovery"
-                value={`https://t.me/on_id_bot?text=/start&start`}
-                viewBox={`0 0 350 350`}
-              />
-              <a
-                href={`https://t.me/on_id_bot?text=/start&start`}
-                target="_blank"
-                className="btn-telegram d-flex align-items-center m-auto btn-xs mt-2"
-              >
-                <FaTelegramPlane size={18} className="me-1" />
-                {t("Открыть WEB Telegram")}
-              </a>
-            </Col>
+            {!isMobileLG && (
+              <Col className="text-center" md={5}>
+                <QRCode
+                  size={350}
+                  className="qr-recovery"
+                  value={`https://t.me/on_id_bot?text=/start&start`}
+                  viewBox={`0 0 350 350`}
+                />
+                <a
+                  href={`https://t.me/on_id_bot?text=/start&start`}
+                  target="_blank"
+                  className="btn-telegram d-flex align-items-center m-auto btn-xs mt-2"
+                >
+                  <FaTelegramPlane size={18} className="me-1" />
+                  {t("Открыть WEB Telegram")}
+                </a>
+              </Col>
+            )}
           </Row>
           <h5 className="mb-3 fw-6 text-center">
             {t(`Подтвердите номер телефона в Telegram`)}
@@ -128,6 +148,7 @@ const ActivateTelegram = () => {
           </ol>
           <div className="mb-2">
             <InputCode
+              ref={inputCodeRef}
               length={4}
               autoFocus={true}
               onChange={(e) => setValue("key", e)}

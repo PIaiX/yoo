@@ -14,6 +14,8 @@ const Support = () => {
   const { t } = useTranslation();
   const { state } = useLocation();
   const dispatch = useDispatch();
+  const city = useSelector((state) => state.affiliate.city);
+  const affiliate = useSelector((state) => state.affiliate.active);
 
   const isAuth = useSelector((state) => state.auth.isAuth);
   const timer = useRef(0);
@@ -47,10 +49,10 @@ const Support = () => {
       dispatch(updateNotification({ message: -1 }));
       getMessages()
         .then((res) => {
-          reset({
-            bookId: res?.book?.id,
-            chapterId: res?.chapter?.id,
-          });
+          // reset({
+          //   bookId: res?.book?.id,
+          //   chapterId: res?.chapter?.id,
+          // });
           setMessages({ loading: false, ...res });
         })
         .catch(() => setMessages((prev) => ({ ...prev, loading: false })));
@@ -97,10 +99,11 @@ const Support = () => {
   const onNewMessage = useCallback(
     (data) => {
       data.text = data.text.trim();
-      createMessage(data);
+
+      createMessage({ ...data, cityId: city?.id, affiliateId: affiliate?.id });
       setValue("text", "");
     },
-    [messages]
+    [messages, city, data, setValue, affiliate]
   );
 
   if (messages?.loading) {
