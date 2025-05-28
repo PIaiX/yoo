@@ -1,8 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import Container from "react-bootstrap/Container";
-
-// swiper
-import { ListGroup } from "react-bootstrap";
+import { ListGroup, Container } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 import {
   FaAppStoreIos,
@@ -264,8 +261,8 @@ const Info = () => {
                 href={
                   "https://play.google.com/store/apps/details?id=" +
                   (options.app?.nameAndroid?.length > 0
-                    ? options.app?.nameAndroid
-                    : options.app?.name)
+                    ? options.app.nameAndroid
+                    : options.app.name)
                 }
                 className="d-flex flex-row align-items-center p-3"
               >
