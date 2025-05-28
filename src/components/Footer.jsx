@@ -108,7 +108,7 @@ const Footer = memo(() => {
                     {item.title}
                   </Link>
                   <div className="phone">
-                    {affiliateItems.find(e => e.id == item.id).phone && affiliateItems.find(e => e.id == item.id).phone[0]}
+                    {affiliateItems.find(e => e.id == item.id)?.phone && affiliateItems.find(e => e.id == item.id).phone[0]}
                   </div>
                   <div className="mess">
                     <Link
