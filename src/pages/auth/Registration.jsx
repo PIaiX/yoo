@@ -16,7 +16,7 @@ import {
 } from "react-bootstrap";
 import { useForm, useWatch } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { FaTelegramPlane } from "react-icons/fa";
+import { FaTelegramPlane, FaWhatsapp } from "react-icons/fa";
 import { HiXMark } from "react-icons/hi2";
 import { IoCall, IoMail, IoQrCodeOutline } from "react-icons/io5";
 import { NotificationManager } from "react-notifications";
@@ -31,6 +31,8 @@ import {
   authQrGenerate,
   authRegister,
   authTelegram,
+  authWhatsApp,
+  checkRegistration,
   login,
 } from "../../services/auth";
 import {
@@ -46,11 +48,12 @@ const Registration = () => {
   const user = useSelector((state) => state.auth.user);
   const apiId = useSelector((state) => state.settings.apiId);
   const options = useSelector((state) => state.settings.options);
+  const city = useSelector((state) => state.affiliate.city);
   const addresses = useSelector((state) => state.address.items);
   const loadingLogin = useSelector((state) => state.auth.loadingLogin);
   const qr = useSelector((state) => state.auth.qr);
   const [modalQr, setModalQr] = useState(false);
-  const [typeReg, setTypeReg] = useState(false);
+  const [typeReg, setTypeReg] = useState({ show: false, status: false });
   const timerRef = useRef(null);
   const bgImage = options.auth
     ? getImageURL({
@@ -89,7 +92,7 @@ const Registration = () => {
     formState: { errors, isValid },
     handleSubmit,
   } = useForm({
-    mode: "all",
+    mode: "onChange",
     reValidateMode: "onChange",
     defaultValues: {
       address: addresses?.length > 0 ? addresses[0] : false,
@@ -104,7 +107,7 @@ const Registration = () => {
     formState: { errors: errorsReg, isValid: isValidReg },
     trigger: triggerReg,
   } = useForm({
-    mode: "all",
+    mode: "onChange",
     reValidateMode: "onChange",
     defaultValues: {
       accept: true,
@@ -133,6 +136,25 @@ const Registration = () => {
     dispatch(login(data));
   }, []);
 
+  const onCheckRegistration = useCallback(() => {
+    if (dataReg?.phone?.length > 0 && city) {
+      setLoadingReg(true);
+      checkRegistration(city)
+        .then((res) => {
+          setTypeReg({ show: true, status: res.status });
+        })
+        .catch((error) => {
+          setTypeReg({ show: true, status: false });
+          NotificationManager.error(
+            typeof error?.response?.data?.error == "string"
+              ? error.response.data.error
+              : "Неизвестная ошибка"
+          );
+        })
+        .finally(() => setLoadingReg(false));
+    }
+  }, [dataReg, t, city]);
+
   const onSubmitReg = useCallback(
     (type = false) => {
       if (dataReg?.phone && dataReg.phone?.length > 0) {
@@ -142,11 +164,6 @@ const Registration = () => {
         }
         if (phone?.length < 11) {
           return NotificationManager.error("Введите корректный номер телефона");
-        }
-        if (parseInt(phone[0]) === 7 && parseInt(phone[1]) === 8) {
-          return NotificationManager.error(
-            "Неверный формат номера телефона. Должно быть +79, +77."
-          );
         }
       }
       if (dataReg?.password !== dataReg?.passwordConfirm) {
@@ -165,21 +182,68 @@ const Registration = () => {
         }
 
         authTelegram(dataReg)
-          .then(() => {
-            window.open("https://t.me/on_id_bot?start", "_blank");
+          .then((res) => {
+            if (res?.user?.id) {
+              dispatch(setUser(res.user));
+              dispatch(setToken(res.token));
+
+              dispatch(setAuth(true));
+
+              socket.io.opts.query = {
+                brandId: res.user.brandId ?? false,
+                userId: res.user.id ?? false,
+              };
+              socket.connect();
+            }
+            // window.open("https://t.me/on_id_bot?start", "_blank");
             navigate("/activate-telegram", { state: dataReg });
-            setTypeReg(false);
+            setTypeReg({ show: false, status: false });
           })
           .catch((error) => {
             return NotificationManager.error(
               error?.response?.data?.error || t("Неизвестная ошибка")
             );
           });
-        // .finally(() => setLoading(false));
 
         return;
       }
+      if (type === "whatsapp") {
+        if (!dataReg?.phone || dataReg?.phone?.length === 0) {
+          return NotificationManager.error("Укажите номер телефона");
+        }
 
+        authWhatsApp(dataReg)
+          .then((res) => {
+            console.log(res);
+            if (res?.user?.id) {
+              dispatch(setUser(res.user));
+              dispatch(setToken(res.token));
+
+              dispatch(setAuth(true));
+
+              socket.io.opts.query = {
+                brandId: res.user.brandId ?? false,
+                userId: res.user.id ?? false,
+              };
+              socket.connect();
+            }
+            // window.open(
+            //   res?.whatsappPhone && res?.whatsappPhone?.length > 0
+            //     ? `https://wa.me/${res.whatsappPhone}?text=Подтвердить номер телефона (Нажмите отправить сообщение)`
+            //     : "https://wa.me/79179268990?text=Подтвердить номер телефона (Нажмите отправить сообщение)",
+            //   "_blank"
+            // );
+            navigate("/activate-whatsapp", { state: dataReg });
+            setTypeReg({ show: false, status: false });
+          })
+          .catch((error) => {
+            return NotificationManager.error(
+              error?.response?.data?.error || t("Неизвестная ошибка")
+            );
+          });
+
+        return;
+      }
       setLoadingReg(true);
 
       authRegister({ ...dataReg, type })
@@ -426,7 +490,7 @@ const Registration = () => {
 
   const loginForm = useMemo(() => (
     <div className="login-form">
-      <div className={typeReg ? "d-none" : ""}>
+      <div className={typeReg?.show ? "d-none" : ""}>
         <h4 className="fw-6 mb-1">{t("Регистрация")}</h4>
         <p className="fs-10 mb-4 text-muted">
           {t("Заполните данные, чтобы создать профиль")}
@@ -733,9 +797,11 @@ const Registration = () => {
             if (
               options?.authType === "phone" &&
               options?.regMethod &&
-              (options?.regMethod?.telegram || options?.regMethod?.call)
+              (options?.regMethod?.telegram ||
+                options?.regMethod?.call ||
+                options?.regMethod?.whatsapp)
             ) {
-              setTypeReg(true);
+              onCheckRegistration();
             } else {
               console.log(3);
               // Во всех остальных случаях - отправляем
@@ -746,20 +812,10 @@ const Registration = () => {
           {t("Зарегистрироваться")}
         </Button>
       </div>
-      <div className={typeReg ? "" : "d-none"}>
+      <div className={typeReg?.show ? "" : "d-none"}>
         <h4 className="fw-6 mb-4">
           {t("Выберите способ подтверждения номера")}
         </h4>
-        {options?.authType === "phone" && options?.regMethod?.call && (
-          <Button
-            onClick={() => onSubmitReg("call")}
-            isValid={isValid}
-            className="w-100 btn-lg d-flex align-items-center btn-dark mb-3"
-          >
-            <IoCall size={20} className="me-2" />
-            {t("Подтвердить через звонок")}
-          </Button>
-        )}
 
         {options?.authType === "phone" && options?.regMethod?.telegram && (
           <Button
@@ -771,7 +827,29 @@ const Registration = () => {
             {t("Получить код в Telegram")}
           </Button>
         )}
-        {options?.authType === "phone" && (
+        {options?.authType === "phone" && options?.regMethod?.whatsapp && (
+          <Button
+            onClick={() => onSubmitReg("whatsapp")}
+            className="btn-whatsapp d-flex align-items-center w-100 btn-lg mb-3"
+            isValid={isValid}
+          >
+            <FaWhatsapp size={20} className="me-2" />
+            {t("Получить код в WhatsApp")}
+          </Button>
+        )}
+        {options?.authType === "phone" &&
+          options?.regMethod?.call &&
+          typeReg?.status && (
+            <Button
+              onClick={() => onSubmitReg("call")}
+              isValid={isValid}
+              className="w-100 btn-lg d-flex align-items-center btn-dark mb-3"
+            >
+              <IoCall size={20} className="me-2" />
+              {t("Подтвердить через звонок")}
+            </Button>
+          )}
+        {options?.authType === "phone" && typeReg?.status && (
           <Button
             onClick={() => onSubmitReg()}
             isValid={isValid}
@@ -782,7 +860,7 @@ const Registration = () => {
           </Button>
         )}
         <Button
-          onClick={() => setTypeReg(false)}
+          onClick={() => setTypeReg({ show: false, status: false })}
           isValid={isValid}
           className="w-100 btn-light btn-lg"
         >

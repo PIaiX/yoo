@@ -12,8 +12,10 @@ const apiRoutes = {
   GET_PROMO: "/promo/one",
 
   // auth
+  AUTH_REGISTRATION_CHECK: "/auth/checkRegistration",
   AUTH_REGISTRATION: "/auth/registration",
   AUTH_TELEGRAM: '/auth/loginTelegram',
+  AUTH_WHATSAPP: '/auth/loginWhatsApp',
   AUTH_ACTIVATE: "/auth/activate",
   AUTH_NEW_KEY_ACTIVATE: "/auth/newKeyActivate",
   AUTH_NEW_KEY_RECOVERY: "/auth/newKeyRecovery",

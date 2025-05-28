@@ -2,7 +2,7 @@ import React, { useCallback, useState } from "react";
 import { Form, Row, Col } from "react-bootstrap";
 import { useForm, useWatch } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { FaTelegramPlane } from "react-icons/fa";
+import { FaWhatsapp } from "react-icons/fa";
 import { NotificationManager } from "react-notifications";
 import QRCode from "react-qr-code";
 import { useDispatch, useSelector } from "react-redux";
@@ -12,10 +12,10 @@ import EmptyActivate from "../../components/empty/activate";
 import Meta from "../../components/Meta";
 import InputCode from "../../components/utils/InputCode";
 import socket from "../../config/socket";
-import { authTelegram } from "../../services/auth";
+import { authWhatsApp } from "../../services/auth";
 import { setToken, setUser } from "../../store/reducers/authSlice";
 
-const ActivateTelegram = () => {
+const ActivateWhatsApp = () => {
   const { t } = useTranslation();
   const { state } = useLocation();
 
@@ -34,7 +34,7 @@ const ActivateTelegram = () => {
 
   const onSubmit = useCallback(
     (data) => {
-      authTelegram({ ...data, step: 2 })
+      authWhatsApp({ ...data, step: 2 })
         .then((res) => {
           if (res?.user && res?.token) {
             dispatch(setUser(res.user));
@@ -81,7 +81,7 @@ const ActivateTelegram = () => {
 
   return (
     <main className="d-flex align-items-center justify-content-center">
-      <Meta title={t("Подтверждение номера телефона в Telegram")} />
+      <Meta title={t("Подтверждение номера телефона в WhatsApp")} />
       <section className="d-flex flex-column align-items-center justify-content-center">
         <Form className="recovery-form">
           <Row className="auth-icon">
@@ -92,33 +92,29 @@ const ActivateTelegram = () => {
               <QRCode
                 size={350}
                 className="qr-recovery"
-                value={`https://t.me/on_id_bot?text=/start&start`}
+                value={`https://wa.me/79179268990?text=${encodeURIComponent(
+                  "Подтвердить телефон"
+                )}`}
                 viewBox={`0 0 350 350`}
               />
               <a
-                href={`https://t.me/on_id_bot?text=/start&start`}
+                href={`https://web.whatsapp.com/send/?phone=79179268990&text=${encodeURIComponent(
+                  "Подтвердить телефон"
+                )}&type=phone_number&app_absent=1`}
                 target="_blank"
-                className="btn-telegram d-flex align-items-center m-auto btn-xs mt-2"
+                className="btn-whatsapp d-flex align-items-center m-auto btn-xs mt-2"
               >
-                <FaTelegramPlane size={18} className="me-1" />
-                {t("Открыть WEB Telegram")}
+                <FaWhatsapp size={18} className="me-1" />
+                {t("Открыть WEB WhatsApp")}
               </a>
             </Col>
           </Row>
+
           <h5 className="mb-3 fw-6 text-center">
-            {t(`Подтвердите номер телефона в Telegram`)}
+            {t(`Подтвердите номер телефона в WhatsApp`)}
           </h5>
           <ol className="text-left mb-4 ms-0 ps-3">
-            <li>
-              Перейдите к боту Telegram{" "}
-              <a
-                href={`https://t.me/on_id_bot?text=/start&start`}
-                target="_blank"
-                className="fw-6"
-              >
-                @on_id_bot
-              </a>
-            </li>
+            <li>Перейдите к боту WhatsApp</li>
             <li>Отправьте предложенное сообщение</li>
             <li>Введите 4-значный код из ответного сообщения</li>
             <li>
@@ -156,4 +152,4 @@ const ActivateTelegram = () => {
   );
 };
 
-export default ActivateTelegram;
+export default ActivateWhatsApp;

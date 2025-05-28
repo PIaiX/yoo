@@ -66,8 +66,16 @@ const authRegister = async (params) => {
   const response = await api.post(apiRoutes.AUTH_REGISTRATION, params);
   return response?.data;
 };
+const checkRegistration = async (data) => {
+  const response = await api.post(apiRoutes.AUTH_REGISTRATION_CHECK, data)
+  return response?.data
+}
 const authTelegram = async (data) => {
   const response = await api.post(apiRoutes.AUTH_TELEGRAM, data)
+  return response?.data
+}
+const authWhatsApp = async (data) => {
+  const response = await api.post(apiRoutes.AUTH_WHATSAPP, data)
   return response?.data
 }
 const authActivate = async (data) => {
@@ -127,6 +135,8 @@ export {
   checkAuth,
   login,
   logout,
-  authTelegram
+  authTelegram,
+  authWhatsApp,
+  checkRegistration
 };
 

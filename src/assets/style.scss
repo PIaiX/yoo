@@ -855,6 +855,21 @@ button {
       border: 1px solid #0088cc !important;
     }
   }
+  &-whatsapp {
+    @extend .btn;
+    color: #fff;
+    background-color: #25d366;
+    border: 1px solid #25d366;
+    &:hover,
+    &:focus,
+    &:active,
+    &.active {
+      color: #fff !important;
+      opacity: 0.8;
+      background-color: #25d366 !important;
+      border: 1px solid #25d366 !important;
+    }
+  }
   &-dark {
     @extend .btn;
     color: #fff;
@@ -4569,7 +4584,18 @@ ACCOUNT
     padding: 2em 0px;
   }
 }
-
+.recovery-form {
+  background-color: var(--bg-second);
+  border-radius: $radius;
+  padding: 2em;
+  max-width: 600px;
+  width: 100%;
+  margin: 0 auto;
+  @media (max-width: $bp-lg) {
+    width: 100%;
+    padding: 1.3em;
+  }
+}
 .city {
   a.active {
     color: var(--main-color);
@@ -6153,4 +6179,28 @@ img.show {
 }
 .max-width-700 {
   max-width: 700px !important;
+}
+.auth-icon {
+  position: relative;
+  margin-bottom: 25px;
+  img {
+    max-width: 100%;
+    width: 100%;
+    object-fit: contain;
+    max-height: 220px;
+  }
+}
+.qr-recovery {
+  background-color: #fff;
+  padding: 12px;
+  border-radius: 15px;
+  height: auto;
+  max-width: 75%;
+  width: 75%;
+  box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+}
+.btn-xs {
+  min-height: 35px !important;
+  padding: 0px 0.8em !important;
+  font-size: 13px !important;
 }

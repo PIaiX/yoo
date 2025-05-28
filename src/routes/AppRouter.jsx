@@ -33,6 +33,7 @@ import Search from "../pages/Search";
 import Info from "../pages/Info";
 import RedirectApp from "../pages/RedirectApp";
 import ActivateTelegram from "../pages/auth/ActivateTelegram";
+import ActivateWhatsApp from "../pages/auth/ActivateWhatsApp";
 import Documents from "../pages/Documents";
 import Document from "../pages/Document";
 
@@ -85,6 +86,7 @@ const router = createBrowserRouter(
       />
 
       <Route path="activate-telegram" element={<ActivateTelegram />} />
+      <Route path="activate-whatsapp" element={<ActivateWhatsApp />} />
 
       <Route path="recovery" element={<Recovery />} />
       <Route path="login" element={<Registration />} />
