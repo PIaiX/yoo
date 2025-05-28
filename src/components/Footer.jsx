@@ -402,7 +402,7 @@ const Footer = memo(() => {
         </div>
         <div className="desktop d-none d-lg-flex mt-5 mb-3 text-center">
           <Col md={12}>
-            <Link to="/policy">{t("Политика конфиденциальности")}</Link>
+            <Link to="/documents">{t("Правовая информация")}</Link>
 
           </Col>
         </div>
