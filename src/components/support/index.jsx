@@ -71,10 +71,11 @@ const SupportForm = memo(
 
         <form className="support-form">
           <div className="w-100 pe-3">
-            <Input
-              value={form.text}
+            <input
+              type="text"
+              value={form.text || ""}
               placeholder={placeholder}
-              onChange={(e) => onChange(e)}
+              onChange={(e) => onChange(e.target.value)}
             />
           </div>
           <a onClick={() => onSubmit()} className="">
