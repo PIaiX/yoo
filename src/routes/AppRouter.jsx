@@ -1,11 +1,16 @@
 import React from "react";
 import {
-  Route,
-  RouterProvider,
   createBrowserRouter,
   createRoutesFromElements,
+  Route,
+  RouterProvider,
 } from "react-router-dom";
+import Error from "../components/Error";
 import AppLayout from "../layouts/AppLayout";
+import Activate from "../pages/auth/Activate";
+import ActivateEditEmail from "../pages/auth/ActivateEditEmail";
+import Recovery from "../pages/auth/Recovery";
+import Registration from "../pages/auth/Registration";
 import Cart from "../pages/Cart";
 import Category from "../pages/Category";
 import Checkout from "../pages/Checkout";
@@ -14,28 +19,23 @@ import Delivery from "../pages/Delivery";
 import Home from "../pages/Home";
 import NotFound from "../pages/NotFound";
 import OfferPage from "../pages/OfferPage";
-import Product from "../pages/Product";
-import Promo from "../pages/Promo";
-import Activate from "../pages/auth/Activate";
-import ActivateEditEmail from "../pages/auth/ActivateEditEmail";
-import Recovery from "../pages/auth/Recovery";
-import Registration from "../pages/auth/Registration";
-import AccountRouter from "./AccountRouter";
-import AuthRoute from "./AuthRoute";
 import Policy from "../pages/Policy";
 import PolicyCookie from "../pages/PolicyCookie";
-import Error from "../components/Error";
+import Product from "../pages/Product";
+import Promo from "../pages/Promo";
+import AccountRouter from "./AccountRouter";
+import AuthRoute from "./AuthRoute";
 // import About from "../pages/About";
+import ActivateTelegram from "../pages/auth/ActivateTelegram";
+import ActivateWhatsApp from "../pages/auth/ActivateWhatsApp";
 import Blog from "../pages/Blog";
 import Blogs from "../pages/Blogs";
 import Categories from "../pages/Categories";
-import Search from "../pages/Search";
+import Document from "../pages/Document";
+import Documents from "../pages/Documents";
 import Info from "../pages/Info";
 import RedirectApp from "../pages/RedirectApp";
-import ActivateTelegram from "../pages/auth/ActivateTelegram";
-import ActivateWhatsApp from "../pages/auth/ActivateWhatsApp";
-import Documents from "../pages/Documents";
-import Document from "../pages/Document";
+import Search from "../pages/Search";
 
 const router = createBrowserRouter(
   createRoutesFromElements(

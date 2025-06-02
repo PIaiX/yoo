@@ -64,7 +64,11 @@ const Document = memo(() => {
           selectedAffiliate?.title ? selectedAffiliate?.title : options?.title
         } - ${t("Политика конфиденциальности")}`}
         description={`${
-          selectedAffiliate?.title ? selectedAffiliate?.title : options?.title
+          document?.data?.content
+            ? document.data.content
+            : selectedAffiliate?.title
+            ? selectedAffiliate?.title
+            : options?.title
         } - ${t("Политика конфиденциальности")}`}
       />
       <section className="sec-7 mb-5">
