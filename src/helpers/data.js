@@ -40,7 +40,7 @@ const AffiliateData = [
         ]
     },
     {
-        id: 202,
+        id: 215,
         title: "ГУМ, Баумана 51",
         telegramLink: "https://t.me/UrmanGoom",
         whatsappLink: "https://wa.me/79991234571",
@@ -50,7 +50,7 @@ const AffiliateData = [
         ]
     },
     {
-        id: 198,
+        id: 214,
         title: "Магеллан Чистопольская улица, 36",
         telegramLink: "https://t.me/ArtcoreMagellan",
         whatsappLink: "https://wa.me/79991234572",
