@@ -1,4 +1,4 @@
-const DOMAIN = "urman.yoo-app.ru"; //window.location.hostname;
+const DOMAIN = false; //window.location.hostname;
 const BASE_URL = "https://api.yooapp.ru";
 const IO_URL = "https://io.yooapp.ru";
 const DADATA_URL_STREET =
@@ -6,13 +6,16 @@ const DADATA_URL_STREET =
 const DADATA_URL_GEO =
   "https://suggestions.dadata.ru/suggestions/api/4_1/rs/geolocate/address";
 const DADATA_TOKEN = "6487a33dcdff42183e8f0c4aa3ad43acdc5a7b62";
-const FILE_URL = BASE_URL + "/file";
+const FILE_URL = DOMAIN ? "https://" + DOMAIN + "/file" : window?.location?.hostname && window?.location?.hostname !== 'localhost' && window?.location?.hostname !== '127.0.0.1' ? "https://" + window.location.hostname + "/file" : BASE_URL + "/file";
 
 const apiRoutes = {
   GET_PROMO: "/promo/one",
 
   // auth
+  AUTH_REGISTRATION_CHECK: "/auth/checkRegistration",
   AUTH_REGISTRATION: "/auth/registration",
+  AUTH_TELEGRAM: '/auth/loginTelegram',
+  AUTH_WHATSAPP: '/auth/loginWhatsApp',
   AUTH_ACTIVATE: "/auth/activate",
   AUTH_NEW_KEY_ACTIVATE: "/auth/newKeyActivate",
   AUTH_NEW_KEY_RECOVERY: "/auth/newKeyRecovery",

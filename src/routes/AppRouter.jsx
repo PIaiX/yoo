@@ -35,6 +35,7 @@ import RedirectApp from "../pages/RedirectApp";
 import Filial from "../pages/Filial";
 import CatalogHome from "../pages/CatalogHome";
 import Documents from "../pages/Documents";
+import Document from "../pages/Document";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
