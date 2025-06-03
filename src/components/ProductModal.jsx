@@ -57,7 +57,7 @@ const ProductModal = memo((data) => {
       ? groupByCategoryIdToArray(data.modifiers)
       : [];
   const [product, setProduct] = useState({
-    loading: false,
+    loading: true,
     ...data,
     modifiers: modifiersData,
     cart: {
@@ -81,7 +81,12 @@ const ProductModal = memo((data) => {
   });
 
   const onLoad = useCallback(() => {
-    window.history.pushState(null, null, `/#${productId}`);
+    window.history.replaceState(
+      null,
+      null,
+      window.location.origin + "/product/" + productId
+    );
+
     getProduct({
       id: productId,
       affiliateId: selectedAffiliate?.id ?? false,

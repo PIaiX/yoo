@@ -1,9 +1,10 @@
 import React, { memo, Suspense, useCallback, useState } from "react";
+import { useEffect } from "react";
 import { Col, Container, Modal, Row } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 import { HiOutlineArrowUturnDown } from "react-icons/hi2";
 import { useSelector } from "react-redux";
-import { useLocation } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import Choose from "../assets/imgs/choose.svg";
 import Categories from "./Categories";
 import CategoryCard from "./CategoryCard";
@@ -17,8 +18,8 @@ const ProductModal = React.lazy(() => import("./ProductModal"));
 
 const ProductModalComponent = memo(({ product, setProduct }) => {
   const handleClose = useCallback(() => {
-    const urlWithoutHash = window.location.href.split("#")[0];
-    window.history.replaceState(null, null, urlWithoutHash);
+    window.history.replaceState(null, null, window.location.origin);
+
     setProduct((prev) => ({
       ...prev,
       show: false,
@@ -40,7 +41,7 @@ const ProductModalComponent = memo(({ product, setProduct }) => {
       >
         <ButtonClose onClick={() => handleClose()} />
         <Modal.Body className="scroll-hide">
-          {product.show && product.data ? (
+          {product.show && product?.data?.id ? (
             <Suspense fallback={<Loader full />}>
               <ProductModal
                 {...product.data}
@@ -65,15 +66,35 @@ const ProductModalComponent = memo(({ product, setProduct }) => {
 });
 
 const Catalog = memo(({ data }) => {
+  const params = useParams();
+
   const [viewCategories, setViewCategories] = useState(false);
   const { hash } = useLocation();
   const city = useSelector((state) => state.affiliate.city);
+
   const [product, setProduct] = useState({
-    show: !!hash && !!city,
+    show: (!!hash && !!city) || !!params?.productId,
     loading: true,
-    data: !!hash && !!city ? { id: hash.slice(1) } : false,
+    data:
+      !!hash && !!city
+        ? { id: hash.slice(1) }
+        : params?.productId
+        ? { id: params.productId }
+        : false,
   });
-  const { t } = useTranslation();
+
+  useEffect(() => {
+    setProduct({
+      show: (!!hash && !!city) || !!params?.productId,
+      loading: true,
+      data:
+        !!hash && !!city
+          ? { id: hash.slice(1) }
+          : params?.productId
+          ? { id: params.productId }
+          : false,
+    });
+  }, [params?.productId]);
 
   const toggleViewCategories = useCallback(() => {
     setViewCategories((prev) => !prev);

@@ -1,26 +1,27 @@
 import React, {
   useCallback,
-  useLayoutEffect,
   useEffect,
+  useLayoutEffect,
   useState,
 } from "react";
+import { Container } from "react-bootstrap";
+import { isDesktop } from "react-device-detect";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import Catalog from "../components/Catalog";
 import Empty from "../components/Empty";
+import EmptyWork from "../components/empty/work";
 import Meta from "../components/Meta";
-import Widgets from "../components/Widgets";
+import QrApp from "../components/QrApp";
 import Loader from "../components/utils/Loader";
+import Widgets from "../components/Widgets";
 import { isUpdateTime } from "../helpers/all";
 import { getCatalog } from "../services/catalog";
 import { updateCatalog } from "../store/reducers/catalogSlice";
-import EmptyWork from "../components/empty/work";
-import QrApp from "../components/QrApp";
-import { Container } from "react-bootstrap";
-import { isDesktop } from "react-device-detect";
 
 const Home = () => {
   const { t } = useTranslation();
+
   const selectedAffiliate = useSelector((state) => state.affiliate.active);
   const [loading, setLoading] = useState(false);
   const options = useSelector((state) => state.settings.options);
