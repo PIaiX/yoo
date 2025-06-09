@@ -28,6 +28,7 @@ import Input from "../../components/utils/Input";
 import socket from "../../config/socket";
 import { getImageURL } from "../../helpers/all";
 import {
+  authFastCall,
   authQrGenerate,
   authRegister,
   authTelegram,
@@ -175,7 +176,30 @@ const Registration = () => {
           "Регистрация временно недоступна, попробуйте немного позже"
         );
       }
+      if (type === "fastCall") {
+        if (!dataReg?.phone || dataReg?.phone?.length === 0) {
+          return NotificationManager.error("Укажите номер телефона");
+        }
+        authFastCall(dataReg)
+          .then((res) => {
+            socket.io.opts.query = {
+              brandId: res.user.brandId ?? false,
+              userId: res.user.id ?? false,
+            };
+            socket.connect();
 
+            navigate("/activate-fast-call", {
+              state: { ...res.user, phone: dataReg.phone },
+            });
+            setTypeReg({ show: false, status: false });
+          })
+          .catch((error) => {
+            return NotificationManager.error(
+              error?.response?.data?.error || t("Неизвестная ошибка")
+            );
+          });
+        return;
+      }
       if (type === "telegram") {
         if (!dataReg?.phone || dataReg?.phone?.length === 0) {
           return NotificationManager.error("Укажите номер телефона");
@@ -837,6 +861,18 @@ const Registration = () => {
             {t("Получить код в WhatsApp")}
           </Button>
         )}
+        {options?.authType === "phone" &&
+          options?.regMethod?.fastCall &&
+          typeReg?.status && (
+            <Button
+              onClick={() => onSubmitReg("fastCall")}
+              isValid={isValid}
+              className="w-100 btn-lg d-flex align-items-center btn-dark mb-3"
+            >
+              <IoCall size={20} className="me-2" />
+              {t("Быстрый звонок")}
+            </Button>
+          )}
         {options?.authType === "phone" &&
           options?.regMethod?.call &&
           typeReg?.status && (

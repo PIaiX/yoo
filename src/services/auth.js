@@ -74,6 +74,10 @@ const authTelegram = async (data) => {
   const response = await api.post(apiRoutes.AUTH_TELEGRAM, data)
   return response?.data
 }
+const authFastCall = async (data) => {
+  const response = await api.post(apiRoutes.AUTH_FAST_CALL, data)
+  return response?.data
+}
 const authWhatsApp = async (data) => {
   const response = await api.post(apiRoutes.AUTH_WHATSAPP, data)
   return response?.data
@@ -133,6 +137,7 @@ export {
   authNewKeyRecovery,
   authRegister,
   checkAuth,
+  authFastCall,
   login,
   logout,
   authTelegram,

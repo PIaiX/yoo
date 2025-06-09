@@ -36,6 +36,7 @@ import Documents from "../pages/Documents";
 import Info from "../pages/Info";
 import RedirectApp from "../pages/RedirectApp";
 import Search from "../pages/Search";
+import ActivateFastCall from "../pages/auth/ActivateFastCall";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -87,6 +88,7 @@ const router = createBrowserRouter(
 
       <Route path="activate-telegram" element={<ActivateTelegram />} />
       <Route path="activate-whatsapp" element={<ActivateWhatsApp />} />
+      <Route path="activate-fast-call" element={<ActivateFastCall />} />
 
       <Route path="recovery" element={<Recovery />} />
       <Route path="login" element={<Registration />} />
