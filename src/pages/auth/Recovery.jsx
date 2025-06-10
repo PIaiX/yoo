@@ -37,11 +37,12 @@ const Recovery = () => {
   const {
     control,
     formState: { isValid, errors },
-    handleSubmit,
     setValue,
     reset,
     register,
   } = useForm({
+    mode: "all",
+    reValidateMode: "onSubmit",
     defaultValues: {
       step: 1,
     },
@@ -73,17 +74,10 @@ const Recovery = () => {
           if (data.step == 1 && type === "telegram") {
             NotificationManager.success(t("Перейдите в телеграм бота..."));
             return reset({ ...data, type, step: data.step + 1 });
-            // return window.open("https://t.me/on_id_bot?start", "_blank");
           }
           if (data.step == 1 && type === "whatsapp") {
             NotificationManager.success(t("Перейдите в WhatsApp бота..."));
             return reset({ ...data, type, step: data.step + 1 });
-            // return window.open(
-            //   res?.whatsappPhone && res?.whatsappPhone?.length > 0
-            //     ? `https://wa.me/${res.whatsappPhone}?text=Подтвердить номер телефона (Нажмите отправить сообщение)`
-            //     : "https://wa.me/79179268990?text=Подтвердить номер телефона (Нажмите отправить сообщение)",
-            //   "_blank"
-            // );
           }
           reset({ ...data, type, step: data.step + 1 });
           if (data.step == 1 || data.step == 3) {
@@ -159,7 +153,7 @@ const Recovery = () => {
     <>
       <Meta title={t("Восстановление пароля")} />
       <Container>
-        <section className="d-flex flex-column align-items-center justify-content-center vh-100">
+        <section className="d-flex flex-column align-items-center justify-content-center vh-100-header">
           <div className="recovery-form">
             {!data.step || data.step === 1 ? (
               <>

@@ -3,7 +3,6 @@ import { ClientJS } from "clientjs";
 import { apiRoutes, BASE_URL } from "../config/api";
 import { languageCode } from "../helpers/all";
 import store from "../store";
-import { logout } from "./auth";
 
 const api = axios.create({
   baseURL: BASE_URL,
@@ -74,10 +73,14 @@ api.interceptors.response.use(
         }
 
         // Если новый токен не пришел - разлогиниваем
-        store.dispatch(logout());
+        store.dispatch({ type: "auth/setAuth", payload: false });
+        store.dispatch({ type: "auth/setUser", payload: false });
+        store.dispatch({ type: "auth/setToken", payload: false });
         return Promise.reject(error);
       } catch (err) {
-        store.dispatch(logout());
+        store.dispatch({ type: "auth/setAuth", payload: false });
+        store.dispatch({ type: "auth/setUser", payload: false });
+        store.dispatch({ type: "auth/setToken", payload: false });
         processFailedRequests(err);
         return Promise.reject(err);
       } finally {
@@ -87,7 +90,9 @@ api.interceptors.response.use(
 
     // Обработка 403 (запрещено)
     if (error.response?.status === 403) {
-      store.dispatch(logout());
+      store.dispatch({ type: "auth/setAuth", payload: false });
+      store.dispatch({ type: "auth/setUser", payload: false });
+      store.dispatch({ type: "auth/setToken", payload: false });
     }
 
     return Promise.reject(error);

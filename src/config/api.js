@@ -1,4 +1,4 @@
-const DOMAIN = "masha.yoo-app.ru"; //window.location.hostname;
+const DOMAIN = false; //window.location.hostname;
 const BASE_URL = "https://api.yooapp.ru";
 const IO_URL = "https://io.yooapp.ru";
 const DADATA_URL_STREET =
@@ -11,8 +11,8 @@ const FILE_URL = DOMAIN
   : window?.location?.hostname &&
     window?.location?.hostname !== "localhost" &&
     window?.location?.hostname !== "127.0.0.1"
-  ? "https://" + window.location.hostname + "/file"
-  : BASE_URL + "/file";
+    ? "https://" + window.location.hostname + "/file"
+    : BASE_URL + "/file";
 
 const apiRoutes = {
   GET_PROMO: "/promo/one",

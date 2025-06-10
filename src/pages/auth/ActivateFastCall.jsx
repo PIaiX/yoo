@@ -76,7 +76,7 @@ const ActivateFastCall = () => {
               <QRCode
                 size={350}
                 className="qr-recovery"
-                value={`79509493915`}
+                value={`+79179268990`}
                 viewBox={`0 0 350 350`}
               />
             </Col>
@@ -85,11 +85,11 @@ const ActivateFastCall = () => {
             {t(`Подтвердите номер телефона по звонку`)}
           </h5>
           <a
-            href={`tel:+79509493915`}
+            href={`tel:+79179268990`}
             target="_blank"
             className="fw-6 btn btn-primary m-auto"
           >
-            Позвонить на номер +7(950)949-39-15
+            Позвонить на номер +7(917)926-89-90
           </a>
           <p className="text-center m-auto mt-3">
             Сделайте звонок на указаный номер

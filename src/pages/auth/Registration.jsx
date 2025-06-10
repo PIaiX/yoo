@@ -861,18 +861,16 @@ const Registration = () => {
             {t("Получить код в WhatsApp")}
           </Button>
         )}
-        {options?.authType === "phone" &&
-          options?.regMethod?.fastCall &&
-          typeReg?.status && (
-            <Button
-              onClick={() => onSubmitReg("fastCall")}
-              isValid={isValid}
-              className="w-100 btn-lg d-flex align-items-center btn-dark mb-3"
-            >
-              <IoCall size={20} className="me-2" />
-              {t("Быстрый звонок")}
-            </Button>
-          )}
+        {options?.authType === "phone" && options?.regMethod?.fastCall && (
+          <Button
+            onClick={() => onSubmitReg("fastCall")}
+            isValid={isValid}
+            className="w-100 btn-lg d-flex align-items-center btn-dark mb-3"
+          >
+            <IoCall size={20} className="me-2" />
+            {t("Быстрый звонок")}
+          </Button>
+        )}
         {options?.authType === "phone" &&
           options?.regMethod?.call &&
           typeReg?.status && (
