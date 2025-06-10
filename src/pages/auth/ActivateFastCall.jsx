@@ -24,7 +24,6 @@ const ActivateFastCall = () => {
     if (apiId) {
       socket.emit("create", "id" + apiId);
       socket.on("login", (data) => {
-        console.log(data);
         if (data?.user && data?.token) {
           dispatch(setUser(data.user));
           dispatch(setToken(data.token));
