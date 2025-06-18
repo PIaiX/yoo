@@ -402,22 +402,28 @@ const Footer = memo(() => {
         </div>
         <div className="desktop d-none d-lg-flex mt-5 mb-3 text-center">
           <Col md={12}>
-            <Link to="/documents">{t("Правовая информация")}</Link>
+            <Link to="/documents" className="me-3">{t("Правовая информация")}</Link>
 
+            <Link to="/contact">{t("Контакты")}</Link>
           </Col>
         </div>
 
         <div className="position-absolute end-0 bottom-0 pe-3">
           <div className="social justify-content-end mt-2 d-none d-lg-flex">
-            <Link to="/" className="me-3">
+            <a
+              href="https://t.me/Urman_NK"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="me-3"
+            >
               <TelegramFill />
-            </Link>
+            </a>
             <Link to="/" className="me-3">
               <InstagramFill />
             </Link>
-            <Link to="/">
+            <a href="https://vk.com/urmanles" target="_blank" rel="noopener noreferrer">
               <Vk />
-            </Link>
+            </a>
           </div>
           {!options?.branding && (
 
