@@ -1,16 +1,14 @@
 import React, { useLayoutEffect } from "react";
-import LiAddress from "../../components/LiAddress";
-import AccountTitleReturn from "../../components/AccountTitleReturn";
-import { Link, useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import AccountTitleReturn from "../../components/AccountTitleReturn";
 import Empty from "../../components/Empty";
 import EmptyAddresses from "../../components/empty/addresses";
-import { useTranslation } from "react-i18next";
-import { useState } from "react";
+import LiAddress from "../../components/LiAddress";
 
 const Addresses = () => {
   const addresses = useSelector((state) => state.address.items);
-  const city = useSelector((state) => state.affiliate.city);
   const user = useSelector((state) => state.auth.user);
 
   const navigate = useNavigate();

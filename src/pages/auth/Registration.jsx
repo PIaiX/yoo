@@ -50,7 +50,7 @@ const Registration = () => {
   const apiId = useSelector((state) => state.settings.apiId);
   const options = useSelector((state) => state.settings.options);
   const city = useSelector((state) => state.affiliate.city);
-  const addresses = useSelector((state) => state.address.items);
+  const selectedAddress = useSelector((state) => state.address.active);
   const loadingLogin = useSelector((state) => state.auth.loadingLogin);
   const qr = useSelector((state) => state.auth.qr);
   const [modalQr, setModalQr] = useState(false);
@@ -96,7 +96,7 @@ const Registration = () => {
     mode: "onChange",
     reValidateMode: "onChange",
     defaultValues: {
-      address: addresses?.length > 0 ? addresses[0] : false,
+      address: selectedAddress ?? false,
       rememberBy: true,
       accept: true,
     },
@@ -113,7 +113,7 @@ const Registration = () => {
     defaultValues: {
       accept: true,
       rememberBy: true,
-      address: addresses?.length > 0 ? addresses[0] : false,
+      address: selectedAddress ?? false,
     },
   });
   const dataReg = useWatch({ control: controlReg });

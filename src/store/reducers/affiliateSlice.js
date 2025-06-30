@@ -29,8 +29,8 @@ const affiliateSlice = createSlice({
     updateAffiliate: (state, action) => {
 
       if (!state.active && action.payload?.length > 0) {
-        let active = action.payload.find((e) => e.main) ?? action.payload[0];
-        state.active = active;
+        let active = action.payload.find((e) => e.main)
+        state.active = active?.id ? active : action.payload[0]
         state.items = action.payload.map((e) => {
           return {
             ...e,

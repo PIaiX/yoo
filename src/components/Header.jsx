@@ -47,7 +47,7 @@ import { mainAddress } from "../services/address";
 import { deleteCart } from "../services/cart";
 import { getDadataStreets } from "../services/dadata";
 import { getDelivery } from "../services/order";
-import { setAddress } from "../store/reducers/addressSlice";
+import { mainAddressEdit, setAddress } from "../store/reducers/addressSlice";
 import {
   mainAffiliateEdit,
   updateAffiliate,
@@ -78,6 +78,7 @@ const Header = memo(() => {
   const cities = useSelector((state) => state.affiliate.cities);
   const selectedAffiliate = useSelector((state) => state.affiliate.active);
   const addressData = useSelector((state) => state.address.items);
+  const selectedAddress = useSelector((state) => state.address.active);
   const options = useSelector((state) => state.settings.options);
   const delivery = useSelector((state) => state.checkout.delivery);
   const settingsCity = useSelector((state) => state.settings.city);
@@ -94,14 +95,7 @@ const Header = memo(() => {
   const [search, setSearch] = useState();
   const [isPending, startTransition] = useTransition();
   const [showPopover, setShowPopover] = useState(false);
-  const selectedAddress =
-    addressData.find(
-      (e) =>
-        e.main &&
-        (e?.city?.toLowerCase() === city?.title?.toLowerCase() ||
-          e?.region?.toLowerCase() === city?.region?.toLowerCase() ||
-          e?.area?.toLowerCase() === city?.area?.toLowerCase())
-    ) ?? false;
+
   const mapRef = useRef(null);
   const polygonsRef = useRef({});
   const dropdownRef = useRef(null);
@@ -440,6 +434,7 @@ const Header = memo(() => {
       dispatch(updateCity(e));
       dispatch(updateGps(true));
       dispatch(deleteCart());
+      dispatch(mainAddressEdit(false));
       setShowCity(false);
     },
     [isAuth, mapRef]

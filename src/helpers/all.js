@@ -402,7 +402,7 @@ const formatDeliveryTime = (timeInMinutes) => {
   if (timeInMinutes >= 60) {
     const hours = Math.floor(timeInMinutes / 60);
     const minutes = timeInMinutes % 60;
-    const nextHours = hours + 1;
+    const nextHours = hours + (hours * 0.5);
     return `${hours} ч ${minutes > 0 ? `${minutes} мин` : ''} - ${nextHours} ч`;
   } else {
     const nextMinutes = timeInMinutes + 30;

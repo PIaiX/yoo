@@ -117,6 +117,7 @@ const Checkout = () => {
   const city = useSelector((state) => state.affiliate.city);
   const tables = useSelector((state) => state.affiliate.tables);
   const selectedAffiliate = useSelector((state) => state.affiliate?.active);
+  const selectedAddress = useSelector((state) => state.address?.active);
   const selectedTable = useSelector((state) => state.affiliate.table);
   const options = useSelector((state) => state.settings.options);
   const [confirmation, setConfirmation] = useState(false);
@@ -163,7 +164,7 @@ const Checkout = () => {
       person: person > 0 ? person : checkout?.data?.person ?? 1,
       comment: checkout?.data?.comment ?? "",
       commentСourier: checkout?.data?.commentСourier ?? "",
-      address: checkout?.data?.address ?? false,
+      address: selectedAddress ?? false,
       affiliateId: selectedAffiliate?.id ? selectedAffiliate.id : false,
       tableId: selectedTable?.id ? selectedTable.id : false,
 
@@ -452,8 +453,8 @@ const Checkout = () => {
   // }, [addressData, city]);
 
   useLayoutEffect(() => {
-    if (address?.length > 0) {
-      setValue("address", address.find((e) => e.main) || address[0] || false);
+    if (selectedAddress?.id) {
+      setValue("address", selectedAddress || false);
     }
     if (zone?.data?.id) {
       setValue("zoneId", zone.data.id);
@@ -466,7 +467,7 @@ const Checkout = () => {
     ) {
       setValue("affiliateId", selectedAffiliate.id);
     }
-  }, [address, zone, checkout.delivery, selectedAffiliate]);
+  }, [selectedAddress, zone, checkout.delivery, selectedAffiliate]);
 
   useEffect(() => {
     if (selectedTable?.id && checkout.delivery == "hall") {
@@ -481,8 +482,6 @@ const Checkout = () => {
         setLoadingDelivery(true);
 
         if (checkout?.delivery !== "delivery" || !user?.id) throw false;
-
-        const selectedAddress = address?.find((e) => e.main) || address[0];
 
         if (!selectedAddress) throw false;
 
@@ -508,7 +507,7 @@ const Checkout = () => {
     };
 
     fetchDeliveryData();
-  }, [address, checkout.delivery, cart, city, user?.id]);
+  }, [selectedAddress, checkout.delivery, cart, city, user?.id]);
 
   const onSubmit = useCallback(
     (data) => {
@@ -781,7 +780,7 @@ const Checkout = () => {
                                   Number(selectedAffiliate.options.time) / 60
                                 }ч - ${
                                   Number(selectedAffiliate.options.time) / 60 +
-                                  0.3
+                                  0.5
                                 }ч`
                               : `${selectedAffiliate.options.time} - ${
                                   Number(selectedAffiliate.options.time) + 30

@@ -68,7 +68,7 @@ function App() {
   const auth = useSelector((state) => state.auth);
   const city = useSelector((state) => state.affiliate.city);
   const zone = useSelector((state) => state.cart?.zone);
-  const addressData = useSelector((state) => state.address.items);
+  const selectedAddress = useSelector((state) => state.address.active);
   const cart = useSelector((state) => state.cart.items);
 
   useEffect(() => {
@@ -287,6 +287,7 @@ function App() {
                       i18n.changeLanguage(languageCode(data.user.lang));
                       moment.locale(languageCode(data.user.lang));
                     }
+                    dispatch(updateAddresses(data?.user?.addresses ?? []));
                   })
                   .catch((err) => {
                     err?.response?.status === 404 && dispatch(logout());
@@ -310,6 +311,8 @@ function App() {
                 i18n.changeLanguage(languageCode(data.user.lang));
                 moment.locale(languageCode(data.user.lang));
               }
+
+              dispatch(updateAddresses(data?.user?.addresses ?? []));
             })
             .catch((err) => {
               err?.response?.status === 404 && dispatch(logout());
@@ -353,13 +356,10 @@ function App() {
 
   useEffect(() => {
     if (auth?.isAuth) {
-      if (!zone?.data && addressData?.length > 0) {
+      if (!zone?.data) {
         const fetchDeliveryData = async () => {
           try {
             if (delivery !== "delivery" || !auth?.user?.id) throw false;
-
-            const selectedAddress =
-              addressData?.find((e) => e.main) || addressData[0];
 
             if (!selectedAddress) throw false;
 

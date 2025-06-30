@@ -41,6 +41,7 @@ const Cart = () => {
   const promo = useSelector((state) => state.cart.promo);
   const pointSwitch = useSelector((state) => state.checkout?.data?.pointSwitch);
   const address = useSelector((state) => state.address.items);
+  const selectedAddress = useSelector((state) => state.address.active);
   const options = useSelector((state) => state.settings.options);
   const [data, setData] = useState({ loading: true });
   const checkout = useSelector((state) => state.checkout);
@@ -91,7 +92,7 @@ const Cart = () => {
           person: person > 0 ? person : checkout?.data?.person ?? 1,
           comment: checkout?.data?.comment ?? "",
 
-          address: address ? address.find((e) => e.main) : false,
+          address: selectedAddress ?? false,
           affiliateId: selectedAffiliate?.id ? selectedAffiliate.id : false,
 
           products: cart ?? [],
@@ -183,7 +184,7 @@ const Cart = () => {
       totalNoDelivery,
       delivery,
       price,
-      address,
+      selectedAddress,
       total,
       cart,
       user,
@@ -238,7 +239,7 @@ const Cart = () => {
         person: person > 0 ? person : checkout?.data?.person ?? 1,
         comment: checkout?.data?.comment ?? "",
 
-        address: address ? address.find((e) => e.main) : false,
+        address: selectedAddress ?? false,
         affiliateId: selectedAffiliate?.id ? selectedAffiliate.id : false,
 
         // Сохранение адреса по умолчанию
@@ -323,7 +324,7 @@ const Cart = () => {
 
   useEffect(() => {
     getCartData();
-  }, [user?.id, count, address, selectedAffiliate]);
+  }, [user?.id, count, selectedAddress, selectedAffiliate]);
 
   if (!Array.isArray(cart) || cart.length <= 0) {
     return (
