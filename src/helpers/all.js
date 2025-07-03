@@ -308,7 +308,7 @@ const isUpdateTime = (dateTime) => {
 
   const timeDifference = now.diff(targetDateTime, "seconds");
 
-  return timeDifference >= 30;
+  return timeDifference >= 15;
 };
 const childrenArray = (data, idProp, parentProp) => {
   const tree = Object.fromEntries(

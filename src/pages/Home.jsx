@@ -50,7 +50,7 @@ const Home = () => {
           }
         });
     }
-  }, [selectedAffiliate, catalog, loading, options]);
+  }, [selectedAffiliate, catalog, city, loading, options]);
 
   useLayoutEffect(() => {
     if (
