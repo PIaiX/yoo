@@ -1009,7 +1009,7 @@ const Checkout = () => {
                     <span className="ms-2">
                       {data.delivery == "delivery"
                         ? t("Привезем")
-                        : t("Подадим")}{" "}
+                        : t("Приготовим")}{" "}
                       {t("в")} <b>{t("ближайшее время")}</b>
                     </span>
                   </label>
@@ -1025,7 +1025,7 @@ const Checkout = () => {
                     <span className="ms-2">
                       {data.delivery == "delivery"
                         ? t("Привезем")
-                        : t("Подадим")}{" "}
+                        : t("Приготовим")}{" "}
                       {t("ко")} <b>{t("времени")}</b>
                     </span>
                   </label>
