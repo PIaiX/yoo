@@ -7,7 +7,7 @@ import React, {
   useRef,
   useState,
 } from "react";
-import { Modal } from "react-bootstrap";
+import { Collapse, Modal } from "react-bootstrap";
 import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
@@ -18,6 +18,7 @@ import EmptyWork from "../components/empty/work";
 import Meta from "../components/Meta";
 import Loader from "../components/utils/Loader";
 import { customPrice, weekday } from "../helpers/all";
+import { IoChevronDownSharp, IoChevronUpSharp } from "react-icons/io5";
 
 const Contact = () => {
   const { t } = useTranslation();
@@ -31,7 +32,14 @@ const Contact = () => {
   const [showModalDelivery, setModalDelivery] = useState(false);
   const mapRef = useRef(null);
   const polygonsRef = useRef({});
+  const [expandedAffiliates, setExpandedAffiliates] = useState({});
 
+  const toggleWorkSchedule = (affiliateId) => {
+    setExpandedAffiliates((prev) => ({
+      ...prev,
+      [affiliateId]: !prev[affiliateId],
+    }));
+  };
   const isValidCoordinate = (coord) => {
     const [lat, lon] = coord;
     return lat >= -90 && lat <= 90 && lon >= -180 && lon <= 180;
@@ -252,27 +260,67 @@ const Contact = () => {
                     >
                       <li>
                         <h6>{e.full}</h6>
-                        <h6>Режим работы</h6>
-                        {e.options.work?.length > 0 &&
-                          e.options.work.map((e, index) => (
-                            <p
-                              className={
-                                "d-flex mb-1" +
-                                (index === weekday ? " fw-6 text-main" : "")
-                              }
-                            >
-                              <b style={{ width: 25 }}>
-                                {moment.weekdaysShort(index + 1)}
-                              </b>
-                              {`${t("с")} ${e.start} ${t("до")} ${e.end}`}
-                            </p>
-                          ))}
                         {e?.phone && e?.phone[0] && (
                           <>
                             <h6 className="mt-3">Номер телефона</h6>
-                            <p className="mt-1 mt-0 fw-5">{e.phone[0]}</p>
+                            <p className="mt-1 fw-5">{e.phone[0]}</p>
                           </>
                         )}
+                        {/* Измененный блок режима работы */}
+                        <div className="work-schedule mt-3">
+                          <div
+                            className="d-flex align-items-center mb-1"
+                            onClick={(event) => {
+                              event.stopPropagation();
+                              toggleWorkSchedule(e.id);
+                            }}
+                            style={{ cursor: "pointer" }}
+                          >
+                            <h6 className="mb-0 me-2">Режим работы:</h6>
+                            {e.options.work?.[weekday] && (
+                              <span
+                                className={
+                                  e.options.work[weekday].start === "выходной"
+                                    ? "text-danger fw-bold fs-09"
+                                    : "text-main fw-bold fs-09"
+                                }
+                              >
+                                {e.options.work[weekday].start === "выходной"
+                                  ? "Сегодня: выходной"
+                                  : `Сегодня: ${e.options.work[weekday].start} - ${e.options.work[weekday].end}`}
+                              </span>
+                            )}
+                            {expandedAffiliates[e.id] ? (
+                              <IoChevronUpSharp className="text-main fs-09 ms-1" />
+                            ) : (
+                              <IoChevronDownSharp className="text-main fs-09 ms-1" />
+                            )}
+                          </div>
+
+                          <Collapse in={expandedAffiliates[e.id]}>
+                            <div>
+                              {e.options.work?.map((day, index) => (
+                                <p
+                                  key={index}
+                                  className={
+                                    "d-flex mb-1" +
+                                    (index === weekday ? " fw-6 text-main" : "")
+                                  }
+                                >
+                                  <b style={{ width: 25 }}>
+                                    {moment.weekdaysShort(index + 1)}
+                                  </b>
+                                  {day.start === "выходной"
+                                    ? "Выходной"
+                                    : `${t("с")} ${day.start} ${t("до")} ${
+                                        day.end
+                                      }`}
+                                </p>
+                              ))}
+                            </div>
+                          </Collapse>
+                        </div>
+                        {/* Конец измененного блока */}
 
                         {e?.desc && (
                           <p className="white-space-break m-0 mt-2 fs-08">

@@ -212,7 +212,7 @@ const Activate = () => {
                     className="w-100 btn-lg d-flex align-items-center btn-dark mb-3"
                   >
                     <IoCall size={20} className="me-2" />
-                    {t("Подтвердить через звонок")}
+                    {t("Заказать звонок")}
                   </Button>
                 )}
               {options?.authType === "phone" && typeRecovery?.status && (

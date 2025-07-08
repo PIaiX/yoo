@@ -868,7 +868,7 @@ const Registration = () => {
             className="w-100 btn-lg d-flex align-items-center btn-dark mb-3"
           >
             <IoCall size={20} className="me-2" />
-            {t("Быстрый звонок")}
+            {t("Подтвердить звонком")}
           </Button>
         )}
         {options?.authType === "phone" &&
@@ -880,7 +880,7 @@ const Registration = () => {
               className="w-100 btn-lg d-flex align-items-center btn-dark mb-3"
             >
               <IoCall size={20} className="me-2" />
-              {t("Подтвердить через звонок")}
+              {t("Заказать звонок")}
             </Button>
           )}
         {options?.authType === "phone" && typeReg?.status && (
