@@ -108,10 +108,10 @@ const useTotalCart = () => {
         pickupDiscount +=
           Number(affiliateActive?.options?.discountPickup) > 0 &&
             stateDelivery === "pickup" &&
-            affiliateActive?.options?.discountExceptions?.length > 0 &&
-            !affiliateActive?.options?.discountExceptions.includes(
-              String(product.categoryId)
-            )
+            (!affiliateActive?.options?.discountExceptions || affiliateActive?.options?.discountExceptions && affiliateActive?.options?.discountExceptions?.length > 0 &&
+              !affiliateActive?.options?.discountExceptions.includes(
+                String(product.categoryId)
+              ))
             ? Math.floor(
               (productPrice / 100) *
               Number(affiliateActive.options.discountPickup)

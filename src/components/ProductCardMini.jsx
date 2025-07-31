@@ -37,7 +37,7 @@ const ProductCardMini = memo(({ data }) => {
 
   const price =
     modifiers?.length > 0
-      ? data.options.modifierPriceSum
+      ? data?.options?.modifierPriceSum
         ? modifiers.reduce((sum, item) => sum + item.price, 0) + data.price
         : modifiers.reduce((sum, item) => sum + item.price, 0)
       : data.price;

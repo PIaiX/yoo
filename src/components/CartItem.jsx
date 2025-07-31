@@ -34,7 +34,7 @@ const CartItem = memo(({ data }) => {
 
   const price =
     data?.cart?.modifiers?.length > 0
-      ? data.options.modifierPriceSum
+      ? data?.options?.modifierPriceSum
         ? data.cart.modifiers.reduce((sum, item) => sum + item.price, 0) +
           data.price
         : data.cart.modifiers.reduce((sum, item) => sum + item.price, 0)

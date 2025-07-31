@@ -59,17 +59,17 @@ function App() {
 
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
-  const apiId = useSelector((state) => state.settings.apiId);
-  const options = useSelector((state) => state.settings.options);
+  const apiId = useSelector((state) => state.settings?.apiId);
+  const options = useSelector((state) => state.settings?.options);
   // const notification = useSelector((state) => state.notification);
-  const updateTime = useSelector((state) => state.settings.updateTime);
-  const selectedAffiliate = useSelector((state) => state.affiliate.active);
-  const delivery = useSelector((state) => state.checkout.delivery);
+  const updateTime = useSelector((state) => state.settings?.updateTime);
+  const selectedAffiliate = useSelector((state) => state.affiliate?.active);
+  const delivery = useSelector((state) => state.checkout?.delivery);
   const auth = useSelector((state) => state.auth);
-  const city = useSelector((state) => state.affiliate.city);
+  const city = useSelector((state) => state.affiliate?.city);
   const zone = useSelector((state) => state.cart?.zone);
-  const selectedAddress = useSelector((state) => state.address.active);
-  const cart = useSelector((state) => state.cart.items);
+  const selectedAddress = useSelector((state) => state.address?.active);
+  const cart = useSelector((state) => state.cart?.items);
 
   useEffect(() => {
     if (options?.themeType) {
@@ -421,7 +421,7 @@ function App() {
         socket.off("login/" + apiId);
       };
     }
-  }, [auth.isAuth, apiId]);
+  }, [auth?.isAuth, apiId]);
 
   if (loading) {
     return <Loader full />;

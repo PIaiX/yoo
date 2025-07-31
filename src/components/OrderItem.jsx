@@ -31,7 +31,7 @@ const OrderItem = memo(({ data }) => {
               <span className="fw-7">
                 {customPrice(
                   data?.modifiers?.price
-                    ? data.options.modifierPriceSum
+                    ? data?.options?.modifierPriceSum
                       ? data.modifiers.price + data.price
                       : data.modifiers.price
                     : data.price
@@ -55,7 +55,7 @@ const OrderItem = memo(({ data }) => {
             <div className="checkoutProduct-count fs-08 fw-4 mb-2">
               {customPrice(
                 (data?.modifiers?.price
-                  ? data.options.modifierPriceSum
+                  ? data?.options?.modifierPriceSum
                     ? data.modifiers.price + data.price
                     : data.modifiers.price
                   : data.price) +
@@ -74,7 +74,7 @@ const OrderItem = memo(({ data }) => {
             ? "Бесплатно"
             : customPrice(
                 (data?.modifiers?.price
-                  ? data.options.modifierPriceSum
+                  ? data?.options?.modifierPriceSum
                     ? (data.modifiers.price + data.price) * data.count
                     : data.modifiers.price * data.count
                   : data.price * data.count) +
