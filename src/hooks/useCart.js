@@ -104,19 +104,17 @@ const useTotalCart = () => {
         ) {
           discount += product.discount;
         }
-
-        pickupDiscount +=
-          Number(affiliateActive?.options?.discountPickup) > 0 &&
-            stateDelivery === "pickup" &&
-            (!affiliateActive?.options?.discountExceptions || affiliateActive?.options?.discountExceptions && affiliateActive?.options?.discountExceptions?.length > 0 &&
-              !affiliateActive?.options?.discountExceptions.includes(
-                String(product.categoryId)
-              ))
-            ? Math.floor(
-              (productPrice / 100) *
-              Number(affiliateActive.options.discountPickup)
+        if (
+          stateDelivery === 'pickup' &&
+          affiliateActive?.options?.discountPickup &&
+          !(affiliateActive?.options?.discountExceptions || []).includes(String(product.categoryId))
+        ) {
+          pickupDiscount += Math.floor(
+            (productPrice / 100) * Number(
+              String(affiliateActive?.options?.discountPickup).replace(/\D/g, '') || '0'
             )
-            : 0;
+          );
+        }
 
         if (statePromo?.options) {
           if (
