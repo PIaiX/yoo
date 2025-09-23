@@ -6,8 +6,8 @@ import { Element } from "react-scroll";
 const Message = memo(({ onAnswer, onDelete, ...item }) => {
   let user = useSelector((state) => state.auth.user);
   let time = item?.createdAt
-    ? moment(item.createdAt).format("DD MMMM YYYY kk:mm")
-    : moment().format("DD MMMM YYYY kk:mm");
+    ? moment(item.createdAt).format("DD MMMM YYYY HH:mm")
+    : moment().format("DD MMMM YYYY HH:mm");
 
   return user?.id === item?.userId ? (
     <Element

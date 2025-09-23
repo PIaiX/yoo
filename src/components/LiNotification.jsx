@@ -23,7 +23,7 @@ const LiNotification = ({ data }) => {
       </div>
       {data.createdAt && (
         <div className="date">
-          {moment(data.createdAt).format("DD MMM YYYY kk:mm")}
+          {moment(data.createdAt).format("DD MMM YYYY HH:mm")}
         </div>
       )}
       {data?.orderId && (

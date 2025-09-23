@@ -1,16 +1,15 @@
-import React from "react";
-import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import ProductCard from "../../components/ProductCard";
+import Row from "react-bootstrap/Row";
 import AccountTitleReturn from "../../components/AccountTitleReturn";
+import ProductCard from "../../components/ProductCard";
 
 const Offers = () => {
   return (
     <section>
-      <AccountTitleReturn 
+      <AccountTitleReturn
         className="d-lg-none"
-        link={"/account"} 
-        title={"Акции и промокоды"} 
+        link={"/account"}
+        title={"Акции и промокоды"}
       />
       <h5 className="fw-6">Персональные акции</h5>
       <div className="box py-4 px-4 px-xxl-5 mb-5">

@@ -43,7 +43,7 @@ const Orders = () => {
     {
       name: t("Дата"),
       selector: "createdAt",
-      cell: (row) => moment(row.createdAt).format("DD MMM YYYY kk:mm"),
+      cell: (row) => moment(row.createdAt).format("DD MMM YYYY HH:mm"),
     },
     {
       name: t("Статус"),

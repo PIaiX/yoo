@@ -1,7 +1,8 @@
 import moment from "moment-timezone";
-import React, { useEffect, useLayoutEffect, useState } from "react";
+import { useCallback, useLayoutEffect, useState } from "react";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
+import { useTranslation } from "react-i18next";
 import { HiOutlineArrowLeftCircle } from "react-icons/hi2";
 import { useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
@@ -12,8 +13,6 @@ import Status from "../../components/Status";
 import Loader from "../../components/utils/Loader";
 import { customPrice, deliveryData, paymentData } from "../../helpers/all";
 import { getOrder } from "../../services/order";
-import { useTranslation } from "react-i18next";
-import { useCallback } from "react";
 
 const Order = () => {
   const { orderId } = useParams();
@@ -105,14 +104,14 @@ const Order = () => {
               <p className="fs-09 mb-3">
                 <div className="text-muted fs-08">{t("Время заказа")}</div>
                 <div>
-                  {moment(order.item.createdAt).format("DD MMM YYYY kk:mm")}
+                  {moment(order.item.createdAt).format("DD MMM YYYY HH:mm")}
                 </div>
               </p>
               {order.item?.serving && (
                 <p className="fs-09 mb-3">
                   <div className="text-muted fs-08">{t("Ко времени")}</div>
                   <div>
-                    {moment(order.item.serving).format("DD MMM YYYY kk:mm")}
+                    {moment(order.item.serving).format("DD MMM YYYY HH:mm")}
                   </div>
                 </p>
               )}
@@ -134,8 +133,8 @@ const Order = () => {
                     {order.item?.affiliate[0] && order.item?.affiliate[0]?.full
                       ? order.item.affiliate[0].full
                       : order.item.affiliate[0].title
-                      ? order.item.affiliate[0].title
-                      : t("Нет информации")}
+                        ? order.item.affiliate[0].title
+                        : t("Нет информации")}
                     {order.item?.affiliate[0] &&
                     order.item?.affiliate[0]?.comment
                       ? "(" + order.item.affiliate[0].comment + ")"
