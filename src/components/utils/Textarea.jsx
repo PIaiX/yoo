@@ -1,4 +1,5 @@
 import { memo } from "react";
+import { getNestedError } from "../../helpers/all";
 
 const Textarea = memo(
   ({
@@ -12,10 +13,13 @@ const Textarea = memo(
     rows = 4,
     onChange,
     readOnly = true,
+    minLength = 0,
+    maxLength = 5000,
     type,
     className,
     validation,
   }) => {
+    const error = getNestedError(errors, name);
     return (
       <div
         className={
@@ -35,14 +39,16 @@ const Textarea = memo(
           type={type}
           placeholder={placeholder}
           rows={rows}
+          minLength={minLength}
+          maxLength={maxLength}
           defaultValue={defaultValue}
           onChange={(e) => onChange && !register && onChange(e.target.value)}
           readOnly={!readOnly && "readonly"}
           {...(register && { ...register(name, validation) })}
         />
 
-        {errors && errors[name]?.type === "required" && (
-          <p className="error-text fs-07">{errors[name]?.message}</p>
+        {name && errors && error?.message && (
+          <p className="text-danger mt-1 fs-08">{error.message}</p>
         )}
       </div>
     );

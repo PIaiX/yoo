@@ -1,29 +1,26 @@
 import moment from "moment-timezone";
-import React, { useCallback, useLayoutEffect } from "react";
+import { useCallback, useEffect, useLayoutEffect } from "react";
 import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import { useForm, useWatch } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 import { NotificationManager } from "react-notifications";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import AccountTitleReturn from "../../components/AccountTitleReturn";
 import Meta from "../../components/Meta";
 import Input from "../../components/utils/Input";
-import NavBreadcrumbs from "../../components/utils/NavBreadcrumbs";
-import { editAccount } from "../../services/account";
-import { setUser } from "../../store/reducers/authSlice";
-import { useTranslation } from "react-i18next";
 import Select from "../../components/utils/Select";
 import { languageCode, localeData } from "../../helpers/all";
+import { editAccount } from "../../services/account";
+import { setUser } from "../../store/reducers/authSlice";
 
 const Settings = () => {
   const { t, i18n } = useTranslation();
 
   const user = useSelector((state) => state.auth.user);
-  const profilePointVisible = useSelector(
-    (state) => state.settings.options.profilePointVisible
-  );
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -39,6 +36,7 @@ const Settings = () => {
     formState: { errors, isValid },
     handleSubmit,
     setValue,
+    reset,
   } = useForm({
     mode: "all",
     reValidateMode: "onSubmit",
@@ -63,6 +61,10 @@ const Settings = () => {
     },
     [i18n, data]
   );
+
+  useEffect(() => {
+    user && reset(user);
+  }, [user]);
 
   const onSubmit = useCallback(
     async (data) => {
@@ -139,6 +141,7 @@ const Settings = () => {
                         placeholder={t("Введите имя")}
                         register={register}
                         validation={{
+                          required: t("Обязательное поле"),
                           maxLength: {
                             value: 30,
                             message: t("Максимум 30 символов"),
@@ -149,9 +152,16 @@ const Settings = () => {
                     <Col md={4}>
                       <Input
                         label={t("Фамилия")}
+                        placeholder={t("Введите фамилию")}
                         name="lastName"
                         errors={errors}
                         register={register}
+                        validation={{
+                          maxLength: {
+                            value: 50,
+                            message: t("Максимум 50 символов"),
+                          },
+                        }}
                       />
                     </Col>
                     <Col md={4}>
@@ -186,9 +196,16 @@ const Settings = () => {
                         label="Email"
                         name="email"
                         inputMode="email"
+                        placeholder={t("Введите email")}
                         readOnly={user?.email ? true : false}
                         errors={errors}
                         register={register}
+                        validation={{
+                          maxLength: {
+                            value: 250,
+                            message: t("Максимум 250 символов"),
+                          },
+                        }}
                       />
                     </Col>
                     <Col md={6}>
@@ -204,7 +221,8 @@ const Settings = () => {
                       />
                     </Col>
                   </Row>
-                  <button draggable={false} 
+                  <button
+                    draggable={false}
                     type="submit"
                     disabled={!isValid}
                     onClick={handleSubmit(onSubmit)}

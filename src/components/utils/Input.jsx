@@ -1,8 +1,8 @@
-import React, { memo, useState } from "react";
-import Eye from "../svgs/Eye";
-import CloseEye from "../svgs/CloseEye";
+import { memo, useState } from "react";
 import ReactInputMask from "react-input-mask";
-// import CheckMark from '../svg/CheckMark'
+import CloseEye from "../svgs/CloseEye";
+import Eye from "../svgs/Eye";
+import { getNestedError } from "../../helpers/all";
 
 const Input = memo(
   ({
@@ -31,6 +31,8 @@ const Input = memo(
     errors,
   }) => {
     const [visible, setVisibility] = useState(false);
+    const error = getNestedError(errors, name); 
+
     return (
       <>
         <div
@@ -122,8 +124,8 @@ const Input = memo(
             />
           )}
         </div>
-        {name && errors && errors[name]?.message && (
-          <p className="text-danger mt-1 fs-08">{errors[name]?.message}</p>
+        {name && errors && error?.message && (
+          <p className="text-danger mt-1 fs-08">{error.message}</p>
         )}
       </>
     );

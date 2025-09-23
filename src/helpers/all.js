@@ -11,6 +11,13 @@ const customPrice = (value, currency = true) => {
   }
   return value;
 };
+
+const getNestedError = (obj, path) => {
+  if (!path || typeof path !== "string") return undefined;
+  return path.split(".").reduce((current, key) => {
+    return current && typeof current === "object" ? current[key] : undefined;
+  }, obj);
+};
 const groupByCategoryIdToArray = (modifiers) => {
   const grouped = modifiers.reduce((acc, modifier) => {
     const { categoryId } = modifier;
@@ -97,7 +104,11 @@ const tagsData = [
   { name: "halal", title: "Халяль", value: "/imgs/tags/halal.png" },
   { name: "meat", title: "С мясом", value: "/imgs/tags/meat.png" },
   { name: "pepper", title: "Острое", value: "/imgs/tags/pepper.png" },
-  { name: "vegetarian", title: "Вегетарианское", value: "/imgs/tags/vegetarian.png" },
+  {
+    name: "vegetarian",
+    title: "Вегетарианское",
+    value: "/imgs/tags/vegetarian.png",
+  },
 ];
 
 const customWeight = ({ value, type = "г" }) => {
@@ -340,59 +351,67 @@ const languageCode = (value) => {
 
   return mappedLanguageCode[normalizedLanguageCode] || "ru";
 };
-const weekday = moment().isoWeekday() - 1
+const weekday = moment().isoWeekday() - 1;
 const sortMain = (medias) => {
-  return medias?.length > 0 ? medias.slice().sort((a, b) => {
-    // Если a.main истинно, он должен быть первым
-    if (a.main === b.main) {
-      return 0 // Оба равны по этому критерию
-    }
-    return a.main ? -1 : 1 // Если a.main истинно, возвращаем -1 (a перед b), иначе 1
-  }) : []
+  return medias?.length > 0
+    ? medias.slice().sort((a, b) => {
+        // Если a.main истинно, он должен быть первым
+        if (a.main === b.main) {
+          return 0; // Оба равны по этому критерию
+        }
+        return a.main ? -1 : 1; // Если a.main истинно, возвращаем -1 (a перед b), иначе 1
+      })
+    : [];
 };
 
 const keyGenerator = (data) => {
-  let key = data.id + (data?.cart?.modifiers?.length > 0 || data?.modifiers?.length > 0 || data?.cart?.additions?.length > 0 ? '_' : '')
+  let key =
+    data.id +
+    (data?.cart?.modifiers?.length > 0 ||
+    data?.modifiers?.length > 0 ||
+    data?.cart?.additions?.length > 0
+      ? "_"
+      : "");
 
   if (data?.cart?.modifiers?.length > 0) {
-    key += data.cart.modifiers.map(e => e.id).join('_')
+    key += data.cart.modifiers.map((e) => e.id).join("_");
   } else if (data?.modifiers?.length > 0) {
-    key += data.modifiers.map(e => e.id).join('_')
+    key += data.modifiers.map((e) => e.id).join("_");
   }
 
   if (data?.cart?.additions?.length > 0) {
-    key += data.cart.additions.map(e => e.id).join('_')
+    key += data.cart.additions.map((e) => e.id).join("_");
   }
-  return key
-}
+  return key;
+};
 
 const isWork = (start, end, now) => {
   try {
     const timezone = moment.tz.guess();
 
     // Если now не передан, используем текущее время
-    const nowTime = now ? moment.tz(now, 'HH:mm', timezone) : moment.tz(timezone);
+    const nowTime = now
+      ? moment.tz(now, "HH:mm", timezone)
+      : moment.tz(timezone);
 
     if (!start || !end) {
       return false;
     }
 
     // Обработка случая, когда заведение работает до полуночи
-    let endTime = moment.tz(end, 'HH:mm', timezone);
-    if (endTime.isSame(moment.tz("00:00", 'HH:mm', timezone))) {
-      endTime = endTime.add(1, 'day'); // Переносим на следующий день, если 00:00
+    let endTime = moment.tz(end, "HH:mm", timezone);
+    if (endTime.isSame(moment.tz("00:00", "HH:mm", timezone))) {
+      endTime = endTime.add(1, "day"); // Переносим на следующий день, если 00:00
     }
 
-
-    const startTime = moment.tz(start, 'HH:mm', timezone);
+    const startTime = moment.tz(start, "HH:mm", timezone);
 
     if (!startTime.isValid() || !endTime.isValid() || !nowTime.isValid()) {
       return false;
     }
 
-
     // Проверка, находится ли nowTime между startTime и endTime, включая границы
-    return nowTime.isBetween(startTime, endTime, null, '[]');
+    return nowTime.isBetween(startTime, endTime, null, "[]");
   } catch (err) {
     return false;
   }
@@ -402,8 +421,8 @@ const formatDeliveryTime = (timeInMinutes) => {
   if (timeInMinutes >= 60) {
     const hours = Math.floor(timeInMinutes / 60);
     const minutes = timeInMinutes % 60;
-    const nextHours = hours + (hours * 0.5);
-    return `${hours} ч ${minutes > 0 ? `${minutes} мин` : ''} - ${nextHours} ч`;
+    const nextHours = hours + hours * 0.5;
+    return `${hours} ч ${minutes > 0 ? `${minutes} мин` : ""} - ${nextHours} ч`;
   } else {
     const nextMinutes = timeInMinutes + 30;
     return `${timeInMinutes} мин - ${nextMinutes} мин`;
@@ -411,7 +430,9 @@ const formatDeliveryTime = (timeInMinutes) => {
 };
 
 export {
-  keyGenerator, isWork,
+  getNestedError,
+  keyGenerator,
+  isWork,
   generateToken,
   sortMain,
   isUpdateTime,
@@ -434,5 +455,5 @@ export {
   childrenArray,
   tagsData,
   weekday,
-  groupByCategoryIdToArray
+  groupByCategoryIdToArray,
 };
