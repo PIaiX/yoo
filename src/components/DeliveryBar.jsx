@@ -7,6 +7,7 @@ import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router-dom";
 
 const DeliveryBar = memo(() => {
+  return null
   const { pathname } = useLocation();
   const isMobileLG = useIsMobile("991px");
   const delivery = useSelector((state) => state.checkout.delivery);
