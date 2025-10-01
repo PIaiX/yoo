@@ -308,7 +308,9 @@ const ProductCard = memo(({ data, onLoad }) => {
       <a onClick={() => onLoad(data)}>
         <h6 className={"title" + (data?.options?.subtitle ? " fs-09" : "")}>
           {data.title}
-          {data?.options?.subtitle ? (
+          {data?.productOptions?.[0]?.title ? (
+            <div className="subtitle fw-5">{data.productOptions[0].title}</div>
+          ) : data?.options?.subtitle ? (
             <div className="subtitle fw-5">{data.options.subtitle}</div>
           ) : (
             ""

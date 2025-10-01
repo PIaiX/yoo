@@ -453,14 +453,25 @@ const Product = (data) => {
               </div>
               {product?.options?.subtitle && (
                 <>
-                  <div className="mb-4 fw-5 fs-14 d-block main-color subtitle">
+                  <div className="mb-3 fw-5 fs-14 d-block main-color subtitle">
                     {product.options.subtitle}
                   </div>
                 </>
               )}
-              <div className="mb-2">
-                {product?.tags?.length > 0 && <Tags data={product.tags} />}
-              </div>
+              {product?.productOptions?.[0]?.title && (
+                <>
+                  <div className="mb-3 fw-5 fs-14 d-block main-color">
+                    {product.productOptions[0].title}
+                  </div>
+                </>
+              )}
+
+              {product?.tags?.length > 0 && (
+                <div className="mb-2">
+                  <Tags data={product.tags} />
+                </div>
+              )}
+
               {product?.cart?.modifiers[0]?.description ? (
                 <div className="mb-4 white-space">
                   {product.cart.modifiers[0].description}
