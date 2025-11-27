@@ -88,14 +88,14 @@ const Recovery = () => {
                       `Сейчас на указанный номер ${data?.phone} поступит звонок. Укажите последние 4 цифры номера телефона.`
                     )
                   : data?.phone
-                  ? t(
-                      `Код подтверждения отправлен на указанный номер ${data?.phone}`
-                    )
-                  : t(
-                      `Код подтверждения отправлен на указанную почту${
-                        data?.email ? " " + data.email : ""
-                      }`
-                    )
+                    ? t(
+                        `Код подтверждения отправлен на указанный номер ${data?.phone}`
+                      )
+                    : t(
+                        `Код подтверждения отправлен на указанную почту${
+                          data?.email ? " " + data.email : ""
+                        }`
+                      )
                 : data.step == 3 && t("Пароль успешно изменен")
             );
           }
@@ -271,16 +271,18 @@ const Recovery = () => {
                         {t("Заказать звонок")}
                       </Button>
                     )}
-                  {options?.authType === "phone" && typeRecovery?.status && (
-                    <Button
-                      onClick={() => onSubmit()}
-                      isValid={isValid}
-                      className="w-100 d-flex align-items-center btn-lg mb-3"
-                    >
-                      <IoMail size={20} className="me-2" />
-                      {t("Получить код по SMS")}
-                    </Button>
-                  )}
+                  {options?.authType === "phone" &&
+                    options?.regMethod?.sms &&
+                    typeRecovery?.status && (
+                      <Button
+                        onClick={() => onSubmit()}
+                        isValid={isValid}
+                        className="w-100 d-flex align-items-center btn-lg mb-3"
+                      >
+                        <IoMail size={20} className="me-2" />
+                        {t("Получить код по SMS")}
+                      </Button>
+                    )}
                   <Button
                     onClick={() =>
                       setTypeRecovery({ show: false, status: false })

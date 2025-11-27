@@ -883,16 +883,18 @@ const Registration = () => {
               {t("Заказать звонок")}
             </Button>
           )}
-        {options?.authType === "phone" && typeReg?.status && (
-          <Button
-            onClick={() => onSubmitReg()}
-            isValid={isValid}
-            className="w-100 d-flex align-items-center btn-lg mb-3"
-          >
-            <IoMail size={20} className="me-2" />
-            {t("Получить код по SMS")}
-          </Button>
-        )}
+        {options?.authType === "phone" &&
+          options?.regMethod?.sms &&
+          typeReg?.status && (
+            <Button
+              onClick={() => onSubmitReg()}
+              isValid={isValid}
+              className="w-100 d-flex align-items-center btn-lg mb-3"
+            >
+              <IoMail size={20} className="me-2" />
+              {t("Получить код по SMS")}
+            </Button>
+          )}
         <Button
           onClick={() => setTypeReg({ show: false, status: false })}
           isValid={isValid}

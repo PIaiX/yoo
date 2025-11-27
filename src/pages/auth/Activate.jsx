@@ -215,16 +215,18 @@ const Activate = () => {
                     {t("Заказать звонок")}
                   </Button>
                 )}
-              {options?.authType === "phone" && typeRecovery?.status && (
-                <Button
-                  onClick={() => onSubmit()}
-                  isValid={isValid}
-                  className="w-100 d-flex align-items-center btn-lg mb-3"
-                >
-                  <IoMail size={20} className="me-2" />
-                  {t("Получить код по SMS")}
-                </Button>
-              )}
+              {options?.authType === "phone" &&
+                options?.regMethod?.sms &&
+                typeRecovery?.status && (
+                  <Button
+                    onClick={() => onSubmit()}
+                    isValid={isValid}
+                    className="w-100 d-flex align-items-center btn-lg mb-3"
+                  >
+                    <IoMail size={20} className="me-2" />
+                    {t("Получить код по SMS")}
+                  </Button>
+                )}
               <Button
                 onClick={() => setTypeRecovery({ show: false, status: false })}
                 isValid={isValid}
