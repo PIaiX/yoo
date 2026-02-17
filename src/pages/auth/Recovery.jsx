@@ -42,16 +42,17 @@ const Recovery = () => {
     register,
   } = useForm({
     mode: "all",
-    reValidateMode: "onSubmit",
+    reValidateMode: 'onChange',
     defaultValues: {
       step: 1,
     },
   });
-
+      
   const data = useWatch({ control });
 
   const onSubmit = useCallback(
     (type) => {
+
       if (data?.phone && data.phone?.length > 0) {
         let phone = data.phone.replace(/[^\d]/g, "").trim();
         if (!phone) {
@@ -495,14 +496,15 @@ const Recovery = () => {
                     }}
                   />
                 </div>
-                <button
+                <Button
                   draggable={false}
                   type="submit"
                   disabled={!isValid}
+                  onClick={() => isValid && onSubmit(data?.type)}
                   className="btn btn-primary w-100 mx-auto"
                 >
                   {t("Сохранить новый пароль")}
-                </button>
+                </Button>
               </>
             ) : (
               <>
