@@ -108,7 +108,7 @@ const Blog = () => {
           <Row className="justify-content-center">
             <Col lg={9} xxl={8}>
               <h1 className="mb-3 mb-sm-4 text-center">{blog.title}</h1>
-              <div dangerouslySetInnerHTML={{ __html: blog.content }} />
+              <div style={{whiteSpace: 'break-spaces'}} dangerouslySetInnerHTML={{ __html: blog.content }} />
             </Col>
             {/* <Col lg={3} className="d-none d-lg-block">
               <h5 className="fs-11">Вам может быть интересно</h5>
